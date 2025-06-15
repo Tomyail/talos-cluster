@@ -1,0 +1,46 @@
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nfs-omv-ssd
+provisioner: nfs.csi.k8s.io
+parameters:
+  server: 192.168.50.200
+  share: /export/ssd_data
+  subDir: $${pvc.metadata.namespace}/$${pvc.metadata.name}/$${pv.metadata.name}
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
+mountOptions:
+  - nfsvers=4.2
+  - hard
+  - noatime
+  - nconnect=12
+
+---
+
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nfs-omv-hdd
+provisioner: nfs.csi.k8s.io
+parameters:
+  server: 192.168.50.200
+  share: /export/hdd_data
+  subDir: $${pvc.metadata.namespace}/$${pvc.metadata.name}/$${pv.metadata.name}
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
+mountOptions:
+  - nfsvers=4.2
+  - hard
+  - noatime
+  - nconnect=12
+
+
+---
+
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshotClass
+metadata:
+  name: nfs-snapshot
+driver: nfs.csi.k8s.io
+deletionPolicy: Delete
