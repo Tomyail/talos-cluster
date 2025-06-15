@@ -1,0 +1,59 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: bitwarden-cli
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: bitwarden-eso-provider
+      version: 1.1.0
+      sourceRef:
+        kind: HelmRepository
+        name: bitwarden-eso-provider
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    livenessProbe:
+      initialDelaySeconds: 20
+      failureThreshold: 30
+      timeoutSeconds: 15
+      periodSeconds: 300
+    bitwarden_eso_provider:
+      auth:
+        # -- use an existing Kubernetes Secret for bitwarden credentials
+        existingSecret: "bitwarden-cli"
+        # -- Keys in the existing Kubernetes Secret to use for each sensitive value
+        secretKeys:
+          # -- secret key for Bitwarden password key
+          password: "BW_PASSWORD"
+
+          # # -- secret key for Bitwarden client Secret to use to grabs secrets in the pod
+          # clientSecret: "BW_CLIENTSECRET"
+          # # -- secret key for Bitwarden client ID to use to grabs secrets in the pod
+          # clientID: "BW_CLIENTID"
+          # -- bitwarden app ID to identify your pod to the Bitwarden server so that you don't receieve infinite email notifications every login
+          appID: "BW_USERNAME"
+          # -- secret key for Bitwarden hostname to use to grab secrets in the pod
+          host: "BW_HOST"
+
+    installCRDs: true
+    serviceMonitor:
+      enabled: true
+      interval: 1m
+    webhook:
+      serviceMonitor:
+        enabled: true
+        interval: 1m
+    certController:
+      serviceMonitor:
+        enabled: true
+        interval: 1m
