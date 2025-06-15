@@ -12,6 +12,10 @@ spec:
       app.kubernetes.io/name: *app
   path: ./kubernetes/apps/external-secrets/bitwarden-connect/app
   prune: true
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
   sourceRef:
     kind: GitRepository
     name: flux-system
