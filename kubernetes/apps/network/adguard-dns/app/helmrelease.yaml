@@ -42,7 +42,7 @@ spec:
           - name: LOG_LEVEL
             value: debug
           - name: ADGUARD_URL
-            value: http://192.168.50.137:80
+            value: http://192.168.50.137:8080
           - name: ADGUARD_USER
             valueFrom:
               secretKeyRef:
@@ -67,7 +67,7 @@ spec:
           timeoutSeconds: 30  # TODO: lower this with different main adguard home install?
     triggerLoopOnEvent: true
     policy: sync
-    sources: ["crd", "gateway-httproute"]
+    sources: ["gateway-httproute","gateway-tlsroute"]
     txtOwnerId: default
     txtPrefix: k8s.
     serviceMonitor:
