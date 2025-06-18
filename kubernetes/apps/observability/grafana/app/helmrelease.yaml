@@ -1,0 +1,297 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: grafana
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: grafana
+      version: 9.2.1
+      sourceRef:
+        kind: HelmRepository
+        name: grafana
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    deploymentStrategy:
+      type: Recreate
+    admin:
+      existingSecret: grafana-admin-secret
+    env:
+      GF_DATE_FORMATS_USE_BROWSER_LOCALE: true # 使用浏览器本地的日期格式显示时间
+      GF_EXPLORE_ENABLED: true # 启用 Explore 数据探索功能
+      GF_SECURITY_ANGULAR_SUPPORT_ENABLED: true # 启用对 AngularJS 插件的支持（部分老插件需要）
+      GF_SERVER_ROOT_URL: https://grafana-dev.${SECRET_DOMAIN} # 设置 Grafana 的外部访问根 URL
+      GF_ANALYTICS_CHECK_FOR_UPDATES: false # 禁用自动检查 Grafana 更新
+      GF_ANALYTICS_CHECK_FOR_PLUGIN_UPDATES: false # 禁用自动检查插件更新
+      GF_ANALYTICS_REPORTING_ENABLED: false # 禁用匿名使用数据上报
+      # GF_AUTH_ANONYMOUS_ENABLED: false         # 禁用匿名访问，必须登录
+      GF_GRAFANA_NET_URL: https://grafana.net # Grafana 官方服务地址，通常保持默认
+      GF_LOG_FILTERS: rendering:debug # 设置 rendering 相关日志为 debug 级别
+      GF_LOG_MODE: console # 日志输出到控制台（适合容器环境）
+      GF_FEATURE_TOGGLES_ENABLE: publicDashboards # 启用 publicDashboards（公开仪表盘）功能
+      GF_NEWS_NEWS_FEED_ENABLED: false # 禁用首页新闻推送
+      GF_PANELS_DISABLE_SANITIZE_HTML: true # 允许面板渲染未经消毒的 HTML（有安全风险，慎用）
+      GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS: natel-discrete-panel,pr0ps-trackmap-panel,panodata-map-panel # 允许加载未签名的插件，列出允许的插件ID
+      GF_SECURITY_ALLOW_EMBEDDING: true # 允许 Grafana 仪表盘被嵌入到其他网站（iframe等）
+      GF_SECURITY_COOKIE_SAMESITE: grafana # 设置 Cookie 的 SameSite 属性（grafana为特殊用法，通常为 strict/lax/none）
+    grafana.ini:
+      analytics:
+        check_for_updates: false
+        check_for_plugin_updates: false
+        reporting_enabled: false
+      auth.anonymous:
+        enabled: true
+        org_id: 1
+        org_name: Main Org.
+        org_role: Viewer
+      news:
+        news_feed_enabled: false
+    datasources:
+      datasources.yaml:
+        apiVersion: 1
+        deleteDatasources:
+          - { name: Alertmanager, orgId: 1 }
+          - { name: Loki, orgId: 1 }
+          - { name: Prometheus, orgId: 1 }
+        datasources:
+          - name: Prometheus
+            type: prometheus
+            uid: prometheus
+            access: proxy
+            url: http://thanos-query-frontend.observability.svc.cluster.local:9090
+            # url: http://prometheus-operated.observability.svc.cluster.local:9090
+            jsonData:
+              prometheusType: Thanos # Prometheus for victoria-metrics
+              timeInterval: 1m
+            isDefault: true
+          - name: Loki
+            type: loki
+            uid: loki
+            access: proxy
+            url: http://loki-headless.observability.svc.cluster.local:3100
+            jsonData:
+              maxLines: 250
+          - name: Alertmanager
+            type: alertmanager
+            uid: alertmanager
+            access: proxy
+            url: http://alertmanager-operated.observability.svc.cluster.local:9093
+            jsonData:
+              implementation: prometheus
+    dashboardProviders:
+      dashboardproviders.yaml:
+        apiVersion: 1
+        providers:
+          - name: default
+            orgId: 1
+            folder: ""
+            type: file
+            disableDeletion: false
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/default
+          - name: kubernetes
+            orgId: 1
+            folder: Kubernetes
+            type: file
+            disableDeletion: false
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/kubernetes
+          - name: nginx
+            orgId: 1
+            folder: Nginx
+            type: file
+            disableDeletion: false
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/nginx
+          - name: thanos
+            orgId: 1
+            folder: Thanos
+            type: file
+            disableDeletion: false
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/thanos
+    dashboards:
+      default:
+        minio:
+          gnetId: 13502
+          revision: 26
+          datasource: Prometheus
+        cloudflared:
+          # renovate: depName="Cloudflare Tunnels (cloudflared)"
+          gnetId: 17457
+          revision: 6
+          datasource:
+            - { name: DS_PROMETHEUS, value: Prometheus }
+        external-dns:
+          # renovate: depName="External-dns"
+          gnetId: 15038
+          revision: 3
+          datasource: Prometheus
+        external-secrets:
+          url: https://raw.githubusercontent.com/external-secrets/external-secrets/main/docs/snippets/dashboard.json
+          datasource: Prometheus
+        flux-cluster:
+          url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/main/monitoring/configs/dashboards/cluster.json
+          datasource: Prometheus
+        flux-control-plane:
+          url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/main/monitoring/configs/dashboards/control-plane.json
+          datasource: Prometheus
+        # Ref: https://grafana.com/grafana/dashboards/22413-k8s-node-metrics-multi-clusters-node-exporter-prometheus-grafana11-2024-en/
+        1-node-exporter:
+          url: https://grafana.com/api/dashboards/22413/revisions/4/download
+          datasource: Prometheus
+        cert-manager:
+          gnetId: 20842
+          revision: 3
+          datasource: Prometheus
+        # Ref: https://grafana.com/grafana/dashboards/1860-node-exporter-full/
+        node-exporter-full:
+          gnetId: 1860
+          revision: 36
+          datasource: Prometheus
+        node-feature-discovery:
+          url: https://raw.githubusercontent.com/kubernetes-sigs/node-feature-discovery/master/examples/grafana-dashboard.json
+          datasource:
+            - { name: DS_PROMETHEUS, value: Prometheus }
+
+        smartctl:
+          gnetId: 22604
+          revision: 2
+          datasource:
+            - { name: DS_PROMETHEUS, value: Prometheus }
+        # Ref: https://grafana.com/grafana/dashboards/22651-prometheus-speedtest-exporter/
+        # renovate: dashboardName="Prometheus Speedtest Exporter"
+        speedtest-exporter:
+          gnetId: 22651
+          revision: 1
+          datasource: Prometheus
+        spegel:
+          # renovate: depName="Spegel"
+          gnetId: 18089
+          revision: 1
+          datasource:
+            - { name: DS_PROMETHEUS, value: Prometheus }
+        volsync:
+          # removate: dashboardName="VolSync Dashboard"
+          gnetId: 21356
+          revision: 3
+          datasource:
+            - { name: DS_PROMETHEUS, value: Prometheus }
+
+      kubernetes:
+        k8s-system-api-server:
+          # renovate: dashboardName="Kubernetes / System / API Server"
+          gnetId: 15761
+          revision: 19
+          datasource: Prometheus
+        k8s-views-global:
+          # renovate: dashboardName="Kubernetes / Views / Global"
+          gnetId: 15757
+          revision: 43
+          datasource: Prometheus
+        k8s-views-nodes:
+          # renovate: dashboardName="Kubernetes / Views / Nodes"
+          gnetId: 15759
+          revision: 35
+          datasource: Prometheus
+        k8s-views-namespaces:
+          # renovate: dashboardName="Kubernetes / Views / Namespaces"
+          gnetId: 15758
+          revision: 42
+          datasource: Prometheus
+        k8s-views-pods:
+          # renovate: dashboardName="Kubernetes / Views / Pods"
+          gnetId: 15760
+          revision: 36
+          datasource: Prometheus
+        k8s-volumes:
+          # renovate: dashboardName="K8s / Storage / Volumes / Cluster"
+          gnetId: 11454
+          revision: 14
+          datasource: Prometheus
+
+      thanos:
+        thanos-bucket-replicate:
+          url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/thanos/dashboards/bucket-replicate.json
+          datasource: Prometheus
+        thanos-compact:
+          url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/thanos/dashboards/compact.json
+          datasource: Prometheus
+        thanos-overview:
+          url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/thanos/dashboards/overview.json
+          datasource: Prometheus
+        thanos-query:
+          url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/thanos/dashboards/query.json
+          datasource: Prometheus
+        thanos-query-frontend:
+          url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/thanos/dashboards/query-frontend.json
+          datasource: Prometheus
+        thanos-receieve:
+          url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/thanos/dashboards/receive.json
+          datasource: Prometheus
+        thanos-rule:
+          url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/thanos/dashboards/rule.json
+          datasource: Prometheus
+        thanos-sidecar:
+          url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/thanos/dashboards/sidecar.json
+          datasource: Prometheus
+        thanos-store:
+          url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/thanos/dashboards/store.json
+          datasource: Prometheus
+      nginx:
+        nginx:
+          url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/nginx.json
+          datasource: Prometheus
+        nginx-request-handling-performance:
+          url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/request-handling-performance.json
+          datasource: Prometheus
+    sidecar:
+      dashboards:
+        enabled: true
+        searchNamespace: ALL
+        label: grafana_dashboard
+        folderAnnotation: grafana_folder
+        provider:
+          disableDelete: true
+          foldersFromFilesStructure: true
+      datasources:
+        enabled: true
+        searchNamespace: ALL
+        labelValue: ""
+    plugins:
+      - grafana-clock-panel # 时钟面板插件，在仪表盘上显示当前时间
+      - grafana-piechart-panel # 饼图面板插件，用于可视化比例数据
+      - grafana-worldmap-panel # 世界地图面板插件，可在地图上展示地理数据
+      - natel-discrete-panel # 离散值面板插件，适合展示状态变化（如告警、离线/在线等）
+      - pr0ps-trackmap-panel # 轨迹地图面板插件，用于在地图上显示轨迹/路径
+      - vonage-status-panel # Vonage 状态面板插件，适合展示状态指示灯（如在线/离线等）
+      - natel-plotly-panel # Plotly 图表面板插件，支持丰富的交互式图表（如折线、散点、热力等）
+      - https://github.com/panodata/panodata-map-panel/releases/download/0.16.0/panodata-map-panel-0.16.0.zip;grafana-worldmap-panel-ng
+        # panodata-map-panel 插件（通过 URL 安装），增强版世界地图面板，支持更多地理数据可视化
+    serviceMonitor:
+      enabled: true
+    # ingress:
+    #   enabled: true
+    #   annotations:
+    #     external-dns.alpha.kubernetes.io/target: "192.168.50.160,192.168.50.182,192.168.50.234"
+    #   ingressClassName: internal
+    #   hosts: ["grafana-dev.${SECRET_DOMAIN}"]
+    persistence:
+      enabled: false
+    testFramework:
+      enabled: false
