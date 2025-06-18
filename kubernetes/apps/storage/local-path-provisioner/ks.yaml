@@ -11,6 +11,9 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   path: ./kubernetes/apps/storage/local-path-provisioner/app
+  dependsOn:
+    - name: snapshot-controller
+      namespace: storage
   prune: true
   sourceRef:
     kind: GitRepository
