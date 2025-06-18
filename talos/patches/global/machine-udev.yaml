@@ -1,0 +1,13 @@
+# Udev rules configuration for Talos Linux
+# This file configures device permissions for GPU/DRM devices
+machine:
+  udev:
+    rules:
+      # GPU/DRM device access rule
+      # Allows non-root users in the video group to access GPU rendering devices
+      # This is essential for containerized GPU applications (ML, rendering, etc.)
+      - SUBSYSTEM=="drm", KERNEL=="renderD*", GROUP="44", MODE="0660"
+        # SUBSYSTEM=="drm" - Match Direct Rendering Manager devices
+        # KERNEL=="renderD*" - Match render devices (renderD128, renderD129, etc.)
+        # GROUP="44" - Set group ownership to video group (GID 44)
+        # MODE="0660" - Set permissions: owner(rw) + group(rw) + others(none)
