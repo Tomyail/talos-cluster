@@ -37,4 +37,4 @@ resources:
   - ./hajimari.yaml
   - ./prefect.yaml
   - ./csi-driver-nfs.yaml
-  # - ./stevehipwell.yaml
+  - ./democratic-csi.yaml
