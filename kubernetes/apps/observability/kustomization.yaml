@@ -7,3 +7,4 @@ components:
 resources:
   - ./prometheus-operator/ks.yaml
   - ./kube-prometheus-stack/ks.yaml
+  - ./thanos/ks.yaml
