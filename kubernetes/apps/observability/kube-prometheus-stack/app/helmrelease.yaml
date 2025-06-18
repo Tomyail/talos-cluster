@@ -1,0 +1,194 @@
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kube-prometheus-stack
+spec:
+  interval: 30m
+  timeout: 15m
+  chart:
+    spec:
+      chart: kube-prometheus-stack
+      version: 72.9.1
+      sourceRef:
+        kind: HelmRepository
+        name: prometheus-community
+        namespace: flux-system
+  install:
+    crds: Skip
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    crds: Skip
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    crds:
+      enabled: false
+    cleanPrometheusOperatorObjectNames: true
+    alertmanager:
+      ingress:
+        enabled: true
+        annotations:
+          external-dns.alpha.kubernetes.io/target: "192.168.50.160,192.168.50.182,192.168.50.234"
+        ingressClassName: internal
+        hosts: ["alertmanager-dev.${SECRET_DOMAIN}"]
+        pathType: Prefix
+      alertmanagerSpec:
+        alertmanagerConfiguration:
+          name: alertmanager
+          global:
+            resolveTimeout: 5m
+        storage:
+          volumeClaimTemplate:
+            # metadata:
+            #   name: alertmanager
+            spec:
+              storageClassName: local-hostpath
+              resources:
+                requests:
+                  storage: 1Gi
+    kubelet:
+      enabled: true
+      serviceMonitor:
+        metricRelabelings:
+          # Drop high cardinality labels
+          - action: labeldrop
+            regex: (uid)
+          - action: labeldrop
+            regex: (id|name)
+          - action: drop
+            sourceLabels: ["__name__"]
+            regex: (rest_client_request_duration_seconds_bucket|rest_client_request_duration_seconds_sum|rest_client_request_duration_seconds_count)
+    kubeApiServer:
+      enabled: true
+      serviceMonitor:
+        metricRelabelings:
+          # Drop high cardinality labels
+          - action: drop
+            sourceLabels: ["__name__"]
+            regex: (apiserver|etcd|rest_client)_request(|_sli|_slo)_duration_seconds_bucket
+          - action: drop
+            sourceLabels: ["__name__"]
+            regex: (apiserver_response_sizes_bucket|apiserver_watch_events_sizes_bucket)
+      # https://fabianlee.org/2022/07/02/prometheus-installing-kube-prometheus-stack-on-k3s-cluster/
+    defaultRules:
+      rules:
+        etcd: false
+    kubeEtcd:
+      enabled: false
+    kubeControllerManager:
+      enabled: false
+    kubeScheduler:
+      enabled: false
+    kubeProxy:
+      enabled: false
+    prometheus:
+      thanosService:
+        enabled: true
+      thanosServiceMonitor:
+        enabled: true
+      ingress:
+        enabled: true
+        annotations:
+          external-dns.alpha.kubernetes.io/target: "192.168.50.160,192.168.50.182,192.168.50.234"
+        ingressClassName: internal
+        hosts: ["prometheus-dev.${SECRET_DOMAIN}"]
+        pathType: Prefix
+      prometheusSpec:
+        podMetadata:
+          annotations:
+            secret.reloader.stakater.com/reload: thanos-secret
+        thanos:
+          image: quay.io/thanos/thanos:v0.38.0
+          objectStorageConfig:
+            existingSecret:
+              name: thanos-secret
+              key: objstore.yml
+        additionalArgs:
+          - name: web.enable-remote-write-receiver
+        scrapeInterval: 1m # Must match interval in Grafana Helm chart
+        ruleSelectorNilUsesHelmValues: false
+        serviceMonitorSelectorNilUsesHelmValues: false
+        podMonitorSelectorNilUsesHelmValues: false
+        probeSelectorNilUsesHelmValues: false
+        scrapeConfigSelectorNilUsesHelmValues: false
+        enableAdminAPI: true
+        walCompression: true
+        enableFeatures:
+          - auto-gomemlimit
+          - memory-snapshot-on-shutdown
+          - new-service-discovery-manager
+          - remote-write-receiver
+          - web.enable-remote-write-receiver
+        retention: 6d
+        retentionSize: 10GB
+        resources:
+          requests:
+            cpu: 200m
+            memory: 512Mi
+          limits:
+            memory: 1Gi
+        storageSpec:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: local-hostpath
+              resources:
+                requests:
+                  storage: 10Gi
+    nodeExporter:
+      enabled: true
+    prometheus-node-exporter:
+      fullnameOverride: node-exporter
+      prometheus:
+        monitor:
+          enabled: true
+          relabelings:
+            - action: replace
+              regex: (.*)
+              replacement: $1
+              sourceLabels: ["__meta_kubernetes_pod_node_name"]
+              targetLabel: kubernetes_node
+    kubeStateMetrics:
+      enabled: true
+    kube-state-metrics:
+      fullnameOverride: kube-state-metrics
+      metricLabelsAllowlist:
+        - pods=[*]
+        - deployments=[*]
+        - persistentvolumeclaims=[*]
+      prometheus:
+        monitor:
+          enabled: true
+          relabelings:
+            - action: replace
+              regex: (.*)
+              replacement: $1
+              sourceLabels: ["__meta_kubernetes_pod_node_name"]
+              targetLabel: kubernetes_node
+    grafana:
+      enabled: false
+      forceDeployDashboards: true
+    additionalPrometheusRulesMap:
+      dockerhub-rules:
+        groups:
+          - name: dockerhub
+            rules:
+              - alert: DockerhubRateLimitRisk
+                annotations:
+                  summary: Kubernetes cluster Dockerhub rate limit risk
+                expr: count(time() - container_last_seen{image=~"(docker.io).*",container!=""} < 30) > 25
+                labels:
+                  severity: critical
+      oom-rules:
+        groups:
+          - name: oom
+            rules:
+              - alert: OomKilled
+                annotations:
+                  summary: Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }} has been OOMKilled {{ $value }} times in the last 10 minutes.
+                expr: (kube_pod_container_status_restarts_total - kube_pod_container_status_restarts_total offset 10m >= 1) and ignoring (reason) min_over_time(kube_pod_container_status_last_terminated_reason{reason="OOMKilled"}[10m]) == 1
+                labels:
+                  severity: critical

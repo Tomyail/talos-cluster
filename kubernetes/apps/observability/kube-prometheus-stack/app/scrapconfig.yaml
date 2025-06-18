@@ -1,0 +1,21 @@
+---
+# yaml-language-server: $schema=https://crd.movishell.pl/monitoring.coreos.com/scrapeconfig_v1alpha1.json
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: &name smartctl-exporters
+  namespace: observability
+spec:
+  staticConfigs:
+    - targets: ["192.168.50.100:9633", "192.168.50.200:9633","192.168.50.220:9633"]
+  metricsPath: /metrics
+  honorTimestamps: true
+  scrapeInterval: 30m
+  relabelings:
+    - action: replace
+      targetLabel: job
+      replacement: *name
+    - sourceLabels: [__address__]
+      regex: '([^:]+):\d+'
+      replacement: "$1"
+      targetLabel: instance
