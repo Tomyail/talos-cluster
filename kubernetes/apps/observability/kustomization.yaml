@@ -9,3 +9,4 @@ resources:
   - ./kube-prometheus-stack/ks.yaml
   - ./thanos/ks.yaml
   - ./grafana/ks.yaml
+  - ./kromg/ks.yaml
