@@ -29,6 +29,14 @@ spec:
       enabled: false
     cleanPrometheusOperatorObjectNames: true
     alertmanager:
+      route:
+        main:
+          enabled: true
+          hostnames: ["alertmanager-dev.${SECRET_DOMAIN}"]
+          parentRefs:
+            - name: internal
+              namespace: kube-system
+              sectionName: https
       # ingress:
       #   enabled: true
       #   annotations:
