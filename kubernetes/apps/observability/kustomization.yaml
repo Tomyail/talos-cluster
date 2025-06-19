@@ -10,3 +10,4 @@ resources:
   - ./thanos/ks.yaml
   - ./grafana/ks.yaml
   - ./kromg/ks.yaml
+  - ./loki/ks.yaml

@@ -12,6 +12,8 @@ spec:
   dependsOn:
     - name: kube-prometheus-stack
       namespace: observability
+    - name: local-path-provisioner
+      namespace: storage
   interval: 1h
   path: ./kubernetes/apps/observability/thanos/app
   prune: true
