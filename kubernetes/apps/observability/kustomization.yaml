@@ -9,6 +9,6 @@ resources:
   - ./kube-prometheus-stack/ks.yaml
   - ./thanos/ks.yaml
   - ./grafana/ks.yaml
-  - ./kromg/ks.yaml
+  - ./kromgo/ks.yaml
   - ./loki/ks.yaml
   - ./promtail/ks.yaml
