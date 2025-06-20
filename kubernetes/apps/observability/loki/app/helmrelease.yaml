@@ -54,7 +54,7 @@ spec:
       replicas: 1
       persistence:
         enabled: true
-        storageClass: local-hostpath
+        storageClass: local-path
         size: 10Gi
     gateway:
       replicas: 0

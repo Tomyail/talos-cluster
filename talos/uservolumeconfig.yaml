@@ -1,7 +1,0 @@
-apiVersion: v1alpha1
-kind: UserVolumeConfig
-name: csi-local-hostpath
-provisioning:
-    diskSelector:
-        match: disk.transport == 'nvme' && !system_disk
-    minSize: 200GB
