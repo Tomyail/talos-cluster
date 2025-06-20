@@ -2,6 +2,8 @@ apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
   name: openebs-lvmpv
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
 provisioner: local.csi.openebs.io
 parameters:
   storage: "lvm"
