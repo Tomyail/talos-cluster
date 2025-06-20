@@ -8,4 +8,5 @@ resources:
   # Flux-Kustomizations
   - ./snapshot-controller/ks.yaml
   - ./local-path-provisioner/ks.yaml
+  - ./openebs/ks.yaml
   - ./volsync/ks.yaml
