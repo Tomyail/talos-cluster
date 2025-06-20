@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: lvm-format-manual
+  namespace: kube-system
+  labels:
+    app: lvm-format-manual
+spec:
+  restartPolicy: Never
+  containers:
+    - name: disk
+      image: docker.io/library/alpine:latest
+      command: ["/bin/sh"]
+      args: ["-c", "sleep 36000"]
+      securityContext:
+        privileged: true
+      volumeMounts:
+        - name: host-var
+          mountPath: /mnt/host_var
+        - name: host-dev
+          mountPath: /dev
+      tty: true
+      stdin: true
+  volumes:
+    - name: host-var
+      hostPath:
+        path: /var
+        type: Directory
+    - name: host-dev
+      hostPath:
+        path: /dev
+        type: Directory 
+
+
+# apk add --no-cache findutils nvme-cli lvm2;
+# echo "=== Wiping $DISK ===";
+# nvme format --lbaf=0 /dev/disk/nvme0n1 --force;
+# nvme format --block-size=4096 /dev/disk/nvme0n1 --force;
+# pvcreate /dev/nvme0n1;
+# vgcreate topolvm_vg /dev/nvme0n1;
+# vgchange -a ey topolvm_vg;
+# lvcreate --thinpool -l 100%FREE -n topolvm_thin topolvm_vg;
