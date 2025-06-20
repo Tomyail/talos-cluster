@@ -80,6 +80,6 @@ spec:
       fsGroup: ${APP_GID:-1000}
     repository: "${APP}-volsync-secret"
     storageClassName: "${VOLSYNC_STORAGECLASS:-openebs-lvmpv}"
-    # volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:-csi-openebs-lvmpv}"
+    volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:-lvmpv-snapclass}"
   trigger:
     manual: restore-once
