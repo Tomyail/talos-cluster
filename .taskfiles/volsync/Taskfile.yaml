@@ -1,0 +1,323 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+# Taskfile used to manage certain VolSync tasks for a given application, limitations are as followed.
+#   1. Fluxtomization, HelmRelease, PVC, ReplicationSource all have the same name (e.g. plex)
+#   2. ReplicationSource and ReplicationDestination are a Restic repository
+#   3. Each application only has one PVC that is being replicated
+
+x-env-vars: &env-vars
+  app: "{{.app}}"
+  claim: "{{.claim}}"
+  controller: "{{.controller}}"
+  job: "{{.job}}"
+  ns: "{{.ns}}"
+  pgid: "{{.pgid}}"
+  previous: "{{.previous}}"
+  puid: "{{.puid}}"
+
+vars:
+  VOLSYNC_RESOURCES_DIR: '{{.ROOT_DIR}}/.taskfiles/volsync/resources'
+  VOLSYNC_SCRIPTS_DIR: "{{.ROOT_DIR}}/.taskfiles/VolSync/scripts"
+  VOLSYNC_TEMPLATES_DIR: "{{.ROOT_DIR}}/.taskfiles/VolSync/templates"
+
+tasks:
+  state-*:
+    desc: Suspend or resume Volsync
+    cmds:
+      - flux --namespace flux-system {{.STATE}} kustomization volsync
+      - flux --namespace volsync-system {{.STATE}} helmrelease volsync
+      - kubectl --namespace volsync-system scale deployment volsync --replicas {{if eq .STATE "suspend"}}0{{else}}1{{end}}
+    vars:
+      STATE: '{{index .MATCH 0}}'
+    preconditions:
+      - '[[ "{{.STATE}}" == "suspend" || "{{.STATE}}" == "resume" ]]'
+      - which flux kubectl
+
+  unlock:
+    desc: Unlock all restic source repos [CLUSTER=main]
+    cmds:
+      - for: { var: SOURCES, split: "\n" }
+        cmd: kubectl --namespace {{splitList "," .ITEM | first}} patch --field-manager=flux-client-side-apply replicationsources {{splitList "," .ITEM | last}} --type merge --patch "{\"spec\":{\"restic\":{\"unlock\":\"{{now | unixEpoch}}\"}}}"
+    vars:
+      SOURCES:
+        sh: kubectl get replicationsources --all-namespaces --no-headers --output=jsonpath='{range .items[*]}{.metadata.namespace},{.metadata.name}{"\n"}{end}'
+    requires:
+      vars: [CLUSTER]
+    preconditions:
+      - which kubectl
+
+  snapshot:
+    desc: Snapshot an app [NS=default] [APP=required]
+    cmds:
+      - kubectl --namespace {{.NS}} patch replicationsources {{.APP}} --type merge -p '{"spec":{"trigger":{"manual":"{{now | unixEpoch}}"}}}'
+      - until kubectl --namespace {{.NS}} get job/{{.JOB}} &>/dev/null; do sleep 5; done
+      - kubectl --namespace {{.NS}} wait job/{{.JOB}} --for=condition=complete --timeout=120m
+    vars:
+      NS: '{{.NS | default "default"}}'
+      JOB: volsync-src-{{.APP}}
+    requires:
+      vars: [APP]
+    preconditions:
+      - kubectl --namespace {{.NS}} get replicationsources {{.APP}}
+      - which kubectl
+
+  list:
+    desc: List snapshots for an application
+    summary: |
+      Args:
+        ns: Namespace the PVC is in (default: default)
+        app: Application to list snapshots for (required)
+    cmds:
+      - envsubst < <(cat {{.VOLSYNC_TEMPLATES_DIR}}/list.tmpl.yaml) | kubectl apply -f -
+      - bash {{.VOLSYNC_SCRIPTS_DIR}}/wait-for-job.sh {{.job}} {{.ns}}
+      - kubectl -n {{.ns}} wait job/{{.job}} --for condition=complete --timeout=1m
+      - kubectl -n {{.ns}} logs job/{{.job}} --container main
+      - kubectl -n {{.ns}} delete job {{.job}}
+    env: *env-vars
+    requires:
+      vars: ["app"]
+    vars:
+      ns: '{{.ns | default "default"}}'
+      job: volsync-list-{{.app}}
+    preconditions:
+      - test -f {{.VOLSYNC_SCRIPTS_DIR}}/wait-for-job.sh
+      - test -f {{.VOLSYNC_TEMPLATES_DIR}}/list.tmpl.yaml
+    silent: true
+
+  generate-configs:
+    desc: Read external-services from config.yaml and pass them to minijinja-cli
+    cmds:
+      - find {{.DEST}} -type f ! -name 'kustomization.yaml' -delete
+      - for:
+          var: SERVICES
+        cmd: |
+          minijinja-cli {{.VOLSYNC_RESOURCES_DIR}}/service.yaml.j2  \
+          -D name={{.ITEM.name}} \
+          -D source_ip={{.ITEM.source_ip}} \
+          -D source_port={{.ITEM.source_port}} \
+          -D internal={{.ITEM.internal}} \
+          -D external={{.ITEM.external}} \
+          -D internal_https={{.ITEM.internal_https}} \
+          -D target_port={{default 80 .ITEM.target_port}} \
+          -D monitor_group={{.ITEM.monitor_group}} \
+          > {{.DEST}}/{{.ITEM.name}}.yaml
+    vars:
+      DEST: '{{.ROOT_DIR}}//kubernetes/apps/network/external-service/app'
+      SERVICES:
+        - source_ip: 192.168.50.1
+          source_port: 3000
+          external: false
+          internal: true
+          name: adguard
+          monitor_group: internal
+        - source_ip: 192.168.50.100
+          source_port: 8006
+          external: false
+          internal: true
+          internal_https: true
+          target_port: 443
+          name: pve
+          monitor_group: internal
+        - source_ip: 192.168.50.178
+          source_port: 80
+          external: true
+          internal: true
+          name: gitlab
+          monitor_group: external
+        - source_ip: 192.168.50.220
+          source_port: 8096
+          external: true
+          internal: true
+          name: jellyfin
+          monitor_group: external
+        - source_ip: 192.168.50.200
+          source_port: 2342
+          external: false
+          internal: true
+          name: photo
+          monitor_group: internal
+        - source_ip: 192.168.50.178
+          source_port: 5050
+          external: true
+          internal: true
+          name: registry
+          monitor_group: external
+        - source_ip: 192.168.50.170
+          source_port: 9443
+          external: false
+          internal: true
+          internal_https: true
+          target_port: 443
+          name: portainer
+          monitor_group: internal
+        - source_ip: 192.168.50.200
+          source_port: 80
+          external: false
+          internal: true
+          name: omv
+          monitor_group: internal
+        - source_ip: 192.168.50.171
+          source_port: 8090
+          external: true
+          internal: true
+          name: download
+          monitor_group: external
+        - source_ip: 192.168.50.170
+          source_port: 8780
+          external: false
+          internal: true
+          name: iyuu
+          monitor_group: internal
+        - source_ip: 192.168.50.170
+          source_port: 3000
+          external: false
+          internal: true
+          name: mp
+          monitor_group: internal
+    preconditions:
+      - which minijinja-cli yq
+
+ # To run restore jobs in parallel for all replicationdestinations:
+  #    - kubectl get replicationsources --all-namespaces --no-headers | awk '{print $2, $1}' | xargs --max-procs=4 -l bash -c 'task volsync:restore app=$0 ns=$1'
+  restore:
+    desc: Restore a PVC for an application
+    summary: |
+      Args:
+        ns: Namespace the PVC is in (default: default)
+        app: Application to restore (required)
+        previous: Previous number of snapshots to restore (default: 2)
+    cmds:
+      - { task: .suspend, vars: *env-vars }
+      - { task: .wipe, vars: *env-vars }
+      - { task: .restore, vars: *env-vars }
+      - { task: .resume, vars: *env-vars }
+    env: *env-vars
+    requires:
+      vars: ["app"]
+    vars:
+      ns: '{{.ns | default "default"}}'
+      previous: "{{.previous | default 2}}"
+      controller:
+        sh: "{{.VOLSYNC_SCRIPTS_DIR}}/which-controller.sh {{.app}} {{.ns}}"
+      claim:
+        sh: kubectl -n {{.ns}} get replicationsources/{{.app}} -o jsonpath="{.spec.sourcePVC}"
+      puid:
+        sh: kubectl -n {{.ns}} get replicationsources/{{.app}} -o jsonpath="{.spec.restic.moverSecurityContext.runAsUser}"
+      pgid:
+        sh: kubectl -n {{.ns}} get replicationsources/{{.app}} -o jsonpath="{.spec.restic.moverSecurityContext.runAsGroup}"
+    preconditions:
+      - test -f {{.VOLSYNC_SCRIPTS_DIR}}/which-controller.sh
+      - test -f {{.VOLSYNC_SCRIPTS_DIR}}/wait-for-job.sh
+      - test -f {{.VOLSYNC_TEMPLATES_DIR}}/replicationdestination.tmpl.yaml
+      - test -f {{.VOLSYNC_TEMPLATES_DIR}}/wipe.tmpl.yaml
+
+
+  restore-alert:
+    desc: Restore an app [CLUSTER=main] [NS=default] [APP=required] [PREVIOUS=required]
+    cmds:
+      # Suspend
+      - flux --namespace flux-system suspend kustomization kube-prometheus-stack
+      - flux --namespace observability suspend helmrelease kube-prometheus-stack
+      - kubectl -n observability patch alertmanager kube-prometheus-stack --type=merge -p '{"spec":{"replicas":0}}'
+      - kubectl --namespace observability wait pod --for=delete --selector="app.kubernetes.io/name=alertmanager" --timeout=5m
+      # Restore
+      - kubectl apply --server-side --filename kubernetes/apps/observability/kube-prometheus-stack/app/volsync-restore-alertmanager.yaml
+      # - minijinja-cli --env {{.VOLSYNC_RESOURCES_DIR}}/replicationdestination.yaml.j2
+      # - minijinja-cli --env {{.VOLSYNC_RESOURCES_DIR}}/replicationdestination.yaml.j2 | kubectl apply --server-side --filename -
+      # - until kubectl --namespace {{.NS}} get job/volsync-dst-{{.APP}}-manual &>/dev/null; do sleep 5; done
+      # - kubectl --namespace {{.NS}} wait job/volsync-dst-{{.APP}}-manual --for=condition=complete --timeout=120m
+      # - kubectl --namespace {{.NS}} delete replicationdestination {{.APP}}-manual
+      # # Resume
+      - kubectl -n observability patch alertmanager kube-prometheus-stack --type=merge -p '{"spec":{"replicas":1}}'
+      - flux --namespace flux-system resume kustomization kube-prometheus-stack
+      - flux --namespace observability resume helmrelease kube-prometheus-stack
+      - flux --namespace observability reconcile helmrelease kube-prometheus-stack --force
+      # - kubectl --namespace {{.NS}} wait pod --for=condition=ready --selector="app.kubernetes.io/name=alertmanager" --timeout=5m
+    vars:
+      NS: '{{.NS | default "default"}}'
+      CONTROLLER:
+        sh: kubectl --namespace {{.NS}} get deployment {{.APP}} &>/dev/null && echo deployment || echo statefulset
+    # env:
+    #   NS: '{{.NS}}'
+    #   APP: '{{.APP}}'
+    #   PREVIOUS: '{{.PREVIOUS}}'
+    #   CLAIM:
+    #     sh: kubectl --namespace {{.NS}} get replicationsources/{{.APP}} --output=jsonpath="{.spec.sourcePVC}"
+    #   ACCESS_MODES:
+    #     sh: kubectl --namespace {{.NS}} get replicationsources/{{.APP}} --output=jsonpath="{.spec.restic.accessModes}"
+    #   STORAGE_CLASS_NAME:
+    #     sh: kubectl --namespace {{.NS}} get replicationsources/{{.APP}} --output=jsonpath="{.spec.restic.storageClassName}"
+    #   PUID:
+    #     sh: kubectl --namespace {{.NS}} get replicationsources/{{.APP}} --output=jsonpath="{.spec.restic.moverSecurityContext.runAsUser}"
+    #   PGID:
+    #     sh: kubectl --namespace {{.NS}} get replicationsources/{{.APP}} --output=jsonpath="{.spec.restic.moverSecurityContext.runAsGroup}"
+    # requires:
+    #   vars: [APP, PREVIOUS]
+    preconditions:
+      # - test -f {{.VOLSYNC_RESOURCES_DIR}}/replicationdestination.yaml.j2
+      - which flux kubectl minijinja-cli
+
+  unlock-local:
+    desc: Unlock a restic source repo from local machine [CLUSTER=main] [NS=default] [APP=required]
+    cmds:
+      - minijinja-cli {{.VOLSYNC_RESOURCES_DIR}}/unlock.yaml.j2 | kubectl apply --server-side --filename -
+      - until kubectl --namespace {{.NS}} get job/volsync-unlock-{{.APP}} &>/dev/null; do sleep 5; done
+      - kubectl --namespace {{.NS}} wait job/volsync-unlock-{{.APP}} --for condition=complete --timeout=5m
+      - stern --namespace {{.NS}} job/volsync-unlock-{{.APP}} --no-follow
+      - kubectl --namespace {{.NS}} delete job volsync-unlock-{{.APP}}
+    vars:
+      NS: '{{.NS | default "default"}}'
+    env:
+      NS: '{{.NS}}'
+      APP: '{{.APP}}'
+    requires:
+      vars: [CLUSTER, APP]
+    preconditions:
+      - test -f {{.VOLSYNC_RESOURCES_DIR}}/unlock.yaml.j2
+      - which kubectl minijinja-cli stern
+
+# Suspend the Flux ks and hr
+  .suspend:
+    internal: true
+    cmds:
+      - flux -n flux-system suspend kustomization {{.app}}
+      - flux -n {{.ns}} suspend helmrelease {{.app}}
+      - kubectl -n {{.ns}} scale {{.controller}} --replicas 0
+      - kubectl -n {{.ns}} wait pod --for delete --selector="app.kubernetes.io/name={{.app}}" --timeout=2m
+    env: *env-vars
+
+  # Wipe the PVC of all data
+  .wipe:
+    internal: true
+    cmds:
+      - envsubst < <(cat {{.VOLSYNC_TEMPLATES_DIR}}/wipe.tmpl.yaml) | kubectl apply -f -
+      - bash {{.VOLSYNC_SCRIPTS_DIR}}/wait-for-job.sh {{.job}} {{.ns}}
+      - kubectl -n {{.ns}} wait job/{{.job}} --for condition=complete --timeout=120m
+      - kubectl -n {{.ns}} logs job/{{.job}} --container main
+      - kubectl -n {{.ns}} delete job {{.job}}
+    env: *env-vars
+    vars:
+      job: volsync-wipe-{{.app}}
+
+  # Create VolSync replicationdestination CR to restore data
+  .restore:
+    internal: true
+    cmds:
+      - envsubst < <(cat {{.VOLSYNC_TEMPLATES_DIR}}/replicationdestination.tmpl.yaml) | kubectl apply -f -
+      - bash {{.VOLSYNC_SCRIPTS_DIR}}/wait-for-rd.sh {{.job}} {{.ns}}
+      - kubectl -n {{.ns}} delete replicationdestination {{.job}}
+    env: *env-vars
+    vars:
+      job: volsync-dst-{{.app}}
+
+  # Resume Flux ks and hr
+  .resume:
+    internal: true
+    cmds:
+      - flux -n {{.ns}} resume helmrelease {{.app}}
+      - flux -n flux-system resume kustomization {{.app}}
+      - kubectl -n {{.ns}} scale {{.controller}} --replicas 1
+      - kubectl -n {{.ns}} wait pod --for condition=ready --selector="app.kubernetes.io/name={{.app}}" --timeout=2m
+    env: *env-vars

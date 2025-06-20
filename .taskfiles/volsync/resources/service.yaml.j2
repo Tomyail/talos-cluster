@@ -1,0 +1,125 @@
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: {{ name }}
+subsets:
+  - addresses:
+      - ip: {{source_ip}}
+    ports:
+      - port: {{source_port}}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ name }}
+spec:
+  ports:
+    - port: {{ target_port }}
+      targetPort: {{source_port}}
+{% if internal == 'true' %}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{name}}-internal
+  annotations:
+    {% if internal_https %}
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    {% endif %}
+    external-dns.alpha.kubernetes.io/target: "192.168.50.160,192.168.50.182,192.168.50.234"
+spec:
+  ingressClassName: internal
+  rules:
+    - host: {{name}}.${SECRET_DOMAIN}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{name}}
+                port:
+                  number: {{ target_port }}
+{% endif %}
+{%  if external == 'true' %}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{name}}
+  annotations:
+    external-dns.alpha.kubernetes.io/target: external.${SECRET_DOMAIN}
+spec:
+  ingressClassName: external
+  rules:
+    - host: {{name}}.${SECRET_DOMAIN}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{name}}
+                port:
+                  number: {{ target_port }}
+{% endif %}
+{%  if monitor_group == 'internal' %}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{name}}-gatus-ep"
+  labels:
+    gatus.io/enabled: "true"
+data:
+  config.yaml: |
+    endpoints:
+      - name: "{{name}}"
+        group: internal
+        url: 1.1.1.1
+        interval: 1m
+        ui:
+          hide-hostname: true
+          hide-url: true
+        dns:
+          query-name: "{{name}}.${SECRET_DOMAIN}"
+          query-type: A
+        conditions:
+          - "len([BODY]) == 0"
+        alerts:
+          - type: pushover
+      - name: "{{name}}"
+        group: internal-up
+        url: "https://{{name}}.${SECRET_DOMAIN}"
+        interval: 1m
+        ui:
+          hide-hostname: true
+          hide-url: true
+        conditions:
+          - "[STATUS] == 200"
+        alerts:
+          - type: pushover
+{% endif %}
+{%  if monitor_group == 'external' %}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{name}}-gatus-ep"
+  labels:
+    gatus.io/enabled: "true"
+data:
+  config.yaml: |
+    endpoints:
+      - name: "{{name}}"
+        group: external
+        url: "https://{{name}}.${SECRET_DOMAIN}"
+        interval: 1m
+        ui:
+          hide-hostname: true
+          hide-url: true
+        conditions:
+          - "[STATUS] == 200"
+        alerts:
+          - type: pushover
+{% endif %}
