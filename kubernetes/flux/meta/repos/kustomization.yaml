@@ -39,3 +39,4 @@ resources:
   - ./csi-driver-nfs.yaml
   - ./democratic-csi.yaml
   - ./topolvm.yaml
+  - ./local-path-provisioner.yaml
