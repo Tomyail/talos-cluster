@@ -1,0 +1,52 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: topolvm
+spec:
+  interval: 1h
+  chart:
+    spec:
+      chart: topolvm
+      version: 15.5.5
+      sourceRef:
+        kind: HelmRepository
+        name: topolvm-charts
+        namespace: flux-system
+      interval: 1h
+  releaseName: topolvm
+  install:
+    createNamespace: true
+    crds: CreateReplace
+  upgrade:
+    crds: CreateReplace
+  values:
+    lvmd:
+      managed: false
+      env:
+        - name: LVM_SYSTEM_DIR
+          value: /tmp
+      # see lvm-format-manual.yaml for how to format the disk
+      deviceClasses:
+        - name: thin
+          volume-group: lvm_vg # Volume Group name used in LVM_Disk_Watcher
+          default: true
+          spare-gb: 10
+          type: thin
+          thin-pool:
+            name: lvm_thin # Logical Volume name used in LVM_Disk_Watcher
+            overprovision-ratio: 10.0 # Adjust to your convenience
+    storageClasses:
+      - name: topolvm-thin-provisioner
+        storageClass:
+          fsType: xfs
+          isDefaultClass: true
+          volumeBindingMode: Immediate
+          allowVolumeExpansion: true
+          additionalParameters:
+            "topolvm.io/device-class": "thin"
+    node:
+      lvmdEmbedded: true
+      metrics:
+        enabled: true
+    controller:
+      replicaCount: 1

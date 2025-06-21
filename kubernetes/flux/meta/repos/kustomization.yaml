@@ -38,3 +38,4 @@ resources:
   - ./prefect.yaml
   - ./csi-driver-nfs.yaml
   - ./democratic-csi.yaml
+  - ./topolvm.yaml

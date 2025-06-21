@@ -11,7 +11,7 @@ spec:
     repository: {{ ENV.APP | safe }}-volsync-secret
     destinationPVC: {{ ENV.CLAIM }}
     copyMethod: Direct
-    storageClassName: local-path
+    storageClassName: openebs-lvmpv
     accessModes:
       - ReadWriteOnce
     previous: {{ ENV.PREVIOUS | safe }}
