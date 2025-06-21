@@ -42,7 +42,7 @@ spec:
     schedule: "0 * * * *"
   restic:
     copyMethod: Direct
-    storageClassName: openebs-lvmpv
+    storageClassName: topolvm-thin-provisioner
     accessModes: [ReadWriteOnce]
     pruneIntervalDays: 7
     repository: "${APP}-volsync-secret"
@@ -68,7 +68,7 @@ spec:
     cacheAccessModes:
       - "${VOLSYNC_CACHE_ACCESSMODES:-ReadWriteOnce}"
     cacheCapacity: "${VOLSYNC_CACHE_CAPACITY:-1Gi}"
-    cacheStorageClassName: "${VOLSYNC_CACHE_SNAPSHOTCLASS:-openebs-lvmpv}"
+    cacheStorageClassName: "${VOLSYNC_CACHE_SNAPSHOTCLASS:-topolvm-thin-provisioner}"
     capacity: "${VOLSYNC_CAPACITY:-1Gi}"
     cleanupCachePVC: true
     cleanupTempPVC: true
@@ -79,7 +79,7 @@ spec:
       runAsGroup: ${APP_GID:-1000}
       fsGroup: ${APP_GID:-1000}
     repository: "${APP}-volsync-secret"
-    storageClassName: "${VOLSYNC_STORAGECLASS:-openebs-lvmpv}"
+    storageClassName: "${VOLSYNC_STORAGECLASS:-topolvm-thin-provisioner}"
     volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:-lvmpv-snapclass}"
   trigger:
     manual: restore-once

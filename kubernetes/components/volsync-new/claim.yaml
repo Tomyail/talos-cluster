@@ -8,4 +8,4 @@ spec:
   resources:
     requests:
       storage: "${VOLSYNC_CAPACITY:-1Gi}"
-  storageClassName: "${VOLSYNC_STORAGECLASS:-openebs-lvmpv}"
+  storageClassName: "${VOLSYNC_STORAGECLASS:-topolvm-thin-provisioner}"

@@ -11,7 +11,7 @@ spec:
     repository: {{ ENV.APP | safe }}-volsync-secret
     destinationPVC: {{ ENV.CLAIM }}
     copyMethod: Direct
-    storageClassName: openebs-lvmpv
+    storageClassName: topolvm-thin-provisioner
     accessModes:
       - ReadWriteOnce
     previous: {{ ENV.PREVIOUS | safe }}
