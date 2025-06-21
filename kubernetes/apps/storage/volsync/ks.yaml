@@ -12,7 +12,7 @@ spec:
       app.kubernetes.io/name: *app
   path: ./kubernetes/apps/storage/volsync/app
   dependsOn:
-    - name: local-path-provisioner
+    - name: topolvm
       namespace: storage
   prune: true
   sourceRef:
