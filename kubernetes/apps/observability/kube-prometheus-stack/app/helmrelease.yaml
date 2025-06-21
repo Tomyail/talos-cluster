@@ -37,13 +37,6 @@ spec:
             - name: internal
               namespace: kube-system
               sectionName: https
-      # ingress:
-      #   enabled: true
-      #   annotations:
-      #     external-dns.alpha.kubernetes.io/target: "192.168.50.160,192.168.50.182,192.168.50.234"
-      #   ingressClassName: internal
-      #   hosts: ["alertmanager-dev.${SECRET_DOMAIN}"]
-      #   pathType: Prefix
       alertmanagerSpec:
         alertmanagerConfiguration:
           name: alertmanager
@@ -98,13 +91,14 @@ spec:
         enabled: true
       thanosServiceMonitor:
         enabled: true
-      # ingress:
-      #   enabled: true
-      #   annotations:
-      #     external-dns.alpha.kubernetes.io/target: "192.168.50.160,192.168.50.182,192.168.50.234"
-      #   ingressClassName: internal
-      #   hosts: ["prometheus-dev.${SECRET_DOMAIN}"]
-      #   pathType: Prefix
+      route:
+        main:
+          enabled: true
+          hostnames: ["prometheus-dev.${SECRET_DOMAIN}"]
+          parentRefs:
+            - name: internal
+              namespace: kube-system
+              sectionName: https
       prometheusSpec:
         podMetadata:
           annotations:

@@ -285,12 +285,14 @@ spec:
         # panodata-map-panel 插件（通过 URL 安装），增强版世界地图面板，支持更多地理数据可视化
     serviceMonitor:
       enabled: true
-    # ingress:
-    #   enabled: true
-    #   annotations:
-    #     external-dns.alpha.kubernetes.io/target: "192.168.50.160,192.168.50.182,192.168.50.234"
-    #   ingressClassName: internal
-    #   hosts: ["grafana-dev.${SECRET_DOMAIN}"]
+    route:
+      main:
+        enabled: true
+        hostnames: ["grafana-dev.${SECRET_DOMAIN}"]
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
     persistence:
       enabled: false
     testFramework:
