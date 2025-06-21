@@ -14,10 +14,6 @@ spec:
         - "-c"
         - |
           set -e
-          echo "=== Installing required packages ==="
-          apk add --no-cache findutils nvme-cli lvm2
-
-
           sleep 3600
       securityContext:
         privileged: true
