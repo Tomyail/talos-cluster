@@ -26,11 +26,18 @@ nodes:
       type: ssd
     machineSpec:
       secureboot: true
-    talosImageURL: factory.talos.dev/installer-secureboot/376567988ad370138ad8b2698212367b8edcb69b5fd68c80be1f2ec7d603b4ba
+    talosImageURL: factory.talos.dev/installer-secureboot/a30c16a32db3c99cb35f22401fad96807f80896dfc86aa4ec716ed6b4aff09de
+    # talosImageURL: factory.talos.dev/installer-secureboot/376567988ad370138ad8b2698212367b8edcb69b5fd68c80be1f2ec7d603b4ba
     controlPlane: true
+    nodeLabels:
+      intel.feature.node.kubernetes.io/gpu: "true"
+
     kernelModules:
       - name: dm_thin_pool
       - name: dm_mod
+      - name: i915        # Intel GPU 驱动
+      - name: drm         # Direct Rendering Manager
+      - name: drm_kms_helper  # DRM KMS helper
     networkInterfaces:
       - deviceSelector:
           hardwareAddr: "48:21:0b:58:14:f9"
@@ -59,4 +66,10 @@ controlPlane:
   patches:
     - "@./patches/controller/admission-controller-patch.yaml"
     - "@./patches/controller/cluster.yaml"
-
+  schematic:
+    customization:
+      systemExtensions:
+        officialExtensions:
+          - siderolabs/i915
+          - siderolabs/intel-ucode
+          - siderolabs/thunderbolt
