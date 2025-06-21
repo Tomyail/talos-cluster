@@ -6,9 +6,9 @@ machine:
       validSubnets:
         - 192.168.50.0/24
     extraMounts:
-      - destination: /var/local-path-provisioner
+      - destination: /var/mnt/local-path-provisioner
         type: bind
-        source: /var/local-path-provisioner
+        source: /var/mnt/local-path-provisioner
         options:
           - bind
           - rshared
