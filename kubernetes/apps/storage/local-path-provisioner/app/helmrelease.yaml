@@ -20,7 +20,6 @@ spec:
   upgrade:
     crds: CreateReplace
   values:
-    defaultVolumeType: local
     nodePathMap:
       - node: DEFAULT_PATH_FOR_NON_LISTED_NODES
         path: "/var/local-path-provisioner"
