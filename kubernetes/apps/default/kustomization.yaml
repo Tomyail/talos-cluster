@@ -8,3 +8,4 @@ components:
 resources:
   - ./echo/ks.yaml
   - ./navidrome/ks.yaml
+  - ./jellyfin/ks.yaml

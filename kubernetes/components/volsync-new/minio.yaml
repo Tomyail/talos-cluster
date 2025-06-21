@@ -80,6 +80,6 @@ spec:
       fsGroup: ${APP_GID:-1000}
     repository: "${APP}-volsync-secret"
     storageClassName: "${VOLSYNC_STORAGECLASS:-topolvm-thin-provisioner}"
-    volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:-lvmpv-snapclass}"
+    volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:-topolvm-thin-provisioner}"
   trigger:
     manual: restore-once
