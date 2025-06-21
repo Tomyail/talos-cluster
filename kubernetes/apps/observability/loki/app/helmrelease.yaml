@@ -54,8 +54,8 @@ spec:
       replicas: 1
       persistence:
         enabled: true
-        storageClass: local-path
-        size: 10Gi
+        storageClass: topolvm-thin-provisioner
+        size: 5Gi
     gateway:
       replicas: 0
     backend:
