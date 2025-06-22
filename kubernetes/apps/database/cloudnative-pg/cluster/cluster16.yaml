@@ -54,7 +54,6 @@ spec:
   bootstrap:
     recovery:
       source: &previousCluster dev-postgres16-v7
-  # Define the external cluster to recover from, using its backup configuration.
   externalClusters:
     - name: *previousCluster
       barmanObjectStore:

@@ -16,14 +16,23 @@ spec:
   prune: true
   sourceRef:
     kind: GitRepository
-    name: home-kubernetes
+    name: flux-system
+    namespace: flux-system
   dependsOn:
-    - name: volsync
+    - name: topolvm
+      namespace: storage
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
   wait: false
   interval: 30m
   retryInterval: 1m
   timeout: 5m
   postBuild:
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
     substitute:
       APP: *app
       VOLSYNC_CAPACITY: 1Gi

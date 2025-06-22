@@ -8,5 +8,5 @@ components:
 resources:
   # Flux-Kustomizations
   - ./cloudnative-pg/ks.yaml
-  # - ./pgadmin/ks.yaml
-  # - ./dragonfly/ks.yaml
+  - ./pgadmin/ks.yaml
+  - ./dragonfly/ks.yaml
