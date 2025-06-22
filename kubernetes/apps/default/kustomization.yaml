@@ -9,4 +9,3 @@ resources:
   - ./echo/ks.yaml
   - ./navidrome/ks.yaml
   - ./jellyfin/ks.yaml
-  - ./plex/ks.yaml
