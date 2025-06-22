@@ -1,0 +1,37 @@
+---
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
+metadata:
+  name: qbittorrent-direct-routing
+  namespace: default
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: qbittorrent
+  ingress:
+  # 允许来自世界各地的P2P连接
+  - fromEntities:
+    - "world"
+    toPorts:
+    - ports:
+      - port: "50413"
+        protocol: TCP
+      - port: "50413"
+        protocol: UDP
+  # 允许WebUI访问（通过Gateway）
+  - fromEntities:
+    - "cluster"
+    toPorts:
+    - ports:
+      - port: "80"
+        protocol: TCP
+  egress:
+  # 允许向世界各地发起P2P连接
+  - toEntities:
+    - "world"
+  # 允许集群内部通信（包括DNS）
+  - toEntities:
+    - "cluster"
+  # 允许访问kube-apiserver
+  - toEntities:
+    - "kube-apiserver"

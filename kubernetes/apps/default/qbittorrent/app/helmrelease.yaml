@@ -30,7 +30,7 @@ spec:
               QBT_TORRENTING_PORT: &torrentPort 50413
             # probes:
             #   liveness: &probes
-            #     enabled: false
+            #     enabled: true
             #     custom: true
             #     spec:
             #       httpGet:
@@ -48,6 +48,7 @@ spec:
             #       periodSeconds: 10
             securityContext:
               allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
               capabilities: { drop: ["ALL"] }
             resources:
               requests:
@@ -65,21 +66,21 @@ spec:
     service:
       app:
         forceRename: *app
-        type: LoadBalancer
-        annotations:
-          lbipam.cilium.io/ips: 192.168.50.122, ::ffff:192.168.50.122
-        # primary: true
+        primary: true
         ports:
           http:
             port: *port
-      # bittorrent:
-      #   type: LoadBalancer
-      #   annotations:
-      #     lbipam.cilium.io/ips: 192.168.50.122, ::ffff:192.168.50.122
-      #   ports:
-      #     bittorrent-tcp:
-      #       port: *torrentPort
-      #       protocol: TCP
+      bittorrent:
+        type: LoadBalancer
+        annotations:
+          lbipam.cilium.io/ips: 192.168.50.125  # BitTorrent专用P2P IP
+        ports:
+          bittorrent-tcp:
+            port: *torrentPort
+            protocol: TCP
+          bittorrent-udp:
+            port: *torrentPort
+            protocol: UDP
     route:
       app:
         hostnames:
@@ -103,3 +104,4 @@ spec:
           - path: /media
       tmp:
         type: emptyDir
+        medium: Memory  # 使用内存作为临时存储，提升性能
