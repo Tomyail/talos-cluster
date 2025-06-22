@@ -1,0 +1,74 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/postgresql.cnpg.io/cluster_v1.json
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: dev-postgres16
+spec:
+  instances: 1
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.3-7
+  primaryUpdateStrategy: unsupervised
+  storage:
+    size: 10Gi
+    storageClass: topolvm-thin-provisioner
+  superuserSecret:
+    name: cloudnative-pg-secret
+  enableSuperuserAccess: true
+  postgresql:
+    parameters:
+      max_connections: "400"
+      shared_buffers: 256MB
+  nodeMaintenanceWindow:
+    inProgress: false
+    reusePVC: true
+  resources:
+    requests:
+      cpu: 500m
+      memory: 256Mi
+    limits:
+      memory: 1Gi
+  monitoring:
+    enablePodMonitor: true
+  backup:
+    retentionPolicy: 7d
+    barmanObjectStore: &barmanObjectStore
+      data:
+        compression: bzip2
+      wal:
+        compression: bzip2
+        maxParallel: 8
+      destinationPath: 's3://pg-backups/'
+      endpointURL: http://192.168.50.220:9000
+      # Note: serverName version needs to be incremented
+      # when recovering from an existing cnpg cluster.
+      # The previous cluster was v7, so this is v8.
+      serverName: &currentCluster dev-postgres16-v8
+      s3Credentials:
+        accessKeyId:
+          name: cloudnative-pg-secret
+          key: aws-access-key-id
+        secretAccessKey:
+          name: cloudnative-pg-secret
+          key: aws-secret-access-key
+  # Bootstrap from the previous cluster (dev-postgres16-v7)
+  bootstrap:
+    recovery:
+      source: &previousCluster dev-postgres16-v7
+  # Define the external cluster to recover from, using its backup configuration.
+  externalClusters:
+    - name: *previousCluster
+      barmanObjectStore:
+        data:
+          compression: bzip2
+        wal:
+          compression: bzip2
+          maxParallel: 8
+        destinationPath: 's3://db-backups/'
+        endpointURL: https://minio-api.tomyail.com
+        s3Credentials:
+          accessKeyId:
+            name: cloudnative-pg-secret
+            key: old-aws-access-key-id
+          secretAccessKey:
+            name: cloudnative-pg-secret
+            key: old-aws-secret-access-key
