@@ -66,14 +66,16 @@ spec:
     service:
       app:
         forceRename: *app
-        primary: true
+        type: LoadBalancer
+        annotations:
+          lbipam.cilium.io/ips: 192.168.50.122
         ports:
           http:
             port: *port
       bittorrent:
         type: LoadBalancer
         annotations:
-          lbipam.cilium.io/ips: 192.168.50.125  # BitTorrent专用P2P IP
+          lbipam.cilium.io/ips: 192.168.50.125
         ports:
           bittorrent-tcp:
             port: *torrentPort

@@ -6,6 +6,7 @@ namespace: default
 resources:
   - ./helmrelease.yaml
   # - ./network-policy.yaml
+  - ./egress-gateway-policy.yaml
   # - ../../../../templates/gatus/external
   # - ../../../../templates/volsync
   # - ../../../../templates/volsync-restore

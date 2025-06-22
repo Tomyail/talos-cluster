@@ -1,0 +1,28 @@
+---
+apiVersion: cilium.io/v2
+kind: CiliumEgressGatewayPolicy
+metadata:
+  name: qbittorrent-egress
+spec:
+  # 选择qbittorrent pod
+  selectors:
+  - podSelector:
+      matchLabels:
+        app.kubernetes.io/name: qbittorrent
+
+  # 指定所有外部目标（BitTorrent流量）
+  destinationCIDRs:
+  - "0.0.0.0/0"
+
+  # 排除集群内部网络，确保只有真正的外部流量使用EgressGateway
+  excludedCIDRs:
+  - "10.0.0.0/8"        # Kubernetes集群网络
+  - "192.168.50.0/24"   # 你的局域网
+  - "172.16.0.0/12"     # Docker网络
+
+  # 配置网关节点 - 使用你的master节点
+  egressGateway:
+    nodeSelector:
+      matchLabels:
+        kubernetes.io/os: linux
+    # 使用节点的主网络接口，流量将从192.168.50.145发出
