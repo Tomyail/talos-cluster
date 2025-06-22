@@ -15,6 +15,8 @@ cgroup:
 # devices: eno+ eth+
 dashboards:
   enabled: true
+egressGateway:
+  enabled: true
 endpointRoutes:
   enabled: true
 envoy:
