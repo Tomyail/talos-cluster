@@ -99,6 +99,12 @@ spec:
         globalMounts:
           - path: /media
             readOnly: true
+      fonts:
+        type: nfs
+        server: 192.168.50.200
+        path: /export/media/font
+        globalMounts:
+          - path: /usr/share/fonts
       tmpfs:
         type: emptyDir
         advancedMounts:
