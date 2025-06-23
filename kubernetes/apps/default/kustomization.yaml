@@ -16,3 +16,4 @@ resources:
   - ./recyclarr/ks.yaml
   - ./paperless/ks.yaml
   - ./n8n/ks.yaml
+  - ./home-assistant/ks.yaml
