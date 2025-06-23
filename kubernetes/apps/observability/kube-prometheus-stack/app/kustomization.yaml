@@ -7,4 +7,5 @@ resources:
   - ./externalsecret.yaml
   - ./helmrelease.yaml
   - ./scrapconfig.yaml
+  - ./httproute-remote-write.yaml
 
