@@ -14,7 +14,7 @@ spec:
     # 远程写入端点
     - matches:
         - path:
-            type: Path
+            type: Exact
             value: /api/v1/write
       # 建议在 Gateway 层加认证或网络限制，防止未授权写入
       backendRefs:
