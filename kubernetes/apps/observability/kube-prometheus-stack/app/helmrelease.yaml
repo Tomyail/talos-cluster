@@ -93,12 +93,7 @@ spec:
         enabled: true
       route:
         main:
-          enabled: true
-          hostnames: ["prometheus-dev.${SECRET_DOMAIN}"]
-          parentRefs:
-            - name: external
-              namespace: kube-system
-              sectionName: https
+          enabled: false  # 禁用 Helm chart 生成的路由，使用独立的 HTTPRoute 文件管理
       prometheusSpec:
         podMetadata:
           annotations:

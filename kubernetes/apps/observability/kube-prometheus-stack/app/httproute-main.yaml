@@ -1,0 +1,59 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: prometheus-main
+  namespace: observability
+spec:
+  parentRefs:
+    - name: external
+      namespace: kube-system
+      sectionName: https
+  hostnames:
+    - "prometheus-dev.${SECRET_DOMAIN}"
+  rules:
+    # 远程写入端点
+    - matches:
+        - path:
+            type: Path
+            value: /api/v1/write
+      # 建议在 Gateway 层加认证或网络限制，防止未授权写入
+      backendRefs:
+        - name: prometheus-operated
+          port: 9090
+    # 查询和标签 API
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /api/v1/query
+      backendRefs:
+        - name: prometheus-operated
+          port: 9090
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /api/v1/label
+      backendRefs:
+        - name: prometheus-operated
+          port: 9090
+    # Web UI 相关路径
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /graph
+      backendRefs:
+        - name: prometheus-operated
+          port: 9090
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /static
+      backendRefs:
+        - name: prometheus-operated
+          port: 9090
+    - matches:
+        - path:
+            type: Exact
+            value: /
+      backendRefs:
+        - name: prometheus-operated
+          port: 9090
