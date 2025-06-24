@@ -22,6 +22,14 @@ spec:
       home-assistant:
         annotations:
           reloader.stakater.com/auto: "true"
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 16
+            envFrom: &envFrom
+              - secretRef:
+                  name: home-assistant-secret
         containers:
           app:
             image:
@@ -30,9 +38,7 @@ spec:
             env:
               HASS_HTTP_TRUSTED_PROXY_1: 192.168.50.0/24
               HASS_HTTP_TRUSTED_PROXY_2: 10.42.0.0/16
-            envFrom:
-              - secretRef:
-                  name: home-assistant-secret
+            envFrom: *envFrom
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
