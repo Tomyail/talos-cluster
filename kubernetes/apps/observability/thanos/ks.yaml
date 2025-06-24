@@ -14,6 +14,8 @@ spec:
       namespace: observability
     - name: topolvm
       namespace: storage
+    - name: external-secrets
+      namespace: external-secrets
   interval: 1h
   path: ./kubernetes/apps/observability/thanos/app
   prune: true

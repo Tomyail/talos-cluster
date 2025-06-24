@@ -17,6 +17,8 @@ spec:
       namespace: observability
     - name: external-secrets
       namespace: external-secrets
+    - name: topolvm
+      namespace: storage
   path: ./kubernetes/apps/observability/grafana/app
   decryption:
     provider: sops
