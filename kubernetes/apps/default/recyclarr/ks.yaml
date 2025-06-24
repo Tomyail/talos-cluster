@@ -15,6 +15,8 @@ spec:
   dependsOn:
     - name: topolvm
       namespace: storage
+    - name: external-secrets
+      namespace: external-secrets
   decryption:
     provider: sops
     secretRef:

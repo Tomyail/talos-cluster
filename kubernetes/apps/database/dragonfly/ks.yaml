@@ -39,6 +39,7 @@ spec:
     namespace: flux-system
   dependsOn:
     - name: dragonfly
+      namespace: database
   prune: true
   wait: true
   interval: 30m
