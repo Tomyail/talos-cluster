@@ -11,12 +11,12 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   path: ./kubernetes/apps/observability/prometheus-operator/crds
-  prune: false # never should be deleted
+  prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
   wait: true
   interval: 30m
-  retryInterval: 1m
+  retryInterval: 2m
   timeout: 5m

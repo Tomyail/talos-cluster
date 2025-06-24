@@ -29,5 +29,5 @@ spec:
         kind: Secret
   wait: true
   interval: 30m
-  retryInterval: 1m
+  retryInterval: 2m
   timeout: 5m

@@ -21,7 +21,7 @@ spec:
     namespace: flux-system
   wait: true
   interval: 30m
-  retryInterval: 1m
+  retryInterval: 2m
   timeout: 5m
   decryption:
     provider: sops
@@ -53,7 +53,7 @@ spec:
     namespace: flux-system
   wait: true
   interval: 30m
-  retryInterval: 1m
+  retryInterval: 2m
   timeout: 5m
   decryption:
     provider: sops
