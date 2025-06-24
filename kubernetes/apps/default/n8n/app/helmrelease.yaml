@@ -21,27 +21,30 @@ spec:
       n8n:
         annotations:
           reloader.stakater.com/auto: "true"
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 16
+            envFrom: &envFrom
+              - secretRef:
+                  name: n8n-secret
         containers:
           app:
             image:
               repository: ghcr.io/n8n-io/n8n
               tag: 1.97.1
             env:
-              DB_SQLITE_VACUUM_ON_STARTUP: true
-              EXECUTIONS_DATA_PRUNE: true
-              EXECUTIONS_DATA_MAX_AGE: 7
-              EXECUTIONS_DATA_PRUNE_MAX_COUNT: 50000
+              N8N_RUNNERS_ENABLED: true
+              N8N_VERSION_NOTIFICATIONS_ENABLED: false
               N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: false
               N8N_PROTOCOL: "https"
               N8N_PORT: &port 8080
               N8N_HOST: n8n.${SECRET_DOMAIN}
+              WEBHOOK_URL: "https://n8n.${SECRET_DOMAIN}"
               N8N_LOG_LEVEL: info
               N8N_LOG_OUTPUT: console
-              N8N_ENCRYPTION_KEY:
-                valueFrom:
-                  secretKeyRef:
-                    name: n8n-secret
-                    key: N8N_ENCRYPTION_KEY
+            envFrom: *envFrom
             resources:
               requests:
                 cpu: 10m
