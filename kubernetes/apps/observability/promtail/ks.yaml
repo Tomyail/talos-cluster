@@ -30,4 +30,4 @@ spec:
       - name: cluster-secrets
         kind: Secret
   timeout: 15m
-  wait: false
+  wait: true
