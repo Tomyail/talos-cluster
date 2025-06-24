@@ -29,5 +29,5 @@ spec:
     substituteFrom:
       - name: cluster-secrets
         kind: Secret
-  timeout: 15m
+  timeout: 5m
   wait: true
