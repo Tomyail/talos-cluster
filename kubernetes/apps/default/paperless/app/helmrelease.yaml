@@ -42,7 +42,7 @@ spec:
               PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS: "true"
               PAPERLESS_OCR_LANGUAGES: "chi-sim chi-tra eng"
               PAPERLESS_OCR_LANGUAGE: chi_sim+chi_tra+eng
-              PAPERLESS_REDIS: redis://dragonfly.database.svc.cluster.local:6379/3
+              PAPERLESS_REDIS: redis://dragonfly.database.svc.cluster.local:6379/0
               USERMAP_UID: "1000"
               USERMAP_GID: "1000"
             envFrom:
