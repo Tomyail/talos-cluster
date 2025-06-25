@@ -19,3 +19,4 @@ resources:
   - ./home-assistant/ks.yaml
   - ./calibre-web-automated/ks.yaml
   - ./paper/ks.yaml
+  - ./playwright/ks.yaml
