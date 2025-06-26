@@ -53,19 +53,14 @@ spec:
                 key: ADGUARD_PASSWORD
           - name: DRY_RUN
             value: 'false'
-        ports:
-          - containerPort: 8888
-            name: http
-          - containerPort: 8080
-            name: healthz
         livenessProbe:
           httpGet:
             path: /healthz
-            port: healthz
+            port: http-webhook
         readinessProbe:
           httpGet:
             path: /healthz
-            port: healthz
+            port: http-webhook
     triggerLoopOnEvent: true
     policy: sync
     sources: ['gateway-httproute', 'gateway-tlsroute']
