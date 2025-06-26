@@ -52,20 +52,23 @@ spec:
                 name: *secret
                 key: ADGUARD_PASSWORD
           - name: DRY_RUN
-            value: "false"
+            value: 'false'
+        ports:
+          - containerPort: 8888
+            name: http
+          - containerPort: 8080
+            name: healthz
         livenessProbe:
           httpGet:
             path: /healthz
-            port: http-webhook
-          timeoutSeconds: 30  # TODO: lower this with different main adguard home install?
+            port: healthz
         readinessProbe:
           httpGet:
             path: /healthz
-            port: http-webhook
-          timeoutSeconds: 30  # TODO: lower this with different main adguard home install?
+            port: healthz
     triggerLoopOnEvent: true
     policy: sync
-    sources: ["gateway-httproute","gateway-tlsroute"]
+    sources: ['gateway-httproute', 'gateway-tlsroute']
     txtOwnerId: default
     txtPrefix: k8s.
     serviceMonitor:
