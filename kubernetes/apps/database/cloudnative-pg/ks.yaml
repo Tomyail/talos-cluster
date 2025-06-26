@@ -20,7 +20,7 @@ spec:
     name: flux-system
     namespace: flux-system
   wait: true
-  interval: 30m
+  interval: 1h
   retryInterval: 2m
   timeout: 5m
   decryption:
@@ -55,7 +55,7 @@ spec:
     name: flux-system
     namespace: flux-system
   wait: true
-  interval: 30m
+  interval: 1h
   retryInterval: 2m
   timeout: 5m
   decryption:

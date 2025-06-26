@@ -28,6 +28,6 @@ spec:
       - name: cluster-secrets
         kind: Secret
   wait: true
-  interval: 30m
+  interval: 1h
   retryInterval: 2m
   timeout: 5m

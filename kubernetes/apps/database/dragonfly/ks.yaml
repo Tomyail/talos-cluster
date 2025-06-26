@@ -17,7 +17,7 @@ spec:
     name: flux-system
   prune: true
   wait: true
-  interval: 30m
+  interval: 1h
   retryInterval: 2m
   timeout: 5m
 ---
@@ -42,6 +42,6 @@ spec:
       namespace: database
   prune: true
   wait: true
-  interval: 30m
+  interval: 1h
   retryInterval: 2m
   timeout: 5m

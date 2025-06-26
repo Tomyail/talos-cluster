@@ -28,7 +28,7 @@ spec:
     secretRef:
       name: sops-age
   wait: true
-  interval: 30m
+  interval: 1h
   retryInterval: 2m
   timeout: 5m
   postBuild:
