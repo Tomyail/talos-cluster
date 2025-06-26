@@ -137,12 +137,6 @@ spec:
                   storage: 10Gi
         externalLabels:
           cluster: homelab
-        metricRelabelings:
-          - targetLabel: cluster
-            replacement: homelab
-            action: replace
-            regex: ""
-            sourceLabels: [cluster]
     nodeExporter:
       enabled: true
     prometheus-node-exporter:
