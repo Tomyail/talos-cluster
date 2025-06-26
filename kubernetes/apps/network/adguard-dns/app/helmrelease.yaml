@@ -68,6 +68,9 @@ spec:
     txtPrefix: k8s.
     serviceMonitor:
       enabled: true
+      endpoints:
+        - path: /metrics
+          port: http
     podAnnotations:
       secret.reloader.stakater.com/reload: *secret
     terminationGracePeriodSeconds: 120
