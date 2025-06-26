@@ -7,5 +7,5 @@ resources:
   - ./externalsecret.yaml
   - ./helmrelease.yaml
   - ./scrapconfig.yaml
-  - ./httproute-main.yaml
+  # - ./httproute-main.yaml
 
