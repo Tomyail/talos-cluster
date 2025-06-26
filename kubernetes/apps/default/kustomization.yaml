@@ -20,3 +20,4 @@ resources:
   - ./calibre-web-automated/ks.yaml
   - ./paper/ks.yaml
   - ./playwright/ks.yaml
+  - ./cookiecloud/ks.yaml
