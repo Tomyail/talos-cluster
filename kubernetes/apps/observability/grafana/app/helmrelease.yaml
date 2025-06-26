@@ -37,7 +37,6 @@ spec:
       GF_ANALYTICS_REPORTING_ENABLED: false # 禁用匿名使用数据上报
       # GF_AUTH_ANONYMOUS_ENABLED: false         # 禁用匿名访问，必须登录
       GF_GRAFANA_NET_URL: https://grafana.net # Grafana 官方服务地址，通常保持默认
-      GF_LOG_FILTERS: rendering:debug # 设置 rendering 相关日志为 debug 级别
       GF_LOG_MODE: console # 日志输出到控制台（适合容器环境）
       GF_FEATURE_TOGGLES_ENABLE: publicDashboards # 启用 publicDashboards（公开仪表盘）功能
       GF_NEWS_NEWS_FEED_ENABLED: false # 禁用首页新闻推送
