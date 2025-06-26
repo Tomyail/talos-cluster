@@ -141,6 +141,8 @@ spec:
           - targetLabel: cluster
             replacement: homelab
             action: replace
+            regex: ""
+            sourceLabels: [cluster]
     nodeExporter:
       enabled: true
     prometheus-node-exporter:
