@@ -1,4 +1,18 @@
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/source.toolkit.fluxcd.io/ocirepository_v1.json
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: grafana
+spec:
+  interval: 5m
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy
+  ref:
+    tag: 9.2.7
+  url: oci://ghcr.io/grafana/helm-charts/grafana
+---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -6,21 +20,15 @@ metadata:
   name: grafana
 spec:
   interval: 1h
-  chart:
-    spec:
-      chart: grafana
-      version: 9.2.7
-      sourceRef:
-        kind: HelmRepository
-        name: grafana
-        namespace: flux-system
+  chartRef:
+    kind: OCIRepository
+    name: grafana
   install:
     remediation:
-      retries: 3
+      retries: -1
   upgrade:
     cleanupOnFail: true
     remediation:
-      strategy: rollback
       retries: 3
   values:
     deploymentStrategy:
@@ -28,22 +36,15 @@ spec:
     admin:
       existingSecret: grafana-admin-secret
     env:
-      GF_DATE_FORMATS_USE_BROWSER_LOCALE: true # 使用浏览器本地的日期格式显示时间
-      GF_EXPLORE_ENABLED: true # 启用 Explore 数据探索功能
-      GF_SECURITY_ANGULAR_SUPPORT_ENABLED: true # 启用对 AngularJS 插件的支持（部分老插件需要）
-      GF_SERVER_ROOT_URL: https://grafana-dev.${SECRET_DOMAIN} # 设置 Grafana 的外部访问根 URL
+      GF_DATE_FORMATS_USE_BROWSER_LOCALE: true
+      GF_EXPLORE_ENABLED: true
+      GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS: natel-discrete-panel,pr0ps-trackmap-panel,panodata-map-panel
+      GF_SECURITY_ANGULAR_SUPPORT_ENABLED: true
       GF_ANALYTICS_CHECK_FOR_UPDATES: false # 禁用自动检查 Grafana 更新
       GF_ANALYTICS_CHECK_FOR_PLUGIN_UPDATES: false # 禁用自动检查插件更新
       GF_ANALYTICS_REPORTING_ENABLED: false # 禁用匿名使用数据上报
-      # GF_AUTH_ANONYMOUS_ENABLED: false         # 禁用匿名访问，必须登录
-      GF_GRAFANA_NET_URL: https://grafana.net # Grafana 官方服务地址，通常保持默认
       GF_LOG_MODE: console # 日志输出到控制台（适合容器环境）
-      GF_FEATURE_TOGGLES_ENABLE: publicDashboards # 启用 publicDashboards（公开仪表盘）功能
-      GF_NEWS_NEWS_FEED_ENABLED: false # 禁用首页新闻推送
-      GF_PANELS_DISABLE_SANITIZE_HTML: true # 允许面板渲染未经消毒的 HTML（有安全风险，慎用）
-      GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS: natel-discrete-panel,pr0ps-trackmap-panel,panodata-map-panel # 允许加载未签名的插件，列出允许的插件ID
-      GF_SECURITY_ALLOW_EMBEDDING: true # 允许 Grafana 仪表盘被嵌入到其他网站（iframe等）
-      GF_SECURITY_COOKIE_SAMESITE: grafana # 设置 Cookie 的 SameSite 属性（grafana为特殊用法，通常为 strict/lax/none）
+      GF_SERVER_ROOT_URL: https://grafana-dev.${SECRET_DOMAIN}
     grafana.ini:
       analytics:
         check_for_updates: false
@@ -100,35 +101,27 @@ spec:
             editable: true
             options:
               path: /var/lib/grafana/dashboards/default
-          - name: kubernetes
-            orgId: 1
-            folder: Kubernetes
-            type: file
-            disableDeletion: false
-            editable: true
-            options:
-              path: /var/lib/grafana/dashboards/kubernetes
-          - name: nginx
-            orgId: 1
-            folder: Nginx
-            type: file
-            disableDeletion: false
-            editable: true
-            options:
-              path: /var/lib/grafana/dashboards/nginx
-          - name: thanos
-            orgId: 1
-            folder: Thanos
-            type: file
-            disableDeletion: false
-            editable: true
-            options:
-              path: /var/lib/grafana/dashboards/thanos
     dashboards:
       default:
-        minio:
-          gnetId: 13502
-          revision: 26
+        ceph-cluster:
+          # renovate: depName="Ceph Cluster"
+          gnetId: 2842
+          revision: 18
+          datasource: Prometheus
+        ceph-osd:
+          # renovate: depName="Ceph - OSD (Single)"
+          gnetId: 5336
+          revision: 9
+          datasource: Prometheus
+        ceph-pools:
+          # renovate: depName="Ceph - Pools"
+          gnetId: 5342
+          revision: 9
+          datasource: Prometheus
+        cert-manager:
+          # renovate: depName="Cert-manager-Kubernetes"
+          gnetId: 20842
+          revision: 3
           datasource: Prometheus
         cloudflared:
           # renovate: depName="Cloudflare Tunnels (cloudflared)"
@@ -141,90 +134,65 @@ spec:
           gnetId: 15038
           revision: 3
           datasource: Prometheus
-        external-secrets:
-          url: https://raw.githubusercontent.com/external-secrets/external-secrets/main/docs/snippets/dashboard.json
+        kubernetes-api-server:
+          # renovate: depName="Kubernetes / System / API Server"
+          gnetId: 15761
+          revision: 19
           datasource: Prometheus
-        flux-cluster:
-          url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/main/monitoring/configs/dashboards/cluster.json
+        kubernetes-coredns:
+          # renovate: depName="Kubernetes / System / CoreDNS"
+          gnetId: 15762
+          revision: 20
           datasource: Prometheus
-        flux-control-plane:
-          url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/main/monitoring/configs/dashboards/control-plane.json
+        kubernetes-global:
+          # renovate: depName="Kubernetes / Views / Global"
+          gnetId: 15757
+          revision: 43
           datasource: Prometheus
-        # Ref: https://grafana.com/grafana/dashboards/22413-k8s-node-metrics-multi-clusters-node-exporter-prometheus-grafana11-2024-en/
-        1-node-exporter:
-          url: https://grafana.com/api/dashboards/22413/revisions/4/download
+        kubernetes-namespaces:
+          # renovate: depName="Kubernetes / Views / Namespaces"
+          gnetId: 15758
+          revision: 42
           datasource: Prometheus
-        cert-manager:
-          gnetId: 20842
-          revision: 3
+        kubernetes-nodes:
+          # renovate: depName="Kubernetes / Views / Nodes"
+          gnetId: 15759
+          revision: 35
           datasource: Prometheus
-        # Ref: https://grafana.com/grafana/dashboards/1860-node-exporter-full/
-        node-exporter-full:
-          gnetId: 1860
+        kubernetes-pods:
+          # renovate: depName="Kubernetes / Views / Pods"
+          gnetId: 15760
           revision: 36
           datasource: Prometheus
-        node-feature-discovery:
-          url: https://raw.githubusercontent.com/kubernetes-sigs/node-feature-discovery/master/examples/grafana-dashboard.json
+        kubernetes-volumes:
+          # renovate: depName="K8s / Storage / Volumes / Cluster"
+          gnetId: 11454
+          revision: 14
+          datasource: Prometheus
+        node-exporter-full:
+          # renovate: depName="Node Exporter Full"
+          gnetId: 1860
+          revision: 41
           datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
-
-        smartctl:
+        prometheus:
+          # renovate: depName="Prometheus"
+          gnetId: 19105
+          revision: 7
+          datasource: Prometheus
+        smartctl-exporter:
+          # renovate: depName="SMARTctl Exporter Dashboard"
           gnetId: 22604
           revision: 2
           datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
-        # Ref: https://grafana.com/grafana/dashboards/22651-prometheus-speedtest-exporter/
-        # renovate: dashboardName="Prometheus Speedtest Exporter"
-        speedtest-exporter:
-          gnetId: 22651
-          revision: 1
-          datasource: Prometheus
-        spegel:
-          # renovate: depName="Spegel"
-          gnetId: 18089
-          revision: 1
-          datasource:
-            - { name: DS_PROMETHEUS, value: Prometheus }
         volsync:
-          # removate: dashboardName="VolSync Dashboard"
+          # renovate: depName="VolSync Dashboard"
           gnetId: 21356
           revision: 3
           datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
-
-      kubernetes:
-        k8s-system-api-server:
-          # renovate: dashboardName="Kubernetes / System / API Server"
-          gnetId: 15761
-          revision: 19
-          datasource: Prometheus
-        k8s-views-global:
-          # renovate: dashboardName="Kubernetes / Views / Global"
-          gnetId: 15757
-          revision: 43
-          datasource: Prometheus
-        k8s-views-nodes:
-          # renovate: dashboardName="Kubernetes / Views / Nodes"
-          gnetId: 15759
-          revision: 35
-          datasource: Prometheus
-        k8s-views-namespaces:
-          # renovate: dashboardName="Kubernetes / Views / Namespaces"
-          gnetId: 15758
-          revision: 42
-          datasource: Prometheus
-        k8s-views-pods:
-          # renovate: dashboardName="Kubernetes / Views / Pods"
-          gnetId: 15760
-          revision: 36
-          datasource: Prometheus
-        k8s-volumes:
-          # renovate: dashboardName="K8s / Storage / Volumes / Cluster"
-          gnetId: 11454
-          revision: 14
-          datasource: Prometheus
-
-      thanos:
+            - { name: VAR_REPLICATIONDESTNAME, value: .*-dst }
         thanos-bucket-replicate:
           url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/thanos/dashboards/bucket-replicate.json
           datasource: Prometheus
@@ -252,14 +220,20 @@ spec:
         thanos-store:
           url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/thanos/dashboards/store.json
           datasource: Prometheus
-      nginx:
-        nginx:
-          url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/nginx.json
+        external-secrets:
+          url: https://raw.githubusercontent.com/external-secrets/external-secrets/main/docs/snippets/dashboard.json
           datasource: Prometheus
-        nginx-request-handling-performance:
-          url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/request-handling-performance.json
+        flux-cluster:
+          url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/main/monitoring/configs/dashboards/cluster.json
+          datasource: Prometheus
+        flux-control-plane:
+          url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/main/monitoring/configs/dashboards/control-plane.json
           datasource: Prometheus
     sidecar:
+      image:
+        registry: ghcr.io
+        repository: home-operations/k8s-sidecar
+        tag: 1.30.5@sha256:0c429f991b01b39e73bf926bfaee8e4ce90eae422789c8c24b8bab4f2739df2b
       dashboards:
         enabled: true
         searchNamespace: ALL
@@ -273,15 +247,12 @@ spec:
         searchNamespace: ALL
         labelValue: ""
     plugins:
-      - grafana-clock-panel # 时钟面板插件，在仪表盘上显示当前时间
-      - grafana-piechart-panel # 饼图面板插件，用于可视化比例数据
-      - grafana-worldmap-panel # 世界地图面板插件，可在地图上展示地理数据
-      - natel-discrete-panel # 离散值面板插件，适合展示状态变化（如告警、离线/在线等）
-      - pr0ps-trackmap-panel # 轨迹地图面板插件，用于在地图上显示轨迹/路径
-      - vonage-status-panel # Vonage 状态面板插件，适合展示状态指示灯（如在线/离线等）
-      - natel-plotly-panel # Plotly 图表面板插件，支持丰富的交互式图表（如折线、散点、热力等）
-      - https://github.com/panodata/panodata-map-panel/releases/download/0.16.0/panodata-map-panel-0.16.0.zip;grafana-worldmap-panel-ng
-        # panodata-map-panel 插件（通过 URL 安装），增强版世界地图面板，支持更多地理数据可视化
+      - grafana-clock-panel
+      - grafana-piechart-panel
+      - grafana-worldmap-panel
+      - natel-discrete-panel
+      - pr0ps-trackmap-panel
+      - vonage-status-panel
     serviceMonitor:
       enabled: true
     route:
