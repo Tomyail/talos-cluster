@@ -135,8 +135,8 @@ spec:
               resources:
                 requests:
                   storage: 10Gi
-        externalLabels:
-          cluster: homelab
+        # externalLabels:
+        #   cluster: homelab
     nodeExporter:
       enabled: true
     prometheus-node-exporter:
