@@ -21,6 +21,8 @@ spec:
     substituteFrom:
       - name: cluster-secrets
         kind: Secret
+    substitute:
+      APP: *app
   prune: true
   retryInterval: 2m
   sourceRef:
