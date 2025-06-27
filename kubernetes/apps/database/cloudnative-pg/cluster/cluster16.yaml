@@ -64,7 +64,7 @@ spec:
           compression: bzip2
           maxParallel: 8
         destinationPath: 's3://db-backups/'
-        endpointURL: https://minio-api.tomyail.com
+        endpointURL: https://minio-api.${SECRET_DOMAIN}
         s3Credentials:
           accessKeyId:
             name: cloudnative-pg-secret
