@@ -23,6 +23,7 @@ spec:
         kind: Secret
     substitute:
       APP: *app
+      GATUS_SUBDOMAIN: echo
   prune: true
   retryInterval: 2m
   sourceRef:
