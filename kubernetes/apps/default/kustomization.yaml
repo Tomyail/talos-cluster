@@ -21,3 +21,4 @@ resources:
   - ./paper/ks.yaml
   - ./playwright/ks.yaml
   - ./cookiecloud/ks.yaml
+  - ./jellyseerr/ks.yaml
