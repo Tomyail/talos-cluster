@@ -1,0 +1,94 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app gitea
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    controllers:
+      gitea:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 16
+            envFrom: &envFrom
+              - secretRef:
+                  name: gitea-secret
+        containers:
+          app:
+            image:
+              repository: ghcr.io/go-gitea/gitea
+              tag: 1.24.2-rootless
+            env:
+              GITEA__SERVER__DOMAIN: "gitea.${SECRET_DOMAIN}"
+              GITEA__SERVER__ROOT_URL: "https://gitea.${SECRET_DOMAIN}"
+              GITEA__SERVER__SSH_DOMAIN: "ssh.${SECRET_DOMAIN}"
+              GITEA__SERVER__SSH_PORT: 22
+              GITEA__SERVER__HTTP_PORT: &port 3000
+            envFrom: *envFrom
+            resources:
+              requests:
+                cpu: 10m
+                memory: 512Mi
+              limits:
+                memory: 1Gi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        supplementalGroups:
+          - 65536
+    route:
+      app:
+        hostnames:
+          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *port
+    persistence:
+      config:
+        existingClaim: *app
+        advancedMounts:
+          gitea:
+            app:
+              - path: /var/lib/gitea
+                subPath: data
+              - path: /etc/gitea
+                subPath: config
+      tmp:
+        type: emptyDir
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: *port
