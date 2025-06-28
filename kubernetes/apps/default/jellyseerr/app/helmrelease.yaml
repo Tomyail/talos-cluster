@@ -21,6 +21,14 @@ spec:
       jellyseerr:
         annotations:
           reloader.stakater.com/auto: "true"
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 16
+            envFrom: &envFrom
+              - secretRef:
+                  name: jellyseerr-secret
         containers:
           app:
             image:
@@ -29,6 +37,8 @@ spec:
             env:
               TZ: Asia/Shanghai
               PORT: &port 80
+
+            envFrom: *envFrom
             probes:
               liveness: &probes
                 enabled: true
@@ -78,10 +88,6 @@ spec:
       config:
         existingClaim: jellyseerr
         globalMounts:
-          - path: /config
-      logs:
-        type: emptyDir
-        globalMounts:
-          - path: /app/config/logs
+          - path: /app/config
       tmp:
         type: emptyDir

@@ -11,11 +11,15 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   components:
-    - ../../../../components/volsync-new
+    - ../../../../components/volsync
     - ../../../../components/gatus/external
   dependsOn:
     - name: topolvm
       namespace: storage
+    - name: external-secrets
+      namespace: external-secrets
+    - name: cloudnative-pg-cluster
+      namespace: database
   decryption:
     provider: sops
     secretRef:
