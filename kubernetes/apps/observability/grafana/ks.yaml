@@ -30,6 +30,8 @@ spec:
     substituteFrom:
       - name: cluster-secrets
         kind: Secret
+    substitute:
+      APP: *app
   prune: true
   sourceRef:
     kind: GitRepository
