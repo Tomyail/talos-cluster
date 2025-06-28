@@ -41,3 +41,38 @@ spec:
     substitute:
       APP: *app
       VOLSYNC_CAPACITY: 2Gi
+
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app gitea-runner
+  namespace: &namespace default
+spec:
+  targetNamespace: *namespace
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  path: ./kubernetes/apps/default/gitea/runner
+  dependsOn:
+    - name: topolvm
+      namespace: storage
+    - name: external-secrets
+      namespace: external-secrets
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+  postBuild:
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
+  prune: true
+  wait: true
+  interval: 1h
+  retryInterval: 2m
+  timeout: 5m
