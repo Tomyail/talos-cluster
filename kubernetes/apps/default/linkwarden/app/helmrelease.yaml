@@ -47,6 +47,13 @@ spec:
               # MEILI_MASTER_KEY=VERY_SENSITIVE_MEILI_MASTER_KEY
               # POSTGRES_PASSWORD=CUSTOM_POSTGRES_PASSWORD
             envFrom: *envFrom
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
