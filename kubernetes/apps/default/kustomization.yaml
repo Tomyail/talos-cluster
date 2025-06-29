@@ -24,3 +24,4 @@ resources:
   - ./jellyseerr/ks.yaml
   - ./gitea/ks.yaml
   - ./linkwarden/ks.yaml
+  - ./miniflux/ks.yaml

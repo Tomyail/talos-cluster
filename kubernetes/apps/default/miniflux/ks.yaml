@@ -3,7 +3,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app linkwarden
+  name: &app miniflux
   namespace: &namespace default
 spec:
   targetNamespace: *namespace
@@ -11,11 +11,8 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   components:
-    - ../../../../components/volsync-new
     - ../../../../components/gatus/guarded
   dependsOn:
-    - name: topolvm
-      namespace: storage
     - name: external-secrets
       namespace: external-secrets
     - name: cloudnative-pg-cluster
@@ -24,12 +21,12 @@ spec:
     provider: sops
     secretRef:
       name: sops-age
-  path: ./kubernetes/apps/default/linkwarden/app
-  prune: true
+  path: ./kubernetes/apps/default/miniflux/app
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
+  prune: true
   wait: true
   interval: 1h
   retryInterval: 2m
@@ -40,4 +37,4 @@ spec:
         kind: Secret
     substitute:
       APP: *app
-      VOLSYNC_CAPACITY: 10Gi
+      VOLSYNC_CAPACITY: 2Gi
