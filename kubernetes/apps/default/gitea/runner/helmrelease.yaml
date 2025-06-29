@@ -35,7 +35,7 @@ spec:
               # - name: DOCKER_CERT_PATH
               #   value: /certs/client
               - name: GITEA_INSTANCE_URL
-                value: https://gitea.tomyail.com
+                value: https://gitea.${SECRET_DOMAIN}
             envFrom:
               - secretRef:
                   name: gitea-runner-secret
@@ -48,10 +48,6 @@ spec:
             securityContext:
               privileged: true
     defaultPodOptions:
-      hostAliases:
-        - ip: 192.168.50.12
-          hostnames:
-            - gitea.tomyail.com
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
