@@ -43,6 +43,7 @@ spec:
               YARN_GLOBAL_FOLDER: /tmp/.yarn-global
               NPM_CONFIG_CACHE: /tmp/.npm
               NEXTAUTH_URL: https://linkwarden.${SECRET_DOMAIN}/api/v1/auth
+              NEXT_PUBLIC_DISABLE_REGISTRATION: "true"
             envFrom: *envFrom
             probes:
               liveness:
@@ -80,6 +81,9 @@ spec:
         hostnames: ["{{ .Release.Name }}.${SECRET_DOMAIN}"]
         parentRefs:
           - name: internal
+            namespace: kube-system
+            sectionName: https
+          - name: external
             namespace: kube-system
             sectionName: https
         rules:
