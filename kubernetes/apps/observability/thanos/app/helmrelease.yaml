@@ -54,7 +54,7 @@ spec:
           memory: 1Gi
         requests:
           cpu: 10m
-          memory: 512Mi
+          memory: 128Mi
     bucketweb:
       enabled: true
       replicaCount: 1
@@ -63,7 +63,7 @@ spec:
           memory: 512Mi
         requests:
           cpu: 10m
-          memory: 256Mi
+          memory: 64Mi
     compactor:
       enabled: true
       concurrency: 4
@@ -81,7 +81,7 @@ spec:
           memory: 1Gi
         requests:
           cpu: 10m
-          memory: 512Mi
+          memory: 64Mi
     storegateway:
       enabled: true
       replicaCount: 1
@@ -94,7 +94,7 @@ spec:
           memory: 1Gi
         requests:
           cpu: 10m
-          memory: 512Mi
+          memory: 128Mi
     ruler:
       enabled: true
       replicaCount: 1
