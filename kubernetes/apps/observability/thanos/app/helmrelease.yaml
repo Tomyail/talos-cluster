@@ -38,7 +38,7 @@ spec:
       replicaCount: 1
       resources:
         limits:
-          memory: 512Mi
+          memory: 1Gi
         requests:
           cpu: 10m
           memory: 256Mi
@@ -51,7 +51,7 @@ spec:
         sidecarsNamespace: observability
       resources:
         limits:
-          memory: 512Mi
+          memory: 1Gi
         requests:
           cpu: 10m
           memory: 512Mi
