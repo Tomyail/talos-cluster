@@ -34,7 +34,7 @@ spec:
           app:
             image:
               repository: ghcr.io/linkwarden/linkwarden
-              tag: v2.10.0@sha256:44b845a559736a9b0e26d761072c847dd452c54dbe3fde7b417c76ef948abc68
+              tag: v2.11.2@sha256:ecf4f27b03741971cb8d68d25b4a772418d6ddf40947bdfbb8f9cda53a1faba2
             env:
               STORAGE_FOLDER: "config"
               HOME: /data/config
