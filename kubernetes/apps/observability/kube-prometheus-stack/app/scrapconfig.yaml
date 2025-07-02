@@ -19,3 +19,34 @@ spec:
       regex: '([^:]+):\d+'
       replacement: "$1"
       targetLabel: instance
+
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: &name node-exporter-raspberry-pi
+  namespace: observability
+  labels:
+    app.kubernetes.io/name: node-exporter
+    app.kubernetes.io/component: metrics
+spec:
+  staticConfigs:
+    - targets:
+        - "192.168.50.137:9100"
+      # labels:
+      #   job: "node-exporter"
+      #   cluster: "raspberry-pi"
+      #   environment: "homelab"
+      #   instance: "rpi1"
+
+  metricsPath: /metrics
+  scrapeInterval: 30s
+  scrapeTimeout: 10s
+  relabelings:
+    - action: replace
+      targetLabel: job
+      replacement: *name
+    - sourceLabels: [__address__]
+      regex: '([^:]+):\d+'
+      replacement: "$1"
+      targetLabel: instance
