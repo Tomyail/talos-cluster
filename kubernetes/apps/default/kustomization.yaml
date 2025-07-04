@@ -27,3 +27,4 @@ resources:
   - ./miniflux/ks.yaml
   - ./rsshub/ks.yaml
   - ./ollama/ks.yaml
+  - ./openwebui/ks.yaml
