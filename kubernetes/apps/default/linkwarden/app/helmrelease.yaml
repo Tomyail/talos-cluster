@@ -43,6 +43,8 @@ spec:
               YARN_GLOBAL_FOLDER: /tmp/.yarn-global
               NPM_CONFIG_CACHE: /tmp/.npm
               NEXTAUTH_URL: https://linkwarden.${SECRET_DOMAIN}/api/v1/auth
+              NEXT_PUBLIC_OLLAMA_ENDPOINT_URL: http://ollama.default.svc.cluster.local:11434
+              NEXT_PUBLIC_OLLAMA_MODEL: "phi3:mini-4k"
               NEXT_PUBLIC_DISABLE_REGISTRATION: "true"
             envFrom: *envFrom
             probes:
