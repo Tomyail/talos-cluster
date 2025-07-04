@@ -1,0 +1,68 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app ollama
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+  install:
+    remediation:
+      retries: -1
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    controllers:
+      ollama:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: docker.io/ollama/ollama
+              tag: 0.9.3@sha256:45008241d61056449dd4f20cebf64bfa5a2168b0c078ecf34aa2779760502c2f
+            env:
+              TZ: ${TIMEZONE}
+              OLLAMA_HOST: 0.0.0.0
+              OLLAMA_ORIGINS: "*"
+              OLLAMA_MODELS: /models
+              PORT:
+                &port 11434
+              LIBVA_DRIVER_NAME: i965
+            resources:
+              requests:
+                cpu: 100m
+                memory: 4G
+                gpu.intel.com/i915: 1
+              limits:
+                memory: 8G
+                gpu.intel.com/i915: 1
+    service:
+      app:
+        forceRename: *app
+        type: LoadBalancer
+        ports:
+          http:
+            port: *port
+    route:
+      app:
+        hostnames:
+          - "ollama.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *port
+    persistence:
+      config:
+        existingClaim: ollama-models
+        globalMounts:
+          - path: /models

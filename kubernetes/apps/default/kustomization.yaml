@@ -26,3 +26,4 @@ resources:
   - ./linkwarden/ks.yaml
   - ./miniflux/ks.yaml
   - ./rsshub/ks.yaml
+  - ./ollama/ks.yaml
