@@ -48,6 +48,7 @@ spec:
               # ND_REVERSEPROXYWHITELIST: 0.0.0.0/0
               ND_SCANSCHEDULE: "@every 2h"
               ND_SESSIONTIMEOUT: 24h
+              TZ: ${TIMEZONE}
             resources:
               requests:
                 cpu: 10m

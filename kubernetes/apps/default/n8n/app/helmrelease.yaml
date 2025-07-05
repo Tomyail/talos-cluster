@@ -47,6 +47,7 @@ spec:
               WEBHOOK_URL: "https://n8n.${SECRET_DOMAIN}"
               N8N_LOG_LEVEL: info
               N8N_LOG_OUTPUT: console
+              TZ: ${TIMEZONE}
             envFrom: *envFrom
             resources:
               requests:

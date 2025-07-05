@@ -33,6 +33,7 @@ spec:
               UPTIME_KUMA_PORT: &port 3001
               DATA_DIR: /config
               UPTIME_KUMA_DATA_DIR: /config
+              TZ: ${TIMEZONE}
             probes:
               liveness:
                 enabled: true

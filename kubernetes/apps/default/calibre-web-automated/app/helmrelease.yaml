@@ -29,7 +29,7 @@ spec:
               tag: V3.0.4
             env:
               CACHE_DIR: /cache
-              TZ: "Asia/Shanghai"
+              TZ: ${TIMEZONE}
             resources:
               requests:
                 cpu: 10m

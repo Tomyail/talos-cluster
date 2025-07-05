@@ -41,6 +41,7 @@ spec:
               ENABLE_OLLAMA_API: "true"
               OLLAMA_BASE_URL: "http://ollama.default.svc.cluster.local:11434"
               PORT: &port 8080
+              TZ: ${TIMEZONE}
             envFrom: *envFrom
             resources:
               requests:

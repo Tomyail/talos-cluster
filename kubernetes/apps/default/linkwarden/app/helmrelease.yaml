@@ -36,6 +36,7 @@ spec:
               repository: ghcr.io/linkwarden/linkwarden
               tag: v2.11.2@sha256:ecf4f27b03741971cb8d68d25b4a772418d6ddf40947bdfbb8f9cda53a1faba2
             env:
+              TZ: ${TIMEZONE}
               STORAGE_FOLDER: "config"
               HOME: /data/config
               # Yarn 环境变量 - 设置可写目录

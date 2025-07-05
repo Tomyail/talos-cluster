@@ -44,6 +44,7 @@ spec:
               POLLING_FREQUENCY: "15"
               PORT: &port 80
               RUN_MIGRATIONS: "1"
+              TZ: ${TIMEZONE}
             envFrom: *envFrom
             probes:
               liveness: &probes
