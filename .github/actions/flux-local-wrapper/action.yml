@@ -1,0 +1,20 @@
+name: "Flux Local Wrapper"
+description: "Add safe.directory and run flux-local"
+inputs:
+  args:
+    required: true
+    description: "Arguments for flux-local"
+runs:
+  using: "composite"
+  steps:
+    - name: Add safe.directory for git
+      shell: bash
+      run: |
+        git config --global --add safe.directory /github/workspace
+        git config --global --add safe.directory /github/workspace/pull
+        git config --global --add safe.directory /github/workspace/default
+
+    - name: Run flux-local
+      uses: docker://ghcr.io/allenporter/flux-local:v7.5.4
+      with:
+        args: ${{ inputs.args }}
