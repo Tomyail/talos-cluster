@@ -33,6 +33,7 @@ spec:
   staticConfigs:
     - targets:
         - "192.168.50.137:9100"
+        - "192.168.50.1:9100"
       # labels:
       #   job: "node-exporter"
       #   cluster: "raspberry-pi"
