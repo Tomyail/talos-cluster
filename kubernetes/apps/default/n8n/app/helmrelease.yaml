@@ -33,7 +33,7 @@ spec:
           app:
             image:
               repository: ghcr.io/n8n-io/n8n
-              tag: 1.100.1
+              tag: 1.101.1
             env:
               # Allow all built-in functions
               NODE_FUNCTION_ALLOW_BUILTIN: "*"
