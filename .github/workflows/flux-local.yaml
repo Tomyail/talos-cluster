@@ -13,7 +13,7 @@ concurrency:
 jobs:
   pre-job:
     name: Flux Local Pre-Job
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     outputs:
       any_changed: ${{ steps.changed-files.outputs.any_changed }}
     steps:
@@ -29,21 +29,31 @@ jobs:
   test:
     name: Flux Local Test
     needs: pre-job
-    runs-on: ubuntu-latest
-    if: ${{ needs.pre-job.outputs.any_changed == 'true' }}
+    runs-on: self-hosted
+    # if: ${{ needs.pre-job.outputs.any_changed == 'true' }}
     steps:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
-      - name: Run flux-local test
-        uses: docker://ghcr.io/allenporter/flux-local:v7.5.4
+      - name: Setup Flux CLI
+        uses: fluxcd/flux2/action@main
         with:
-          args: test --enable-helm --all-namespaces --path /github/workspace/kubernetes/flux/cluster -v
+          # Flux CLI version e.g. 2.0.0.
+          # Defaults to latest stable release.
+          version: 'latest'
+
+      - name: Run flux-local test
+        uses: allenporter/flux-local/action/test@7.5.6
+        with:
+          path: kubernetes/flux/cluster
+          enable-helm: true
+          # all-namespaces: true
+          # args: test -v
 
   diff:
     name: Flux Local Diff
     needs: pre-job
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     permissions:
       contents: read
       pull-requests: write
@@ -52,7 +62,7 @@ jobs:
         resources: ["helmrelease", "kustomization"]
       max-parallel: 4
       fail-fast: false
-    if: ${{ needs.pre-job.outputs.any_changed == 'true' }}
+    # if: ${{ needs.pre-job.outputs.any_changed == 'true' }}
     steps:
       - name: Checkout Pull Request Branch
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
@@ -66,7 +76,7 @@ jobs:
           path: default
 
       - name: Run flux-local diff
-        uses: docker://ghcr.io/allenporter/flux-local:v7.5.4
+        uses: allenporter/flux-local/action/diff@7.5.6
         with:
           args: >-
             diff ${{ matrix.resources }}
@@ -110,7 +120,7 @@ jobs:
   flux-local-status:
     name: Flux Local Success
     needs: ["test", "diff"]
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     if: ${{ always() }}
     steps:
       - name: Any jobs failed?
