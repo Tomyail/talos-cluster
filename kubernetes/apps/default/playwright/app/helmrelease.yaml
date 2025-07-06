@@ -30,6 +30,9 @@ spec:
               TZ: ${TIMEZONE}
               DATA_DIR: /config/
               ALLOW_GET: true
+              SCREEN_WIDTH: 1920
+              SCREEN_HEIGHT: 1080
+              SCREEN_DEPTH: 24
             resources:
               requests:
                 cpu: 10m
