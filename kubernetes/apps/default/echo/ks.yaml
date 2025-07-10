@@ -11,6 +11,7 @@ spec:
       app.kubernetes.io/name: *app
   components:
     - ../../../../components/gatus/external
+    - ../../../../components/gatus/external-tailscale
   decryption:
     provider: sops
     secretRef:
@@ -24,6 +25,7 @@ spec:
     substitute:
       APP: *app
       GATUS_SUBDOMAIN: echo
+      GATUS_SUBDOMAIN_TAILSCALE: echo-tailscale
   prune: true
   retryInterval: 2m
   sourceRef:
