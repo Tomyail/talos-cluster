@@ -11,3 +11,4 @@ resources:
   - ./k8s-gateway/ks.yaml
   - ./adguard-dns/ks.yaml
   - ./smtp-relay/ks.yaml
+  - ./tailscale/ks.yaml

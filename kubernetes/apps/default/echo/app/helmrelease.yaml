@@ -62,6 +62,10 @@ spec:
         runAsGroup: 65534
     service:
       app:
+        controller: echo
+        # https://tailscale.com/kb/1439/kubernetes-operator-cluster-ingress#exposing-a-cluster-workload-via-a-tailscale-load-balancer-service
+        annotations:
+          tailscale.com/expose: "true"
         ports:
           http:
             port: *port
