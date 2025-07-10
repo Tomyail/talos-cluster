@@ -1,0 +1,45 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.bjw-s.dev/monitoring.coreos.com/probe_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: Probe
+metadata:
+  name: devices
+spec:
+  module: icmp
+  prober:
+    url: blackbox-exporter.observability.svc.cluster.local:9115
+  targets:
+    staticConfig:
+      static:
+        # Public targets
+        - baidu.com
+
+        # Oracle Cloud - Tokyo
+        - ${ORACLE_TOKYO_1}
+        - ${ORACLE_TOKYO_2}
+
+        # Oracle Cloud - Korea
+        - ${ORACLE_KOREA_1}
+        - ${ORACLE_KOREA_2}
+
+        # ByteVirt
+        - ${BYTEVIRT_USA_1}
+
+        # Hytron HK
+        - ${HYTRON_HK_1}
+
+        # Bandwagon SG
+        - ${BANDWAGON_SG_1}
+
+        # DMIT US
+        - ${DMIT_US}
+
+        # CrunchBits USA
+        - ${CRUNCHBITS_USA_1}
+        - ${CRUNCHBITS_USA_2}
+        - ${CRUNCHBITS_USA_3}
+        - ${CRUNCHBITS_USA_4}
+
+        # CoalCloud HK
+        - ${COALCLOUD_HK_1}
+

@@ -15,3 +15,5 @@ resources:
   - ./smartctl-exporter/ks.yaml
   - ./gatus/ks.yaml
   - ./uptime-kuma/ks.yaml
+  - ./blackbox-exporter/ks.yaml
+
