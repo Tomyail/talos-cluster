@@ -34,6 +34,8 @@ spec:
     fullnameOverride: blackbox-exporter
     image:
       registry: quay.io
+    extraArgs:
+      - --log.level=warn
     # podSecurityContext:
     #   sysctls:
     #     - name: net.ipv4.ping_group_range
