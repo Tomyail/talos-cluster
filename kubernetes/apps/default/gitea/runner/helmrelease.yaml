@@ -36,6 +36,8 @@ spec:
               #   value: /certs/client
               - name: GITEA_INSTANCE_URL
                 value: https://gitea.${SECRET_DOMAIN}
+              - name: GITEA_RUNNER_LABELS
+                value: "docker:docker://catthehacker/ubuntu:act-latest"
             envFrom:
               - secretRef:
                   name: gitea-runner-secret
