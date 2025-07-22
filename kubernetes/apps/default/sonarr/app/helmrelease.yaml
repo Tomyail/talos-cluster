@@ -99,8 +99,8 @@ spec:
           - path: /config/logs
       media:
         type: nfs
-        server: 192.168.50.200
-        path: /export/media
+        server: 192.168.50.220
+        path: /volume4/media
       tmp:
         type: emptyDir
     service:

@@ -96,8 +96,8 @@ spec:
         existingClaim: qbittorrent
       media:
         type: nfs
-        server: 192.168.50.200
-        path: /export/media
+        server: 192.168.50.220
+        path: /volume4/media
         globalMounts:
           - path: /media
       tmp:

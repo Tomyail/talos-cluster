@@ -77,8 +77,8 @@ spec:
         type: emptyDir
       media:
         type: nfs
-        server: 192.168.50.200
-        path: /export/media/calibre-web-automated
+        server: 192.168.50.220
+        path: /volume4/media/calibre-web-automated
         globalMounts:
           - path: /cwa-book-ingest
             subPath: cwa-book-ingest
