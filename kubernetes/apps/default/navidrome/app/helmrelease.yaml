@@ -106,7 +106,7 @@ spec:
           - path: /config/cache
       music:
         type: nfs
-        server: 192.168.50.200
-        path: /export/media/music
+        server: 192.168.50.220
+        path: /volume4/media/music
         globalMounts:
           - path: /var/mnt/vol1/music

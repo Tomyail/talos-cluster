@@ -95,15 +95,15 @@ spec:
           - path: /config/metadata
       media:
         type: nfs
-        server: 192.168.50.200
-        path: /export/media
+        server: 192.168.50.220
+        path: /volume4/media
         globalMounts:
           - path: /media
             readOnly: true
       fonts:
         type: nfs
-        server: 192.168.50.200
-        path: /export/media/font
+        server: 192.168.50.220
+        path: /volume4/media/font
         globalMounts:
           - path: /usr/share/fonts
       tmpfs:
