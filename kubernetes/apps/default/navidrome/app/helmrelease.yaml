@@ -44,9 +44,7 @@ spec:
               ND_MUSICFOLDER: /var/mnt/vol1/music
               ND_PORT: &port 8080
               ND_PROMETHEUS_ENABLED: "true"
-              # ND_REVERSEPROXYUSERHEADER: Remote-User
-              # ND_REVERSEPROXYWHITELIST: 0.0.0.0/0
-              ND_SCANSCHEDULE: "@every 2h"
+              ND_SCANSCHEDULE: "@every 1h"
               ND_SESSIONTIMEOUT: 24h
               TZ: ${TIMEZONE}
             resources:
@@ -68,33 +66,13 @@ spec:
           - name: external
             namespace: kube-system
             sectionName: https
+          - name: internal
+            namespace: kube-system
+            sectionName: https
         rules:
           - backendRefs:
               - identifier: app
                 port: *port
-    # ingress:
-    #   app:
-    #     className: external
-    #     annotations:
-    #       external-dns.alpha.kubernetes.io/target: external-old.${SECRET_DOMAIN}
-    #     hosts:
-    #       - host: "music.${SECRET_DOMAIN}"
-    #         paths:
-    #           - path: /
-    #             service:
-    #               identifier: app
-    #               port: http
-    #   internal:
-    #     className: internal
-    #     annotations:
-    #       external-dns.alpha.kubernetes.io/target: "192.168.50.160,192.168.50.182,192.168.50.234"
-    #     hosts:
-    #       - host: "music.${SECRET_DOMAIN}"
-    #         paths:
-    #           - path: /
-    #             service:
-    #               identifier: app
-    #               port: http
     persistence:
       config:
         existingClaim: navidrome
