@@ -31,7 +31,7 @@ spec:
     image:
       registry: quay.io
       repository: thanos/thanos
-      tag: v0.39.1@sha256:463e6f201f19fec31d93a2e5af6e0746479e5ff076254fd10012dec973bcf7ca
+      tag: v0.39.2@sha256:1d022ef4b8eff056a0e3b7822f953d931c5704d068413f2d7ce5266aa96c9e80
     existingObjstoreSecret: thanos-secret
     queryFrontend:
       enabled: true
