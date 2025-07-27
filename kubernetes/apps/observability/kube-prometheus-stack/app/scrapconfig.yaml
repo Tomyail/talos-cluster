@@ -65,7 +65,8 @@ spec:
         - "192.168.50.220:9996"
   metricsPath: /metrics
   honorTimestamps: true
-  scrapeInterval: 24h  # 每天检查一次备份状态
+  # scrapeInterval: 24h  # 每天检查一次备份状态
+  scrapeInterval: 30s
   scrapeTimeout: 30s
   relabelings:
     - action: replace
