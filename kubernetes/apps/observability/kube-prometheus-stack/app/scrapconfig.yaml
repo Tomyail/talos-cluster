@@ -36,15 +36,37 @@ spec:
         - "192.168.50.1:9100"
         - "192.168.50.220:9100"
         - "192.168.50.100:9100"
-      # labels:
-      #   job: "node-exporter"
-      #   cluster: "raspberry-pi"
-      #   environment: "homelab"
-      #   instance: "rpi1"
 
   metricsPath: /metrics
   scrapeInterval: 30s
   scrapeTimeout: 10s
+  relabelings:
+    - action: replace
+      targetLabel: job
+      replacement: *name
+    - sourceLabels: [__address__]
+      regex: '([^:]+):\d+'
+      replacement: "$1"
+      targetLabel: instance
+
+---
+# yaml-language-server: $schema=https://crd.movishell.pl/monitoring.coreos.com/scrapeconfig_v1alpha1.json
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: &name borgmatic-exporter
+  namespace: observability
+  labels:
+    app.kubernetes.io/name: borgmatic-exporter
+    app.kubernetes.io/component: metrics
+spec:
+  staticConfigs:
+    - targets:
+        - "192.168.50.220:9996"
+  metricsPath: /metrics
+  honorTimestamps: true
+  scrapeInterval: 24h  # 每天检查一次备份状态
+  scrapeTimeout: 30s
   relabelings:
     - action: replace
       targetLabel: job
