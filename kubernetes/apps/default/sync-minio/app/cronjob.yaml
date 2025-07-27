@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: minio-bucket-sync
+  name: minio-to-nfs-sync
 spec:
   schedule: "0 3 * * *" # Run daily at 3:00 AM, adjust as needed
   successfulJobsHistoryLimit: 1
@@ -17,16 +17,24 @@ spec:
             args:
               - |
                 set -e # Exit immediately if a command exits with a non-zero status.
-                echo "Starting MinIO sync to unified bucket..."
-                rclone sync -v "miniosrc:db-backups" "miniodst:prod-backup-storage/db-backups" && \
+                echo "Starting MinIO to NFS sync..."
+                rclone sync -v "miniosrc:db-backups" "/nfs-backup/db-backups" && \
                 echo "Syncing obsidian..." && \
-                rclone sync -v "miniosrc:obsidian" "miniodst:prod-backup-storage/obsidian" && \
+                rclone sync -v "miniosrc:obsidian" "/nfs-backup/obsidian" && \
                 echo "Syncing restic-backup..." && \
-                rclone sync -v "miniosrc:restic-backup" "miniodst:prod-backup-storage/restic-backup" && \
+                rclone sync -v "miniosrc:restic-backup" "/nfs-backup/restic-backup" && \
                 echo "Syncing user..." && \
-                rclone sync -v "miniosrc:user" "miniodst:prod-backup-storage/user"
-                echo "MinIO sync finished successfully."
+                rclone sync -v "miniosrc:user" "/nfs-backup/user"
+                echo "MinIO to NFS sync finished successfully."
             envFrom:
             - secretRef:
                 name: minio-sync-secret
+            volumeMounts:
+            - name: nfs-backup
+              mountPath: /nfs-backup
+          volumes:
+          - name: nfs-backup
+            nfs:
+              server: 192.168.50.220
+              path: /volume4/AppDataHDD/prod-minio-backup
           restartPolicy: OnFailure
