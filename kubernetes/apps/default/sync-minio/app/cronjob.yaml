@@ -1,0 +1,32 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: minio-bucket-sync
+spec:
+  schedule: "0 3 * * *" # Run daily at 3:00 AM, adjust as needed
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: rclone-sync
+            image: rclone/rclone:latest
+            command: ["/bin/sh", "-c"]
+            args:
+              - |
+                set -e # Exit immediately if a command exits with a non-zero status.
+                echo "Starting MinIO sync to unified bucket..."
+                rclone sync -v "miniosrc:db-backups" "miniodst:prod-backup-storage/db-backups" && \
+                echo "Syncing obsidian..." && \
+                rclone sync -v "miniosrc:obsidian" "miniodst:prod-backup-storage/obsidian" && \
+                echo "Syncing restic-backup..." && \
+                rclone sync -v "miniosrc:restic-backup" "miniodst:prod-backup-storage/restic-backup" && \
+                echo "Syncing user..." && \
+                rclone sync -v "miniosrc:user" "miniodst:prod-backup-storage/user"
+                echo "MinIO sync finished successfully."
+            envFrom:
+            - secretRef:
+                name: minio-sync-secret
+          restartPolicy: OnFailure

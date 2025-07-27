@@ -29,3 +29,4 @@ resources:
   - ./ollama/ks.yaml
   - ./openwebui/ks.yaml
   - ./wallos/ks.yaml
+  - ./sync-minio/ks.yaml
