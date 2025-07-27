@@ -195,7 +195,9 @@ spec:
             - { name: VAR_REPLICATIONDESTNAME, value: .*-dst }
         borgmatic-exporter:
           # renovate: depName="Borgmatic Exporter Dashboard"
-          url: https://raw.githubusercontent.com/maxim-mityutko/borgmatic-exporter/refs/heads/master/observability/grafana-dashboard.json
+          url: "https://raw.githubusercontent.com/Ekleog/borgmatic-exporter/refs/heads/better-dashboard/observability/grafana-dashboard.json"
+          # https://github.com/maxim-mityutko/borgmatic-exporter/issues/44
+          # url: https://raw.githubusercontent.com/maxim-mityutko/borgmatic-exporter/refs/heads/master/observability/grafana-dashboard.json
           datasource: Prometheus
         thanos-bucket-replicate:
           url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/thanos/dashboards/bucket-replicate.json
