@@ -98,6 +98,8 @@ spec:
           - path: /home/node/.cache
     service:
       app:
+        annotations:
+          tailscale.com/expose: "true"
         controller: *app
         ports:
           http:
