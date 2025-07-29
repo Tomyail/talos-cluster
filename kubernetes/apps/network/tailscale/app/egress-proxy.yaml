@@ -1,28 +1,13 @@
----
-apiVersion: tailscale.com/v1alpha1
-kind: ProxyClass
-metadata:
-  name: tailnet-egress
-  namespace: network
-spec:
-  tailscale:
-    acceptRoutes: true
----
+
 apiVersion: v1
 kind: Service
 metadata:
   name: prod-cluster-mosquitto
-  namespace: network
   annotations:
-    tailscale.com/tailnet-ip: "100.123.28.51"  # B 集群 Mosquitto 的 Tailscale 主机名
-  labels:
-    tailscale.com/proxy-class: tailnet-egress
+    tailscale.com/tailnet-ip: '100.123.28.51' # B 集群 Mosquitto 的 Tailscale 主机名
 spec:
   type: ExternalName
   externalName: unused
-  ports:
-  - port: 1883
-    targetPort: 1883
 ---
 # B 集群服务 2 - 例如：API 服务
 # apiVersion: v1
