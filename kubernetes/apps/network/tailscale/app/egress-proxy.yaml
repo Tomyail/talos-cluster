@@ -21,8 +21,8 @@ spec:
   type: ExternalName
   externalName: unused
   ports:
-  - port: 5432
-    targetPort: 5432
+  - port: 1883
+    targetPort: 1883
 ---
 # B 集群服务 2 - 例如：API 服务
 # apiVersion: v1
