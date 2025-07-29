@@ -14,7 +14,7 @@ metadata:
   name: prod-cluster-mosquitto
   namespace: network
   annotations:
-    tailscale.com/tailnet-ip: "100.123.28.51"  # B 集群数据库的 Tailscale IP
+    tailscale.com/tailnet-ip: "database-mosquitto.shark-pentatonic.ts.net"  # B 集群数据库的 Tailscale IP
   labels:
     tailscale.com/proxy-class: tailnet-egress
 spec:
