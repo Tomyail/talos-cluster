@@ -1,0 +1,59 @@
+---
+apiVersion: tailscale.com/v1alpha1
+kind: ProxyClass
+metadata:
+  name: tailnet-egress
+  namespace: network
+spec:
+  tailscale:
+    acceptRoutes: true
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prod-cluster-mosquitto
+  namespace: network
+  annotations:
+    tailscale.com/tailnet-ip: "100.123.28.51"  # B 集群数据库的 Tailscale IP
+  labels:
+    tailscale.com/proxy-class: tailnet-egress
+spec:
+  type: ExternalName
+  externalName: unused
+  ports:
+  - port: 5432
+    targetPort: 5432
+---
+# B 集群服务 2 - 例如：API 服务
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: b-cluster-api
+#   namespace: network
+#   annotations:
+#     tailscale.com/tailnet-ip: "100.64.0.11"  # B 集群 API 的 Tailscale IP
+#   labels:
+#     tailscale.com/proxy-class: tailnet-egress
+# spec:
+#   type: ExternalName
+#   externalName: unused
+#   ports:
+#   - port: 8080
+#     targetPort: 8080
+# ---
+# # B 集群服务 3 - 例如：Redis 缓存
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: b-cluster-redis
+#   namespace: network
+#   annotations:
+#     tailscale.com/tailnet-ip: "100.64.0.12"  # B 集群 Redis 的 Tailscale IP
+#   labels:
+#     tailscale.com/proxy-class: accept-routes
+# spec:
+#   type: ExternalName
+#   externalName: unused
+#   ports:
+#   - port: 6379
+#     targetPort: 6379
