@@ -40,3 +40,4 @@ resources:
   - ./democratic-csi.yaml
   - ./topolvm.yaml
   - ./local-path-provisioner.yaml
+  - ./nextcloud.yaml
