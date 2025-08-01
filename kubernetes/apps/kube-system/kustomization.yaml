@@ -10,6 +10,5 @@ resources:
   - ./coredns/ks.yaml
   - ./metrics-server/ks.yaml
   - ./reloader/ks.yaml
-  - ./csi-driver-nfs/ks.yaml
   - ./node-feature-discovery/ks.yaml
   - ./intel-device-plugin-operator/ks.yaml

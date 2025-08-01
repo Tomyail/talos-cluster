@@ -1,0 +1,113 @@
+---
+# yaml-language-server: $schema=https://datreeio.github.io/CRDs-catalog/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: nextcloud
+spec:
+  timeout: 15m
+  interval: 1h
+  chart:
+    spec:
+      chart: nextcloud
+      version: 7.0.0
+      sourceRef:
+        kind: HelmRepository
+        name: nextcloud
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    ingress:
+      enabled: false
+    image:
+      flavor: fpm-alpine
+      # renovate: datasource=docker depName=nextcloud
+      tag: 31.0.7-fpm-alpine
+    nginx:
+      enabled: true
+    nextcloud:
+      defaultConfigs:
+        apps.config.php: false
+      extraInitContainers:
+        - name: init-db
+          image: ghcr.io/onedr0p/postgres-init:16
+          envFrom:
+            - secretRef:
+                name: nextcloud-secret
+      datadir: /var/www/data
+      # extraEnv:
+      #   - name: REDIS_HOST
+      #     value: dragonfly.database.svc.cluster.local.
+      #   - name: REDIS_HOST_PORT
+      #     value: '6379'
+      existingSecret:
+        enabled: true
+        secretName: nextcloud-secret
+      host: cloud.${SECRET_DOMAIN}
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        supplementalGroups: [10]
+      configs:
+        ingress.config.php: |-
+          <?php
+          $CONFIG = array (
+            'overwriteprotocol' => 'https',
+            'allow_local_remote_servers' => true
+          );
+        proxy.config.php: |-
+          <?php
+          $CONFIG = array (
+            'trusted_proxies' => array(
+              0 => '127.0.0.1',
+              1 => '10.0.0.0/8',
+              2 => '192.168.0.0/16',
+            ),
+            'forwarded_for_headers' => array('HTTP_X_FORWARDED_FOR'),
+          ); ?>
+    internalDatabase:
+      enabled: false
+    externalDatabase:
+      enabled: true
+      type: postgresql
+      host: dev-postgres16-rw.database.svc.cluster.local.
+      database: nextcloud
+      existingSecret:
+        enabled: true
+        secretName: nextcloud-secret
+        usernameKey: INIT_POSTGRES_USER
+        passwordKey: INIT_POSTGRES_PASS
+    persistence:
+      enabled: true
+      existingClaim: nextcloud
+      nextcloudData:
+        enabled: true
+        existingClaim: nextcloud-nfs
+    startupProbe:
+      enabled: true
+      initialDelaySeconds: 30
+      periodSeconds: 30
+      timeoutSeconds: 10
+      failureThreshold: 30
+      successThreshold: 1
+    readinessProbe:
+      enabled: true
+      initialDelaySeconds: 10
+      periodSeconds: 10
+      timeoutSeconds: 5
+      failureThreshold: 3
+      successThreshold: 1
+    livenessProbe:
+      enabled: true
+      initialDelaySeconds: 60
+      periodSeconds: 30
+      timeoutSeconds: 10
+      failureThreshold: 3
+      successThreshold: 1
