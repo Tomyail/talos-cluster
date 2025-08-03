@@ -8,7 +8,7 @@ provisioner: nfs.csi.k8s.io
 parameters:
   server: 192.168.50.220
   share: /volume4/AppDataHDD/k8s-nfs-storage
-  subDir: $${pvc.metadata.namespace}/$${pvc.metadata.name}/$${pv.metadata.name}
+  subDir: ${pvc.metadata.namespace}/${pvc.metadata.name}/${pv.metadata.name}
 reclaimPolicy: Delete
 volumeBindingMode: Immediate
 mountOptions:
