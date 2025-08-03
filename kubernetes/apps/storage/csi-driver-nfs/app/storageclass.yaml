@@ -11,4 +11,8 @@ parameters:
   subDir: $${pvc.metadata.namespace}/$${pvc.metadata.name}/$${pv.metadata.name}
 reclaimPolicy: Delete
 volumeBindingMode: Immediate
-mountOptions: ["hard", "noatime"]
+mountOptions:
+  - hard
+  - noatime
+  # https://github.com/siderolabs/talos/issues/8862
+  - nolock
