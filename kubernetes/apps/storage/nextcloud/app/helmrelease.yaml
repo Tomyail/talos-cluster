@@ -30,7 +30,7 @@ spec:
     nextcloud:
       extraInitContainers:
         - name: init-db
-          image: ghcr.io/home-operations/postgres-init:16
+          image: ghcr.io/onedr0p/postgres-init:16
           envFrom:
             - secretRef:
                 name: nextcloud-secret
@@ -44,10 +44,10 @@ spec:
         enabled: true
         secretName: nextcloud-secret
       host: &host cloud.${SECRET_DOMAIN}
-      securityContext:
-        runAsUser: 1000
-        runAsGroup: 1000
-        runAsNonRoot: true
+      # securityContext:
+      #   runAsUser: 1000
+      #   runAsGroup: 1000
+      #   runAsNonRoot: true
       configs:
         proxy.config.php: |-
           <?php
@@ -115,6 +115,8 @@ spec:
     persistence:
       enabled: true
       existingClaim: nextcloud-nfs
+      nextcloudData:
+        enabled: false
     # this seems to be required for nextcloud initialization which takes a long time
     startupProbe:
       enabled: true
