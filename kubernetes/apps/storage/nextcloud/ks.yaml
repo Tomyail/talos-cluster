@@ -13,6 +13,8 @@ spec:
   components:
     - ../../../../components/gatus/external
   dependsOn:
+    - name: csi-driver-nfs
+      namespace: storage
     - name: topolvm
       namespace: storage
     - name: external-secrets
