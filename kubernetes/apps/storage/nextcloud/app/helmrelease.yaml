@@ -44,10 +44,11 @@ spec:
         enabled: true
         secretName: nextcloud-secret
       host: &host cloud.${SECRET_DOMAIN}
-      # securityContext:
-      #   runAsUser: 1000
-      #   runAsGroup: 1000
-      #   runAsNonRoot: true
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        supplementalGroups: [10]
       configs:
         proxy.config.php: |-
           <?php
