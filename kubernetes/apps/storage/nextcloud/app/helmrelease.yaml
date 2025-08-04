@@ -42,6 +42,16 @@ spec:
                 name: nextcloud-secret
       datadir: /var/www/data
       extraEnv:
+        - name: PHP_UPLOAD_LIMIT
+          value: 10G
+        - name: POST_MAX_SIZE
+          value: 10G
+        - name: PHP_MEMORY_LIMIT
+          value: 1G # Adjust based on your server's RAM
+        - name: MAX_EXECUTION_TIME
+          value: "3600"
+        - name: MAX_INPUT_TIME
+          value: "3600"
         - name: REDIS_HOST
           value: dragonfly.database.svc.cluster.local.
         - name: REDIS_HOST_PORT
