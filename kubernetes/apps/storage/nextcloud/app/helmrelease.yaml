@@ -49,7 +49,7 @@ spec:
       existingSecret:
         enabled: true
         secretName: nextcloud-secret
-      host: cloud.${SECRET_DOMAIN}
+      host: nextcloud.${SECRET_DOMAIN}
       securityContext:
         runAsUser: 1000
         runAsGroup: 1000
@@ -60,7 +60,9 @@ spec:
           <?php
           $CONFIG = array (
             'overwriteprotocol' => 'https',
-            'allow_local_remote_servers' => true
+            'allow_local_remote_servers' => true,
+            'overwrite.cli.url' => 'https://nextcloud.${SECRET_DOMAIN}',
+            'overwritehost' => 'nextcloud.${SECRET_DOMAIN}',
           );
         proxy.config.php: |-
           <?php
