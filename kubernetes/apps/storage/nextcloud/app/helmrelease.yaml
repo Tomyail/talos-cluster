@@ -56,14 +56,6 @@ spec:
         runAsNonRoot: true
         supplementalGroups: [10]
       configs:
-        ingress.config.php: |-
-          <?php
-          $CONFIG = array (
-            'overwriteprotocol' => 'https',
-            'allow_local_remote_servers' => true,
-            'overwrite.cli.url' => 'https://nextcloud.${SECRET_DOMAIN}',
-            'overwritehost' => 'nextcloud.${SECRET_DOMAIN}',
-          );
         proxy.config.php: |-
           <?php
           $CONFIG = array (
@@ -73,6 +65,10 @@ spec:
               2 => '192.168.0.0/16',
             ),
             'forwarded_for_headers' => array('HTTP_X_FORWARDED_FOR'),
+            'allow_local_remote_servers' => true,
+            'overwriteprotocol' => 'https',
+            'overwrite.cli.url' => 'https://nextcloud.${SECRET_DOMAIN}',
+            'overwritehost' => 'nextcloud.${SECRET_DOMAIN}',
           ); ?>
     internalDatabase:
       enabled: false
