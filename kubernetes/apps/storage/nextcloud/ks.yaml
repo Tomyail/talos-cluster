@@ -40,3 +40,4 @@ spec:
         kind: Secret
     substitute:
       APP: *app
+      VOLSYNC_CAPACITY: 2Gi
