@@ -1,0 +1,11 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: calibre-web-automated-nfs
+spec:
+  accessModes: ["ReadWriteMany"]
+  storageClassName: nfs-ugreen-hdd
+  resources:
+    requests:
+      storage: 20Gi

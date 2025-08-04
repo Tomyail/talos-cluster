@@ -76,20 +76,21 @@ spec:
       cache:
         type: emptyDir
       media:
-        type: nfs
-        server: 192.168.50.220
-        path: /volume4/media/calibre-web-automated
-        globalMounts:
-          - path: /cwa-book-ingest
-            subPath: cwa-book-ingest
-          - path: /calibre-library
-            subPath: calibre-library
-        # enabled: true
-        # accessMode: ReadWriteOnce
-        # size: 10Gi
-        # storageClass: nfs-ssd
+        # type: nfs
+        # server: 192.168.50.220
+        # path: /volume4/media/calibre-web-automated
         # globalMounts:
         #   - path: /cwa-book-ingest
         #     subPath: cwa-book-ingest
         #   - path: /calibre-library
         #     subPath: calibre-library
+        # enabled: true
+        # accessMode: ReadWriteOnce
+        # size: 10Gi
+        # storageClass: nfs-ssd
+        existingClaim: calibre-web-automated-nfs
+        globalMounts:
+          - path: /cwa-book-ingest
+            subPath: cwa-book-ingest
+          - path: /calibre-library
+            subPath: calibre-library
