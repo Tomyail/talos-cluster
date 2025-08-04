@@ -1,0 +1,64 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app nextcloud-calibre-sync
+spec:
+  interval: 1h
+  chart:
+    spec:
+      chart: app-template
+      version: 3.7.3
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    controllers:
+      nextcloud-calibre-sync:
+        type: cronjob
+        cronjob:
+          schedule: 0 0 * * *
+          backoffLimit: 1
+          concurrencyPolicy: Forbid
+          successfulJobsHistory: 1
+          failedJobsHistory: 3
+        containers:
+          app:
+            image:
+              repository: ghcr.io/rclone/rclone
+              tag: 1.70.3@sha256:34c729127386abec1c610b2aa024e39b4498dc2b4a72a0798ae21fbdc1b0493b
+            envFrom:
+              - secretRef:
+                  name: nextcloud-calibre-sync-secret
+            command: ["/bin/sh", "-c"]
+            args:
+              - "set -ex && rclone copy --ignore-existing --transfers=10 --verbose 'nextcloud:电子书' /calibre-web-ingest"
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 10m
+                memory: 64Mi
+              limits:
+                memory: 128Mi
+        pod:
+          restartPolicy: OnFailure
+    persistence:
+      data:
+        type: persistentVolumeClaim
+        existingClaim: calibre-web-automated-nfs
+        globalMounts:
+          - path: /calibre-web-ingest
+            subPath: cwa-book-ingest
