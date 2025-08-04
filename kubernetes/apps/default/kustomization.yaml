@@ -30,3 +30,4 @@ resources:
   - ./openwebui/ks.yaml
   - ./wallos/ks.yaml
   - ./sync-minio/ks.yaml
+  - ./atuin/ks.yaml

@@ -1,0 +1,43 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app atuin
+  namespace: &namespace default
+spec:
+  targetNamespace: *namespace
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  components:
+    - ../../../../components/volsync
+    - ../../../../components/gatus/external
+  dependsOn:
+    - name: topolvm
+      namespace: storage
+    - name: external-secrets
+      namespace: external-secrets
+    - name: cloudnative-pg-cluster
+      namespace: database
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+  path: ./kubernetes/apps/default/atuin/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  wait: true
+  interval: 1h
+  retryInterval: 2m
+  timeout: 5m
+  postBuild:
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
+    substitute:
+      APP: *app
+      VOLSYNC_CAPACITY: 10Gi
