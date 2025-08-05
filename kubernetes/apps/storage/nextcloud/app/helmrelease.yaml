@@ -31,7 +31,14 @@ spec:
       tag: 31.0.7-fpm-alpine
     nginx:
       enabled: true
+      config:
+        client-max-body-size: "10G"
     nextcloud:
+      extraEnv:
+        - name: PHP_UPLOAD_LIMIT
+          value: 10G
+        - name: PHP_MEMORY_LIMIT
+          value: 1024M
       defaultConfigs:
         apps.config.php: false
       extraInitContainers:
