@@ -42,7 +42,8 @@ spec:
                   name: nextcloud-calibre-sync-secret
             command: ["/bin/sh", "-c"]
             args:
-              - "set -ex && rclone copy --ignore-existing --transfers=10 --verbose 'nextcloud:电子书' /calibre-web-ingest"
+              # - "sleep 3600"
+              - "set -ex && rclone copy --ignore-existing --transfers=10 --verbose 'nextcloud:Books' /calibre-web-ingest"
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true

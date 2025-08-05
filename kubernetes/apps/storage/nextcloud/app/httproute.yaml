@@ -23,33 +23,33 @@ spec:
         - path:
             type: PathPrefix
             value: /
-        - path:
-            type: Exact
-            value: /robots.txt
+        # - path:
+        #     type: Exact
+        #     value: /robots.txt
     # Redirect carddav
-    - matches:
-        - path:
-            type: PathPrefix
-            value: /.well-known/carddav
-      filters:
-        - type: RequestRedirect
-          requestRedirect:
-            path:
-              type: ReplaceFullPath
-              replaceFullPath: /remote.php/dav
-            statusCode: 301
+    # - matches:
+    #     - path:
+    #         type: PathPrefix
+    #         value: /.well-known/carddav
+    #   filters:
+    #     - type: RequestRedirect
+    #       requestRedirect:
+    #         path:
+    #           type: ReplaceFullPath
+    #           replaceFullPath: /remote.php/dav
+    #         statusCode: 301
     # Redirect caldav
-    - matches:
-        - path:
-            type: PathPrefix
-            value: /.well-known/caldav
-      filters:
-        - type: RequestRedirect
-          requestRedirect:
-            path:
-              type: ReplaceFullPath
-              replaceFullPath: /remote.php/dav
-            statusCode: 301
+    # - matches:
+    #     - path:
+    #         type: PathPrefix
+    #         value: /.well-known/caldav
+    #   filters:
+    #     - type: RequestRedirect
+    #       requestRedirect:
+    #         path:
+    #           type: ReplaceFullPath
+    #           replaceFullPath: /remote.php/dav
+    #         statusCode: 301
     # # rewrite ^/.well-known/webfinger /index.php/.well-known/webfinger last;
     # - matches:
     #     - path:
