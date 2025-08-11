@@ -10,9 +10,9 @@ spec:
       namespace: kube-system
       sectionName: https
     # cloudflare tunnel has 100MB size limit, so using tailscale instead
-    # - name: external
-    #   namespace: kube-system
-    #   sectionName: https
+    - name: external
+      namespace: kube-system
+      sectionName: https
   hostnames:
     - nextcloud.${SECRET_DOMAIN}
   rules:
