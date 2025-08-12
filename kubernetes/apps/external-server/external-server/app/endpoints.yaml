@@ -7,7 +7,6 @@ subsets:
       - ip: "192.168.50.220"
     ports:
       - port: 9010
-        name: service
 ---
 apiVersion: v1
 kind: Endpoints
@@ -17,5 +16,4 @@ subsets:
   - addresses:
       - ip: "192.168.50.220"
     ports:
-      - port: 9000
-        name: service
+      - port: 9001

@@ -2,22 +2,16 @@ apiVersion: v1
 kind: Service
 metadata:
   name: cold-minio-api
-  namespace: servers
 spec:
   ports:
     - port: 9010
       targetPort: 9010
-      protocol: TCP
-      name: service
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: hot-minio-api
-  namespace: servers
 spec:
   ports:
-    - port: 9000
-      targetPort: 9000
-      protocol: TCP
-      name: service
+    - port: 9001
+      targetPort: 9001
