@@ -13,5 +13,5 @@ metadata:
   name: hot-minio-api
 spec:
   ports:
-    - port: 9001
-      targetPort: 9001
+    - port: 9000
+      targetPort: 9000
