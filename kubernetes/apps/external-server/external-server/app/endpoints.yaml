@@ -11,9 +11,29 @@ subsets:
 apiVersion: v1
 kind: Endpoints
 metadata:
+  name: cold-minio-console
+subsets:
+  - addresses:
+      - ip: "192.168.50.220"
+    ports:
+      - port: 9011
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
   name: hot-minio-api
 subsets:
   - addresses:
       - ip: "192.168.50.220"
     ports:
       - port: 9000
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: hot-minio-console
+subsets:
+  - addresses:
+      - ip: "192.168.50.220"
+    ports:
+      - port: 9001
