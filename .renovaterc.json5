@@ -157,6 +157,21 @@
       matchDatasources: ["github-releases"],
       addLabels: ["renovate/github-release"],
     },
+    {
+      description: "Auto-merge Renovate self-updates",
+      matchDatasources: ["docker", "github-actions", "npm"],
+      matchPackageNames: [
+        "renovate",
+        "renovate/renovate",
+        "renovatebot/renovate",
+        "ghcr.io/renovatebot/renovate",
+        "renovatebot/github-action"
+      ],
+      automerge: true,
+      automergeType: "branch",
+      matchUpdateTypes: ["patch"],
+      ignoreTests: true,
+    },
   ],
   customManagers: [
     {
