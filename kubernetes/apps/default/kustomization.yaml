@@ -32,3 +32,4 @@ resources:
   - ./sync-minio/ks.yaml
   - ./atuin/ks.yaml
   - ./nextcloud-calibre-sync/ks.yaml
+  - ./rsstranslator/ks.yaml
