@@ -33,3 +33,4 @@ resources:
   - ./atuin/ks.yaml
   - ./nextcloud-calibre-sync/ks.yaml
   - ./rsstranslator/ks.yaml
+  - ./lidarr/ks.yaml
