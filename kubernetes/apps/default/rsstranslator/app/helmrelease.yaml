@@ -29,7 +29,7 @@ spec:
           app:
             image:
               repository: versun/rsstranslator
-              tag: 2025.8.15
+              tag: 2025.10.11
             env:
               PORT: &port 8000
               TZ: ${TIMEZONE}
