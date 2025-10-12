@@ -29,7 +29,7 @@ spec:
           app:
             image:
               repository: ghcr.io/ellite/wallos
-              tag: 4.2.0@sha256:21fdf46cfb4f507b8ea480f5c60b0f907ee165f50b05411e5a7982b08eb2526a
+              tag: 4.4.1@sha256:6244e17d966401f86d6de724f4fcd5ef3d790156f7d8f8566f315b4da91c7c6b
             env:
               PORT: &port 80
               TZ: ${TIMEZONE}
