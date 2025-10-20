@@ -36,7 +36,7 @@ spec:
           app:
             image:
               repository: ghcr.io/rclone/rclone
-              tag: 1.70.3@sha256:34c729127386abec1c610b2aa024e39b4498dc2b4a72a0798ae21fbdc1b0493b
+              tag: 1.71.2@sha256:3103526c506266a9ecdf064efe99bf3677d92ef6407af124d8c56b4f49cbaa51
             envFrom:
               - secretRef:
                   name: nextcloud-calibre-sync-secret
