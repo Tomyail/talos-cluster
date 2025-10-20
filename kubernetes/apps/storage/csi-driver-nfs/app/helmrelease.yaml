@@ -26,7 +26,4 @@ spec:
     controller:
       replicas: 1
     externalSnapshotter:
-      enabled: true
-      customResourceDefinitions:
-        # already installed by snapshot-controller
-        enabled: false
+      enabled: false
