@@ -28,7 +28,7 @@ spec:
           app:
             image:
               repository: louislam/uptime-kuma
-              tag: 1.23.16
+              tag: 1.23.17
             env:
               UPTIME_KUMA_PORT: &port 3001
               DATA_DIR: /config
