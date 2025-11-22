@@ -50,3 +50,6 @@ spec:
         enabled: true
     controller:
       replicaCount: 1
+      affinity: ""
+      updateStrategy:
+        type: Recreate
