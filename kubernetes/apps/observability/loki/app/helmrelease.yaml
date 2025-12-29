@@ -55,7 +55,7 @@ spec:
       persistence:
         enabled: true
         storageClass: topolvm-thin-provisioner
-        size: 5Gi
+        size: 8Gi
     gateway:
       replicas: 0
     backend:
