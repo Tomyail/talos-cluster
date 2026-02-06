@@ -4,8 +4,8 @@ kind: PersistentVolumeClaim
 metadata:
   name: nextcloud-nfs
 spec:
-  accessModes: ["ReadWriteMany"]
-  storageClassName: nfs-ugreen-hdd
+  accessModes: ["ReadWriteOnce"]
+  storageClassName: topolvm-thin-provisioner
   resources:
     requests:
       storage: 100Gi
