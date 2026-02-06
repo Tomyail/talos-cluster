@@ -57,7 +57,7 @@ spec:
           memory: 128Mi
     bucketweb:
       enabled: true
-      replicaCount: 1
+      replicaCount: 0
       resources:
         limits:
           memory: 512Mi
@@ -65,7 +65,7 @@ spec:
           cpu: 10m
           memory: 64Mi
     compactor:
-      enabled: true
+      enabled: false
       concurrency: 4
       extraFlags:
         - --delete-delay=30m
@@ -84,7 +84,7 @@ spec:
           memory: 64Mi
     storegateway:
       enabled: true
-      replicaCount: 1
+      replicaCount: 0
       persistence:
         enabled: true
         storageClass: topolvm-thin-provisioner
