@@ -42,6 +42,14 @@ spec:
           envFrom:
             - secretRef:
                 name: nextcloud-secret
+        - name: init-chmod
+          image: busybox:latest
+          command: ["sh", "-c", "chown -R 82:82 /var/www/data; chmod -R 770 /var/www/data"]
+          volumeMounts:
+            - name: nextcloud-data
+              mountPath: /var/www/data
+          securityContext:
+            runAsUser: 0
       datadir: /var/www/data
       extraEnv:
         - name: REDIS_HOST
