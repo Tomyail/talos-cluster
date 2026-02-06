@@ -95,9 +95,7 @@ spec:
       config:
         existingClaim: qbittorrent
       media:
-        type: nfs
-        server: 192.168.50.220
-        path: /volume4/media
+        existingClaim: nas-media
         globalMounts:
           - path: /media
       tmp:

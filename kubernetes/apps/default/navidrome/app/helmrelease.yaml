@@ -83,8 +83,7 @@ spec:
         globalMounts:
           - path: /config/cache
       music:
-        type: nfs
-        server: 192.168.50.220
-        path: /volume4/media/music
+        existingClaim: nas-media
         globalMounts:
           - path: /var/mnt/vol1/music
+            subPath: music

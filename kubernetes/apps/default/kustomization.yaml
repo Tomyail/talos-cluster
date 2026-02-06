@@ -33,3 +33,4 @@ resources:
   - ./atuin/ks.yaml
   - ./rsstranslator/ks.yaml
   - ./lidarr/ks.yaml
+  - ./nas-media/ks.yaml

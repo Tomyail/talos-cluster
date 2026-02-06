@@ -94,18 +94,15 @@ spec:
         globalMounts:
           - path: /config/metadata
       media:
-        type: nfs
-        server: 192.168.50.220
-        path: /volume4/media
+        existingClaim: nas-media
         globalMounts:
           - path: /media
             readOnly: true
       fonts:
-        type: nfs
-        server: 192.168.50.220
-        path: /volume4/media/font
+        existingClaim: nas-media
         globalMounts:
           - path: /usr/share/fonts
+            subPath: font
       tmpfs:
         type: emptyDir
         advancedMounts:
