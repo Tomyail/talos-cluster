@@ -37,6 +37,7 @@ kind: ReplicationSource
 metadata:
   name: "${APP}"
 spec:
+  paused: true
   sourcePVC: "${APP}"
   trigger:
     # Paused (NFS down): run only on leap day.
