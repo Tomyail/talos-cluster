@@ -29,7 +29,6 @@ resources:
   - ./ollama/ks.yaml
   - ./openwebui/ks.yaml
   - ./wallos/ks.yaml
-  - ./sync-minio/ks.yaml
   - ./atuin/ks.yaml
   - ./rsstranslator/ks.yaml
   - ./lidarr/ks.yaml
