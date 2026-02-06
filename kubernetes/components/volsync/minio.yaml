@@ -39,7 +39,8 @@ metadata:
 spec:
   sourcePVC: "${APP}"
   trigger:
-    schedule: "0 * * * *"
+    # Paused (NFS down): run only on leap day.
+    schedule: "0 0 29 2 *"
   restic:
     copyMethod: Direct
     storageClassName: topolvm-thin-provisioner
