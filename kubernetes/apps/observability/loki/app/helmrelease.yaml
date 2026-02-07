@@ -35,6 +35,12 @@ spec:
         log_level: info
       commonConfig:
         replication_factor: 1
+      resources:
+        limits:
+          memory: 4Gi
+        requests:
+          cpu: 10m
+          memory: 256Mi
       ingester:
         chunk_encoding: snappy
       storage:
