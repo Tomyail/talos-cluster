@@ -1,7 +1,14 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "mcp__github__get_me",
+      "Bash(jq:*)",
+      "mcp__github__pull_request_read",
+      "mcp__github__merge_pull_request",
+      "mcp__github__list_pull_requests",
+      "Bash(kubectl:*)",
+      "Bash(find:*)"
     ]
   }
 }

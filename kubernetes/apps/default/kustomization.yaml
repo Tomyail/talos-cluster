@@ -33,3 +33,4 @@ resources:
   - ./rsstranslator/ks.yaml
   - ./lidarr/ks.yaml
   - ./nas-media/ks.yaml
+  - ./opencode/ks.yaml
