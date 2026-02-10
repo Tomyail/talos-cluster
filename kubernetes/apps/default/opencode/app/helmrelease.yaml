@@ -43,8 +43,8 @@ spec:
               - secretRef:
                   name: opencode-secret
             image:
-              repository: ghcr.io/anomalyco/opencode
-              tag: 0.0.0-dev-202602101247
+              repository: ghcr.io/tomyail/opencode-custom
+              tag: sha-d5e312259d76a9da557fbc89fe8fed0882e811ed
             args:
               - serve
               - --port
