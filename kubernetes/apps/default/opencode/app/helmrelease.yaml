@@ -33,6 +33,8 @@ spec:
               capabilities:
                 drop:
                   - ALL
+            env:
+              HOME: /root
             envFrom:
               - secretRef:
                   name: opencode-secret
