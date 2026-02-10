@@ -26,6 +26,13 @@ spec:
             image:
               repository: ghcr.io/anomalyco/opencode
               tag: 0.0.0-dev-202602101247
+            args:
+              - serve
+              - --port
+              - "4096"
+              - --hostname
+              - 0.0.0.0
+              - --print-logs
             resources:
               requests:
                 cpu: 10m
