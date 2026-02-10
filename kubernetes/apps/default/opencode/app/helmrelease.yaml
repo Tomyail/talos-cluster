@@ -35,6 +35,10 @@ spec:
                   - ALL
             env:
               HOME: /root
+              XDG_CONFIG_HOME: /root/.config
+              XDG_CACHE_HOME: /root/.cache
+              XDG_DATA_HOME: /root/.local/share
+              XDG_STATE_HOME: /root/.local/state
             envFrom:
               - secretRef:
                   name: opencode-secret
@@ -43,6 +47,7 @@ spec:
               tag: 0.0.0-dev-202602101247
             args:
               - serve
+              - /root
               - --port
               - "4096"
               - --hostname
