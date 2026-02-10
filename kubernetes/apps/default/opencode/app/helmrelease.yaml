@@ -44,7 +44,7 @@ spec:
                   name: opencode-secret
             image:
               repository: ghcr.io/tomyail/opencode-custom
-              tag: sha-d5e312259d76a9da557fbc89fe8fed0882e811ed
+              tag: sha-376ea61e4f3078b1696f5a4817b30f8076560a8c
             args:
               - serve
               - --port
