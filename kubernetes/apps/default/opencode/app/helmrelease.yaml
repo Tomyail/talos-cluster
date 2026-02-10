@@ -47,7 +47,6 @@ spec:
               tag: 0.0.0-dev-202602101247
             args:
               - serve
-              - /root
               - --port
               - "4096"
               - --hostname
