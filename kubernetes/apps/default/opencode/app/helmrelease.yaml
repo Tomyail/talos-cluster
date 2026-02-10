@@ -20,9 +20,22 @@ spec:
   values:
     controllers:
       opencode:
-        strategy: RollingUpdate
+        pod:
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
         containers:
           app:
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
+            envFrom:
+              - secretRef:
+                  name: opencode-secret
             image:
               repository: ghcr.io/anomalyco/opencode
               tag: 0.0.0-dev-202602101247
@@ -44,6 +57,14 @@ spec:
         existingClaim: opencode
         globalMounts:
           - path: /root
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
+      open-tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /root/.tmp
     service:
       app:
         controller: opencode
