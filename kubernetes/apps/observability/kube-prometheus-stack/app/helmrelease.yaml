@@ -105,7 +105,7 @@ spec:
           annotations:
             secret.reloader.stakater.com/reload: thanos-secret
         thanos:
-          image: quay.io/thanos/thanos:v0.40.1
+          image: quay.io/thanos/thanos:v0.41.0
           objectStorageConfig:
             existingSecret:
               name: thanos-secret
