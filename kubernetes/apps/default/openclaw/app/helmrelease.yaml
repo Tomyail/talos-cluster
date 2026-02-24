@@ -119,6 +119,7 @@ spec:
               - lan
               - --port
               - "18789"
+              - --allow-unconfigured
             resources:
               requests:
                 cpu: 10m
