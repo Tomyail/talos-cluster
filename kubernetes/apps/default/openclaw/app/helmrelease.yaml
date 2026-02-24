@@ -58,7 +58,7 @@ spec:
                 if [ ! -f /home/node/.local/go/bin/go ]; then
                   echo "Installing Go..."
                   cd /tmp
-                  curl -fsSL https://golang.google.cn/dl/go1.23.5.linux-amd64.tar.gz -o go.tar.gz
+                  curl -fsSL https://golang.google.cn/dl/go1.23.5.linux-amd64.tar.gz -L -o go.tar.gz || curl -fsSL https://studygolang.com/dl/golang/go1.23.5.linux-amd64.tar.gz -L -o go.tar.gz
                   tar xzf go.tar.gz
                   mv go /home/node/.local/
                   rm -rf go.tar.gz
