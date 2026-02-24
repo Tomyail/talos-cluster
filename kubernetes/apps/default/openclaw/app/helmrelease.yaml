@@ -79,13 +79,11 @@ spec:
       config:
         existingClaim: openclaw
         globalMounts:
-          - path: /home/node/.openclaw
+          - path: /home/node
       tmp:
         type: emptyDir
         globalMounts:
           - path: /tmp
-          - path: /home/node/.npm
-          - path: /home/node/.npm-global
     service:
       app:
         controller: openclaw
