@@ -55,14 +55,7 @@ spec:
                 fi
 
                 # Install Go if not present on PVC
-                if [ ! -f /home/node/.local/go/bin/go ]; then
-                  echo "Installing Go..."
-                  cd /tmp
-                  curl -fsSL https://studygolang.com/dl/golang/go1.23.5.linux-amd64.tar.gz -o go.tar.gz
-                  tar xzf go.tar.gz
-                  mv go /home/node/.local/
-                  rm -rf go.tar.gz
-                fi
+                # Skipping go installation due to download issues
 
                 # Install Homebrew if not present on PVC
                 if [ ! -f /home/node/.local/homebrew/bin/brew ]; then
