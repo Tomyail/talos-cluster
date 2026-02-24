@@ -82,6 +82,7 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /tmp
+          - path: /home/node/.npm
     service:
       app:
         controller: openclaw
