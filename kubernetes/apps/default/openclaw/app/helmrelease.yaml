@@ -64,7 +64,7 @@ spec:
               - dist/index.js
               - gateway
               - --bind
-              - 0.0.0.0
+              - lan
               - --port
               - "18789"
             resources:
