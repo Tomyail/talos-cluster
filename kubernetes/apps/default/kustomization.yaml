@@ -34,3 +34,4 @@ resources:
   - ./lidarr/ks.yaml
   - ./nas-media/ks.yaml
   - ./opencode/ks.yaml
+  - ./openclaw/ks.yaml

@@ -1,0 +1,101 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: openclaw
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    controllers:
+      openclaw:
+        pod:
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+        initContainers:
+          init-config:
+            image:
+              repository: busybox
+              tag: latest
+            command:
+              - sh
+              - -c
+            args:
+              - |
+                if [ ! -f /home/node/.openclaw/openclaw.json ]; then
+                  echo '{"gateway":{"mode":"local"}}' > /home/node/.openclaw/openclaw.json
+                fi
+            securityContext:
+              runAsUser: 1000
+              runAsGroup: 1000
+            globalMounts:
+              - path: /home/node/.openclaw
+                subPath: ""
+
+        containers:
+          app:
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
+            env:
+              HOME: /home/node
+            envFrom:
+              - secretRef:
+                  name: openclaw-secret
+            image:
+              repository: ghcr.io/openclaw/openclaw
+              tag: latest
+            args:
+              - gateway
+              - --bind
+              - 0.0.0.0
+              - --port
+              - "18789"
+            resources:
+              requests:
+                cpu: 10m
+                memory: 128Mi
+              limits:
+                memory: 1024Mi
+    persistence:
+      config:
+        existingClaim: openclaw
+        globalMounts:
+          - path: /home/node/.openclaw
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
+    service:
+      app:
+        controller: openclaw
+        ports:
+          http:
+            port: 18789
+    route:
+      app:
+        hostnames: ["{{ .Release.Name }}.${SECRET_DOMAIN}"]
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: 18789
