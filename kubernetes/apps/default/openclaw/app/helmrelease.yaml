@@ -58,7 +58,10 @@ spec:
             image:
               repository: ghcr.io/openclaw/openclaw
               tag: latest
+            command:
+              - node
             args:
+              - dist/index.js
               - gateway
               - --bind
               - 0.0.0.0
