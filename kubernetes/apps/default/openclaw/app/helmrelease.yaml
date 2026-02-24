@@ -44,6 +44,16 @@ spec:
 
                 export PATH=/home/node/.local/bin:/home/node/.local/go/bin:$PATH
 
+                # Install gh CLI if not present on PVC
+                if [ ! -f /home/node/.local/bin/gh ]; then
+                  echo "Installing gh CLI..."
+                  cd /tmp
+                  curl -fsSL https://github.com/cli/cli/releases/download/v2.61.0/gh_2.61.0_linux_amd64.tar.gz -o gh.tar.gz
+                  tar xzf gh.tar.gz
+                  cp gh_2.61.0_linux_amd64/bin/gh /home/node/.local/bin/
+                  rm -rf gh.tar.gz gh_2.61.0_linux_amd64
+                fi
+
                 # Install Go if not present on PVC
                 if [ ! -f /home/node/.local/go/bin/go ]; then
                   echo "Installing Go..."
