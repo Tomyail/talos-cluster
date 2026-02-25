@@ -30,6 +30,7 @@ spec:
               TZ: ${TIMEZONE}
               PUID: "1000"
               PGID: "1000"
+              GUIAUTOSTART: "true"
               DRINODE: "/dev/dri/renderD128"
               DRI_NODE: "/dev/dri/renderD128"
             resources:
