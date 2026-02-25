@@ -30,6 +30,9 @@ spec:
               TZ: ${TIMEZONE}
               PUID: "1000"
               PGID: "1000"
+              PIXELFLUX_WAYLAND: "true"
+              DRINODE: "/dev/dri/renderD128"
+              DRI_NODE: "/dev/dri/renderD128"
             resources:
               requests:
                 cpu: 10m
