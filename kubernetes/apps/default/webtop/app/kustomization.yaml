@@ -5,3 +5,9 @@ kind: Kustomization
 resources:
   - ./helmrelease.yaml
   - ./pvc.yaml
+configMapGenerator:
+  - name: webtop-configmap
+    files:
+      - 99-custom-chromium.sh=./config/99-custom-chromium.sh
+generatorOptions:
+  disableNameSuffixHash: true
