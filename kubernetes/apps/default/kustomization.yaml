@@ -35,3 +35,4 @@ resources:
   - ./nas-media/ks.yaml
   - ./opencode/ks.yaml
   - ./openclaw/ks.yaml
+  - ./webtop/ks.yaml
