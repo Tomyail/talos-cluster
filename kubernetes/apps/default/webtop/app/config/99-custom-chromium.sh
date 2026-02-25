@@ -4,6 +4,8 @@ mkdir -p /config/.config/autostart
 cat << 'EOF' > /config/custom-chromium-wrapper.sh
 #!/bin/bash
 exec >> /config/chrome-wrapper.log 2>&1
+# Clean up abandoned lock files from previous pod runs
+rm -f "$HOME/remote-profile/SingletonLock"
 /usr/bin/chromium \
   --remote-debugging-port=9222 \
   --remote-debugging-address=0.0.0.0 \
