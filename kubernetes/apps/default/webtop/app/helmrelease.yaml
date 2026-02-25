@@ -134,6 +134,12 @@ spec:
         sizeLimit: 2Gi
         globalMounts:
           - path: /dev/shm
+      tmp:
+        type: emptyDir
+        medium: Memory
+        sizeLimit: 2Gi
+        globalMounts:
+          - path: /tmp
       setup:
         type: configMap
         name: webtop-setup
