@@ -22,3 +22,18 @@ Hidden=false
 NoDisplay=false
 X-GNOME-Autostart-enabled=true
 EOF
+
+echo "Creating Desktop shortcut..."
+mkdir -p /config/Desktop
+cat << 'EOF' > /config/Desktop/custom-chromium.desktop
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Custom Chromium
+Comment=Launch Chromium with CDP exposed
+Exec=/config/custom-chromium-wrapper.sh
+Icon=chromium-browser
+Terminal=false
+StartupNotify=false
+EOF
+chmod +x /config/Desktop/custom-chromium.desktop
