@@ -53,11 +53,16 @@ spec:
                   - NET_BIND_SERVICE
           cdp-proxy:
             image:
-              repository: alpine/socat
-              tag: latest
-            args:
-              - tcp-listen:9223,fork,reuseaddr
-              - tcp-connect:127.0.0.1:9222
+              repository: caddy
+              tag: alpine
+            command:
+              - caddy
+              - reverse-proxy
+              - --from
+              - :9223
+              - --to
+              - 127.0.0.1:9222
+              - --change-host-header
     defaultPodOptions:
       securityContext:
         runAsNonRoot: false
