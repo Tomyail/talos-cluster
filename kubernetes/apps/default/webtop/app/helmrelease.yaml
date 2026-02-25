@@ -30,7 +30,7 @@ spec:
               TZ: ${TIMEZONE}
               PUID: "1000"
               PGID: "1000"
-              PIXELFLUX_WAYLAND: "true"
+              # PIXELFLUX_WAYLAND: "true"
               DRINODE: "/dev/dri/renderD128"
               DRI_NODE: "/dev/dri/renderD128"
               WLR_NO_HARDWARE_CURSORS: "1"
