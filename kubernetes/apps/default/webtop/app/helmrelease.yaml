@@ -72,7 +72,9 @@ spec:
                 port: &port 3000
     persistence:
       config:
-        existingClaim: *app
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 2Gi
         globalMounts:
           - path: /config
       dev-shm:
