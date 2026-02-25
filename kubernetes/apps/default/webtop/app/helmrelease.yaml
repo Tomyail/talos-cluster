@@ -142,7 +142,7 @@ spec:
           - path: /tmp
       setup:
         type: configMap
-        name: webtop-setup
+        name: webtop
         defaultMode: 0777
         advancedMounts:
           webtop:
