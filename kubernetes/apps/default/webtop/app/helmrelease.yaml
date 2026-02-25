@@ -33,6 +33,7 @@ spec:
               PIXELFLUX_WAYLAND: "true"
               DRINODE: "/dev/dri/renderD128"
               DRI_NODE: "/dev/dri/renderD128"
+              WLR_NO_HARDWARE_CURSORS: "1"
             resources:
               requests:
                 cpu: 10m
