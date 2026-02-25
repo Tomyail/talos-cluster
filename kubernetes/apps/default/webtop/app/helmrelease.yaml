@@ -25,7 +25,7 @@ spec:
           app:
             image:
               repository: lscr.io/linuxserver/webtop
-              tag: ubuntu-xfce
+              tag: ubuntu-kde
             env:
               TZ: ${TIMEZONE}
               PUID: "1000"
@@ -34,7 +34,6 @@ spec:
               DRINODE: "/dev/dri/renderD128"
               DRI_NODE: "/dev/dri/renderD128"
               WLR_NO_HARDWARE_CURSORS: "1"
-              KASMVNC_USE_BROWSER_CURSORS: "true"
             resources:
               requests:
                 cpu: 10m
