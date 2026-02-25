@@ -51,6 +51,13 @@ spec:
                   - SETGID
                   - SETUID
                   - NET_BIND_SERVICE
+          cdp-proxy:
+            image:
+              repository: alpine/socat
+              tag: latest
+            args:
+              - tcp-listen:9223,fork,reuseaddr
+              - tcp-connect:127.0.0.1:9222
     defaultPodOptions:
       securityContext:
         runAsNonRoot: false
@@ -80,7 +87,7 @@ spec:
         rules:
           - backendRefs:
               - identifier: app
-                port: 9222
+                port: 9223
     persistence:
       config:
         existingClaim: *app
@@ -99,4 +106,4 @@ spec:
           http:
             port: *port
           cdp:
-            port: 9222
+            port: 9223
