@@ -37,11 +37,9 @@ kind: ReplicationSource
 metadata:
   name: "${APP}"
 spec:
-  paused: true
   sourcePVC: "${APP}"
   trigger:
-    # Paused (NFS down): run only on leap day.
-    schedule: "0 0 29 2 *"
+    schedule: "0 */6 * * *"
   restic:
     copyMethod: Direct
     storageClassName: topolvm-thin-provisioner
