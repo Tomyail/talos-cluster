@@ -25,6 +25,7 @@ servers:
         configBlock: |-
           # docker 需要https的地址，所以需要一个https的地址，所以使用gitea的外部地址
           192.168.50.12 gitea.${SECRET_DOMAIN}
+          192.168.50.137 cold-minio-api.tomyail.com
           fallthrough
       - name: kubernetes
         parameters: cluster.local in-addr.arpa ip6.arpa
