@@ -99,11 +99,11 @@ spec:
         globalMounts:
           - path: /media
             readOnly: true
-      fonts:
-        existingClaim: nas-media
-        globalMounts:
-          - path: /usr/share/fonts
-            subPath: font
+#      fonts:
+#        existingClaim: nas-media
+#        globalMounts:
+#          - path: /usr/share/fonts
+#            subPath: font
       tmpfs:
         type: emptyDir
         advancedMounts:
