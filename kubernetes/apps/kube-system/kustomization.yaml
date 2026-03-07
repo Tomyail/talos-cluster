@@ -12,3 +12,4 @@ resources:
   - ./reloader/ks.yaml
   - ./node-feature-discovery/ks.yaml
   - ./intel-device-plugin-operator/ks.yaml
+  - ./system-upgrade/ks.yaml
