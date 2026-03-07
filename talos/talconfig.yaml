@@ -50,8 +50,17 @@ nodes:
         mtu: 1500
         vip:
           ip: "192.168.50.10"
-    extraManifests:
-      - "@./uservolume.yaml"
+    inlineManifests:
+      - name: uservolume
+        contents: |-
+          apiVersion: v1alpha1
+          kind: UserVolumeConfig
+          name: local-path-provisioner
+          provisioning:
+            diskSelector:
+              match: system_disk
+            minSize: 2GB
+            grow: true
 # Global patches
 patches:
   - "@./patches/global/machine-files.yaml"
@@ -60,6 +69,7 @@ patches:
   - "@./patches/global/machine-sysctls.yaml"
   - "@./patches/global/machine-time.yaml"
   - "@./patches/global/machine-udev.yaml"
+  - "@./patches/global/machine-api-access.yaml"
 
 # Controller patches
 controlPlane:
