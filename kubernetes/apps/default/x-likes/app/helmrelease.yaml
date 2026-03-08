@@ -32,7 +32,7 @@ spec:
               PORT: &port 4098
               FETCH_MODE: workflow
               FETCH_USERNAME: tomyail
-              FETCH_CDP_URL: http://webtop.default.svc.cluster.local:9224/json/version
+              FETCH_CDP_URL: http://webtop.default.svc.cluster.local:9223/json/version
               FETCH_MAX_SCROLLS: "5"
               FETCH_FORCE_DETAILS: "false"
               SCHEDULE_INTERVAL_MINUTES: "60"
