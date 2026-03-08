@@ -1,3 +1,4 @@
+const http = require('http');
 const net = require('net');
 
 const LISTEN_PORT = parseInt(process.env.PORT || '9223', 10);
