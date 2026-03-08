@@ -9,5 +9,6 @@ configMapGenerator:
   - name: webtop-configmap
     files:
       - 99-custom-chromium.sh=./config/99-custom-chromium.sh
+      - cdp-proxy.js=./config/cdp-proxy.js
 generatorOptions:
   disableNameSuffixHash: true

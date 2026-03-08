@@ -56,16 +56,17 @@ spec:
                   - NET_BIND_SERVICE
           cdp-proxy:
             image:
-              repository: caddy
-              tag: alpine
+              repository: node
+              tag: 22-alpine
+            env:
+              PUBLIC_HOST: "cdp.${SECRET_DOMAIN}"
+              PUBLIC_SCHEME: "wss"
+              PORT: "9223"
+              TARGET_HOST: "127.0.0.1"
+              TARGET_PORT: "9222"
             command:
-              - caddy
-              - reverse-proxy
-              - --from
-              - :9223
-              - --to
-              - 127.0.0.1:9222
-              - --change-host-header
+              - node
+              - /cdp-proxy/cdp-proxy.js
     defaultPodOptions:
       securityContext:
         runAsNonRoot: false
@@ -121,6 +122,8 @@ spec:
           webtop:
             app:
               - path: /custom-cont-init.d
+            cdp-proxy:
+              - path: /cdp-proxy
     service:
       app:
         controller: *app
