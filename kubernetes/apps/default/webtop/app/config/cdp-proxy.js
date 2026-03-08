@@ -7,10 +7,10 @@ const PUBLIC_HOST = process.env.PUBLIC_HOST || 'cdp.tomyail.com';
 const PUBLIC_SCHEME = process.env.PUBLIC_SCHEME || 'wss';
 
 function rewritePayload(body) {
-  const localHttp = `http://${TARGET_HOST}:${TARGET_PORT}`;
-  const localWs = `ws://${TARGET_HOST}:${TARGET_PORT}`;
-  const publicHttp = `https://${PUBLIC_HOST}`;
-  const publicWs = `${PUBLIC_SCHEME}://${PUBLIC_HOST}`;
+  const localHttp = 'http://' + TARGET_HOST + ':' + TARGET_PORT;
+  const localWs = 'ws://' + TARGET_HOST + ':' + TARGET_PORT;
+  const publicHttp = 'https://' + PUBLIC_HOST;
+  const publicWs = PUBLIC_SCHEME + '://' + PUBLIC_HOST;
 
   return body
     .replaceAll(localWs, publicWs)
@@ -28,7 +28,7 @@ function proxyJson(pathname, res) {
       port: TARGET_PORT,
       path: pathname,
       method: 'GET',
-      headers: { Host: `${TARGET_HOST}:${TARGET_PORT}` },
+      headers: { Host: TARGET_HOST + ':' + TARGET_PORT },
     },
     (upstream) => {
       let data = '';
@@ -62,7 +62,7 @@ function proxyHttp(req, res) {
       port: TARGET_PORT,
       path: req.url,
       method: req.method,
-      headers: { ...req.headers, host: `${TARGET_HOST}:${TARGET_PORT}` },
+      headers: { ...req.headers, host: TARGET_HOST + ':' + TARGET_PORT },
     },
     (upstreamRes) => {
       res.writeHead(upstreamRes.statusCode || 200, upstreamRes.headers);
@@ -81,9 +81,9 @@ function proxyHttp(req, res) {
 function connectWebSocket(req, socket) {
   const upstream = net.connect(TARGET_PORT, TARGET_HOST, () => {
     upstream.write(
-      `${req.method} ${req.url} HTTP/${req.httpVersion}\r\n` +
+      req.method + ' ' + req.url + ' HTTP/' + req.httpVersion + '\r\n' +
       Object.entries(req.headers)
-        .map(([key, value]) => `${key}: ${value}`)
+        .map(([key, value]) => key + ': ' + value)
         .join('\r\n') +
       '\r\n\r\n'
     );
@@ -117,5 +117,5 @@ server.on('upgrade', (req, socket) => {
 });
 
 server.listen(LISTEN_PORT, '0.0.0.0', () => {
-  console.log(`cdp-proxy listening on ${LISTEN_PORT}`);
+  console.log('cdp-proxy listening on ' + LISTEN_PORT);
 });
