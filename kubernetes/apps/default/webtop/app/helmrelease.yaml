@@ -61,7 +61,22 @@ spec:
             env:
               PUBLIC_HOST: "cdp.${SECRET_DOMAIN}"
               PUBLIC_SCHEME: "wss"
+              PUBLIC_HTTP_SCHEME: "https"
               PORT: "9223"
+              TARGET_HOST: "127.0.0.1"
+              TARGET_PORT: "9222"
+            command:
+              - node
+              - /cdp-proxy/cdp-proxy.js
+          cdp-proxy-internal:
+            image:
+              repository: node
+              tag: 22-alpine
+            env:
+              PUBLIC_HOST: "webtop.default.svc.cluster.local:9224"
+              PUBLIC_SCHEME: "ws"
+              PUBLIC_HTTP_SCHEME: "http"
+              PORT: "9224"
               TARGET_HOST: "127.0.0.1"
               TARGET_PORT: "9222"
             command:
@@ -124,6 +139,8 @@ spec:
               - path: /custom-cont-init.d
             cdp-proxy:
               - path: /cdp-proxy
+            cdp-proxy-internal:
+              - path: /cdp-proxy
     service:
       app:
         controller: *app
@@ -132,3 +149,5 @@ spec:
             port: *port
           cdp:
             port: 9223
+          cdp-internal:
+            port: 9224

@@ -6,12 +6,20 @@ const TARGET_HOST = process.env.TARGET_HOST || '127.0.0.1';
 const TARGET_PORT = parseInt(process.env.TARGET_PORT || '9222', 10);
 const PUBLIC_HOST = process.env.PUBLIC_HOST || 'cdp.tomyail.com';
 const PUBLIC_SCHEME = process.env.PUBLIC_SCHEME || 'wss';
+const PUBLIC_HTTP_SCHEME = process.env.PUBLIC_HTTP_SCHEME || 'https';
 
-function rewritePayload(body) {
+function getRequestMetadata(req) {
+  const host = req.headers['x-forwarded-host'] || req.headers.host || PUBLIC_HOST;
+  const proto = req.headers['x-forwarded-proto'] || (req.connection.encrypted ? 'https' : 'http');
+  const wsProto = proto === 'https' ? 'wss' : 'ws';
+  return { host, proto, wsProto };
+}
+
+function rewritePayload(body, metadata) {
   const localHttp = 'http://' + TARGET_HOST + ':' + TARGET_PORT;
   const localWs = 'ws://' + TARGET_HOST + ':' + TARGET_PORT;
-  const publicHttp = 'https://' + PUBLIC_HOST;
-  const publicWs = PUBLIC_SCHEME + '://' + PUBLIC_HOST;
+  const publicHttp = metadata.proto + '://' + metadata.host;
+  const publicWs = metadata.wsProto + '://' + metadata.host;
 
   return body
     .replaceAll(localWs, publicWs)
@@ -22,24 +30,25 @@ function rewritePayload(body) {
     .replaceAll('http://localhost:9222', publicHttp);
 }
 
-function proxyJson(pathname, res) {
-  const req = http.request(
+function proxyJson(req, res) {
+  const metadata = getRequestMetadata(req);
+  const upstream = http.request(
     {
       host: TARGET_HOST,
       port: TARGET_PORT,
-      path: pathname,
+      path: req.url,
       method: 'GET',
       headers: { Host: TARGET_HOST + ':' + TARGET_PORT },
     },
-    (upstream) => {
+    (upstreamRes) => {
       let data = '';
-      upstream.setEncoding('utf8');
-      upstream.on('data', (chunk) => {
+      upstreamRes.setEncoding('utf8');
+      upstreamRes.on('data', (chunk) => {
         data += chunk;
       });
-      upstream.on('end', () => {
-        const body = rewritePayload(data);
-        res.writeHead(upstream.statusCode || 200, {
+      upstreamRes.on('end', () => {
+        const body = rewritePayload(data, metadata);
+        res.writeHead(upstreamRes.statusCode || 200, {
           'content-type': 'application/json',
           'cache-control': 'no-store',
         });
@@ -48,12 +57,12 @@ function proxyJson(pathname, res) {
     }
   );
 
-  req.on('error', (error) => {
+  upstream.on('error', (error) => {
     res.writeHead(502, { 'content-type': 'application/json' });
     res.end(JSON.stringify({ error: error.message }));
   });
 
-  req.end();
+  upstream.end();
 }
 
 function proxyHttp(req, res) {
@@ -99,7 +108,7 @@ const server = http.createServer((req, res) => {
   const pathname = (req.url || '/').split('?')[0];
 
   if (pathname === '/json/version' || pathname === '/json') {
-    proxyJson(req.url || pathname, res);
+    proxyJson(req, res);
     return;
   }
 
