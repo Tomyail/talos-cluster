@@ -5,7 +5,6 @@ kind: Cluster
 metadata:
   name: dev-postgres16
   annotations:
-    cnpg.io/skipWalArchiving: "enabled"
 spec:
   instances: 1
   enablePDB: false
