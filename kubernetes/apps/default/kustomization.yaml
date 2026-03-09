@@ -36,3 +36,4 @@ resources:
   - ./openclaw/ks.yaml
   - ./webtop/ks.yaml
   - ./x-likes/ks.yaml
+  - ./yt-audio/ks.yaml
