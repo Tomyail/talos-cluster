@@ -28,3 +28,4 @@ spec:
         kind: Secret
     substitute:
       APP: *app
+      GATUS_PATH: /health
