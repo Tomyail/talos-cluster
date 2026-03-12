@@ -104,6 +104,6 @@ spec:
       media:
         existingClaim: nas-media
         globalMounts:
-          - path: /volume4/media
+          - path: /media
       tmp:
         type: emptyDir
