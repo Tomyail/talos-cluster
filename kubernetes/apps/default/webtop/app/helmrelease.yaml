@@ -57,7 +57,7 @@ spec:
           cdp-proxy:
             image:
               repository: node
-              tag: 22-alpine
+              tag: 24-alpine
             env:
               PUBLIC_HOST: "cdp.${SECRET_DOMAIN}"
               PUBLIC_SCHEME: "wss"
@@ -71,7 +71,7 @@ spec:
           cdp-proxy-internal:
             image:
               repository: node
-              tag: 22-alpine
+              tag: 24-alpine
             env:
               PUBLIC_HOST: "webtop.default.svc.cluster.local:9224"
               PUBLIC_SCHEME: "ws"
