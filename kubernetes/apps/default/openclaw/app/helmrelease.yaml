@@ -41,7 +41,7 @@ spec:
                 if [ ! -f /home/node/.openclaw/openclaw.json ]; then
                   echo '{"gateway":{"mode":"local","trustedProxies":["10.0.0.0/8","172.16.0.0/12","192.168.0.0/16"]}}' > /home/node/.openclaw/openclaw.json
                 fi
-                node -e "const fs=require('fs');const p='/home/node/.openclaw/openclaw.json';let d=JSON.parse(fs.readFileSync(p));d.gateway=d.gateway||{};d.gateway.controlUi=d.gateway.controlUi||{};d.gateway.controlUi.dangerouslyAllowHostHeaderOriginFallback=true;fs.writeFileSync(p,JSON.stringify(d,null,2));"
+                node -e "const fs=require('fs');const p='/home/node/.openclaw/openclaw.json';let d=JSON.parse(fs.readFileSync(p));d.gateway=d.gateway||{};d.gateway.controlUi=d.gateway.controlUi||{};d.gateway.controlUi.dangerouslyAllowHostHeaderOriginFallback=true;if(d.tools && d.tools.web && d.tools.web.fetch){delete d.tools.web.fetch.provider;delete d.tools.web.fetch.apiKey;};fs.writeFileSync(p,JSON.stringify(d,null,2));"
 
                 export PATH=/home/node/.local/bin:/home/node/.local/go/bin:$PATH
 
