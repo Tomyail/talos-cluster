@@ -1,0 +1,56 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/external-secrets.io/externalsecret_v1.json
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: "openclaw-volsync"
+spec:
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: bitwarden-login
+  target:
+    name: "openclaw-volsync-secret"
+    template:
+      engineVersion: v2
+      data:
+        RESTIC_REPOSITORY: "s3:http://192.168.50.220:9010/volsync/dev/openclaw"
+        RESTIC_PASSWORD: "{{ .RESTIC_PASSWORD }}"
+        AWS_ACCESS_KEY_ID: "{{ .MINIO_ROOT_USER }}"
+        AWS_SECRET_ACCESS_KEY: "{{ .MINIO_ROOT_PASSWORD }}"
+  data:
+    - secretKey: RESTIC_PASSWORD
+      remoteRef:
+        key: volsync-minio-template
+        property: password
+    - secretKey: MINIO_ROOT_USER
+      remoteRef:
+        key: cold-minio
+        property: username
+    - secretKey: MINIO_ROOT_PASSWORD
+      remoteRef:
+        key: cold-minio
+        property: password
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/volsync.backube/replicationsource_v1alpha1.json
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: "openclaw"
+spec:
+  sourcePVC: "openclaw"
+  trigger:
+    schedule: "0 */6 * * *"
+  restic:
+    copyMethod: Direct
+    storageClassName: topolvm-thin-provisioner
+    accessModes: [ReadWriteOnce]
+    pruneIntervalDays: 7
+    repository: "openclaw-volsync-secret"
+    moverSecurityContext:
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
+    retain:
+      hourly: 24
+      daily: 7
+      weekly: 5
