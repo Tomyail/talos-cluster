@@ -23,6 +23,24 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         initContainers:
+          install-playwright-browsers:
+            image:
+              repository: ghcr.io/linkwarden/linkwarden
+              tag: v2.13.5@sha256:1588811d7b7d249d387782bb94c7eb189082b82b542ac1667d2ac3d7e7f70ce6
+            env:
+              HOME: /data/config
+              PLAYWRIGHT_BROWSERS_PATH: /data/config/.cache/ms-playwright
+              YARN_CACHE_FOLDER: /tmp/.yarn-cache
+              YARN_GLOBAL_FOLDER: /tmp/.yarn-global
+              NPM_CONFIG_CACHE: /tmp/.npm
+            command:
+              - /bin/sh
+              - -c
+              - yarn playwright install
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
           init-db:
             image:
               repository: ghcr.io/home-operations/postgres-init
@@ -43,6 +61,7 @@ spec:
               YARN_CACHE_FOLDER: /tmp/.yarn-cache
               YARN_GLOBAL_FOLDER: /tmp/.yarn-global
               NPM_CONFIG_CACHE: /tmp/.npm
+              PLAYWRIGHT_BROWSERS_PATH: /data/config/.cache/ms-playwright
               NEXTAUTH_URL: https://linkwarden.${SECRET_DOMAIN}/api/v1/auth
               NEXT_PUBLIC_OLLAMA_ENDPOINT_URL: http://ollama.default.svc.cluster.local:11434
               OLLAMA_MODEL: "phi3:mini-4k"
