@@ -36,7 +36,7 @@ spec:
             command:
               - /bin/sh
               - -c
-              - yarn playwright install
+              - npx playwright install chromium
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
