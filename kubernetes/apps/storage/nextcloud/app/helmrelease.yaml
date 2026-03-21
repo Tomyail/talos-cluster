@@ -40,7 +40,7 @@ spec:
         - name: init-db
           image:
             repository: ghcr.io/home-operations/postgres-init
-            tag: 17.4
+            tag: 17.6
           envFrom:
             - secretRef:
                 name: nextcloud-secret
