@@ -29,7 +29,7 @@ spec:
           init-config:
             image:
               repository: ghcr.io/openclaw/openclaw
-              tag: 2026.3.12@sha256:c871ddf7ad1b4125218e5f010b59724f0d2bb299714c5bd6ba7c1e99462450a7
+              tag: 2026.3.23@sha256:f34cc7c00de4bea450c3459ca38b35364603b5be592873d86faf4d03c1492f4b
             command:
               - sh
               - -c
