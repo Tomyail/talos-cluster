@@ -97,6 +97,7 @@ spec:
                 drop:
                   - ALL
             env:
+              TZ: Asia/Shanghai
               HOME: /home/node
               HOMEBREW_CELLAR: /home/node/.local/homebrew/Cellar
               HOMEBREW_PREFIX: /home/node/.local/homebrew
