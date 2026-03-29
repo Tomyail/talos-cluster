@@ -31,7 +31,6 @@ resources:
   - ./atuin/ks.yaml
   - ./lidarr/ks.yaml
   - ./nas-media/ks.yaml
-  - ./opencode/ks.yaml
   - ./openclaw/ks.yaml
   - ./omnifocus-sync-server/ks.yaml
   - ./webtop/ks.yaml
