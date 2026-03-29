@@ -111,7 +111,7 @@ spec:
                   name: openclaw-secret
             image:
               repository: ghcr.io/openclaw/openclaw
-              tag: latest
+              tag: 2026.3.28@sha256:5900559f795ef15ea2f0b1fc488726d9b27bb2de398424c14d13c9b1f1ff0d66
             command:
               - node
             args:
@@ -133,6 +133,12 @@ spec:
         existingClaim: openclaw
         globalMounts:
           - path: /home/node
+      npx-cache:
+        type: emptyDir
+        advancedMounts:
+          openclaw:
+            app:
+              - path: /home/node/.npm/_npx
       tmp:
         type: emptyDir
         globalMounts:
