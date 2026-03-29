@@ -133,12 +133,12 @@ spec:
         existingClaim: openclaw
         globalMounts:
           - path: /home/node
-      npx-cache:
-        type: emptyDir
-        advancedMounts:
-          openclaw:
-            app:
-              - path: /home/node/.npm/_npx
+      # npx-cache:
+      #   type: emptyDir
+      #   advancedMounts:
+      #     openclaw:
+      #       app:
+      #         - path: /home/node/.npm/_npx
       tmp:
         type: emptyDir
         globalMounts:
