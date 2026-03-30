@@ -98,6 +98,8 @@ spec:
                   - ALL
             env:
               TZ: Asia/Shanghai
+              LANG: C.UTF-8
+              LC_ALL: C.UTF-8
               HOME: /home/node
               HOMEBREW_CELLAR: /home/node/.local/homebrew/Cellar
               HOMEBREW_PREFIX: /home/node/.local/homebrew
