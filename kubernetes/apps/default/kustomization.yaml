@@ -26,7 +26,6 @@ resources:
   - ./linkwarden/ks.yaml
   - ./miniflux/ks.yaml
   - ./rsshub/ks.yaml
-  - ./ollama/ks.yaml
   - ./wallos/ks.yaml
   - ./atuin/ks.yaml
   - ./lidarr/ks.yaml
