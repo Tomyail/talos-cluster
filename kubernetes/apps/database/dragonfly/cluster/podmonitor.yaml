@@ -10,4 +10,5 @@ spec:
       app: dragonfly
   podTargetLabels: ["app"]
   podMetricsEndpoints:
-    - port: admin
+    - targetPort: 6379
+      path: /metrics
