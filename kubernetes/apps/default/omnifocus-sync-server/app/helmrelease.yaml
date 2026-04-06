@@ -31,11 +31,11 @@ spec:
               TZ: ${TIMEZONE}
               PORT: &port 4000
               SYNC_DB_PATH: /data/sync.db
-              OMNIFOCUS_SYNC_API_KEY:
+              API_KEY:
                 valueFrom:
                   secretKeyRef:
                     name: omnifocus-sync-server-registry-secret
-                    key: OMNIFOCUS_SYNC_API_KEY
+                    key: API_KEY
             probes:
               liveness: &probes
                 enabled: true
