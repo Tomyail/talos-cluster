@@ -30,7 +30,7 @@ spec:
             env:
               TZ: ${TIMEZONE}
               PORT: &port 3000
-              PUBLIC_BASE_URL: https://yt-audio.${SECRET_DOMAIN}
+              PUBLIC_BASE_URL: https://yt-audio-dev.${SECRET_DOMAIN}
               DATA_DIR: /app/data
               MEDIA_DIR: /app/media
               DATABASE_PATH: /app/data/app.db
@@ -92,7 +92,7 @@ spec:
     route:
       app:
         hostnames:
-          - yt-audio.${SECRET_DOMAIN}
+          - yt-audio-dev.${SECRET_DOMAIN}
         parentRefs:
           - name: internal
             namespace: kube-system
