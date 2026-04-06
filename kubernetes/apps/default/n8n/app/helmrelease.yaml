@@ -19,6 +19,7 @@ spec:
   values:
     controllers:
       n8n:
+        strategy: Recreate
         annotations:
           reloader.stakater.com/auto: "true"
         initContainers:
@@ -38,7 +39,6 @@ spec:
               # Allow all built-in functions
               NODE_FUNCTION_ALLOW_BUILTIN: "*"
               NODE_FUNCTION_ALLOW_EXTERNAL: "moment,lodash,crypto-js,playwright-core"
-              N8N_RUNNERS_ENABLED: true
               N8N_VERSION_NOTIFICATIONS_ENABLED: false
               N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: false
               N8N_PROTOCOL: "https"
@@ -96,6 +96,10 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /home/node/.cache
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
     service:
       app:
         controller: *app
