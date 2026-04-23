@@ -15,6 +15,20 @@ connectivity:
     target: 1.1.1.1:53
     interval: 1m
 endpoints:
+  - name: 电信光猫
+    group: local
+    url: icmp://192.168.71.1
+    interval: 1m
+    conditions:
+      - "[CONNECTED] == true"
+
+  - name: 移动光猫
+    group: local
+    url: icmp://192.168.1.1
+    interval: 1m
+    conditions:
+      - "[CONNECTED] == true"
+
   - name: flux-webhook
     group: external
     url: https://flux-webhook.${SECRET_DOMAIN}
