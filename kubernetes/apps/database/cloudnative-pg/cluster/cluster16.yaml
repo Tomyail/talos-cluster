@@ -55,6 +55,13 @@ spec:
         secretAccessKey:
           name: cloudnative-pg-secret
           key: aws-secret-access-key
+  managed:
+    roles:
+      - name: patronize
+        ensure: present
+        login: true
+        passwordSecret:
+          name: n8n-patronize-secret
   # Bootstrap from the previous cluster (dev-postgres16-v7)
   bootstrap:
     recovery:
