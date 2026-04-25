@@ -27,6 +27,8 @@ spec:
       dragonfly-operator:
         strategy: RollingUpdate
         pod:
+          labels:
+            control-plane: controller-manager
           securityContext:
             runAsNonRoot: true
             runAsUser: 65534
