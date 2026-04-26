@@ -24,7 +24,7 @@ spec:
               type: RuntimeDefault
           containers:
             - name: cleanup
-              image: bitnami/kubectl:1.35
+              image: registry.k8s.io/kubectl:v1.35.4
               securityContext:
                 allowPrivilegeEscalation: false
                 capabilities:
