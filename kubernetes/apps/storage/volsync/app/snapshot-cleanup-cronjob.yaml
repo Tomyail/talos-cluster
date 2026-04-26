@@ -1,0 +1,59 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: volsync-snapshot-cleanup
+  namespace: storage
+spec:
+  # 每周日凌晨 2 点执行
+  schedule: "0 2 * * 0"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: volsync-snapshot-cleanup
+          restartPolicy: OnFailure
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 65534
+            runAsGroup: 65534
+            seccompProfile:
+              type: RuntimeDefault
+          containers:
+            - name: cleanup
+              image: bitnami/kubectl:1.35
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop: ["ALL"]
+                readOnlyRootFilesystem: true
+              env:
+                - name: THRESHOLD_DAYS
+                  value: "7"
+              command: ["/bin/bash", "-c"]
+              args:
+                - |
+                  set -euo pipefail
+                  NOW=$(date +%s)
+                  THRESHOLD=$((NOW - THRESHOLD_DAYS * 86400))
+                  DELETED=0
+
+                  echo "清理超过 ${THRESHOLD_DAYS} 天的 volsync destination snapshots..."
+
+                  while IFS=$'\t' read -r namespace name created; do
+                    created_epoch=$(date -d "$created" +%s)
+                    if [ "$created_epoch" -lt "$THRESHOLD" ]; then
+                      echo "删除: $namespace/$name (创建于 $created)"
+                      kubectl delete volumesnapshot -n "$namespace" "$name"
+                      DELETED=$((DELETED + 1))
+                    else
+                      echo "保留: $namespace/$name (创建于 $created)"
+                    fi
+                  done < <(kubectl get volumesnapshots -A \
+                    -o jsonpath='{range .items[*]}{.metadata.namespace}{"\t"}{.metadata.name}{"\t"}{.metadata.creationTimestamp}{"\n"}{end}' \
+                    | grep $'\t''volsync-volsync-dst-')
+
+                  echo "完成，共删除 ${DELETED} 个 snapshot。"

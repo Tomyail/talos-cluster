@@ -8,7 +8,8 @@
       "mcp__github__merge_pull_request",
       "mcp__github__list_pull_requests",
       "Bash(kubectl:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "mcp__context7__query-docs"
     ]
   }
 }
