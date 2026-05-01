@@ -9,7 +9,15 @@
       "mcp__github__list_pull_requests",
       "Bash(kubectl:*)",
       "Bash(find:*)",
-      "mcp__context7__query-docs"
+      "mcp__context7__query-docs",
+      "Bash(git push *)",
+      "Bash(git pull *)",
+      "Bash(talosctl -n 192.168.50.145 images)",
+      "Bash(flux reconcile *)",
+      "Bash(git add *)",
+      "mcp__web-reader__webReader",
+      "Bash(git version *)",
+      "Bash(awk '{print $3}')"
     ]
   }
 }
