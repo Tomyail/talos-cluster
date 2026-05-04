@@ -47,6 +47,51 @@ spec:
                   initialDelaySeconds: 60
                   failureThreshold: 45
                   periodSeconds: 5
+          nextcloud-sync:
+            image:
+              repository: rclone/rclone
+              tag: 1.69.1
+            command:
+              - /bin/sh
+              - -c
+              - |
+                export RCLONE_CONFIG_NC_TYPE=webdav
+                export RCLONE_CONFIG_NC_URL="http://nextcloud.storage.svc.cluster.local/remote.php/dav/files/${NEXTCLOUD_USERNAME}/"
+                export RCLONE_CONFIG_NC_VENDOR=nextcloud
+                export RCLONE_CONFIG_NC_USER="${NEXTCLOUD_USERNAME}"
+                export RCLONE_CONFIG_NC_PASS=$(rclone obscure "${NEXTCLOUD_PASSWORD}")
+                STATE_FILE="/config/.nc-sync-state"
+                touch "$STATE_FILE"
+                while true; do
+                  echo "[$(date)] Checking Nextcloud Books..."
+                  rclone lsf nc:Books/ --files-only 2>/dev/null | while IFS= read -r file; do
+                    if ! grep -qxF "$file" "$STATE_FILE"; then
+                      echo "[$(date)] Syncing: $file"
+                      if rclone copy "nc:Books/${file}" /cwa-book-ingest/; then
+                        echo "$file" >> "$STATE_FILE"
+                        echo "[$(date)] Done: $file"
+                      fi
+                    fi
+                  done
+                  sleep 300
+                done
+            env:
+              NEXTCLOUD_USERNAME:
+                valueFrom:
+                  secretKeyRef:
+                    name: calibre-web-automated-nextcloud
+                    key: NEXTCLOUD_USERNAME
+              NEXTCLOUD_PASSWORD:
+                valueFrom:
+                  secretKeyRef:
+                    name: calibre-web-automated-nextcloud
+                    key: NEXTCLOUD_PASSWORD
+            resources:
+              requests:
+                cpu: 5m
+                memory: 64Mi
+              limits:
+                memory: 128Mi
     service:
       app:
         controller: calibre-web-automated
