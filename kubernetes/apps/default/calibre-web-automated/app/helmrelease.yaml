@@ -64,7 +64,7 @@ spec:
                 touch "$STATE_FILE"
                 while true; do
                   echo "[$(date)] Checking Nextcloud Books..."
-                  rclone lsf nc:Books/ --files-only 2>/dev/null | while IFS= read -r file; do
+                  rclone lsf nc:Books/ --files-only 2>&1 | while IFS= read -r file; do
                     if ! grep -qxF "$file" "$STATE_FILE"; then
                       echo "[$(date)] Syncing: $file"
                       if rclone copy "nc:Books/${file}" /cwa-book-ingest/; then
