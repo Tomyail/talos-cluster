@@ -55,11 +55,15 @@ spec:
               - /bin/sh
               - -c
               - |
-                export RCLONE_CONFIG_NC_TYPE=webdav
-                export RCLONE_CONFIG_NC_URL="http://nextcloud.storage.svc.cluster.local:8080/remote.php/dav/files/${NEXTCLOUD_USERNAME}/"
-                export RCLONE_CONFIG_NC_VENDOR=nextcloud
-                export RCLONE_CONFIG_NC_USER="${NEXTCLOUD_USERNAME}"
-                export RCLONE_CONFIG_NC_PASS=$(rclone obscure "${NEXTCLOUD_PASSWORD}")
+                mkdir -p /config/rclone
+                cat > /config/rclone/rclone.conf <<RCLONEEOF
+                [nc]
+                type = webdav
+                url = http://nextcloud.storage.svc.cluster.local:8080/remote.php/dav/files/$NEXTCLOUD_USERNAME/
+                vendor = nextcloud
+                user = $NEXTCLOUD_USERNAME
+                pass = $(rclone obscure "$NEXTCLOUD_PASSWORD")
+                RCLONEEOF
                 STATE_FILE="/config/.nc-sync-state"
                 touch "$STATE_FILE"
                 while true; do
@@ -67,7 +71,7 @@ spec:
                   rclone lsf nc:Books/ --files-only 2>&1 | while IFS= read -r file; do
                     if ! grep -qxF "$file" "$STATE_FILE"; then
                       echo "[$(date)] Syncing: $file"
-                      if rclone copy "nc:Books/${file}" /cwa-book-ingest/; then
+                      if rclone copy "nc:Books/$file" /cwa-book-ingest/; then
                         echo "$file" >> "$STATE_FILE"
                         echo "[$(date)] Done: $file"
                       fi
