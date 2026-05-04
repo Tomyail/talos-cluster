@@ -7,6 +7,7 @@ components:
   - ../../components/common
 resources:
   - ./echo/ks.yaml
+  - ./fava/ks.yaml
   - ./navidrome/ks.yaml
   - ./jellyfin/ks.yaml
   - ./qbittorrent/ks.yaml
