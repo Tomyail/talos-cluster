@@ -56,7 +56,7 @@ spec:
               - -c
               - |
                 export RCLONE_CONFIG_NC_TYPE=webdav
-                export RCLONE_CONFIG_NC_URL="http://nextcloud.storage.svc.cluster.local/remote.php/dav/files/${NEXTCLOUD_USERNAME}/"
+                export RCLONE_CONFIG_NC_URL="http://nextcloud.storage.svc.cluster.local:8080/remote.php/dav/files/${NEXTCLOUD_USERNAME}/"
                 export RCLONE_CONFIG_NC_VENDOR=nextcloud
                 export RCLONE_CONFIG_NC_USER="${NEXTCLOUD_USERNAME}"
                 export RCLONE_CONFIG_NC_PASS=$(rclone obscure "${NEXTCLOUD_PASSWORD}")
