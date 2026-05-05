@@ -10,4 +10,6 @@ spec:
     name: fava
   policy:
     alphabetical:
-      order: asc
+      order: desc
+  filterTags:
+    pattern: "^sha-[a-f0-9]+$"
