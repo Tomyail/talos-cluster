@@ -1,0 +1,14 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/gitrepository-source-v1.json
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: flux-system-https
+  namespace: flux-system
+spec:
+  interval: 1m
+  url: https://github.com/tomyail/talos-cluster.git
+  ref:
+    branch: main
+  secretRef:
+    name: flux-github-token

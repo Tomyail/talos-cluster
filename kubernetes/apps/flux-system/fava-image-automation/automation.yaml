@@ -11,7 +11,7 @@ spec:
     path: ./kubernetes/apps/default/fava
   sourceRef:
     kind: GitRepository
-    name: flux-system
+    name: flux-system-https
     namespace: flux-system
   git:
     checkout:
@@ -21,20 +21,5 @@ spec:
       author:
         name: flux-bot
         email: flux-bot@users.noreply.github.com
-      messageTemplate: |
-        Automated image update
-
-        Files:
-        {{ range .Changed.Files }}
-        - {{ .Path }}
-        {{ end }}
-
-        Images:
-        {{ range .Changed.Images }}
-        - {{ .Repository }}:{{ .Tag }}
-        {{ end }}
-
-        Built by Flux Image Automation
     push:
       branch: main
-
