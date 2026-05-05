@@ -11,4 +11,5 @@ spec:
   eventSources:
     - kind: Kustomization
       name: "*"
-  summary: "Flux reconciliation: {{ .Kind }}/{{ .Name }} in {{ .Namespace }}"
+  eventMetadata:
+    summary: "Flux reconciliation: {{ .Kind }}/{{ .Name }} in {{ .Namespace }}"
