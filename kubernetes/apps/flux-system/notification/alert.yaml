@@ -11,5 +11,30 @@ spec:
   eventSources:
     - kind: Kustomization
       name: "*"
+      namespace: flux-system
+    - kind: Kustomization
+      name: "*"
+      namespace: default
+    - kind: Kustomization
+      name: "*"
+      namespace: database
+    - kind: Kustomization
+      name: "*"
+      namespace: storage
+    - kind: Kustomization
+      name: "*"
+      namespace: observability
+    - kind: Kustomization
+      name: "*"
+      namespace: network
+    - kind: Kustomization
+      name: "*"
+      namespace: kube-system
+    - kind: Kustomization
+      name: "*"
+      namespace: cert-manager
+    - kind: Kustomization
+      name: "*"
+      namespace: external-server
   eventMetadata:
     summary: "Flux reconciliation: {{ .Kind }}/{{ .Name }} in {{ .Namespace }}"
