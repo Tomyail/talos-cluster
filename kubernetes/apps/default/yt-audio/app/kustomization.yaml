@@ -6,7 +6,5 @@ namespace: default
 resources:
   - pvc.yaml
   - media-pvc.yaml
-  - registry-externalsecret.yaml
-  - imagerepository.yaml
-  - imagepolicy.yaml
   - helmrelease.yaml
+

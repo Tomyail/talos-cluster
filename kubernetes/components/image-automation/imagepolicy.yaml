@@ -1,15 +1,14 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/imagepolicy-image-reflector-v1.json
 apiVersion: image.toolkit.fluxcd.io/v1beta2
 kind: ImagePolicy
 metadata:
-  name: fava
-  namespace: default
+  name: ${APP}
+  namespace: ${NAMESPACE}
   labels:
     image-automation: enabled
 spec:
   imageRepositoryRef:
-    name: fava
+    name: ${APP}
   policy:
     alphabetical:
       order: desc

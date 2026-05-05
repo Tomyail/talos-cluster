@@ -2,10 +2,10 @@
 apiVersion: image.toolkit.fluxcd.io/v1beta2
 kind: ImageRepository
 metadata:
-  name: APPNAME
-  namespace: NAMESPACE
+  name: ${APP}
+  namespace: ${NAMESPACE}
 spec:
-  image: REGISTRY_URL
+  image: ${REGISTRY_URL}
   interval: 1m
   secretRef:
-    name: APPNAME-registry-secret
+    name: ${APP}-registry-secret
