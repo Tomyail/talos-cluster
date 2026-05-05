@@ -9,3 +9,4 @@ resources:
   - ./flux-instance/ks.yaml
   - ./flux-operator/ks.yaml
   - ./image-automation/ks.yaml
+  - ./notification/ks.yaml
