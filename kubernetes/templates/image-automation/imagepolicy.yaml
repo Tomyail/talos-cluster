@@ -1,0 +1,16 @@
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: APPNAME
+  namespace: NAMESPACE
+  labels:
+    image-automation: enabled
+spec:
+  imageRepositoryRef:
+    name: APPNAME
+  policy:
+    alphabetical:
+      order: desc
+  filterTags:
+    pattern: "^sha-[a-f0-9]+$"
