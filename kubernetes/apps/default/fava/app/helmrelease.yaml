@@ -1,4 +1,3 @@
----
 # yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -26,7 +25,7 @@ spec:
           app:
             image:
               repository: gitea.tomyail.com/tomyail/beancount
-              tag: "1.0.0" # {"$imagepolicy": "default:fava:tag"}
+              tag: "sha-cc88eca0fc1f" # {"$imagepolicy": "default:fava:tag"}
             env:
               TZ: ${TIMEZONE}
               PORT: &port 5000
