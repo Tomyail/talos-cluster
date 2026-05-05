@@ -1,4 +1,3 @@
----
 # yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -26,7 +25,7 @@ spec:
           app:
             image:
               repository: gitea.tomyail.com/mylab/omnifocus-scripts-sync-server
-              tag: "latest" # {"$imagepolicy": "default:omnifocus-sync-server:tag"}
+              tag: "sha-aeb2c4abb5ee" # {"$imagepolicy": "default:omnifocus-sync-server:tag"}
             env:
               TZ: ${TIMEZONE}
               PORT: &port 4000
