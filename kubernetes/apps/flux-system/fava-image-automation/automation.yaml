@@ -4,7 +4,6 @@ apiVersion: image.toolkit.fluxcd.io/v1beta1
 kind: ImageUpdateAutomation
 metadata:
   name: fava
-  namespace: flux-system
 spec:
   interval: 5m
   update:
@@ -29,3 +28,4 @@ spec:
       {{ end }}
 
       Built by Flux Image Automation
+

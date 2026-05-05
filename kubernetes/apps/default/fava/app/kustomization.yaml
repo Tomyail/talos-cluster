@@ -6,5 +6,4 @@ resources:
   - registry-externalsecret.yaml
   - imagerepository.yaml
   - imagepolicy.yaml
-  - imageupdateautomation.yaml
   - helmrelease.yaml
