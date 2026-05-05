@@ -26,7 +26,7 @@ spec:
           app:
             image:
               repository: gitea.tomyail.com/tomyail/yt-audio
-              tag: latest
+              tag: "1.0.0" # {"$imagepolicy": "default:yt-audio:tag"}
             env:
               TZ: ${TIMEZONE}
               PORT: &port 3000

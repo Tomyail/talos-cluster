@@ -1,0 +1,15 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/imagepolicy-image-reflector-v1.json
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: yt-audio
+  namespace: default
+spec:
+  imageRepositoryRef:
+    name: yt-audio
+  policy:
+    alphabetical:
+      order: desc
+  filterTags:
+    pattern: "^sha-[a-f0-9]+$"

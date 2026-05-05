@@ -1,0 +1,25 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/imageupdateautomation-image-automation-v1.json
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageUpdateAutomation
+metadata:
+  name: yt-audio
+spec:
+  interval: 5m
+  update:
+    strategy: Setters
+    path: ./kubernetes/apps/default/yt-audio
+  sourceRef:
+    kind: GitRepository
+    name: flux-system-https
+    namespace: flux-system
+  git:
+    checkout:
+      ref:
+        branch: main
+    commit:
+      author:
+        name: flux-bot
+        email: flux-bot@users.noreply.github.com
+    push:
+      branch: main

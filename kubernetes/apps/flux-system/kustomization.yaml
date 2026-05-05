@@ -9,3 +9,4 @@ resources:
   - ./flux-instance/ks.yaml
   - ./flux-operator/ks.yaml
   - ./fava-image-automation/ks.yaml
+  - ./yt-audio-image-automation/ks.yaml
