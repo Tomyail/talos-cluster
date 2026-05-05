@@ -3,12 +3,12 @@
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageUpdateAutomation
 metadata:
-  name: yt-audio
+  name: apps
 spec:
   interval: 5m
   update:
     strategy: Setters
-    path: ./kubernetes/apps/default/yt-audio
+    path: ./kubernetes/apps/default
   sourceRef:
     kind: GitRepository
     name: flux-system-https
@@ -23,3 +23,6 @@ spec:
         email: flux-bot@users.noreply.github.com
     push:
       branch: main
+  policySelector:
+    matchLabels:
+      image-automation: enabled

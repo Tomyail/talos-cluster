@@ -5,6 +5,8 @@ kind: ImagePolicy
 metadata:
   name: fava
   namespace: default
+  labels:
+    image-automation: enabled
 spec:
   imageRepositoryRef:
     name: fava

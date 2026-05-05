@@ -5,6 +5,8 @@ kind: ImagePolicy
 metadata:
   name: yt-audio
   namespace: default
+  labels:
+    image-automation: enabled
 spec:
   imageRepositoryRef:
     name: yt-audio
