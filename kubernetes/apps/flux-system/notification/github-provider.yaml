@@ -6,6 +6,5 @@ metadata:
   namespace: flux-system
 spec:
   type: github
-  address: https://github.com/Tomyail/talos-cluster
   secretRef:
     name: flux-github-token
