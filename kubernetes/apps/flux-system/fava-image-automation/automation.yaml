@@ -1,6 +1,6 @@
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/imageupdateautomation-image-automation-v1.json
-apiVersion: image.toolkit.fluxcd.io/v1beta1
+apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageUpdateAutomation
 metadata:
   name: fava
@@ -9,23 +9,27 @@ spec:
   update:
     strategy: Setters
     path: ./kubernetes/apps/default/fava
-  gitRepositoryRef:
+  sourceRef:
+    kind: GitRepository
     name: flux-system
-  commit:
-    authorName: flux-bot
-    authorEmail: flux-bot@users.noreply.github.com
-    messageTemplate: |
-      Automated image update
+    namespace: flux-system
+  git:
+    commit:
+      author:
+        name: flux-bot
+        email: flux-bot@users.noreply.github.com
+      messageTemplate: |
+        Automated image update
 
-      Files:
-      {{ range .Updated.Files }}
-      - {{ .Path }}
-      {{ end }}
+        Files:
+        {{ range .Updated.Files }}
+        - {{ .Path }}
+        {{ end }}
 
-      Images:
-      {{ range .Updated.Images }}
-      - {{ .Repository }}:{{ .Tag }}
-      {{ end }}
+        Images:
+        {{ range .Updated.Images }}
+        - {{ .Repository }}:{{ .Tag }}
+        {{ end }}
 
-      Built by Flux Image Automation
+        Built by Flux Image Automation
 
