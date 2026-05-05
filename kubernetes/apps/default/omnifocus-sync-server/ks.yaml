@@ -13,6 +13,7 @@ spec:
   components:
     - ../../../../components/volsync
     - ../../../../components/gatus/external
+    - ../../../../components/image-automation
   dependsOn:
     - name: topolvm
       namespace: storage
@@ -34,5 +35,9 @@ spec:
         kind: Secret
     substitute:
       APP: *app
+      NAMESPACE: *namespace
+      REGISTRY_URL: gitea.tomyail.com/mylab/omnifocus-scripts-sync-server
+      REGISTRY_HOST: gitea.tomyail.com
+      BW_ID: d01d04c2-30c2-4afe-b19b-10dfaced8670
       GATUS_SUBDOMAIN: *app
       VOLSYNC_CAPACITY: 2Gi

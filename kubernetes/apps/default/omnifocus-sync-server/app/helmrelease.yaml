@@ -26,7 +26,7 @@ spec:
           app:
             image:
               repository: gitea.tomyail.com/mylab/omnifocus-scripts-sync-server
-              tag: latest
+              tag: "latest" # {"$imagepolicy": "default:omnifocus-sync-server:tag"}
             env:
               TZ: ${TIMEZONE}
               PORT: &port 4000
@@ -34,7 +34,7 @@ spec:
               API_KEY:
                 valueFrom:
                   secretKeyRef:
-                    name: omnifocus-sync-server-registry-secret
+                    name: omnifocus-sync-server-secret
                     key: API_KEY
             probes:
               liveness: &probes
