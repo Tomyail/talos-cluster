@@ -1,0 +1,37 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/imageupdateautomation-image-automation-v1.json
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageUpdateAutomation
+metadata:
+  name: fava
+  namespace: flux-system
+spec:
+  interval: 5m
+  update:
+    strategy: Setters
+    path: ./kubernetes/apps/default/fava
+  gitRepositoryRef:
+    name: flux-system
+  branch: main
+  push:
+    branch: main
+  commit:
+    authorName: flux-bot
+    authorEmail: flux-bot@users.noreply.github.com
+    signingKey:
+      secretRef:
+        name: flux-system
+    messageTemplate: |
+      Automated image update
+
+      Files:
+      {{ range .Updated.Files }}
+      - {{ .Path }}
+      {{ end }}
+
+      Images:
+      {{ range .Updated.Images }}
+      - {{ .Repository }}:{{ .Tag }}
+      {{ end }}
+
+      Built by Flux Image Automation

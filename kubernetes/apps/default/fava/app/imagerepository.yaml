@@ -1,0 +1,12 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/imagerepository-image-reflector-v1.json
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageRepository
+metadata:
+  name: fava
+  namespace: flux-system
+spec:
+  image: gitea.tomyail.com/tomyail/beancount
+  interval: 1m
+  secretRef:
+    name: fava-registry-secret
