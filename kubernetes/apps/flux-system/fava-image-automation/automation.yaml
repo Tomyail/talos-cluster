@@ -14,6 +14,9 @@ spec:
     name: flux-system
     namespace: flux-system
   git:
+    checkout:
+      ref:
+        branch: main
     commit:
       author:
         name: flux-bot
@@ -22,14 +25,16 @@ spec:
         Automated image update
 
         Files:
-        {{ range .Updated.Files }}
+        {{ range .Changed.Files }}
         - {{ .Path }}
         {{ end }}
 
         Images:
-        {{ range .Updated.Images }}
+        {{ range .Changed.Images }}
         - {{ .Repository }}:{{ .Tag }}
         {{ end }}
 
         Built by Flux Image Automation
+    push:
+      branch: main
 
