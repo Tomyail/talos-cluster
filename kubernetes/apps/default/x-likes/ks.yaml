@@ -11,6 +11,7 @@ spec:
       app.kubernetes.io/name: *app
   components:
     - ../../../../components/gatus/guarded
+    - ../../../../components/image-automation
   interval: 1h
   path: ./kubernetes/apps/default/x-likes/app
   prune: true
@@ -28,3 +29,7 @@ spec:
         kind: Secret
     substitute:
       APP: *app
+      NAMESPACE: *namespace
+      REGISTRY_URL: gitea.tomyail.com/tomyail/x-likes
+      REGISTRY_HOST: gitea.tomyail.com
+      BW_ID: d01d04c2-30c2-4afe-b19b-10dfaced8670

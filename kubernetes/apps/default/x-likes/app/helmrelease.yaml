@@ -26,7 +26,7 @@ spec:
           app:
             image:
               repository: gitea.tomyail.com/tomyail/x-likes
-              tag: latest
+              tag: "latest" # {"$imagepolicy": "default:x-likes:tag"}
             env:
               TZ: ${TIMEZONE}
               PORT: &port 4098
@@ -73,7 +73,7 @@ spec:
                   - ALL
     defaultPodOptions:
       imagePullSecrets:
-        - name: gitea-registry-secret
+        - name: x-likes-registry-secret
       securityContext:
         runAsUser: 1000
         runAsGroup: 1000
