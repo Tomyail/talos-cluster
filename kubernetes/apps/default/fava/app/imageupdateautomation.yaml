@@ -12,15 +12,9 @@ spec:
     path: ./kubernetes/apps/default/fava
   gitRepositoryRef:
     name: flux-system
-  branch: main
-  push:
-    branch: main
   commit:
     authorName: flux-bot
     authorEmail: flux-bot@users.noreply.github.com
-    signingKey:
-      secretRef:
-        name: flux-system
     messageTemplate: |
       Automated image update
 

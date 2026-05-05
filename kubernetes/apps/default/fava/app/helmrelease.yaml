@@ -26,7 +26,7 @@ spec:
           app:
             image:
               repository: gitea.tomyail.com/tomyail/beancount
-              tag: "1.0.0" # {"$imagepolicy": "flux-system:fava:tag"}
+              tag: "1.0.0" # {"$imagepolicy": "default:fava:tag"}
             env:
               TZ: ${TIMEZONE}
               PORT: &port 5000
