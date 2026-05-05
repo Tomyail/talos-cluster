@@ -10,15 +10,5 @@ spec:
   eventSeverity: info
   eventSources:
     - kind: Kustomization
-      name: "fava"
-      namespace: "default"
-    - kind: Kustomization
-      name: "x-likes"
-      namespace: "default"
-    - kind: Kustomization
-      name: "yt-audio"
-      namespace: "default"
-    - kind: Kustomization
-      name: "notification"
-      namespace: "flux-system"
+      name: "*"
   summary: "Flux reconciliation: {{ .Kind }}/{{ .Name }} in {{ .Namespace }}"
