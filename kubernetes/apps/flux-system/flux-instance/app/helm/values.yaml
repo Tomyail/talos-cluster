@@ -10,6 +10,8 @@ instance:
     - kustomize-controller
     - helm-controller
     - notification-controller
+    - image-reflector-controller
+    - image-automation-controller
   sync:
     kind: GitRepository
     url: "https://github.com/tomyail/talos-cluster.git"
