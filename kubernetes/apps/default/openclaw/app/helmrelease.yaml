@@ -29,7 +29,7 @@ spec:
           init-config:
             image:
               repository: ghcr.io/openclaw/openclaw
-              tag: 2026.4.29@sha256:2c56a23cb2fe826a0d521bf6d61c8e4bb4e4201274f358eccddf5876393155ae
+              tag: 2026.5.3@sha256:17a04e767f3097d08b0f31ecd753c5743f0e9c7e3ee613820f1e1d57d84efa4d
             command:
               - sh
               - -c
@@ -113,7 +113,7 @@ spec:
                   name: openclaw-secret
             image:
               repository: ghcr.io/openclaw/openclaw
-              tag: 2026.4.29@sha256:2c56a23cb2fe826a0d521bf6d61c8e4bb4e4201274f358eccddf5876393155ae
+              tag: 2026.5.3@sha256:17a04e767f3097d08b0f31ecd753c5743f0e9c7e3ee613820f1e1d57d84efa4d
             command:
               - node
             args:
