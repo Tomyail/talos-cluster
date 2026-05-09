@@ -6,4 +6,20 @@ namespace: default
 resources:
   - externalsecret.yaml
   - helmrelease.yaml
+patches:
+  - target:
+      kind: ImagePolicy
+      name: omnifocus-sync-server
+    patch: |
+      apiVersion: image.toolkit.fluxcd.io/v1beta2
+      kind: ImagePolicy
+      metadata:
+        name: omnifocus-sync-server
+        namespace: default
+      spec:
+        policy:
+          alphabetical:
+            order: desc
+        filterTags:
+          pattern: "^sha-[a-f0-9]+$"
 

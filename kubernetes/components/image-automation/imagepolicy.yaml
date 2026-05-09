@@ -10,7 +10,8 @@ spec:
   imageRepositoryRef:
     name: ${APP}
   policy:
-    alphabetical:
-      order: desc
+    numerical:
+      order: asc
   filterTags:
-    pattern: "^sha-[a-f0-9]+$"
+    pattern: "^.+-[a-f0-9]+-(?P<ts>[0-9]+)$"
+    extract: "$ts"
