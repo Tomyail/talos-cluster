@@ -25,7 +25,7 @@ spec:
           app:
             image:
               repository: gitea.tomyail.com/tomyail/x-likes
-              tag: "sha-d4874cdb9bc0" # {"$imagepolicy": "default:x-likes:tag"}
+              tag: "sha-19f64b74ca77" # {"$imagepolicy": "default:x-likes:tag"}
             env:
               TZ: ${TIMEZONE}
               PORT: &port 4098
