@@ -1,0 +1,219 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: calibre-web-automated-export
+data:
+  export-books.py: |
+    import base64
+    import os
+    import re
+    import sqlite3
+    import sys
+    import urllib.error
+    import urllib.parse
+    import urllib.request
+    import xml.etree.ElementTree as ET
+    from pathlib import Path
+
+    APP_DB = Path("/config/app.db")
+    CALIBRE_DB = Path("/calibre-library/metadata.db")
+    LIBRARY = Path("/calibre-library")
+    REMOTE_ROOT = os.environ.get("NEXTCLOUD_EXPORT_DIR", "Books-Exports").strip("/")
+    NEXTCLOUD_BASE_URL = os.environ.get(
+        "NEXTCLOUD_BASE_URL",
+        "http://nextcloud.storage.svc.cluster.local:8080",
+    ).rstrip("/")
+    USERNAME = os.environ["NEXTCLOUD_USERNAME"]
+    PASSWORD = os.environ["NEXTCLOUD_PASSWORD"]
+
+    REPLACEMENTS = str.maketrans({
+        "\\": "／",
+        "/": "／",
+        ":": "：",
+        "*": "＊",
+        "?": "？",
+        '"': "＂",
+        "<": "＜",
+        ">": "＞",
+        "|": "｜",
+    })
+    CONTROL = re.compile(r"[\x00-\x1f]")
+    SPACE = re.compile(r"\s+")
+
+
+    def clean(value, fallback):
+        value = value or fallback
+        value = CONTROL.sub("", value.translate(REPLACEMENTS))
+        value = SPACE.sub(" ", value).strip(" ._;；")
+        return value[:150].strip(" ._;；") or fallback
+
+
+    def quote_path(path):
+        return "/".join(urllib.parse.quote(part) for part in path.split("/"))
+
+
+    def webdav_url(path):
+        encoded_user = urllib.parse.quote(USERNAME)
+        encoded_path = quote_path(path.strip("/"))
+        return f"{NEXTCLOUD_BASE_URL}/remote.php/dav/files/{encoded_user}/{encoded_path}"
+
+
+    def request(method, path, data=None, headers=None, ok=(200, 201, 204, 207)):
+        headers = dict(headers or {})
+        token = base64.b64encode(f"{USERNAME}:{PASSWORD}".encode()).decode()
+        headers["Authorization"] = f"Basic {token}"
+        req = urllib.request.Request(
+            webdav_url(path),
+            data=data,
+            headers=headers,
+            method=method,
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=120) as resp:
+                body = resp.read()
+                if resp.status not in ok:
+                    raise RuntimeError(f"{method} {path}: HTTP {resp.status}")
+                return resp.status, body
+        except urllib.error.HTTPError as exc:
+            if exc.code in ok:
+                return exc.code, exc.read()
+            raise
+
+
+    def ensure_dir(path):
+        current = ""
+        for part in path.strip("/").split("/"):
+            if not part:
+                continue
+            current = f"{current}/{part}".strip("/")
+            try:
+                request("MKCOL", current, ok=(201, 405))
+            except urllib.error.HTTPError as exc:
+                if exc.code != 405:
+                    raise
+
+
+    def list_remote_files(root):
+        try:
+            _, body = request(
+                "PROPFIND",
+                root,
+                headers={"Depth": "infinity"},
+                ok=(207,),
+            )
+        except urllib.error.HTTPError as exc:
+            if exc.code == 404:
+                return set()
+            raise
+
+        files = set()
+        ns = {"d": "DAV:"}
+        base_href = urllib.parse.urlparse(webdav_url(root)).path.rstrip("/") + "/"
+        xml_root = ET.fromstring(body)
+        for response in xml_root.findall("d:response", ns):
+            href = response.findtext("d:href", default="", namespaces=ns)
+            href_path = urllib.parse.unquote(urllib.parse.urlparse(href).path)
+            if href_path.rstrip("/") == base_href.rstrip("/"):
+                continue
+            resource_type = response.find(".//d:resourcetype", ns)
+            is_collection = resource_type is not None and resource_type.find("d:collection", ns) is not None
+            if is_collection:
+                continue
+            if href_path.startswith(base_href):
+                files.add(href_path[len(base_href):])
+        return files
+
+
+    def desired_exports():
+        conn = sqlite3.connect(APP_DB)
+        conn.execute(f"ATTACH DATABASE '{CALIBRE_DB}' AS calibre")
+        rows = conn.execute("""
+            WITH author_names AS (
+              SELECT bal.book AS book_id,
+                     group_concat(a.name, ', ') AS authors
+              FROM calibre.books_authors_link bal
+              JOIN calibre.authors a ON a.id = bal.author
+              GROUP BY bal.book
+            )
+            SELECT s.name,
+                   b.id,
+                   b.title,
+                   COALESCE(an.authors, b.author_sort, 'Unknown') AS authors,
+                   b.path,
+                   d.name,
+                   lower(d.format) AS ext
+            FROM shelf s
+            JOIN book_shelf_link l ON l.shelf = s.id
+            JOIN calibre.books b ON b.id = l.book_id
+            LEFT JOIN author_names an ON an.book_id = b.id
+            JOIN calibre.data d ON d.book = b.id
+            WHERE s.user_id = 1 AND s.name GLOB '[0-9][0-9] *'
+            ORDER BY s.name, l."order", b.id, d.format
+        """).fetchall()
+        conn.close()
+
+        seen = set()
+        exports = {}
+        for shelf, book_id, title, authors, rel_dir, data_name, ext in rows:
+            src = LIBRARY / rel_dir / f"{data_name}.{ext}"
+            if not src.exists():
+                raise FileNotFoundError(src)
+
+            shelf_name = clean(shelf, "Shelf")
+            title_part = clean(title, f"book-{book_id}")
+            author_part = clean(authors, "Unknown")
+            filename = f"{title_part} - {author_part}.{ext}"
+            remote_rel = f"{shelf_name}/{filename}"
+            if remote_rel in seen:
+                filename = f"{title_part} - {author_part} ({book_id}).{ext}"
+                remote_rel = f"{shelf_name}/{filename}"
+            seen.add(remote_rel)
+            exports[remote_rel] = src
+        return exports
+
+
+    def upload(remote_rel, src):
+        remote_path = f"{REMOTE_ROOT}/{remote_rel}"
+        ensure_dir(str(Path(remote_path).parent))
+        with src.open("rb") as fh:
+            request(
+                "PUT",
+                remote_path,
+                data=fh.read(),
+                headers={"Content-Type": "application/octet-stream"},
+                ok=(200, 201, 204),
+            )
+
+
+    def main():
+        ensure_dir(REMOTE_ROOT)
+        exports = desired_exports()
+        print(f"desired={len(exports)}")
+
+        uploaded = 0
+        for remote_rel, src in exports.items():
+            upload(remote_rel, src)
+            uploaded += 1
+            if uploaded % 10 == 0:
+                print(f"uploaded={uploaded}")
+
+        remote_files = list_remote_files(REMOTE_ROOT)
+        desired_files = set(exports)
+        extra_files = sorted(remote_files - desired_files)
+        for rel in extra_files:
+            request("DELETE", f"{REMOTE_ROOT}/{rel}", ok=(200, 202, 204, 404))
+
+        missing = desired_files - list_remote_files(REMOTE_ROOT)
+        print(f"uploaded={uploaded}")
+        print(f"deleted={len(extra_files)}")
+        print(f"missing={len(missing)}")
+        if missing:
+            for rel in sorted(missing)[:20]:
+                print(f"missing: {rel}", file=sys.stderr)
+            return 1
+        return 0
+
+
+    if __name__ == "__main__":
+        raise SystemExit(main())

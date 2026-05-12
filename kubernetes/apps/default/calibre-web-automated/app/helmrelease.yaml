@@ -68,7 +68,7 @@ spec:
                 touch "$STATE_FILE"
                 while true; do
                   echo "[$(date)] Checking Nextcloud Books..."
-                  rclone lsf nc:Books/ --files-only 2>&1 | while IFS= read -r file; do
+                  rclone lsf nc:Books/ --recursive --files-only --ignore-case --include "*.{epub,pdf,mobi,azw3}" 2>&1 | while IFS= read -r file; do
                     if ! grep -qxF "$file" "$STATE_FILE"; then
                       echo "[$(date)] Syncing: $file"
                       if rclone copy "nc:Books/$file" /cwa-book-ingest/; then
@@ -96,6 +96,50 @@ spec:
                 memory: 64Mi
               limits:
                 memory: 128Mi
+          books-export:
+            image:
+              repository: ghcr.io/crocodilestick/calibre-web-automated
+              tag: v4.0.6
+            command:
+              - /bin/sh
+              - -c
+              - |
+                python3 - <<'PY'
+                import datetime
+                import subprocess
+                import time
+
+                while True:
+                    now = datetime.datetime.now()
+                    target = now.replace(hour=3, minute=30, second=0, microsecond=0)
+                    if target <= now:
+                        target += datetime.timedelta(days=1)
+                    seconds = (target - now).total_seconds()
+                    print(f"[books-export] Next export at {target.isoformat(sep=' ', timespec='seconds')}", flush=True)
+                    time.sleep(seconds)
+                    print("[books-export] Starting export", flush=True)
+                    result = subprocess.run(["python3", "/scripts/export-books.py"])
+                    print(f"[books-export] Export finished with exit code {result.returncode}", flush=True)
+                PY
+            env:
+              NEXTCLOUD_BASE_URL: http://nextcloud.storage.svc.cluster.local:8080
+              NEXTCLOUD_EXPORT_DIR: Books-Exports
+              NEXTCLOUD_USERNAME:
+                valueFrom:
+                  secretKeyRef:
+                    name: calibre-web-automated-nextcloud
+                    key: NEXTCLOUD_USERNAME
+              NEXTCLOUD_PASSWORD:
+                valueFrom:
+                  secretKeyRef:
+                    name: calibre-web-automated-nextcloud
+                    key: NEXTCLOUD_PASSWORD
+            resources:
+              requests:
+                cpu: 10m
+                memory: 128Mi
+              limits:
+                memory: 768Mi
     service:
       app:
         controller: calibre-web-automated
@@ -143,3 +187,12 @@ spec:
             subPath: cwa-book-ingest
           - path: /calibre-library
             subPath: calibre-library
+      export-script:
+        type: configMap
+        name: calibre-web-automated-export
+        defaultMode: 0555
+        advancedMounts:
+          calibre-web-automated:
+            books-export:
+              - path: /scripts
+                readOnly: true
