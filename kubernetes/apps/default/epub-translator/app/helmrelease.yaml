@@ -25,7 +25,7 @@ spec:
           app:
             image:
               repository: gitea.tomyail.com/tomyail/epub-translator
-              tag: "main-8ba0c6568c23-1778863425" # {"$imagepolicy": "default:epub-translator:tag"}
+              tag: "main-ad159e1b0b26-1778865829" # {"$imagepolicy": "default:epub-translator:tag"}
             env:
               TZ: ${TIMEZONE}
               WATCH_INPUT_DIR: /books/input
