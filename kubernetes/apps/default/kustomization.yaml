@@ -36,3 +36,4 @@ resources:
   - ./webtop/ks.yaml
   - ./x-likes/ks.yaml
   - ./yt-audio/ks.yaml
+  - ./epub-translator/ks.yaml

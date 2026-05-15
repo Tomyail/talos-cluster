@@ -1,0 +1,92 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app epub-translator
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    controllers:
+      epub-translator:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: gitea.tomyail.com/tomyail/epub-translator
+              tag: "main-placeholder-0" # {"$imagepolicy": "default:epub-translator:tag"}
+            env:
+              TZ: ${TIMEZONE}
+              WATCH_INPUT_DIR: /books/input
+              WATCH_OUTPUT_DIR: /books/output
+              WATCH_FAILED_DIR: /books/failed
+              WATCH_CACHE_DIR: /cache
+              FORMAT_JSON_PATH: /secrets/format.json
+              WATCH_INTERVAL: "300"
+              TARGET_LANGUAGE: Chinese
+              CONCURRENCY: "10"
+              MAX_RETRIES: "2"
+            envFrom:
+              - secretRef:
+                  name: epub-translator-secret
+            resources:
+              requests:
+                cpu: 10m
+                memory: 256Mi
+              limits:
+                memory: 1Gi
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+    defaultPodOptions:
+      imagePullSecrets:
+        - name: epub-translator-registry-secret
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    persistence:
+      cache:
+        existingClaim: epub-translator
+        globalMounts:
+          - path: /cache
+      secrets:
+        type: secret
+        name: epub-translator-secret
+        globalMounts:
+          - path: /secrets/format.json
+            subPath: format.json
+            readOnly: true
+      books-input:
+        type: nfs
+        server: 192.168.50.220
+        path: /volume4/media/book/input
+        globalMounts:
+          - path: /books/input
+      books-output:
+        type: nfs
+        server: 192.168.50.220
+        path: /volume4/media/book/output
+        globalMounts:
+          - path: /books/output
+      books-failed:
+        type: nfs
+        server: 192.168.50.220
+        path: /volume4/media/book/failed
+        globalMounts:
+          - path: /books/failed
