@@ -37,7 +37,7 @@ spec:
               TARGET_LANGUAGE: Chinese
               CONCURRENCY: "10"
               MAX_RETRIES: "2"
-              FAILED_BATCH_RETRIES: "3"
+              FAILED_BATCH_RETRIES: "1"
               FAILED_BATCH_MAX_RETRIES: "5"
             envFrom:
               - secretRef:
