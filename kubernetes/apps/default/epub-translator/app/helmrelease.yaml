@@ -39,6 +39,8 @@ spec:
               MAX_RETRIES: "2"
               FAILED_BATCH_RETRIES: "1"
               FAILED_BATCH_MAX_RETRIES: "5"
+              NEXTCLOUD_BASE_URL: http://nextcloud.storage.svc.cluster.local:8080
+              NEXTCLOUD_BOOKS_DIR: Books
             envFrom:
               - secretRef:
                   name: epub-translator-secret
@@ -80,9 +82,7 @@ spec:
         globalMounts:
           - path: /books/input
       books-output:
-        type: nfs
-        server: 192.168.50.220
-        path: /volume4/media/book/output
+        type: emptyDir
         globalMounts:
           - path: /books/output
       books-failed:
