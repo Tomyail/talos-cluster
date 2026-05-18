@@ -38,7 +38,7 @@ spec:
         apps.config.php: false
       extraInitContainers:
         - name: init-db
-          image: ghcr.io/home-operations/postgres-init:18.3
+          image: ghcr.io/home-operations/postgres-init:18.4
           envFrom:
             - secretRef:
                 name: nextcloud-secret
