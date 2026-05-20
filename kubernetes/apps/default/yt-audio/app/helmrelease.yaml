@@ -25,7 +25,7 @@ spec:
           app:
             image:
               repository: gitea.tomyail.com/tomyail/yt-audio
-              tag: "rewrite-server-client-split-ef2a3f8a54dd-1779283884" # {"$imagepolicy": "default:yt-audio:tag"}
+              tag: "rewrite-server-client-split-ef2a3f8a54dd-1779284428" # {"$imagepolicy": "default:yt-audio:tag"}
             env:
               TZ: ${TIMEZONE}
               PORT: &port 3000
