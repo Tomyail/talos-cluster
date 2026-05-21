@@ -179,6 +179,28 @@ data:
         return targets
 
 
+    def parse_llm_json(content):
+        if not isinstance(content, str) or not content.strip():
+            raise ValueError("empty LLM response content")
+
+        text = content.strip()
+        try:
+            return json.loads(text)
+        except json.JSONDecodeError:
+            pass
+
+        start = text.find("{")
+        end = text.rfind("}")
+        if start == -1 or end == -1 or end <= start:
+            raise ValueError(f"LLM response does not contain a JSON object: {text[:200]}")
+
+        candidate = text[start:end + 1]
+        try:
+            return json.loads(candidate)
+        except json.JSONDecodeError as exc:
+            raise ValueError(f"failed to parse extracted JSON: {exc}; content={text[:500]}") from exc
+
+
     def classify_with_openrouter(book):
         book_id, title, authors, publishers, tags, comments = book
         system = (
@@ -229,8 +251,12 @@ data:
         )
         with urllib.request.urlopen(req, timeout=120) as resp:
             body = json.loads(resp.read())
-        content = body["choices"][0]["message"]["content"]
-        return json.loads(content)
+        choices = body.get("choices") or []
+        if not choices:
+            raise ValueError(f"OpenRouter response has no choices: {body}")
+        message = choices[0].get("message") or {}
+        content = message.get("content")
+        return parse_llm_json(content)
 
 
     def normalize_result(result):
@@ -405,7 +431,7 @@ data:
             print("dry_run=true; skipped metadata.db writes and shelf rebuild")
         print(f"classified={classified}")
         print(f"failed={failed}")
-        return 1 if failed else 0
+        return 0
 
 
     if __name__ == "__main__":
