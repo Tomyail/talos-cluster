@@ -4,7 +4,415 @@ kind: ConfigMap
 metadata:
   name: calibre-web-automated-export
 data:
+  classify-books.py: |
+    import argparse
+    import json
+    import os
+    import re
+    import sqlite3
+    import sys
+    import time
+    import urllib.error
+    import urllib.request
+    from datetime import datetime, timezone
+    from pathlib import Path
+
+    APP_DB = Path("/config/app.db")
+    CALIBRE_DB = Path("/calibre-library/metadata.db")
+    DECISIONS_LOG = Path("/config/books-classifier-decisions.jsonl")
+    OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
+    OPENROUTER_MODEL = os.environ.get("OPENROUTER_MODEL", "openrouter/free")
+    OPENROUTER_API_KEY = os.environ["OPENROUTER_API_KEY"]
+    RECLASSIFY_ALL = os.environ.get("CLASSIFY_RECLASSIFY_ALL", "false").lower() == "true"
+
+    SHELVES = [
+        "01 编程与软件工程",
+        "02 AI与机器学习",
+        "03 云原生与运维",
+        "04 数据库与网络系统",
+        "05 科学数学与思维",
+        "06 商业创新与传记",
+        "07 健康生活与心理",
+        "08 写作沟通与阅读",
+    ]
+
+    SHELF_TAGS = {
+        "01 编程与软件工程": ["编程", "软件工程"],
+        "02 AI与机器学习": ["AI与机器学习"],
+        "03 云原生与运维": ["DevOps与云原生"],
+        "04 数据库与网络系统": ["数据库与SQL", "网络与系统"],
+        "05 科学数学与思维": ["科学与数学", "思维与认知"],
+        "06 商业创新与传记": ["商业与创新", "传记与社会"],
+        "07 健康生活与心理": ["健康与生活"],
+        "08 写作沟通与阅读": ["写作与沟通", "阅读方法"],
+    }
+
+    CORE_TAGS = sorted({
+        "编程", "软件工程", "Go", "Python", "Elixir", "C++", "Clojure", "TypeScript",
+        "函数式编程", "并发", "分布式系统", "类型系统", "API", "自动化", "安全",
+        "AI与机器学习", "深度学习", "生成式AI", "ChatGPT", "NLP", "MLOps",
+        "PyTorch", "LangChain", "Transformers", "神经网络", "数据科学", "科技史",
+        "DevOps与云原生", "Kubernetes", "运维", "Nginx", "Proxmox", "虚拟化",
+        "数据库与SQL", "SQL", "网络与系统", "网络编程", "Linux", "操作系统",
+        "科学与数学", "数学", "量子计算", "复杂系统", "科普", "哲学", "思维与认知",
+        "商业与创新", "产品", "设计思维", "传记与社会", "社会科学",
+        "健康与生活", "心理", "健身", "营养",
+        "写作与沟通", "技术写作", "职场", "阅读方法",
+        "Pragmatic Bookshelf",
+    })
+
+    TAG_ALIASES = {
+        "机器学习": "AI与机器学习",
+        "人工智能": "AI与机器学习",
+        "云原生": "DevOps与云原生",
+        "数据库": "数据库与SQL",
+        "网络": "网络与系统",
+        "传记": "传记与社会",
+        "商业": "商业与创新",
+        "阅读": "阅读方法",
+    }
+
+    BANNED_TAGS = {"书籍", "图书", "学习", "知识", "技术", "其他", "综合", "未分类"}
+    TAG_RE = re.compile(r"[\x00-\x1f,，/\\|]")
+    SPACE_RE = re.compile(r"\s+")
+
+
+    def clean_tag(tag):
+        tag = SPACE_RE.sub(" ", TAG_RE.sub(" ", str(tag or ""))).strip(" ._;；:-")
+        tag = TAG_ALIASES.get(tag, tag)
+        if not tag or tag in BANNED_TAGS:
+            return None
+        if len(tag) > 18:
+            return None
+        return tag
+
+
+    def connect_metadata():
+        return sqlite3.connect(CALIBRE_DB, timeout=60)
+
+
+    def connect_app():
+        return sqlite3.connect(APP_DB, timeout=60)
+
+
+    def current_main_tags(conn, book_id):
+        rows = conn.execute(
+            """
+            SELECT t.name
+            FROM tags t
+            JOIN books_tags_link l ON l.tag = t.id
+            WHERE l.book = ?
+            """,
+            (book_id,),
+        ).fetchall()
+        tags = {row[0] for row in rows}
+        return tags & set(CORE_TAGS)
+
+
+    def books_in_numbered_shelves(app_conn):
+        rows = app_conn.execute(
+            """
+            SELECT DISTINCT l.book_id
+            FROM book_shelf_link l
+            JOIN shelf s ON s.id = l.shelf
+            WHERE s.user_id = 1 AND s.name GLOB '[0-9][0-9] *'
+            """
+        ).fetchall()
+        return {row[0] for row in rows}
+
+
+    def load_books():
+        conn = connect_metadata()
+        rows = conn.execute(
+            """
+            WITH author_names AS (
+              SELECT bal.book AS book_id, group_concat(a.name, ', ') AS authors
+              FROM books_authors_link bal
+              JOIN authors a ON a.id = bal.author
+              GROUP BY bal.book
+            ),
+            publisher_names AS (
+              SELECT bpl.book AS book_id, group_concat(p.name, ', ') AS publishers
+              FROM books_publishers_link bpl
+              JOIN publishers p ON p.id = bpl.publisher
+              GROUP BY bpl.book
+            ),
+            tag_names AS (
+              SELECT btl.book AS book_id, group_concat(t.name, ', ') AS tags
+              FROM books_tags_link btl
+              JOIN tags t ON t.id = btl.tag
+              GROUP BY btl.book
+            )
+            SELECT b.id,
+                   b.title,
+                   COALESCE(an.authors, b.author_sort, 'Unknown') AS authors,
+                   COALESCE(pn.publishers, '') AS publishers,
+                   COALESCE(tn.tags, '') AS tags,
+                   COALESCE(substr(c.text, 1, 1800), '') AS comments
+            FROM books b
+            LEFT JOIN author_names an ON an.book_id = b.id
+            LEFT JOIN publisher_names pn ON pn.book_id = b.id
+            LEFT JOIN tag_names tn ON tn.book_id = b.id
+            LEFT JOIN comments c ON c.book = b.id
+            ORDER BY b.id
+            """
+        ).fetchall()
+        conn.close()
+        return rows
+
+
+    def target_books():
+        books = load_books()
+        if RECLASSIFY_ALL:
+            return books
+
+        meta_conn = connect_metadata()
+        app_conn = connect_app()
+        shelved = books_in_numbered_shelves(app_conn)
+        targets = []
+        for row in books:
+            book_id = row[0]
+            if not current_main_tags(meta_conn, book_id) or book_id not in shelved:
+                targets.append(row)
+        meta_conn.close()
+        app_conn.close()
+        return targets
+
+
+    def classify_with_openrouter(book):
+        book_id, title, authors, publishers, tags, comments = book
+        system = (
+            "你是私人电子书库分类器。只返回严格 JSON，不要 markdown。"
+            "书架只能从给定候选中选择，最多 3 个。"
+            "tags 可半开放，但应短、可复用、具体，最多 6 个。"
+            "不要输出“书籍、学习、知识、技术、其他、综合、未分类”等空泛标签。"
+        )
+        user = {
+            "candidate_shelves": SHELVES,
+            "recommended_core_tags": CORE_TAGS,
+            "book": {
+                "id": book_id,
+                "title": title,
+                "authors": authors,
+                "publishers": publishers,
+                "existing_tags": tags,
+                "comments": comments,
+            },
+            "required_json_shape": {
+                "shelves": ["01 编程与软件工程"],
+                "tags": ["编程", "Go"],
+                "confidence": 0.85,
+                "reason": "简短说明",
+            },
+        }
+        payload = {
+            "model": OPENROUTER_MODEL,
+            "messages": [
+                {"role": "system", "content": system},
+                {"role": "user", "content": json.dumps(user, ensure_ascii=False)},
+            ],
+            "temperature": 0.1,
+            "max_tokens": 500,
+            "response_format": {"type": "json_object"},
+        }
+        headers = {
+            "Authorization": f"Bearer {OPENROUTER_API_KEY}",
+            "Content-Type": "application/json",
+            "HTTP-Referer": "https://books.tomyail.com",
+            "X-Title": "Calibre Web Automated Classifier",
+        }
+        req = urllib.request.Request(
+            OPENROUTER_URL,
+            data=json.dumps(payload).encode(),
+            headers=headers,
+            method="POST",
+        )
+        with urllib.request.urlopen(req, timeout=120) as resp:
+            body = json.loads(resp.read())
+        content = body["choices"][0]["message"]["content"]
+        return json.loads(content)
+
+
+    def normalize_result(result):
+        shelves = []
+        for shelf in result.get("shelves", []):
+            if shelf in SHELVES and shelf not in shelves:
+                shelves.append(shelf)
+        shelves = shelves[:3]
+
+        tags = []
+        for tag in result.get("tags", []):
+            cleaned = clean_tag(tag)
+            if cleaned and cleaned not in tags:
+                tags.append(cleaned)
+        for shelf in shelves:
+            for tag in SHELF_TAGS[shelf]:
+                if tag not in tags:
+                    tags.append(tag)
+                    break
+        tags = tags[:8]
+
+        confidence = result.get("confidence", 0)
+        try:
+            confidence = float(confidence)
+        except (TypeError, ValueError):
+            confidence = 0.0
+        confidence = max(0.0, min(1.0, confidence))
+
+        return {
+            "shelves": shelves,
+            "tags": tags,
+            "confidence": confidence,
+            "reason": str(result.get("reason", ""))[:300],
+        }
+
+
+    def add_tags(book_id, tags):
+        conn = connect_metadata()
+        with conn:
+            for tag in tags:
+                conn.execute("INSERT OR IGNORE INTO tags(name) VALUES (?)", (tag,))
+                tag_id = conn.execute("SELECT id FROM tags WHERE name = ?", (tag,)).fetchone()[0]
+                conn.execute(
+                    "INSERT OR IGNORE INTO books_tags_link(book, tag) VALUES (?, ?)",
+                    (book_id, tag_id),
+                )
+        conn.close()
+
+
+    def ensure_shelves(app_conn):
+        for shelf in SHELVES:
+            exists = app_conn.execute(
+                "SELECT id FROM shelf WHERE user_id = 1 AND name = ?",
+                (shelf,),
+            ).fetchone()
+            if not exists:
+                app_conn.execute(
+                    """
+                    INSERT INTO shelf(uuid, name, is_public, user_id, kobo_sync, created, last_modified)
+                    VALUES (lower(hex(randomblob(4))) || '-' || lower(hex(randomblob(2))) || '-' ||
+                            lower(hex(randomblob(2))) || '-' || lower(hex(randomblob(2))) || '-' ||
+                            lower(hex(randomblob(6))), ?, 0, 1, 0, datetime('now'), datetime('now'))
+                    """,
+                    (shelf,),
+                )
+
+
+    def rebuild_shelves():
+        app_conn = connect_app()
+        app_conn.execute(f"ATTACH DATABASE '{CALIBRE_DB}' AS calibre")
+        with app_conn:
+            ensure_shelves(app_conn)
+            shelf_names = ",".join("?" for _ in SHELVES)
+            app_conn.execute(
+                f"""
+                DELETE FROM book_shelf_link
+                WHERE shelf IN (
+                  SELECT id FROM shelf WHERE user_id = 1 AND name IN ({shelf_names})
+                )
+                """,
+                SHELVES,
+            )
+            for shelf, tags in SHELF_TAGS.items():
+                tag_placeholders = ",".join("?" for _ in tags)
+                rows = app_conn.execute(
+                    f"""
+                    SELECT DISTINCT b.id, lower(b.title)
+                    FROM calibre.books b
+                    JOIN calibre.books_tags_link l ON l.book = b.id
+                    JOIN calibre.tags t ON t.id = l.tag
+                    WHERE t.name IN ({tag_placeholders})
+                    ORDER BY lower(b.title), b.id
+                    """,
+                    tags,
+                ).fetchall()
+                shelf_id = app_conn.execute(
+                    "SELECT id FROM shelf WHERE user_id = 1 AND name = ?",
+                    (shelf,),
+                ).fetchone()[0]
+                for index, (book_id, _) in enumerate(rows, start=1):
+                    app_conn.execute(
+                        """
+                        INSERT INTO book_shelf_link(book_id, "order", shelf, date_added)
+                        VALUES (?, ?, ?, datetime('now'))
+                        """,
+                        (book_id, index, shelf_id),
+                    )
+                app_conn.execute(
+                    "UPDATE shelf SET last_modified = datetime('now') WHERE id = ?",
+                    (shelf_id,),
+                )
+        app_conn.close()
+
+
+    def log_decision(book, decision, source, error=None):
+        record = {
+            "ts": datetime.now(timezone.utc).isoformat(),
+            "book_id": book[0],
+            "title": book[1],
+            "authors": book[2],
+            "source": source,
+            "decision": decision,
+        }
+        if error:
+            record["error"] = str(error)
+        with DECISIONS_LOG.open("a", encoding="utf-8") as fh:
+            fh.write(json.dumps(record, ensure_ascii=False) + "\n")
+
+
+    def main():
+        parser = argparse.ArgumentParser(description="Classify Calibre books with OpenRouter")
+        parser.add_argument(
+            "--dry-run",
+            action="store_true",
+            help="Call OpenRouter and print/log decisions without writing metadata.db or app.db",
+        )
+        args = parser.parse_args()
+
+        targets = target_books()
+        print(f"classify_targets={len(targets)}")
+        print(f"dry_run={args.dry_run}")
+        classified = 0
+        failed = 0
+        for book in targets:
+            for attempt in range(3):
+                try:
+                    raw = classify_with_openrouter(book)
+                    decision = normalize_result(raw)
+                    if not decision["shelves"] or not decision["tags"] or decision["confidence"] < 0.35:
+                        raise ValueError(f"low quality classification: {decision}")
+                    if not args.dry_run:
+                        add_tags(book[0], decision["tags"])
+                        log_decision(book, decision, "openrouter")
+                    classified += 1
+                    prefix = "would_classify" if args.dry_run else "classified"
+                    print(
+                        f"{prefix} book_id={book[0]} shelves={','.join(decision['shelves'])} tags={','.join(decision['tags'])}",
+                        flush=True,
+                    )
+                    break
+                except Exception as exc:
+                    if attempt == 2:
+                        failed += 1
+                        log_decision(book, None, "openrouter", error=exc)
+                        print(f"failed book_id={book[0]} error={exc}", file=sys.stderr, flush=True)
+                    else:
+                        time.sleep(2 * (attempt + 1))
+
+        if not args.dry_run:
+            rebuild_shelves()
+        else:
+            print("dry_run=true; skipped metadata.db writes and shelf rebuild")
+        print(f"classified={classified}")
+        print(f"failed={failed}")
+        return 1 if failed else 0
+
+
+    if __name__ == "__main__":
+        raise SystemExit(main())
+
   export-books.py: |
+    import argparse
     import base64
     import os
     import re
@@ -107,7 +515,7 @@ data:
                 return set()
             raise
 
-        files = set()
+        files = {}
         ns = {"d": "DAV:"}
         base_href = urllib.parse.urlparse(webdav_url(root)).path.rstrip("/") + "/"
         xml_root = ET.fromstring(body)
@@ -121,7 +529,12 @@ data:
             if is_collection:
                 continue
             if href_path.startswith(base_href):
-                files.add(href_path[len(base_href):])
+                size_text = response.findtext(".//d:getcontentlength", default="0", namespaces=ns)
+                try:
+                    size = int(size_text)
+                except (TypeError, ValueError):
+                    size = -1
+                files[href_path[len(base_href):]] = size
         return files
 
 
@@ -187,25 +600,55 @@ data:
 
 
     def main():
+        parser = argparse.ArgumentParser(description="Export Calibre Web shelves to Nextcloud")
+        parser.add_argument(
+            "--dry-run",
+            action="store_true",
+            help="Print planned uploads/deletes without changing Nextcloud",
+        )
+        args = parser.parse_args()
+
         ensure_dir(REMOTE_ROOT)
         exports = desired_exports()
         print(f"desired={len(exports)}")
+        print(f"dry_run={args.dry_run}")
 
+        remote_files = list_remote_files(REMOTE_ROOT)
         uploaded = 0
+        skipped = 0
+        would_upload = 0
         for remote_rel, src in exports.items():
+            if remote_files.get(remote_rel) == src.stat().st_size:
+                skipped += 1
+                continue
+            if args.dry_run:
+                would_upload += 1
+                print(f"would_upload: {remote_rel}")
+                continue
             upload(remote_rel, src)
             uploaded += 1
             if uploaded % 10 == 0:
                 print(f"uploaded={uploaded}")
 
+        if args.dry_run:
+            desired_files = set(exports)
+            extra_files = sorted(set(remote_files) - desired_files)
+            for rel in extra_files:
+                print(f"would_delete: {rel}")
+            print(f"would_upload={would_upload}")
+            print(f"skipped={skipped}")
+            print(f"would_delete={len(extra_files)}")
+            return 0
+
         remote_files = list_remote_files(REMOTE_ROOT)
         desired_files = set(exports)
-        extra_files = sorted(remote_files - desired_files)
+        extra_files = sorted(set(remote_files) - desired_files)
         for rel in extra_files:
             request("DELETE", f"{REMOTE_ROOT}/{rel}", ok=(200, 202, 204, 404))
 
-        missing = desired_files - list_remote_files(REMOTE_ROOT)
+        missing = desired_files - set(list_remote_files(REMOTE_ROOT))
         print(f"uploaded={uploaded}")
+        print(f"skipped={skipped}")
         print(f"deleted={len(extra_files)}")
         print(f"missing={len(missing)}")
         if missing:

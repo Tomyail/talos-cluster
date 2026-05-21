@@ -106,24 +106,29 @@ spec:
               - |
                 python3 - <<'PY'
                 import datetime
+                import os
                 import subprocess
                 import time
 
+                interval = int(os.environ.get("BOOKS_MAINTENANCE_INTERVAL_SECONDS", "3600"))
                 while True:
-                    now = datetime.datetime.now()
-                    target = now.replace(hour=3, minute=30, second=0, microsecond=0)
-                    if target <= now:
-                        target += datetime.timedelta(days=1)
-                    seconds = (target - now).total_seconds()
-                    print(f"[books-export] Next export at {target.isoformat(sep=' ', timespec='seconds')}", flush=True)
-                    time.sleep(seconds)
+                    now = datetime.datetime.now().isoformat(sep=' ', timespec='seconds')
+                    print(f"[books-export] Starting maintenance at {now}", flush=True)
+                    print("[books-export] Starting classification", flush=True)
+                    classify = subprocess.run(["python3", "/scripts/classify-books.py"])
+                    print(f"[books-export] Classification finished with exit code {classify.returncode}", flush=True)
                     print("[books-export] Starting export", flush=True)
                     result = subprocess.run(["python3", "/scripts/export-books.py"])
                     print(f"[books-export] Export finished with exit code {result.returncode}", flush=True)
+                    print(f"[books-export] Sleeping {interval} seconds", flush=True)
+                    time.sleep(interval)
                 PY
             env:
               NEXTCLOUD_BASE_URL: http://nextcloud.storage.svc.cluster.local:8080
               NEXTCLOUD_EXPORT_DIR: Books-Exports
+              OPENROUTER_MODEL: openrouter/free
+              CLASSIFY_RECLASSIFY_ALL: "false"
+              BOOKS_MAINTENANCE_INTERVAL_SECONDS: "3600"
               NEXTCLOUD_USERNAME:
                 valueFrom:
                   secretKeyRef:
@@ -134,6 +139,11 @@ spec:
                   secretKeyRef:
                     name: calibre-web-automated-nextcloud
                     key: NEXTCLOUD_PASSWORD
+              OPENROUTER_API_KEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: calibre-web-automated-nextcloud
+                    key: OPENROUTER_API_KEY
             resources:
               requests:
                 cpu: 10m
