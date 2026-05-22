@@ -16,6 +16,8 @@ spec:
       namespace: external-secrets
     - name: cloudnative-pg-cluster
       namespace: database
+    - name: dragonfly
+      namespace: database
   decryption:
     provider: sops
     secretRef:
