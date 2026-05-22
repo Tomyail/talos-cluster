@@ -16,6 +16,24 @@ data:
           api_key: os.environ/GLM_API_KEY
           api_base: https://open.bigmodel.cn/api/anthropic
 
+      - model_name: glm-5.1
+        litellm_params:
+          model: anthropic/GLM-5.1
+          api_key: os.environ/GLM_API_KEY
+          api_base: https://open.bigmodel.cn/api/anthropic
+
+      - model_name: glm-5-turbo
+        litellm_params:
+          model: anthropic/GLM-5-Turbo
+          api_key: os.environ/GLM_API_KEY
+          api_base: https://open.bigmodel.cn/api/anthropic
+
+      - model_name: glm-4.5-air
+        litellm_params:
+          model: anthropic/GLM-4.5-Air
+          api_key: os.environ/GLM_API_KEY
+          api_base: https://open.bigmodel.cn/api/anthropic
+
       - model_name: openrouter/claude-3-5-sonnet
         litellm_params:
           model: openrouter/anthropic/claude-3.5-sonnet
