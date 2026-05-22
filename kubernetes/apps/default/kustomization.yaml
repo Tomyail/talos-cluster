@@ -37,3 +37,4 @@ resources:
   - ./x-likes/ks.yaml
   - ./yt-audio/ks.yaml
   - ./epub-translator/ks.yaml
+  - ./litellm/ks.yaml
