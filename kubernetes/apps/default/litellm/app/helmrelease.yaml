@@ -33,8 +33,12 @@ spec:
             image:
               repository: ghcr.io/berriai/litellm
               tag: main-latest
+            args:
+              - --port
+              - "4000"
+              - --config
+              - /app/config/config.yaml
             env:
-              LITELLM_CONFIG_PATH: /app/config/config.yaml
               TZ: ${TIMEZONE}
             envFrom: *envFrom
             probes:
