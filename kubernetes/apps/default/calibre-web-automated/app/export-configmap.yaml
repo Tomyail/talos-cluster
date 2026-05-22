@@ -13,6 +13,7 @@ data:
     import sys
     import time
     import urllib.error
+    import urllib.parse
     import urllib.request
     from datetime import datetime, timezone
     from pathlib import Path
@@ -23,6 +24,8 @@ data:
     OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
     OPENROUTER_MODEL = os.environ.get("OPENROUTER_MODEL", "openrouter/free")
     OPENROUTER_API_KEY = os.environ["OPENROUTER_API_KEY"]
+    PUSHOVER_TOKEN = os.environ.get("PUSHOVER_TOKEN")
+    PUSHOVER_USER = os.environ.get("PUSHOVER_USER")
     RECLASSIFY_ALL = os.environ.get("CLASSIFY_RECLASSIFY_ALL", "false").lower() == "true"
 
     SHELVES = [
@@ -386,6 +389,35 @@ data:
             fh.write(json.dumps(record, ensure_ascii=False) + "\n")
 
 
+    def notify_pushover(classified_books):
+        if not classified_books or not PUSHOVER_TOKEN or not PUSHOVER_USER:
+            return False
+
+        lines = []
+        for book, decision in classified_books[:8]:
+            shelves = " / ".join(decision["shelves"])
+            tags = ", ".join(decision["tags"][:5])
+            lines.append(f"{book[1]}\n{shelves}\n{tags}")
+        if len(classified_books) > 8:
+            lines.append(f"... 还有 {len(classified_books) - 8} 本")
+
+        data = {
+            "token": PUSHOVER_TOKEN,
+            "user": PUSHOVER_USER,
+            "title": f"Calibre 新书已分类：{len(classified_books)} 本",
+            "message": "\n\n".join(lines),
+        }
+        req = urllib.request.Request(
+            "https://api.pushover.net/1/messages.json",
+            data=urllib.parse.urlencode(data).encode(),
+            method="POST",
+        )
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            if resp.status >= 300:
+                raise RuntimeError(f"Pushover returned HTTP {resp.status}: {resp.read()!r}")
+        return True
+
+
     def main():
         parser = argparse.ArgumentParser(description="Classify Calibre books with OpenRouter")
         parser.add_argument(
@@ -400,6 +432,8 @@ data:
         print(f"dry_run={args.dry_run}")
         classified = 0
         failed = 0
+        notified = 0
+        classified_books = []
         for book in targets:
             for attempt in range(3):
                 try:
@@ -410,6 +444,7 @@ data:
                     if not args.dry_run:
                         add_tags(book[0], decision["tags"])
                         log_decision(book, decision, "openrouter")
+                        classified_books.append((book, decision))
                     classified += 1
                     prefix = "would_classify" if args.dry_run else "classified"
                     print(
@@ -427,10 +462,16 @@ data:
 
         if not args.dry_run:
             rebuild_shelves()
+            try:
+                if notify_pushover(classified_books):
+                    notified = len(classified_books)
+            except Exception as exc:
+                print(f"pushover notification failed: {exc}", file=sys.stderr, flush=True)
         else:
             print("dry_run=true; skipped metadata.db writes and shelf rebuild")
         print(f"classified={classified}")
         print(f"failed={failed}")
+        print(f"notified={notified}")
         return 0
 
 

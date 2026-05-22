@@ -144,6 +144,16 @@ spec:
                   secretKeyRef:
                     name: calibre-web-automated-nextcloud
                     key: OPENROUTER_API_KEY
+              PUSHOVER_TOKEN:
+                valueFrom:
+                  secretKeyRef:
+                    name: calibre-web-automated-nextcloud
+                    key: PUSHOVER_TOKEN
+              PUSHOVER_USER:
+                valueFrom:
+                  secretKeyRef:
+                    name: calibre-web-automated-nextcloud
+                    key: PUSHOVER_USER
             resources:
               requests:
                 cpu: 10m
