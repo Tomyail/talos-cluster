@@ -51,10 +51,25 @@ data:
           api_key: os.environ/EASYROUTER_API_KEY
           api_base: https://easyrouter.io/v1
 
+      - model_name: openrouter/free
+        litellm_params:
+          model: openrouter/openrouter/free
+          api_key: os.environ/OPENROUTER_API_KEY
+
       - model_name: openrouter/claude-3-5-sonnet
         litellm_params:
           model: openrouter/anthropic/claude-3.5-sonnet
           api_key: os.environ/OPENROUTER_API_KEY
+
+      - model_name: coding
+        litellm_params:
+          model: anthropic/GLM-5.1
+          api_key: os.environ/GLM_API_KEY
+          api_base: https://open.bigmodel.cn/api/anthropic
+
+    router_settings:
+      fallbacks:
+        - {"coding": ["glm-4.7", "er/deepseek-v4-pro", "deepseek-v4-pro"]}
 
     general_settings:
       master_key: os.environ/LITELLM_MASTER_KEY
