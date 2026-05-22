@@ -5,9 +5,14 @@ metadata:
 data:
   config.yaml: |
     model_list:
-      - model_name: deepseek-chat
+      - model_name: deepseek-v4-flash
         litellm_params:
-          model: deepseek/deepseek-chat
+          model: deepseek/deepseek-v4-flash
+          api_key: os.environ/DEEPSEEK_API_KEY
+
+      - model_name: deepseek-v4-pro
+        litellm_params:
+          model: deepseek/deepseek-v4-pro
           api_key: os.environ/DEEPSEEK_API_KEY
 
       - model_name: glm-4.7
@@ -33,6 +38,18 @@ data:
           model: anthropic/GLM-4.5-Air
           api_key: os.environ/GLM_API_KEY
           api_base: https://open.bigmodel.cn/api/anthropic
+
+      - model_name: er/deepseek-v4-flash
+        litellm_params:
+          model: openai/deepseek-v4-flash
+          api_key: os.environ/EASYROUTER_API_KEY
+          api_base: https://easyrouter.io/v1
+
+      - model_name: er/deepseek-v4-pro
+        litellm_params:
+          model: openai/deepseek-v4-pro
+          api_key: os.environ/EASYROUTER_API_KEY
+          api_base: https://easyrouter.io/v1
 
       - model_name: openrouter/claude-3-5-sonnet
         litellm_params:
