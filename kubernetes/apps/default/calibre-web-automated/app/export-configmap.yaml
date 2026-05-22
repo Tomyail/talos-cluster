@@ -21,7 +21,7 @@ data:
     APP_DB = Path("/config/app.db")
     CALIBRE_DB = Path("/calibre-library/metadata.db")
     DECISIONS_LOG = Path("/config/books-classifier-decisions.jsonl")
-    OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
+    OPENROUTER_URL = "http://litellm.default.svc.cluster.local:4000/v1/chat/completions"
     OPENROUTER_MODEL = os.environ.get("OPENROUTER_MODEL", "openrouter/free")
     OPENROUTER_API_KEY = os.environ["OPENROUTER_API_KEY"]
     PUSHOVER_TOKEN = os.environ.get("PUSHOVER_TOKEN")
