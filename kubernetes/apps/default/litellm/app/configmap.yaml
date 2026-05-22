@@ -10,10 +10,11 @@ data:
           model: deepseek/deepseek-chat
           api_key: os.environ/DEEPSEEK_API_KEY
 
-      - model_name: glm-4-flash
+      - model_name: glm-4.7
         litellm_params:
-          model: zhipuai/glm-4-flash
+          model: anthropic/GLM-4.7
           api_key: os.environ/GLM_API_KEY
+          api_base: https://open.bigmodel.cn/api/anthropic
 
       - model_name: openrouter/claude-3-5-sonnet
         litellm_params:
