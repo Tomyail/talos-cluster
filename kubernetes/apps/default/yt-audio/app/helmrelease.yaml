@@ -25,7 +25,7 @@ spec:
           app:
             image:
               repository: gitea.tomyail.com/tomyail/yt-audio
-              tag: "main-df7c922ebffa-1779554120" # {"$imagepolicy": "default:yt-audio:tag"}
+              tag: "main-f9505813df03-1779555824" # {"$imagepolicy": "default:yt-audio:tag"}
             env:
               TZ: ${TIMEZONE}
               PORT: &port 3000
