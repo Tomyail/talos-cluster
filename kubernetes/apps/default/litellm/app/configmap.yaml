@@ -70,6 +70,8 @@ data:
     router_settings:
       fallbacks:
         - {"coding": ["er/deepseek-v4-pro", "deepseek-v4-pro"]}
+      allowed_fails: 3
+      cooldown_time: 300
 
     general_settings:
       master_key: os.environ/LITELLM_MASTER_KEY
