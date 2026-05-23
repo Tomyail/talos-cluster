@@ -69,7 +69,7 @@ data:
 
     router_settings:
       fallbacks:
-        - {"coding": ["glm-4.7", "er/deepseek-v4-pro", "deepseek-v4-pro"]}
+        - {"coding": ["er/deepseek-v4-pro", "deepseek-v4-pro"]}
 
     general_settings:
       master_key: os.environ/LITELLM_MASTER_KEY
