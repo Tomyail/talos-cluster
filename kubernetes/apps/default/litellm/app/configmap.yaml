@@ -63,9 +63,9 @@ data:
 
       - model_name: coding
         litellm_params:
-          model: openai/GLM-5.1
+          model: anthropic/GLM-5.1
           api_key: os.environ/GLM_API_KEY
-          api_base: https://open.bigmodel.cn/api/paas/v4
+          api_base: https://open.bigmodel.cn/api/anthropic
 
     router_settings:
       fallbacks:
