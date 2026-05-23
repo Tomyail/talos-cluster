@@ -73,6 +73,9 @@ data:
       allowed_fails: 3
       cooldown_time: 300
 
+    litellm_settings:
+      default_fallbacks: ["er/deepseek-v4-pro", "deepseek-v4-pro"]
+
     general_settings:
       master_key: os.environ/LITELLM_MASTER_KEY
       store_model_in_db: true
