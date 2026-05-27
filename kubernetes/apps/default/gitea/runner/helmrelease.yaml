@@ -24,7 +24,7 @@ spec:
         containers:
           app:
             image:
-              repository: gitea/act_runner
+              repository: gitea/runner
               tag: nightly-dind-rootless
             env:
               - name: DOCKER_HOST
