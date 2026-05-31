@@ -42,7 +42,7 @@ spec:
           - name: LOG_LEVEL
             value: debug
           - name: ADGUARD_URL
-            value: http://192.168.50.137:8080
+            value: http://192.168.50.1:3000
           - name: ADGUARD_USER
             valueFrom:
               secretKeyRef:
