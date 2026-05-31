@@ -1,6 +1,16 @@
 apiVersion: v1
 kind: Endpoints
 metadata:
+  name: adguard
+subsets:
+  - addresses:
+      - ip: "192.168.50.1"
+    ports:
+      - port: 3000
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
   name: cold-minio-api
 subsets:
   - addresses:
