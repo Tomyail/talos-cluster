@@ -18,6 +18,118 @@ spec:
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
+  name: iyuu-internal-route
+spec:
+  parentRefs:
+    - name: internal
+      namespace: kube-system
+      sectionName: https
+  hostnames:
+    - "iyuu.${SECRET_DOMAIN}"
+  rules:
+    - backendRefs:
+        - name: iyuu
+          port: 8780
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: moviepilot-internal-route
+spec:
+  parentRefs:
+    - name: internal
+      namespace: kube-system
+      sectionName: https
+  hostnames:
+    - "mp.${SECRET_DOMAIN}"
+  rules:
+    - backendRefs:
+        - name: moviepilot
+          port: 3000
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: omv-internal-route
+spec:
+  parentRefs:
+    - name: internal
+      namespace: kube-system
+      sectionName: https
+  hostnames:
+    - "omv.${SECRET_DOMAIN}"
+  rules:
+    - backendRefs:
+        - name: omv
+          port: 80
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: ugreen-internal-route
+spec:
+  parentRefs:
+    - name: internal
+      namespace: kube-system
+      sectionName: https
+  hostnames:
+    - "ugreen.${SECRET_DOMAIN}"
+  rules:
+    - backendRefs:
+        - name: ugreen
+          port: 9999
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: cold-minio-api-internal-route
+spec:
+  parentRefs:
+    - name: internal
+      namespace: kube-system
+      sectionName: https
+  hostnames:
+    - "cold-minio-api.${SECRET_DOMAIN}"
+  rules:
+    - backendRefs:
+        - name: cold-minio-api
+          port: 9010
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: cold-minio-console-internal-route
+spec:
+  parentRefs:
+    - name: internal
+      namespace: kube-system
+      sectionName: https
+  hostnames:
+    - "cold-minio.${SECRET_DOMAIN}"
+  rules:
+    - backendRefs:
+        - name: cold-minio-console
+          port: 9011
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: hot-minio-console-internal-route
+spec:
+  parentRefs:
+    - name: internal
+      namespace: kube-system
+      sectionName: https
+  hostnames:
+    - "hot-minio.${SECRET_DOMAIN}"
+  rules:
+    - backendRefs:
+        - name: hot-minio-console
+          port: 9001
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
   name: cold-minio-api-route
 spec:
   parentRefs:
