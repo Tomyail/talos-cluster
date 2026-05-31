@@ -50,22 +50,6 @@ spec:
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: omv-internal-route
-spec:
-  parentRefs:
-    - name: internal
-      namespace: kube-system
-      sectionName: https
-  hostnames:
-    - "omv.${SECRET_DOMAIN}"
-  rules:
-    - backendRefs:
-        - name: omv
-          port: 80
----
-apiVersion: gateway.networking.k8s.io/v1
-kind: HTTPRoute
-metadata:
   name: ugreen-internal-route
 spec:
   parentRefs:
