@@ -50,7 +50,7 @@ spec:
           nextcloud-sync:
             image:
               repository: rclone/rclone
-              tag: 1.74.2
+              tag: 1.74.3
             command:
               - /bin/sh
               - -c
