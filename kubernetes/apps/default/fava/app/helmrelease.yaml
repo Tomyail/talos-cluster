@@ -25,7 +25,7 @@ spec:
           app:
             image:
               repository: gitea.tomyail.com/tomyail/beancount
-              tag: "main-3798a5c6f516-1781312406" # {"$imagepolicy": "default:fava:tag"}
+              tag: "main-0526ed153661-1781317951" # {"$imagepolicy": "default:fava:tag"}
             env:
               TZ: ${TIMEZONE}
               PORT: &port 5000
