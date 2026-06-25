@@ -27,6 +27,12 @@ data:
           api_key: os.environ/GLM_API_KEY
           api_base: https://open.bigmodel.cn/api/anthropic
 
+      - model_name: glm-5.2
+        litellm_params:
+          model: anthropic/GLM-5.2
+          api_key: os.environ/GLM_API_KEY
+          api_base: https://open.bigmodel.cn/api/anthropic
+
       - model_name: glm-5-turbo
         litellm_params:
           model: anthropic/GLM-5-Turbo
@@ -63,7 +69,7 @@ data:
 
       - model_name: coding
         litellm_params:
-          model: anthropic/GLM-5.1
+          model: anthropic/GLM-5.2
           api_key: os.environ/GLM_API_KEY
           api_base: https://open.bigmodel.cn/api/anthropic
 
