@@ -78,7 +78,6 @@ These apps still use old PVC patterns and are good candidates for direct migrati
 | --- | --- | --- | --- | --- |
 | P1 | `opencode` | `default` | `existingClaim` + app-local `pvc.yaml` | Best next candidate. Shape is very close to Openclaw. |
 | P1 | `webtop` | `default` | `existingClaim` + app-local `pvc.yaml` | Straightforward single-app PVC migration. |
-| P1 | `x-likes` | `default` | `existingClaim` + app-local `pvc.yaml` | Straightforward single-app PVC migration. |
 | P1 | `gatus` | `observability` | `existingClaim` + app-local `pvc.yaml` | Stateful app, but migration pattern is still simple. |
 | P2 | `yt-audio` | `default` | `existingClaim` + multiple app-local PVCs | Uses both `yt-audio` and `yt-audio-media`; needs decision on which PVC should be backed up by VolSync. |
 | P2 | `paper` | `default` | `existingClaim` + app-local `pvc.yaml` | Also uses `paper-cache` and NFS mounts; needs scope split before migration. |
@@ -142,11 +141,10 @@ These scanned apps do not currently look like VolSync migration targets.
 3. `nextcloud`
 4. `opencode`
 5. `webtop`
-6. `x-likes`
-7. `gatus`
-8. `yt-audio`
-9. `paper`
-10. `prowlarr`
+6. `gatus`
+7. `yt-audio`
+8. `paper`
+9. `prowlarr`
 
 ## Per-App Checklist Template
 
