@@ -158,8 +158,46 @@
       addLabels: ["renovate/github-release"],
     },
     {
-      description: "Auto-merge patch updates for all packages",
-      matchUpdateTypes: ["patch"],
+      description: "Auto-merge non-major app-layer updates (core infra excluded)",
+      matchUpdateTypes: ["minor", "patch", "digest"],
+      excludeDepPatterns: [
+        // 存储 / 数据库 operator
+        "topolvm",
+        "local-path-provisioner",
+        "csi-driver-nfs",
+        "volsync",
+        "snapshot-controller",
+        "cloudnative-pg",
+        "dragonflydb/operator",
+        // 网络 / CNI / DNS / 隧道
+        "cilium",
+        "external-dns",
+        "tailscale-operator",
+        "cloudflared",
+        "gateway-api",
+        "coredns",
+        "spegel",
+        // 证书 / 密钥
+        "cert-manager",
+        "external-secrets",
+        "bitwarden-eso-provider",
+        // GitOps
+        "flux-operator",
+        "flux-instance",
+        "controlplaneio-fluxcd",
+        // 监控 / 可观测性 / CRD
+        "kube-prometheus-stack",
+        "prometheus-operator",
+        "smartctl-exporter",
+        "thanos",
+        "loki",
+        "metrics-server",
+        "k8s-sidecar",
+        // 节点 / 集群
+        "siderolabs/(installer|kubelet)",
+        // 共享 chart（影响全集群）
+        "app-template",
+      ],
       automerge: true,
       automergeType: "branch",
       ignoreTests: true,
