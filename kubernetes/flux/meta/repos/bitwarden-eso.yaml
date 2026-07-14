@@ -6,4 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 2h
-  url: https://small-hack.github.io/bitwarden-eso-provider
+  # 上游 small-hack/bitwarden-eso-provider 已 archived，GitHub Pages 已下线（404）。
+  # 改用 gh-pages 分支的 raw index 作为 chart repo；chart tarball 仍从 archived
+  # GitHub release 拉取（1.2.0 验证可用）。后续可考虑 fork 到自建 registry。
+  url: https://raw.githubusercontent.com/small-hack/bitwarden-eso-provider/gh-pages
