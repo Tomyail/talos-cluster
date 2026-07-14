@@ -104,3 +104,13 @@ Renovate (`.renovaterc.json5`) handles container images, Helm charts, GitHub rel
 - Namespace kustomizations include `../../components/common` to get namespace, repos, and SOPS.
 - Route resources use Gateway API (`parentRefs`) with `internal`/`external` listeners in `kube-system`.
 - The `ExternalSecret` resources reference Bitwarden Connect (external-secrets operator).
+
+<!-- OPENWIKI:START -->
+
+## OpenWiki
+
+This repository uses OpenWiki for recurring code documentation. Start with `openwiki/quickstart.md`, then follow its links to architecture, workflows, domain concepts, operations, integrations, testing guidance, and source maps.
+
+The scheduled OpenWiki GitHub Actions workflow refreshes the repository wiki. Do not hand-edit generated OpenWiki pages unless explicitly asked; prefer updating source code/docs and letting OpenWiki regenerate.
+
+<!-- OPENWIKI:END -->
