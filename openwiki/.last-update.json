@@ -1,6 +1,1 @@
-{
-  "updatedAt": "2026-07-14T07:15:07.326Z",
-  "command": "init",
-  "gitHead": "d92931c09fc925cf98c13d93e49a043289aaba5c",
-  "model": "glm-4.7"
-}
+{"updatedAt":"2026-07-14T07:47:32.165Z","command":"update","gitHead":"875bbf278a7937c596846f62d80028c817153651","model":"glm-4.7"}
