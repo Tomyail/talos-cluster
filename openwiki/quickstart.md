@@ -126,14 +126,17 @@ Flux decrypts SOPS secrets using the `sops-age` Secret in `flux-system`. The `ag
 
 ### Dependency Updates
 
-Renovate (`.renovaterc.json5`) handles:
-- Container images
-- Helm charts
-- GitHub releases
-- mise tools
-- GitHub Actions
+Renovate (`.renovaterc.json5`) handles automated dependency updates for:
+- Container images (Helm releases, deployments)
+- Helm charts and OCI repositories
+- GitHub releases and Actions
+- mise toolchain versions
 
-Auto-merges patch updates and minor mise/GHA updates. Runs on weekends. Uses `# renovate:` comments for custom datasource tracking.
+**Schedule**: Runs on weekends only
+**Auto-merge**: Patch updates and minor mise/GHA updates
+**Custom tracking**: Use `# renovate:` comments for custom datasource tracking
+
+OpenWiki documentation is also updated automatically via GitHub Actions (`openwiki-update.yml`), running daily at 08:00 UTC with manual dispatch available.
 
 ## Documentation Sections
 

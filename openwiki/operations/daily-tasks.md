@@ -2,6 +2,43 @@
 
 Common operational tasks for cluster maintenance and troubleshooting.
 
+## Automation Workflows
+
+### OpenWiki Documentation Updates
+
+The repository uses an automated GitHub Actions workflow (`openwiki-update.yml`) to keep documentation current:
+
+- **Schedule**: Runs daily at 08:00 UTC (cron: `0 8 * * *`)
+- **Trigger**: Also available via manual workflow_dispatch
+- **Provider**: OpenRouter with `glm-5.2` model
+- **Behavior**: Creates pull requests for documentation changes instead of direct commits
+- **Tracing**: LangSmith integration enabled for observability
+
+The workflow automatically updates:
+- `openwiki/` directory (generated documentation)
+- `AGENTS.md` and `CLAUDE.md` (agent instructions, if they exist)
+- `.github/workflows/openwiki-update.yml` (self-updates if workflow changes affect docs)
+
+To run manually:
+1. Navigate to Actions → OpenWiki Update
+2. Click "Run workflow"
+3. Review and merge the created pull request
+
+### Renovate Dependency Updates
+
+Renovate handles automated dependency updates for:
+- Container images (Helm releases, deployments)
+- Helm charts and OCI repositories
+- GitHub releases and Actions
+- mise toolchain versions
+
+Configuration: `.renovaterc.json5`
+- **Schedule**: Weekends only
+- **Auto-merge**: Patch updates and mise/GHA minor updates
+- **Custom tracking**: Use `# renovate:` comments for custom datasources
+
+Review Renovate PRs regularly to ensure updates are compatible with your cluster configuration.
+
 ## Flux Operations
 
 ### Force Reconciliation
