@@ -23,6 +23,13 @@ function managedValues(env = process.env) {
 }
 
 function migrateConfig(config, values) {
+  // Brave already receives BRAVE_API_KEY from ExternalSecret. Remove the
+  // duplicate persisted value while preserving non-sensitive plugin options.
+  const braveWebSearch = config.plugins?.entries?.brave?.config?.webSearch;
+  if (braveWebSearch && typeof braveWebSearch === "object") {
+    delete braveWebSearch.apiKey;
+  }
+
   // These sections are wholly Git-owned. Replacing the complete section also
   // removes sibling keys from legacy or already-partial include objects.
   config.agents = { $include: values.agentsInclude };

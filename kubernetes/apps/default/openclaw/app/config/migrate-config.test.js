@@ -106,6 +106,19 @@ test("replaces managed legacy sections and preserves unrelated fields", () => {
         search: { provider: "google", apiKey: "legacy", limit: 5 },
       },
     },
+    plugins: {
+      entries: {
+        brave: {
+          enabled: true,
+          config: {
+            webSearch: {
+              apiKey: "persisted-brave-key",
+              mode: "web",
+            },
+          },
+        },
+      },
+    },
   };
 
   const { config, first, second } = runMigration(input);
@@ -117,6 +130,10 @@ test("replaces managed legacy sections and preserves unrelated fields", () => {
   assert.deepEqual(config.tools, expectedIncludes.tools);
   assert.deepEqual(config.agents, expectedIncludes.agents);
   assert.deepEqual(config.bindings, expectedIncludes.bindings);
+  assert.deepEqual(config.plugins.entries.brave, {
+    enabled: true,
+    config: { webSearch: { mode: "web" } },
+  });
 });
 
 test("normalizes existing includes without retaining sibling keys", () => {
