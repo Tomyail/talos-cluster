@@ -73,20 +73,25 @@ test("migrates legacy config, removes Gemini, and preserves unrelated fields", (
       defaults: {
         models: {
           "openai-codex/gpt-5.2": { alias: "migrate-me" },
+          "openai-codex/gpt-5.4-mini": { alias: "remove-legacy-duplicate" },
           "google/gemini-2.5-pro": { alias: "remove-me" },
           "local/model": { alias: "keep-me" },
         },
         model: {
           primary: "google/gemini-2.5-pro",
-          fallbacks: ["google/gemini-2.5-flash", "local/model"],
+          fallbacks: [
+            "google/gemini-2.5-flash",
+            "openai-codex/gpt-5.4",
+            "local/model",
+          ],
         },
       },
       list: [
         {
           id: "main",
           model: {
-            primary: "google/gemini-2.5-pro",
-            fallbacks: ["local/model"],
+            primary: "openai-codex/gpt-5.4",
+            fallbacks: ["litellm/coding", "local/model"],
           },
         },
       ],
@@ -108,11 +113,18 @@ test("migrates legacy config, removes Gemini, and preserves unrelated fields", (
   assert.deepEqual(config.tools, expectedIncludes.tools);
   assert.deepEqual(config.agents.defaults.models, {
     "local/model": { alias: "keep-me" },
-    "openai/gpt-5.5": { alias: "migrate-me" },
+    "litellm/coding": { alias: "migrate-me" },
   });
-  assert.deepEqual(config.agents.defaults.model, { primary: "local/model" });
-  assert.deepEqual(config.agents.list[0].model, { primary: "local/model" });
+  assert.deepEqual(config.agents.defaults.model, {
+    primary: "litellm/coding",
+    fallbacks: ["local/model"],
+  });
+  assert.deepEqual(config.agents.list[0].model, {
+    primary: "litellm/coding",
+    fallbacks: ["local/model"],
+  });
   assert.doesNotMatch(JSON.stringify(config), /gemini/i);
+  assert.doesNotMatch(JSON.stringify(config), /openai-codex\//i);
 });
 
 test("normalizes existing includes without retaining sibling keys", () => {

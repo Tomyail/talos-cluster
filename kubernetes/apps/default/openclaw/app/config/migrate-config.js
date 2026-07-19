@@ -6,7 +6,7 @@ const DEFAULTS = Object.freeze({
   gatewayInclude: "/etc/openclaw/managed/gateway.json5",
   modelsInclude: "/etc/openclaw/managed/models.json5",
   toolsInclude: "/etc/openclaw/managed/tools.json5",
-  targetModel: "openai/gpt-5.5",
+  targetModel: "litellm/coding",
 });
 
 function managedValues(env = process.env) {
@@ -22,6 +22,8 @@ function managedValues(env = process.env) {
 function migrateConfig(config, values) {
   const isGemini = (model) =>
     typeof model === "string" && model.startsWith("google/gemini");
+  const isLegacyCodex = (model) =>
+    typeof model === "string" && model.startsWith("openai-codex/");
   const removeGemini = (modelConfig) => {
     if (!modelConfig || typeof modelConfig !== "object") return;
 
@@ -32,6 +34,21 @@ function migrateConfig(config, values) {
       modelConfig.primary = modelConfig.fallbacks.shift();
     }
     if (!modelConfig.primary) delete modelConfig.primary;
+    if (modelConfig.fallbacks.length === 0) delete modelConfig.fallbacks;
+  };
+  const replaceLegacyCodex = (modelConfig) => {
+    if (!modelConfig || typeof modelConfig !== "object") return;
+
+    if (isLegacyCodex(modelConfig.primary)) {
+      modelConfig.primary = values.targetModel;
+    }
+    modelConfig.fallbacks = [
+      ...new Set(
+        (modelConfig.fallbacks || []).map((model) =>
+          isLegacyCodex(model) ? values.targetModel : model,
+        ),
+      ),
+    ].filter((model) => model !== modelConfig.primary);
     if (modelConfig.fallbacks.length === 0) delete modelConfig.fallbacks;
   };
 
@@ -61,14 +78,9 @@ function migrateConfig(config, values) {
 
   const defaults = config.agents?.defaults;
   if (defaults?.models) {
-    const deprecated = [
-      "openai-codex/gpt-5.2",
-      "openai-codex/gpt-5.1",
-      "openai-codex/gpt-5.2-codex",
-    ];
     let migratedModel = null;
-    for (const model of deprecated) {
-      if (defaults.models[model]) {
+    for (const model of Object.keys(defaults.models)) {
+      if (isLegacyCodex(model)) {
         migratedModel ||= defaults.models[model];
         delete defaults.models[model];
       }
@@ -81,6 +93,7 @@ function migrateConfig(config, values) {
     }
   }
   removeGemini(defaults?.model);
+  replaceLegacyCodex(defaults?.model);
   if (defaults?.imageGenerationModel) {
     removeGemini(defaults.imageGenerationModel);
     if (!defaults.imageGenerationModel.primary) {
@@ -89,6 +102,7 @@ function migrateConfig(config, values) {
   }
   for (const agent of config.agents?.list || []) {
     removeGemini(agent.model);
+    replaceLegacyCodex(agent.model);
   }
 
   if (config.tools?.media?.audio?.models) {

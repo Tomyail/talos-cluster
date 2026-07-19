@@ -95,7 +95,7 @@ spec:
               OPENCLAW_MANAGED_GATEWAY_PATH: /etc/openclaw/managed/gateway.json5
               OPENCLAW_MANAGED_MODELS_PATH: /etc/openclaw/managed/models.json5
               OPENCLAW_MANAGED_TOOLS_PATH: /etc/openclaw/managed/tools.json5
-              OPENCLAW_TARGET_MODEL: openai/gpt-5.5
+              OPENCLAW_TARGET_MODEL: litellm/coding
             securityContext:
               runAsNonRoot: true
               runAsUser: 1000
