@@ -1,0 +1,58 @@
+// Git-owned and read-only. Channel-to-agent routing changes require review.
+[
+  {
+    type: "route",
+    agentId: "main",
+    match: {
+      channel: "openclaw-weixin",
+      accountId: "74ef6499dff3-im-bot",
+    },
+  },
+  {
+    type: "route",
+    agentId: "writer",
+    match: {
+      channel: "feishu",
+      accountId: "content",
+    },
+  },
+  {
+    type: "route",
+    agentId: "master",
+    match: {
+      channel: "feishu",
+      accountId: "main2",
+    },
+  },
+  {
+    type: "route",
+    agentId: "master",
+    match: {
+      channel: "openclaw-weixin",
+    },
+  },
+  {
+    type: "route",
+    agentId: "coder",
+    match: {
+      channel: "telegram",
+      accountId: "legal",
+    },
+  },
+  {
+    type: "route",
+    agentId: "research",
+    match: {
+      channel: "feishu",
+      accountId: "radar",
+    },
+  },
+  {
+    type: "route",
+    agentId: "creative",
+    match: {
+      channel: "feishu",
+      accountId: "legacy",
+    },
+  },
+]

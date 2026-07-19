@@ -1,0 +1,95 @@
+// Git-owned and read-only. Agent identities, model routing, and workspaces are policy.
+{
+  defaults: {
+    model: {
+      primary: "litellm/glm-5-turbo",
+      fallbacks: ["litellm/coding"],
+    },
+    models: {
+      "litellm/coding": {},
+      "litellm/glm-5-turbo": {},
+    },
+    workspace: "/home/node/.openclaw/workspace",
+    compaction: {
+      mode: "safeguard",
+    },
+    elevatedDefault: "full",
+    heartbeat: {
+      target: "none",
+    },
+  },
+  list: [
+    {
+      id: "main",
+      tools: {
+        $include: "/etc/openclaw/managed/agent-feishu-tools.json5",
+      },
+    },
+    {
+      id: "master",
+      name: "Master",
+      workspace: "/home/node/.openclaw/workspace-BK",
+      agentDir: "/home/node/.openclaw/agents/BK/agent",
+      model: {
+        primary: "litellm/glm-5-turbo",
+        fallbacks: ["litellm/coding"],
+      },
+      tools: {
+        $include: "/etc/openclaw/managed/agent-feishu-tools.json5",
+      },
+    },
+    {
+      id: "coder",
+      name: "Code Expert",
+      workspace: "/home/node/.openclaw/workspace-tom_legal",
+      agentDir: "/home/node/.openclaw/agents/tom_legal/agent",
+      model: {
+        primary: "litellm/coding",
+        fallbacks: ["litellm/glm-5-turbo"],
+      },
+      tools: {
+        $include: "/etc/openclaw/managed/agent-feishu-tools.json5",
+      },
+    },
+    {
+      id: "research",
+      name: "Research",
+      workspace: "/home/node/.openclaw/workspace-bk_radar",
+      agentDir: "/home/node/.openclaw/agents/bk_radar/agent",
+      model: {
+        primary: "litellm/coding",
+        fallbacks: ["litellm/glm-5-turbo"],
+      },
+      thinkingDefault: "off",
+      tools: {
+        $include: "/etc/openclaw/managed/agent-feishu-tools.json5",
+      },
+    },
+    {
+      id: "creative",
+      name: "Creative",
+      workspace: "/home/node/.openclaw/workspace-bk_brand",
+      agentDir: "/home/node/.openclaw/agents/bk_brand/agent",
+      model: {
+        primary: "litellm/coding",
+        fallbacks: ["litellm/glm-5-turbo"],
+      },
+      tools: {
+        $include: "/etc/openclaw/managed/agent-feishu-tools.json5",
+      },
+    },
+    {
+      id: "writer",
+      name: "Writer",
+      workspace: "/home/node/.openclaw/workspace-bk-content",
+      agentDir: "/home/node/.openclaw/agents/bk_content/agent",
+      model: {
+        primary: "litellm/coding",
+        fallbacks: ["litellm/glm-5-turbo"],
+      },
+      tools: {
+        $include: "/etc/openclaw/managed/agent-feishu-tools.json5",
+      },
+    },
+  ],
+}

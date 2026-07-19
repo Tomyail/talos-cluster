@@ -26,7 +26,7 @@ function yqJson(expression, file) {
   return JSON.parse(run("yq", ["eval", "-o=json", expression, file]));
 }
 
-test("Kustomize publishes exactly the three managed fragments", () => {
+test("Kustomize publishes exactly the managed fragments", () => {
   const directory = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-kustomize-test-"));
   const output = path.join(directory, "resources.yaml");
 
@@ -37,6 +37,9 @@ test("Kustomize publishes exactly the three managed fragments", () => {
       output,
     );
     assert.deepEqual(Object.keys(data).sort(), [
+      "agent-feishu-tools.json5",
+      "agents.json5",
+      "bindings.json5",
       "gateway.json5",
       "models.json5",
       "tools.json5",
@@ -104,6 +107,14 @@ test("pinned Helm render mounts managed config read-only and relies on Reloader"
 
     assert.equal(deployment.metadata.annotations["reloader.stakater.com/auto"], "true");
     assert.equal(env(init).OPENCLAW_INCLUDE_ROOTS, "/etc/openclaw/managed");
+    assert.equal(
+      env(init).OPENCLAW_MANAGED_AGENTS_PATH,
+      "/etc/openclaw/managed/agents.json5",
+    );
+    assert.equal(
+      env(init).OPENCLAW_MANAGED_BINDINGS_PATH,
+      "/etc/openclaw/managed/bindings.json5",
+    );
     assert.equal(
       env(init).OPENCLAW_MANAGED_GATEWAY_PATH,
       "/etc/openclaw/managed/gateway.json5",
