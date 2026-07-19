@@ -20,11 +20,17 @@ spec:
   values:
     controllers:
       openclaw:
+        annotations:
+          reloader.stakater.com/auto: "true"
         pod:
+          automountServiceAccountToken: false
           securityContext:
+            runAsNonRoot: true
             runAsUser: 1000
             runAsGroup: 1000
             fsGroup: 1000
+            seccompProfile:
+              type: RuntimeDefault
         initContainers:
           init-config:
             image:
@@ -39,7 +45,7 @@ spec:
                 mkdir -p /home/node/.openclaw /home/node/.local/bin /home/node/.local/go
 
                 if [ ! -f /home/node/.openclaw/openclaw.json ]; then
-                  echo '{"gateway":{"mode":"local","trustedProxies":["10.0.0.0/8","172.16.0.0/12","192.168.0.0/16"]}}' > /home/node/.openclaw/openclaw.json
+                  echo '{"gateway":{"mode":"local"}}' > /home/node/.openclaw/openclaw.json
                 fi
                 node <<'NODE'
                 const fs = require("fs");
@@ -61,8 +67,12 @@ spec:
                 };
 
                 config.gateway ||= {};
+                config.gateway.trustedProxies = ["192.168.50.145/32"];
                 config.gateway.controlUi ||= {};
-                config.gateway.controlUi.dangerouslyAllowHostHeaderOriginFallback = true;
+                config.gateway.controlUi.allowedOrigins = [
+                  "https://openclaw.${SECRET_DOMAIN}",
+                ];
+                delete config.gateway.controlUi.dangerouslyAllowHostHeaderOriginFallback;
 
                 if (config.tools?.web?.fetch) {
                   delete config.tools.web.fetch.provider;
@@ -172,12 +182,25 @@ spec:
                 set -e
                 echo "Init container completed successfully"
             securityContext:
+              runAsNonRoot: true
               runAsUser: 1000
               runAsGroup: 1000
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+            resources:
+              requests:
+                cpu: 100m
+                memory: 128Mi
+              limits:
+                cpu: "1"
+                memory: 1Gi
 
         containers:
           app:
             securityContext:
+              runAsNonRoot: true
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities:
@@ -211,6 +234,31 @@ spec:
               - --port
               - "18789"
               - --allow-unconfigured
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  exec:
+                    command:
+                      - node
+                      - -e
+                      - "require('http').get('http://127.0.0.1:18789/healthz', r => process.exit(r.statusCode < 400 ? 0 : 1)).on('error', () => process.exit(1))"
+                  initialDelaySeconds: 60
+                  periodSeconds: 30
+                  timeoutSeconds: 10
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  exec:
+                    command:
+                      - node
+                      - -e
+                      - "require('http').get('http://127.0.0.1:18789/readyz', r => process.exit(r.statusCode < 400 ? 0 : 1)).on('error', () => process.exit(1))"
+                  initialDelaySeconds: 15
+                  periodSeconds: 10
+                  timeoutSeconds: 5
             resources:
               requests:
                 cpu: 10m
