@@ -1,0 +1,25 @@
+// Git-owned and read-only. Change this allowlist in the repository, not at runtime.
+{
+  port: 18789,
+  mode: "local",
+  bind: "lan",
+  controlUi: {
+    allowedOrigins: ["https://openclaw.${SECRET_DOMAIN}"],
+  },
+  auth: {
+    mode: "token",
+    token: {
+      source: "env",
+      provider: "default",
+      id: "OPENCLAW_GATEWAY_TOKEN",
+    },
+  },
+  trustedProxies: ["192.168.50.145/32"],
+  tailscale: {
+    mode: "off",
+    resetOnExit: false,
+  },
+  remote: {
+    url: "https://openclaw.${SECRET_DOMAIN}",
+  },
+}

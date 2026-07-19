@@ -5,3 +5,16 @@ kind: Kustomization
 resources:
   - externalsecret.yaml
   - helmrelease.yaml
+configMapGenerator:
+  - name: openclaw-config
+    files:
+      - migrate-config.js=./config/migrate-config.js
+  # A fixed name lets Reloader restart the Deployment when these projected
+  # files change; OpenClaw's watcher does not observe include-file changes.
+  - name: openclaw-managed-config
+    files:
+      - gateway.json5=./config/managed/gateway.json5
+      - models.json5=./config/managed/models.json5
+      - tools.json5=./config/managed/tools.json5
+generatorOptions:
+  disableNameSuffixHash: true

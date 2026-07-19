@@ -1,0 +1,27 @@
+// Git-owned and read-only. Runtime writes to this managed section fail closed.
+{
+  profile: "full",
+  web: {
+    search: {
+      enabled: true,
+      maxResults: 10,
+    },
+    fetch: {
+      enabled: true,
+    },
+  },
+  media: {
+    audio: {
+      enabled: false,
+      maxBytes: 20971520,
+    },
+  },
+  exec: {
+    host: "gateway",
+    security: "full",
+    ask: "off",
+  },
+  elevated: {
+    enabled: true,
+  },
+}
