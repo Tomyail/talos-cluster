@@ -1,0 +1,11 @@
+// Git-owned and read-only. Skill enablement changes require review.
+{
+  entries: {
+    "x-likes-fetcher": {
+      enabled: false,
+    },
+    "cdp-browser": {
+      enabled: false,
+    },
+  },
+}

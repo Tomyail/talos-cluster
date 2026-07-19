@@ -14,15 +14,23 @@ const managedEnv = {
   ...process.env,
   OPENCLAW_MANAGED_AGENTS_PATH: "/managed-test/agents.json5",
   OPENCLAW_MANAGED_BINDINGS_PATH: "/managed-test/bindings.json5",
+  OPENCLAW_MANAGED_BROWSER_PATH: "/managed-test/browser.json5",
+  OPENCLAW_MANAGED_COMMANDS_PATH: "/managed-test/commands.json5",
   OPENCLAW_MANAGED_GATEWAY_PATH: "/managed-test/gateway.json5",
   OPENCLAW_MANAGED_MODELS_PATH: "/managed-test/models.json5",
+  OPENCLAW_MANAGED_SESSION_PATH: "/managed-test/session.json5",
+  OPENCLAW_MANAGED_SKILLS_PATH: "/managed-test/skills.json5",
   OPENCLAW_MANAGED_TOOLS_PATH: "/managed-test/tools.json5",
 };
 const expectedIncludes = {
   agents: { $include: "/managed-test/agents.json5" },
   bindings: { $include: "/managed-test/bindings.json5" },
+  browser: { $include: "/managed-test/browser.json5" },
+  commands: { $include: "/managed-test/commands.json5" },
   gateway: { $include: "/managed-test/gateway.json5" },
   models: { $include: "/managed-test/models.json5" },
+  session: { $include: "/managed-test/session.json5" },
+  skills: { $include: "/managed-test/skills.json5" },
   tools: { $include: "/managed-test/tools.json5" },
 };
 
@@ -53,7 +61,7 @@ test("uses explicit, secret-free managed include defaults", () => {
   assert.deepEqual(managedValues({}), DEFAULTS);
 });
 
-test("migrates a fresh config to five includes with byte idempotence", () => {
+test("migrates a fresh config to nine includes with byte idempotence", () => {
   const { config, first, second } = runMigration({ gateway: { mode: "local" } });
 
   assert.deepEqual(config, expectedIncludes);
@@ -130,6 +138,10 @@ test("replaces managed legacy sections and preserves unrelated fields", () => {
   assert.deepEqual(config.tools, expectedIncludes.tools);
   assert.deepEqual(config.agents, expectedIncludes.agents);
   assert.deepEqual(config.bindings, expectedIncludes.bindings);
+  assert.deepEqual(config.browser, expectedIncludes.browser);
+  assert.deepEqual(config.commands, expectedIncludes.commands);
+  assert.deepEqual(config.session, expectedIncludes.session);
+  assert.deepEqual(config.skills, expectedIncludes.skills);
   assert.deepEqual(config.plugins.entries.brave, {
     enabled: true,
     config: { webSearch: { mode: "web" } },
@@ -140,8 +152,12 @@ test("normalizes existing includes without retaining sibling keys", () => {
   const input = {
     agents: { $include: "/old/agents.json5", list: [{ id: "stale" }] },
     bindings: { $include: "/old/bindings.json5", sibling: "remove" },
+    browser: { $include: "/old/browser.json5", profiles: {} },
+    commands: { $include: "/old/commands.json5", restart: false },
     gateway: { $include: "/old/gateway.json5", sibling: "remove" },
     models: { $include: "/old/models.json5", providers: { stale: {} } },
+    session: { $include: "/old/session.json5", dmScope: "main" },
+    skills: { $include: "/old/skills.json5", entries: {} },
     tools: { $include: "/old/tools.json5", profile: "minimal" },
     plugins: { enabled: true },
   };
@@ -153,7 +169,17 @@ test("normalizes existing includes without retaining sibling keys", () => {
     ...expectedIncludes,
     plugins: { enabled: true },
   });
-  for (const section of ["agents", "bindings", "gateway", "models", "tools"]) {
+  for (const section of [
+    "agents",
+    "bindings",
+    "browser",
+    "commands",
+    "gateway",
+    "models",
+    "session",
+    "skills",
+    "tools",
+  ]) {
     assert.deepEqual(Object.keys(config[section]), ["$include"]);
   }
 });
@@ -164,8 +190,12 @@ test("managed fragments are Git-owned and contain no credential literals or Gemi
     "agent-feishu-tools.json5",
     "agents.json5",
     "bindings.json5",
+    "browser.json5",
+    "commands.json5",
     "gateway.json5",
     "models.json5",
+    "session.json5",
+    "skills.json5",
     "tools.json5",
   ];
   const contents = Object.fromEntries(

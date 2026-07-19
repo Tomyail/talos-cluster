@@ -1,0 +1,9 @@
+// Git-owned and read-only. Browser endpoints are deployment infrastructure.
+{
+  profiles: {
+    webtop: {
+      cdpUrl: "http://webtop.default.svc.cluster.local:9223",
+      color: "#00AA00",
+    },
+  },
+}

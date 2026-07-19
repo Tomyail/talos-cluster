@@ -16,8 +16,12 @@ configMapGenerator:
       - agent-feishu-tools.json5=./config/managed/agent-feishu-tools.json5
       - agents.json5=./config/managed/agents.json5
       - bindings.json5=./config/managed/bindings.json5
+      - browser.json5=./config/managed/browser.json5
+      - commands.json5=./config/managed/commands.json5
       - gateway.json5=./config/managed/gateway.json5
       - models.json5=./config/managed/models.json5
+      - session.json5=./config/managed/session.json5
+      - skills.json5=./config/managed/skills.json5
       - tools.json5=./config/managed/tools.json5
 generatorOptions:
   disableNameSuffixHash: true

@@ -1,0 +1,4 @@
+// Git-owned and read-only. Session scoping is routing policy.
+{
+  dmScope: "per-channel-peer",
+}

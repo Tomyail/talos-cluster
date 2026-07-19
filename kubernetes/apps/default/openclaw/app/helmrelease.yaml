@@ -94,8 +94,12 @@ spec:
               OPENCLAW_INCLUDE_ROOTS: /etc/openclaw/managed
               OPENCLAW_MANAGED_AGENTS_PATH: /etc/openclaw/managed/agents.json5
               OPENCLAW_MANAGED_BINDINGS_PATH: /etc/openclaw/managed/bindings.json5
+              OPENCLAW_MANAGED_BROWSER_PATH: /etc/openclaw/managed/browser.json5
+              OPENCLAW_MANAGED_COMMANDS_PATH: /etc/openclaw/managed/commands.json5
               OPENCLAW_MANAGED_GATEWAY_PATH: /etc/openclaw/managed/gateway.json5
               OPENCLAW_MANAGED_MODELS_PATH: /etc/openclaw/managed/models.json5
+              OPENCLAW_MANAGED_SESSION_PATH: /etc/openclaw/managed/session.json5
+              OPENCLAW_MANAGED_SKILLS_PATH: /etc/openclaw/managed/skills.json5
               OPENCLAW_MANAGED_TOOLS_PATH: /etc/openclaw/managed/tools.json5
             securityContext:
               runAsNonRoot: true

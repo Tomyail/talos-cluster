@@ -1,0 +1,7 @@
+// Git-owned and read-only. Command exposure changes require review.
+{
+  native: "auto",
+  nativeSkills: "auto",
+  restart: true,
+  ownerDisplay: "raw",
+}

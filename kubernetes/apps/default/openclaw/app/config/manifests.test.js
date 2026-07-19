@@ -40,8 +40,12 @@ test("Kustomize publishes exactly the managed fragments", () => {
       "agent-feishu-tools.json5",
       "agents.json5",
       "bindings.json5",
+      "browser.json5",
+      "commands.json5",
       "gateway.json5",
       "models.json5",
+      "session.json5",
+      "skills.json5",
       "tools.json5",
     ]);
     assert.match(data["gateway.json5"], /https:\/\/openclaw\.\$\{SECRET_DOMAIN\}/);
@@ -116,6 +120,14 @@ test("pinned Helm render mounts managed config read-only and relies on Reloader"
       "/etc/openclaw/managed/bindings.json5",
     );
     assert.equal(
+      env(init).OPENCLAW_MANAGED_BROWSER_PATH,
+      "/etc/openclaw/managed/browser.json5",
+    );
+    assert.equal(
+      env(init).OPENCLAW_MANAGED_COMMANDS_PATH,
+      "/etc/openclaw/managed/commands.json5",
+    );
+    assert.equal(
       env(init).OPENCLAW_MANAGED_GATEWAY_PATH,
       "/etc/openclaw/managed/gateway.json5",
     );
@@ -126,6 +138,14 @@ test("pinned Helm render mounts managed config read-only and relies on Reloader"
     assert.equal(
       env(init).OPENCLAW_MANAGED_TOOLS_PATH,
       "/etc/openclaw/managed/tools.json5",
+    );
+    assert.equal(
+      env(init).OPENCLAW_MANAGED_SESSION_PATH,
+      "/etc/openclaw/managed/session.json5",
+    );
+    assert.equal(
+      env(init).OPENCLAW_MANAGED_SKILLS_PATH,
+      "/etc/openclaw/managed/skills.json5",
     );
     assert.equal(env(app).OPENCLAW_INCLUDE_ROOTS, "/etc/openclaw/managed");
     assert.equal(mount(init, "/etc/openclaw/managed").readOnly, true);
