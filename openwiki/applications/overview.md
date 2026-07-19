@@ -1,3 +1,10 @@
+---
+type: Applications overview
+title: Applications Overview
+description: How applications are structured and deployed in the cluster, including namespace layout, Flux Kustomizations, HelmRelease patterns, and reusable components.
+tags: [applications, flux, helm, namespaces, gitops]
+---
+
 # Applications Overview
 
 How applications are structured and deployed in the cluster.

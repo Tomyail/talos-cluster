@@ -1,3 +1,10 @@
+---
+type: Configuration guide
+title: Talos Configuration
+description: How Talos Linux is configured and managed in this cluster via talhelper, machine patches, and generated machine configs.
+tags: [talos, configuration, talhelper, machine-config]
+---
+
 # Talos Configuration
 
 How Talos Linux is configured and managed in this cluster.

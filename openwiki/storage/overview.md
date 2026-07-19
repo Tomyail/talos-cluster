@@ -1,3 +1,10 @@
+---
+type: Storage overview
+title: Storage & Backup Overview
+description: How the cluster manages persistent storage and data backup with TopoLVM, VolSync, snapshots, and related operators.
+tags: [storage, backup, volsync, topolvm, pvc]
+---
+
 # Storage & Backup Overview
 
 How the cluster manages persistent storage and data backup.

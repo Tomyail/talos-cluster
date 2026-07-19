@@ -1,3 +1,10 @@
+---
+type: Operations runbook
+title: Daily Operations & Procedures
+description: Common operational tasks for cluster maintenance, troubleshooting, OpenWiki updates, and day-to-day procedures.
+tags: [operations, runbook, maintenance, troubleshooting]
+---
+
 # Daily Operations & Procedures
 
 Common operational tasks for cluster maintenance and troubleshooting.

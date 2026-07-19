@@ -1,3 +1,10 @@
+---
+type: Quickstart Guide
+title: Talos Cluster Documentation
+description: Quickstart entrypoint for the Talos Kubernetes homelab cluster GitOps repository, covering setup, architecture, applications, operations, storage, and Talos configuration.
+tags: [talos, kubernetes, flux, quickstart, gitops, homelab]
+---
+
 # Talos Cluster Documentation
 
 Welcome to the Talos Kubernetes cluster documentation. This repository contains the complete GitOps configuration for a personal homelab cluster running Talos Linux with ~30 applications across multiple namespaces.

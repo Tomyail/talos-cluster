@@ -1,3 +1,10 @@
+---
+type: Architecture overview
+title: Architecture Overview
+description: Cluster architecture, GitOps patterns, and how major Talos, Flux, networking, and storage components interact.
+tags: [architecture, talos, flux, networking, gitops]
+---
+
 # Architecture Overview
 
 This page describes the cluster architecture, GitOps patterns, and how major components interact.
