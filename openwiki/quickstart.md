@@ -143,7 +143,7 @@ Renovate (`.renovaterc.json5`) handles automated dependency updates for:
 **Auto-merge**: Patch updates and minor mise/GHA updates
 **Custom tracking**: Use `# renovate:` comments for custom datasource tracking
 
-OpenWiki documentation is also updated automatically via GitHub Actions (`openwiki-update.yml`), running daily at 08:00 UTC with manual dispatch available.
+OpenWiki documentation is also updated automatically via GitHub Actions (`openwiki-update.yml`), running daily at 19:30 UTC with manual dispatch available.
 
 ## Documentation Sections
 
