@@ -15,11 +15,11 @@ Common operational tasks for cluster maintenance and troubleshooting.
 
 The repository uses an automated GitHub Actions workflow (`openwiki-update.yml`) to keep documentation current:
 
-- **Schedule**: Runs daily at 19:30 UTC (cron: `30 19 * * *`)
+- **Schedule**: Runs daily at 08:00 UTC (cron: `0 8 * * *`)
 - **Trigger**: Also available via manual workflow_dispatch
-- **Provider**: Anthropic-compatible API (BigModel) with `glm-4.7` model
-- **Behavior**: Commits and pushes changes directly to the repository
-- **Permissions**: Requires `contents: write` for direct commits
+- **Provider**: OpenRouter with `z-ai/glm-5.2` model
+- **Behavior**: Creates pull requests for documentation updates
+- **Permissions**: Requires `contents: write` and `pull-requests: write`
 
 The workflow automatically updates:
 - `openwiki/` directory (generated documentation)
@@ -29,7 +29,7 @@ The workflow automatically updates:
 To run manually:
 1. Navigate to Actions → OpenWiki Update
 2. Click "Run workflow"
-3. Check the commit history for documentation changes
+3. Check the openwiki/update branch for a pull request with documentation changes
 
 ### Renovate Dependency Updates
 
