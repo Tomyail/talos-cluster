@@ -113,6 +113,26 @@ spec:
       storage: 500Gi
 ```
 
+**Alternative: Direct NFS Mounting**
+
+Some applications use direct NFS mounts in HelmRelease values instead of PVC-based NFS CSI:
+
+```yaml
+persistence:
+  paper:
+    type: nfs
+    server: 192.168.50.220
+    path: /volume4/paper
+    globalMounts:
+      - path: /paper
+```
+
+This pattern is useful for:
+- Read-only access to NFS exports
+- Temporary or optional NFS mounts
+- When PVC overhead is unnecessary
+- See `kubernetes/apps/default/qbittorrent/app/helmrelease.yaml` for a complete example
+
 ### local-path
 
 **Simple hostPath-based storage** for small, ephemeral data.
