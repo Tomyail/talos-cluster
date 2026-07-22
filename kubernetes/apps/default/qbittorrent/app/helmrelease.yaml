@@ -98,6 +98,12 @@ spec:
         existingClaim: nas-media
         globalMounts:
           - path: /media
+      paper:
+        type: nfs
+        server: 192.168.50.220
+        path: /volume4/paper
+        globalMounts:
+          - path: /paper
       tmp:
         type: emptyDir
         medium: Memory  # 使用内存作为临时存储，提升性能
