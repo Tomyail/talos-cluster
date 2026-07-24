@@ -24,3 +24,30 @@ spec:
       ports:
         - port: 9999
           protocol: TCP
+    - from:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              networking.tomyail.com/dragonfly-client: "true"
+        # Keep the current consumers allowed while their labeled Pods roll out.
+        # Remove these explicit peers after the first GitOps deployment.
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: default
+          podSelector:
+            matchExpressions:
+              - key: app.kubernetes.io/name
+                operator: In
+                values:
+                  - litellm
+                  - paperless
+                  - rsshub
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: storage
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: nextcloud
+      ports:
+        - port: 6379
+          protocol: TCP

@@ -20,6 +20,9 @@ spec:
       litellm:
         annotations:
           reloader.stakater.com/auto: "true"
+        pod:
+          labels:
+            networking.tomyail.com/dragonfly-client: "true"
         initContainers:
           init-db:
             image:

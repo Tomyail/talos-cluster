@@ -22,6 +22,9 @@ spec:
       rsshub:
         annotations:
           reloader.stakater.com/auto: "true"
+        pod:
+          labels:
+            networking.tomyail.com/dragonfly-client: "true"
         containers:
           app:
             image:

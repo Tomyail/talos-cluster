@@ -20,6 +20,9 @@ spec:
   values:
     controllers:
       paperless:
+        pod:
+          labels:
+            networking.tomyail.com/dragonfly-client: "true"
         containers:
           app:
             image:

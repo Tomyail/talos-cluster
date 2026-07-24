@@ -25,6 +25,8 @@ spec:
   values:
     ingress:
       enabled: false
+    podLabels:
+      networking.tomyail.com/dragonfly-client: "true"
     image:
       flavor: fpm-alpine
       # renovate: datasource=docker depName=nextcloud
