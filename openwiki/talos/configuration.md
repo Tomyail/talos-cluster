@@ -27,8 +27,8 @@ Talhelper is the tool that generates Talos machine configurations from a high-le
 The `talos/talenv.yaml` file pins versions:
 
 ```yaml
-talosVersion: "v1.13.6"
-kubernetesVersion: "v1.32.1"
+talosVersion: "v1.12.7"
+kubernetesVersion: "v1.35.4"
 ```
 
 **Why this matters**:

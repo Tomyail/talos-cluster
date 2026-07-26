@@ -78,7 +78,7 @@ After bootstrap, Flux takes over and manages all applications under `kubernetes/
 ├── scripts/                # Bootstrap and utility scripts
 ├── .taskfiles/             # Task subcommand definitions
 ├── Taskfile.yaml           # Main task entrypoint
-└── cluster.yaml            # Cluster-level variables (CIDRs, domains, tokens)
+└── talos/talconfig.yaml    # Cluster-level variables (CIDRs, endpoints, node config)
 ```
 
 ## Application Namespaces
@@ -147,11 +147,10 @@ OpenWiki documentation is also updated automatically via GitHub Actions (`openwi
 
 ## Documentation Sections
 
-- **[Architecture](./architecture/overview.md)** - Detailed cluster architecture, GitOps patterns, and component relationships
+- **[Architecture](./architecture/overview.md)** - Detailed cluster architecture, GitOps patterns, networking stack, and component relationships
 - **[Operations](./operations/daily-tasks.md)** - Day-to-day operational procedures and troubleshooting
 - **[Talos Configuration](./talos/configuration.md)** - Talhelper setup, machine config patches, and node management
 - **[Storage & Backup](./storage/overview.md)** - VolSync, TopoLVM, NFS CSI, and snapshot strategies
-- **[Networking](./networking/overview.md)** - Cilium, Cloudflare Tunnel, Gateway API routing, and Tailscale
 - **[Applications](./applications/overview.md)** - Application patterns, app-template usage, and common configurations
 
 ## Project Origins
