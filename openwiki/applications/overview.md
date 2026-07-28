@@ -19,11 +19,11 @@ Applications are grouped by namespace under `kubernetes/apps/`:
 - **`flux-system`** - GitOps operator and instance
 - **`cert-manager`** - Certificate management
 - **`network`** - Networking services (Cloudflare Tunnel, AdGuard, k8s-gateway, Tailscale)
-- **`observability`** - Monitoring stack (Grafana, Prometheus, Loki, Thanos, Gatus)
+- **`observability`** - Monitoring stack (Grafana, Prometheus, Loki, Thanos, Gatus, Uptime Kuma)
 - **`storage`** - Storage operators (TopoLVM, VolSync, NFS CSI)
 - **`database`** - Database operators (PostgreSQL, Redis)
 - **`external-secrets`** - External Secrets Operator and Bitwarden integration
-- **`default`** - Personal applications (~30 apps)
+- **`default`** - Personal applications (~30 apps, including Gitea, Jellyfin, growth-tracker, Paperless, Navidrome)
 - **`external-server`** - Public-facing applications
 
 ### Namespace Kustomization Pattern
@@ -265,6 +265,116 @@ stringData:
   AWS_ACCESS_KEY_ID: <encrypted>
   AWS_SECRET_ACCESS_KEY: <encrypted>
 ```
+
+### CronJob-Based Analytics App
+
+**Example**: `growth-tracker` - Daily sync of blog traffic, app downloads, and extension stats
+
+**`helmrelease.yaml`** (CronJob controller):
+```yaml
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: growth-tracker
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+  values:
+    controllers:
+      growth-tracker:
+        type: cronjob
+        cronjob:
+          schedule: "30 6 * * *"
+          backoffLimit: 1
+          concurrencyPolicy: Forbid
+          successfulJobsHistory: 3
+          failedJobsHistory: 3
+        containers:
+          app:
+            image:
+              repository: gitea.tomyail.com/tomyail/growth-tracker
+              tag: "main-9f5e7740137f-1785251293"
+            args: ["sync"]
+            envFrom:
+              - secretRef:
+                  name: growth-tracker-secret
+            env:
+              # Non-secret config
+              UMAMI_BASE_URL: "https://umami.tomyail.com"
+              CWS_EXTENSION_IDS: "gppofoolnalffmfnponnahhfafkcnmln=x-likes-backup"
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/home-operations/postgres-init
+              tag: 18.4
+```
+
+**`externalsecret.yaml`** (multi-source secrets):
+```yaml
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: growth-tracker
+spec:
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: bitwarden-login
+  target:
+    name: growth-tracker-secret
+    template:
+      engineVersion: v2
+      data:
+        DATABASE_URL: "postgres://{{ .GT_POSTGRES_USER }}:{{ .GT_POSTGRES_PASS }}@dev-postgres16-rw.database.svc.cluster.local:5432/growth_tracker"
+        # App Store Connect credentials use bitwarden-fields store
+        ASC_ISSUER_ID: "{{ .ASC_ISSUER_ID }}"
+        ASC_KEY_ID: "{{ .ASC_KEY_ID }}"
+  data:
+    - secretKey: GT_POSTGRES_USER
+      remoteRef:
+        key: growth-tracker-db
+        property: username
+    - secretKey: ASC_ISSUER_ID
+      sourceRef:
+        storeRef:
+          kind: ClusterSecretStore
+          name: bitwarden-fields  # Uses fields[] JSONPath
+      remoteRef:
+        key: growth-tracker-asc
+        property: issuer_id
+```
+
+**`configmap-grafana-dashboard.yaml`**:
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: growth-tracker-grafana-dashboard
+  labels:
+    grafana_dashboard: "true"
+data:
+  growth-tracker.json: |
+    {
+      "title": "Growth Tracker",
+      "panels": [
+        {
+          "title": "Blog Traffic",
+          "datasource": { "uid": "growth-tracker-postgres" },
+          "targets": [{
+            "rawSql": "SELECT date, pageviews FROM blog_stats WHERE $__timeFilter(date)"
+          }]
+        }
+      ]
+    }
+```
+
+**Key patterns**:
+- `type: cronjob` for scheduled workloads
+- `initContainers` for database setup (postgres-init)
+- Multi-source ExternalSecret (bitwarden-login + bitwarden-fields)
+- Grafana dashboard as ConfigMap for visualization
+- PostgreSQL backend via CloudNative-PG cluster
 
 ## Flux Kustomization
 

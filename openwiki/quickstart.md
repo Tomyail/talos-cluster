@@ -88,9 +88,9 @@ Applications are organized by namespace under `kubernetes/apps/`:
 - **`kube-system`**: Cilium, CoreDNS, metrics-server, node-feature-discovery, system-upgrade
 - **`flux-system`**: Flux operator and instance
 - **`network`**: Cloudflare Tunnel, AdGuard DNS, k8s-gateway, SMTP relay, Tailscale
-- **`observability`**: Grafana, Prometheus, Loki, Thanos, Gatus, promtail
+- **`observability`**: Grafana, Prometheus, Loki, Thanos, Gatus, Uptime Kuma, promtail
 - **`storage`**: TopoLVM, VolSync, NFS CSI, snapshot-controller, Nextcloud
-- **`default`**: ~30 personal applications (Gitea, Paperless, Navidrome, Jellyfin, qBittorrent, RSSHub, n8n, Ollama, etc.)
+- **`default`**: ~30 personal applications (Gitea, growth-tracker, Paperless, Navidrome, Jellyfin, qBittorrent, RSSHub, n8n, Ollama, etc.)
 - **`cert-manager`**: cert-manager installation and cluster issuers
 - **`database`**: PostgreSQL, Redis operators
 - **`external-secrets`**: External Secrets Operator and Bitwarden integration
