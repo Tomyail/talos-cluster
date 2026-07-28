@@ -1,0 +1,61 @@
+---
+# Starter dashboard — rebuild it properly in the Grafana UI once the
+# datasource is live and paste the exported JSON back in here, rather than
+# trusting this hand-written skeleton long-term.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: growth-tracker-grafana-dashboard
+  labels:
+    grafana_dashboard: "true"
+  annotations:
+    grafana_folder: "Growth Tracker"
+data:
+  growth-tracker.json: |
+    {
+      "uid": "growth-tracker",
+      "title": "Growth Tracker",
+      "timezone": "browser",
+      "schemaVersion": 39,
+      "time": { "from": "now-90d", "to": "now" },
+      "panels": [
+        {
+          "id": 1,
+          "title": "Blog Traffic",
+          "type": "timeseries",
+          "gridPos": { "h": 10, "w": 24, "x": 0, "y": 0 },
+          "datasource": { "type": "postgres", "uid": "growth-tracker-postgres" },
+          "fieldConfig": { "defaults": { "unit": "short" }, "overrides": [] },
+          "targets": [
+            {
+              "refId": "A",
+              "format": "time_series",
+              "rawSql": "SELECT date AS time, site_name || ' pageviews' AS metric, pageviews AS value FROM blog_stats WHERE $__timeFilter(date) ORDER BY date",
+              "rawQuery": true
+            },
+            {
+              "refId": "B",
+              "format": "time_series",
+              "rawSql": "SELECT date AS time, site_name || ' visitors' AS metric, visitors AS value FROM blog_stats WHERE $__timeFilter(date) ORDER BY date",
+              "rawQuery": true
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "title": "iOS App Downloads",
+          "type": "timeseries",
+          "gridPos": { "h": 10, "w": 24, "x": 0, "y": 10 },
+          "datasource": { "type": "postgres", "uid": "growth-tracker-postgres" },
+          "fieldConfig": { "defaults": { "unit": "short" }, "overrides": [] },
+          "targets": [
+            {
+              "refId": "A",
+              "format": "time_series",
+              "rawSql": "SELECT date AS time, app_name AS metric, units AS value FROM app_downloads WHERE $__timeFilter(date) ORDER BY date",
+              "rawQuery": true
+            }
+          ]
+        }
+      ]
+    }
