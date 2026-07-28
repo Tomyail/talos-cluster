@@ -56,6 +56,22 @@ data:
               "rawQuery": true
             }
           ]
+        },
+        {
+          "id": 3,
+          "title": "Chrome Extension Users",
+          "type": "timeseries",
+          "gridPos": { "h": 10, "w": 24, "x": 0, "y": 20 },
+          "datasource": { "type": "postgres", "uid": "growth-tracker-postgres" },
+          "fieldConfig": { "defaults": { "unit": "short" }, "overrides": [] },
+          "targets": [
+            {
+              "refId": "A",
+              "format": "time_series",
+              "rawSql": "SELECT date AS time, extension_name AS metric, users AS value FROM extension_stats WHERE $__timeFilter(date) ORDER BY date",
+              "rawQuery": true
+            }
+          ]
         }
       ]
     }

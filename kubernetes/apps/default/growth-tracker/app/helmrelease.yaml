@@ -55,6 +55,7 @@ spec:
               # this keeps only the three real shipped apps (excludes the
               # My Expo Go dev-shell app).
               ASC_APP_SKUS: "tubecast-ios-001,workout-narrator-ios,herdr-connect-ios"
+              CWS_EXTENSION_IDS: "gppofoolnalffmfnponnahhfafkcnmln=x-likes-backup"
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
