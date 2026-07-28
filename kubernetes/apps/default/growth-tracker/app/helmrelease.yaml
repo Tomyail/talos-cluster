@@ -1,4 +1,3 @@
----
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -40,7 +39,7 @@ spec:
           app:
             image:
               repository: gitea.tomyail.com/tomyail/growth-tracker
-              tag: "main-000000000000-0" # {"$imagepolicy": "default:growth-tracker:tag"}
+              tag: "main-233d151aa3af-1785247112" # {"$imagepolicy": "default:growth-tracker:tag"}
             args: ["sync"]
             envFrom: *envFrom
             env:
@@ -55,7 +54,7 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
+              capabilities: {drop: ["ALL"]}
             resources:
               requests:
                 cpu: 10m
