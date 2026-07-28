@@ -35,6 +35,10 @@ spec:
             envFrom: &envFrom
               - secretRef:
                   name: growth-tracker-secret
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: {drop: ["ALL"]}
         containers:
           app:
             image:
