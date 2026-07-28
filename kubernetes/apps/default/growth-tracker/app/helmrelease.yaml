@@ -43,7 +43,7 @@ spec:
           app:
             image:
               repository: gitea.tomyail.com/tomyail/growth-tracker
-              tag: "main-233d151aa3af-1785247112" # {"$imagepolicy": "default:growth-tracker:tag"}
+              tag: "main-9f5e7740137f-1785251293" # {"$imagepolicy": "default:growth-tracker:tag"}
             args: ["sync"]
             envFrom: *envFrom
             env:
