@@ -1,7 +1,7 @@
 {
   "updatedAt": "2026-07-29T20:29:31.000Z",
   "command": "update",
-  "gitHead": "a25a522fd8ab3571f1ea07998983727a31e4ece1",
+  "gitHead": "1c29f0985be2f8ee0a1cb9d429b46050f996e1e0",
   "model": "glm-4.7",
   "status": "complete"
 }
