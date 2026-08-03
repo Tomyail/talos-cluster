@@ -4,7 +4,5 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namePrefix: dragonfly-operator-
 resources:
-  # Keep the operator permissions aligned with the upstream release.
-  # renovate: datasource=github-releases depName=dragonflydb/dragonfly-operator
-  - https://raw.githubusercontent.com/dragonflydb/dragonfly-operator/v1.6.1/config/rbac/role.yaml
+  - ./role.yaml
   - ./rolebinding.yaml
