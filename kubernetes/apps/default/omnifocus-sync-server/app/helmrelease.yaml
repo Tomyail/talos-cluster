@@ -25,7 +25,7 @@ spec:
           app:
             image:
               repository: gitea.tomyail.com/mylab/omnifocus-scripts-sync-server
-              tag: "sha-aeb2c4abb5ee" # {"$imagepolicy": "default:omnifocus-sync-server:tag"}
+              tag: "sha-e0d3af6388b7"
             env:
               TZ: ${TIMEZONE}
               PORT: &port 4000
