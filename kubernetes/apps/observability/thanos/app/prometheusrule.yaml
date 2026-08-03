@@ -1,0 +1,29 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/monitoring.coreos.com/prometheusrule_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: thanos-compactor
+  namespace: observability
+  labels:
+    app.kubernetes.io/name: thanos
+spec:
+  groups:
+    - name: thanos-compactor
+      rules:
+        - alert: ThanosCompactorHalted
+          expr: thanos_compact_halted == 1
+          for: 10m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Thanos compactor is halted"
+            description: "Thanos compactor has been halted for more than 10 minutes. It will not perform any compaction or downsampling until the issue is resolved."
+        - alert: ThanosCompactorDown
+          expr: absent(thanos_compact_halted)
+          for: 15m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Thanos compactor is down"
+            description: "The Thanos compactor metrics are not being scraped. The pod may be down or unreachable. Blocks will accumulate without compaction."
