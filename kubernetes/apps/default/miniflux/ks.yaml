@@ -37,4 +37,5 @@ spec:
         kind: Secret
     substitute:
       APP: *app
+      NETWORK_K8S_POD_CIDR: 10.42.0.0/16
       VOLSYNC_CAPACITY: 2Gi
