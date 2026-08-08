@@ -26,6 +26,27 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
+  name: gateway-api-crds
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: cluster-meta
+      namespace: flux-system
+  interval: 1h
+  path: ./config/crd/experimental
+  prune: true
+  retryInterval: 2m
+  sourceRef:
+    kind: GitRepository
+    name: gateway-api
+    namespace: flux-system
+  timeout: 5m
+  wait: true
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
   name: cluster-apps
   namespace: flux-system
 spec:
@@ -35,6 +56,8 @@ spec:
       name: sops-age
   dependsOn:
     - name: cluster-meta
+      namespace: flux-system
+    - name: gateway-api-crds
       namespace: flux-system
   interval: 1h
   path: ./kubernetes/apps

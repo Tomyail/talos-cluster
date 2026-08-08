@@ -16,6 +16,7 @@ resources:
   # - ./emqx.yaml
   - ./emberstack.yaml
   - ./external-dns.yaml
+  - ./gateway-api.yaml
   - ./bitwarden-eso.yaml
   - ./external-secrets.yaml
   - ./grafana.yaml

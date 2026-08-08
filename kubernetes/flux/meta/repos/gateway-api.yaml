@@ -1,0 +1,18 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/gitrepository-source-v1.json
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: gateway-api
+  namespace: flux-system
+spec:
+  interval: 15m
+  url: https://github.com/kubernetes-sigs/gateway-api
+  ref:
+    # renovate: datasource=github-releases depName=kubernetes-sigs/gateway-api
+    tag: v1.6.1
+  ignore: |
+    # exclude everything
+    /**
+    # include the experimental CRD directory
+    !/config/crd/experimental/
