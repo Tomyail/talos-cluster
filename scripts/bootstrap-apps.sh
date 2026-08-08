@@ -89,6 +89,9 @@ function apply_crds() {
     log debug "Applying CRDs"
 
     local -r crds=(
+        # External DNS CRDs are also managed by Flux (kubernetes/flux/cluster/ks.yaml)
+        # via GitRepository external-dns-crds -> config/crd/standard.
+        # Kept here for cluster bootstrap safety.
         # renovate: datasource=github-releases depName=kubernetes-sigs/external-dns
         https://raw.githubusercontent.com/kubernetes-sigs/external-dns/refs/tags/v0.21.0/config/crd/standard/dnsendpoints.externaldns.k8s.io.yaml
         # Gateway API CRDs are also managed by Flux (kubernetes/flux/cluster/ks.yaml)

@@ -1,0 +1,18 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/gitrepository-source-v1.json
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: external-dns-crds
+  namespace: flux-system
+spec:
+  interval: 15m
+  url: https://github.com/kubernetes-sigs/external-dns
+  ref:
+    # renovate: datasource=github-releases depName=kubernetes-sigs/external-dns
+    tag: v0.21.0
+  ignore: |
+    # exclude everything
+    /**
+    # include only the CRD directory
+    !/config/crd/standard/
