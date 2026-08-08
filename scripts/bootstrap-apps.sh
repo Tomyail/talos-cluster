@@ -91,9 +91,13 @@ function apply_crds() {
     local -r crds=(
         # renovate: datasource=github-releases depName=kubernetes-sigs/external-dns
         https://raw.githubusercontent.com/kubernetes-sigs/external-dns/refs/tags/v0.21.0/config/crd/standard/dnsendpoints.externaldns.k8s.io.yaml
-        # NOTE: Gateway API CRDs are now managed by Flux (kubernetes/flux/cluster/ks.yaml)
-        # via GitRepository gateway-api -> config/crd/experimental
-        # NOTE: Prometheus Operator CRDs are managed by Flux HelmRelease
+        # Gateway API CRDs are also managed by Flux (kubernetes/flux/cluster/ks.yaml)
+        # via GitRepository gateway-api -> config/crd/experimental.
+        # Kept here for cluster bootstrap: cilium (installed by helmfile) has
+        # gatewayAPI.enabled=true and needs these CRDs to exist before it starts.
+        # renovate: datasource=github-releases depName=kubernetes-sigs/gateway-api
+        https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.6.1/experimental-install.yaml
+        # Prometheus Operator CRDs are managed by Flux HelmRelease
         # in kubernetes/apps/observability/prometheus-operator/crds/
     )
 
