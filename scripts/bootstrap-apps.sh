@@ -93,8 +93,8 @@ function apply_crds() {
         https://raw.githubusercontent.com/kubernetes-sigs/external-dns/refs/tags/v0.21.0/config/crd/standard/dnsendpoints.externaldns.k8s.io.yaml
         # NOTE: Gateway API CRDs are now managed by Flux (kubernetes/flux/cluster/ks.yaml)
         # via GitRepository gateway-api -> config/crd/experimental
-        # renovate: datasource=github-releases depName=prometheus-operator/prometheus-operator
-        https://github.com/prometheus-operator/prometheus-operator/releases/download/v0.93.0/stripped-down-crds.yaml
+        # NOTE: Prometheus Operator CRDs are managed by Flux HelmRelease
+        # in kubernetes/apps/observability/prometheus-operator/crds/
     )
 
     for crd in "${crds[@]}"; do
