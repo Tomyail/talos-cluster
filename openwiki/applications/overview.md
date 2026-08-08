@@ -21,7 +21,7 @@ Applications are grouped by namespace under `kubernetes/apps/`:
 - **`network`** - Networking services (Cloudflare Tunnel, AdGuard, k8s-gateway, Tailscale)
 - **`observability`** - Monitoring stack (Grafana, Prometheus, Loki, Thanos, Gatus, Uptime Kuma)
 - **`storage`** - Storage operators (TopoLVM, VolSync, NFS CSI)
-- **`database`** - Database operators (PostgreSQL, Redis)
+- **`database`** - Database operators (PostgreSQL via CloudNative-PG, Redis via Dragonfly)
 - **`external-secrets`** - External Secrets Operator and Bitwarden integration
 - **`default`** - Personal applications (~30 apps, including Gitea, Jellyfin, growth-tracker, Paperless, Navidrome)
 - **`external-server`** - Public-facing applications
@@ -148,6 +148,105 @@ persistence:
     accessMode: ReadWriteOnce
 ```
 
+## Database Applications
+
+The `database` namespace runs database operators for both relational and in-memory data.
+
+### CloudNative-PG (PostgreSQL)
+
+**Location**: `kubernetes/apps/database/cloudnative-pg/`
+
+PostgreSQL operator providing high-availability, backup, and replication for relational databases.
+
+**Components**:
+- `app/helmrelease.yaml` - CloudNative-PG operator
+- `app/externalsecret.yaml` - S3 credentials for backups
+- `cluster/cluster16.yaml` - PostgreSQL 16 cluster instance
+- `cluster/externalsecret-n8n.yaml` - Database credentials for n8n
+- `cluster/scheduledbackup.yaml` - Automated backups via S3
+- `cluster/gatus.yaml` - Health checks for Gatus
+
+**Features**:
+- Managed PostgreSQL 16 with automated failover
+- S3-backed backups scheduled via CronJob
+- Dedicated database for n8n workflow automation
+- Prometheus integration via Cluster monitoring defaults
+
+### Dragonfly (Redis-compatible)
+
+**Dragonfly** is a Redis-compatible in-memory data store with improved performance and resource efficiency.
+
+**Location**: `kubernetes/apps/database/dragonfly/`
+
+**Architecture**: Two-stage Flux Kustomization pattern:
+
+```yaml
+# Stage 1: Operator + CRD
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: dragonfly
+spec:
+  path: ./kubernetes/apps/database/dragonfly/app
+  # Installs Dragonfly operator, CRDs, and RBAC
+
+---
+# Stage 2: Database instance (depends on operator)
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: dragonfly-cluster
+spec:
+  path: ./kubernetes/apps/database/dragonfly/cluster
+  dependsOn:
+    - name: dragonfly
+  # Creates Dragonfly instance after CRDs are available
+```
+
+**Components**:
+- `app/helmrelease.yaml` - Dragonfly operator Helm chart
+- `app/crd.yaml` - Dragonfly CRD definitions (dragonflydb.io/v1alpha1)
+- `app/rbac/` - Service account, Role, and RoleBinding
+- `cluster/cluster.yaml` - Dragonfly custom resource instance
+- `cluster/podmonitor.yaml` - Prometheus PodMonitor for metrics scraping
+- `cluster/network-policy.yaml` - Allow Prometheus metrics access
+
+**Dragonfly instance configuration**:
+```yaml
+apiVersion: dragonflydb.io/v1alpha1
+kind: Dragonfly
+metadata:
+  name: dragonfly
+spec:
+  image: ghcr.io/dragonflydb/dragonfly:v1.40.1
+  replicas: 1
+  env:
+    - name: MAX_MEMORY
+      valueFrom:
+        resourceFieldRef:
+          resource: limits.memory
+          divisor: 1Mi
+  args:
+    - --maxmemory=$(MAX_MEMORY)Mi
+    - --cluster_mode=emulated
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      memory: 512Mi
+```
+
+**Key features**:
+- **Memory-based limits**: Uses `MAX_MEMORY` env var from memory limit (512Mi)
+- **Cluster mode**: `emulated` for single-replica setups
+- **Monitoring**: Prometheus scraping via PodMonitor on port 9377
+- **Topology spread**: Ensures pods distribute across nodes
+
+**When to use Dragonfly vs PostgreSQL**:
+- Dragonfly: In-memory caching, session storage, rate limiting, queues
+- PostgreSQL (CloudNative-PG): Relational data, transactions, complex queries
+
 ## Application Examples
 
 ### Simple Web App
@@ -265,6 +364,81 @@ stringData:
   AWS_ACCESS_KEY_ID: <encrypted>
   AWS_SECRET_ACCESS_KEY: <encrypted>
 ```
+
+### Database Operator: Dragonfly
+
+**Dragonfly** is a Redis-compatible in-memory data store with improved performance and resource efficiency.
+
+**Location**: `kubernetes/apps/database/dragonfly/`
+
+**Architecture**: Two-stage Flux Kustomization pattern:
+
+```yaml
+# Stage 1: Operator + CRD
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: dragonfly
+spec:
+  path: ./kubernetes/apps/database/dragonfly/app
+  # Installs Dragonfly operator, CRDs, and RBAC
+
+---
+# Stage 2: Database instance (depends on operator)
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: dragonfly-cluster
+spec:
+  path: ./kubernetes/apps/database/dragonfly/cluster
+  dependsOn:
+    - name: dragonfly
+  # Creates Dragonfly instance after CRDs are available
+```
+
+**Components**:
+- `app/helmrelease.yaml` - Dragonfly operator Helm chart
+- `app/crd.yaml` - Dragonfly CRD definitions (dragonflydb.io/v1alpha1)
+- `app/rbac/` - Service account, Role, and RoleBinding
+- `cluster/cluster.yaml` - Dragonfly custom resource instance
+- `cluster/podmonitor.yaml` - Prometheus PodMonitor for metrics scraping
+- `cluster/network-policy.yaml` - Allow Prometheus metrics access
+
+**Dragonfly instance configuration**:
+```yaml
+apiVersion: dragonflydb.io/v1alpha1
+kind: Dragonfly
+metadata:
+  name: dragonfly
+spec:
+  image: ghcr.io/dragonflydb/dragonfly:v1.40.1
+  replicas: 1
+  env:
+    - name: MAX_MEMORY
+      valueFrom:
+        resourceFieldRef:
+          resource: limits.memory
+          divisor: 1Mi
+  args:
+    - --maxmemory=$(MAX_MEMORY)Mi
+    - --cluster_mode=emulated
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      memory: 512Mi
+```
+
+**Key features**:
+- **Memory-based limits**: Uses `MAX_MEMORY` env var from memory limit (512Mi)
+- **Cluster mode**: `emulated` for single-replica setups
+- **Monitoring**: Prometheus scraping via PodMonitor on port 9377
+- **Topology spread**: Ensures pods distribute across nodes
+
+**When to use Dragonfly vs PostgreSQL**:
+- Dragonfly: In-memory caching, session storage, rate limiting, queues
+- PostgreSQL (CloudNative-PG): Relational data, transactions, complex queries
 
 ### CronJob-Based Analytics App
 
