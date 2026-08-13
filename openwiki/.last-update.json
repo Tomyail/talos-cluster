@@ -1,7 +1,7 @@
 {
-  "updatedAt": "2026-08-09T19:57:56.000Z",
+  "updatedAt": "2026-08-12T20:09:30.000Z",
   "command": "update",
-  "gitHead": "1f374269fdd39a8660279ff1a7089212e8dcd4b9",
+  "gitHead": "6bb3ef98a3a99ddf6e05eaa4b18e9041e6801b8b",
   "model": "openwiki",
   "status": "complete",
   "language": "en"
