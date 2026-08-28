@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:61e29c08d69ee4cb83ec67e4e72dabf589b8eb7d2d2e7b2eb2abfe21e9e66d2d",
+  "claims": [
+    {
+      "id": "claim_ff13b80cb8eb45d8b3df24bbc5cfa6f3",
+      "statement": "TopoLVM Helm upgrades fail in single-node clusters when the chart defaults (replicaCount: 2 with required anti-affinity rules) prevent new controller pods from scheduling during rolling updates, causing Helm wait logic to timeout.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/topolvm/README.md#L5-L15",
+          "version": "repo-lines-v1:sha256:7ea8d6747789db2d7cafd232a1c609e16fd95ddccc883cbcc972cf9037419b39:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU0YjgxODRjZWYwMjMwNGFhNzI1ZWQ0NGRkYzVjYTNiYjJiNzBmYzBlN2JlMGVmMWQ2ZTdlMGZkM2E4M2FiYTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY2OTFiZDVkMGViMzhkOTc1Y2FjMmVjOTBmY2I1YzY1YTA4Mjk5NzJlZmFmOTkxNGJkOTU2MDFlYTNhYmY5ZGYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQxMDQyYTc3NWVkNDZjNzVjODU2M2E4ODMyNTE3MGM0Y2Y0ZTE3YWY2OTQ1YzFmNzk4ODc1MzhjYTI3ZDJmOWIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY3YjYyMGFjODk0MGFiMzYyZThjNzMzNTBlMTc5NGNhYTg0N2Y1OTZjYjFhOWI0NDM3OTQ5Y2EzOWZmOGFkNmUifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/storage/topolvm/app/helmrelease.yaml#L51-L55",
+          "version": "repo-lines-v1:sha256:9ffed377a456aa023f103ee11dfad8b1483cd91ca8bdef91a0f9975689ecbec2:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGNiZjg2OTlkYWRhZjE3NGQ3ODlkOTU2OGNlNmNhNDIxMWQ1OTc3NDM5ZDNmMjViOGU4NmFhZGNjM2Q1M2JjMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNWViOTM2MWMzNjM0ZWY3ZWI0ZjljNzAxNGMxOGNmYzllMDQ0MDc5ZTkzOGVmNDhhY2YwOTgxMmEwMTYzZjc4YyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDJhODg3ZTM4YTk2MzEzZGM2OGUxNjdiZjNmYzE4OTIxM2M2MGJjM2FjNTUxYTI2MzVhMTQ4MmRkMjc2YjcwNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_d6f99209e7bf414ab5dc759a04ad5c5c",
+      "statement": "The TopoLVM single-node upgrade fix requires three configuration overrides: setting replicaCount: 1, disabling affinity rules (affinity: \"\"), and using Recreate update strategy to prevent scheduling conflicts.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/topolvm/README.md#L19-L28",
+          "version": "repo-lines-v1:sha256:c619d1f8881831af8180bd51069e3ec778937047bebd7b8eb44ecd155358cd9a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQzOTRjMmZmYWFkODNmMGQwNjE0MmMzNzYwN2Q1NWVhOGI3OGVlNjIwZDc2YzA0ZDdmZDUwNmMxOTc2MzEyYmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY4ZDBkNzEwODMwYTljYjBiMTdkYWI3YmE5MzM4NDdjMTBiNGNmOWI2MmQ3OWI3NWViMzk2MjUyOTUzZmMwMGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY3YjYyMGFjODk0MGFiMzYyZThjNzMzNTBlMTc5NGNhYTg0N2Y1OTZjYjFhOWI0NDM3OTQ5Y2EzOWZmOGFkNmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVkYzYxMzg1NjEyZTM3YmRmYWNlYjI2ZmFmZGFlMjhjYTE1OTg2NzczMDI1ZTk3ZmMwMTBkYTZjM2EzZWExNGUifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/storage/topolvm/app/helmrelease.yaml#L51-L55",
+          "version": "repo-lines-v1:sha256:9ffed377a456aa023f103ee11dfad8b1483cd91ca8bdef91a0f9975689ecbec2:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGNiZjg2OTlkYWRhZjE3NGQ3ODlkOTU2OGNlNmNhNDIxMWQ1OTc3NDM5ZDNmMjViOGU4NmFhZGNjM2Q1M2JjMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNWViOTM2MWMzNjM0ZWY3ZWI0ZjljNzAxNGMxOGNmYzllMDQ0MDc5ZTkzOGVmNDhhY2YwOTgxMmEwMTYzZjc4YyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDJhODg3ZTM4YTk2MzEzZGM2OGUxNjdiZjNmYzE4OTIxM2M2MGJjM2FjNTUxYTI2MzVhMTQ4MmRkMjc2YjcwNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_d0aa74e5f90344aab4be4144a639497b",
+      "statement": "Flux Kustomizations use a 5-minute timeout with 2-minute retry intervals on failure, and reconciliation failures can be diagnosed using flux logs and status commands.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/flux/cluster/ks.yaml#L16-L93",
+          "version": "repo-lines-v1:sha256:a02399e8ae8ee1bdce81fe361fdfaf878312da2b786ac68d5efb02f0c66adc37:eyJzZWxlY3RlZExpbmVDb3VudCI6NzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRhNzg4OTkwMzlmMmFjODk2M2I4ZjA0N2M0OGYwNzZhZGYxZDA4MTZlMDc2MjIyZTU4NzA3YzU0ZmMxMzBhZDYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRjMzUxN2U4MTNiM2EzMmI5NjU2MWI5ZTU0YjQyMjMyODQ2MGE4YjQ5NTFkMWI0NDJhMGI1NDA5ZTBmMjgyZTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE4OGMzYWQ1MzAzMjRmZGZjYzI2NDI5NDJlOTExYmFjYWEyNTIzYTcyOWQ3OGYwNjUyNzU0M2NmNmI0NWQwODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEyY2ZmNWZmYmE1MGFjMzgxNmFmZjljODViNmI3YTQ4NWU3ZTJhNzM0NjI1ZjM5NGMwNDlkNGI5NmQ1N2E4YzAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_3ef8dd539052456b9cfe0a69c25fd163",
+      "statement": "SOPS decryption failures occur when the sops-age secret is missing or invalid in the flux-system namespace, preventing Flux from decrypting *.sops.yaml files during reconciliation.",
+      "evidence": [
+        {
+          "resource": "repo://.sops.yaml#L2-L9",
+          "version": "repo-lines-v1:sha256:a72739e985f90110ea26d10cfc8678b107aba99f7969153054238b16be5f8eb5:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzNkODUzYmNlZGZhOTBlZGIxMTZhZGJmOWY2YTdmMzQ3NzAzMTY0ZjBlMWRiMTU3ZTY3YmY3M2QwZjQ1YTJkMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDYwMWFkNjVkNmRjOWZmZDIxNWZiM2ZkZTkxZWFkZDlmN2IzOGUyMjJjNGU5NDc3MTFkMzk5YzQyN2MwMWQ5OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjEsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjUyZDcxMTEwM2Q1MGE0Mzc4MzBjNmZiY2QwNGZiNGJhYjQ5YTBmODJmNmQyNmQxYzc5MWM2ZTg0ODhkZDA5MCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTJmZDhkNDQwOGQ0NDg5NTFkMzFmOTBhNDQwNGI3N2YzODI3ZDZkM2IwZjZkOWY4YzRhZmEzOTg4ZTBhMjJmZCJ9"
+        },
+        {
+          "resource": "repo://kubernetes/components/common/sops/sops-age.sops.yaml#L1-L21",
+          "version": "repo-lines-v1:sha256:f95d59e1e9d689b03511b4df7f99063705de6960504d115cfe73a06081e86905:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc3NmFlMTQyNDI4ZTc1NGI2N2Q3ZDZlM2RmZGJlMWI0NDhmMGJhYzM1NWQ4ZmEyNGVjOTQ3MWUyMWQ5MGI0MzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZkNTNhYzZjNzQxMjU5MWU5NTI3MDMxZmRlN2NlZjM5ZTRkNTY1ZWUzNWVlNmFiNGZlN2IyMWE1MzMyYWQ2YmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA4MmUwMTFhY2Q3ZTQ0ZjVmMTM0NjRmNWIzNGUzMDVjZmY3NWNmMDU5MjZiNjUxODg2YmYzNjMzMGY2ZGUxZTMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_bab43805af614dab9ff483229a9ca2fb",
+      "statement": "The cluster runs a single-node control plane architecture that introduces specific constraints: Pod anti-affinity rules prevent multi-controller deployments, requiring replicaCount: 1 and affinity overrides for stateful controllers.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/topolvm/app/helmrelease.yaml#L51-L55",
+          "version": "repo-lines-v1:sha256:9ffed377a456aa023f103ee11dfad8b1483cd91ca8bdef91a0f9975689ecbec2:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGNiZjg2OTlkYWRhZjE3NGQ3ODlkOTU2OGNlNmNhNDIxMWQ1OTc3NDM5ZDNmMjViOGU4NmFhZGNjM2Q1M2JjMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNWViOTM2MWMzNjM0ZWY3ZWI0ZjljNzAxNGMxOGNmYzllMDQ0MDc5ZTkzOGVmNDhhY2YwOTgxMmEwMTYzZjc4YyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDJhODg3ZTM4YTk2MzEzZGM2OGUxNjdiZjNmYzE4OTIxM2M2MGJjM2FjNTUxYTI2MzVhMTQ4MmRkMjc2YjcwNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_63c2a38a17a44d209668d447d833113e",
+      "statement": "SOPS encryption rules apply different strategies based on file location: talos/.*\\.sops\\.ya?ml files use whole-file encryption, while (bootstrap|kubernetes)/.*\\.sops\\.ya?ml files encrypt only data/stringData fields.",
+      "evidence": [
+        {
+          "resource": "repo://.sops.yaml#L2-L9",
+          "version": "repo-lines-v1:sha256:a72739e985f90110ea26d10cfc8678b107aba99f7969153054238b16be5f8eb5:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzNkODUzYmNlZGZhOTBlZGIxMTZhZGJmOWY2YTdmMzQ3NzAzMTY0ZjBlMWRiMTU3ZTY3YmY3M2QwZjQ1YTJkMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDYwMWFkNjVkNmRjOWZmZDIxNWZiM2ZkZTkxZWFkZDlmN2IzOGUyMjJjNGU5NDc3MTFkMzk5YzQyN2MwMWQ5OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjEsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjUyZDcxMTEwM2Q1MGE0Mzc4MzBjNmZiY2QwNGZiNGJhYjQ5YTBmODJmNmQyNmQxYzc5MWM2ZTg0ODhkZDA5MCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTJmZDhkNDQwOGQ0NDg5NTFkMzFmOTBhNDQwNGI3N2YzODI3ZDZkM2IwZjZkOWY4YzRhZmEzOTg4ZTBhMjJmZCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_b7cf052bc42640beabcd912c7b688048",
+      "statement": "Flux-local CI workflow validates Kubernetes manifests before merge using flux-local test, catching syntax errors, invalid manifests, and Helm chart rendering failures.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/flux-local.yaml#L29-L41",
+          "version": "repo-lines-v1:sha256:f2c1ba05186614de351385f3c261f9f1c6cbbb4287ded87054a279d13c7ba72b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMDA1Nzc3NzZjNjY4YjcwMWQ3MTY1YTk3MmNiYWJiNmVkZWQxMjhiYjg1ZmE3MGMzMjYwYjU4ZTBlOWIwNDQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJmYzhmZGE0MjFkY2FmZmNmY2NhNDZiYjA0Y2EzMDg4NzNmY2U2OGRlY2JmMmZkZmQ2NWY2NmVkZWQyYjlkNjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBmYTJmMDk2YjRlZjg1Zjc1ODc0MjUzNTM4NzU2ZTJlNjQ5NTdiOTY5NzQ5MjViMGVmNmM2NjllNmVmOGE4ZWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJkM2Y5NzI5NWViNGJhMGI4OGU0ZjczNDAzZDVhNDZjMDVmYTU3MTQwZjgyMzExZjdlYjQxMjYzMDhhYWZkZjcifQ"
+        },
+        {
+          "resource": "repo://.github/workflows/flux-local.yaml#L82-L90",
+          "version": "repo-lines-v1:sha256:98547b39e9be3049a24558498b1dae0135dafc95ba0676dbfed7a9c8e48d4d1a:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOGE5ZmJiYzMwYjQ2YzFhODhlZWIyNGJlMmRmNGFmYTIxNmNmNjY4Nzk4ZDU2ZGNhMThiMjAwZDIyYzNlZTFkOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYzVmZTRlNTVlNDA1OGQwOWNmZjU0NjlhZGM3Yzc2MzA5NWJhMzAzMWZmNTk5OWVjOGM0OTc0MzQ1YzlhNDk1MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjkzOWI0Y2FiZjFjYTI0MGQ5OGFhZTgwNWIwYWJiNjFmYjk0YzZhMTU0M2RiNzZmYzNhZDQ3YjY3YjhkZTQ5MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiY2YyYWIzNzM4NWU3NGI5YzlhNjljYWM0NjQ5ZWZjOTZmOThkNGY0ODE1MWE1NTExY2Q1ZDM2ZDg3YTRiOTA5ZSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_71436dcb1c5849e780d5e80fcef39bcb",
+      "statement": "Manual intervention for TopoLVM upgrade issues includes deleting pending controller pods or scaling old ReplicaSets to 0 when Helm wait logic becomes stuck.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/topolvm/README.md#L31-L44",
+          "version": "repo-lines-v1:sha256:897adbacd81959f6b03363917da2df25701f41d3eef2a2ad846afb7e143ea07b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFlMzE3OTc1YmRhZjUzYTkwOTNkNzIxNDBmZGNlNGMwMDM0MjI3ZjFiM2JlNWM0MjJmOTE4MWFmMTgyMmY5YjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVhZDZhMzRkNTNlMzA2M2ZiOTY3OGE2NjliOGQ1MTA4MTczN2ZmZjNiNTUxMzI4OWYzNWE3NDhmMTJhMWE5NTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI1ZjgzYjk5ZDEzNDM3YmMyYTcyYjI1ZmE4OGIyZDE4MGUwMjUyYmYxMzc2OTVjYzY5ZTNmMzg3Y2VhYzRhNjYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQzM2Q4ZmVhZGJjYTFiNGEzNmZiZjJjYWViYWQ4YTFlMDFiYzk3MjY3ZjRhZDkwYzQzZmUzMTQ3ODZiOWFlM2YifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-08-28T03:38:47.877Z"
+  }
+}

@@ -1,8 +1,8 @@
 {
-  "updatedAt": "2026-08-23T20:47:46.000Z",
+  "updatedAt": "2026-08-28T04:11:14.451Z",
   "command": "update",
-  "gitHead": "22576b3f634451332622da662940895a6c812664",
-  "model": "openwiki",
+  "gitHead": "fc27c8cb4bd6618c1bcf07d748a14282f3da0f1e",
+  "model": "glm-4.7",
   "status": "complete",
   "language": "en"
 }

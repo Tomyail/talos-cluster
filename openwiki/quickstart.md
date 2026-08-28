@@ -1,65 +1,139 @@
 ---
 type: Quickstart Guide
-title: Talos Cluster Documentation
-description: Quickstart entrypoint for the Talos Kubernetes homelab cluster GitOps repository, covering setup, architecture, applications, operations, storage, and Talos configuration.
+title: Quick Start Guide
+description: Entry point for understanding the Talos + Flux GitOps cluster repository structure, bootstrapping process, and daily operations.
 tags: [talos, kubernetes, flux, quickstart, gitops, homelab]
+verified:
+  - by: openwiki/0.4.3
+    at: 2026-08-28T03:38:47.877Z
+sources:
+  - id: openwiki-source-9c06bd9d7d25770709e07c7c
+    resource: repo://.mise.toml
+  - id: openwiki-source-aa55808be329b3f929ddf105
+    resource: repo://.renovaterc.json5
+  - id: openwiki-source-240e6406ed4b6841961679cb
+    resource: repo://.sops.yaml
+  - id: openwiki-source-f04021c19122a44288e9cea0
+    resource: repo://.taskfiles/bootstrap/Taskfile.yaml
+  - id: openwiki-source-4f5be6b4c7dcc699aca46164
+    resource: repo://.taskfiles/talos/Taskfile.yaml
+  - id: openwiki-source-dbd8b5c09621dda4424792fd
+    resource: repo://kubernetes/apps/default/gitea/app/helmrelease.yaml
+  - id: openwiki-source-649e5ed74d5376f95cff2b2a
+    resource: repo://kubernetes/apps/default/gitea/ks.yaml
+  - id: openwiki-source-0696023deccf378a358f7526
+    resource: repo://kubernetes/flux/cluster/ks.yaml
+  - id: openwiki-source-23775c3de52f3ab95a13cb8b
+    resource: repo://README.md
+  - id: openwiki-source-6f1d2c8de9160e178167b990
+    resource: repo://scripts/bootstrap-apps.sh
+  - id: openwiki-source-b9ff7ee0aa4953cc601052a4
+    resource: repo://Taskfile.yaml
+generated: { by: "openwiki/0.4.3", at: "2026-08-28T03:38:47.877Z" }
 ---
 
-# Talos Cluster Documentation
+# Quick Start Guide
 
-Welcome to the Talos Kubernetes cluster documentation. This repository contains the complete GitOps configuration for a personal homelab cluster running Talos Linux with ~30 applications across multiple namespaces.
+Welcome to the Talos Kubernetes cluster documentation. This repository contains the complete GitOps configuration for a homelab cluster running Talos Linux with ~30 applications across multiple namespaces.
 
-## What This Is
+## Architecture Overview
 
-A Talos Linux Kubernetes cluster managed via Flux GitOps. The cluster runs on bare-metal hardware with:
+This cluster combines Talos Linux as the operating system with Flux for GitOps-based cluster management:
 
-- **Operating System**: Talos Linux (secure-boot enabled)
+<!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
+```text
+flowchart TD
+    subgraph Infrastructure["Infrastructure Layer"]
+        A[Talos Linux Nodes<br/>Secure-boot enabled]
+        B[Bare-metal Hardware]
+    end
+    
+    subgraph Platform["Platform Layer"]
+        C[Kubernetes v1.35.4<br/>Single-node control plane with VIP]
+        D[Cilium CNI<br/>L2 announcements, Gateway API]
+        E[TopoLVM Storage<br/>LVM thin provisioning]
+    end
+    
+    subgraph GitOps["GitOps Layer"]
+        F[Flux Operator<br/>Reconciliation engine]
+        G[Git Repository<br/>Source of truth]
+        H[Helm Releases<br/>Package management]
+    end
+    
+    subgraph Services["Services Layer"]
+        I[Networking<br/>Cloudflare Tunnel, Tailscale]
+        J[Observability<br/>Prometheus, Grafana, Loki]
+        K[Applications<br/>30+ apps across namespaces]
+    end
+    
+    B --> A
+    A --> C
+    C --> D
+    C --> E
+    F --> G
+    F --> H
+    C --> F
+    D --> I
+    C --> J
+    H --> K
+```
+
+### Key Components
+
+- **Operating System**: Talos Linux (secure-boot enabled, immutable, API-managed)
 - **Orchestration**: Flux for GitOps-based cluster management
-- **Networking**: Cilium (CNI), Cloudflare Tunnel, Tailscale
-- **Secrets**: SOPS + age encryption, External Secrets Operator with Bitwarden
+- **Networking**: Cilium (CNI with L2 announcements), Cloudflare Tunnel (ingress), Tailscale (VPN/mesh)
+- **Secrets**: SOPS + age for Git encryption, External Secrets Operator with Bitwarden for runtime secrets
 - **Observability**: Prometheus, Grafana, Loki, Thanos, Gatus, Uptime Kuma
-- **Storage**: TopoLVM, VolSync, snapshot-controller, NFS CSI, local-path-provisioner
+- **Storage**: TopoLVM (LVM thin provisioning), VolSync (backup/replication), snapshot-controller, NFS CSI
 
-## Quick Start
+## Local Environment Setup
 
-### Local Environment Setup
+The repository uses [mise](https://mise.jdx.dev/) for toolchain management and environment configuration.
 
-The repository uses [mise](https://mise.jdx.dev/) for toolchain management:
+### Initial Setup
 
 ```bash
 mise trust
 mise install
 ```
 
-This installs and configures: `task`, `talhelper`, `talosctl`, `kubectl`, `flux`, `helmfile`, `sops`, `age`, `yq`, `kubeconform`
+This installs and configures the required tools: `task`, `talhelper`, `talosctl`, `kubectl`, `flux`, `helmfile`, `sops`, `age`, `yq`, `kubeconform`
 
-mise also sets essential environment variables:
-- `KUBECONFIG=./kubeconfig`
-- `TALOSCONFIG=./talos/clusterconfig/talosconfig`
-- `SOPS_AGE_KEY_FILE=./age.key`
+### Environment Variables
+
+mise automatically sets these essential environment variables:
+
+- `KUBECONFIG=./kubeconfig` - Kubernetes client configuration
+- `TALOSCONFIG=./talos/clusterconfig/talosconfig` - Talos client configuration
+- `SOPS_AGE_KEY_FILE=./age.key` - Age private key for secret encryption/decryption
+
+## Quick Reference
 
 ### Common Tasks
 
 ```bash
-task                          # list all available tasks
-task reconcile                # force Flux to pull git changes
-task talos:generate-config    # regenerate Talos machine configs
-task talos:apply-node IP=<ip> # apply Talos config to one node
-task talos:upgrade-node IP=<ip>  # upgrade Talos OS on one node
-task talos:upgrade-k8s        # upgrade Kubernetes cluster-wide
-task bootstrap:talos          # full Talos cluster bootstrap
-task bootstrap:apps           # bootstrap apps (namespaces, secrets, CRDs, helmfile)
+task                          # List all available tasks
+task reconcile                # Force Flux to pull git changes
+task talos:generate-config    # Regenerate Talos machine configs
+task talos:apply-node IP=<ip> # Apply Talos config to one node
+task talos:upgrade-node IP=<ip>  # Upgrade Talos OS on one node
+task talos:upgrade-k8s        # Upgrade Kubernetes cluster-wide
+task bootstrap:talos          # Full Talos cluster bootstrap
+task bootstrap:apps           # Bootstrap apps (namespaces, secrets, CRDs, Helm releases)
 ```
 
 ### Initial Cluster Bootstrap
 
-For new cluster installations:
+For new cluster installations, the bootstrap process is split into two phases:
 
 1. **Prepare Talos configuration**: Edit `talos/talconfig.yaml` and `talos/talenv.yaml`
 2. **Bootstrap Talos**: `task bootstrap:talos` (applies machine configs, bootstraps cluster, exports kubeconfig)
 3. **Bootstrap base apps**: `task bootstrap:apps` (installs Cilium, CoreDNS, cert-manager, Flux)
 
 After bootstrap, Flux takes over and manages all applications under `kubernetes/apps/`.
+
+See [**Cluster Bootstrap Workflow**](./workflows/bootstrap.md) for detailed prerequisites, step-by-step instructions, and verification procedures.
 
 ## Repository Structure
 
@@ -76,40 +150,75 @@ After bootstrap, Flux takes over and manages all applications under `kubernetes/
 │   ├── clusterconfig/      # Generated Talos machine configs (do not edit)
 │   └── patches/            # Machine-level patches merged by talhelper
 ├── scripts/                # Bootstrap and utility scripts
-├── .taskfiles/             # Task subcommand definitions
+├── .taskfiles/             # Task subcommand definitions (bootstrap, talos, volsync)
 ├── Taskfile.yaml           # Main task entrypoint
-└── talos/talconfig.yaml    # Cluster-level variables (CIDRs, endpoints, node config)
+├── .mise.toml              # mise toolchain configuration
+├── .sops.yaml              # SOPS encryption rules
+└── .renovaterc.json5       # Renovate dependency automation configuration
 ```
 
-## Application Namespaces
+## Application Organization
 
-Applications are organized by namespace under `kubernetes/apps/`:
+Applications are organized by namespace under `kubernetes/apps/`, with each namespace managed by its own Flux Kustomization:
 
 - **`kube-system`**: Cilium, CoreDNS, metrics-server, node-feature-discovery, system-upgrade
-- **`flux-system`**: Flux operator and instance
+- **`flux-system`**: Flux operator and instance, image automation
 - **`network`**: Cloudflare Tunnel, AdGuard DNS, k8s-gateway, SMTP relay, Tailscale
 - **`observability`**: Grafana, Prometheus, Loki, Thanos, Gatus, Uptime Kuma, promtail
 - **`storage`**: TopoLVM, VolSync, NFS CSI, snapshot-controller, Nextcloud
-- **`default`**: ~30 personal applications (Gitea, growth-tracker, Paperless, Navidrome, Jellyfin, qBittorrent, RSSHub, n8n, Ollama, etc.)
+- **`default`**: User applications (Gitea, growth-tracker, Paperless, Navidrome, Jellyfin, qBittorrent, RSSHub, n8n, Ollama, etc.)
 - **`cert-manager`**: cert-manager installation and cluster issuers
 - **`database`**: PostgreSQL, Redis operators
 - **`external-secrets`**: External Secrets Operator and Bitwarden integration
 - **`external-server`**: External-facing applications behind Cloudflare Tunnel
 
-## Key Concepts
+See [**Application Deployment Workflow**](./workflows/app-deployment.md) for details on the app-template pattern, namespace organization, and common components.
+
+## Documentation Map
+
+### Core Concepts
+
+- **[Cluster Architecture Overview](./concepts/cluster-architecture.md)** - Control plane setup, networking stack, storage layers, observability infrastructure, and security mechanisms
+- **[Flux GitOps Architecture](./concepts/flux-architecture.md)** - Reconciliation hierarchy, Kustomization structure, source management, and image automation system
+- **[Network Architecture](./concepts/networking.md)** - Layered networking stack: Cilium CNI, Cloudflare Tunnel, DNS management, and Tailscale mesh VPN
+- **[Secrets Management](./concepts/secrets-management.md)** - Dual-layer secrets: SOPS + age for Git encryption and External Secrets with Bitwarden for runtime injection
+- **[Storage Architecture](./concepts/storage.md)** - TopoLVM with LVM thin provisioning, VolSync for backup/replication, and storage class configurations
+
+### Workflows
+
+- **[Cluster Bootstrap Workflow](./workflows/bootstrap.md)** - Complete bootstrap sequence from Talos configuration generation through cluster initialization
+- **[Application Deployment Workflow](./workflows/app-deployment.md)** - How to deploy and manage applications through Flux, including the app-template pattern
+- **[Cluster Upgrade Workflow](./workflows/upgrade.md)** - Upgrade processes for Talos OS, Kubernetes, and applications
+
+### Operations
+
+- **[Daily Operations](./operations/daily-operations.md)** - Common operational tasks: Flux reconciliation, Talos config application, node operations, backup procedures
+- **[Troubleshooting Guide](./operations/troubleshooting.md)** - Common issues and solutions: TopoLVM issues, Flux reconciliation failures, secret decryption problems
+
+### Integrations
+
+- **[Bitwarden Secrets Integration](./integrations/bitwarden.md)** - Bitwarden Connect for runtime secret management via External Secrets Operator
+- **[CI/CD Integration](./integrations/ci-cd.md)** - GitHub Actions workflows for validation, flux-local testing, and OpenWiki automation
+- **[Cloudflare Integration](./integrations/cloudflare.md)** - Cloudflare Tunnel for ingress, DNS management via external-dns, and DNSEndpoint resources
+- **[Renovate Integration](./integrations/renovate.md)** - Automated dependency updates for Flux Helm releases, OCI repositories, Kubernetes manifests, and Talos/Kubernetes versions
+- **[Tailscale Integration](./integrations/tailscale.md)** - Tailscale operator deployment for mesh VPN networking, subnet router configuration, and egress proxy setup
+
+## Key Architectural Patterns
 
 ### Flux GitOps Flow
 
-Flux watches the `flux-system` GitRepository and reconciles everything in two stages:
+Flux watches the Git repository and reconciles the cluster in two stages:
 
-1. **`cluster-meta`** → `kubernetes/flux/meta/` (GitRepository sources)
-2. **`cluster-apps`** → `kubernetes/apps/` (all application Kustomizations)
+1. **`cluster-meta`** → Deploys source repositories (GitRepository, HelmRepository, OCIRepository) from `kubernetes/flux/meta/`
+2. **`cluster-apps`** → Reconciles all application Kustomizations from `kubernetes/apps/`
 
-Each namespace under `kubernetes/apps/` has its own Kustomization that Flux reconciles.
+Each namespace under `kubernetes/apps/` has its own Kustomization that Flux reconciles with SOPS decryption enabled.
+
+See [**Flux GitOps Architecture**](./concepts/flux-architecture.md) for the complete reconciliation hierarchy and dependency ordering.
 
 ### Application Pattern
 
-Each application follows this structure:
+Most applications use the shared `app-template` OCI chart (`ghcr.io/bjw-s-labs/helm/app-template`) with this structure:
 
 ```
 <namespace>/<app>/
@@ -120,38 +229,41 @@ Each application follows this structure:
     kustomization.yaml   # Resource aggregation
 ```
 
-Most apps use the shared `app-template` OCI chart: `ghcr.io/bjw-s-labs/helm/app-template`
+Common components like VolSync (backup), Gatus (uptime monitoring), and image automation are integrated through reusable components in `kubernetes/components/`.
+
+See [**Application Deployment Workflow**](./workflows/app-deployment.md) for detailed application patterns and component usage.
 
 ### Secret Management
 
-Two encryption modes in `.sops.yaml`:
+Two-layer encryption approach:
 
-1. **Talos configs** (`talos/*.sops.yaml`): Whole-file encryption
-2. **Kubernetes configs** (`bootstrap/`, `kubernetes/`): Only `data`/`stringData` fields encrypted
+1. **Git Encryption** (`talos/*.sops.yaml`, `bootstrap/`, `kubernetes/`): SOPS + age encryption
+   - Talos configs: Whole-file encryption
+   - Kubernetes configs: Only `data`/`stringData` fields encrypted
+   - Rules defined in `.sops.yaml`
 
-Flux decrypts SOPS secrets using the `sops-age` Secret in `flux-system`. The `age.key` file is local-only and never committed.
+2. **Runtime Secrets** (External Secrets Operator + Bitwarden): Application secrets injected at runtime
+   - ClusterSecretStore connects to Bitwarden Connect
+   - ExternalSecret CRs define which secrets to sync
+   - Never stored in Git
 
-### Dependency Updates
+Flux decrypts SOPS secrets using the `sops-age` Secret in `flux-system`. The local `age.key` file is required for editing secrets but never committed.
 
-Renovate (`.renovaterc.json5`) handles automated dependency updates for:
-- Container images (Helm releases, deployments)
-- Helm charts and OCI repositories
-- GitHub releases and Actions
-- mise toolchain versions
+See [**Secrets Management**](./concepts/secrets-management.md) for the complete architecture and workflows.
 
-**Schedule**: Runs on weekends only
-**Auto-merge**: Patch updates and minor mise/GHA updates
-**Custom tracking**: Use `# renovate:` comments for custom datasource tracking
+### Dependency Automation
 
-OpenWiki documentation is also updated automatically via GitHub Actions (`openwiki-update.yml`), running daily at 19:30 UTC with manual dispatch available.
+Renovate handles automated dependency updates:
 
-## Documentation Sections
+- **Container images**: Helm releases, Kubernetes deployments
+- **Helm charts and OCI repositories**: Flux HelmRepository and OCIRepository resources
+- **Talos/Kubernetes versions**: Version pins in `talos/talenv.yaml`
+- **Toolchain versions**: mise packages in `.mise.toml`
 
-- **[Architecture](./architecture/overview.md)** - Detailed cluster architecture, GitOps patterns, networking stack, and component relationships
-- **[Operations](./operations/daily-tasks.md)** - Day-to-day operational procedures and troubleshooting
-- **[Talos Configuration](./talos/configuration.md)** - Talhelper setup, machine config patches, and node management
-- **[Storage & Backup](./storage/overview.md)** - VolSync, TopoLVM, NFS CSI, and snapshot strategies
-- **[Applications](./applications/overview.md)** - Application patterns, app-template usage, and common configurations
+**Schedule**: Runs on weekends only  
+**Auto-merge**: Patch updates and minor mise/GitHub Actions updates
+
+See [**Renovate Integration**](./integrations/renovate.md) for configuration details and custom datasource tracking.
 
 ## Project Origins
 
@@ -162,6 +274,7 @@ This cluster was originally initialized using the [onedr0p/cluster-template](htt
 ## Status and Monitoring
 
 The cluster exposes status metrics at [kromgo.tomyail.com](https://kromgo.tomyail.com) showing:
+
 - Cluster age and uptime
 - Node count
 - Running pods

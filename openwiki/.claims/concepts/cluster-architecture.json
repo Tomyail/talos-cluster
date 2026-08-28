@@ -1,0 +1,410 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:0ba65771fb3d2eb198763c712e9a31d6e121248cd0598e568ffa06bd07ad064b",
+  "claims": [
+    {
+      "id": "claim_2f8b2d0f8ee7497eb3ab28202bcff633",
+      "statement": "The cluster runs a single-node control plane with a Virtual IP (VIP) at 192.168.50.10 for API server accessibility, with the control plane node at 192.168.50.145 and secure boot enabled.",
+      "evidence": [
+        {
+          "resource": "repo://talos/talconfig.yaml#L22-L32",
+          "version": "repo-lines-v1:sha256:2e1409ae3f83278be8a74a0a4b7b86d316d5035e29a07d10d3059bb61b85aeba:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNkMmE3OGUwMDdmMDhlYzQ2Y2NmOTgwZDBkMWFlYTZhMmRlMzc5YWFjM2U3ODNiOGNjMjZkNDlkZDI4NzY3ZjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUwNjI1YTU3YmUyY2EwZTYwNzkyMTZhMjQ4OTYyY2QyYjljMDhkMjk4N2FlMzRiZDJhMDFlMTVmMTZhMzFjMGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUxNWE3MjllZGU0MmUwNTdiNzY0YThlODYzNGIwYjlhMDAxZjE2ODVmNWU3NjI4ZjkwZWY1NTVmNDczOTQzYzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFiZGZhYTkzMjc1M2UwOTlmZmU2YTkyZjYwNzU5NTBhZmIwNjYxZTI5YzcwYTk2ZDQzZjU2MDAzY2M0ZGNlNjQifQ"
+        },
+        {
+          "resource": "repo://talos/talconfig.yaml#L51-L52",
+          "version": "repo-lines-v1:sha256:83044d46c9f14dc9c675b0dca35244a8550e92d38c4504689068068d1c1ca8f6:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzhhNDdhMmQwZWVhOGM4NjY1ZWIyOWM4YmIxYzlhZjZkYWI5NGI0MmVlMGNmODE5NmFmNWE1MzRkMDVlZjBhYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMTI1ODc3MjAxYmVjNDcxNTA4ODVmYjMyNTNiYjc2MTY1MzI1YWM2YjQ0YjhmNWIyMDZlM2RjNjZiZjM1NzNhZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNGMwYzUxODRiNTIxYzQ3NzQwMjc5ZTM3YjhjYjkxMWJlMjEzNGQzZDk0OTQ1MGM1NWZjZmJmNzZlZGVmZjZmZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjJlZDk5NDBlODZkOGFkNWJmNmFmNGI3MmMzNTY4ZTUyNTE1ZTQ3ZTJiMmUwYTU1MjcxMjIwMWU2NmM5ZDE3YiJ9"
+        },
+        {
+          "resource": "repo://talos/talconfig.yaml#L8-L12",
+          "version": "repo-lines-v1:sha256:8ffd56580aec17198437f1dc2c09c8faa32e204effd856ecd9c079130bd7ad23:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODc4Zjg0MDExNDI2MmYxZWIzN2ZjY2ZiODdiMDFmODBkMmZhNmFiODNhY2I2YmZiZGUxOTk0NGZhNTc3ZWUzMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiN2U4NWIxZDM3YTlhMGVkMTdiM2FiZGQ2ZmFiM2YxZTFmNGNkNmJhYTRmYzVkNTIwM2FiMzY4M2VlNzAzNTFkYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjU4ZjNjMjBlMTQxNTJmNjkyNjQ0YTMwYTg2OWUzZGQ3YTc1ZjliOTg1MTQ4ZWM2OWNiOThhYWIyMTAzNTA0YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODY0MDdmOWQwMTE5MTg3NTc5MGI5NmFkZGY3MDBmMDQ3MDYzNWM3ZGU2MTViMmJhMDViYWRhMTA0YjU2ODg1MSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_9334690a22724d0e8f43d307795f6b58",
+      "statement": "The cluster runs Kubernetes v1.35.4 on Talos Linux v1.12.7, with pod network 10.42.0.0/16 and service network 10.43.0.0/16.",
+      "evidence": [
+        {
+          "resource": "repo://talos/talconfig.yaml#L14-L15",
+          "version": "repo-lines-v1:sha256:e95749f60a68c9832df7074884c8803eff128d212136c4a15fc27256cedd53ec:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjU4ZTRlY2Y3OTYzMTBmODgwNWU1NGE3ZTRmZDU1MjdhYWIwMmViZWY4Y2QwNTk4ZTQ1YjZkZTBkNmI0ZmZhYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiM2QyMjJkOTMxOTFhMWNkNGFiNmVlNDQyMzdlZTAwODYzOTkzZTNkODU2OTVmMWNjZTdiODBhZDA5OThlNDc2MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZWViM2M3YzE5MDRiODVlZWZiNzllN2JlZjJlMWY2Y2RjYjkxZjZlZDQ4OGI0NGFlZjc2MjJhODI2N2NlNTljNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZWU2NGQ4ZDJmZGFhYWFlOTZjNjdjYmNjOTc5OTUxNzFiYTc3MjdhNTAyM2E0OGRmYWVlODUyNWUzN2VkNGQ3NCJ9"
+        },
+        {
+          "resource": "repo://talos/talenv.yaml#L1-L4",
+          "version": "repo-lines-v1:sha256:4ae26d952e597f70c4bbe7665882b09fe952fe44746284b6ff794e03502b0c1d:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDBmMTUwYTFhMDAwNzUyODM5MzU2NzZjZDY3Y2RmN2E4NmI2ZjhiYTE5YzkxMDI4YzMwYWM3MTNmZjNjMDAzMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiY2VmNGJjZTcyOGNmYTdhYjVkYjhlYTlkMTYxODZjM2NmZGU1ZWEyYjUxZGE0YTM5NzY4MTQyZjFiM2I5MDQ0MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_0fce3988c908453ba10b985e6446333b",
+      "statement": "The cluster disables kube-proxy and CoreDNS in the Talos configuration, replacing them with Cilium (kube-proxy replacement) and a custom CoreDNS installation.",
+      "evidence": [
+        {
+          "resource": "repo://talos/patches/controller/cluster.yaml#L10-L18",
+          "version": "repo-lines-v1:sha256:bb4093f1427e032592ae5817719ac62f451a79395f3bd1e3b160f6bc39834999:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDQ0YzUzNTdhZDk5ZWEzYjM2YzY5NTdiZGM4N2IyNmQyMTVhOWMyNmMyMjY2NDc3MGFjMDE3YmM1YmRmNzUxOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYzZlNGViYTk5ZjE5ZTg4YzgyOTcxODU0NzlkMWY5ZGM3YTMzMTk1NGU3MDc5ZWRmODAxNjQxZWU4MDBkZTBhNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDllMzk1ZTRjZWRhMTZjN2JjYTYxNmRmNDNlNmRiMjk0NWQxNGI1Zjk0MjE3OGI0NDBiMTg2NWM1OGViM2ZhMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZWZjM2FkZTliOGVkZGIzMDc1MDhhNTY1OGMxNjRkYjM5MWJiMWQ5NDA0M2U2Njg2YTNhMzFmN2IxNDEwOWYwZSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_3491821d9b2246d3b72177ddd562b1a1",
+      "statement": "Cilium serves as the cluster's CNI with kube-proxy replacement enabled, using kubernetes IPAM mode, native routing, maglev load balancing with DSR mode, and Gateway API support.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/cilium/app/helm/values.yaml#L1-L80",
+          "version": "repo-lines-v1:sha256:34b34dd43fa9a0819d270e5edb8d530924fbb1fd999fea74b5b440eae0e649fb:eyJzZWxlY3RlZExpbmVDb3VudCI6ODAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU1YjdiMjZjZWZhNTUxYWQ0N2Q0OGM1MDZlYzg2NzQ2YjBhOTkzNWU5MWYyY2Y5MjI2MzhhYmMwZTQ5MmRjYzQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJjODFiMWFlYjA1N2UzZmEzZWNlMTYyYjk1ZDhiMjk0YjE5MTkxOTJmMGUzMjQyYjRmNTZmOWY5ZTA3MzcyMjEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_31b04119c97147518aeb162398ec6508",
+      "statement": "Cilium L2 announcements are enabled for LoadBalancer IP advertisement without kube-proxy, allowing services to advertise IPs directly on the local network.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/cilium/app/helm/values.yaml#L38-L39",
+          "version": "repo-lines-v1:sha256:cf2552853011c15cbb7fe18d960fc46b0112e2c411fe8cad736e6de51650f13b:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYWFjNmYwMDQwZDEyMjc3YWM0NGRjNmNkMTE3YTQ4ZTQxYmUxNjkyNmMyODE2ZDczZWJiZDRiOGNhZWY0ODQ4MyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzhhMWNhNWE4YTU2NzhmMTlhOGYwYjliYjlhY2M4NjQ2NDY2ODY4YjMxOGM0MDA2MjE3ZGRkNGM3ZmY4MGM4MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzVlYWZjMGQyMDkyNGFlODRiMzVmNzgwMjllNTFhYjc0NWJkODQyOTU5OGU1NWU1OWFmMWMyN2MwZTMwYTdkNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzc5YTc5YWZlZjBjNTkyNGYyMTc5M2Y0OGMwZjI1NTQ2MmI0ZDMyMjYyNWVkNjQ5NDRmZTMyMDJlMjE0MzUzMyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_bf0db5737391429b835b542e94b57dc0",
+      "statement": "Cloudflare Tunnel (cloudflared) provides secure inbound access to cluster services without opening ports, using HTTP/2 protocol with metrics on port 8080 and running as a non-root pod with dropped capabilities.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/helmrelease.yaml#L19-L62",
+          "version": "repo-lines-v1:sha256:a2a90684f2cfcc8860dcaca3217bdbf78f39a15af21af5d48d1f8c58c70f60a8:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2ZjFjNzJiNTlhZGU1MjRjMDEzNWM3Y2RiMGViMjRhYWZiZjE0ZGIxOWYxNzYwZjE5M2IyNzA3N2M5Nzg0NjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjczZWZjYTYzM2Y1NTMwZWU4ZTcwZTkwZmM4MGJkNzQ1MmI5ZjE0Y2ExMmZmYWRhMWU3NDkyNjJhNWVhY2EyMWIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYxNWE0YjNlMTM3YTVhOWRiMGRkMDVhZGY4ODcyMTcyMGJmODMyNjA2Yzg2MDI0MDc4ZDk5YmZiYWEyMjE5ODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk1ZjIxY2FkM2ZlZGQ0ZDkyODVjMzExYjJkYTgyZDllYWY3MTUwM2RjMjZmNTc0NmM5YmM4YWY0NzlmOTc4NzMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_043d9af714c14e2e9bda52a9d471d84c",
+      "statement": "Tailscale operator provides secure mesh networking with API server proxy enabled for Kubernetes API access via Tailscale, using OAuth credentials from tailscale-secret.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/tailscale/app/helmrelease.yaml#L1-L36",
+          "version": "repo-lines-v1:sha256:fe66aca1410c1edacbdd84d47d075eb0ad8cfb56c0ff52f70018fb806e155653:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_35c468248a3e48e49cd8e5201c08edb9",
+      "statement": "k8s-gateway provides DNS-based service discovery using Gateway API, exposing services via DNS records under ${SECRET_DOMAIN} with a LoadBalancer service using Cilium IPAM at 192.168.50.11 and watching HTTPRoute and Service resources.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/k8s-gateway/app/helmrelease.yaml#L33-L43",
+          "version": "repo-lines-v1:sha256:98784f7c78779f8bdf25b601ba67e69ecaa29456762db00ee616af7869004e82:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2ZjFjNzJiNTlhZGU1MjRjMDEzNWM3Y2RiMGViMjRhYWZiZjE0ZGIxOWYxNzYwZjE5M2IyNzA3N2M5Nzg0NjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdiNWQ5ZmI3ZThhYmE4Y2VjMTRjNzlkMjM3NTA1ZmM0NTk1NTdhOWY0MDliMWQxMDRkZTM1OTczNDViNDAzMjIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYxNWE0YjNlMTM3YTVhOWRiMGRkMDVhZGY4ODcyMTcyMGJmODMyNjA2Yzg2MDI0MDc4ZDk5YmZiYWEyMjE5ODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_65a512d42f544d84a1f2a2fd2385c74a",
+      "statement": "AdGuard DNS integration uses a webhook provider to connect to AdGuard Home at 192.168.50.1:3000 for external DNS management with credentials stored in adguard-dns-secret.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/adguard-dns/app/helmrelease.yaml#L34-L50",
+          "version": "repo-lines-v1:sha256:1c7da646307dc84230011b8d41c6b310499def1871a8b97115bef9e14bd3e807:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImExZWEyZmZhZmZmNDk2NGVhMjM5MTkxZTMwOGIwZGRhMTVjNmQ3MTUwZDQwNzU3OGZjOTM5NDVjNTI2NWViODkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhkMjI4YTdkNjJlZDA1ZmY2YzZlMjBkYTNmMjkyM2Y0MmNhNzg2N2YyZWUzYmFjYWYxNGI5YmJjYWFiZmE3YmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYyNWFlMmVlMjgxZTBlZmE4NzgxZTIwNjlhNjM4NWIyMjhlMDVmMTBlN2RhMGFiZWRiNTczN2Q0ZTAwOTM1ODYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE0NWZjZGUyMDdhNDE2ZWZkNjVlNzNjODE2Yzg2YWU5MDk2YmQ4OWNjMTJlNjNiMTZlYTFiNmVjN2U5NzU3MzIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_dab5bc57aad744b6a26057f520bed311",
+      "statement": "TopoLVM provides dynamic thin-provisioned storage using LVM with device class 'thin', volume group 'lvm_vg', thin pool 'lvm_thin' with 10x overprovisioning, XFS filesystem, and serves as the default storage class 'topolvm-thin-provisioner'.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/topolvm/app/helmrelease.yaml#L23-L54",
+          "version": "repo-lines-v1:sha256:9f39a280ea13cd9d54cdeed907b07ae0c9caa73671b25309b6298a34ebe726e2:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjllMjM2MjgzYjMzNjYwZmZlODhlMzViODc5ZDI3NDMyODIyNThhMTQ1ZWU1YmYxNTIxMDJiMWY3M2VhMjI2NGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM3NTYxMDRhYjM4ZjgzMjY5OGY4ZmZkNWY3ODc3ODQyYTc1ZTAyMTc1ZDYxNmVhNjEwYmQ2NDRjYTg4MjYxOWMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUzNWQ4NzcxMTQyMDkwZGQ3ZjcyMmU4NDE2Y2Y2ZDk5ODFjMWQ2NmI4YWQ1NWJjZWQ3NGY4NWFhZGExNWYxODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVlYjkzNjFjMzYzNGVmN2ViNGY5YzcwMTRjMThjZmM5ZTA0NDA3OWU5MzhlZjQ4YWNmMDk4MTJhMDE2M2Y3OGMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_11b5efba03e14e598015be100312c420",
+      "statement": "TopoLVM LVM setup requires manual disk formatting including pvcreate, vgcreate for lvm_vg, and lvcreate for the lvm_thin thin pool, as documented in lvm-format-manual.yaml.",
+      "evidence": [
+        {
+          "resource": "repo://lvm-format-manual.yaml#L37-L44",
+          "version": "repo-lines-v1:sha256:7964eda14bce488116a4196840bcff99b7a816024a9f7659342184ad5357a742:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTg1N2ZhYzY0YTk4MWNkOTUzOWUxMWY0NzE5MGM0ZTdkZmNkZjBhODRlMmM1NDE0Y2YwMDhhZmQyMjgyYzQ2MyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODgwNDllZDVhMDgwNWQ4ZmFhMThmYjk2ZTZlNzJkMGU3NDRkMWM5MGYzYWQ1MTQ1NDBlNTRmYzg4YjQzMmI3ZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODM1YzZmZGIzYTkwYmFmNzhlOGQ1OTJlZDI4NWI3OGJjMDRmODY4NTgyMTQxZWFhOGI5MWExMDVjMjk4NzZmYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_4e3c63378dba49d0a0b4deedee1ad4d5",
+      "statement": "NFS CSI driver (v4.13.4) provides network-attached storage with a single controller replica and external snapshotter disabled.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/csi-driver-nfs/app/helmrelease.yaml#L1-L29",
+          "version": "repo-lines-v1:sha256:5736079736ef7d6ac701fb2b0d94076c6fcf9a745eef5c00f8a89a9e1c013b80:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMxOTc0NzhmZTljZWZkMmE4YmIxNjMzNDlmYmRlMGM1NjliZTM5NjFkNzNkN2Q5YzIwYTU4ZjEwZGQ1N2FjMGMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_2200519bac71446a9eb313b323765506",
+      "statement": "Local path provisioner (v0.0.37) provides simple local storage from /var/mnt/local-path-provisioner for non-listed nodes.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/local-path-provisioner/app/helmrelease.yaml#L1-L27",
+          "version": "repo-lines-v1:sha256:66a15ebef60a9bb9669cfec227bf49996845dd86d0b65bb84782f1f67f77d9a4:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3MDhhNGU1NWM5ODUzODY2NGU5MzNjNjI5MTA5ZjQ4NGE0Njg1ZGUzNDc5NjhjZGY0MzVmODQ5NDhiNTQ1NTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_288913d7de7943a99bf99da05a0add45",
+      "statement": "VolSync (v0.16.0) provides asynchronous data replication for disaster recovery with CRD management and metrics authentication disabled.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/volsync/app/helmrelease.yaml#L1-L27",
+          "version": "repo-lines-v1:sha256:a5c42cb30d7db9ea782d63d284b67a1e6271b7d8d54ba1c6b87954eb6efb153f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRkZTY0NWE5NjViMDVhNWU4NjMzNTUzNzZmMWFhODlmMzM0YWUzYjY5ZTEzMzY3OTFkNDM5ZTIwOGI2ZjFhMGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM1NTBiMmM2MGQxMWE3MGFiNGNkNmRmODRiYzQ2NjYwNTBhYmNkYTEyYzIwYjFkNmJiN2E2OWYwN2MzYjc4OGYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b85de3e56f2a45bf83d0d9e36ce9e2c5",
+      "statement": "Snapshot controller (v5.2.0) provides volume snapshot capabilities with CreateReplace CRD strategy, webhook disabled, and ServiceMonitor enabled for Prometheus scraping.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/snapshot-controller/app/helmrelease.yaml#L1-L33",
+          "version": "repo-lines-v1:sha256:1a140678067238b56eb4e3fde1975b13ed5f155c212aa5f22ec643b3a8ffd8b5:eyJzZWxlY3RlZExpbmVDb3VudCI6MzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMxOTc0NzhmZTljZWZkMmE4YmIxNjMzNDlmYmRlMGM1NjliZTM5NjFkNzNkN2Q5YzIwYTU4ZjEwZGQ1N2FjMGMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_40c34b6b89fd40dc8ca2f108b6bb9334",
+      "statement": "kube-prometheus-stack (v88.1.3) provides metrics collection with Thanos sidecar integration, high cardinality label dropping, and stores metrics on TopoLVM-provisioned PVs.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/kube-prometheus-stack/app/helmrelease.yaml#L1-L100",
+          "version": "repo-lines-v1:sha256:af3fcdbfc5e8d4cb47c522b10be4b5f768e698202d751e4e06987f5ddc6c0d5c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAwLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI0NjkxNDNmOTU2ZTA1OTliODFhYjU5OWRjMWVkYWM0NDY4NzU3NzhmYWQ1NzgxZmJiMjg0MTc2ODVkN2M5YzA1IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIzNGJlNDc1Y2Q0YTE4NDMyNzg4MjZlNTRkZGJkYjc2ODYwZDRkZjI1MGQ1NzU2MDM3MGVlMmE2N2YxZmQxYjU0IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI4ZTc1NmEzMzBmNzgxZjQ1NjJjNjZhNDMxZWYyM2I2YzY2MWM0YzI3YTA4Mzg2OWE3MGQxMzM3YmNiZmU0YTI3In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_793c580746c247a2b4a90ea4fe0d1352",
+      "statement": "Grafana (v10.5.15) provides visualization with admin credentials in grafana-admin-secret, root URL at grafana-dev.${SECRET_DOMAIN}, Recreate deployment strategy, and analytics features disabled.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/grafana/app/helmrelease.yaml#L1-L50",
+          "version": "repo-lines-v1:sha256:b1600acd74dbf4980d433ae44fdfb11666612715c08556d615a646160b4223d7:eyJzZWxlY3RlZExpbmVDb3VudCI6NTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAwZWUwYmI4MDg3ZTAyZWI4ZjRjYmM2ZGNhMGMxODQyOGRiZTQxMDViZDY2ZGYzYmM2MDcwZmU5ODAxZjFiNDAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQ0YTE1YTJiNTJkNmI5NTBmNDM2NmFlMzNjYzAwOWJiMWJhMmY5NjRiMDdmYWFiNGY1YTEyMzY2N2JhZjViNzcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_edc52793dcbf4206b8f90024d652d59f",
+      "statement": "Loki (v7.2.0) provides log aggregation in SingleBinary mode with filesystem storage, Snappy chunk encoding, 4Gi memory limit, and no authentication.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/loki/app/helmrelease.yaml#L1-L50",
+          "version": "repo-lines-v1:sha256:f495bd1c9a5acf40bce0ea4b2c5ca1fc2df4e2d735df5f6cd075636e5d310b16:eyJzZWxlY3RlZExpbmVDb3VudCI6NTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkZDYwMDY4ZWE0ZWJkNDk3MGRkZjhmNThiYTc1YTU2NzI0NzNlMjliMjFhODkyMGE4MTJmY2M1ODMyNzgxMTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVkOWUxMGRiYzY2OGEzZmQ1OTg2MDNjODFkMjFkYjcyMmMyZjgwZDcwMjQ1OTAzZWQ2ZDgzY2YwZWZjNTJhYTgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_03aa8ba6c33a4f8baf246a891e4a6b8e",
+      "statement": "Thanos (v17.3.1, binary v0.42.4) provides long-term metrics storage with query frontend enabled, replica label deduplication, and object storage configured via thanos-secret.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/thanos/app/helmrelease.yaml#L1-L50",
+          "version": "repo-lines-v1:sha256:693a0e5b26de2a88a233b7eac87f6cadb3d4bb62d906666b6df4833586c9f131:eyJzZWxlY3RlZExpbmVDb3VudCI6NTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM5ODY3YzM4MGJiOTE5YmEzODVjY2I0ODQyMTQyYjVjMDFiOTM2MTc5ZDhkNjI1ODU2M2JiYTc1NTIzYzFhNzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJiYTE3NmQzMjk2ZjE5NzJhMTMwZDM3MmJiZGY2MDM0ODNkOWFhYmQ3NmYxMGI3Njg0YTRkMTczOTU5YTZmNmIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_247466410a7b4b689145e88aa9a266a0",
+      "statement": "Gatus (v5.36.0) provides endpoint health monitoring with configuration auto-discovered from resources labeled gatus.io/enabled via a k8s-sidecar init container.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/gatus/app/helmrelease.yaml#L19-L50",
+          "version": "repo-lines-v1:sha256:ce94bd8d909979999b7c903477c2a07b9359cafd2e008e3cfbf32cd5f960a6f0:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2ZjFjNzJiNTlhZGU1MjRjMDEzNWM3Y2RiMGViMjRhYWZiZjE0ZGIxOWYxNzYwZjE5M2IyNzA3N2M5Nzg0NjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4Zjc0YWI0MzZiZWY1M2RhOWJjZjM3M2VlMmExYzA0ZTM1OWQ5NTUyZGMyZTA0NjMxYjFmNGUzNWQ2ZDg1NjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYxNWE0YjNlMTM3YTVhOWRiMGRkMDVhZGY4ODcyMTcyMGJmODMyNjA2Yzg2MDI0MDc4ZDk5YmZiYWEyMjE5ODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA5ZjkwNDY1MjYxYjBiMTIxOTllZjZiMWEwNWI1YzcxMGQ3Nzc4ZGFlYWJlY2YyNTdlMzI2YjI5ZGQ4YzVmZTcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d53643fea36649d68172db0f9a506592",
+      "statement": "SOPS with age encryption provides git-encrypted secrets with whole-file encryption for talos/*.sops.yaml and data/stringData-only encryption for bootstrap/ and kubernetes/ secrets using age key age1shkd7fsr66cnpkutpmpf7ffylcc2x4c9tlsdkapv6nmu5ceu0dzqdjtqc5.",
+      "evidence": [
+        {
+          "resource": "repo://.sops.yaml#L1-L12",
+          "version": "repo-lines-v1:sha256:9b05505c0ce2a16b8eff84c79d5255fdc5f48d7eb6b14e26901d6bf40f348a89:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJhMmVmMzliNmMxZTg5YThiNDM3N2ZhNjhmNmZkOTI1ZjE0MmVmNTY3ZTdkZTkyNzAwYmI3MjI5NTFlNDljM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_439530e07215494e9cbffd34490e17c2",
+      "statement": "External Secrets Operator with Bitwarden Connect integration synchronizes external secrets into Kubernetes, including OAuth credentials for Tailscale and Cloudflare.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L27-L27",
+          "version": "repo-lines-v1:sha256:7fa18dbeda3ef403f907007033d75768cfe60e77d256f69952626358b418fac3:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiN2ZhMThkYmVkYTNlZjQwM2Y5MDcwMDcwMzNkNzU3NjhjZmU2MGU3N2QyNTZmNjk5NTI2MjYzNThiNDE4ZmFjMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiN2ZhMThkYmVkYTNlZjQwM2Y5MDcwMDcwMzNkNzU3NjhjZmU2MGU3N2QyNTZmNjk5NTI2MjYzNThiNDE4ZmFjMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDA0NTk0NjUyZTAxMGJkNDFhNzg3ZmQ3Y2IzMTFiMmU5OWRiYzhiMTBlYjkxNjFjMDJkYThiZThmMDJkYWQzNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjU3NmZhMDc5YTE0ZWI1MDU4ODRiM2RlNjhmNGE3NzU1MzZjZTQ4ZDNmMDkyYjNhNWEwNTI5ZjEzYWQ3ZDVmNSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/tailscale/app/helmrelease.yaml#L27-L35",
+          "version": "repo-lines-v1:sha256:1a34a9c9a82e5cfc9123ff764151c35cb843b44adc014388a00390e9bf819667:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOGZjNWE0OGNhNWYzMzI0ZTdhMGE1ZGZmNzUxNmQ1N2QxYmVhNWE5ZWEwNTExMjA0NzRlM2E0MThjNzgzZmFmOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjA0MTA2Njk2OWJjYjE0ODdmMmMxMTg4MGZiYjJkOTU2YjlhOGVmNTQwMzIyZmE1NGQxYjlmZTg2MTA3ZTRmYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjViOWM4YTVjOTQyMTY4NTBlNDNkM2U1MGM3NjZlYmRlY2UyZTIyNTJlMDljNmRkNGNiZTZhNzc4N2E1YmMzNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_84a32b9ccabe4729a4602ad2a8cb9b43",
+      "statement": "Flux (v0.57.0) provides GitOps-based cluster management with SOPS decryption via sops-age secret and manages applications under kubernetes/apps/ via namespaced Kustomizations.",
+      "evidence": [
+        {
+          "resource": "repo://bootstrap/helmfile.yaml#L38-L52",
+          "version": "repo-lines-v1:sha256:c0a486b47a4c714d2df38fb30774ca923edd8c73808270d53dd244516d9747bc:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQwZjY0ZjhiYTFjMDRlOGRlMGFmYjJlMWJkZDc3MjY1OWIzYTFkODY1NDQzYmI5N2RiMDVhMmI0ZDJhMjEyNDgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4NDQxMDY3MGJjNTUxNjEyNDRkZTdlZTRjMDM5YTEzMDUzYzZiN2M5ZTRkZTZiMzY4YzE3MzYzZDcyMjVlY2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQzMzA2MTcyOGExNWE5MWNkODdhYTQ1ZTFmOTkyYTcwOTNjNDM0ODNhMDA3MzAzMjBlZmIzZWM3YzI3ZDBkOTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://kubernetes/flux/cluster/ks.yaml#L67-L94",
+          "version": "repo-lines-v1:sha256:770f093d6961d35dfedb426cbb59a3af3bc40d309e875b34e97671876740afcc:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAzMTI1OGFlNDc5YzY5MTNjM2MxYjFmNzc0ZTc2NWEyYzA3NjVhNDQ4ZDk5M2I2ZmUzODIxZjUwM2VhNGM1ZDciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyY2ZmNWZmYmE1MGFjMzgxNmFmZjljODViNmI3YTQ4NWU3ZTJhNzM0NjI1ZjM5NGMwNDlkNGI5NmQ1N2E4YzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAzNDAwYWQ1ZGM2NGZiMjg4ZGNlYjhiNjViNDdjYmJkYTE0Nzc2OTQ5NTUxOTE3MTBjMTY0MGNjNDY4NjQ1MmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://kubernetes/flux/cluster/ks.yaml#L9-L23",
+          "version": "repo-lines-v1:sha256:3bd467821f4d02a0fbb271d318e8f9cb1a516b01a56604465759ee1390842acf:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBhYjZlMGVlMjFjZmU3MWE5MDVhOTk5MDVjNWRhMzk3NmQwNWE5OTAwYTM1YzBhZDFiMTI3N2NkYzllMTlkZWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyY2ZmNWZmYmE1MGFjMzgxNmFmZjljODViNmI3YTQ4NWU3ZTJhNzM0NjI1ZjM5NGMwNDlkNGI5NmQ1N2E4YzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIzZmMyZmJiODFlYzNkNjNlYTdlYzE0NWYxNDRhMzQ1Yjc1ZWQyOWIxZGYyMTMzMGQ3MjI0NjZkN2ZlNjUyZTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ4NjllNzFiYzE5ZjhkNjJjYWQ0NzNjY2RiMDQ2ZDA3Yzk1YTM1YTlhMGJjNTQ5MDk5NDczYmEzNThmYTU3MTMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_8675a16ad3f243b98ac88fc826de76f0",
+      "statement": "The cluster bootstrap follows a three-phase process: Talos bootstrap (apply configs, bootstrap control plane, export kubeconfig), app bootstrap (create namespaces, apply SOPS secrets, install CRDs, deploy base charts via helmfile), and Flux sync (continuous reconciliation of kubernetes/apps/).",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L107-L147",
+          "version": "repo-lines-v1:sha256:944adfd5f7f0fc6eb83ed79b260593713fb8087c52ab3c5756c8b21b111815e7:eyJzZWxlY3RlZExpbmVDb3VudCI6NDEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUzNzhkOTRjODU1MGEzNzE3NGJiNWJkN2Q4NDJiNGQ4MjVkNjZlZDcwM2U0ZmIyZTkwNWE2NTNhNThmNWUzMTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRlZDNhNGQ1ZGRmZjc2ZmViZWUxMmViZTQwYzYwMGEzOWYwZWRkYjYzOGRhYWI3ZTM2YTMxZDNkOGE3ZmJhODAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ3NWFkNDc0MzcxZWE5ZGY5YWQxMTdiYzAxM2FmNWJlMjE5NjIxY2UxODU5NDhjOTg5NzVkYTg2NzRjMzVhZWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQzMTVlYTllNWJmNDIyY2U0MjQzMWI4YmE1MzM4MWE0MzkwOWMwYjcxZDE2NDRiYjc3NWVkNzcxNGRjZTc5NWMifQ"
+        },
+        {
+          "resource": "repo://bootstrap/helmfile.yaml#L13-L52",
+          "version": "repo-lines-v1:sha256:d27f1185643f876cb795c1cb4e32f32052b3ee048b01a87ab46646e2808c793e:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkZTI0Nzc3YTlhNjAzZjFlZmY3ZTNjMmMzMTcxZTE2MjU5YjhhN2M5OTZkYTMxNDdhMjc5N2Y2ZjA3NTQ0MmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4NDQxMDY3MGJjNTUxNjEyNDRkZTdlZTRjMDM5YTEzMDUzYzZiN2M5ZTRkZTZiMzY4YzE3MzYzZDcyMjVlY2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZmNWY5NGUxMDY0NDU3ZjAwNWMzYzFmNzJkMzMzYTgxM2YwNzYzNTJjZjFiNzNiNTUzNWQ5NDFiNDFhNmQ1OTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://scripts/bootstrap-apps.sh#L9-L100",
+          "version": "repo-lines-v1:sha256:69ecad4cfb2b6748d261d3a723c605a4b7d683cf6c1c7e38d3c74f3e94f2433a:eyJzZWxlY3RlZExpbmVDb3VudCI6OTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNmNWFhMDViMjIxNDdhNGMzYmEwODE0NjU0MGRhNzBlYzM0ODUzMzM5NDAwNjQ4MTc2ZGEwYjBkODA4OTI5ZDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwODZkMmU1YzE4M2Q4ODIwZDhkODZmOWJkZWYyMjBiNDNjYzdkMDc3OWE0ZjFlNzJjZjcxZDM5ZWRhM2NiZDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc2ODc1MTBiNTA3MjhmNzczMDEzNDFkMzU1YmMyYmQ5OThhODE5ZjI4ZjE4MTYxOGNkMmQ2NmJlZWU0MGZjMjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQzNDk3ODcxYjQ5MDRjMDM0ODgxY2ZiZjZiYzQzMTllZDRiNGQ4NjQ4NDc4MTMzNDMxMTYwNjdiN2UzODI2NzMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_add01d95bfef41389e7eb680559f5415",
+      "statement": "The control plane configuration allows workload scheduling on control plane nodes (allowSchedulingOnControlPlanes: true) for single-node homelab environments.",
+      "evidence": [
+        {
+          "resource": "repo://talos/patches/controller/cluster.yaml#L1-L2",
+          "version": "repo-lines-v1:sha256:38b63d5cc6b40fa678100b758c95f4b539d506da03e89c95872b9875d70a2396:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjBhYmQ1NmMyMTQ2ODI0ZWZlODQzMTZkMjFiMjU5ZjA2ZDYzYjVmYmZiMmRhNzA4NTRkNjVkZGIzNTRjZjljNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiM2FjNTg4Njg2MDFiMDFjM2U2OGZhZjUyODZmNDg3YjhhMTRkNjViOWYwNWE1OGQwMWE4NWU2NDkxNjZhM2Y3NiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzMzY2NlN2U1ZGJlNGQ0ODg0NGE0MzEzOTZjNmMzY2YyOGFkODFmY2MyYjA5ZDVkYmVhOWRkMGNjNGM3OTJhMyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_1c6e8436db00454492eb6ebaadaedf27",
+      "statement": "Cilium uses BPF masquerade with hostLegacyRouting enabled for Talos compatibility and autoDirectNodeRoutes for optimized node-to-node traffic.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/cilium/app/helm/values.yaml#L2-L6",
+          "version": "repo-lines-v1:sha256:fd4ee1f10a9a6caaac57574232767f90fda4dd8730dfb98fdd849c0c986c9ddd:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2JjYjgxZTQ2Y2Q4M2FhY2FiOWQ1NzhjOWIyYTA2MDVmYTM3ZmJiNTk3MjljNmJjMTUyMjdhMWUwNDc5ZmU1NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZmQ0NTI5MmZiYjc4YTc0MThmZTVmZTA3NzY5ZmQxNmUwMjJlMTliYjM3YjE5ZTgyNzUyMDZkM2RlNjgzMWVhMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjEsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjUyZDcxMTEwM2Q1MGE0Mzc4MzBjNmZiY2QwNGZiNGJhYjQ5YTBmODJmNmQyNmQxYzc5MWM2ZTg0ODhkZDA5MCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDdlMGJhZTViZDI1ZWEzY2NjMWM4MDZmOWU1ZTI1YWE3MDRhNDBiYzZhN2QxMzU0Y2ZjMTcxZjVjOGVlNWI3ZSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_28577491ff9d4853b24de852daf97c03",
+      "statement": "Cilium uses Kubernetes IPAM mode with IPv4 native routing CIDR set to 10.42.0.0/16 to match the cluster pod network.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/cilium/app/helm/values.yaml#L31-L33",
+          "version": "repo-lines-v1:sha256:c36a389737577b3160bf434fe03da7c5f70140404d291e9f64d4061ab7310ca5:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTc2YWJiYTA0MWVlMzQ3Y2I4OTJlMmE1ZjE4MThlNjljMDc4ZjQxMjk4ZmIwNTdmODg0YmY1Y2IzODdlNTdjOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTgxYmUyNTNkN2VkZTkxMDVlMzI4NzQxYjMyYjAyYzBjZGIzOGRmNTQyN2UyYTU5ZDZiYWUyNjY3Yjc5OGMxZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzQ1YmQ0NzMzOWIwOWYwMWU0ZmQyZTMzY2Q2YmY4OTQ0MDdlMWE3NDYyMmJjM2NiZjdiOWE2MDNmMGUxODA2NCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzEzZTE1YmEwZTI0ZDliMGM5ZWQ4ZWRmYjFhYzE0YjdhYWEyYTEyZGZhN2Y5MzM1MWFmYTAwMzkxOTRiNzI5YyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_949cbcf34f6148bc92f6a6bd9ae5127c",
+      "statement": "Cilium socket load balancing is configured for host namespace only to optimize performance for host-namespace services.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/cilium/app/helm/values.yaml#L80-L81",
+          "version": "repo-lines-v1:sha256:9ca2328893ce83d85ecda37702445d48bf73333ab4f7935231abe6a339f525d2:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTViN2IyNmNlZmE1NTFhZDQ3ZDQ4YzUwNmVjODY3NDZiMGE5OTM1ZTkxZjJjZjkyMjYzOGFiYzBlNDkyZGNjNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYmM4MWIxYWViMDU3ZTNmYTNlY2UxNjJiOTVkOGIyOTRiMTkxOTE5MmYwZTMyNDJiNGY1NmY5ZjllMDczNzIyMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMWJhZmU0ZmEzYWUxZmU5MDUzNmY3OWZlYTBmMjMzMDIwZjZhZDU0YmYzOGJjZjYzZGJkYTc4NjNmNjFhYTc2YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_1417e6b3cafa4793bc2b54b14969858f",
+      "statement": "All nodes boot with secure boot enabled using the Talos secureboot factory image from factory.talos.dev.",
+      "evidence": [
+        {
+          "resource": "repo://talos/talconfig.yaml#L28-L30",
+          "version": "repo-lines-v1:sha256:f65ae444532846c367cec53981cc7748c43e0cbb7ccd4e5a7e0b7198059889df:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjMyMDk3MjEyOTY2ZjA0N2JiZjE4OWUxNzM3NzAwZTI0YzkyOWU3NWQxYzMwYmIyOThmNjkxMzQyYTRhMmYyMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTA0MDExZTdhMzk3MDc4OGQ3MDQ4ZjgzYzMwZjMzYWU4NmZlZTg4N2RhNTMzMzczMDJhY2VlY2UzMTJmMTc3YSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTU2YTBkNGRkNTIwZWUyN2VjMWQ5ZTc2OTBhNzU4OWJmZDBiOWMyOTU4OThlMzU0ZWYzNjhkOTkwMGU2ZDNhZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNWUwOTY3NTIxNmEyNThiNDdlOTAxYjBkZGZiNDAxZjIyNWMwNDhhNjA2MzU3ODUwYjM2MGEwMjY4OTZhYjg5NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_b4c9f36783bf4a03adf9c225d558ab06",
+      "statement": "The control plane node has Intel GPU support enabled via the i915 kernel module and Intel feature node labeling for GPU workload scheduling.",
+      "evidence": [
+        {
+          "resource": "repo://talos/talconfig.yaml#L33-L40",
+          "version": "repo-lines-v1:sha256:f24f132c48ced7f36639ee8cbc77ad10fb2bbbb238cfa1b5b0408b5231d0582b:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjVhZDIwZTZjNDlkYTlkMGEyZWRkNjNkMTkzOTI4ZGQwMDAyNGU2NjMzYmZjNTQwOWQ3ZTVhYjlkOGY5MDAwOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYWEzMGJjZDVmNGZmNzhlMzI3ZDFkNGUwZThlNmNkZjkzNDMxNjJjYWQ5M2E2ZTg3NTM0Y2E4YmFiZGE0NjExMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzYyYzIwYWNhMDUyZGE3ZmY5OWJlMDlmODM2MzExNThjNmVkNjA2OGY5OWU0MDk2NDQzMjgxMDdjOTRiZDkwYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYWExYWVjYjAzMzRlYTZlZTQ1NjRkMGM0MGJmNjE5ODE4NjI2NjQyMzM4Mzc2YWU1YmU2ZmQyNGEwZTVjODc1NSJ9"
+        },
+        {
+          "resource": "repo://talos/talconfig.yaml#L80-L83",
+          "version": "repo-lines-v1:sha256:9cce2598d7ec3373c7306af06c39e4fa9ec118743561f3f571c0a437a49d07bb:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzdiNWEzNTlmNTBlZWFmMDI3ZjExYmFkMDdjNTcxYWEwZDI1NDMzNzRhZTYxYWIyMTUzMTY4NDRlZTVkZjdlZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYzFiYmQ0Y2M0ZTk5MDhmMzdlYzRjODc0OTNkNDdjMDRmMzc3MzY5MDYwZDRhM2VhNDg1NTU2MDI2MDlhZjI4YSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMmQ4MDcyNWVhMWJlODRiNTZhNzgxYTllNzM3MmEwMzAzYzM2MTkyOTc3ZjNhNGQzNDNjZGI4MDU2ZTZkMGYzYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzcyZDIxYjRhNTYyYThkNjkxYmE1YTVjZGViMjI1OTVmZGJkOWRlZTE1OTIyYjcwNDA4YjAxMDE0NTYwODY0MSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_98d068c684dd401ab7ebe1c3f2a8012b",
+      "statement": "Cilium CNI is configured with exclusive mode disabled to allow pairing with Multus CNI for multi-network configurations.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/cilium/app/helm/values.yaml#L7-L9",
+          "version": "repo-lines-v1:sha256:07e0bae5bd25ea3ccc1c806f9e5e25aa704a40bc6a7d1354cfc171f5c8ee5b7e:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDIwMzgyMzk3YzgzZGQ1ZjQ0NDcxMTgyYmVlMjY5MmVhN2NlODg3MTRhMTE0Mjg4MWE3ZDdkZjBkY2RlNmI2NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGRlYWI2MDY4ZmYxN2RiZTRjNWJlYmFlZGQyNTVkNTM2MGM2N2YzZDM0MWZlNGJkNjZkMDRhYzhhNjlmYmRiNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNGI0YTI0Y2IyODQ1N2UxNTU0OTc0NmE2NDkyMTZiMTA0M2I1ODdjNTI4ODcyZmFmZjUyYTU0ZjkzODRhZTllMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNWU0OGNkYzZmOWUyNGFiZTZmOTM3YWEyMmE2MjE3NDQzNzczZWJhNzUwMDE0YTM2N2U3MmI4ODFjY2EwY2E3MCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_e74685d5e7d1442eb8a63c8073074cdd",
+      "statement": "TopoLVM thin-provisioner is configured as the cluster's default storage class with volume binding mode Immediate and allowVolumeExpansion enabled.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/topolvm/app/helmrelease.yaml#L38-L46",
+          "version": "repo-lines-v1:sha256:152d9a7c5d5461af80596f699db747576caed9bbeb8e4c0dd9dc939e8f84435a:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjRjZDI1OWJhZmIwZjIzOGZmNTEyMWU4NjM2ZGQwOGExNDgyODU1NWI3MmM3ZTNiYzczZDI3YzFlMmU3YjMyYyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYWZjZTZmOTZlMTE4MWIyMGU5OWRhMzk1M2NhMTE5YmI5NWFkN2M3MDE3Zjc5ZTc1Yzk4ZDQ1NWI4ODA1ZTUwMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjFmYWE2OGJmOGRjZDA5ZTgwYTA3ZGFiYTY3MWU4MjVjMjdmMzg4OTE2MjQ2YWI1NDlmN2EzMmE5NzRkNGY4NyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNWJmNzMwZDZhNzFhZGY2Y2NhZWFlNTliMTM2ZjUzYjliZmI5ZGEwM2Q4NTMzOWQzNjNjYWU3ZWFjYzc1MjQ1NyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_62bef678fc9d41b4acfdb39a1ff80ba3",
+      "statement": "etcd is configured with advertised subnet 192.168.50.0/24 and metrics exposed on http://0.0.0.0:2381 for Prometheus scraping.",
+      "evidence": [
+        {
+          "resource": "repo://talos/patches/controller/cluster.yaml#L12-L16",
+          "version": "repo-lines-v1:sha256:47afcd488894eea59d3836a1e7d50dbc8f652fdfe2323833ee90319fefafce36:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTk4OTk0YTk0NDVlZGQzOTY3OGNjZTRkZTRhMWYzOWE5YWYyMDVhODcyM2NiNmEwMDU5ZTE4NjI2MjdlOTY4MyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDRiMTdiMTcxNGRkOWZjYTc0MzJmOTc5NTViNDUyYTA4MTU1MmI2NDAyNzRkYzhlODcwZWI4ZTA1MTNhYTY3YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjViODc5YmVmOTdjMTIzYTA1Y2Q3YWU1NmM1ZjAwY2Q0YmRlODRmODk3YTRjMjI0NWEyZmU1YzQzOTU0MTRmZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMmVlZWQwZTY5M2VkYTI2Zjk4ZWNiYWUyOGU5ODVjZWU2NjA4MzliYzM5ZGQyODJhODZmNzc5OGFjM2IzNmE0OCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_c3caeb2a7499492e8d3fee4fc7134d4c",
+      "statement": "The Kubernetes API server certificate includes SANs for 127.0.0.1, 192.168.50.10 (VIP), and 192.168.50.145 (control plane node) for secure API access.",
+      "evidence": [
+        {
+          "resource": "repo://talos/talconfig.yaml#L9-L12",
+          "version": "repo-lines-v1:sha256:473a6ce1640788a06877deb10ea03abd5dc6c4e6460779648b374a98a2ec06e0:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTBlYTJlOWFlMWQyODE3ZDhkNDE0Y2EwZTQyMTNiZTUzMTYxYjMzM2ZmNGVjNzVkNDkzMTQwMGU1MDVhNTYyYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiN2U4NWIxZDM3YTlhMGVkMTdiM2FiZGQ2ZmFiM2YxZTFmNGNkNmJhYTRmYzVkNTIwM2FiMzY4M2VlNzAzNTFkYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYmYzOTc5MTBlNmYyNTNmOTMyMDRjNjhiMjAzOGYwYzdjNTcxMmU5ZWZiN2QyNDY5OTI3MDg1Yjk0NjZkOGI3ZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODY0MDdmOWQwMTE5MTg3NTc5MGI5NmFkZGY3MDBmMDQ3MDYzNWM3ZGU2MTViMmJhMDViYWRhMTA0YjU2ODg1MSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_7e0bc90cd1a84606914dc74060a23fbb",
+      "statement": "Cloudflare Tunnel pod runs with security-hardened configuration including non-root user (65534), read-only root filesystem, and all capabilities dropped.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/helmrelease.yaml#L53-L66",
+          "version": "repo-lines-v1:sha256:51fb0562189fb233102a851e32586319d5fbd9249053cf0a6b46bdc2ffc7e4e7:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkwYzIzOWNlZjIxNWRmYjdmYzAxN2RmOGQwZWYyMWE1NmMwMzJjZTRmYmQwYThlMmM1N2UyYjRjZTVlODY1NDQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA5Nzk1Y2QxYjNiOWFhYTdjNGRiMjk1Y2YxN2VkODE1MTJlZjgzNzYwZDY5ZTUxNTBlZGI1NDk4OGQ3ZmZhNjYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA3N2NkY2JmZDhmNDE5NjI0NTQ5ZWJmNTc4YjYzNjJlNGM5MjFhMDQ3YTQ4YTJlNWU3MWIwYTNlYWMwNGUxMWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEzOGIwOGQ2MjMxNDMyMDQ0ZGY2YWNmNmQ2OWIwOTBiYTEzNTc5OThjMWQ5NTY1ZjMzMThkY2E3MGZhMTU2Y2IifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9acc2013877d4c37b7daa95bf6916337",
+      "statement": "VolSync replication is configured per-application using volsync-nfs.yaml specifications to sync data to NFS storage for backup and disaster recovery.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/calibre-web-automated/app/volsync-nfs.yaml",
+          "version": "repo-file-v1:sha256:dead90fe02bf2264a74f01b4efff2ba7b8586b025bcd659a30ecd68f3b9c895c"
+        },
+        {
+          "resource": "repo://kubernetes/apps/storage/nextcloud/app/volsync-nfs.yaml",
+          "version": "repo-file-v1:sha256:bdcfe917f81144bb95c0a5a91b2742dbe89ea58be4040e8a0ed7d6de37250752"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-08-28T03:38:47.877Z"
+  }
+}

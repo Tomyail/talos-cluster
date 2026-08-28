@@ -1,0 +1,152 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:28ff551291ac4f61abd22c2e407057b2a7e5ad4bccee4b03dd25a1656f541836",
+  "claims": [
+    {
+      "id": "claim_4ed6aaea226943409690b5b4ed7088c4",
+      "statement": "The Bitwarden ESO Provider is deployed via Helm in the external-secrets namespace as bitwarden-cli, using the bitwarden-eso-provider chart version 1.2.0 sourced from a custom Helm repository that uses the gh-pages branch raw index.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/external-secrets/bitwarden-connect/app/helmrelease.yaml#L4-L15",
+          "version": "repo-lines-v1:sha256:e0464f19a179d1e499be12e02c51a4e809bf3cace40bbff270d52e73904d7758:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNhNmY0ZGRhM2VhZWMwMzBmNTUyODI4MWFlYjI1OGRmYzRiOTAyMDhlYjllNWRiZDkxZGJlY2EzMWRiZDFhNTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBjM2Y2OWM2YTc1NWU1YjJhY2Q0MDE1ZDhjNGRhZmEyM2VlN2ExNGYzOWFmNjkzZWNmODkzYzQwOTMyNTMzOGIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRlNTEwZjRkZmQ4YTNlOWVlZTcxYjk3NWVlZjY3NTRlODk2N2YzOTQwZmI0YWU4MDU1NWI3MTg0YmYxOTE5YWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjljZjQ0NTY5Mzc5MDEyYTczOGYyMmZmOGJlYjAyYTM1YzY4MWNjODNmMzY2OGRhMTVhMTRmZjk4MmFjYTUyMTIifQ"
+        },
+        {
+          "resource": "repo://kubernetes/flux/meta/repos/bitwarden-eso.yaml",
+          "version": "repo-file-v1:sha256:44d7614dd83d4cf6306686557ac4bb7f25dcb932fe028df93caf2ae92b376c41"
+        }
+      ]
+    },
+    {
+      "id": "claim_c2b6b306d51742b485234367c7fca034",
+      "statement": "The Bitwarden ESO Provider authenticates to Bitwarden using credentials from an existing Kubernetes Secret named bitwarden-cli, which maps BW_PASSWORD, BW_USERNAME, and BW_HOST secret keys to the corresponding provider authentication parameters.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/external-secrets/bitwarden-connect/app/helmrelease.yaml#L30-L46",
+          "version": "repo-lines-v1:sha256:8c0fcb18fffdba85a578d0dded9439d163edb1d95101e484ac38af3432475f4d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhmNGNjMmFiNzYwMDJjMzA1ZTUxZTMwM2FmMTE0MmJlNDM5MGUxMzExNWI4Y2I2MmM4MjZhMGViYTMzNWNlMTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE5NTY1MWMwYzhkMjBkMDhlMGI3MmYwOGY3ZjI5M2RjMzNmZTRiMmJkNGFmZWRmZjM5YTg4NDM5ODQyZTI3YjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ4OTA1NzA4YzZlZTg3ZjdkOTFmNDc2MTJjMTJmMTE0NDAwNmJhZGYwNGFiN2FiOWMxNDdjMzA4MmYxMmZjY2EiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk1MTkyODFlMmE5MmViNWQ5YmQwZTI2NGM5NTVjZGU5MGQ1Yjc0NjJlNzZiNzNkNjM3MWQ0ZDA5N2Q2YWRiNTEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d6978c05461a4759afa5e084bbb27f54",
+      "statement": "The bitwarden-cli Secret containing Bitwarden credentials is stored in Git as a SOPS-encrypted YAML file with encrypted fields for BW_HOST, BW_USERNAME, BW_PASSWORD, BW_CLIENTID, and BW_CLIENTSECRET, decrypted by Flux during reconciliation using the sops-age key.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/external-secrets/bitwarden-connect/app/secret.sops.yaml#L1-L12",
+          "version": "repo-lines-v1:sha256:337df8432f72601f2e0ea712e97f664358ecaf91e3012402a3a5e310639364e9:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc3NmFlMTQyNDI4ZTc1NGI2N2Q3ZDZlM2RmZGJlMWI0NDhmMGJhYzM1NWQ4ZmEyNGVjOTQ3MWUyMWQ5MGI0MzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNmMTEwM2MwNGFkY2NhYjlhODg3ODg4ZTEyOGU4YjQ0N2YzNzM0MDU1MjZlY2E2NzhhMjUyZmM3ZDdlYzNmYTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY2ODBmNGRhM2I2MzNlMmFjMzc2MGNlMWMyMzIxZDc2OGY4MmEzM2YyY2U3ZWJjMzE1NTNlMGQ2MjY1MTJhMWYifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/external-secrets/bitwarden-connect/ks.yaml#L15-L18",
+          "version": "repo-lines-v1:sha256:f000b31c3522bd306a024cee6cfaa7daf3e17c4cde85925ad1ade76d25df1976:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGFiNmUwZWUyMWNmZTcxYTkwNWE5OTkwNWM1ZGEzOTc2ZDA1YTk5MDBhMzVjMGFkMWIxMjc3Y2RjOWUxOWRlZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGUxNWFiOThmYjQ2MzhhOTc1MTM4OTdiMWNmOWZmYTlhZTJmNjVlNWZjYzY1ZTI0YTJhYWRiNGI5ZjQ0YjBlNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjUwMmNlNGJjMDJkYWFmOWI3MDQ2ZjgyNDdhNDg5ZTI0YzgxZjI1MDE3YjI4NDJhNmNmNTFkZDMwZmQ3ZDQwNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjU2YWJjZTYyNGU3ZDc3NzFiZjgyNTRkMWYwMTcxZWUxNjBjOTE3MTFiYmE3NWU0NjM5Njk3MDY3YTE5ZjIyOSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_709e2d92ba2f44c9acd64e6e5ae3ae5c",
+      "statement": "The Bitwarden ESO Provider Helm chart creates two ClusterSecretStore resources: bitwarden-login for extracting username/password properties using login.<property> JSONPath, and bitwarden-fields for extracting custom field values using fields[?(@.name==\"<property>\")].value JSONPath.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/growth-tracker/app/externalsecret.yaml#L60-L63",
+          "version": "repo-lines-v1:sha256:d80728301ad52e3eed6dc208c7016c6033368b38bf5427769fe707ea551c9dde:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMmE3ZWYyNzg1OTgwNjVhMTI1ZjJhN2JlYjQxMmM0NTM3MGI5ZjY2ODg1YmFkMDRjOGIyZDNkYjVkZjU2NmI4NyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTllZTZhNTY0MTIwYjc1ZDJmZTliZTllMGIxMTQ5ZTVhYjI0NDVjZjdlZWJjOWJkYmUyYjg0YzMyYWJkZjJhNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiN2UxZDA1NTJmYTFjY2Q4MDA0ZGEzNjNkYzIwNDAxODdmYzUwNTk3NTk3YmUyY2Q3NDkyYWVmZmZjNDc4YjZhNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzFlOGUwMTEzNDQ0MGM1ZGJjNGI4M2NhNzdlMzAyMjk4YjIzMjRkMWI1ODI3YzMwNmFlYmMxMjhmN2NlYmVjZCJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/external-secrets/bitwarden-connect/app/helmrelease.yaml#L48-L48",
+          "version": "repo-lines-v1:sha256:cbd16ecac9dfaf7d9799dec6dbc8584d243e802c2a8a1c9ca6f1b8217d0e426d:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2JkMTZlY2FjOWRmYWY3ZDk3OTlkZWM2ZGJjODU4NGQyNDNlODAyYzJhOGExYzljYTZmMWI4MjE3ZDBlNDI2ZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiY2JkMTZlY2FjOWRmYWY3ZDk3OTlkZWM2ZGJjODU4NGQyNDNlODAyYzJhOGExYzljYTZmMWI4MjE3ZDBlNDI2ZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzFmMDFlYWUzNWI3ZGZkYWRjZjU0YjQ5OTNjMTEwZDU5NzgyNjMwNjU4MjU0ODNjNWYyODNjMjExODk1NzM0ZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOWRlOTk2NDE2OTc5MDhmNDgxNTRkYWI2MTU2YzYzYzY1ZDE2Mjg4YjA4NWVhYWNlNzg3ZWNlMzVhYzYwMTlkMCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_745043611ef349e3b91f29547d0677cd",
+      "statement": "ExternalSecret resources throughout the cluster reference the bitwarden-login or bitwarden-fields ClusterSecretStore via secretStoreRef.kind: ClusterSecretStore and secretStoreRef.name: bitwarden-login or bitwarden-fields.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/growth-tracker/app/externalsecret.yaml#L8-L10",
+          "version": "repo-lines-v1:sha256:5a89e060454ef2068dcdb326b1c1608f02d0f6e545d336448849a1e0a72c4730:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzM1OGFjZjI1MTM2ZTE3ZmU4OTAyZWNmOGExYzhmNTg5OWE2ZTI5Y2RjODAzZmJmNjYxMTA0MmRhMTJlOWI4NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiM2Q3ODQzMzE3NjAyMGJmMzhhYWQ1NTNiMWU5MTAyZjk1ZTdjMzgwZmRhNTg2MGRjZWQ3NDgyMzhmOTFkNDVjZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDM4Y2U3ZWFkMjMwZThlOTBmMmQyMWUzM2VjYmVmN2I2YjEyZmQ5MzdkZjljYjQ3ZmIwZTlkMjIzMzYxMmQ4YyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMjc3NTYxYzJiZTdiZmU2ZTBmYzMzZDk1MTcyYzhmMmZmNWEyZTdiOWQwNmQyMTk5Mjc4YWFhMzFlNTgwMTY1ZiJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/adguard-dns/app/externalsecret.yaml#L8-L10",
+          "version": "repo-lines-v1:sha256:5a89e060454ef2068dcdb326b1c1608f02d0f6e545d336448849a1e0a72c4730:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzM1OGFjZjI1MTM2ZTE3ZmU4OTAyZWNmOGExYzhmNTg5OWE2ZTI5Y2RjODAzZmJmNjYxMTA0MmRhMTJlOWI4NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiM2Q3ODQzMzE3NjAyMGJmMzhhYWQ1NTNiMWU5MTAyZjk1ZTdjMzgwZmRhNTg2MGRjZWQ3NDgyMzhmOTFkNDVjZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzdiZDczOTkwYTA5MjE2YTNhNTQ3N2RjMmE1MjhmMThhZjQ5ZjkzMWIzY2M0NjRlMWU5MTkzMGNhMmQ4NWEzZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMGViYWFlYzRiMzIyMDBjNDc2ZDRkZDBjYWE4NzliODhjMTk3ZGJlNTJkZTc2YWM2ZTdlZWI0YTBjOTFlYmRkMSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/tailscale/app/externalsecret.yaml#L8-L10",
+          "version": "repo-lines-v1:sha256:5a89e060454ef2068dcdb326b1c1608f02d0f6e545d336448849a1e0a72c4730:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzM1OGFjZjI1MTM2ZTE3ZmU4OTAyZWNmOGExYzhmNTg5OWE2ZTI5Y2RjODAzZmJmNjYxMTA0MmRhMTJlOWI4NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiM2Q3ODQzMzE3NjAyMGJmMzhhYWQ1NTNiMWU5MTAyZjk1ZTdjMzgwZmRhNTg2MGRjZWQ3NDgyMzhmOTFkNDVjZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTRkNzBiYmQ3Yjk5ZTY1YTBjZmQ2MjMxZDJmMTBhNWNhMTE0ZDc5MjkwMGI1Y2M3MjczMDMwZWFiODgxNjRmNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMmY5M2E0MGM1ZDIyZjMxNjA2ZDI1N2NkYzYxOWE4ZmVjNTUzOWVjMzJmNmM1NzU0Zjg4MTljMzkxN2FlN2YxMSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_a44e072412834e7e9f24d582d6d27e8f",
+      "statement": "The bitwarden-login ClusterSecretStore is used for username/password authentication patterns, where ExternalSecret resources reference a Bitwarden item name and map the username and password properties to Kubernetes Secret keys.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/adguard-dns/app/externalsecret.yaml#L18-L26",
+          "version": "repo-lines-v1:sha256:7f4f25c2e8ec5b838836ad678365c2aacda235bcdd929dc99851854bf4ed9b8e:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMjk2OGExODJmNzRlYzcxYmZjMzlkOGY3NWFhMmU3OTEzNjgwYjhlNDI3ZDIxMzU0OTQ0NGJlYzAyYjI2MWI0OCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiM2IzM2MzYTdhOTJmODBkZThhOGMwNDI4NTFhYTY2YTE3YmQzMjVlYmE1YTc1Yjc2ODhlYWVjYWU3NTRkOTEwMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTJmYjcyZGUxMGQ3ZjkxNWZkZjU0NmNkNTA5YTU4YjU4YzE4ZGMzOTEzZTlmY2YxODM2MzZkN2EzNjdmNTEwYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/tailscale/app/externalsecret.yaml#L20-L28",
+          "version": "repo-lines-v1:sha256:8e87d7bdb59d2dcde539e7bef6cfeb764771d2132b842cf76959aa8de17788d5:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMjk2OGExODJmNzRlYzcxYmZjMzlkOGY3NWFhMmU3OTEzNjgwYjhlNDI3ZDIxMzU0OTQ0NGJlYzAyYjI2MWI0OCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiM2IzM2MzYTdhOTJmODBkZThhOGMwNDI4NTFhYTY2YTE3YmQzMjVlYmE1YTc1Yjc2ODhlYWVjYWU3NTRkOTEwMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZmE1YzY1MDg5ZTk2ZjdlZmM2MGMwZGVlNzNmMTg4NTg3NWJlM2Y3MTBiYWNmNGU3ODVkZmQyN2JjZGNmYmNjNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_61547169dcf9406f87d03b813f262abc",
+      "statement": "The bitwarden-fields ClusterSecretStore is used for structured data stored in Bitwarden custom fields, where ExternalSecret resources reference a Bitwarden item name and map custom field names to Kubernetes Secret keys, enabling access to API keys, OAuth credentials, and other non-login properties.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/growth-tracker/app/externalsecret.yaml#L64-L95",
+          "version": "repo-lines-v1:sha256:488bc6684dac7cf73870f3123bd8745102a83411ef504b8c0716a3db8c35ec20:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM5MzU2ZmU1NmM5ZWNkOTIzYjQ0NDQ0YWNkY2RiMmVkMGQ3NGExOTEwMzA4YzRiY2M1NjNlMGVjMmQ1NzQwMzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmYzkyNTlmYzBjNjQ2YTUxZDlmZmJjMDljOGRlNDg5YjNkYjc1NWM4ZTVjZmE5Njk1N2Y4NDdkN2I5MzYxNzYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU1YmJmNjNhYmIyMmNiNzI1ZDQyNjMwMDAzNzkxMDQwYzU3ZjAzZTQwMTI4YmE0NDdiMWE3NjQwYzYyODAxMTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_36856fcf6d66408aac7cdc16fb56651b",
+      "statement": "ExternalSecret resources use the template engine with engineVersion: v2 to transform Bitwarden data into application-specific formats, combining multiple remote properties into single environment variables, constructing connection strings, and performing variable substitution.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/growth-tracker/app/externalsecret.yaml#L12-L34",
+          "version": "repo-lines-v1:sha256:1bf08b07018c0ffe20ba2c839782bd35c66669159d15dc2240422aadceb008e4:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBkYTgxMzcxOGY2ZDNhNDExYTY0NThiM2VhOGMyOTU4N2ZlNjU0OTM2OTM5ZmJiNDdjZDg5OWJjNmIxNmIwOGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVkODU2MTk1YjZmOGJiM2IyNTBiZmQ4NzFjMjJhMWFkODg3NDg4Nzk2NjJhZDZkZDdmNzMxNDNlOGZhNDI0ZTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU4ODM4MWQ4MGZjNDc0Yzk1MjJlZWE1NDI0YWM5OWZiNWJjMDkwZjdiZGMxODdjYTUxOGIxOWFjOTI4ZDU3MmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk4MWQ2MmM5NDFiZTRhYzc2Zjk0YjZmYTZjNDg0ZmU3MWU3NDlmNGY3NWJmOWE5NjU1YzFlMDJiMGE5Y2VkOTIifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/adguard-dns/app/externalsecret.yaml#L11-L17",
+          "version": "repo-lines-v1:sha256:d7241acf7bba29b09308e30630eeeb92c8497defd69e038ff9e297ad159d3d2c:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOGExMjgzYmQ2YzZmMGRhMWI0OWIxOGMzMTg1MTkwNDMzM2U2ZDZjYTY3MjRiMmMxMDgxOGU4ZDIzMDI0MmM1MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzA3ODc3OWNkM2E0MGY2NzUwNzVjYTY0OGI2MDMwNDFhOGNiNDAyZTVkMjJkNmQzOGRlOGIyOWIwYmUyMWY2YyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNWE4OWUwNjA0NTRlZjIwNjhkY2RiMzI2YjFjMTYwOGYwMmQwZjZlNTQ1ZDMzNjQ0ODg0OWExZTBhNzJjNDczMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTU4NDZhNTNiMmUwMGIwOGNhZjIyYjlmYjVlN2RjZGVmZmZhMzYxNDE5MjViMWMwYTE5ZTQxODhiNDJiOWQzYiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_6debe4a0e84041a084a154a103cccaaa",
+      "statement": "Applications that depend on Bitwarden-synchronized secrets declare dependency on bitwarden-connect in the external-secrets namespace via dependsOn in their Flux Kustomization resources to ensure proper startup order.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/adguard-dns/ks.yaml#L22-L24",
+          "version": "repo-lines-v1:sha256:e6b2712337ef26239f1c9425c612890c44655efd50b9f855653e07fcb8f417f8:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTYwYzNiZDdiYzU5ZmVjOWU0ZGVkMzVkN2NjZjcwMGEzODVhY2U1ODYzNGZhNjBkM2IyMmZmMjY4YzAxN2ViZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYmY5ODk5M2QyZTQ4YWE2MTY4NTMwNzlkNTgzOWU0NGVlYmNjYmJlMWVlYzhkZWI4MWM3ZDRiZmFiMDVhZTljNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiM2E0ZDRhN2E5YzgzY2I2N2NjZjQ4Y2I5ODE1ZDE2MGRlY2Y0NjEyYzVhNzVjZGU4ZDUxYzUwMDBiY2ZmMzYxMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzFiOWIxNTdlOTZlZWEyNzlhOWE4NzAyOTY1YWZmNThlZTE0MGE4OTZhMWFkZDQwNGM0MjFlN2Q4Y2E4YTM3ZCJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/tailscale/ks.yaml#L22-L24",
+          "version": "repo-lines-v1:sha256:e6b2712337ef26239f1c9425c612890c44655efd50b9f855653e07fcb8f417f8:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTYwYzNiZDdiYzU5ZmVjOWU0ZGVkMzVkN2NjZjcwMGEzODVhY2U1ODYzNGZhNjBkM2IyMmZmMjY4YzAxN2ViZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYmY5ODk5M2QyZTQ4YWE2MTY4NTMwNzlkNTgzOWU0NGVlYmNjYmJlMWVlYzhkZWI4MWM3ZDRiZmFiMDVhZTljNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiM2E0ZDRhN2E5YzgzY2I2N2NjZjQ4Y2I5ODE1ZDE2MGRlY2Y0NjEyYzVhNzVjZGU4ZDUxYzUwMDBiY2ZmMzYxMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzFiOWIxNTdlOTZlZWEyNzlhOWE4NzAyOTY1YWZmNThlZTE0MGE4OTZhMWFkZDQwNGM0MjFlN2Q4Y2E4YTM3ZCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_656a833183ea4059b3762e5bec3ccdde",
+      "statement": "The Bitwarden ESO Provider includes health monitoring with liveness probe configured for 300s period, 15s timeout, and 30 failure threshold, along with Prometheus service monitors enabled for the provider, webhook, and cert controller with 1m scrape intervals.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/external-secrets/bitwarden-connect/app/helmrelease.yaml#L25-L59",
+          "version": "repo-lines-v1:sha256:2d55fce32da2b12f4cfc18b47e5be70a5fabad92de1bf5d3803a6cd9dcabdc09:eyJzZWxlY3RlZExpbmVDb3VudCI6MzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcyNmI1YTgwNzc3NzIwZGI5OTU0NGJlNmMxY2E0YTc1YzhkMWRmMDU5OTJiZDFhYjhjNmVmZTM0NDYxZGQzMmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ0ZmM4OWExYjBkM2M4YmIyOGY2YmQzMWRhMTFiZWE2Njg1MmVjNTc3MDAyMDg0ZTkzNjNmMDBlYWVlZTRjYzYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE1MjZmNTIzMzk0OTU3ZDM0OWZlOTZiOTIzZWUzY2MwZGIxOTM5NTAyNWVhNjNjZWFjNTZlMzQ5NjQ3ZGRkNDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_467334e95fd7408287ebbfd2cad19e05",
+      "statement": "The External Secrets Operator is deployed via Helm in the external-secrets namespace using the external-secrets chart version 2.8.0 with installCRDs enabled and service monitors for the webhook and cert controller.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/external-secrets/external-secrets/app/helmrelease.yaml#L4-L36",
+          "version": "repo-lines-v1:sha256:3c966025e814ddd991820cbfd88c22e54740726e5b24fcbc2e0fa0b474b2e52e:eyJzZWxlY3RlZExpbmVDb3VudCI6MzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNhNmY0ZGRhM2VhZWMwMzBmNTUyODI4MWFlYjI1OGRmYzRiOTAyMDhlYjllNWRiZDkxZGJlY2EzMWRiZDFhNTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ0ZmM4OWExYjBkM2M4YmIyOGY2YmQzMWRhMTFiZWE2Njg1MmVjNTc3MDAyMDg0ZTkzNjNmMDBlYWVlZTRjYzYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRlNTEwZjRkZmQ4YTNlOWVlZTcxYjk3NWVlZjY3NTRlODk2N2YzOTQwZmI0YWU4MDU1NWI3MTg0YmYxOTE5YWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY5ZTJiMDkyMzRmMTMwNmFkY2U1NWZiMWFjNzI5MTJmMGE3MThkZjEwZTU1NjM3ZjU3NjQ5YWE2NTc2YTkyZWYifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-08-28T03:38:47.877Z"
+  }
+}

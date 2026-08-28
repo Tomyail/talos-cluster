@@ -1,0 +1,192 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:8aa63197fd2642938d7d69da8a01ec3ef8d1b7b95849890760361d7b88c48818",
+  "claims": [
+    {
+      "id": "claim_5f6684ab4b77427c8d6232feda00ab34",
+      "statement": "The Tailscale operator is deployed via HelmRelease in the network namespace using chart version 1.98.9 from the official Tailscale Helm repository, with hostname 'tailscale', API server proxy enabled, and OAuth credentials injected from a Kubernetes secret.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/tailscale/app/helmrelease.yaml#L1-L36",
+          "version": "repo-lines-v1:sha256:fe66aca1410c1edacbdd84d47d075eb0ad8cfb56c0ff52f70018fb806e155653:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://kubernetes/flux/meta/repos/tailscale.yaml#L1-L10",
+          "version": "repo-lines-v1:sha256:9766eda3cb28b6744d5647bdb154d91c7e258c5ec52b68142b801e724361184c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY5MDQ1NzM3MWM0NjQ0Mzg5ZDAyOTQzYjE2NjIwMDBjODA5MDhhMmY2YmYzYmE5M2EzYzA5MmZmZjAyOGE2MjkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a482c44a7ac8473ca52564911592bd41",
+      "statement": "OAuth client credentials for Tailscale authentication are retrieved from Bitwarden via ExternalSecret using the bitwarden-login ClusterSecretStore, mapping username to client_id and password to client_secret from the tailscale_k8s_oauth entry.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/tailscale/app/externalsecret.yaml#L1-L28",
+          "version": "repo-lines-v1:sha256:6dd6916b243e658d84fe3bcbb80ea0abf4adee8d6c1a71a1588381d06fd96c78:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNiMzNjM2E3YTkyZjgwZGU4YThjMDQyODUxYWE2NmExN2JkMzI1ZWJhNWE3NWI3Njg4ZWFlY2FlNzU0ZDkxMDMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_22da63fab7a8472d8cc7f0adf5497331",
+      "statement": "The Tailscale Kustomization declares dependencies on bitwarden-connect for OAuth credential access and uses SOPS decryption with the sops-age secret to decrypt sensitive values at runtime.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/tailscale/ks.yaml#L1-L33",
+          "version": "repo-lines-v1:sha256:0d194d9242ae1a0179481ab4a68334d9ab8b513ae362e66e6d5b8c6dbeec1314:eyJzZWxlY3RlZExpbmVDb3VudCI6MzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyY2ZmNWZmYmE1MGFjMzgxNmFmZjljODViNmI3YTQ4NWU3ZTJhNzM0NjI1ZjM5NGMwNDlkNGI5NmQ1N2E4YzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_63741930263a42848733a34f7bbec32a",
+      "statement": "The API server proxy is enabled with mode 'true', allowing remote kubectl access to the Kubernetes cluster through the Tailscale network without exposing the API server publicly.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/tailscale/app/helmrelease.yaml#L25-L26",
+          "version": "repo-lines-v1:sha256:d0645d99eac1f99046f0abd908bee977b2b83c71dd6d434bb16c461627b73a5c:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYWY3NmI0YTdjZWFmYmNiNzkxNDBmYTMxZWM1OGVlMTM0YjYyM2JkMTY5MGI5ZGU5ZWEzYjU2NDQyOTlmOGVjNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzVkZGIyYWJmMjFjYzMwOTYxOTE2ZDBkNGM0NWRmODk4ZGZjMmQ5NzBiZGZmN2RjM2Y0MjZjODljMWRlZDU4MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYWNiZGZjYzNmOGY1Y2FhYTE1ZDViMjM3NzIzZTA2ZmNhYmFjODJkYWIyNTBmZTM2ZmM0YTc0ODYzYjQ2MDJiNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzlhOTczZGU4MWFiZjM3MmI4ZmIyNWM1ZTcyZDM5MTJiYThkOWVjNzEyNmY5NjQxNzYzZGRlODU3MWY0YmQ1MyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_43ebca4b18fc4e07ac52a152a135b10b",
+      "statement": "Egress proxy services are configured using ExternalName services with tailscale.com/tailnet-ip annotations to route traffic to services in other clusters via their Tailscale IPs, such as the prod-cluster-mosquitto service at 100.123.28.51.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/tailscale/app/egress-proxy.yaml#L1-L11",
+          "version": "repo-lines-v1:sha256:83be395f7bce929627085f18ec2266c51e948a26f106c4ef929d3e839b048edb:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM2YWQxNDJkNzA5MjEzZTFhYzBlZWViNmMwZmQxN2E0MjdkMjkyZjQyZThkMjEwYTY5MjdjYWI2Mzc4MzI2ZjIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_bece3a87a59c46499e447219c23f9ef7",
+      "statement": "Tailscale connectivity is monitored via Gatus with an HTTPS endpoint check using an external DNS resolver (tcp://223.5.5.5:53) at 1-minute intervals to ensure the mesh VPN remains accessible.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/gatus/external-tailscale/config.yaml#L1-L9",
+          "version": "repo-lines-v1:sha256:47a9be62800b1136cc70cb75ac9c119cceb4dc80ea000dfb9a63b98c05b552ad:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTA5MzA3OTg1NTJlY2FkMjQ2OTlkYzNkYjJhOWE3NWMyMGIwODdhNTM4NDFlNDJkMWVjMTY3MTc3YWFkOTg0OCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzczNjY1ZmJkMDJjZjc3YTVlY2E5MWE3Yzk2MTE3MjYxMzExMDNlZmMxMTk0MmQwMGExYWZiNmRkNWExMGNhOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_896c202c7e5b438ea67781fd50be686a",
+      "statement": "The Tailscale operator enables direct access to Kubernetes pods and services from the Tailscale network, allowing authenticated users to reach cluster resources without exposing them to the public internet.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/tailscale/app/helmrelease.yaml#L1-L36",
+          "version": "repo-lines-v1:sha256:fe66aca1410c1edacbdd84d47d075eb0ad8cfb56c0ff52f70018fb806e155653:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d0486402607740bb8efecd0e558638b0",
+      "statement": "OAuth credentials are injected into the HelmRelease values using valuesFrom configuration, mapping client_id and client_secret from the tailscale-secret to oauth.clientId and oauth.clientSecret paths.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/tailscale/app/helmrelease.yaml#L27-L35",
+          "version": "repo-lines-v1:sha256:1a34a9c9a82e5cfc9123ff764151c35cb843b44adc014388a00390e9bf819667:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOGZjNWE0OGNhNWYzMzI0ZTdhMGE1ZGZmNzUxNmQ1N2QxYmVhNWE5ZWEwNTExMjA0NzRlM2E0MThjNzgzZmFmOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjA0MTA2Njk2OWJjYjE0ODdmMmMxMTg4MGZiYjJkOTU2YjlhOGVmNTQwMzIyZmE1NGQxYjlmZTg2MTA3ZTRmYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjViOWM4YTVjOTQyMTY4NTBlNDNkM2U1MGM3NjZlYmRlY2UyZTIyNTJlMDljNmRkNGNiZTZhNzc4N2E1YmMzNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_8e8bdccc479443a9b185494bea201482",
+      "statement": "The ExternalSecret uses a template to render the client_id and client_secret in the format expected by the HelmRelease, using engineVersion v2 and direct variable substitution.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/tailscale/app/externalsecret.yaml#L13-L17",
+          "version": "repo-lines-v1:sha256:ab3ffe052fcb77381d81fb3a1d1ea79373b7ca58242fb7c79bebd76d2f5c8d8b:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzIxNGM0NTk2NWUwNzg1Y2E3YTg3Mjk0Zjk4MDRiZTQ5ODIyMGIyNWRkZGNiZGNjY2RiZDQyZDBkMjU2YzM3MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzhhNTI1NTkyMWJhNGMyOGEwYWM5YWFlNDEyNzEwOTJmM2NkMjVlZDJjMzQ1MDZjMGU3ZDUwN2I2YjFiMTliYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDg5ZmIxNjI2ZjQxYTk1NzY4MmZjMmE1MDYxYzBjNTE0MzhlNDBmZTcxMjUwZGQwZTIyZDU5NjBlNDBiNGI1MiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2IwMjUxYTA4YmJjOWNjZmQ0Y2Q1YjM1OGVjYTgyZWQzMmI0ZjUxZmE0OTU1OWM2OWJhM2JmZDg0Yzc2YmVhYyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_74626598de6c4c5aab5307caa482b03f",
+      "statement": "The egress-proxy.yaml file includes commented examples showing how to configure additional proxy services for API (port 8080) and Redis (port 6379) with different proxy classes (tailnet-egress, accept-routes).",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/tailscale/app/egress-proxy.yaml#L13-L44",
+          "version": "repo-lines-v1:sha256:7afe49205651f87ae7af3562f39e9f0b83ffe0cd24f2458c9597343d6030fb12:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI2YWQ3Y2Q2N2RkMDljZWQ4ZWNjMDljYzY1MDlkMDMzMjJhMzYxNGMwMGUxZWUwOGNmMWM5OWUwNjU5YzFhYmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhhYWJjYzc2YTliYWRlMDM4MjFkYzhkYWQ4NzYyNDJlMWQxOWZjODYwOTIwYTlkMmRlNjkzYTBlNWU2YWUxYmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI1YWViMjQyNzc4Njg5ZmVhZmRkMjljNGY2ZDBiMDY4MWQ2MDUyZWZiNDVjY2UxMGNkZmI4OTdiYTRmZGFlNGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a9cfd9bb637241549ef6a625ea2ccfc3",
+      "statement": "Tailscale operates as a separate networking layer from Cilium CNI, with Tailscale handling inter-cluster and remote access VPN networking while Cilium manages intra-cluster pod-to-pod networking, allowing both to coexist without conflicts.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/tailscale/app/helmrelease.yaml#L1-L36",
+          "version": "repo-lines-v1:sha256:fe66aca1410c1edacbdd84d47d075eb0ad8cfb56c0ff52f70018fb806e155653:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a7c8a0ce888d44b79826d84c0ae6c185",
+      "statement": "The Tailscale integration relies on the Bitwarden Connect deployment and ClusterSecretStore resources to synchronize OAuth credentials from external secrets management to Kubernetes secrets at runtime.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/tailscale/app/externalsecret.yaml#L8-L10",
+          "version": "repo-lines-v1:sha256:5a89e060454ef2068dcdb326b1c1608f02d0f6e545d336448849a1e0a72c4730:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzM1OGFjZjI1MTM2ZTE3ZmU4OTAyZWNmOGExYzhmNTg5OWE2ZTI5Y2RjODAzZmJmNjYxMTA0MmRhMTJlOWI4NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiM2Q3ODQzMzE3NjAyMGJmMzhhYWQ1NTNiMWU5MTAyZjk1ZTdjMzgwZmRhNTg2MGRjZWQ3NDgyMzhmOTFkNDVjZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTRkNzBiYmQ3Yjk5ZTY1YTBjZmQ2MjMxZDJmMTBhNWNhMTE0ZDc5MjkwMGI1Y2M3MjczMDMwZWFiODgxNjRmNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMmY5M2E0MGM1ZDIyZjMxNjA2ZDI1N2NkYzYxOWE4ZmVjNTUzOWVjMzJmNmM1NzU0Zjg4MTljMzkxN2FlN2YxMSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/tailscale/ks.yaml#L22-L24",
+          "version": "repo-lines-v1:sha256:e6b2712337ef26239f1c9425c612890c44655efd50b9f855653e07fcb8f417f8:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTYwYzNiZDdiYzU5ZmVjOWU0ZGVkMzVkN2NjZjcwMGEzODVhY2U1ODYzNGZhNjBkM2IyMmZmMjY4YzAxN2ViZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYmY5ODk5M2QyZTQ4YWE2MTY4NTMwNzlkNTgzOWU0NGVlYmNjYmJlMWVlYzhkZWI4MWM3ZDRiZmFiMDVhZTljNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiM2E0ZDRhN2E5YzgzY2I2N2NjZjQ4Y2I5ODE1ZDE2MGRlY2Y0NjEyYzVhNzVjZGU4ZDUxYzUwMDBiY2ZmMzYxMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzFiOWIxNTdlOTZlZWEyNzlhOWE4NzAyOTY1YWZmNThlZTE0MGE4OTZhMWFkZDQwNGM0MjFlN2Q4Y2E4YTM3ZCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_02504df81d6044b3bc1e44d7bce8de7b",
+      "statement": "The Tailscale HelmRepository is configured in the flux-system namespace with a 2-hour interval, sourcing charts from https://pkgs.tailscale.com/helmcharts.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/flux/meta/repos/tailscale.yaml#L1-L10",
+          "version": "repo-lines-v1:sha256:9766eda3cb28b6744d5647bdb154d91c7e258c5ec52b68142b801e724361184c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY5MDQ1NzM3MWM0NjQ0Mzg5ZDAyOTQzYjE2NjIwMDBjODA5MDhhMmY2YmYzYmE5M2EzYzA5MmZmZjAyOGE2MjkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_dfb5f31d3a6f48ddb05dad8abb418354",
+      "statement": "The Tailscale operator pods include the reloader.stakater.com/auto: 'true' annotation to enable automatic pod restarts when configuration secrets change.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/tailscale/app/helmrelease.yaml#L22-L24",
+          "version": "repo-lines-v1:sha256:acbdfcc3f8f5caaa15d5b237723e06fcabac82dab250fe36fc4a74863b4602b4:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTRmZDUxODY2YTg2MzM1MmZmYzNkMTcyOTVhNzhkN2UyMWVlMGU4YjgzOThhMTMwZjQwZWY0YzQzMTQwNTMyNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODdjZjI4ZjExOWZiZmY4YjUwYThjZWI0YjZmYmY3NDk4MmJlMWU3N2MyMzI3YjVkMDUxOGIxMzJhY2I3YjRhZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWJlYzVlMmI0ZDM2MGIxNWU4NTdhM2FjODBhYzM5ZDcwZjRhZDhiMjY3NmMzMDkzNmUwYTE1N2UwNzcwNTM0NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNmJhMDc2NGI1ODVhOTNiMDg1YTVkYTc3YjBmZDU3ODI5MjNmNWY5MjJmMjMyY2EyYzM2NDI1Y2FhOWNjMWI3MyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_fc2a380db90c47db9b54bac340bb2523",
+      "statement": "The egress proxy configuration enables traffic routing from local cluster services to remote cluster services via Tailscale IPs, where pods reference the proxy service by name and the operator routes traffic through the tailnet to the target IP.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/tailscale/app/egress-proxy.yaml#L1-L11",
+          "version": "repo-lines-v1:sha256:83be395f7bce929627085f18ec2266c51e948a26f106c4ef929d3e839b048edb:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM2YWQxNDJkNzA5MjEzZTFhYzBlZWViNmMwZmQxN2E0MjdkMjkyZjQyZThkMjEwYTY5MjdjYWI2Mzc4MzI2ZjIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_474ed0fe4f32414fa71c0c7a210e05c3",
+      "statement": "OAuth client credentials must be configured in the Tailscale admin console at https://login.tailscale.com/admin/settings/oauth and stored in Bitwarden with client_id as username and client_secret as password under the tailscale_k8s_oauth entry.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/tailscale/app/externalsecret.yaml#L18-L19",
+          "version": "repo-lines-v1:sha256:6dea24f0fb47ca7ec08ad1fc3e9ee27a439402215c2ce5d39121485127ddf841:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzNjYTM1YTU2ZTBiMDRiOGZkMzkxNTVkZDllOWViMjhiYTIyNzBjNjAzZGE1MWQ4ZTg5ODBkNTU1ZmU0NDAwNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWIyZjMwYmFlZTJjYzRmNzQ4N2VkNWFjZjc4YTUxZGExM2MzMTMzZTBjMTJkMDc4ZTBiMmY1MTExZDBkZDE0OCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDdjYTVkYzIxMzQ4ZjZkNjdkOTljOTczN2M4NDZiYzk4NjgwMjFmNGFlYzU3YzBmMWM2YWQxMGM0NWFjNjJiZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTkwODYyYzNlNjE2ODk4OGQ0ZDY4MDgxNDRkMGYyNjQ4MTU0ZDg0MzYxNzVmZWI0NDEzZjVkY2M4ZmM1ODA1ZSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/tailscale/app/externalsecret.yaml#L20-L28",
+          "version": "repo-lines-v1:sha256:8e87d7bdb59d2dcde539e7bef6cfeb764771d2132b842cf76959aa8de17788d5:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMjk2OGExODJmNzRlYzcxYmZjMzlkOGY3NWFhMmU3OTEzNjgwYjhlNDI3ZDIxMzU0OTQ0NGJlYzAyYjI2MWI0OCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiM2IzM2MzYTdhOTJmODBkZThhOGMwNDI4NTFhYTY2YTE3YmQzMjVlYmE1YTc1Yjc2ODhlYWVjYWU3NTRkOTEwMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZmE1YzY1MDg5ZTk2ZjdlZmM2MGMwZGVlNzNmMTg4NTg3NWJlM2Y3MTBiYWNmNGU3ODVkZmQyN2JjZGNmYmNjNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_eb97349106ad44aabd3e1d7df1d798c5",
+      "statement": "The Tailscale Kustomization assembles three resources: the HelmRelease, the ExternalSecret for OAuth credentials, and the egress proxy service configuration.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/tailscale/app/kustomization.yaml#L1-L7",
+          "version": "repo-lines-v1:sha256:984d0110f3af1e4cb61d32d61243cc4f27e1334f24875b5a199ff47878e91428:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjUyZDcxMTEwM2Q1MGE0Mzc4MzBjNmZiY2QwNGZiNGJhYjQ5YTBmODJmNmQyNmQxYzc5MWM2ZTg0ODhkZDA5MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTJkMTBiYzMxYTQ4NTNkOWNhZGI4ZjRkMjNhN2ZiYWRjYThmYjA1YThlOGRkNGJkMmNiODdhZmU3ODM5ODM4NyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-08-28T03:38:47.877Z"
+  }
+}

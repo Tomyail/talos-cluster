@@ -1,0 +1,242 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:b887709b3f22dc5f0de943fec052994cb2082624b1efc31f5d70df9bceaf8805",
+  "claims": [
+    {
+      "id": "claim_b4aa9234d97a441c954cfb4829fa91d1",
+      "statement": "The Flux Local workflow validates Kubernetes manifests on pull requests targeting main using flux-local test and diff generation, with pre-job gating to only run when kubernetes/** files change.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/flux-local.yaml#L14-L28",
+          "version": "repo-lines-v1:sha256:583b8d3ca4398629c29e46322d864e9ee99656257d9e733dd724c806a2cac713:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJkMGJjZmMyYWI4MDdkZGQ3Zjk1OTBmMmI1ZWM0NTdjMTBkMTk3NjFmY2Q4ZmRhMTVlY2U2ZTY4OGI4Y2QzYmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ5YzFiNDdlNTc0MmE4Y2MwNjEwZmVlY2JlZjkwYzFmNjBiN2YzYmM4NzQ4YWZiMzNkNjI0ODlkNDEzYzI4ZWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ1NDdiMDIwZjI4MzAwNDAxMjhlZmEwZDk3MDFjMGU4N2Q2ZWIwYTk1MGYxNTk4NjgyYjJiNjlhYjNmYzAyYTcifQ"
+        },
+        {
+          "resource": "repo://.github/workflows/flux-local.yaml#L29-L41",
+          "version": "repo-lines-v1:sha256:f2c1ba05186614de351385f3c261f9f1c6cbbb4287ded87054a279d13c7ba72b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMDA1Nzc3NzZjNjY4YjcwMWQ3MTY1YTk3MmNiYWJiNmVkZWQxMjhiYjg1ZmE3MGMzMjYwYjU4ZTBlOWIwNDQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJmYzhmZGE0MjFkY2FmZmNmY2NhNDZiYjA0Y2EzMDg4NzNmY2U2OGRlY2JmMmZkZmQ2NWY2NmVkZWQyYjlkNjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBmYTJmMDk2YjRlZjg1Zjc1ODc0MjUzNTM4NzU2ZTJlNjQ5NTdiOTY5NzQ5MjViMGVmNmM2NjllNmVmOGE4ZWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJkM2Y5NzI5NWViNGJhMGI4OGU0ZjczNDAzZDVhNDZjMDVmYTU3MTQwZjgyMzExZjdlYjQxMjYzMDhhYWZkZjcifQ"
+        },
+        {
+          "resource": "repo://.github/workflows/flux-local.yaml#L5-L11",
+          "version": "repo-lines-v1:sha256:15fd647afb66adf42842f154f23a0d087c533b7473b191600f42f0ad0a693d45:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTk2ZGM0ODE0OWY1YTgzZDFlZDZkYmIzOWJiYzdlMmI5MDJhYTNkMzRkNmJkNWFlNGIyOTFiNjhkZjBjYTc5YSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzRhNzk2YTAxZjg0NThjODk5ZDViMjI4OTBlNWRmNDQ4MDNjYTRkODAxN2MzODc4ZDdmODc5NDQ0OTEyMGM4YyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjUzNDJkODVmMjNkMDg0NmI1ZDU1MTZjMmE0ZDRmZWEzZTZmMTMyMmE5OGRmMjQzZDc3YzBhMTcyMjFhYmFkOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMWI3ZjdhYWVmOGYxODIzMzlhYTUxOGYyZDZmYjFhYjk3OTEzOTcyZWNmYjhhNWVlZjJhNDQyZGExNzliNDlkYSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_12d9c960948343e89114a14cf1c112b4",
+      "statement": "Flux Local workflow uses concurrency control with group key based on workflow and PR number to cancel in-progress runs when new commits are pushed, preventing resource waste.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/flux-local.yaml#L9-L11",
+          "version": "repo-lines-v1:sha256:ca52ba3bcce5583d49cd3bc2d6c677b768a3f71d9590c1c8fb5467aa1372f9fb:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODRhZmUyNGRhZjM0ZDFiNWNmODNmY2FhM2Y1NmFhNGMxMDdjMDU4MDM5Yzg1N2JjYjZkNTE2ZDYyMTk0N2YwNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzRhNzk2YTAxZjg0NThjODk5ZDViMjI4OTBlNWRmNDQ4MDNjYTRkODAxN2MzODc4ZDdmODc5NDQ0OTEyMGM4YyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDE1MWFkNjNmM2MxN2ZlOGU3ZjZjNTQ0NTllZjQxNmZjZTNhNjE5MmVjOGZjNTk0OWE4MzZmNDViNjRhMDIyNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMWI3ZjdhYWVmOGYxODIzMzlhYTUxOGYyZDZmYjFhYjk3OTEzOTcyZWNmYjhhNWVlZjJhNDQyZGExNzliNDlkYSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_56411b1d896146caa796c7859f7918f1",
+      "statement": "The pre-job uses tj-actions/changed-files to detect changes in kubernetes/** directory and outputs any_changed boolean that controls whether downstream test and diff jobs execute.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/flux-local.yaml#L14-L28",
+          "version": "repo-lines-v1:sha256:583b8d3ca4398629c29e46322d864e9ee99656257d9e733dd724c806a2cac713:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJkMGJjZmMyYWI4MDdkZGQ3Zjk1OTBmMmI1ZWM0NTdjMTBkMTk3NjFmY2Q4ZmRhMTVlY2U2ZTY4OGI4Y2QzYmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ5YzFiNDdlNTc0MmE4Y2MwNjEwZmVlY2JlZjkwYzFmNjBiN2YzYmM4NzQ4YWZiMzNkNjI0ODlkNDEzYzI4ZWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ1NDdiMDIwZjI4MzAwNDAxMjhlZmEwZDk3MDFjMGU4N2Q2ZWIwYTk1MGYxNTk4NjgyYjJiNjlhYjNmYzAyYTcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_95c1c728d3bc4b1096d7154a2c1aa6c8",
+      "statement": "The test job runs flux-local test with --enable-helm --all-namespaces flags against kubernetes/flux/cluster directory to validate Helm releases and Kustomizations before merge.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/flux-local.yaml#L29-L41",
+          "version": "repo-lines-v1:sha256:f2c1ba05186614de351385f3c261f9f1c6cbbb4287ded87054a279d13c7ba72b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMDA1Nzc3NzZjNjY4YjcwMWQ3MTY1YTk3MmNiYWJiNmVkZWQxMjhiYjg1ZmE3MGMzMjYwYjU4ZTBlOWIwNDQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJmYzhmZGE0MjFkY2FmZmNmY2NhNDZiYjA0Y2EzMDg4NzNmY2U2OGRlY2JmMmZkZmQ2NWY2NmVkZWQyYjlkNjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBmYTJmMDk2YjRlZjg1Zjc1ODc0MjUzNTM4NzU2ZTJlNjQ5NTdiOTY5NzQ5MjViMGVmNmM2NjllNmVmOGE4ZWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJkM2Y5NzI5NWViNGJhMGI4OGU0ZjczNDAzZDVhNDZjMDVmYTU3MTQwZjgyMzExZjdlYjQxMjYzMDhhYWZkZjcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a57d101daa44421caccb6e191543464a",
+      "statement": "The diff job runs as a matrix strategy across helmrelease and kustomization resource types with fail-fast: false to generate diffs for both resource categories in parallel.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/flux-local.yaml#L43-L54",
+          "version": "repo-lines-v1:sha256:6fa1b5358bc3c2a1c648be0491dc33152f8288cec497d23dd26f74f8f50b73d3:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUzYzMwNTU5ZDM5MGZlNDZmMGFkNDk4ZDk2Y2I1ZTEzNjk2Mzg1ZDBhNDE1NzRlNDYxN2MwOGE4YjlkMjUzMTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRhNjAzMjllZjMzNzY4NjEzMzY2ZDc4MTk1NGFhMmE2NjYwYzJmMGI1NjU3ZTlkYmY2OGVkMTYzNWY2MzQzZTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ2MzQwY2I4OWI5MzQwNGZhZTcwYTRlN2M2ODBiZTUzYzNkZjEwN2ZiYzA3YWY2YjQwN2FlMmZhMWQxM2VkZTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJiYWRjNTViNjM1MzhhMWU2ODBlMTJlMzk1ZTY1MjhiMjhkY2QyZGEwYzMxZDgzMTBhNjZlZjkwOTc4N2QxMTMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_98f7c033710a4b5585ee82581aedf4fb",
+      "statement": "flux-local diff checks out both PR branch and default branch, compares them with --unified 6 --strip-attrs to filter noisy attributes, and limits output to 10000 bytes to prevent overwhelming comments.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/flux-local.yaml#L57-L80",
+          "version": "repo-lines-v1:sha256:59b9fb500642eeec49506ede0824931167904579817e4645265f680a9a3fc468:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhY2FjZTQ3ZTU2MjJkZTA2ZGIyYWQ0ZDA5NWZmNWYwZjM2YTBhYmQxOWE2MjUzYjc1OWI2OTNiNWFlMDM4ZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJlNDVhYjM1YzUwZmQ1Zjc3M2RmMmE2MzgzNzMyMDM3YTRmMjA2Yjc0OWIwYzI4ODQ4Y2U2YTUzYjJlYzZhMmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjcwZDkyZDM1N2NmMTNkNWE3ZjY5YjEyNjZjNzA3NWVhNGViNTAwNTI5NTY3M2Q4ODRhOWY2NTc5OGRhNTE5YzgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE2MzM1Y2Q3MzFiZTBjYTU5MjU0ZWM4NTA1NDYzNDdiZmI1ZjhkZGIyMzM5YzNhYTI2Y2MwMWUzYTIyZTA3ZDUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4b4a705f9080474cb01bfe9e1c3e4f55",
+      "statement": "Generated diffs are posted as PR comments using mshick/add-pr-comment with message ID including PR number and resource type, with continue-on-error to avoid blocking on comment failures.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/flux-local.yaml#L98-L108",
+          "version": "repo-lines-v1:sha256:ee97711adb32d70edaeab2c049a5bcfa19a2d4ae471394e171aad8e3c99d17ee:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFhYWYxNzZhNWNiYTA2NmRiMmNhM2E1NzA5OTVkMmUxZTIwNDI0YmVlZmUwMzNlOTA5ZjM2NjVkMDFmMGI5YWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc1ZWZmOThjODJiNjI2Y2JlOTZmN2M3MmEyNTlmMDBkYjMwNzhiNTU0ZmQ4N2M3YjM2M2VhNzMyZDQ5MTkwZjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImMyMDhhY2QxODE3YTVhMzI2MDE0OTEzODhiMjhlOTA4YzBlNmYxMzc4MmY3ODQyMDBkMzUzMGRhYzcwMTMzMzkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjliMThkZWU4ZjBiNjBmNmNmMDg3MDM4OThhYzVhZWU4MDAzYjMxYzFkZTcxNGNkNGIxZGI2ZmM2ZDNiNGU4Y2EifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7f9989821a184da38f41d3d52667789a",
+      "statement": "The flux-local-status job runs unconditionally after test and diff jobs to aggregate results, exiting with error if any job failed to provide single status check for branch protection.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/flux-local.yaml#L110-L122",
+          "version": "repo-lines-v1:sha256:80897bb0a28de8d83060c7d77f398918f5e5b2bf9c094f379ad773ca9044208b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI4YTAyYjNmYzJiYWY4MDlhZTIzNjM1M2IyZjE4NjlkYWEwOWIyYmZiMjIwZjNmNTg4MzQ3OGRiNWI1YzU4ODIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVkMzlmNjU0ZWY2NzkyMjEyNzRkODIwYmZiMjdjZmVkZjIwMjVkZGY4ZDM0NTIwYThhYjYzNjRhODU3MjMyZWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU5MGM4YTMxOGMwYzdjZDI5ZTZkN2E0NzQ1YWE3MTNjNjA5NWY3NDdlZjk4ZGZmNmMxYzQyZjRkNTdlOTZkYzMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_8b2ed19295e8443f973b49c9c7c8e337",
+      "statement": "Label Sync workflow triggers on push to main when .github/labels.yaml changes and via manual workflow_dispatch to synchronize GitHub labels with configuration.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/label-sync.yaml#L5-L9",
+          "version": "repo-lines-v1:sha256:9743a86a5d946efda7c33f7599f6795406c1958eb639f1a43abdfec2374be739:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTk2ZGM0ODE0OWY1YTgzZDFlZDZkYmIzOWJiYzdlMmI5MDJhYTNkMzRkNmJkNWFlNGIyOTFiNjhkZjBjYTc5YSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTg1OTM0NjllYjdhODMzMGQ3M2NiZmRiMmFkZjg4MzY4M2RlYjc0NWM5YjZjYmI3ZjY0MmMwYWE5MTYxZDdmZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDJlN2NhYjJlMjU4YzliZjg1NDczMWRiMmZmMzVmODRiYWJjOTZhN2EyZTg4MDFkODBiMTc4ZGE3NTgyZWZhMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYmU2ZTk5ZDg0NDQzMzkxYTUyYTY1ODU1MDYwZWFiZTFhNThjYWMwMmQ3MzA0YTI4MDU1ZjM2YmEwY2FmMWQ2NyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_3670993422524cd6b578efdb0106b8c5",
+      "statement": "Label Sync uses EndBug/label-sync action with delete-other-labels: true to remove labels not defined in .github/labels.yaml, ensuring repository label consistency.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/label-sync.yaml#L19-L23",
+          "version": "repo-lines-v1:sha256:3a27b74501494d07948f9c9c5dc5a96432e358c114811ec271ed8d690282b735:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzk2NmI3ZTgwYTNhNWMwMTQ2MjkxNDBiOWU5N2Q3MmNiODM5YTNhMjU0NDQ3OGU4MjQxZmU5NjIwOGE1NDg2MyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGEwZmM3ZWU5MGQyOTQ3YzU4MDllY2Q3NTY2NDQwZTg0MWUyM2JlNjk1Y2MwZTliZDU5YzhlNmEyNDRlZGY5MyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDAwZGM3MzAwNTJkNDdkMmI5YmMyN2Q1NDMxZDQzZjlmMDRmOTQ5NTExY2M1OWE2YmJlYjhkZmEyNjIwYTdmNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_7542be972fe8468996fdce374af91d19",
+      "statement": "Labels are organized into area labels (green), Renovate type labels (blue), semantic version labels (yellow/orange/red), and special labels for community and hold, defined in .github/labels.yaml.",
+      "evidence": [
+        {
+          "resource": "repo://.github/labels.yaml#L2-L47",
+          "version": "repo-lines-v1:sha256:1bf9784024fb52281ead07ae454b4f8fe0cd7040398f2e967765f534ed7ee48f:eyJzZWxlY3RlZExpbmVDb3VudCI6NDYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI1NzY1OTNlMGY1ZjExZWZjZGMxMWI0OTBjNTYzOWE5ZGM4YjI3NGQxNWFkYTlhMDFmNWE2ZTE5MDI4M2FiNTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIzNDczOWZkMzFhY2FhNmU3OGFmZmIzYjNiMGRhZWI1YjRjNWZjODIyOTY4NjZmNTk5ZDkwYjNmOGM4MWY4ZDkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoxLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b3976e1e6db84cd7b95b983a045fec9f",
+      "statement": "OpenWiki Update workflow runs daily at 19:30 UTC (03:30 Beijing) to avoid conflict with other services' 03:00 schedules, and supports manual workflow_dispatch.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L3-L7",
+          "version": "repo-lines-v1:sha256:cf2abc48e6ec19224a25e81a1cb51eefd55297a4026dc3f04f6a81bba7b0a465:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTk2ZGM0ODE0OWY1YTgzZDFlZDZkYmIzOWJiYzdlMmI5MDJhYTNkMzRkNmJkNWFlNGIyOTFiNjhkZjBjYTc5YSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzBlNmM2NWZiMjY5YTc1NjhlMTZjZWM0NDI1YmNiZjZkNzgyOGI0ZjZlMThkOTgyYWE0NjlhNGExZDNiZmZmMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjIsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzViMWYyNGU2MTgwNWVlMWE5YmM3ODA0N2UxZTRiM2Q4NjE1N2Q2ZTM3ZDhhYzBiY2JlYmQ1ZTY1ZTVlZjFhYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzk0NjJkNWYyYzIwN2U2YjRmODI4NDNkOTE1NGZmMGJiYWQwMzQzOTI0YjJjM2M0YmFiZDk5Yjg3Y2NkNGI4MiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_ed3fc37643164de5a8fb58b7f2ffa35c",
+      "statement": "OpenWiki Update installs openwiki npm package globally, runs 'openwiki code --update --print' with Anthropic provider configuration, and commits changes to openwiki/, AGENTS.md, and CLAUDE.md.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L16-L47",
+          "version": "repo-lines-v1:sha256:793c9a07ba300d0f5dbe1272ffb41c966f903337650891555d935266ae1565e3:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ1ZDZjZjdkNDI4Y2E4MTE1ZmM0YmFiYjY4MDczOTAyMzMyN2E3YTlkOTE2M2Y3MDZhMjc2ODdkZDUxNmYzOTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJmNTU5NzljZTczMDIwMzNlNmIyZmQ3ZDg4ZjUzN2EzYjhlMDkxZWEzMDVjODExZmZhMTI3NGJmNTc2NGVhNWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVjNWE4OTI3NzBhZTRmNTMzM2ZkN2M5ZTEyZTBhNmJjNDViMjZiNWJiNzc1M2UwMzlkZjhlZDQ5Yzk3Yjk2MDciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_fb12bdfab0e74e6a96f7997dab68e853",
+      "statement": "Flux Local diff job requires contents: read for checkout and pull-requests: write for posting PR comments, following principle of least privilege.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/flux-local.yaml#L47-L49",
+          "version": "repo-lines-v1:sha256:36a25e1fd4546a486d3a7131e598553d20aeeefabfe2a332bc77a2ccebf8af2b:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjUxNzRmZDI1NWNlNTY3MGI0NzhhZjA0NmNkNDNjNjczNGYyMDY1OWNkMTEyMzg1Zjc1MzMwNzU4M2JmY2RlMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOGU3MDc5ZWRhMmRjNzI5MDk2MWZkNzI4ODQyYmJjM2MzZDBiMjEyNTUzMjQ1MTI3OGQxYWE3NTU3MzdkZGIzMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZmUyZDU1ZDczZTJkNWU0YjAyOGEyNTIyYzhmYzY3OGY5NzZmNTZiZDkxMGIzOGQzYjE0MDgwYjk2YWNiNjg1NiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDBjYTUxODA3OTNmZGY4MGE2Y2Q0MjEzNWZiN2ZhZmYwNWMwN2E1NGY5ZjE1MjUzNmE0YTViNmVhMzliNTdjNCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_d3fa83d06ac74206b6f59faba2451f05",
+      "statement": "OpenWiki Update workflow requires contents: write permission to commit documentation changes back to the repository.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L9-L10",
+          "version": "repo-lines-v1:sha256:15496fe691ea11aaede654b8d8e8f8410cf112f63381571f4926b11de55cd2cd:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzUyNjI0N2VkZTAwNmU5YmRhYjljNjg1MDcyODQyNWQxYjQxNjZjYWY1Y2FjNTBjZjA5NTVjNDRkMjRjMWE4ZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTg1NjBmZWM5YzI0ODYwZjA3NTUxOWI0OTY1NDcyOTczZDViNGZjMGI1Mjk1NmNkZDZiYjYwMDQ0ZmIyOGIzOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiY2I0N2Q3YzVhMDhhMDY5NmQxYzM5MjdlNTAyZDViYTRjYzA4MzVlZWQ5OWZjYTRmZDFkZjViY2UyZWMzZGUxMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiY2JhNWFmZmQ4MjMxYzBlODFiYmNkNDIxNTRhMWNjOTBlODZlZmY2NjM1NWMwNDhjZTU1YjMyMzdiZGFjM2ExZCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_c918438161204443b0573f54ab553a33",
+      "statement": "flux-local diff uses --strip-attrs to remove helm.sh/chart, checksum/config, app.kubernetes.io/version, and chart attributes that change without functional impact, reducing diff noise.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/flux-local.yaml#L76-L76",
+          "version": "repo-lines-v1:sha256:b3221bf65ebbf7ab9563d8679a916753f0e0cadf2ce9c539de512cfa9e4bc36b:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjMyMjFiZjY1ZWJiZjdhYjk1NjNkODY3OWE5MTY3NTNmMGUwY2FkZjJjZTljNTM5ZGU1MTJjZmE5ZTRiYzM2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjMyMjFiZjY1ZWJiZjdhYjk1NjNkODY3OWE5MTY3NTNmMGUwY2FkZjJjZTljNTM5ZGU1MTJjZmE5ZTRiYzM2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZWIwYzY2NDBkNTdmYWIxOTc5OWIyNjhlNjAxNDYwZTRiYzZhYjEyYTdmZmI5MmEyY2Y5NDUxZGJkYzJjZThkMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjIxZDYyMGJlYzVmY2ZkOTZlOWY3NWE3MDYxYjVjZTNmOWEzYWU5ODEwNWYzMGU0MDE3NDEyMGU4ZmZlOTkyZSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_e93290a6be17492cb941bf20f3bd997e",
+      "statement": "OpenWiki Update checks git diff --staged --quiet before committing, only creating commits and pushing when actual changes exist to avoid empty commits.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L42-L46",
+          "version": "repo-lines-v1:sha256:35634963398e89b70398a4306daeb7cac657fef5cb7fdbb070b57cf0bc2b7978:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMmFlYjljNDhjZGFhZDBmMGNiZWQzYjE5MzA2ODI2OTc4ZjllZDA4NTNkMjBkMDY0NGYxMGE5NDlhYjMzMjczYyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODg5NGJjMjY5N2RiMmFkOTc5YjllY2Y2NzA1NTUzNjcwYzAyZjUxNWMzYjA3M2I2M2YzZWYzMTYyNzRkMDdlNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjdjZmNkNzBiMmIzZjliMTA0NDAyOWRkMzhhZmY1M2YxNDAwYTJjNDFmMDliZjYwZDA5MTgxOTYxMzVhM2VhMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYmY1NTk3OWNlNzMwMjAzM2U2YjJmZDdkODhmNTM3YTNiOGUwOTFlYTMwNWM4MTFmZmExMjc0YmY1NzY0ZWE1ZSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_626ec3d7eb3e4983bfffcabb0aa18e2f",
+      "statement": "Flux Local jobs use ghcr.io/allenporter/flux-local:v7.5.4 Docker container to execute flux-local commands with consistent runtime environment.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/flux-local.yaml#L39-L39",
+          "version": "repo-lines-v1:sha256:4637874afafd6a7681f05268a0173c5cfc811bc2382c5e684da05aa330f7ad06:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDYzNzg3NGFmYWZkNmE3NjgxZjA1MjY4YTAxNzNjNWNmYzgxMWJjMjM4MmM1ZTY4NGRhMDVhYTMzMGY3YWQwNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDYzNzg3NGFmYWZkNmE3NjgxZjA1MjY4YTAxNzNjNWNmYzgxMWJjMjM4MmM1ZTY4NGRhMDVhYTMzMGY3YWQwNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjk1Mjg1Y2I1NGRlNjM4YjAzMTNiNGRmNzRkNDFmNmMyMDMyNGUxYWE5OTE5YmMzZjQ1ODY1MTJhN2Y1MmRjYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDYzNDBjYjg5YjkzNDA0ZmFlNzBhNGU3YzY4MGJlNTNjM2RmMTA3ZmJjMDdhZjZiNDA3YWUyZmExZDEzZWRlOCJ9"
+        },
+        {
+          "resource": "repo://.github/workflows/flux-local.yaml#L69-L69",
+          "version": "repo-lines-v1:sha256:4637874afafd6a7681f05268a0173c5cfc811bc2382c5e684da05aa330f7ad06:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDYzNzg3NGFmYWZkNmE3NjgxZjA1MjY4YTAxNzNjNWNmYzgxMWJjMjM4MmM1ZTY4NGRhMDVhYTMzMGY3YWQwNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDYzNzg3NGFmYWZkNmE3NjgxZjA1MjY4YTAxNzNjNWNmYzgxMWJjMjM4MmM1ZTY4NGRhMDVhYTMzMGY3YWQwNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNGYzMDhmOGQxMGQyOTM5NWE0ZjdhOTZjYzhkN2FlMWFjMTEzZmMwZTdjZmNlMzNlNmE4NDI3NThkZWYwNWE2NyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTIxMzI5MjVlNWRiMzJkYTQyYmU5YzdlYzdkOGViM2JiMGU4NzNiMjRjODFiNzUyNGVjMjk3NTljZDMxYThiYyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_eee659ad6a83477dbe1d0d6c9476ea43",
+      "statement": "OpenWiki Update configures ANTHROPIC_BASE_URL to https://open.bigmodel.cn/api/anthropic and OPENWIKI_MODEL_ID to glm-4.7, using a custom API endpoint for Anthropic provider.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L34-L35",
+          "version": "repo-lines-v1:sha256:66aa1c8a62daccb79718a85af4afa19ae54b14fed7c85ab8394fb40aea7ecab1:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjczZDIyZDhkMjgwNTIzYzE3NjRmZTI0OGRhMDMzNGFhZTljOWMzN2Y3MzVhNjc4OTdiODU1NTNmZDVlNDJjMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODEwOGI2NGI2MTA5NzBhMjEwYzJkM2M4NzFmN2ZhM2NkNzlhZWRiYThkZGQ0OWVkNTE3MjQ3MGMyNzFhOTJjNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWYxYjY2ZjU0YTRiZjE5NmFhNzJlNzIwMzE4YjIyN2M5M2NhNWJjYjIzYTg0ZDZiOTNkMmRjMmM0OGQ1ODM2ZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzc1NDI3ZWQzMWE2YTBiM2VlMDlmMjU5NmNlY2MxOWI1OWFmZmRlOGY1Mjc5MWRkNTQ4NDQ5NGZiYjU4YjI0NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_a2efa842b5f3429f97f0fc60fd4a800c",
+      "statement": "Label schema includes area/ labels for bootstrap, docs, github, kubernetes, mise, renovate, scripts, talos, templates, and taskfile with color 0e8a16 (green) to categorize changes by domain.",
+      "evidence": [
+        {
+          "resource": "repo://.github/labels.yaml#L3-L22",
+          "version": "repo-lines-v1:sha256:78ede8a67d1575c80cc6149c420ea7d74f9bac22190e7163ba039889e4e1309a:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjczZmI4ZjkxOGZjNGM5N2RlOGY3MjQ3N2Y0MTM4OGEyOTU3OTU0YmE5NGQ1ZTNmMWUwMzdjZDc5NTJjYTA0YWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc0ZDA0M2RhZjNhZDEwMGFhN2NhZWEwYTQ1MjYwNWRiODBlZWM0YTM3ZDllNWNmYjJkNDAyY2FmMzNlNjVkOTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoyLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU0YzQ2Y2IwYWJiNTZkZTIzZWRlNjU3NjRhNzVjMTNlMjIxMDU1Y2Q1ZWM2NzdkNTc5ZjJhZWFmZjdlNjg4MGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQ0MmM5YzY0Y2NlYjA3NjhlMGU0M2ZjZDNmYzQwNDkxODNkMjBjNWRkNDUwMTAzYTNiNTA4MWIzMjBmMGFmMTQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_3758831da5b941e288cfe25cbf24508e",
+      "statement": "Label schema includes renovate/ labels for container, github-action, grafana-dashboard, github-release, and helm with color 027fa0 (blue) to indicate Renovate bot update types.",
+      "evidence": [
+        {
+          "resource": "repo://.github/labels.yaml#L24-L32",
+          "version": "repo-lines-v1:sha256:81f58adb046128897823e486007f40ec56e901e49fabac2cd02117bc7762ae99:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMWMzYTI0ODVmYmM5YWE0N2I3ZmYxNWU4MzVkZDg1YTI5NDI5NjY4ZDgwMjIxMmViMjA4MzhhODJlYTQ1YjBhNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzM2MWNkMTEzNmYwMzZjOTY0ZTZkZTdkYTVlYzE0NWY0ZWJmZDEzYmViMTExODMwYjE0MzQzNmFiYzIzYmZkYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzE2MTgxZjFmMGNkYTQ3NjA1MDA1YTY2OTRmYTM1MTI2YjQwMTQ0ODBiOWU5YmZlZDZmODVjNjU4MzA1MWE5ZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDZlYjUxY2I5ZjJmYzU0NjhkNDc0ZTk0MTBkN2FmZGVkOTU5MGFjZWFhMWEwNmZkN2JlYWY1NmFmMjk0M2I2NCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_d2a4cf96a58f4d28a3ad62f47e162e14",
+      "statement": "Label schema includes type/ labels for digest (ffeC19 yellow), patch (ffeC19 yellow), minor (ff9800 orange), and major (f6412d red) to indicate semantic versioning impact.",
+      "evidence": [
+        {
+          "resource": "repo://.github/labels.yaml#L35-L42",
+          "version": "repo-lines-v1:sha256:3135d1d5aefd92112d86a1e73728e4ff639c9c35894f9084e389af15aed7a9d5:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTE2ZDJlMGNkMTBhNmQ0MjgwOGMyNzY5NmM3NTBlYjYwM2QzMWFlMjJhNTljMzM2ZDFmNGUxZmM4YmVjNzBhOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzBhYTU5MTc3OGRlYTYxOTE2OGUyN2MzNWNlZDM0ZTg0MTJhYzQ1NmIyM2Q0YmE3ODRlMzY5MmNkYjI2YTliMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTYwYjAyZTY5NTQwY2JiNWQ5YjlkYzQ4NDM4NWUyODI4ZmUyZWFmNTVmZTE5MWI2MjkyYmU0YWRlMjA3Yzg4MCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzYyNTNjNWNlOGZiYjkwMTI0YWJhZmMwODhiZjE5NzY3MTQ1NWJiMmVhYzQxNTNiYjk2ZjM1Nzk5YjZjYzhmMiJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-08-28T03:38:47.877Z"
+  }
+}

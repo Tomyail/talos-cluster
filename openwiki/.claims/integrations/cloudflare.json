@@ -1,0 +1,236 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:e831c7a4cfcbb93686302cff51c42d57b519ab015c8bed426f83b7df049a31d1",
+  "claims": [
+    {
+      "id": "claim_cced16d6ffcc403f88c2e2b84e04310f",
+      "statement": "Cloudflare Tunnel provides secure inbound connectivity using cloudflared containers that establish outbound connections to Cloudflare's edge network, eliminating the need for exposed ports.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:681928113c7202eae41132fbcfd5899f7ef3f74361cddfc095480831fffd974a"
+        }
+      ]
+    },
+    {
+      "id": "claim_e0f8aaa2879f4e1388b05ebe76366060",
+      "statement": "The tunnel uses cloudflare/cloudflared:2026.7.3 image with HTTP/2 transport protocol, origin HTTP/2 enabled, runs as non-root user 65534 with read-only root filesystem, and has 10m CPU request and 256Mi memory limit.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/helmrelease.yaml#L27-L66",
+          "version": "repo-lines-v1:sha256:ba905282026cd21acf7687c9013010060b30689188dee81243e276fcf6d5500e:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRjZmRlOGMzNDBjMWJjOWI3ODIxNjgxOTEyMDdmM2M2ZTFlOGJjZjcwNjM4MzQ4Zjc5MTMyZjA2MzBjOTgyNzMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA5Nzk1Y2QxYjNiOWFhYTdjNGRiMjk1Y2YxN2VkODE1MTJlZjgzNzYwZDY5ZTUxNTBlZGI1NDk4OGQ3ZmZhNjYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVmMmY4YmViZDcxNWEwMDM0YzQ4OWM1YmQ4NGJhYjM0YjU1ZGVhYTNiMTEzODU4ZmRkZWFmZTJkZWY2MTdhMzEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEzOGIwOGQ2MjMxNDMyMDQ0ZGY2YWNmNmQ2OWIwOTBiYTEzNTc5OThjMWQ5NTY1ZjMzMThkY2E3MGZhMTU2Y2IifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_64a76865e7ef4f59a985047a59a6236f",
+      "statement": "Tunnel ingress rules route ${SECRET_DOMAIN} and *.${SECRET_DOMAIN} to the Cilium external gateway service (cilium-gateway-external.kube-system.svc.cluster.local), with HTTP 404 as the default fallback for unmatched requests.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/resources/config.yaml",
+          "version": "repo-file-v1:sha256:287eba7b9f28c6d2e689abaae48a392a04d709dfb54b40c1d845a835354cb1d5"
+        }
+      ]
+    },
+    {
+      "id": "claim_f4f8d3b8808f4be19735be830bea81c1",
+      "statement": "The tunnel authenticates using a TUNNEL_TOKEN stored in the cloudflare-tunnel-secret Secret, provisioned from Cloudflare Zero Trust dashboard to grant routing permission for the configured domain.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/helmrelease.yaml#L36-L38",
+          "version": "repo-lines-v1:sha256:1ea702c8b858c588093d78d74a8a273172373cb594056c7a772ae3b0d211d7f0:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTBhNWVmZTcyMGJkMjM2OWE4ZTg3NjI4YmEzMWRmODExOTljNmFkYWYyMWRmMjBhOWY0MjQ4OTU4Y2EwNGFiMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTQxNGUzYWE1YWQ1NDQ4NzllMDE0OWQyZjU2NGNmNmRlMjM3YzZjOWU4OTQ2Njk1YTBjODFiOTUxODllMjIxOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWQ4NWE1OTA1MmM1ODEyZjE2MzUxMjM3ZThlZDUyYmM2ZDMxNTZkYjY5MDQxYjExZTc0MWNlNzA5NmM0NWJmOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZThmYjYyYmMyYTUzODBiMWUzYzU3OWY3ZTM1MGVjN2VhOGFmN2IwZDRhOGQzOGMzMTk3MmU5YWZlZDg0NjdiNiJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/secret.sops.yaml",
+          "version": "repo-file-v1:sha256:8d3d45cf5c94550fb24dc24dba1a64fa621966f35c1f993a277386177c1c2cf0"
+        }
+      ]
+    },
+    {
+      "id": "claim_b03ebbfb1b63465387f62ee191426db7",
+      "statement": "cloudflared pods use liveness and readiness checks on the /ready endpoint (port 8080), have auto-update disabled (NO_AUTOUPDATE: true) for version control, and use RollingUpdate strategy with restart annotations for config changes.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/helmrelease.yaml#L31-L31",
+          "version": "repo-lines-v1:sha256:874498840f3d8892522224b8825f63ee96f7f9acbc76e90ba71b759a4f34e73f:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODc0NDk4ODQwZjNkODg5MjUyMjIyNGI4ODI1ZjYzZWU5NmY3ZjlhY2JjNzZlOTBiYTcxYjc1OWE0ZjM0ZTczZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODc0NDk4ODQwZjNkODg5MjUyMjIyNGI4ODI1ZjYzZWU5NmY3ZjlhY2JjNzZlOTBiYTcxYjc1OWE0ZjM0ZTczZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWQ0ODI4YmJhMmQ4ZDM3MzJiOWM1MDBjZjkzYTE4MDZkMmY2YThhMzc5YTY4MzkyNjY3ZWYwNDk2ZDU3MmNjNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMWQ5NDU0OWJlYTc0Yjc5YjFlZmRhMjAwYjcyMDU3MDI5NTU1YTc3NzhhZGNkNTIxZmJlNjcxMzgyNDg1YTAzZCJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/helmrelease.yaml#L40-L52",
+          "version": "repo-lines-v1:sha256:c39c4e480ac136b55c19d1415e3a56ae003a1e97bd31bf72417e183de5acc7d8:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNjOGU4ZDkxZTc2OTZhODZlOWQ2NzlhNDAxMjM2MDIzOTk5ZWY2ZWFjZDgwZjYyNzliOTI2Yzg2OGYwOTllY2IiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY2MjYzYzgyNTJhMTQyZDM5ZTUyOGU1MDRmMmRiZTVjOTUzZjc0ZTZmZTAwNDhjZDQ1OTkwN2JkNzFlMWFkODQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQyMzk0ODYzNWRiZmY1MjY1YWQ3YjQxYmNlNjY3MjYwMjg1OTM4NjRhNDcwZmFkNmViODlmNDRkM2Y5Yzk1YmIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI3MjcyOTJmNTZhMGIwNmI4MDE3NTc5MDRkZjE1ZGY1NGY3ZWE0ZDg2ZGExN2FlOWI5ZGM4NDQ1MDhkYWM3ZTYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_fd8a050a6dda4476a5f269e9716ae265",
+      "statement": "External DNS synchronizes Kubernetes resources with Cloudflare DNS using the cloudflare provider, watching DNSEndpoint CRDs and Gateway API HTTPRoutes with sync policy to create, update, and remove records.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-dns/app/helmrelease.yaml#L27-L45",
+          "version": "repo-lines-v1:sha256:393c194daa5895294d7b8045b44529e93cea5635d42fb4351d5585676cb533f8:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY0NDEzZmZhMDgwZTE2ODhlMDlmMTU1YTQ2MjRlMTk4ZmY0OWRmMzFlZmZiOTFkNzcwNjViMjhmNjAxY2M4YzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlmYjJmYmQxZTc1ZjkwZDFlOGU4MmUwYmMzODQwYjllZjcwZGIyYThjM2JkMjk2YmRjMzAyZmYzNjRhYTQxMTgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNmNjIzMTg4ZjgzYzZiYjZiY2Y0YjVjN2JmNWMxYTljYjFiMmE1OWI0MzBiYWViYzlkZmZlNTVjODk5ODQ0MDciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNlZTA3NTg0NTI3NzI5MGJmZGEzZjdlNWRhNDc0ZTJiNDFhMjlmYTcwMzgyNDU0YmM2ZTY1OTdiMzY4NzE3Y2QifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_891fe44c80324fe8ac4fad97fb287d0f",
+      "statement": "External DNS uses Cloudflare-specific settings including proxied records (--cloudflare-proxied), 1000 DNS records per page for API pagination, and filters HTTPRoutes by the 'external' Gateway name.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-dns/app/helmrelease.yaml#L34-L40",
+          "version": "repo-lines-v1:sha256:e8bda06b706203a9294cb2d6791399301b28cfe714e4c8b86021f2bf59eaee5d:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZmMwMWUxZTYzNGRjNGI5NTRkMWMzNzhkOTZmNzU2MGMyMWMwY2ZmN2Q5MjU4ZDg4MTI0NzYwNWEzZDliN2MxYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTA0MTE4MzE5YTE3ZWJiY2VkZmUzYTk5YTRhNzE1Nzg1MDNlMTVlM2E0MjNiOGI2ZTc2ZWYzNTI4YzBiODBkNCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjcyZGU5ZGQ4ZDk3NDUwODdlNzVjODc3MmQ1ZmZiY2E4MzVhODAxZGQwYmI1MWQ0OWFmYmYzYzcyNDFhMTA1MyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjhlNmE5YTBkZDc3ZThiMzliNjJiNjBiODhiNzIyNjYxMDhhZGUwM2UyODYxMDhlYmRjMjZhMTc2YWNjNWE4MyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_b8afc482372a423982f830f83101d15f",
+      "statement": "External DNS authenticates using a Cloudflare API token stored in the cloudflare-dns-secret Secret, requiring DNS edit permissions for the configured domain.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-dns/app/helmrelease.yaml#L28-L33",
+          "version": "repo-lines-v1:sha256:d04081f03a00f9ad44d0a981b7a335196ee1d884fcb980b21b68d5b77a085a94:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNGI2ZjllNmM1ZDhlNWZmYTcyY2YwYjA0YzkxZjFiMTQ3NzU5YzRlYjQ0NjQzMzYzMWE0OTA3MWMyZTNlYjk5ZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTg0Y2I3OGZjODI5ODVlOGI2Y2Y0YTYzMTk1MDQxMGUzNzAxYjgzZWU1OWE0OWNlYjY2MzA4ZDBiYWY4MWFlMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzg5MmNkODhhZTBmOGZkZjQ2YTI5YmFmNzg4YjAyNDQ5MTIyYTc2MTg4ZWE5ZGRlMWFhMGZjOTJkZDhmNDA4NiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOGQ2Y2QwZjAyNWU4MGI1M2VlOTI0NzYwMzA4YzRhMWM5NjU0ZWZhNTEzNzc1NGIwYjIyODlkNTA0NDUyMzI1NiJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-dns/app/secret.sops.yaml",
+          "version": "repo-file-v1:sha256:e45679e6b0c76a626cfab41cd171343f7cadaf864f739724776a571c293e8205"
+        }
+      ]
+    },
+    {
+      "id": "claim_f59174535e5c4e33910655ef37d8b23e",
+      "statement": "External DNS limits synchronization to ${SECRET_DOMAIN} using domain filters to prevent accidental modifications to other domains, and uses k8s. as TXT prefix with default owner ID for ownership verification.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-dns/app/helmrelease.yaml#L43-L45",
+          "version": "repo-lines-v1:sha256:d32851749db4f70e9046a586117d004025608553efe8cd6ddf87f43805acdd32:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDJkOWU0ODVkYjg3ZjdmMGU1NDYzOGFhYWZkMGM5MWVhNmRiOWE5OTM5NjI5MzRmNzI0ZTFmM2E3NzVjYzQwMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWZiMmZiZDFlNzVmOTBkMWU4ZTgyZTBiYzM4NDBiOWVmNzBkYjJhOGMzYmQyOTZiZGMzMDJmZjM2NGFhNDExOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTBjMjVhMjI5YTMyMzg4ZDdiN2RhNDZkODRiYjRiZmY0YzRmNDczZGU2NjlhM2UwYjJmMjJiMzQ1ZGUwYzIzMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiY2VlMDc1ODQ1Mjc3MjkwYmZkYTNmN2U1ZGE0NzRlMmI0MWEyOWZhNzAzODI0NTRiYzZlNjU5N2IzNjg3MTdjZCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_e72d8db077534e35b06dbe43ba50ff76",
+      "statement": "External DNS deployment integrates with Reloader to automatically restart when the API token Secret changes via the secret.reloader.stakater.com/reload: cloudflare-dns-secret annotation.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-dns/app/helmrelease.yaml#L48-L49",
+          "version": "repo-lines-v1:sha256:7bca7111e4279232c172274b95bac853d59f0f5f88d3e91f0311016c7cfe5647:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYWQ4MDc2ZGVkZmViNjM5ODVkNjNkZjJkN2U2ZWQxM2VjNWZlM2IzMjUyNmMyMGFlYTY0YTk0ZTdjYTViNjQ5YSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMmJkY2UxMDY1NGM2MjYxYzhhOTRlMmI2YTBkMWExNzIwNzhlYmY5ZTY5MjNjOWE3ODI1ZTMxNmY4NjEzYzhhYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiN2YyZThkZjI0MzY3ZWQ3ZjM0ZTkyYjg0ZmFiOTI5ZDU0OTA3NWQ4NDAxNzEwMjVjY2FjOGQyNDIzYzkwYjcwNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_1280e48b037e4adf92aa081ab06819b5",
+      "statement": "DNSEndpoint CRDs define DNS records that external-dns synchronizes to Cloudflare, providing Kubernetes-native DNS management alongside service deployments.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-dns/app/helmrelease.yaml#L38-L38",
+          "version": "repo-lines-v1:sha256:406cf974d1233b6a4d6454d1a57d29eef5298967baf013e32bda20e61e5d986f:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDA2Y2Y5NzRkMTIzM2I2YTRkNjQ1NGQxYTU3ZDI5ZWVmNTI5ODk2N2JhZjAxM2UzMmJkYTIwZTYxZTVkOTg2ZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDA2Y2Y5NzRkMTIzM2I2YTRkNjQ1NGQxYTU3ZDI5ZWVmNTI5ODk2N2JhZjAxM2UzMmJkYTIwZTYxZTVkOTg2ZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOGI4ZWI2MGZjZWQ1YjFmOWE0NTAyYjFjMjlmZDdlNzBiODBlYjY5YTcyNWQzZTQzYjQ4MzRiNDY5YzRmODJiYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODM0ZDRhYjgyOWViZjlkZDgxYjFiNGUzYWY5MjZhZWExZWRiZWFhNjBiOTcxMDM3ZmUyNWU0Mjk5MDg0MjVjZCJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/dnsendpoint.yaml",
+          "version": "repo-file-v1:sha256:429a185741c44e4e8deac791cb3b3dab3de808b51c08e8e70ef33937197e07cc"
+        }
+      ]
+    },
+    {
+      "id": "claim_a3a846883c1e4a9999386f7597375181",
+      "statement": "The cloudflare-tunnel DNSEndpoint creates a CNAME record pointing external.${SECRET_DOMAIN} to the Cloudflare Tunnel address for ingress routing.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/dnsendpoint.yaml",
+          "version": "repo-file-v1:sha256:429a185741c44e4e8deac791cb3b3dab3de808b51c08e8e70ef33937197e07cc"
+        }
+      ]
+    },
+    {
+      "id": "claim_bfdb71653de54aa880ec7522c0589062",
+      "statement": "External requests follow the path: DNS resolution to Cloudflare, TLS termination at edge, Cloudflare Tunnel to cloudflared pod, forwarding to Cilium external gateway, HTTPRoute matching, and routing to backend service.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-dns/app/helmrelease.yaml#L42-L42",
+          "version": "repo-lines-v1:sha256:bddb2232d63fbd9c48e9ca29d25a77dd5ba39f1e51a0e971db5911e14912c8b6:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYmRkYjIyMzJkNjNmYmQ5YzQ4ZTljYTI5ZDI1YTc3ZGQ1YmEzOWYxZTUxYTBlOTcxZGI1OTExZTE0OTEyYzhiNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYmRkYjIyMzJkNjNmYmQ5YzQ4ZTljYTI5ZDI1YTc3ZGQ1YmEzOWYxZTUxYTBlOTcxZGI1OTExZTE0OTEyYzhiNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODM0ZDRhYjgyOWViZjlkZDgxYjFiNGUzYWY5MjZhZWExZWRiZWFhNjBiOTcxMDM3ZmUyNWU0Mjk5MDg0MjVjZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDMyODUxNzQ5ZGI0ZjcwZTkwNDZhNTg2MTE3ZDAwNDAyNTYwODU1M2VmZThjZDZkZGY4N2Y0MzgwNWFjZGQzMiJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/resources/config.yaml#L3-L9",
+          "version": "repo-lines-v1:sha256:179a728e3cea2fc86606d27141ae997d3c419da1e269477dd89989daf9679376:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTlmZWE1NGVjZThlNzhlYzgwMWZjNDBhYmQzM2IwNTcwMTFiN2U2MWY5ZTNmY2EyYjA2ZTlmN2JkNzJhODM3NSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYzU1NDhhMWEzM2U4MjdiM2ZjNmE5OGI3MjAwMjU5MWEwZDliNjIyNTFhNmEwODY4Y2QzMDU1NDkwNDRhNjYxMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjIsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjA0MzZlYWU2MmYwMTcwMDYzMDFhZTNlZjJjOGM2MmFiMzRlY2FkYjIzZWRjYjY5YmIzYzBiMTk3NDg1NmNkMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzE3Yzc4ZmE3NTM5MDllMmQwMjQ2ZGUyNGIxMDBhYjk3OWQyMTljOTIwOWI4NTkxM2EyYzIwYzNjMThjNWIzYyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_e3f5bde967ff4028bbce9621e0077507",
+      "statement": "Tunnel configuration is provided via a ConfigMap generated from config.yaml by Kustomize, mounted at /etc/cloudflared/config.yaml in the cloudflared container.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/helmrelease.yaml#L76-L83",
+          "version": "repo-lines-v1:sha256:5286938c9e5de2b6b0d209b505c9012960a5de801c805be3b6e3c982379c16ce:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMmJlN2M2YWY3MzBjY2YxYmNjMjgzZjFiZDAyMWZjNTNjMTdjZDM2NTM0NjYyZTRmODVjZTc5NDRiZDc1MTViOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTc3ZGFhY2E1MGQ5NWM5ODhmMDg4NWE2YWYzZmZkZjMzNWVmNDY1MTFkMDg4YWY1NDM5MDQ0YjhjNjBjMmQ5MyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWYzZDZlOTZjMGNiNTJlZmM0ZTQ4N2RlYmU3ZDM1NDI0MzA4NTRjZmI4MzdmYWJiMzBmMTk0YzVkMjZmNDdkNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/kustomization.yaml#L9-L13",
+          "version": "repo-lines-v1:sha256:fa3c701567dd3f02aaaab619a7bf00f59d49a23962d65e92420a115a07a9d954:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTZiYTI5N2YzMTI3ZjBlMTE2NTcwNTcyYTZkYjc1MWIzOWFiOTVhZDA2ZGVjN2E5MmY1YTNiNTlkYWVhOWEyOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODRlZWVkMTczOTE4N2VmMWYwNGIwYmM5YzIzOTczOWE5ZWM3NzhmNDEzYmM4ZWU2MDQ5MzBiM2JkNjEwYmEwMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTdjMDBmYTM5ZWI0Y2IwMTc3Yjk2YmVhOGNiNjRhMDE2ZjJiZjhkNmE3ZThmMjA2MDVhOTQ2ZGY0M2ExN2I2NyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjViYTc1NGQ0NGVhNGM3MmQ3ZjYxNjQwOWYzYzc3MDE0ZjM5OTE5MTQxN2Y4YzFmMTllZWJjYzUxOWU1ZDUyNiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_ac6e30e8b5d346439876066e7f63b347",
+      "statement": "cloudflared exposes Prometheus metrics on port 8080 (TUNNEL_METRICS: 0.0.0.0:8080) for monitoring tunnel connection status and request metrics, with ServiceMonitor enabled for scraping.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/helmrelease.yaml#L32-L32",
+          "version": "repo-lines-v1:sha256:939639a6b288e0babfb827d31f1d348f37a7102d591b3eee41f91e11ccaf8fbe:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTM5NjM5YTZiMjg4ZTBiYWJmYjgyN2QzMWYxZDM0OGYzN2E3MTAyZDU5MWIzZWVlNDFmOTFlMTFjY2FmOGZiZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTM5NjM5YTZiMjg4ZTBiYWJmYjgyN2QzMWYxZDM0OGYzN2E3MTAyZDU5MWIzZWVlNDFmOTFlMTFjY2FmOGZiZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjdmOTNjMWNlNmFhNjhlMWNmYmFjYWE2ZmVhNjVhZWY1NWEyMmZkOTJkYzkwMWJkNGExMjhlYTJhOTY0ZTQ1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOWQ4NWE1OTA1MmM1ODEyZjE2MzUxMjM3ZThlZDUyYmM2ZDMxNTZkYjY5MDQxYjExZTc0MWNlNzA5NmM0NWJmOCJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/helmrelease.yaml#L72-L75",
+          "version": "repo-lines-v1:sha256:f02a18b97b0fd50e909381d28adb3fc7cc689048e62aedaaa88084de00fb0acd:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjdhOTFjOTc2YTJlZmI1Nzk0MWQyNTI2MjE5NzZjZDRiNjZmYzQ4YzgxMzZhZDYwOWRkZTE1ZDFiNjBlODA4MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDU4NDVlYTYxNTZjYzMwYzViZDM1Njg0Mjc4ZTJiMzc0OWZlZGFjNDA1MjFjMzA5NjhjNDFhMDkzMWJmMDhkZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjNiN2EwOWEyNjliZGUxNDU4ZWFkZGMxMjY5YTczY2VhMTIwNTYxZGYyYmEzZmQwZDY0YTNjMWVlYTk2OGRmNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDQ0ZWRhNDQxZjBkNzg4MzdjNWQxNWNlZTFmMDQwYjkzZTBjNWE4YTZmODM2MmMwZDczYTJiOGQ3ZGIxNDhkZiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_4450f8fb6abf4456954a7df62be17375",
+      "statement": "External DNS exposes Prometheus metrics via ServiceMonitor for monitoring DNS synchronization operations and API interactions with Cloudflare.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-dns/app/helmrelease.yaml#L46-L47",
+          "version": "repo-lines-v1:sha256:be62031f445fb90f695c59e17f5944f029b46c720f66fae18e7a7b9aeb1750bd:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjdhOTFjOTc2YTJlZmI1Nzk0MWQyNTI2MjE5NzZjZDRiNjZmYzQ4YzgxMzZhZDYwOWRkZTE1ZDFiNjBlODA4MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDcwNTM0M2ViMjU1ZTRkOTYyYmZiN2FlZjU5MTU1NjkzYmZhODhiZjhiNGUyZmI2M2FiMzFlNjVjZmEwYjkwZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDMyODUxNzQ5ZGI0ZjcwZTkwNDZhNTg2MTE3ZDAwNDAyNTYwODU1M2VmZThjZDZkZGY4N2Y0MzgwNWFjZGQzMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjIsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2JjYTcxMTFlNDI3OTIzMmMxNzIyNzRiOTViYWM4NTNkNTlmMGY1Zjg4ZDNlOTFmMDMxMTAxNmM3Y2ZlNTY0NyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_c3ad77e348174fa1a4e169708593c746",
+      "statement": "cloudflared pods run with enhanced security including allowPrivilegeEscalation disabled, read-only root filesystem, all capabilities dropped, and runAsNonRoot with runAsUser and runAsGroup set to 65534.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/helmrelease.yaml#L53-L66",
+          "version": "repo-lines-v1:sha256:51fb0562189fb233102a851e32586319d5fbd9249053cf0a6b46bdc2ffc7e4e7:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkwYzIzOWNlZjIxNWRmYjdmYzAxN2RmOGQwZWYyMWE1NmMwMzJjZTRmYmQwYThlMmM1N2UyYjRjZTVlODY1NDQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA5Nzk1Y2QxYjNiOWFhYTdjNGRiMjk1Y2YxN2VkODE1MTJlZjgzNzYwZDY5ZTUxNTBlZGI1NDk4OGQ3ZmZhNjYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA3N2NkY2JmZDhmNDE5NjI0NTQ5ZWJmNTc4YjYzNjJlNGM5MjFhMDQ3YTQ4YTJlNWU3MWIwYTNlYWMwNGUxMWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEzOGIwOGQ2MjMxNDMyMDQ0ZGY2YWNmNmQ2OWIwOTBiYTEzNTc5OThjMWQ5NTY1ZjMzMThkY2E3MGZhMTU2Y2IifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f9eebdb5ff0c428381674bb7bd3df0ef",
+      "statement": "Cloudflare credentials are stored in SOPS-encrypted Secrets, with TUNNEL_TOKEN in cloudflare-tunnel-secret for tunnel authentication and CF_API_TOKEN in cloudflare-dns-secret for DNS API access.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-dns/app/secret.sops.yaml",
+          "version": "repo-file-v1:sha256:e45679e6b0c76a626cfab41cd171343f7cadaf864f739724776a571c293e8205"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/secret.sops.yaml",
+          "version": "repo-file-v1:sha256:8d3d45cf5c94550fb24dc24dba1a64fa621966f35c1f993a277386177c1c2cf0"
+        }
+      ]
+    },
+    {
+      "id": "claim_b38b362227b24525a0e850c8640715fe",
+      "statement": "The Cloudflare integration provides network security through Tunnel architecture eliminating open ingress ports, TLS termination at Cloudflare edge, HTTP/2 tunnel transport, and Cloudflare proxy hiding origin IP addresses.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-dns/app/helmrelease.yaml#L36-L36",
+          "version": "repo-lines-v1:sha256:706d6879144a53392915f8f0abb3ce3f1396b954c04d1d0eefe566ea6281ac36:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzA2ZDY4NzkxNDRhNTMzOTI5MTVmOGYwYWJiM2NlM2YxMzk2Yjk1NGMwNGQxZDBlZWZlNTY2ZWE2MjgxYWMzNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzA2ZDY4NzkxNDRhNTMzOTI5MTVmOGYwYWJiM2NlM2YxMzk2Yjk1NGMwNGQxZDBlZWZlNTY2ZWE2MjgxYWMzNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjUwZGFkYTU3ZDZkYjdkYzJmMDExMTZmNzQ4ZmUxNzIyYWU4ZDE2MmY5NDUyMDk0ZTAwZjlhMGVmNGNkNzIzYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTA3YmJlNDY3YTQ2MWQ3ZmZiODY1NDUwY2VkYmMyNjhjMzgwOTA5MWNhY2RkOWQ5YjIwZjNjMmI3NDk4Yzk5MSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/helmrelease.yaml#L35-L35",
+          "version": "repo-lines-v1:sha256:b13e92f98506b7fa476223062e4ce6c34a4b81ccc6da0d478f78bee1a45c0d29:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjEzZTkyZjk4NTA2YjdmYTQ3NjIyMzA2MmU0Y2U2YzM0YTRiODFjY2M2ZGEwZDQ3OGY3OGJlZTFhNDVjMGQyOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjEzZTkyZjk4NTA2YjdmYTQ3NjIyMzA2MmU0Y2U2YzM0YTRiODFjY2M2ZGEwZDQ3OGY3OGJlZTFhNDVjMGQyOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMWQ5NDU0OWJlYTc0Yjc5YjFlZmRhMjAwYjcyMDU3MDI5NTU1YTc3NzhhZGNkNTIxZmJlNjcxMzgyNDg1YTAzZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMWVhNzAyYzhiODU4YzU4ODA5M2Q3OGQ3NGE4YTI3MzE3MjM3M2NiNTk0MDU2YzdhNzcyYWUzYjBkMjExZDdmMCJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-08-28T03:38:47.877Z"
+  }
+}

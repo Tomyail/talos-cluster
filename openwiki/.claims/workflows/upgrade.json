@@ -1,0 +1,156 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:a0cb8907e65d866a22e6035253f03ba9f68d0845a16ce5cdc46073eb20fa9aae",
+  "claims": [
+    {
+      "id": "claim_fdb31951fbef449e8d6a7379d6290774",
+      "statement": "The talhelper-based manual Talos OS upgrade is performed by the `upgrade-node` task in `.taskfiles/talos/Taskfile.yaml#L31-L46`, which retrieves the node-specific Talos image URL from `talconfig.yaml` and the target version from `talenv.yaml`, then executes `talhelper gencommand upgrade` with a 10-minute timeout to perform a rolling upgrade (drain, apply, reboot, uncordon for worker nodes).",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml#L31-L46",
+          "version": "repo-lines-v1:sha256:c7745ffcaf01e49647d3d0c759433bd1c878042e171a2003f9f5ef415c355991:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcyMTc2ZGE5ZmU1N2MzMDM4YzQ5MGNmM2ZkODFlZWU1OTA1NDE0YzYzYzVhY2RhZmE0ZTdjMjExMjk0YjNmNWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlhNjI2MWZlNzI4NDUwMWRiYzY0ODNkOTEyZWFjZGQyMzNiZjkwMmIyNGY1OWU0ZmRjYTFlZTVmMWQ2MmFhMWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJjMjI3NzVjMmU1ZWViMDBmOWFiNzIyZjM5Njc0YTZkZDE1NTNhYTA4ODZmZWM5ZDFiNzZkYjU3OGJlNmJiODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgyMjNlZDA2NGU4NDJmYWNiOThmMGI2ZGViYmE1MWQzODg4MjQ0ZjM0NTVjMTIzZjRiMzRiMDU3OGU3ZDAyZWEifQ"
+        },
+        {
+          "resource": "repo://talos/talenv.yaml",
+          "version": "repo-file-v1:sha256:4ae26d952e597f70c4bbe7665882b09fe952fe44746284b6ff794e03502b0c1d"
+        }
+      ]
+    },
+    {
+      "id": "claim_22011864bbca465ba03f4d75f2111c6b",
+      "statement": "The talhelper-based manual Kubernetes upgrade is performed by the `upgrade-k8s` task in `.taskfiles/talos/Taskfile.yaml#L48-L58`, which retrieves the target Kubernetes version from `talenv.yaml` and executes `talhelper gencommand upgrade-k8s` to upgrade the cluster by applying updated kubelet configurations to control plane nodes first, then worker nodes.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml#L48-L58",
+          "version": "repo-lines-v1:sha256:1172dba8a5f5c572ea4428fc7814a5afe4ba06a270839de086f7fb4f0549a9ca:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQzYWZiZTlhYTEyMmU0N2ZiY2RkZmFlZWViYjQ3NjE0YzMyNTBlNzhmNzlhZDg5NzMyZDczMTY3ODg4MDYyODgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2MGRjZjk2Mjk1YzVkNThhNjk3NjU1MjRjMzc5YTgwOWUxNzRhNzVlZGM1YzdlYTUwMmI4MzFkOGI4MmFiNmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUwMGYyZTc4MmU2ZmRjZDY4ZTU2MDZmNWQ5MzJiYWQyNWRlY2JjNTRiODYzNTlkNjYxYmI4NDE0ZTc5Y2MxODkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdlOWVjZjQ3MzhmZTc2ZWE5N2MzYmYwZmIwNzNmZTkxODQwZThlNTBlYzVjOTdjOGQzZWZiNWU3YWI5YmRkNmQifQ"
+        },
+        {
+          "resource": "repo://talos/talenv.yaml",
+          "version": "repo-file-v1:sha256:4ae26d952e597f70c4bbe7665882b09fe952fe44746284b6ff794e03502b0c1d"
+        }
+      ]
+    },
+    {
+      "id": "claim_dedbf40cfa454fbfbb4ee73b110ad22f",
+      "statement": "The tuppr automation system is deployed via Flux Kustomization in `kubernetes/apps/kube-system/system-upgrade/ks.yaml`, which deploys the tuppr controller HelmRelease and a separate Kustomization for upgrade CRs. The controller is sourced from an OCIRepository pointing to `ghcr.io/home-operations/charts/tuppr` and manages upgrade lifecycle through TalosUpgrade and KubernetesUpgrade custom resources.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/system-upgrade/ks.yaml",
+          "version": "repo-file-v1:sha256:210affeb141759c85a0be91f6a06746ed7a302f9ffb1f142832dab69bd1f0f79"
+        },
+        {
+          "resource": "repo://kubernetes/apps/kube-system/system-upgrade/tuppr/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:8e432848d9ef1e726f04d1054450b2af89eb6b17afdee275a0902c7e3e0d20a9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/kube-system/system-upgrade/tuppr/ocirepository.yaml",
+          "version": "repo-file-v1:sha256:e99247d7c514470c5a1c1dbaaec142df74792da55709519fdf938da92bfc44da"
+        }
+      ]
+    },
+    {
+      "id": "claim_f77e2af7d2704c4887ceae78a4ee03c9",
+      "statement": "The TalosUpgrade custom resource at `kubernetes/apps/kube-system/system-upgrade/upgrades/talos.yaml` defines automated Talos OS upgrades with target version (tracked by Renovate via datasource annotation) and reboot policy set to `powercycle` for hard power cycle reboots.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/system-upgrade/upgrades/talos.yaml",
+          "version": "repo-file-v1:sha256:f041519d65e43b5cfa242a7a506f5d21aaf537a2514cc8f8e6a966267f533e60"
+        }
+      ]
+    },
+    {
+      "id": "claim_5fc9ec83d9ea49b8a471fc58b1b3e50a",
+      "statement": "The KubernetesUpgrade custom resource at `kubernetes/apps/kube-system/system-upgrade/upgrades/kubernetes.yaml` defines automated Kubernetes upgrades with target version (tracked by Renovate via datasource annotation) for the kubelet.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/system-upgrade/upgrades/kubernetes.yaml",
+          "version": "repo-file-v1:sha256:be50b9911d94a2b8e4c3b8b47c3f730630ef79612220c90423ef7566be7fcd14"
+        }
+      ]
+    },
+    {
+      "id": "claim_564c51e6d0bd46bcbec659c7fadbc5ef",
+      "statement": "Tuppr upgrade monitoring is configured via PrometheusRule at `kubernetes/apps/kube-system/system-upgrade/tuppr/prometheusrule.yaml`, which defines alerts for Talos upgrade failures (node failures, phase failures, stuck upgrades), Kubernetes upgrade failures (phase failures, stuck upgrades), and upgrade job duration issues. Critical alerts fire immediately on phase failures, while warning alerts fire after 30-60 minutes of stuck conditions.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/system-upgrade/tuppr/prometheusrule.yaml#L9-L93",
+          "version": "repo-lines-v1:sha256:a2c5722c8dff0c33aee799083fb74863bc39a271a48d50c0b31739bf492afbf2:eyJzZWxlY3RlZExpbmVDb3VudCI6ODUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI0OGI1YjQxYzk2N2NhODllYmQ2OTczYTU2ZWI0NTM0NmRkZTc3MTdlNTEyZDVjMDk5NjJmY2I2ZjJkYjY1MTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI1NzA5N2Y4ZWMyZDBkZDM3MzcyYTdmNjRjYWM1Y2FlNmM1NWEwZDVkZWI5ZTZmZDZjODdlMmNjNTVhODUxZmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFjNTY0OWU1Zjg1MWUyMDMxYTdlZTc0NDBjYzNjMzMyMWY0N2M5YWRjMDZjZjhiYmRkMzkyMGE2NWYyMjRhOTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f5248f10bcdc4423b696fdd7e2322ad3",
+      "statement": "Target Talos and Kubernetes versions are pinned in `talos/talenv.yaml` with Renovate datasource annotations for automated dependency tracking. The Talos version uses the `ghcr.io/siderolabs/installer` datasource, and the Kubernetes version uses the `ghcr.io/siderolabs/kubelet` datasource.",
+      "evidence": [
+        {
+          "resource": "repo://talos/talenv.yaml",
+          "version": "repo-file-v1:sha256:4ae26d952e597f70c4bbe7665882b09fe952fe44746284b6ff794e03502b0c1d"
+        }
+      ]
+    },
+    {
+      "id": "claim_4f0e5bc7aca44f56ae9a44e2d6dd544c",
+      "statement": "Application upgrades are automated through Flux GitOps reconciliation. Helm releases automatically upgrade when chart versions or values change in Git. Flux handles the upgrade process by pulling changes, rendering Helm templates, performing Helm upgrades, waiting for resources to be ready, and reporting status.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/system-upgrade/ks.yaml",
+          "version": "repo-file-v1:sha256:210affeb141759c85a0be91f6a06746ed7a302f9ffb1f142832dab69bd1f0f79"
+        }
+      ]
+    },
+    {
+      "id": "claim_8a136e0c567d402a895bd4b7e306d869",
+      "statement": "The tuppr-upgrades Kustomization in `kubernetes/apps/kube-system/system-upgrade/ks.yaml#L23-L45` depends on the tuppr HelmRelease, ensuring the controller is deployed before upgrade CRs are applied.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/system-upgrade/ks.yaml#L23-L45",
+          "version": "repo-lines-v1:sha256:e74ffa491a663147a3e74492721fc2a7f465ae8bb0e4e9203b7f300613cf11bd:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAzMTI1OGFlNDc5YzY5MTNjM2MxYjFmNzc0ZTc2NWEyYzA3NjVhNDQ4ZDk5M2I2ZmUzODIxZjUwM2VhNGM1ZDciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ0ZTJmODg0YmM1MzQ0MDE0ZmQ1YjVmNjJhNjZkOTJlNmQ4ZTZjM2Y5M2I2MzA5ZGM2NmU4YTNmNjU1YzUzM2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAzNDAwYWQ1ZGM2NGZiMjg4ZGNlYjhiNjViNDdjYmJkYTE0Nzc2OTQ5NTUxOTE3MTBjMTY0MGNjNDY4NjQ1MmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e4b7ba853e124274b16a4503d6ce36a0",
+      "statement": "The talhelper Taskfile includes a `reset` task at `.taskfiles/talos/Taskfile.yaml#L60-L65` that destroys the cluster and returns nodes to maintenance mode by running `talhelper gencommand reset` with options to wipe STATE and EPHEMERAL system labels, perform non-graceful reset, and not wait for completion.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml#L60-L65",
+          "version": "repo-lines-v1:sha256:3cc4fb9c3241c1d1fa8dc3c0013cdcfaa225f59c92c92785a2168eb3b165a78b:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjFjMjlkMWIyZDAzZjAzNjNhMTJmY2Y2OTMwN2M3MGU3ZTRlZjIxN2I5YjA4YTcxMjFkZjdmNDQ3MmY0YTE4NiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGJkMzRmZDEwNTU5MmFkMjUyNGNiN2I5ZGM1YTk4NzIyNjdmNzY3OTU0ZmY0ZDE3ZTkxYmQ1MjI5N2VlNzNkNCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYmMyMjc3NWMyZTVlZWIwMGY5YWI3MjJmMzk2NzRhNmRkMTU1M2FhMDg4NmZlYzlkMWI3NmRiNTc4YmU2YmI4MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNmFjZDNkMzBjOTYyNmFmYTViYWU4YWUzOWU5MTNmOGY4YmU3YzhhNDgwYmYwNjM2ZmZhNmE4ZTBhODNmMjc3NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_e7a4a5ebe1884e6aab4a8fd118567355",
+      "statement": "The talhelper `apply-node` task at `.taskfiles/talos/Taskfile.yaml#L17-L29` applies Talos configuration to a specific node using `talhelper gencommand apply` with a configurable mode (default: auto), requiring the node IP as a parameter and checking for node accessibility via talosctl before applying.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml#L17-L29",
+          "version": "repo-lines-v1:sha256:35ce0aa449263507466334f03fc68ca500a4142bce0b6b479f91f5e911098d74:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwOGI1ZWI4N2M5MGVmYjA0NWM2Y2E5NmViMmVkMDU0ODk3MjdmMWJhMjIyMTgxNDUxM2MwOGVhOGFjYTQ2ZTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2MGRjZjk2Mjk1YzVkNThhNjk3NjU1MjRjMzc5YTgwOWUxNzRhNzVlZGM1YzdlYTUwMmI4MzFkOGI4MmFiNmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg4NDI4M2IzNzhmNWIwYjU5MjU3MDQzOThlM2JkMDA4Mjg3YTFmYmNhZTU2NTQ3NDg0MWMzNDk4ZmE3OTgzMzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhjMWVlZGU5NTk4NzJmMzk2ZGQ0NDY3NTZkMDc2ODg1YmIyMGMwY2ZkYTc2ZjE2YjA2NGZlOGIyM2NhYTZlMDMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7d430e25d5c74ffdafd8f3dd6d44a5c5",
+      "statement": "The talhelper `generate-config` task at `.taskfiles/talos/Taskfile.yaml#L7-L15` regenerates Talos machine configurations by running `talhelper genconfig` in the TALOS_DIR, requiring the presence of `talconfig.yaml`, `.sops.yaml`, and the SOPS age key file as preconditions.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml#L7-L15",
+          "version": "repo-lines-v1:sha256:5db79c470b1c68418177ca82986169ee2ae71e736ae8d5d8740dafbe2ab9dd75:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZmYzOTIzZmQ0MDVkMjQwM2UyZmJkYjMzODc4MmI0MTEwNDJmYWYyYzY0MDc4ZDZjNTQ2Yzg0YjFhZDdhNzgxMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNmFjZDNkMzBjOTYyNmFmYTViYWU4YWUzOWU5MTNmOGY4YmU3YzhhNDgwYmYwNjM2ZmZhNmE4ZTBhODNmMjc3NSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjFkMTJiNTZjMTBiN2ZiNjJjOGYwNDFiMzdlMThjZjhmMjdjNTc4YTBkMjdhYjdlOGRkODhkYmRjOWRmNGIxZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzUzNjllYjE0MGJkMzM3ODgwZTY0OWQyZDk4NzhlZjY1ZDM4OGRlYmQzZjkzOWQxODY1MzRhZWE3OTE3ZGI1YSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_efb11eeb96ce4cf3acca47084423eb46",
+      "statement": "The upgrades Kustomization at `kubernetes/apps/kube-system/system-upgrade/upgrades/kustomization.yaml` includes the KubernetesUpgrade CR, TalosUpgrade CR, and a PrometheusRule for monitoring upgrade progress and failures.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/system-upgrade/upgrades/kustomization.yaml",
+          "version": "repo-file-v1:sha256:b47199cfaa6aba2a557cdf219a421683fdbc50b1a5565edb050d794d42195f09"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-08-28T03:38:47.877Z"
+  }
+}

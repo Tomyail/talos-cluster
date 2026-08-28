@@ -1,0 +1,376 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:25fc98b86829ef13db01f2afa098c12d7cfe98ba3917c9ceca9f7a83bcb8ba38",
+  "claims": [
+    {
+      "id": "claim_57404914c2d54006847f1d8a72747f9d",
+      "statement": "Applications are organized by namespace under kubernetes/apps/ with cluster-apps Kustomization reconciling all namespace-level Kustomizations from the ./kubernetes/apps directory with SOPS decryption enabled for secrets.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/flux/cluster/ks.yaml#L71-L94",
+          "version": "repo-lines-v1:sha256:6c04577f69a578909261c2a9df3e95f699f986c756029395117404d7706b6f26:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUxNjM1MTMxYjQ1NjJhODc1MTY4Y2E3MzFhYjY1NDIyZmNiM2IyY2U4MDQ1M2E4ODQxYWU3NmM4NjE3OThjNGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyY2ZmNWZmYmE1MGFjMzgxNmFmZjljODViNmI3YTQ4NWU3ZTJhNzM0NjI1ZjM5NGMwNDlkNGI5NmQ1N2E4YzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgzMjBjMjdjOTc3MzU1N2IwOTNlMmZkYmQ1NTIxNWRhZDZmODQ1YjFjMzg5NmE3MzYzYjRlYjZiNmQ1ZjEwMGIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://kubernetes/flux/cluster/ks.yaml#L74-L77",
+          "version": "repo-lines-v1:sha256:f000b31c3522bd306a024cee6cfaa7daf3e17c4cde85925ad1ade76d25df1976:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGFiNmUwZWUyMWNmZTcxYTkwNWE5OTkwNWM1ZGEzOTc2ZDA1YTk5MDBhMzVjMGFkMWIxMjc3Y2RjOWUxOWRlZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGUxNWFiOThmYjQ2MzhhOTc1MTM4OTdiMWNmOWZmYTlhZTJmNjVlNWZjYzY1ZTI0YTJhYWRiNGI5ZjQ0YjBlNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTc2M2RlNTM3ODMyYzI5ZWQ3NDUyYzUyZGVkMTUwMmZjMzZlMTAwYzc1NzlkODY4MDJlZjViM2IwYWY2NzE1MyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzJmMWY1ZDA3ZGQ5OTRiNTEyYmE4OWU3MmEwZDRkZTAxM2Q3NzMxZDQyMTQwNzdkZTU3ZTI5NjlkNGNmMmZhZCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_80ac36706fec4408b80963f4b9e1c629",
+      "statement": "Each application follows a standard directory structure with ks.yaml Kustomization in the app root and an app/ subdirectory containing kustomization.yaml, helmrelease.yaml, and externalsecret.yaml.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/atuin/app/kustomization.yaml",
+          "version": "repo-file-v1:sha256:7fb81e2819c847ffa4c3d6c478619ebdf9f0839d7021d753632fd9eac35bc9cd"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/app/kustomization.yaml",
+          "version": "repo-file-v1:sha256:6d2a93652adf3526f1ff7f9b0f6500189b2104916209f3deef705bb1488fb906"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/ks.yaml",
+          "version": "repo-file-v1:sha256:ff7408f8816c4ea8ec6166d7e1df5d61eb085dab2621b2ad42c89c1e48e7a1e5"
+        }
+      ]
+    },
+    {
+      "id": "claim_ee8405225e9d4d2a9c993ba9e60f0ef2",
+      "statement": "App Kustomizations reference reusable components via the components field, such as volsync-new for backup and gatus/external for monitoring, which inject additional resources into the application.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/atuin/ks.yaml#L13-L15",
+          "version": "repo-lines-v1:sha256:297e677c8b0d4b1f26c62b8ec8b1a4297f6005b1307f2ce273b63acfb50a92a9:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWQzYTVkNjE1ZDhjOGNhZmVkMzgyZTZmYzE4NWY0NTk3MDJhYTg2OGNlNzUyNGZkMjY2ZjNmYjZkNjBjMDY3MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDllZDgyNmJlNWI3MjJjYzcxMmE1MjU3NTVmNzgzNDZjZGFiZjJhM2NiMzc1ZmMyZThmOWE0NTE0NzkzNjAyMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjBiZWRmNWJiZGMwOGY0OTI3NmI3ZWJjNjhkZWVkMDlmZjBkMmM4NzkwMDcwMDk0MzVmM2I5NjQ3NjRmNTRkYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjRjYzRlN2QwNDExOTRlZGZlOWQ3MzZlYjQzZTZhZjNkNDZkMzJkZDI1ZGI1NzZlZmUzN2I4MjVjOWE2MjIxNCJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/ks.yaml#L13-L15",
+          "version": "repo-lines-v1:sha256:9f405c3df7eba9dbf90e52993d2c49dc9934ac3732cf989bc8567eff651230af:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWQzYTVkNjE1ZDhjOGNhZmVkMzgyZTZmYzE4NWY0NTk3MDJhYTg2OGNlNzUyNGZkMjY2ZjNmYjZkNjBjMDY3MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDllZDgyNmJlNWI3MjJjYzcxMmE1MjU3NTVmNzgzNDZjZGFiZjJhM2NiMzc1ZmMyZThmOWE0NTE0NzkzNjAyMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjBiZWRmNWJiZGMwOGY0OTI3NmI3ZWJjNjhkZWVkMDlmZjBkMmM4NzkwMDcwMDk0MzVmM2I5NjQ3NjRmNTRkYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjRjYzRlN2QwNDExOTRlZGZlOWQ3MzZlYjQzZTZhZjNkNDZkMzJkZDI1ZGI1NzZlZmUzN2I4MjVjOWE2MjIxNCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_c4ccf57a2e804c78a031386290a57936",
+      "statement": "App Kustomizations declare dependencies via dependsOn field to ensure proper ordering, including storage (topolvm), secrets (external-secrets), and database (cloudnative-pg-cluster) dependencies.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/atuin/ks.yaml#L16-L22",
+          "version": "repo-lines-v1:sha256:e1a2bc089489f21daec5b13be7c0faa06484f30b487c8e43647034f66837ae11:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTYwYzNiZDdiYzU5ZmVjOWU0ZGVkMzVkN2NjZjcwMGEzODVhY2U1ODYzNGZhNjBkM2IyMmZmMjY4YzAxN2ViZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzY1ZDQwMmQyNWRkNTY1NTE5Zjg3ZGZiZTk2NDdlMGEzZTMzNmEwZGNjNzJlNWE1MDMwYjA5YzE3N2NlOTQxMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjk3ZTY3N2M4YjBkNGIxZjI2YzYyYjhlYzhiMWE0Mjk3ZjYwMDViMTMwN2YyY2UyNzNiNjNhY2ZiNTBhOTJhOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjEyYzRiZjI5NTM4Y2IwMzY5NTdiZDVhYjA5ZjFlOGJiNTgwOTJjODI3YjViYTVhMGIyZDg1MDQ0NWIxOGU5YiJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/ks.yaml#L16-L22",
+          "version": "repo-lines-v1:sha256:e1a2bc089489f21daec5b13be7c0faa06484f30b487c8e43647034f66837ae11:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTYwYzNiZDdiYzU5ZmVjOWU0ZGVkMzVkN2NjZjcwMGEzODVhY2U1ODYzNGZhNjBkM2IyMmZmMjY4YzAxN2ViZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzY1ZDQwMmQyNWRkNTY1NTE5Zjg3ZGZiZTk2NDdlMGEzZTMzNmEwZGNjNzJlNWE1MDMwYjA5YzE3N2NlOTQxMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWY0MDVjM2RmN2ViYTlkYmY5MGU1Mjk5M2QyYzQ5ZGM5OTM0YWMzNzMyY2Y5ODliYzg1NjdlZmY2NTEyMzBhZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjEyYzRiZjI5NTM4Y2IwMzY5NTdiZDVhYjA5ZjFlOGJiNTgwOTJjODI3YjViYTVhMGIyZDg1MDQ0NWIxOGU5YiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_4bd423648735455d9bf40bfc686c7e47",
+      "statement": "App Kustomizations use postBuild.substituteFrom to inject cluster-wide secrets like SECRET_DOMAIN and TIMEZONE, and postBuild.substitute for app-specific variables like APP name and VOLSYNC_CAPACITY.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/atuin/ks.yaml#L37-L43",
+          "version": "repo-lines-v1:sha256:965526fb65e5bf2981bc3744d194af136aa369796817e130d95ff554a62697f7:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDVmYjU2ZDNhNTI5OWEwMzRlNDAzYmQ0YzFhYWFkMmFkZWE4MmVlMWY2YjkwOTE4MzkxNWNlNWY1ZjA2MzRhZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTc4YTJlMTVlOGNlYmNmZTZiMzVlOTI4MzU1Y2RmNGIzZDRjZGQyMmZjYjBiNDcwMWYwNzk1MWFkMTMwNmVmYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYWVmZWJkNTliNzIxMWFhOGRiOGEyMWQ0ZjI1YzU3MzI0ZDM5NDBjZGI5MDRmM2FkYmMxOTRjOWQ5ZGIzNTI0OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/ks.yaml#L37-L43",
+          "version": "repo-lines-v1:sha256:965526fb65e5bf2981bc3744d194af136aa369796817e130d95ff554a62697f7:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDVmYjU2ZDNhNTI5OWEwMzRlNDAzYmQ0YzFhYWFkMmFkZWE4MmVlMWY2YjkwOTE4MzkxNWNlNWY1ZjA2MzRhZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTc4YTJlMTVlOGNlYmNmZTZiMzVlOTI4MzU1Y2RmNGIzZDRjZGQyMmZjYjBiNDcwMWYwNzk1MWFkMTMwNmVmYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYWVmZWJkNTliNzIxMWFhOGRiOGEyMWQ0ZjI1YzU3MzI0ZDM5NDBjZGI5MDRmM2FkYmMxOTRjOWQ5ZGIzNTI0OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzIwZDYxYWFlNDIwZmVmYjJlNDlkYThjNjVkNDkxZTI3Mzk3NmY5NDQ2ODcxMjE4NTcyYjJmYTZiMmM3N2IxNyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_966c20dfbc7540b7ba794942b6588a38",
+      "statement": "The app-template Helm chart is sourced via OCIRepository from oci://ghcr.io/bjw-s-labs/helm/app-template at version 5.0.1, deployed by the cluster-meta Kustomization with a 1-hour interval.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/common/repos/app-template/ocirepository.yaml",
+          "version": "repo-file-v1:sha256:1de7ff03efc07f77a66364c1a51db82e0426d7cd1f6a59263e9a78cdcacd8a71"
+        }
+      ]
+    },
+    {
+      "id": "claim_924fb56107c44f7d93baeb471dca0401",
+      "statement": "Applications use HelmRelease with chartRef.kind: OCIRepository referencing app-template, with values organized into controllers, defaultPodOptions, service, route, persistence, and serviceMonitor sections.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/atuin/app/helmrelease.yaml#L1-L100",
+          "version": "repo-lines-v1:sha256:040952bfa8ab47596ae8e6dbb3f4316067ddd1a0f21f496456b0467b30ec2ced:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAwLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJmNTJkNzExMTAzZDUwYTQzNzgzMGM2ZmJjZDA0ZmI0YmFiNDlhMGY4MmY2ZDI2ZDFjNzkxYzZlODQ4OGRkMDkwIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI3YTZmZmFlN2QzZmM2OWNlMzNmYTRjOTZhYmQ5OTQxYTEyZjY1MjAwNWJmYTlmMzRkYTliMDE0MDBhMDc2MDIzIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiIyZTY0YTAwMjYyNzRiMDQwM2MwNjM3YmQ0YjYwNGNjMWM1OGJjYjU1YTliNjk3MWI1NDBkNzM2NGU2ZWI3NTY1In0"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/app/helmrelease.yaml#L1-L20",
+          "version": "repo-lines-v1:sha256:e67e8da8256760dec4e272c14c26fd6037010e2c4aa8f8ffc9079cfe4e5ecd3f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVmN2MyMDAxMzkyNmZiZDBhYWJhZTAzZGNjMTA3NTA5NDFhNjYyMjZhM2QzY2NhMWYwOGNkYjNiMTg3NGYwZmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBlMTUzODBmODIyYTRlMTkxYjY0ZDU1ZWVlMzRmOTlhZTc1Njg5NGRmY2M3MmY0Mjg0MDU0ZTE0NjVmMGJhYzYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f4d5320f91a84f9ab3ba379dea61afa4",
+      "statement": "The VolSync component provides a PersistentVolumeClaim template, ReplicationSource for automated backups to MinIO, ReplicationDestination for restore operations, and ExternalSecret for MinIO credentials.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/volsync-new/claim.yaml",
+          "version": "repo-file-v1:sha256:cb49de4194c92c3936a20756252d36294fce3c5ef4d0899007dce030aea5570b"
+        },
+        {
+          "resource": "repo://kubernetes/components/volsync-new/kustomization.yaml",
+          "version": "repo-file-v1:sha256:4c2df018958ac36399edfa3f9447bad27dea5dd9b8506109b70f6b634eeaa88f"
+        },
+        {
+          "resource": "repo://kubernetes/components/volsync-new/minio.yaml",
+          "version": "repo-file-v1:sha256:67b8e7182a3de13541dc9734b42e12296509411b30a7841ee677d1bf15cfe1d2"
+        }
+      ]
+    },
+    {
+      "id": "claim_55c5005cd39c4f9eb0bf98026dc9f2e1",
+      "statement": "VolSync ReplicationSource performs Restic-based backups to MinIO S3 at 192.168.50.220:9010 on a 6-hour schedule with retention of 24 hourly, 7 daily, and 5 weekly backups, using direct copy method with snapshot support.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/volsync-new/minio.yaml#L34-L57",
+          "version": "repo-lines-v1:sha256:1a8e50a70d950900637e092521e2fb81a0f91d172fa7bc1ff20ca59eaac9641a:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJmMDVhOGY5MWJjZmQzMTE4YmYzZDY2ZmU1NjQ4NjZlM2QzMTA0OGVlMGRmOGU3OTkwMjIxYWYzMzU4ODNmMTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjlkOWE3NjE0YTg4YjQ0ZjU0NGNmMTI4MDIxMmVkNjg3MzAwYzgyMTM1MjZmNzFhMDIyMjg2YTZkOWQ5NDlmZjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQxOGVkMTE2MmNjNWJkYzcwNTM2MmJiMmFjYzdlODY4MzI5NmFlNzM2MzhjNzNhN2E2YjFlM2Y2N2RlZDM3ZGEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_60eac447bc324ef79a3c0a7f2f70a2e5",
+      "statement": "VolSync ReplicationDestination enables restore operations with manual trigger, configurable cache capacity and storage class, and automatic cleanup of temporary PVCs after restore.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/volsync-new/minio.yaml#L59-L85",
+          "version": "repo-lines-v1:sha256:5a0bdcd4ded294b10ddead5013b23f50c04d525d9af1e2f51a33f2d97ee2e163:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlhMDdjMjNiN2ZhZWY4NjVjZTVhN2U3ZDE0ZmZlYjNkMzRjNTBiNTdhNjRmMjI1MGE1NmZkZGFmOTE5N2IyYzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE1MWE4NjQyMGU4NDQwODVkZjVmNDc3ODE4ZTQwNzE2NDQwMDA4MjE3NDc1YTFkYTExNjdjZjFiZjc0NmFjMmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU2ZmQ3NmFhNjZkZDZlNmJlZDc3YmQ3YmU0NDNmMGU1ZjI4ZmRhYjE0ZTAxZTg4ZjRmMzBiMGQyMWQ3YmM1ODciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_67713bed283c446d8b363f25b661971a",
+      "statement": "The Gatus component creates a ConfigMap with gatus.io/enabled label that is auto-discovered by the Gatus k8s-sidecar init container, generating health check endpoints for applications.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/gatus/app/helmrelease.yaml#L24-L42",
+          "version": "repo-lines-v1:sha256:9da1bf5c40fd45aa48efb71797cefaa9b64ba68c3cfd175ee4ee529050280402:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM3MTZhMWViNzYwYTJlNjI0YjI1NDE5OWQ5YWFhOGU4NGZlNGIxYTU5OTdjZTZlMjU2YjkzNjk2NGU0NWUwMGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2YTQ5NmJjYTQzNjliZjUyODBhYWQwNTNlOTk5ODZlYjRlNGQ5ZWU4ZmY4ZGQyNGVkZTNmNGU3NWIyODM5NDAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjMyZWI3NjUzNzA1NzE4Y2VkOTdiMmE0MzhjZjk3NWFhMTYyMDEyYzhhNDk0ZjM2MTA1NDU5YTVlZTA5NTM0MDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY4OTI5Zjk5MDMzMzg5OGRjNzFmZTMyYjczYTA3YzA2YThhYzk1MWRhYWU4ZmE4ZjJiZGI0MjkwOGE4ZGQ0ZDgifQ"
+        },
+        {
+          "resource": "repo://kubernetes/components/gatus/external/config.yaml",
+          "version": "repo-file-v1:sha256:04e8bf8712a614a2c0c16e250c3ffdf2625c8ae6e110e81e5dd0f28eeb6f0e02"
+        },
+        {
+          "resource": "repo://kubernetes/components/gatus/external/kustomization.yaml",
+          "version": "repo-file-v1:sha256:9b7f737953cde50bbf2e4f24584464c00b3e6e6cf26cb16b7f07e599032be423"
+        }
+      ]
+    },
+    {
+      "id": "claim_b297e314081c4901a28c1c8b1eda472f",
+      "statement": "The image automation component provides an ExternalSecret for registry credentials from Bitwarden, an ImageRepository that scans the registry every minute, and an ImagePolicy with numerical ordering and SHA-based tag pattern.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/image-automation/imagepolicy.yaml",
+          "version": "repo-file-v1:sha256:113bf2b5cbce8ceba3497aa6a2f996b221bd3c3d9fe684848649bc44cbe1284c"
+        },
+        {
+          "resource": "repo://kubernetes/components/image-automation/imagerepository.yaml",
+          "version": "repo-file-v1:sha256:4f386fe3fde87d6f45d6d54d4112b2699a3077e4dcebb664ead932b350e2dd36"
+        },
+        {
+          "resource": "repo://kubernetes/components/image-automation/kustomization.yaml",
+          "version": "repo-file-v1:sha256:b6711c301af49799491ebc9dec2224dc378bbfd3a4925ee0a6248016cd152a85"
+        },
+        {
+          "resource": "repo://kubernetes/components/image-automation/registry-externalsecret.yaml",
+          "version": "repo-file-v1:sha256:b8f1e03ecc938df063efdff6b8f9bac8aa209ce56040f8b1a564ec77d217f4b8"
+        }
+      ]
+    },
+    {
+      "id": "claim_750e5cbde8484d4191c918b8d0807249",
+      "statement": "ImageUpdateAutomation discovers ImagePolicies with image-automation: enabled label, updates ./kubernetes/apps/default using Setters strategy every 5 minutes, and commits changes via flux-system-https GitRepository with authentication.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/flux-system/image-automation/automation.yaml#L1-L28",
+          "version": "repo-lines-v1:sha256:b1e529f756d6b689a1f00b338e10d05fed1a72d380c73536198aaff928eee41e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImExOWI1ZDNhNjczOTcyMmZlYjMzMDNkOWM1MGEyNDgyNjBkN2M1ZGI4N2I5NWViNGQ0MWRjYTA2MDQ0OGMxNjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/flux-system/image-automation/gitrepository.yaml",
+          "version": "repo-file-v1:sha256:2572131ad02cafb6e0ea8420e2840cfa8a9139f89e279b293b30147cb60cf542"
+        }
+      ]
+    },
+    {
+      "id": "claim_7d70a5b0326b479db1ef2babb0f42c38",
+      "statement": "Database applications like cloudnative-pg use a two-Kustomization pattern where the cluster Kustomization depends on the operator Kustomization to ensure the operator is installed before cluster resources.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/database/cloudnative-pg/ks.yaml#L36-L68",
+          "version": "repo-lines-v1:sha256:4b4694093e16d2bf521a30ef550a74e19bd485da764193f7354f71fb02034643:eyJzZWxlY3RlZExpbmVDb3VudCI6MzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUwZTdkMjIwMjg3MTMzMDlmNGJjOTk3MWU0OTA4MzM2ZGJkMDNjZmRiOWE3Y2ExMjdiZGQwY2Y0NjFiZmEwYTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM0N2YxODRiYWI3NjU5YzY3Mjk0ZmM3YTAyNDlhNjJhYzIxZDJkYTBkYjFjMzE1MWE0Zjc1MDJmNDhkODMzZjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ1YjhmMjViMjcwNjU0NGFmYzJkMjA2MDdhNjZhODUyZjgwNTE5MDA5ODY5ZGU3N2ZmYmZjOWJmMTM3YjAyYWUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_91018c8f8797480c8dab67e5b4da15d0",
+      "statement": "App Kustomizations enable SOPS decryption with provider sops and sops-age secretRef to decrypt *.sops.yaml files before resource application, and use postBuild.substituteFrom to inject cluster-secrets for variables like SECRET_DOMAIN and TIMEZONE.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/ks.yaml#L23-L26",
+          "version": "repo-lines-v1:sha256:f000b31c3522bd306a024cee6cfaa7daf3e17c4cde85925ad1ade76d25df1976:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGFiNmUwZWUyMWNmZTcxYTkwNWE5OTkwNWM1ZGEzOTc2ZDA1YTk5MDBhMzVjMGFkMWIxMjc3Y2RjOWUxOWRlZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGUxNWFiOThmYjQ2MzhhOTc1MTM4OTdiMWNmOWZmYTlhZTJmNjVlNWZjYzY1ZTI0YTJhYWRiNGI5ZjQ0YjBlNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjc2M2YwMjNiNTdmOGFmOGE3NDM2MGUzOTM1ZjVhM2IzY2QzNzIyYzlmNmZkN2ZhY2M3NjNjOWI4ZWE1ZGVjYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzM4NDFlZmZhYzFlNmViZGRhNmY1OTYwMWRjMjMyNjE5MmIwNTg1NzUzMTg0ZmMwNmQyODRjNjJiZWMyMDczOCJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/ks.yaml#L38-L40",
+          "version": "repo-lines-v1:sha256:3a4d4a7a9c83cb67ccf48cb9815d160decf4612c5a75cde8d51c5000bcff3610:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2FjZjc1Nzc0ZDYyM2Q0YTkxMjFlYTVhYWNlMzZiNzU3YzgwMGNhZTkzNWQyM2IwMjZmZDAzNDYxNzU5OTMwMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzQ3ZjE4NGJhYjc2NTljNjcyOTRmYzdhMDI0OWE2MmFjMjFkMmRhMGRiMWMzMTUxYTRmNzUwMmY0OGQ4MzNmOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTkzN2E2YWVjN2FhODQwMGNlY2RmZTI0OGYyN2ZhODUzZDkxMWEyMDIyMTgwYTViNzVmOWNlYjYyNTQ5YTZkZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzc4NzYzNDZhYzUyNTNlOWUxNTZiODNhZjY3OWMwZDYxYTkzZThhMTZhY2U4NzUyZWYwNzQ0Y2QwNmFjNTc3MCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_1b3e97b52a104acfb3b459119535117f",
+      "statement": "App-template controllers section defines main and init containers with image, environment variables, probes, resource limits, security context, and annotations like reloader.stakater.com/auto for automatic reloads on config changes.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/atuin/app/helmrelease.yaml#L22-L73",
+          "version": "repo-lines-v1:sha256:2088e5e8b24c8b75d127461722490c81298ed514dec5dbf9d5369400a847619a:eyJzZWxlY3RlZExpbmVDb3VudCI6NTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVmN2MyMDAxMzkyNmZiZDBhYWJhZTAzZGNjMTA3NTA5NDFhNjYyMjZhM2QzY2NhMWYwOGNkYjNiMTg3NGYwZmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3OWJiMTM2ZTdkNTU0MzQ4ZmFmMGVlYWQyMGI5ZTkwZjUwMzMxYzk3MWY4NjdhNWZhYzgxZjM1MWQwYjI2ZGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE1MjZmNTIzMzk0OTU3ZDM0OWZlOTZiOTIzZWUzY2MwZGIxOTM5NTAyNWVhNjNjZWFjNTZlMzQ5NjQ3ZGRkNDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVmZTkxM2Q3OTYwMGJmNGYzYWQ0ODg0MTFiMzczMmU3MmY5MjM5ZDU2ZDhkMGZlMjcxNGVmOTNhMWQzN2FhY2UifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_49969930f5ca4fc0b5dc1f1c2fb84c73",
+      "statement": "App-template defaultPodOptions section defines pod-level security context including runAsUser, fsGroup, seccomp profiles, and fsGroupChangePolicy applied to all containers in the pod.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/atuin/app/helmrelease.yaml#L74-L81",
+          "version": "repo-lines-v1:sha256:d9985cdae504a51171c8310922bb155630d042809edf2b9b8ad807221a7a4d72:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzNlZmNhNjMzZjU1MzBlZThlNzBlOTBmYzgwYmQ3NDUyYjlmMTRjYTEyZmZhZGExZTc0OTI2MmE1ZWFjYTIxYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTAwNTM2ODYzZjEyMTBmNWY3Yzc2ODY4MjBlMWU2NzJjZjc1NmYwYzg1OGQ0NjI2NmNlNzFkNGYxNmIyYmUwNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzNjM2VhYWVhMjcyY2UwOTQ0ZGIwMjI0NzcyZTM5ZmQwYmM0YTRmNTNhOTQ4NDhmOTVmZmUzNDM5NzZkODk3YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYWFjNWRmZTg1YWNhZTI2ZWVhODJmNDdjNTJiMWY5NGM2YTMyYjk0MDkzY2Y1MmJkOGE0YjE2ZGE5ZmY4OGQzMiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_ce0434d85c694cffbd32a955b8e17b4f",
+      "statement": "App-template route section configures Gateway API HTTPRoute with hostnames, parent Gateway references, and backend service ports for external ingress.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/app/helmrelease.yaml#L72-L86",
+          "version": "repo-lines-v1:sha256:c0a73f636a0bf8b88a66f0862d1bf9eeae56e6cd519bf1854e6b7c3d7a42cec7:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE3YmJhNWJmZDQ2MWU2MmE1Y2ZlMzE4NzJkZjUzMWY5NDRlYzFjNmRkMTg3ZWZmODZmNjkxMGEyNTVkNDM4NmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVhNzZlYzA3ZWVjMTFkMjdiOTUwMzkxMmMyZmFiNjlmZDgzMTBmODBhN2NmYWVlYzA2NjlhN2EyMmNiOGZmOWEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdmZTA2YzRhNjc5OGJlZDI1YmZiZmFjYTdjZjhlOGNjMTc2YzViYTI2MWNhZjMyMTJjMDE5MTdmMDFhZmI3MTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVmYTAzYWM2MmQ5NmFkMmNmNjQxYjNlZGE5ZTNjMjJiNDM4MjgyZjE2NTczYzY5NDg4YzE3ZGRiYzA1NzI3NTAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f03d41289148450ba000ac5aad53ee07",
+      "statement": "App-template persistence section references existing PVCs or configures emptyDir volumes with advanced mount configurations supporting subPath for mounting specific paths from a volume.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/app/helmrelease.yaml#L87-L96",
+          "version": "repo-lines-v1:sha256:c22fa41b174f2245f8a031130c9495b01bec55076ba671791a09eab40be6910a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJiZTdjNmFmNzMwY2NmMWJjYzI4M2YxYmQwMjFmYzUzYzE3Y2QzNjUzNDY2MmU0Zjg1Y2U3OTQ0YmQ3NTE1YjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFjMmY2ZjIyYzJiMWY4NzM5ZmMzNDQzNWMwZDQ5NTk0Yjk2ZWQ2NGQ5OWViZmRkNzgwNDcxNDg1MGE4ZjNlOWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI0MzAwNWUxZmNhNDA4ZDFiZDZlN2I5YjRlYzA1NmU5YzBjY2RkODE4ZWY2MTE1MmE4YzI0M2M1YjU4OTVmYWUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY2ZDNjNjg2ZTZmMGZhM2E2NDg0NjAyMWYzOWFjMTYxOGQxNDAzZjU0NTBjZmM4ZmI2YmE4YjExODFkMjM4NTQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c2c7cabf06704216b9396a5e542dcb0d",
+      "statement": "App Kustomizations set prune: true to enable automatic deletion of resources when they are removed from Git, ensuring the cluster state matches the repository.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/atuin/ks.yaml#L28-L28",
+          "version": "repo-lines-v1:sha256:a0c4c887091f0ee208338de510c4687f65fc2aa947d44d15ca7e3bd825f2ad86:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTBjNGM4ODcwOTFmMGVlMjA4MzM4ZGU1MTBjNDY4N2Y2NWZjMmFhOTQ3ZDQ0ZDE1Y2E3ZTNiZDgyNWYyYWQ4NiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTBjNGM4ODcwOTFmMGVlMjA4MzM4ZGU1MTBjNDY4N2Y2NWZjMmFhOTQ3ZDQ0ZDE1Y2E3ZTNiZDgyNWYyYWQ4NiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjUyOTExZmNjZDM1NTFiNDFiYTk0M2I4NjBhYzk3NDY2NGI4MWJjNGM3MjMzZDgwZmQ0MTViYjdmZTlkMDg0ZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTFmZDAzNzliZDhjYTI5ZDVlYTdhNjMwNmJiNThmZmM5YTIxNGFjM2UxNzQ4YzdjOTBlY2RmMjkzM2RjM2YyOSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/ks.yaml#L32-L32",
+          "version": "repo-lines-v1:sha256:a0c4c887091f0ee208338de510c4687f65fc2aa947d44d15ca7e3bd825f2ad86:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTBjNGM4ODcwOTFmMGVlMjA4MzM4ZGU1MTBjNDY4N2Y2NWZjMmFhOTQ3ZDQ0ZDE1Y2E3ZTNiZDgyNWYyYWQ4NiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTBjNGM4ODcwOTFmMGVlMjA4MzM4ZGU1MTBjNDY4N2Y2NWZjMmFhOTQ3ZDQ0ZDE1Y2E3ZTNiZDgyNWYyYWQ4NiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDE5YzY4NjVkM2U3MDk1MTU5ZGFlMWM3ZjE3ZmM2NWMyNjcyZTFlYmJiZGIyNzllMWUzMDk4YTQ5YWMyZGMyNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjUzNGI3NGJjMTViYjhmMTRhY2RmYmRmZGI4NDdiNTk5NmQyYzQ1ZTg2OWQzMWMxM2ZhOGUzZDU5ODJiODVlOSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_26fa1ce9f0c9438291a078d5cab14fb3",
+      "statement": "App Kustomizations set wait: true with timeout and retryInterval settings to ensure resources are fully applied and ready before marking the Kustomization as successful, preventing partial deployments.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/atuin/ks.yaml#L29-L36",
+          "version": "repo-lines-v1:sha256:88f79706403a437b95f77ce8819cbcdc3e41dbc6cc15ce0f2e9fbf37e46bbef6:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGRjNjAyNDVkYzExM2E2OWM5YzAzZGVlMmJiZGNlY2ZmMDVhYTg1OTdmNWU0N2VjYTE3NGNlOTgzZDQ0NmM2NSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZGMzNTE3ZTgxM2IzYTMyYjk2NTYxYjllNTRiNDIyMzI4NDYwYThiNDk1MWQxYjQ0MmEwYjU0MDllMGYyODJlMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzkxMDE3NzM5MGFiM2I4M2NmNjM5ZTdhNmY2YjE4YzgwZmQ5MTRiMTgxMDgxYjQ0MjZlZjE5MjBjZjRmYjdjOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjU2YWJjZTYyNGU3ZDc3NzFiZjgyNTRkMWYwMTcxZWUxNjBjOTE3MTFiYmE3NWU0NjM5Njk3MDY3YTE5ZjIyOSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/ks.yaml#L33-L36",
+          "version": "repo-lines-v1:sha256:202282e843ab6ea499a3e3d0574aa62f866f020b3e90a8b575ef49e242a64673:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTJjZmY1ZmZiYTUwYWMzODE2YWZmOWM4NWI2YjdhNDg1ZTdlMmE3MzQ2MjVmMzk0YzA0OWQ0Yjk2ZDU3YThjMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZGMzNTE3ZTgxM2IzYTMyYjk2NTYxYjllNTRiNDIyMzI4NDYwYThiNDk1MWQxYjQ0MmEwYjU0MDllMGYyODJlMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOGNjNDNjMzk4OTc3YTM4ZmNhZDlmMzA4NGIyNjhiMTU3MmVjYzZjZjYxZDMxNDI0NzRlN2NjMDA5Yzk0MGM0ZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjU2YWJjZTYyNGU3ZDc3NzFiZjgyNTRkMWYwMTcxZWUxNjBjOTE3MTFiYmE3NWU0NjM5Njk3MDY3YTE5ZjIyOSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_1264df434fa045a6bfab63e89fad089a",
+      "statement": "The cluster-apps Kustomization depends on cluster-meta, gateway-api-crds, and external-dns-crds to ensure source repositories and CRDs are installed before applications attempt to use them.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/flux/cluster/ks.yaml#L78-L84",
+          "version": "repo-lines-v1:sha256:e97d992ad1ab2a51f82befa0377e7a9554137bd8513c3187f6a0acf3be8441b2:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTYwYzNiZDdiYzU5ZmVjOWU0ZGVkMzVkN2NjZjcwMGEzODVhY2U1ODYzNGZhNjBkM2IyMmZmMjY4YzAxN2ViZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODM5MWJjNzEzMTg5ZWI3M2I4OWVmOGYyMjlhMTQyZjQwZGQ3YWIxODJiYjdhNWE2YzQ5MDA2YTI3N2E5ZWRjOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTAyYTZlODMwOGZiNjZmMmFmZDJmMTBlYzdkNDY3MDdkMDA1YjM3MGFkZmI1Y2Q3ODVkNTNlYThkNDYyM2NmMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYmFhYTY1NDlhMWY2ZjE4YjU2YTY3ZGY4OWE5NGMyMzBlYTg4YWMzMzA4YjhmYjhiZDYxNTZkNzZhODM5YmU0NCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_4c5f367eea984961957e531fedbd45ab",
+      "statement": "App Kustomizations apply commonMetadata.labels with app.kubernetes.io/name to all resources for consistent identification and querying.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/atuin/ks.yaml#L10-L12",
+          "version": "repo-lines-v1:sha256:f0bedf5bbdc08f49276b7ebc68deed09ff0d2c879007009435f3b964764f54dc:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZThkNzY3ZGIxNmIzNzJmZWMzNWEzMTlkYWJlMTllZjEzNWQ1NzI5MmNjY2ViZDA3YWNjY2RlNWU0N2IzNDAyYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGE3YzdmMTM3YjZlYTEzZTMyZTc0OGRlMTk4MjA0NzM2MDhjMDczMTEzNzE0ZDNkZWM5OTY5NmQwNzNmYWNjOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZmQ3ZDM2NWY1YzkyMWJkZjNkOGMzOTQyOWVkYTBiMjQxZGY0Yzc0N2ExOThjNWVjNTk2ODY5Y2UyODljMGY1ZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMjk3ZTY3N2M4YjBkNGIxZjI2YzYyYjhlYzhiMWE0Mjk3ZjYwMDViMTMwN2YyY2UyNzNiNjNhY2ZiNTBhOTJhOSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/ks.yaml#L10-L12",
+          "version": "repo-lines-v1:sha256:f0bedf5bbdc08f49276b7ebc68deed09ff0d2c879007009435f3b964764f54dc:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZThkNzY3ZGIxNmIzNzJmZWMzNWEzMTlkYWJlMTllZjEzNWQ1NzI5MmNjY2ViZDA3YWNjY2RlNWU0N2IzNDAyYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGE3YzdmMTM3YjZlYTEzZTMyZTc0OGRlMTk4MjA0NzM2MDhjMDczMTEzNzE0ZDNkZWM5OTY5NmQwNzNmYWNjOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZmQ3ZDM2NWY1YzkyMWJkZjNkOGMzOTQyOWVkYTBiMjQxZGY0Yzc0N2ExOThjNWVjNTk2ODY5Y2UyODljMGY1ZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOWY0MDVjM2RmN2ViYTlkYmY5MGU1Mjk5M2QyYzQ5ZGM5OTM0YWMzNzMyY2Y5ODliYzg1NjdlZmY2NTEyMzBhZiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_4f99ee14678b4e9c834ce8002b750abc",
+      "statement": "VolSync component PVC template supports configurability via VOLSYNC_CAPACITY, VOLSYNC_STORAGECLASS, and VOLSYNC_ACCESSMODES variables with sensible defaults of 1Gi, topolvm-thin-provisioner, and ReadWriteOnce.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/volsync-new/claim.yaml#L1-L11",
+          "version": "repo-lines-v1:sha256:cb49de4194c92c3936a20756252d36294fce3c5ef4d0899007dce030aea5570b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJlYzhhNWM2YjdhZDI5MmM5Nzg2MDVjYTZhNzQ5ODQ4NTkyMDkyNGRkNDZkNTBmZjJhN2QyM2ZjNGNmZGEwZWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_5c781573a0e64c578b176f74da87318e",
+      "statement": "VolSync component uses ExternalSecret with bitwarden-login ClusterSecretStore to fetch MinIO credentials and template RESTIC_REPOSITORY, RESTIC_PASSWORD, and AWS credentials for backup authentication.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/volsync-new/minio.yaml#L2-L32",
+          "version": "repo-lines-v1:sha256:d8890d77dd0d997c38f2af00b732471ce4e17ea7483af64b8bca932359ce0e1b:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUwMmQzMjMzOTNlNmFiYThiOTA2NjNlZDMwZmQzZDMzODk1ODk0MThhYjljNjg0MDFlZTRjYWRhNWYyNjMyYzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNiYmYzOWYwZTkwNzFkOGEwZjQyZjNlMzc0OTdhOTRhMDExNGU2NmYyNmFmYjcyN2VmNDFhMDkxZWE3Yzg1YjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoxLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQzZjc2OWYzNTgxZTRlYTMwYzhkNzlmYjI0YmE1NGZjZTY5MzM1ODM0MjFlNTAwNmY0N2NjMDFjNjBmNTJkOWEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_5d0dfaf4b7234d70a452fc05eee3214d",
+      "statement": "Gatus component endpoint ConfigMap configures health checks with URL template https://${APP}.${SECRET_DOMAIN}, 1-minute interval, DNS resolver at 223.5.5.5:53, and HTTP status validation.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/gatus/external/config.yaml#L1-L9",
+          "version": "repo-lines-v1:sha256:04e8bf8712a614a2c0c16e250c3ffdf2625c8ae6e110e81e5dd0f28eeb6f0e02:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTA5MzA3OTg1NTJlY2FkMjQ2OTlkYzNkYjJhOWE3NWMyMGIwODdhNTM4NDFlNDJkMWVjMTY3MTc3YWFkOTg0OCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzczNjY1ZmJkMDJjZjc3YTVlY2E5MWE3Yzk2MTE3MjYxMzExMDNlZmMxMTk0MmQwMGExYWZiNmRkNWExMGNhOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_63073cee4b444ff5b852df1fc663ca18",
+      "statement": "Image automation component ExternalSecret pulls registry username and password from Bitwarden using BW_ID variable and templates dockerconfigjson secret for registry authentication.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/image-automation/registry-externalsecret.yaml#L1-L26",
+          "version": "repo-lines-v1:sha256:b8f1e03ecc938df063efdff6b8f9bac8aa209ce56040f8b1a564ec77d217f4b8:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNiYmYzOWYwZTkwNzFkOGEwZjQyZjNlMzc0OTdhOTRhMDExNGU2NmYyNmFmYjcyN2VmNDFhMDkxZWE3Yzg1YjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_af6b20cce9d848f08105a3995fb3f889",
+      "statement": "Image automation component ImagePolicy uses numerical ordering in ascending order with tag pattern ^.+-[a-f0-9]+-(?P<ts>[0-9]+)$ to select SHA-based tags by timestamp, labeled with image-automation: enabled for discovery.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/image-automation/imagepolicy.yaml#L1-L17",
+          "version": "repo-lines-v1:sha256:113bf2b5cbce8ceba3497aa6a2f996b221bd3c3d9fe684848649bc44cbe1284c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkyN2RhYzUwYWZkZjNjYmIzNGQyNGM1OTFjNzI0MDQ2ZTAxOWU4NWI1YzRlZDJiZWNiNTk4MjYwODMwYWVmZDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_eb11dac74361482f904ac69d58a95c6c",
+      "statement": "App Kustomizations can define multiple dependencies to ensure all required infrastructure is ready, such as depending on both topolvm for storage and cloudnative-pg-cluster for database services.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/ks.yaml#L16-L22",
+          "version": "repo-lines-v1:sha256:e1a2bc089489f21daec5b13be7c0faa06484f30b487c8e43647034f66837ae11:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTYwYzNiZDdiYzU5ZmVjOWU0ZGVkMzVkN2NjZjcwMGEzODVhY2U1ODYzNGZhNjBkM2IyMmZmMjY4YzAxN2ViZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzY1ZDQwMmQyNWRkNTY1NTE5Zjg3ZGZiZTk2NDdlMGEzZTMzNmEwZGNjNzJlNWE1MDMwYjA5YzE3N2NlOTQxMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWY0MDVjM2RmN2ViYTlkYmY5MGU1Mjk5M2QyYzQ5ZGM5OTM0YWMzNzMyY2Y5ODliYzg1NjdlZmY2NTEyMzBhZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjEyYzRiZjI5NTM4Y2IwMzY5NTdiZDVhYjA5ZjFlOGJiNTgwOTJjODI3YjViYTVhMGIyZDg1MDQ0NWIxOGU5YiJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-08-28T03:38:47.877Z"
+  }
+}

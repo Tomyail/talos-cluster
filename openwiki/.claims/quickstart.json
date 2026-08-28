@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:3484f65f9ef6303cdb8bccf369eaf6a2add636c3200e45388ba2144ac93d92c2",
+  "claims": [
+    {
+      "id": "claim_7007b04a9365408685923e5725757fbe",
+      "statement": "The cluster architecture consists of four layers: Infrastructure (Talos Linux nodes on bare-metal hardware), Platform (Kubernetes with Cilium CNI and TopoLVM storage), GitOps (Flux operator managing Helm releases from Git repository), and Services (Networking via Cloudflare Tunnel/Tailscale, Observability stack, and 30+ applications).",
+      "evidence": [
+        {
+          "resource": "repo://.mise.toml#L1-L28",
+          "version": "repo-lines-v1:sha256:775e359e735d8d6a5766df620f96e7eaf098de22cc3184b6dba3c5fff6fa9798:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZlNjAwZDY2YjhhOTE2ZWM4NGU4ZjY1ZGRhZDcwMTBjN2VkNjUxMzc1OGQ3M2EyYzRhNmYzYzA3MDU2NmI4ZDgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRlMmZjMWNmZmMyMTMwOTk5YTk4NDcyYzQ1MzkxZmIwMWZiNzkwNDk5ZDIwZjk3NzllMTYyOTk0MDI4M2ViYzgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://README.md#L22-L29",
+          "version": "repo-lines-v1:sha256:83b1495230a418c8a5e1f171efbb502a0344da14b6a54b3e430cefd2205adffc:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2MxMTE1ZDAxMWE3YjVlYzA4OWM2YTVkMDM1MWNhZGIwYzZhODM0ZDI0NDI0OTVmODJhM2UyNjEzNjUzN2JmZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOGU0ZTk0ZjJiODFlOTk4ZjAzMzEwODhlNDRkYzlkNjMxODcyNDg4ODczMjQ2NGVkNmNmM2ZiNjJkM2ZhZDhjYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGMyYzI2ZTU2ZGQyMTBjMjllYTg1YWM3NTBlMWJjYjgzN2Y3ODIxMWFmMDE3YzM2MWMyOTBjOGUyNjliMTllMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMmJmNWU1ZDBjNGI1MzY0MWMzNzM1MjBjMWZiNjJiOGIzZmQ5YTEwZmIxM2E0MDAxMWE4NTMzZmE0NDcwOGQwMCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_1ddb6f00c491410583e5bbc5e7148cd2",
+      "statement": "The repository uses mise for toolchain management, installing task, talhelper, talosctl, kubectl, flux, helmfile, sops, age, yq, and kubeconform, while automatically setting essential environment variables (KUBECONFIG, TALOSCONFIG, SOPS_AGE_KEY_FILE).",
+      "evidence": [
+        {
+          "resource": "repo://.mise.toml#L1-L28",
+          "version": "repo-lines-v1:sha256:775e359e735d8d6a5766df620f96e7eaf098de22cc3184b6dba3c5fff6fa9798:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZlNjAwZDY2YjhhOTE2ZWM4NGU4ZjY1ZGRhZDcwMTBjN2VkNjUxMzc1OGQ3M2EyYzRhNmYzYzA3MDU2NmI4ZDgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRlMmZjMWNmZmMyMTMwOTk5YTk4NDcyYzQ1MzkxZmIwMWZiNzkwNDk5ZDIwZjk3NzllMTYyOTk0MDI4M2ViYzgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://README.md#L59-L87",
+          "version": "repo-lines-v1:sha256:60c5bb21210d9e2801dcb019d5f447a329f223508ce52566fff0f5fdea9747f0:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhMTllOWFmNzliOTIzYWFmNTU4ZDZjNTk2OTVmOGJkMWVlMWQwMmZmMzAyMzQ2OTUwMDU0OWNkMDIzZGJkYWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg3MTVmNDQ5OWZkYmVhZDUyYWU0MmRkODBmOWJmMTQ2OWJjYWZhOTdiMzQ5OTA1ZGY0YzA1NWY5MDY0ZGVhZmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQxMjdkMGZjMWNiYmZjZjM0MDJhMDg4NWE2OGIyYjFhMjhjY2M3YTJlY2ExYjIwOGI2MTk2M2VmMjZkNTAzZjIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e580d63d88604ccf86dd16f006e31f1b",
+      "statement": "Common operational tasks are exposed through task commands including reconcile (force Flux to pull git changes), talos:generate-config (regenerate Talos machine configs), talos:apply-node (apply Talos config to a node), talos:upgrade-node (upgrade Talos OS on a node), talos:upgrade-k8s (upgrade Kubernetes cluster-wide), bootstrap:talos (full Talos cluster bootstrap), and bootstrap:apps (bootstrap apps with namespaces, secrets, CRDs, and Helm releases).",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/bootstrap/Taskfile.yaml#L7-L31",
+          "version": "repo-lines-v1:sha256:4b2ea54d34b62184bd25d7f147cf6d8153652193416df230a71297488e508c54:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZiOGU3MDRjNjBkYTQyMjIzODFlZWM4OWFlNDRiYzIyNTZmOTE5NTY5NTQ4MmFiOWE2MzEwMmY3NDI0NDA0OWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI4NzMzYzI3MTA5ZjJkNjkyNjQ1MGI4Mzc4N2UzNjQwMTVlNDhiOTNlMDc1YjkzMzBhZThlNmI5YTk0NTg3ZDYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIxZDEyYjU2YzEwYjdmYjYyYzhmMDQxYjM3ZTE4Y2Y4ZjI3YzU3OGEwZDI3YWI3ZThkZDg4ZGJkYzlkZjRiMWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml#L7-L66",
+          "version": "repo-lines-v1:sha256:0d17499ac3b179938fa02ec4a0602ca46fa8ce5c2fc9d7422932dc6e229f45e4:eyJzZWxlY3RlZExpbmVDb3VudCI6NjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZmMzkyM2ZkNDA1ZDI0MDNlMmZiZGIzMzg3ODJiNDExMDQyZmFmMmM2NDA3OGQ2YzU0NmM4NGIxYWQ3YTc4MTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZhY2QzZDMwYzk2MjZhZmE1YmFlOGFlMzllOTEzZjhmOGJlN2M4YTQ4MGJmMDYzNmZmYTZhOGUwYTgzZjI3NzUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIxZDEyYjU2YzEwYjdmYjYyYzhmMDQxYjM3ZTE4Y2Y4ZjI3YzU3OGEwZDI3YWI3ZThkZDg4ZGJkYzlkZjRiMWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://README.md#L149-L179",
+          "version": "repo-lines-v1:sha256:58804592309c10bab6b39b31ed1f5917e5d81e1cb60f1231cd77b3dfa50634e4:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgxODg1OGIwY2UxNjJjNzM4NzFhOGJmOTJiMzgwMTE3ZjQ5NDgwNDgxYmFhYTFhODZiNTcxODY1ZjE2MzUzODAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3YzA2YzU2MWQ1YzMyNzM0MzY4NTI2OGE0NmIzMzkxZjM5OThlZWU4OTBkMmJlNTFmMGQyMWNjNGE1M2FlNmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjViNmI1YzRkZDE0YzRjOTVlMTEzYjRhODYyNGUwM2U2ZWQxMzI4YzY1ZjNkNTAzMTY2MTdkMGRlMzcxOWYxYWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRkNWI2MGJkMmI5ZWZiZGNlN2MzNmRhMzk0ZjhjMjdhMDIwNjZiY2U5MWY4YzEwMDk5NzRmNTc4ZGJhNzQ2ZDYifQ"
+        },
+        {
+          "resource": "repo://Taskfile.yaml#L26-L35",
+          "version": "repo-lines-v1:sha256:b974e115d413562b26a0158911cad504f90c90948cbef1d59e0a21d4bfc65a42:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFhNDFkNzNhMjAwYTc5ZTY3NzA0NDE3MjYzZGEwMzBhNzZmYjY5MmU3ZTIxMjE0NTVhMGI2MTVhZmI3MDMyZTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY0ODg2Mzc0MzNlZjAxNDgzN2FhY2JkZmUzYzFjMmFlYTJiMjY2YTU0Y2Y0ZGYzM2ZkNDk0Mjg0OWFlYTM2NjkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBlNWJjNDczNjc3MzA5MTM0MzA0YWNhMjYxY2Q2YWViOWJhZTJiODUxMjRjMjk1YTkxNmM5ZGNlMGZiY2Y0YWUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_2051619b2db2449f9e802616e9e14a50",
+      "statement": "The repository is organized with bootstrap/ for initial Helm charts, kubernetes/apps/ for Flux-managed applications (one Kustomization per namespace), kubernetes/components/ for reusable components, kubernetes/flux/ for Flux cluster/meta Kustomizations, talos/ for Talhelper configuration and generated machine configs, scripts/ for bootstrap utilities, .taskfiles/ for task subcommand definitions, and configuration files (.mise.toml, .sops.yaml, .renovaterc.json5).",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L40-L57",
+          "version": "repo-lines-v1:sha256:6b7a361fb893b437d7bef0ef477fc66679222735a35a88e2a5f38053ac767dda:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdjYWViOTcyY2EwYWNjMTA2YTUzMzNlMzhlNzVlMjg4ZmQxODcwOGE1N2QzZGRhMjM5MWEzOGVhMmNjMGY0Y2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3YzA2YzU2MWQ1YzMyNzM0MzY4NTI2OGE0NmIzMzkxZjM5OThlZWU4OTBkMmJlNTFmMGQyMWNjNGE1M2FlNmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZhYzFiZGEwNjJkMGIwYjRhZWYxYzA1Nzc4ZTc3ZTNlYTVhZGZkYjc2YTkyYmIzOGE2MzkxOGNiOWEwY2VhN2MiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM2MTliMTcyMGVjZjQ1ZTJkOGM1NzE2MDQ1N2FhM2YwMjgyYjE0OWRiZTIxMmJkZTA3NmZkYWE1MGQxMDI2NjcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_204861d4639b4f489c2e847e242aa907",
+      "statement": "The cluster bootstrap process is split into two phases: bootstrap:talos (generates or reuses talsecret.sops.yaml, runs talhelper genconfig, applies machine configs to nodes, bootstraps Talos control plane, exports kubeconfig) followed by bootstrap:apps (installs Cilium, CoreDNS, cert-manager, and Flux via bootstrap-apps.sh script), after which Flux takes over management of kubernetes/apps/.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/bootstrap/Taskfile.yaml#L7-L31",
+          "version": "repo-lines-v1:sha256:4b2ea54d34b62184bd25d7f147cf6d8153652193416df230a71297488e508c54:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZiOGU3MDRjNjBkYTQyMjIzODFlZWM4OWFlNDRiYzIyNTZmOTE5NTY5NTQ4MmFiOWE2MzEwMmY3NDI0NDA0OWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI4NzMzYzI3MTA5ZjJkNjkyNjQ1MGI4Mzc4N2UzNjQwMTVlNDhiOTNlMDc1YjkzMzBhZThlNmI5YTk0NTg3ZDYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIxZDEyYjU2YzEwYjdmYjYyYzhmMDQxYjM3ZTE4Y2Y4ZjI3YzU3OGEwZDI3YWI3ZThkZDg4ZGJkYzlkZjRiMWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://README.md#L89-L147",
+          "version": "repo-lines-v1:sha256:ef4e1388e1a5a4ab8f45474642a3875162805f3513c3054b94b2abef2cc539e7:eyJzZWxlY3RlZExpbmVDb3VudCI6NTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRlZDNhNGQ1ZGRmZjc2ZmViZWUxMmViZTQwYzYwMGEzOWYwZWRkYjYzOGRhYWI3ZTM2YTMxZDNkOGE3ZmJhODAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE2OGMxZGM1ODc5NzJlM2Y1NzQxNDdmMzRhNjE3N2FkNjEwODI2NjdhOWMyOTYwYzEwYzI2ZGNhODQyNWVmYTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQzMTVlYTllNWJmNDIyY2U0MjQzMWI4YmE1MzM4MWE0MzkwOWMwYjcxZDE2NDRiYjc3NWVkNzcxNGRjZTc5NWMifQ"
+        },
+        {
+          "resource": "repo://scripts/bootstrap-apps.sh",
+          "version": "repo-file-v1:sha256:d6be6964a73238e0828b2336ca8095a4a0de975009e5c422f31493d6a60e302b"
+        }
+      ]
+    },
+    {
+      "id": "claim_277ad94c4e444813be83076b317f2717",
+      "statement": "Applications are organized by namespace under kubernetes/apps/ with kube-system for cluster services (Cilium, CoreDNS, metrics-server), flux-system for Flux infrastructure, network for networking services (Cloudflare Tunnel, Tailscale, AdGuard DNS), observability for monitoring stack (Grafana, Prometheus, Loki), storage for storage infrastructure (TopoLVM, VolSync), default for user applications (~30 apps), cert-manager for certificate management, database for database operators, external-secrets for secret management, and external-server for external-facing applications.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L31-L38",
+          "version": "repo-lines-v1:sha256:1d9ff7cbe5647ec3405625dd3609dd8361955473ba036b7b7debdeb74acc052e:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzFmZDgxYzAyNzllZWY2YjAwNjU3Y2FhNGMxNDgzNDZmODc0ZDMxMGJjOTY1MDU3MjQ1YmRmMTdiYWI5Mjk0YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNjA0MDljNWNjZDYxNTk3MzkzMDJlYTNmOGMwNGFjNDQ3ZGYxM2Q1YjJjMWEyNGIzOTU3ZjhkYTdhM2MwYTVjOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjU3NmZhMDc5YTE0ZWI1MDU4ODRiM2RlNjhmNGE3NzU1MzZjZTQ4ZDNmMDkyYjNhNWEwNTI5ZjEzYWQ3ZDVmNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzMyNTAzODVlOWUxYzY4M2NiNzY3MjdmZjJjYmNmZWVmZGI0ZDYzMWZkZmE5MTUwNGE2NzQxNTJlODBmNDBiZSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_6f2490aa9fcd4edf82566e8815a59192",
+      "statement": "Flux reconciles the cluster in two stages: cluster-meta (deploys source repositories from kubernetes/flux/meta/ and enables SOPS decryption) followed by cluster-apps (reconciles all namespace-level Kustomizations from kubernetes/apps/), with each namespace having its own Kustomization.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/flux/cluster/ks.yaml#L4-L23",
+          "version": "repo-lines-v1:sha256:d2db3c3cabbe682f8742284cea012b11b52b2ce2811c9cb7e4ccaa8cd5186711:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNlODI4ZjI4Yzk4ZjBjMWIzMThiNjI0OTQ4ODA4YTkxNjQ0OWJhMzY0MTBiYzIxOWEzZmFmOWJiZmJmYmU0NTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyY2ZmNWZmYmE1MGFjMzgxNmFmZjljODViNmI3YTQ4NWU3ZTJhNzM0NjI1ZjM5NGMwNDlkNGI5NmQ1N2E4YzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ4NjllNzFiYzE5ZjhkNjJjYWQ0NzNjY2RiMDQ2ZDA3Yzk1YTM1YTlhMGJjNTQ5MDk5NDczYmEzNThmYTU3MTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ4NjllNzFiYzE5ZjhkNjJjYWQ0NzNjY2RiMDQ2ZDA3Yzk1YTM1YTlhMGJjNTQ5MDk5NDczYmEzNThmYTU3MTMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_226d60a05a0a4e219cd8d09149ed972f",
+      "statement": "Most applications use the shared app-template OCI chart (ghcr.io/bjw-s-labs/helm/app-template) with a standard structure: <namespace>/<app>/ containing ks.yaml (Flux Kustomization metadata) and app/ subdirectory with helmrelease.yaml (HelmRelease using app-template), externalsecret.yaml (ExternalSecret references if needed), and kustomization.yaml (resource aggregation).",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/app/helmrelease.yaml#L1-L30",
+          "version": "repo-lines-v1:sha256:aaa7dfe7411472cd3474f80b05f34246882fde7353a0ca5d8e7ac9294ec24275:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM0NWI1ZjI2OTI5NTdhYzUyYWFlOTFjNjA4NGZlYTAxNGZhMmUwYzAyMTlkMTlkYzI4NDAzMGM5NmZlYWUxOGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjcyOWU5YTI4YjAwMjk4YTYzZThiOWNiN2M5NTMyODI0M2M4YTc0OTVlNDRjNGIyNDNjYzA2NzEwY2QwYmVkYzgifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/ks.yaml#L1-L30",
+          "version": "repo-lines-v1:sha256:ae68467f2f95af3e163d3b32e5bf6d21dd79a62811cf213e1c9e25401431486f:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIzZmJhMDA4NmFkZWUyNTVjNzhmYjFjOWI5YTk1NThlM2UyYzE2MmE3NjlhYjJjZWE2ZDMyMjlmYWFhMTc5ODMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjlhYTIxZTEwYmVlYTUxZjgwZDcyYWFkZjBkYTc3YTI2ZTVlMjIzY2FjMzMyMDVjZTc3MjZkMmNiM2JjNGY0Y2UifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_131ada83ae7542999a171fb9492cc430",
+      "statement": "The cluster uses dual-layer secret management: SOPS + age for Git encryption (talos configs use whole-file encryption, Kubernetes configs encrypt only data/stringData fields per .sops.yaml rules, Flux decrypts using sops-age secret) and External Secrets Operator with Bitwarden for runtime secrets (ClusterSecretStore connects to Bitwarden Connect, ExternalSecret CRs define which secrets to sync, secrets never stored in Git).",
+      "evidence": [
+        {
+          "resource": "repo://.sops.yaml",
+          "version": "repo-file-v1:sha256:9b05505c0ce2a16b8eff84c79d5255fdc5f48d7eb6b14e26901d6bf40f348a89"
+        },
+        {
+          "resource": "repo://README.md#L181-L195",
+          "version": "repo-lines-v1:sha256:ef4ba4d24a6321283d5a8d7c70729707acf21a9caabe751912ac32ef6f818483:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNlNDNhOTEwOTk2YTI2NTRjNmUyNmM1ZjQzODliNTAwMzVlNzJjMWM1MWNhNGE5MTE3NjJlYjNkYzkyNjE2MzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY2ZjU3MzFmOTcxZWM2Yjc4ZDFlYTY1MzY2M2JmZTU1NTQzNDE3ZWQzZmRhMjYwN2MyYmUwYTkzZDQ0YzFlYjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIyMjYyMTUwY2IzMzkwZmI4MDIyMjkxODg4NGVkNjkxNWU3NTU1YjkyOTVkM2ZmODRiN2E5MDQ0YzMwMTc3NjgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9d53596f3ebf4f6085d37c8484bbd4a4",
+      "statement": "Renovate provides automated dependency updates for container images (Helm releases, Kubernetes deployments), Helm charts and OCI repositories (Flux HelmRepository/OCIRepository resources), Talos/Kubernetes versions (version pins in talos/talenv.yaml), and toolchain versions (mise packages in .mise.toml), running on a weekend schedule with auto-merge for patch updates and minor mise/GitHub Actions updates.",
+      "evidence": [
+        {
+          "resource": "repo://.mise.toml",
+          "version": "repo-file-v1:sha256:775e359e735d8d6a5766df620f96e7eaf098de22cc3184b6dba3c5fff6fa9798"
+        },
+        {
+          "resource": "repo://.renovaterc.json5",
+          "version": "repo-file-v1:sha256:9eddb27bf06f06f08e00cb1d9b7f3d51c147967d94e24b7b25cac8b0c9b6c5ef"
+        }
+      ]
+    },
+    {
+      "id": "claim_5dc3cc447da64803b35f044499acae1e",
+      "statement": "The cluster was originally initialized using the onedr0p/cluster-template and has been customized for a personal homelab environment, containing environment-specific configurations (domains, IPs, credentials) that must be cleaned and reconfigured when reusing the setup.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L196-L200",
+          "version": "repo-lines-v1:sha256:fe187296e0dda1116fcf79bee1572a7a164a747624022021dcfb8e30ad06fe68:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTFiYjUzM2NlZTU2YTU3ZmFjZTliNmEzYzdkNThmNTgwMzZkZGEwZWFlZmZhNzdjNjEzNzI5YzY3MTU4MTdmNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMmNjNmNhYTk3NjRiM2JkMmUyYjNhNTYwYmY0NmRlYThmM2ZiMWY0ODRlN2FiNzFiMDlhOWM3M2I2NDRiMWRjYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOGFhZmQ4Nzg1MWZlYzgwYWY2NmE0ZWI1ZTEwYjg1NzdmN2M1NmRkODM0M2Q3NjhlOTc4YmUwYTRkODQ4ZTdkZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-08-28T03:38:47.877Z"
+  }
+}
