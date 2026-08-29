@@ -5,7 +5,7 @@ description: Comprehensive documentation of the Flux GitOps reconciliation hiera
 tags: [flux, gitops, kubernetes, reconciliation, kustomize, helm]
 verified:
   - by: openwiki/0.4.3
-    at: 2026-08-29T02:22:11.234Z
+    at: 2026-08-29T21:52:21.026Z
 sources:
   - id: openwiki-source-1385f4adf262cc0ec92b6d45
     resource: repo://kubernetes/apps/default/echo/ks.yaml
@@ -35,6 +35,8 @@ sources:
     resource: repo://kubernetes/apps/storage/kustomization.yaml
   - id: openwiki-source-63c7de935f96b1aa0a5dc1a4
     resource: repo://kubernetes/components/common/kustomization.yaml
+  - id: openwiki-source-0aa0479be229def909bbfa22
+    resource: repo://kubernetes/components/common/repos/app-template/ocirepository.yaml
   - id: openwiki-source-98651905762c8e5a9b4da8ba
     resource: repo://kubernetes/components/image-automation/imagepolicy.yaml
   - id: openwiki-source-7d50b3fa30e8bcbde0dc183c
@@ -51,7 +53,7 @@ sources:
     resource: repo://kubernetes/flux/meta/repos/jetstack.yaml
   - id: openwiki-source-12a44dba301e86ea2cf62628
     resource: repo://kubernetes/flux/meta/repos/kustomization.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-29T02:22:11.234Z" }
+generated: { by: "openwiki/0.4.3", at: "2026-08-29T21:52:21.026Z" }
 ---
 
 # Flux GitOps Architecture
@@ -195,7 +197,7 @@ Individual application Kustomizations (e.g., `kubernetes/apps/default/echo/ks.ya
 - **retryInterval: 2m** - Retries failed reconciliations every 2 minutes
 - **commonMetadata labels** - Adds `app.kubernetes.io/name` labels to all resources
 - **decryption** - Enables SOPS decryption with `sops-age` secret (for applications with encrypted secrets)
-- **postBuild substitution** - References cluster-secrets for variable expansion
+- **postBuild substitution** - References cluster-secrets for variable expansion using both static variables and `substituteFrom`
 - **components** - Includes reusable components (gatus, volsync, image-automation)
 
 ### Dependency Management
@@ -220,15 +222,19 @@ HelmReleases are used for deploying Helm charts. Applications reference OCIRepos
 
 ### Flux Self-Management
 
-The flux-operator and flux-instance HelmReleases configure:
-- **Rollback remediation** with 3 retries for failed upgrades
-- **cleanupOnFail: true** to clean up failed installs
-- **dependsOn** (flux-instance depends on flux-operator)
+Both flux-operator and flux-instance define OCIRepository resources followed by HelmRelease resources:
+
+- **OCIRepository** - Sources Helm charts from `ghcr.io/controlplaneio-fluxcd/charts/flux-operator` and `flux-instance` with tag-based versioning and layer selection for Helm chart content
+- **HelmRelease configuration**:
+  - **Rollback remediation** with 3 retries for failed upgrades
+  - **cleanupOnFail: true** to clean up failed installs
+  - **dependsOn** (flux-instance Kustomization depends on flux-operator)
+  - **Install remediation** with unlimited retries (-1) for robust initial installation
 
 ### Application HelmReleases
 
 Application HelmReleases (e.g., fava, gitea, echo) use:
-- **OCIRepository chartRef** for OCI-based charts
+- **OCIRepository chartRef** for OCI-based charts (typically app-template)
 - **HelmRepository chartRef** for traditional HTTP chart repositories
 - **Remediation strategies** (rollback with retries)
 - **Interval: 1h** for reconciliation
@@ -346,7 +352,41 @@ These settings ensure efficient reconciliation while preventing resource exhaust
 The `common` Kustomize component (`kubernetes/components/common/kustomization.yaml`) provides standardized resources for applications:
 
 1. **namespace.yaml** - Creates namespace with pod-security annotation and prune-disabled marker
-2. **repos/** - Adds repository definitions (e.g., app-template OCIRepository)
+2. **repos/** - Adds repository definitions including the app-template OCIRepository for bjw-s Helm charts
 3. **sops/** - Adds SOPS decryption secret resource
 
-This component is included by all namespace and application Kustomizations, ensuring consistency across the cluster.
+This component is included by namespace-level Kustomizations, ensuring consistency across namespaces. The app-template OCIRepository enables applications to use standardized bjw-s Helm charts from OCI registries.
+
+## Reconciliation Workflow
+
+The complete reconciliation workflow follows this sequence:
+
+```mermaid
+sequenceDiagram
+    participant GH as GitHub Repository
+    participant WH as Webhook Receiver
+    participant GR as GitRepository
+    participant KM as cluster-meta Kustomization
+    participant CRD as CRD Kustomizations
+    participant KA as cluster-apps Kustomization
+    participant NS as Namespace Kustomizations
+    participant APP as Application Kustomizations
+
+    GH->>WH: Push event
+    WH->>GR: Trigger reconciliation
+    GR->>KM: Source available
+    KM->>KM: Deploy source repositories
+    KM->>CRD: Sources ready
+    CRD->>CRD: Install CRDs
+    CRD->>KA: CRDs installed
+    KA->>NS: Begin app reconciliation
+    NS->>APP: Deploy applications
+    APP->>GH: ImageUpdateAutomation commits (if needed)
+    GH->>WH: Update posted
+```
+
+This workflow ensures:
+1. **Immediate response** to Git changes via webhook triggers
+2. **Dependency ordering** through explicit dependsOn chains
+3. **Atomic application deployment** with health checks
+4. **Automated image updates** flowing back to Git

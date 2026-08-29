@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:18131d7c1ac28677fb8f2b11d4b7ca68dfdca16945aa685171d97cd33949d0da",
+  "pageVersion": "sha256:e46c9cd9579566fdf7560b530d49fee6670eff97b6f9f27e7d0dfa39a7052eeb",
   "claims": [
     {
       "id": "claim_1a31fe92977747538ba1d8d106ab1493",
@@ -126,7 +126,7 @@
     },
     {
       "id": "claim_7b37799e052046f289e52a7799c300c3",
-      "statement": "The volsync restore .wipe task creates a Job using the wipe.tmpl.yaml template that mounts the PVC and deletes all data, then waits for job completion with a 120-minute timeout",
+      "statement": "The volsync restore .wipe task creates a Job using the wipe.tmpl.yaml template that mounts the PVC and deletes all data using Alpine image, then waits for job completion with a 120-minute timeout",
       "evidence": [
         {
           "resource": "repo://.taskfiles/volsync/Taskfile.yaml#L200-L211",
@@ -241,6 +241,6 @@
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-08-28T03:38:47.877Z"
+    "at": "2026-08-29T21:52:21.026Z"
   }
 }

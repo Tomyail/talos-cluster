@@ -1,28 +1,28 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:3484f65f9ef6303cdb8bccf369eaf6a2add636c3200e45388ba2144ac93d92c2",
+  "pageVersion": "sha256:39f2f0b503a3c05a893e9d39396ff2a0587c9f55759458083b9786bb62394e0c",
   "claims": [
     {
       "id": "claim_7007b04a9365408685923e5725757fbe",
-      "statement": "The cluster architecture consists of four layers: Infrastructure (Talos Linux nodes on bare-metal hardware), Platform (Kubernetes with Cilium CNI and TopoLVM storage), GitOps (Flux operator managing Helm releases from Git repository), and Services (Networking via Cloudflare Tunnel/Tailscale, Observability stack, and 30+ applications).",
+      "statement": "The cluster architecture consists of four layers: Infrastructure (Talos Linux nodes on bare-metal hardware), Platform (Kubernetes v1.35.4 with Cilium CNI and TopoLVM storage), GitOps (Flux operator managing Helm releases from Git repository), and Services (Networking via Cloudflare Tunnel/Tailscale, Observability stack, and 30+ applications).",
       "evidence": [
-        {
-          "resource": "repo://.mise.toml#L1-L28",
-          "version": "repo-lines-v1:sha256:775e359e735d8d6a5766df620f96e7eaf098de22cc3184b6dba3c5fff6fa9798:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZlNjAwZDY2YjhhOTE2ZWM4NGU4ZjY1ZGRhZDcwMTBjN2VkNjUxMzc1OGQ3M2EyYzRhNmYzYzA3MDU2NmI4ZDgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRlMmZjMWNmZmMyMTMwOTk5YTk4NDcyYzQ1MzkxZmIwMWZiNzkwNDk5ZDIwZjk3NzllMTYyOTk0MDI4M2ViYzgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
-        },
         {
           "resource": "repo://README.md#L22-L29",
           "version": "repo-lines-v1:sha256:83b1495230a418c8a5e1f171efbb502a0344da14b6a54b3e430cefd2205adffc:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2MxMTE1ZDAxMWE3YjVlYzA4OWM2YTVkMDM1MWNhZGIwYzZhODM0ZDI0NDI0OTVmODJhM2UyNjEzNjUzN2JmZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOGU0ZTk0ZjJiODFlOTk4ZjAzMzEwODhlNDRkYzlkNjMxODcyNDg4ODczMjQ2NGVkNmNmM2ZiNjJkM2ZhZDhjYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGMyYzI2ZTU2ZGQyMTBjMjllYTg1YWM3NTBlMWJjYjgzN2Y3ODIxMWFmMDE3YzM2MWMyOTBjOGUyNjliMTllMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMmJmNWU1ZDBjNGI1MzY0MWMzNzM1MjBjMWZiNjJiOGIzZmQ5YTEwZmIxM2E0MDAxMWE4NTMzZmE0NDcwOGQwMCJ9"
+        },
+        {
+          "resource": "repo://talos/talenv.yaml",
+          "version": "repo-file-v1:sha256:4ae26d952e597f70c4bbe7665882b09fe952fe44746284b6ff794e03502b0c1d"
         }
       ]
     },
     {
       "id": "claim_1ddb6f00c491410583e5bbc5e7148cd2",
-      "statement": "The repository uses mise for toolchain management, installing task, talhelper, talosctl, kubectl, flux, helmfile, sops, age, yq, and kubeconform, while automatically setting essential environment variables (KUBECONFIG, TALOSCONFIG, SOPS_AGE_KEY_FILE).",
+      "statement": "The repository uses mise for toolchain management, installing task, talhelper, talosctl, kubectl, flux, helmfile, sops, age, yq, kubeconform, cilium-cli, cloudflared, cue, helm, jq, kustomize, python, makejinja, node, and pipx, while automatically setting essential environment variables (KUBECONFIG, TALOSCONFIG, SOPS_AGE_KEY_FILE).",
       "evidence": [
         {
-          "resource": "repo://.mise.toml#L1-L28",
-          "version": "repo-lines-v1:sha256:775e359e735d8d6a5766df620f96e7eaf098de22cc3184b6dba3c5fff6fa9798:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZlNjAwZDY2YjhhOTE2ZWM4NGU4ZjY1ZGRhZDcwMTBjN2VkNjUxMzc1OGQ3M2EyYzRhNmYzYzA3MDU2NmI4ZDgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRlMmZjMWNmZmMyMTMwOTk5YTk4NDcyYzQ1MzkxZmIwMWZiNzkwNDk5ZDIwZjk3NzllMTYyOTk0MDI4M2ViYzgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://.mise.toml",
+          "version": "repo-file-v1:sha256:ce105527b8cd611b98d8c10adb4df935be9f29ca714337aa98500c8fa44a8db0"
         },
         {
           "resource": "repo://README.md#L59-L87",
@@ -95,8 +95,8 @@
       "statement": "Flux reconciles the cluster in two stages: cluster-meta (deploys source repositories from kubernetes/flux/meta/ and enables SOPS decryption) followed by cluster-apps (reconciles all namespace-level Kustomizations from kubernetes/apps/), with each namespace having its own Kustomization.",
       "evidence": [
         {
-          "resource": "repo://kubernetes/flux/cluster/ks.yaml#L4-L23",
-          "version": "repo-lines-v1:sha256:d2db3c3cabbe682f8742284cea012b11b52b2ce2811c9cb7e4ccaa8cd5186711:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNlODI4ZjI4Yzk4ZjBjMWIzMThiNjI0OTQ4ODA4YTkxNjQ0OWJhMzY0MTBiYzIxOWEzZmFmOWJiZmJmYmU0NTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyY2ZmNWZmYmE1MGFjMzgxNmFmZjljODViNmI3YTQ4NWU3ZTJhNzM0NjI1ZjM5NGMwNDlkNGI5NmQ1N2E4YzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ4NjllNzFiYzE5ZjhkNjJjYWQ0NzNjY2RiMDQ2ZDA3Yzk1YTM1YTlhMGJjNTQ5MDk5NDczYmEzNThmYTU3MTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ4NjllNzFiYzE5ZjhkNjJjYWQ0NzNjY2RiMDQ2ZDA3Yzk1YTM1YTlhMGJjNTQ5MDk5NDczYmEzNThmYTU3MTMifQ"
+          "resource": "repo://kubernetes/flux/cluster/ks.yaml",
+          "version": "repo-file-v1:sha256:34d6970a4822f2b762ed2b48b96225a7d9a1bb7f3c4007fed459656c84134c45"
         }
       ]
     },
@@ -105,12 +105,12 @@
       "statement": "Most applications use the shared app-template OCI chart (ghcr.io/bjw-s-labs/helm/app-template) with a standard structure: <namespace>/<app>/ containing ks.yaml (Flux Kustomization metadata) and app/ subdirectory with helmrelease.yaml (HelmRelease using app-template), externalsecret.yaml (ExternalSecret references if needed), and kustomization.yaml (resource aggregation).",
       "evidence": [
         {
-          "resource": "repo://kubernetes/apps/default/gitea/app/helmrelease.yaml#L1-L30",
-          "version": "repo-lines-v1:sha256:aaa7dfe7411472cd3474f80b05f34246882fde7353a0ca5d8e7ac9294ec24275:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM0NWI1ZjI2OTI5NTdhYzUyYWFlOTFjNjA4NGZlYTAxNGZhMmUwYzAyMTlkMTlkYzI4NDAzMGM5NmZlYWUxOGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjcyOWU5YTI4YjAwMjk4YTYzZThiOWNiN2M5NTMyODI0M2M4YTc0OTVlNDRjNGIyNDNjYzA2NzEwY2QwYmVkYzgifQ"
+          "resource": "repo://kubernetes/apps/default/gitea/app/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:49858e9082e7cb72c2f4888e40509c4f8b20c888859823405cb5aa78931a6ab5"
         },
         {
-          "resource": "repo://kubernetes/apps/default/gitea/ks.yaml#L1-L30",
-          "version": "repo-lines-v1:sha256:ae68467f2f95af3e163d3b32e5bf6d21dd79a62811cf213e1c9e25401431486f:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIzZmJhMDA4NmFkZWUyNTVjNzhmYjFjOWI5YTk1NThlM2UyYzE2MmE3NjlhYjJjZWE2ZDMyMjlmYWFhMTc5ODMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjlhYTIxZTEwYmVlYTUxZjgwZDcyYWFkZjBkYTc3YTI2ZTVlMjIzY2FjMzMyMDVjZTc3MjZkMmNiM2JjNGY0Y2UifQ"
+          "resource": "repo://kubernetes/apps/default/gitea/ks.yaml",
+          "version": "repo-file-v1:sha256:ff7408f8816c4ea8ec6166d7e1df5d61eb085dab2621b2ad42c89c1e48e7a1e5"
         }
       ]
     },
@@ -133,12 +133,12 @@
       "statement": "Renovate provides automated dependency updates for container images (Helm releases, Kubernetes deployments), Helm charts and OCI repositories (Flux HelmRepository/OCIRepository resources), Talos/Kubernetes versions (version pins in talos/talenv.yaml), and toolchain versions (mise packages in .mise.toml), running on a weekend schedule with auto-merge for patch updates and minor mise/GitHub Actions updates.",
       "evidence": [
         {
-          "resource": "repo://.mise.toml",
-          "version": "repo-file-v1:sha256:775e359e735d8d6a5766df620f96e7eaf098de22cc3184b6dba3c5fff6fa9798"
-        },
-        {
           "resource": "repo://.renovaterc.json5",
           "version": "repo-file-v1:sha256:9eddb27bf06f06f08e00cb1d9b7f3d51c147967d94e24b7b25cac8b0c9b6c5ef"
+        },
+        {
+          "resource": "repo://talos/talenv.yaml",
+          "version": "repo-file-v1:sha256:4ae26d952e597f70c4bbe7665882b09fe952fe44746284b6ff794e03502b0c1d"
         }
       ]
     },
@@ -155,6 +155,6 @@
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-08-28T03:38:47.877Z"
+    "at": "2026-08-29T21:52:21.026Z"
   }
 }

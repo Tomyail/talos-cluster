@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:87fe4e00b1ea4cd30157d9918b827f4aebbbf61c8672efee05be4f9b3e06ed4d",
+  "pageVersion": "sha256:11f8e019c610f98e34c27882bffd815b271381ccb1b345b1b62ad8fb16f071fe",
   "claims": [
     {
       "id": "claim_fdb31951fbef449e8d6a7379d6290774",
@@ -44,7 +44,7 @@
         },
         {
           "resource": "repo://kubernetes/apps/kube-system/system-upgrade/tuppr/ocirepository.yaml",
-          "version": "repo-file-v1:sha256:e99247d7c514470c5a1c1dbaaec142df74792da55709519fdf938da92bfc44da"
+          "version": "repo-file-v1:sha256:9f5aa2ecc342d41c3e7ab5b0fec6fa8bafd9e3337d7a3868f6f1ad3894e955e6"
         }
       ]
     },
@@ -151,6 +151,6 @@
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-08-28T03:38:47.877Z"
+    "at": "2026-08-29T21:52:21.026Z"
   }
 }

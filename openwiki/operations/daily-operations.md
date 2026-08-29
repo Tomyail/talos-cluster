@@ -24,7 +24,10 @@ sources:
     resource: repo://README.md
   - id: openwiki-source-b9ff7ee0aa4953cc601052a4
     resource: repo://Taskfile.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-28T03:38:47.877Z" }
+generated: { by: "openwiki/0.4.3", at: "2026-08-29T21:52:21.026Z" }
+verified:
+  - by: openwiki/0.4.3
+    at: 2026-08-29T21:52:21.026Z
 ---
 
 # Daily Operations
@@ -55,6 +58,7 @@ View reconciliation status across all Flux resources:
 ```bash
 flux get sources all
 flux get kustomizations --all-namespaces
+flux get helmreleases --all-namespaces
 ```
 
 ### Check Reconciliation Errors
@@ -64,6 +68,7 @@ View logs for debugging reconciliation failures:
 ```bash
 flux --namespace flux-system logs kustomization flux-system --tail 50
 flux --namespace <namespace> logs kustomization <name> --tail 50
+flux --namespace <namespace> logs helmrelease <name> --tail 50
 ```
 
 ### Suspend/Resume Resources
@@ -73,6 +78,8 @@ Temporarily prevent reconciliation during maintenance:
 ```bash
 flux suspend kustomization <name>
 flux resume kustomization <name>
+flux suspend helmrelease <name> -n <namespace>
+flux resume helmrelease <name> -n <namespace>
 ```
 
 ## Talos Operations
@@ -223,7 +230,7 @@ flowchart TD
    - Waits for pods to terminate
 
 2. **Wipe** (`task .wipe`):
-   - Creates a Job that mounts the PVC and deletes all data
+   - Creates a Job that mounts the PVC and deletes all data using Alpine image
    - Waits for job completion with a 120-minute timeout
    - Displays job logs for verification
 
@@ -284,6 +291,28 @@ The tasks:
 - Suspend/resume the VolSync HelmRelease
 - Scale the VolSync deployment to 0/1 replicas
 
+## Cluster Access
+
+### Access via Kubeconfig
+
+The cluster uses a kubeconfig file for Kubernetes access. The root Taskfile sets `KUBECONFIG` environment variable to `{{.ROOT_DIR}}/kubeconfig`.
+
+```bash
+# The kubeconfig path is automatically set when running tasks
+kubectl get nodes
+kubectl get pods -A
+```
+
+### Access via Talosctl
+
+Talos nodes are managed using `talosctl` with the `TALOSCONFIG` environment variable pointing to `talos/clusterconfig/talosconfig`.
+
+```bash
+# TALOSCONFIG is automatically set when running talos tasks
+talosctl --nodes <node-ip> get machineconfig
+talosctl --nodes <node-ip> services
+```
+
 ## Node Operations
 
 ### Check Node Status
@@ -292,6 +321,7 @@ View node health and status:
 
 ```bash
 kubectl get nodes -o wide
+kubectl describe node <node-name>
 talosctl --nodes <ip> get machineconfig
 ```
 
@@ -312,18 +342,22 @@ kubectl top nodes
 kubectl describe node <node-name>
 ```
 
-## Monitoring Access
+## Monitoring and Observability
 
-The cluster runs comprehensive observability tools in the `observability` namespace:
+The cluster runs comprehensive observability tools in the `observability` namespace.
 
 ### Available Tools
 
+The observability stack includes:
+
 - **Grafana**: Dashboards and visualization
-- **Prometheus**: Metrics collection and alerting
+- **Prometheus**: Metrics collection and alerting (via kube-prometheus-stack)
 - **Loki**: Log aggregation
+- **Promtail**: Log agent for shipping logs to Loki
 - **Thanos**: Long-term metrics storage
 - **Gatus**: Endpoint health monitoring
 - **Uptime Kuma**: Status page and uptime tracking
+- **smartctl-exporter**: Storage device health metrics
 
 ### Access Monitoring
 
@@ -346,6 +380,7 @@ View logs for applications:
 kubectl logs <deployment-name> -n <namespace>
 kubectl logs <deployment-name> -n <namespace> --previous  # Crash logs
 kubectl logs -n <namespace> -l app.kubernetes.io/name=<app-name>  # All pods
+kubectl logs -n <namespace> -l app.kubernetes.io/name=<app-name> --tail 100 --follow  # Stream logs
 ```
 
 ### Check Application Status
@@ -353,8 +388,17 @@ kubectl logs -n <namespace> -l app.kubernetes.io/name=<app-name>  # All pods
 ```bash
 kubectl get pods -n <namespace>
 kubectl get deployments -n <namespace>
+kubectl get statefulsets -n <namespace>
 kubectl get helmreleases -n <namespace>
+kubectl get pvc -n <namespace>
 ```
+
+### Debug Application Failures
+
+1. Check pod status: `kubectl describe pod <pod-name> -n <namespace>`
+2. View logs: `kubectl logs <pod-name> -n <namespace>`
+3. Check events: `kubectl get events -n <namespace> --sort-by='.lastTimestamp'`
+4. Check HelmRelease status: `flux -n <namespace> logs helmrelease <app-name> --tail 50`
 
 ## Common Workflows
 
@@ -364,13 +408,6 @@ kubectl get helmreleases -n <namespace>
 2. Commit and push changes
 3. Flux detects the change and updates the Helm release
 4. For immediate reconciliation: `task reconcile`
-
-### Debug Application Failures
-
-1. Check pod status: `kubectl describe pod <pod-name> -n <namespace>`
-2. View logs: `kubectl logs <pod-name> -n <namespace>`
-3. Check events: `kubectl get events -n <namespace> --sort-by='.lastTimestamp'`
-4. Check HelmRelease status: `flux -n <namespace> logs helmrelease <app-name> --tail 50`
 
 ### Emergency Application Restore
 

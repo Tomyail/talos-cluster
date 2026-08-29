@@ -5,7 +5,7 @@ description: Comprehensive storage infrastructure for the Talos Kubernetes clust
 tags: [storage, topolvm, volsync, lvm, csi, backup, kubernetes]
 verified:
   - by: openwiki/0.4.3
-    at: 2026-08-29T02:22:11.234Z
+    at: 2026-08-29T21:52:21.026Z
 sources:
   - id: openwiki-source-ce5428b32557cc11ea784146
     resource: repo://kubernetes/apps/database/cloudnative-pg/cluster/cluster16.yaml
@@ -35,7 +35,7 @@ sources:
     resource: repo://kubernetes/flux/meta/repos/local-path-provisioner.yaml
   - id: openwiki-source-67d09412df5e9b5263585304
     resource: repo://lvm-format-manual.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-29T02:22:11.234Z" }
+generated: { by: "openwiki/0.4.3", at: "2026-08-29T21:52:21.026Z" }
 ---
 
 # Storage Architecture
@@ -44,22 +44,21 @@ The cluster's storage layer provides multiple provisioning options optimized for
 
 ## Storage Layer Overview
 
-<!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
-```text
+```mermaid
 flowchart TD
     Workloads[Workloads] -->|PVC Requests| SC[StorageClasses]
     
-    SC -->|topolvm-thin-provisioner<br/>Default Class| TopoLVM[TopoLVM CSI]
+    SC -->|Default Class topolvm-thin-provisioner| TopoLVM[TopoLVM CSI]
     SC -->|local-path| Local[Local Path Provisioner]
     SC -->|nfs| NFS[NFS CSI Driver]
     
-    TopoLVM --> LVMD[lvmd Daemon<br/>Embedded on Nodes]
-    LVMD --> LVM[LVM Volume Group<br/>lvm_vg]
-    LVM --> ThinPool[Thin Pool<br/>lvm_thin]
+    TopoLVM --> LVMD[lvmd Daemon Embedded on Nodes]
+    LVMD --> LVM[LVM Volume Group lvm_vg]
+    LVM --> ThinPool[Thin Pool lvm_thin]
     ThinPool --> Volumes[Thin Logical Volumes]
     
     Workloads -->|ReplicationSource/Destination| VolSync[VolSync]
-    VolSync -->|Restic Backup| MinIO[MinIO S3<br/>192.168.50.220:9010]
+    VolSync -->|Restic Backup| MinIO[MinIO S3 192.168.50.220:9010]
     VolSync -->|Snapshots| SnapCtrl[Snapshot Controller]
     
     TopoLVM -->|VolumeSnapshot| SnapCtrl
@@ -152,7 +151,7 @@ This configuration prevents the common single-node issue where default anti-affi
 
 ## VolSync: Backup and Replication
 
-VolSync provides asynchronous backup and replication capabilities for Kubernetes persistent volumes, supporting both scheduled backups and manual restore operations.
+VolSync provides asynchronous backup and replication capabilities for Kubernetes persistent volumes, supporting both scheduled backups and manual restore operations through Taskfile task helpers.
 
 ### Architecture
 
@@ -232,6 +231,56 @@ VolSync backups are stored in MinIO S3-compatible storage:
 - **Credentials**: Managed via External Secrets Operator from Bitwarden
 
 The MinIO storage provides durable, scalable backup storage accessible from any cluster for disaster recovery scenarios.
+
+### Taskfile Helpers
+
+VolSync provides Taskfile helpers in `.taskfiles/volsync/Taskfile.yaml` for common backup/restore operations:
+
+#### Manual Backup
+
+```bash
+task volsync:snapshot NS=default APP=myapp
+```
+
+Triggers an immediate on-demand backup by patching the ReplicationSource with a manual trigger timestamp.
+
+#### Restore Workflow
+
+```bash
+task volsync:restore NS=default APP=myapp previous=2
+```
+
+The restore task automates the complete restore sequence:
+
+1. **Suspend**: Suspends Flux Kustomization and HelmRelease, scales down application controller
+2. **Wipe**: Deletes all existing data from the PVC using a privileged Job
+3. **Restore**: Creates ReplicationDestination with specified `previous` snapshot count
+4. **Resume**: Resumes Flux resources and scales application back up
+
+#### Backup Listing
+
+```bash
+task volsync:list NS=default APP=myapp
+```
+
+Creates a temporary Job to list available snapshots in the Restic repository, displaying snapshot metadata.
+
+#### Unlock Repository
+
+```bash
+task volsync:unlock
+```
+
+Unlocks all Restic repositories across all namespaces by patching ReplicationSources with the current Unix timestamp as the unlock value.
+
+#### VolSync State Control
+
+```bash
+task volsync:state-suspend   # Suspend VolSync components
+task volsync:state-resume    # Resume VolSync components
+```
+
+Suspends or resumes the Flux Kustomization, HelmRelease, and VolSync deployment replicas for maintenance operations.
 
 ### Snapshot Cleanup
 
@@ -355,6 +404,12 @@ VolSync backups should be verified periodically by:
 3. Testing restore procedure through ReplicationDestination
 4. Validating restored data integrity
 
+Use the Taskfile helpers for backup listing and restore testing:
+```bash
+task volsync:list NS=default APP=myapp
+task volsync:restore NS=default APP=myapp-test previous=1
+```
+
 ### Monitoring
 
 Storage components expose Prometheus metrics:
@@ -391,3 +446,13 @@ Then reconcile the Flux resources:
 flux reconcile kustomization topolvm -n storage --with-source
 flux reconcile helmrelease topolvm -n storage
 ```
+
+### Common VolSync Component Pattern
+
+Applications using VolSync follow a common component pattern visible in the cluster:
+
+1. **ExternalSecret**: Creates `${APP}-volsync-secret` from Bitwarden credentials
+2. **ReplicationSource**: Defines scheduled backup from `${APP}` PVC every 6 hours
+3. **ReplicationDestination**: Template for manual restore operations (created on-demand via Taskfile)
+
+The pattern standardizes backup configuration across applications while allowing per-app customization of security contexts, storage classes, and retention policies through template variables in `.taskfiles/volsync/templates/`.

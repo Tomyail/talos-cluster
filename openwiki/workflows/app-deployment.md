@@ -3,6 +3,9 @@ type: workflow
 title: Application Deployment Workflow
 description: Explains how to deploy and manage applications through Flux, including the app-template pattern, namespace organization, common components (volsync, gatus, image-automation), dependency management, and the structure of typical application resources.
 tags: [flux, deployment, apps, kubernetes, gitops, components, dependencies]
+verified:
+  - by: openwiki/0.4.3
+    at: 2026-08-29T21:52:21.026Z
 sources:
   - id: openwiki-source-951c2cc0849ba28408b9b784
     resource: repo://kubernetes/apps/database/cloudnative-pg/ks.yaml
@@ -46,7 +49,7 @@ sources:
     resource: repo://kubernetes/components/volsync-new/minio.yaml
   - id: openwiki-source-0696023deccf378a358f7526
     resource: repo://kubernetes/flux/cluster/ks.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-28T03:38:47.877Z" }
+generated: { by: "openwiki/0.4.3", at: "2026-08-29T21:52:21.026Z" }
 ---
 
 # Application Deployment Workflow
@@ -55,27 +58,28 @@ Applications in the Talos cluster are deployed through a structured Flux GitOps 
 
 ## Overview
 
-<!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
-```text
+```mermaid
 flowchart TD
-    A[Developer modifies app config] --> B[Commit to Git]
-    B --> C[Flux detects changes]
-    C --> D[cluster-apps Kustomization]
-    D --> E[Namespace-level Kustomizations]
-    E --> F[App Kustomization]
-    F --> G[Apply Components<br/>volsync, gatus, etc.]
-    G --> H[Render HelmRelease]
-    H --> I[Helm installs/updates workload]
+    A["Developer modifies app config"] --> B["Commit to Git"]
+    B --> C["Flux detects changes"]
+    C --> D["cluster-apps Kustomization"]
+    D --> E["Namespace-level Kustomizations"]
+    E --> F["App Kustomization"]
+    F --> G["Apply Components volsync, gatus, etc."]
+    G --> H["Render HelmRelease"]
+    H --> I["Helm installs updates workload"]
     
-    J[Image Automation] --> K[ImageRepository scans registry]
-    K --> L[ImagePolicy selects tag]
-    L --> M[ImageUpdateAutomation commits update]
+    J["Image Automation"] --> K["ImageRepository scans registry"]
+    K --> L["ImagePolicy selects tag"]
+    L --> M["ImageUpdateAutomation commits update"]
     M --> B
 ```
 
+*Figure: Application deployment and image update automation flow*
+
 ## Namespace Organization
 
-Applications are organized by namespace under kubernetes/apps/, with each namespace containing one or more applications:
+Applications are organized by namespace under `kubernetes/apps/`, with each namespace containing one or more applications:
 
 **Namespace Structure**
 - **default**: User applications (gitea, atuin, home-assistant, etc.)
@@ -87,11 +91,11 @@ Applications are organized by namespace under kubernetes/apps/, with each namesp
 - **external-secrets**: Secret management (external-secrets, bitwarden-connect)
 - **flux-system**: Flux infrastructure (flux-instance, image-automation)
 
-The cluster-apps Kustomization defined in kubernetes/flux/cluster/ks.yaml reconciles all namespace-level Kustomizations from the kubernetes/apps directory, enabling SOPS decryption for secrets.
+The `cluster-apps` Kustomization defined in `kubernetes/flux/cluster/ks.yaml` reconciles all namespace-level Kustomizations from the `./kubernetes/apps` directory with SOPS decryption enabled.
 
 ## Application Resource Structure
 
-Each application follows a standard directory structure under kubernetes/apps/<namespace>/<app>/:
+Each application follows a standard directory structure under `kubernetes/apps/<namespace>/<app>/`:
 
 ```
 kubernetes/apps/default/gitea/
@@ -105,36 +109,36 @@ kubernetes/apps/default/gitea/
 ```
 
 **Example: Gitea**
-- Main app Kustomization at kubernetes/apps/default/gitea/app
-- Optional runner component at kubernetes/apps/default/gitea/runner
+- Main app Kustomization at `kubernetes/apps/default/gitea/app`
+- Optional runner component at `kubernetes/apps/default/gitea/runner`
 - Each component has its own Kustomization with dependencies
 
 ### App Kustomization
 
-The application Kustomization (ks.yaml) defines how the app is deployed:
+The application Kustomization (`ks.yaml`) defines how the app is deployed:
 
 **Common Metadata**
-- Labels all resources with app.kubernetes.io/name: <app> for identification
+- Labels all resources with `app.kubernetes.io/name: <app>` for identification
 
 **Components**
-- Reusable components added via components field
-- Examples: volsync-new, gatus/external
+- Reusable components added via `components` field
+- Examples: `volsync-new`, `gatus/external`
 - Components are Kustomize components that inject additional resources
 
 **Dependencies**
-- dependsOn field ensures proper ordering
+- `dependsOn` field ensures proper ordering
 - Storage dependencies (topolvm)
 - Secret dependencies (external-secrets)
 - Database dependencies (cloudnative-pg-cluster)
 
 **Path and Source**
-- Points to app subdirectory containing HelmRelease
-- References flux-system GitRepository
+- Points to `app` subdirectory containing HelmRelease
+- References `flux-system` GitRepository
 - 1-hour reconciliation interval with retry logic
 
 **Variable Substitution**
-- postBuild.substituteFrom: Inject cluster-wide secrets (SECRET_DOMAIN, TIMEZONE)
-- postBuild.substitute: App-specific variables (APP name, VolSync capacity)
+- `postBuild.substituteFrom`: Inject cluster-wide secrets (SECRET_DOMAIN, TIMEZONE)
+- `postBuild.substitute`: App-specific variables (APP name, VolSync capacity)
 
 ## App-Template Pattern
 
@@ -143,14 +147,14 @@ Most applications use the standardized app-template Helm chart from bjw-s-labs, 
 ### OCIRepository Source
 
 The app-template chart is sourced via OCIRepository:
-- URL: oci://ghcr.io/bjw-s-labs/helm/app-template
+- URL: `oci://ghcr.io/bjw-s-labs/helm/app-template`
 - Version: 5.0.1 (tag-based)
 - Interval: 1 hour
-- Deployed by cluster-meta Kustomization
+- Deployed by `cluster-meta` Kustomization
 
 ### HelmRelease Structure
 
-Applications reference app-template via chartRef.kind: OCIRepository:
+Applications reference app-template via `chartRef.kind: OCIRepository`:
 
 **Example: Atuin**
 ```yaml
@@ -173,7 +177,7 @@ The app-template chart organizes configuration into logical sections:
 - Defines main container and init containers
 - Container image, environment variables, probes
 - Resource limits and security context
-- Annotations (e.g., reloader.stakater.com/auto: "true")
+- Annotations (e.g., `reloader.stakater.com/auto: "true"`)
 
 **Default Pod Options**
 - Pod-level security context (runAsUser, fsGroup)
@@ -206,31 +210,31 @@ Reusable components provide cross-cutting concerns for applications. Components 
 VolSync provides automated backup and replication for application data.
 
 **Component Resources**
-- claim.yaml: PersistentVolumeClaim for application data
-- minio.yaml: ReplicationSource, ReplicationDestination, and ExternalSecret
+- `claim.yaml`: PersistentVolumeClaim for application data
+- `minio.yaml`: ReplicationSource, ReplicationDestination, and ExternalSecret
 
 **PVC Template**
-- Configurable capacity via VOLSYNC_CAPACITY variable (default: 1Gi)
-- Storage class selection via VOLSYNC_STORAGECLASS (default: topolvm-thin-provisioner)
-- Access modes configurable via VOLSYNC_ACCESSMODES
+- Configurable capacity via `VOLSYNC_CAPACITY` variable (default: 1Gi)
+- Storage class selection via `VOLSYNC_STORAGECLASS` (default: `topolvm-thin-provisioner`)
+- Access modes configurable via `VOLSYNC_ACCESSMODES`
 
 **Backup Configuration**
-- Restic-based backups to MinIO S3 at 192.168.50.220:9010
-- Schedule: Every 6 hours (0 */6 * * *)
+- Restic-based backups to MinIO S3 at `192.168.50.220:9010`
+- Schedule: Every 6 hours (`0 */6 * * *`)
 - Retention: 24 hourly, 7 daily, 5 weekly backups
 - Prune interval: 7 days
 - Direct copy method with snapshot support
 
 **Restore Configuration**
 - ReplicationDestination for restore operations
-- Manual trigger (restore-once)
+- Manual trigger (`restore-once`)
 - Configurable cache capacity and storage class
 - Cleanup of temporary PVCs after restore
 
 **Secret Management**
 - ExternalSecret fetches MinIO credentials from Bitwarden
-- Template generates RESTIC_REPOSITORY, RESTIC_PASSWORD, AWS credentials
-- Uses bitwarden-login ClusterSecretStore
+- Template generates `RESTIC_REPOSITORY`, `RESTIC_PASSWORD`, AWS credentials
+- Uses `bitwarden-login` ClusterSecretStore
 
 **Usage**
 ```yaml
@@ -243,14 +247,14 @@ components:
 Gatus provides automated health monitoring for applications.
 
 **ConfigMap Generator**
-- Creates ConfigMap with gatus.io/enabled: "true" label
+- Creates ConfigMap with `gatus.io/enabled: "true"` label
 - Gatus sidecar auto-discovers labeled ConfigMaps
 - Variable substitution for APP name and domain
 
 **Endpoint Configuration**
-- URL template: https://${APP}.${SECRET_DOMAIN}
+- URL template: `https://${APP}.${SECRET_DOMAIN}`
 - 1-minute check interval
-- DNS resolver: 223.5.5.5:53
+- DNS resolver: `223.5.5.5:53`
 - HTTP status validation (default: 200)
 
 **Gatus Deployment**
@@ -270,30 +274,30 @@ components:
 Image automation automatically updates application image tags when new versions are available.
 
 **Component Resources**
-- registry-externalsecret.yaml: Fetches registry credentials from Bitwarden
-- imagerepository.yaml: Scans container registry for new tags
-- imagepolicy.yaml: Selects latest image tag based on policy
+- `registry-externalsecret.yaml`: Fetches registry credentials from Bitwarden
+- `imagerepository.yaml`: Scans container registry for new tags
+- `imagepolicy.yaml`: Selects latest image tag based on policy
 
 **Registry Credentials**
 - ExternalSecret pulls username/password from Bitwarden
-- Variables: BW_ID (Bitwarden item ID), REGISTRY_HOST
+- Variables: `BW_ID` (Bitwarden item ID), `REGISTRY_HOST`
 - Template generates dockerconfigjson secret for registry auth
 
 **Image Repository**
-- Scans REGISTRY_URL every minute
+- Scans `REGISTRY_URL` every minute
 - Uses registry secret for authentication
 - Namespace-scoped to application
 
 **Image Policy**
 - Numerical ordering (ascending)
-- Tag pattern: ^.+-[a-f0-9]+-(?P<ts>[0-9]+)$ (SHA-based tags)
+- Tag pattern: `^.+-[a-f0-9]+-(?P<ts>[0-9]+)$` (SHA-based tags)
 - Extracts timestamp for sorting
-- Labeled with image-automation: enabled for discovery
+- Labeled with `image-automation: enabled` for discovery
 
 **Update Automation**
-- ImageUpdateAutomation scans policies with image-automation: enabled label
-- Updates ./kubernetes/apps/default directory using Setters strategy
-- Commits changes via flux-system-https GitRepository with authentication
+- ImageUpdateAutomation scans policies with `image-automation: enabled` label
+- Updates `./kubernetes/apps/default` directory using Setters strategy
+- Commits changes via `flux-system-https` GitRepository with authentication
 - 5-minute interval for checking updates
 
 **Usage in App**
@@ -310,17 +314,17 @@ Flux Kustomizations support explicit dependency declarations to ensure proper or
 ### Multi-Level Dependencies
 
 **Infrastructure Dependencies**
-- topolvm (storage): Must be ready before provisioning PVCs
-- external-secrets: Secret injection must be available
-- cloudnative-pg-cluster: Database must be running
+- `topolvm` (storage): Must be ready before provisioning PVCs
+- `external-secrets`: Secret injection must be available
+- `cloudnative-pg-cluster`: Database must be running
 
 **Cluster-Level Ordering**
-- cluster-apps depends on CRDs (gateway-api, external-dns)
+- `cluster-apps` depends on CRDs (gateway-api, external-dns)
 - Ensures custom resources are defined before applications use them
 
 **Database App Pattern**
 - Two Kustomizations: operator and cluster
-- cloudnative-pg-cluster depends on cloudnative-pg operator
+- `cloudnative-pg-cluster` depends on `cloudnative-pg` operator
 - Operator must be installed before cluster resources
 
 ### Dependency Failure Behavior
@@ -328,7 +332,7 @@ Flux Kustomizations support explicit dependency declarations to ensure proper or
 When dependencies are specified:
 - Flux waits for dependency Kustomizations to become ready
 - Failed dependencies block downstream reconciliation
-- wait: true ensures resources are fully applied before marking success
+- `wait: true` ensures resources are fully applied before marking success
 - Timeout and retry settings prevent indefinite hangs
 
 ## Secrets Management Integration
@@ -338,20 +342,20 @@ Applications integrate with the cluster's dual-layer secrets architecture.
 ### SOPS Decryption
 
 **Kustomization-Level Decryption**
-- SOPS provider decrypts *.sops.yaml files in path
-- Uses sops-age secret for decryption key
+- SOPS provider decrypts `*.sops.yaml` files in path
+- Uses `sops-age` secret for decryption key
 - Applied before resource application
 
 **Cluster-Wide Secrets**
-- postBuild.substituteFrom injects cluster-secrets Secret
-- Variables like SECRET_DOMAIN and TIMEZONE available to all apps
+- `postBuild.substituteFrom` injects `cluster-secrets` Secret
+- Variables like `SECRET_DOMAIN` and `TIMEZONE` available to all apps
 
 ### External Secrets Operator
 
 **App-Level ExternalSecrets**
 - Fetch application-specific secrets from Bitwarden
 - Template variables for configuration injection
-- Referenced by deployments via envFrom
+- Referenced by deployments via `envFrom`
 
 **Component Integration**
 - VolSync component creates ExternalSecret for backup credentials
@@ -366,8 +370,8 @@ Applications integrate with the cluster's dual-layer secrets architecture.
    - Changes pushed to main branch
 
 2. **Flux Reconciliation**
-   - flux-system GitRepository detects commit (1-hour interval)
-   - cluster-apps Kustomization reconciles namespace Kustomizations
+   - `flux-system` GitRepository detects commit (1-hour interval)
+   - `cluster-apps` Kustomization reconciles namespace Kustomizations
    - App Kustomization applies components and HelmRelease
 
 3. **Component Application**
@@ -396,10 +400,11 @@ Applications integrate with the cluster's dual-layer secrets architecture.
 ### Deletion
 
 1. **Remove App Kustomization**
-   - Delete or comment out Kustomization in parent
+   - Delete or comment out Kustomization in parent namespace `kustomization.yaml`
+   - Flux pruning removes resources
 
 2. **Flux Pruning**
-   - prune: true enables automatic resource deletion
+   - `prune: true` enables automatic resource deletion
    - Flux removes all resources owned by Kustomization
 
 3. **Manual Cleanup**
@@ -409,13 +414,13 @@ Applications integrate with the cluster's dual-layer secrets architecture.
 ## Best Practices
 
 ### Resource Naming
-- Use YAML anchors for app name: name: &app gitea
-- Reference with *app to maintain consistency
+- Use YAML anchors for app name: `name: &app gitea`
+- Reference with `*app` to maintain consistency
 - Apply same pattern to namespace
 
 ### Component Configuration
-- Set component variables via postBuild.substitute
-- Example: VOLSYNC_CAPACITY: 10Gi for storage sizing
+- Set component variables via `postBuild.substitute`
+- Example: `VOLSYNC_CAPACITY: 10Gi` for storage sizing
 
 ### Dependency Declaration
 - Declare all infrastructure dependencies
@@ -423,9 +428,9 @@ Applications integrate with the cluster's dual-layer secrets architecture.
 - Use namespace-qualified dependency names
 
 ### Security Context
-- Set readOnlyRootFilesystem: true for containers
-- Drop all capabilities with drop: ['ALL']
-- Run as non-root user with runAsNonRoot: true
+- Set `readOnlyRootFilesystem: true` for containers
+- Drop all capabilities with `drop: ['ALL']`
+- Run as non-root user with `runAsNonRoot: true`
 
 ### Resource Management
 - Set resource requests for scheduling

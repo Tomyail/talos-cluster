@@ -20,7 +20,10 @@ sources:
     resource: repo://talos/talconfig.yaml
   - id: openwiki-source-b65e4f1ccd91316116ad973a
     resource: repo://talos/talenv.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-28T03:38:47.877Z" }
+generated: { by: "openwiki/0.4.3", at: "2026-08-29T21:52:21.026Z" }
+verified:
+  - by: openwiki/0.4.3
+    at: 2026-08-29T21:52:21.026Z
 ---
 
 # Cluster Bootstrap Workflow
@@ -326,8 +329,9 @@ If Flux doesn't start syncing:
 The bootstrap workflow integrates with several operational procedures:
 
 - **Flux Architecture** ([`/openwiki/concepts/flux-architecture.md`](/openwiki/concepts/flux-architecture.md)) - After bootstrap, Flux manages all applications through the reconciliation hierarchy
-- **Secrets Management** ([`/openwiki/concepts/secrets-management.md`](/openwiki/concepts/secrets-management.md)) - Bootstrap decrypts and applies SOPS secrets that Flux uses for runtime decryption
-- **Daily Operations** ([`/openwiki/operations/daily-operations.md`](/openwiki/operations/daily-operations.md)) - Post-bootstrap, operational tasks like node upgrades and configuration updates use the same tools (`talhelper`, `talosctl`)
+- **Networking** ([`/openwiki/concepts/networking.md`](/openwiki/concepts/networking.md)) - Bootstrap installs Cilium which provides the foundational CNI and Gateway API integration
+- **Talos Configuration** ([`/openwiki/talos/configuration.md`](/openwiki/talos/configuration.md)) - Detailed reference on talhelper, machine patches, and node definitions
+- **Quick Start** ([`/openwiki/quickstart.md`](/openwiki/quickstart.md)) - Entry point for bootstrap and daily operations
 
 ## Security Considerations
 

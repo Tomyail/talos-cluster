@@ -16,7 +16,10 @@ sources:
     resource: repo://kubernetes/components/common/sops/sops-age.sops.yaml
   - id: openwiki-source-0696023deccf378a358f7526
     resource: repo://kubernetes/flux/cluster/ks.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-28T03:38:47.877Z" }
+generated: { by: "openwiki/0.4.3", at: "2026-08-29T21:52:21.026Z" }
+verified:
+  - by: openwiki/0.4.3
+    at: 2026-08-29T21:52:21.026Z
 ---
 
 # Troubleshooting Guide
@@ -92,7 +95,8 @@ Always set `replicaCount: 1`, disable affinity (`affinity: ""`), and use `Recrea
 2. **Dependency Not Ready**
    - **Check**: `flux get kustomizations --all-namespaces` for dependent resources
    - **Solution**: Ensure all `dependsOn` resources are Ready before reconciling
-   - **Example**: Applications depending on `external-secrets` namespace must wait for Bitwarden Connect
+   - **Example**: TopoLVM depends on `snapshot-controller`, Cilium Gateway depends on `cert-manager`
+   - **Debug**: Use `kubectl describe kustomization <name> -n <namespace>` to see dependency status
 
 3. **Helm Chart Rendering Errors**
    - **Check**: `flux logs helmrelease <name> -n <namespace>`
@@ -258,10 +262,217 @@ The cluster runs a **single-node control plane** with specific operational const
 - Track etcd performance and backup success
 - Monitor TopoLVM thin pool utilization
 
+## Cilium Connectivity Issues
+
+### Problem: Pod Communication Failures
+
+**Symptoms:**
+- Pods cannot reach each other across namespaces
+- DNS resolution fails for cluster services
+- External ingress via Gateway API not working
+- `kubectl exec` timeouts or connection refused
+
+**Common Causes and Solutions:**
+
+1. **CNI Not Ready**
+   - **Check**: `kubectl get pods -n kube-system -l k8s-app=cilium`
+   - **Solution**: Ensure all Cilium pods are Running
+   - **Verify**: `cilium status` (if cilium CLI installed) or check pod logs
+   - **Impact**: If Cilium is not ready, all pod-to-pod communication fails
+
+2. **Pod CIDR Misconfiguration**
+   - **Check**: `kubectl get nodes -o custom-columns=NAME:.metadata.name,CIDR:.spec.podCIDR`
+   - **Expected**: Pod CIDR should be `10.42.0.0/16` (configured in Cilium values)
+   - **Solution**: Verify Cilium IPAM mode is set to `kubernetes` in helm values
+
+3. **L2 Announcements Not Working**
+   - **Symptoms**: LoadBalancer IPs not responding on local network
+   - **Check**: `kubectl get ciliuml2announcement -A`
+   - **Verify**: Ensure `l2announcements.enabled: true` in Cilium configuration
+   - **Debug**: Check Cilium agent logs for BPF program errors
+
+4. **Gateway API Issues**
+   - **Check**: `kubectl get gateway -A`
+   - **Verify**: Gateway IPs (external: `192.168.50.13`, internal: `192.168.50.12`) are assigned
+   - **Debug**: `kubectl describe gateway <name> -n kube-system`
+   - **Dependencies**: Cilium Gateway depends on `cert-manager` being ready first
+
+5. **Connectivity Checker**
+   - **Gatus monitors** external endpoint connectivity via ICMP to `1.1.1.1:53`
+   - **Check**: `kubectl get gatusendpoints -n observability`
+   - **Purpose**: Validates network connectivity from the cluster to external services
+   - **Alerts**: Prometheus rules fire when external endpoints fail for 5+ minutes
+
+**General Troubleshooting Commands:**
+
+```bash
+# Check Cilium status
+kubectl get pods -n kube-system -l k8s-app=cilium
+kubectl logs -n kube-system -l k8s-app=cilium --tail=50
+
+# Check Gateway configuration
+kubectl get gateway -A
+kubectl get httproute -A
+
+# Test pod connectivity
+kubectl run test-pod --image=nicolaka/netshoot --rm -it --restart=Never -- curl <service-url>
+
+# Check L2 announcements
+kubectl get ciliuml2announcement -A
+kubectl get ciliumloadbalancerippool -A
+```
+
+## VolSync Backup and Restore Failures
+
+### Problem: Restic Repository Locked
+
+**Symptoms:**
+- VolSync replication jobs fail with "repository is locked" errors
+- Backup/restore jobs hang without completing
+- Job logs show `restic check` failures
+
+**Root Cause:**
+Restic repositories use a lock file to prevent concurrent modifications. If a previous job failed or was interrupted, the lock may not have been released properly.
+
+**Solutions:**
+
+1. **Unlock All Repositories** (Bulk)
+   ```bash
+   task volsync:unlock CLUSTER=main
+   ```
+   This patches all `replicationsources` to unlock their restic repositories simultaneously.
+
+2. **Unlock Single Repository** (Targeted)
+   ```bash
+   task volsync:unlock-local CLUSTER=main NS=<namespace> APP=<app-name>
+   ```
+   Creates a one-time job that runs `restic unlock --remove-all` for the specific application.
+
+3. **Manual Unlock** (Emergency)
+   ```bash
+   kubectl exec -n <namespace> <volsync-job-pod> -- restic unlock --remove-all
+   kubectl exec -n <namespace> <volsync-job-pod> -- restic check
+   ```
+
+### Problem: VolSync Job Failures
+
+**Symptoms:**
+- ReplicationSource/ReplicationDestination stuck in `InProgress`
+- Job pods show `Error` or `Failed` status
+- PVCs not being backed up or restored
+
+**Troubleshooting Steps:**
+
+1. **Check Job Status and Logs**
+   ```bash
+   # Find the VolSync job
+   kubectl get jobs -n <namespace> -l app.kubernetes.io/name=volsync
+
+   # Check job logs
+   kubectl logs -n <namespace> job/volsync-src-<app> --container main
+
+   # Check ReplicationSource status
+   kubectl get replicationsources -n <namespace> <app> -o yaml
+   ```
+
+2. **Verify Storage Backend Connectivity**
+   - **MinIO**: Check if `192.168.50.220:9010` is reachable from cluster
+   - **R2/Cloudflare**: Verify credentials in `*-volsync-r2-secret` are valid
+   - **Test**: Create a test pod and try to access the storage endpoint
+
+3. **Check PVC and Storage Class**
+   ```bash
+   # Verify source PVC exists
+   kubectl get pvc -n <namespace> <claim-name>
+
+   # Check storage class
+   kubectl get sc topolvm-thin-provisioner
+
+   # Verify VolSync can access the PVC
+   kubectl describe pvc -n <namespace> <claim-name>
+   ```
+
+4. **Common Job Issues**
+
+   **Insufficient Resources:**
+   - **Check**: `kubectl describe pod <volsync-job-pod>` for "Insufficient cpu/memory" events
+   - **Solution**: Adjust mover resources in ReplicationSource spec
+
+   **Permission Denied:**
+   - **Check**: Job logs for "permission denied" errors
+   - **Solution**: Verify `moverSecurityContext.runAsUser/runAsGroup` match PVC ownership
+   - **Debug**: Check PVC fsGroup and pod security context
+
+   **Repository Not Found:**
+   - **Check**: Storage backend URL and bucket/container names
+   - **Solution**: Initialize a new backup or verify existing repository path
+   - **Test**: Use `restic init` with the same credentials to verify connectivity
+
+### Problem: Restore Job Fails
+
+**Symptoms:**
+- ReplicationDestination job fails after creation
+- Application pods crash after restore
+- Data appears corrupted or missing
+
+**Solution Workflow:**
+
+```bash
+# 1. List available snapshots
+task volsync:list NS=<namespace> APP=<app>
+
+# 2. Perform restore (suspends app, wipes PVC, restores data, resumes app)
+task volsync:restore NS=<namespace> APP=<app> PREVIOUS=2
+
+# 3. Monitor restore progress
+kubectl logs -n <namespace> job/volsync-dst-<app> --container main -f
+
+# 4. Verify application started
+kubectl get pods -n <namespace> -l app.kubernetes.io/name=<app>
+```
+
+**Restore Process Details:**
+
+1. **Suspend Phase**: Suspends Flux Kustomization, scales down application controller
+2. **Wipe Phase**: Creates job to delete all PVC data (prevents conflicts)
+3. **Restore Phase**: Creates ReplicationDestination with `previous: N` snapshots
+4. **Resume Phase**: Scales up application controller, resumes Flux reconciliation
+
+**Manual Restore (Advanced):**
+
+If the automated restore fails, you can manually restore from a snapshot:
+
+```bash
+# 1. Create ReplicationDestination manifest
+cat <<EOF | kubectl apply -f -
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: <app>-manual
+  namespace: <namespace>
+spec:
+  restic:
+    repository: <app>-volsync
+    destinationPVC: <claim-name>
+    storageClassName: topolvm-thin-provisioner
+    previous: 2
+    moverSecurityContext:
+      runAsUser: <puid>
+      runAsGroup: <pgid>
+    accessModes: [ReadWriteOnce]
+    capacity: <size>
+EOF
+
+# 2. Wait for job completion
+kubectl wait -n <namespace> job/volsync-dst-<app>-manual --for=condition=complete --timeout=120m
+
+# 3. Check job logs
+kubectl logs -n <namespace> job/volsync-dst-<app>-manual --container main
+```
+
 ## Additional Resources
 
-- [Flux Architecture](/openwiki/concepts/flux-architecture.md) - Understanding Flux reconciliation and dependencies
+- [Networking Architecture](/openwiki/concepts/networking.md) - Cilium CNI configuration and L2 announcements
 - [Storage Architecture](/openwiki/concepts/storage.md) - TopoLVM configuration and LVM management
 - [Secrets Management](/openwiki/concepts/secrets-management.md) - SOPS and External Secrets Operator details
-- [Daily Operations](/openwiki/operations/daily-operations.md) - Common operational procedures
-- [Cluster Architecture](/openwiki/concepts/cluster-architecture.md) - Single-node control plane design
+- [Daily Operations](/openwiki/operations/daily-operations.md) - Common operational procedures including VolSync workflows

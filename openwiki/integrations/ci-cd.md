@@ -12,7 +12,10 @@ sources:
     resource: repo://.github/workflows/label-sync.yaml
   - id: openwiki-source-6d4b4e707b8d60b6ccfa3425
     resource: repo://.github/workflows/openwiki-update.yml
-generated: { by: "openwiki/0.4.3", at: "2026-08-28T03:38:47.877Z" }
+generated: { by: "openwiki/0.4.3", at: "2026-08-29T21:52:21.026Z" }
+verified:
+  - by: openwiki/0.4.3
+    at: 2026-08-29T21:52:21.026Z
 ---
 
 # CI/CD Integration
@@ -21,21 +24,22 @@ The repository uses GitHub Actions workflows to validate changes, maintain repos
 
 ## Workflow Overview
 
-<!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
-```text
+```mermaid
 flowchart TD
-    A[Pull Request<br/>kubernetes/** changes] --> B[pre-job<br/>Detect changed files]
-    B --> C{Files changed?}
-    C -->|Yes| D[test job<br/>flux-local test]
-    C -->|Yes| E[diff jobs<br/>flux-local diff]
-    D --> F[flux-local-status<br/>Aggregate results]
+    A[Pull Request to main] --> B{Files changed in kubernetes/**}
+    B -->|Yes| C[pre-job: Detect Changes]
+    C --> D[test job: flux-local test]
+    C --> E[diff jobs: flux-local diff]
+    D --> F[flux-local-status: Aggregate Results]
     E --> F
-    C -->|No| G[Jobs skipped<br/>No k8s changes]
+    B -->|No| G[Jobs Skipped]
     
-    H[Push to main<br/>.github/labels.yaml changed] --> I[label-sync<br/>Sync GitHub labels]
+    H[Push to main with labels.yaml changes] --> I[label-sync: Sync GitHub Labels]
     
-    J[Schedule<br/>Daily 19:30 UTC] --> K[OpenWiki Update<br/>Auto-update docs]
-    J[Manual dispatch] --> K
+    J[Schedule: Daily 19:30 UTC] --> K[OpenWiki Update: Auto-update Docs]
+    L[Manual workflow_dispatch] --> K
+    
+    M[Pull Request to main] --> N[Labeler: Auto-apply Area Labels]
 ```
 
 ## Flux Local Workflow
@@ -44,31 +48,30 @@ The **Flux Local** workflow (`flux-local.yaml`) validates Kubernetes manifests o
 
 ### Triggering Conditions
 
-The workflow runs on pull requests to the `main` branch and uses concurrency control to cancel in-progress runs when new commits are pushed (`flux-local.yaml#L9-L11`).
+The workflow runs on pull requests to the `main` branch and uses concurrency control to cancel in-progress runs when new commits are pushed, preventing resource waste on outdated commits.
 
 ### Job Structure
 
-<!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
-```text
+```mermaid
 flowchart LR
     subgraph Pre ["pre-job"]
         A1[Checkout code] --> A2[Detect kubernetes/** changes]
     end
     
     subgraph Test ["test (if changes)"]
-        B1[Checkout code] --> B2[flux-local test<br/>--enable-helm --all-namespaces]
+        B1[Checkout code] --> B2[flux-local test --enable-helm --all-namespaces]
     end
     
     subgraph Diff ["diff matrix (if changes)"]
         C1[Checkout PR branch] --> C2[Checkout default branch]
-        C2 --> C3[flux-local diff<br/>helmrelease + kustomization]
-        C3 --> C4[Generate patch + comment]
+        C2 --> C3[flux-local diff helmrelease + kustomization]
+        C3 --> C4[Generate patch + PR comment]
     end
     
     subgraph Status ["flux-local-status"]
-        D1[Check all results] --> D2{Failures?}
-        D2 -->|Yes| D3[Exit 1]
-        D2 -->|No| D4[Success]
+        D1[Check all results] --> D2{Any failures?}
+        D2 -->|Yes| D3[Exit 1: Block merge]
+        D2 -->|No| D4[Success: Allow merge]
     end
     
     Pre --> Test
@@ -79,7 +82,7 @@ flowchart LR
 
 #### pre-job
 
-The **pre-job** (`flux-local.yaml#L14-L28`) acts as a gatekeeper, detecting whether the pull request actually modifies Kubernetes manifests:
+The **pre-job** acts as a gatekeeper, detecting whether the pull request actually modifies Kubernetes manifests:
 
 - Uses `tj-actions/changed-files@v46.0.5` to check for changes in `kubernetes/**` path
 - Outputs `any_changed` boolean that controls whether downstream jobs run
@@ -87,7 +90,7 @@ The **pre-job** (`flux-local.yaml#L14-L28`) acts as a gatekeeper, detecting whet
 
 #### test Job
 
-The **test** job (`flux-local.yaml#L29-L41`) validates Kubernetes manifests using flux-local:
+The **test** job validates Kubernetes manifests using flux-local:
 
 - **Condition**: Only runs if `pre-job.outputs.any_changed == 'true'`
 - **Action**: Runs `flux-local test` with arguments:
@@ -95,19 +98,19 @@ The **test** job (`flux-local.yaml#L29-L41`) validates Kubernetes manifests usin
   - `--all-namespaces`: Checks manifests across all namespaces
   - `--path /github/workspace/kubernetes/flux/cluster`: Targets the Flux cluster configuration directory
   - `-v`: Enables verbose output for debugging
-- **Container**: Uses `ghcr.io/allenporter/flux-local:v7.5.4` Docker image
+- **Container**: Uses `ghcr.io/allenporter/flux-local:v7.5.4` Docker image for consistent runtime environment
 - **Purpose**: Catches syntax errors, invalid manifests, and Helm chart rendering failures before merge
 
 #### diff Jobs
 
-The **diff** job (`flux-local.yaml#L43-L108`) generates human-readable diffs showing the impact of changes. It runs as a matrix across two resource types:
+The **diff** job generates human-readable diffs showing the impact of changes. It runs as a matrix across two resource types:
 
-**Matrix Strategy** (`flux-local.yaml#L50-L54`):
+**Matrix Strategy**:
 - `resources`: ["helmrelease", "kustomization"]
 - `max-parallel: 4`: Processes both resource types concurrently
 - `fail-fast: false`: Continues all matrix jobs even if one fails
 
-**Diff Generation Process** (`flux-local.yaml#L57-L80`):
+**Diff Generation Process**:
 
 1. **Dual Checkout**:
    - Pull Request branch: Checked out to `/github/workspace/pull`
@@ -128,28 +131,32 @@ The **diff** job (`flux-local.yaml#L43-L108`) generates human-readable diffs sho
 
    Key arguments:
    - `--unified 6`: Shows 6 lines of context for changes
-   - `--strip-attrs`: Removes noisy attributes that change without functional impact (chart versions, checksums)
+   - `--strip-attrs`: Removes noisy attributes that change without functional impact:
+     - `helm.sh/chart`: Helm chart version annotations
+     - `checksum/config`: ConfigMap/Secret checksums
+     - `app.kubernetes.io/version`: Application version labels
+     - `chart`: Chart metadata that changes on re-rendering
    - `--limit-bytes 10000`: Caps output size to prevent overwhelming comments
    - `--sources "flux-system"`: Filters to only flux-system source resources
 
-3. **Output Processing** (`flux-local.yaml#L82-L96`):
+3. **Output Processing**:
    - Writes raw diff to `diff.patch`
    - Exports diff content to GitHub Output for step reuse
    - Appends formatted diff to GitHub Step Summary with markdown code block
 
-4. **PR Comment** (`flux-local.yaml#L98-L108`):
+4. **PR Comment**:
    - Uses `mshick/add-pr-comment@v2.8.2` to post diff as PR comment
    - Message ID includes PR number and resource type: `${{ github.event.pull_request.number }}/kubernetes/${{ matrix.resources }}`
-   - Continues on error to avoid blocking PR on comment failures
+   - `continue-on-error: true`: Avoids blocking PR on comment failures
    - Only posts comment if diff is non-empty
 
-**Permissions** (`flux-local.yaml#L47-L49`):
+**Permissions**:
 - `contents: read`: Required for checkout
 - `pull-requests: write`: Required for posting comments
 
 #### flux-local-status Job
 
-The **flux-local-status** job (`flux-local.yaml#L110-L122`) aggregates results from test and diff jobs:
+The **flux-local-status** job aggregates results from test and diff jobs:
 
 - **Condition**: `if: always()` - Runs regardless of upstream job failures
 - **Dependency**: Requires both `test` and `diff` jobs
@@ -165,34 +172,37 @@ The **Label Sync** workflow (`label-sync.yaml`) maintains consistent GitHub issu
 ### Triggering Conditions
 
 The workflow runs on:
-- **Push to main branch** (`.github/labels.yaml#L7-L9`): Only when `.github/labels.yaml` changes
-- **Manual workflow_dispatch** (`.github/labels.yaml#L6`): On-demand execution
+- **Push to main branch**: Only when `.github/labels.yaml` changes
+- **Manual workflow_dispatch**: On-demand execution
 
 ### Execution
 
-The **label-sync** job (`label-sync.yaml#L12-L23`):
+The **label-sync** job:
 
 1. **Checkout**: Uses `actions/checkout@v4.2.2` to access repository
-2. **Sync Labels** (`label-sync.yaml#L19-L23`):
+2. **Sync Labels**:
    - Uses `EndBug/label-sync@v2.3.3` action
    - Reads configuration from `.github/labels.yaml`
    - `delete-other-labels: true`: Removes labels not defined in config
 
 ### Label Schema
 
-The labels are organized into categories (`.github/labels.yaml#L2-L47`):
+The labels are organized into categories defined in `.github/labels.yaml`:
 
 **Area Labels** (green, `0e8a16`):
 - `area/bootstrap`, `area/docs`, `area/github`, `area/kubernetes`, `area/mise`, `area/renovate`, `area/scripts`, `area/talos`, `area/templates`, `area/taskfile`
+- Categorize changes by domain or subsystem
 
 **Renovate Type Labels** (blue, `027fa0`):
 - `renovate/container`, `renovate/github-action`, `renovate/grafana-dashboard`, `renovate/github-release`, `renovate/helm`
+- Indicate Renovate bot update types
 
 **Semantic Version Labels**:
 - `type/digest` (yellow, `ffeC19`): Digest-only updates
 - `type/patch` (yellow, `ffeC19`): Patch releases
 - `type/minor` (orange, `ff9800`): Minor releases
 - `type/major` (red, `f6412d`): Major releases
+- Indicate semantic versioning impact
 
 **Special Labels**:
 - `community` (purple, `370fb2`): Community contributions
@@ -200,49 +210,80 @@ The labels are organized into categories (`.github/labels.yaml#L2-L47`):
 
 This schema integrates with Renovate bot's automatic labeling and helps categorize pull requests by area and impact.
 
+## Labeler Workflow
+
+The **Labeler** workflow (`labeler.yaml`) automatically applies area labels to pull requests based on changed files.
+
+### Triggering Conditions
+
+The workflow runs on:
+- **pull_request_target** targeting `main` branch: Runs for external contributors
+- **Manual workflow_dispatch**: On-demand execution
+
+### Execution
+
+The **labeler** job:
+
+- **Permissions**: `contents: read` and `pull-requests: write`
+- Uses `actions/labeler@v5.0.0` with configuration from `.github/labeler.yaml`
+- Applies labels based on file patterns:
+  - `bootstrap/**/*` → `area/bootstrap`
+  - `README.md` → `area/docs`
+  - `.github/**/*` → `area/github`
+  - `kubernetes/**/*` → `area/kubernetes`
+  - `.mise.toml` → `area/mise`
+  - `.renovate/**/*`, `.renovaterc.json5` → `area/renovate`
+  - `scripts/**/*` → `area/scripts`
+  - `talos/**/*` → `area/talos`
+  - `.taskfiles/**/*`, `Taskfile.yaml` → `area/taskfile`
+  - `templates/**/*` → `area/templates`
+
+This automation ensures consistent labeling for triage and routing without manual intervention.
+
 ## OpenWiki Update Workflow
 
 The **OpenWiki Update** workflow (`openwiki-update.yml`) automatically updates OpenWiki documentation on a scheduled basis.
 
 ### Triggering Conditions
 
-The workflow runs on (`openwiki-update.yml#L3-L7`):
+The workflow runs on:
 - **Schedule**: Daily at 19:30 UTC (03:30 Beijing, avoiding 03:00 conflict with other services)
 - **Manual workflow_dispatch**: On-demand execution
 
 ### Permissions
 
-The workflow requires (`openwiki-update.yml#L9-L10`):
+The workflow requires:
 - `contents: write`: For committing documentation changes back to repository
 
 ### Execution Pipeline
 
-The **update** job (`openwiki-update.yml#L13-L47`):
+The **update** job:
 
-1. **Repository Checkout** (`openwiki-update.yml#L16-L20`):
+1. **Repository Checkout**:
    - Uses `actions/checkout@v4`
    - `persist-credentials: true`: Required for git push
 
-2. **Node.js Setup** (`openwiki-update.yml#L21-L24`):
+2. **Node.js Setup**:
    - Uses `actions/setup-node@v4`
    - Node version: `22`
 
-3. **OpenWiki Installation** (`openwiki-update.yml#L26-L27`):
+3. **OpenWiki Installation**:
    - Installs `openwiki` globally via npm: `npm install --global openwiki`
 
-4. **OpenWiki Execution** (`openwiki-update.yml#L29-L36`):
+4. **OpenWiki Execution**:
    - Command: `openwiki code --update --print`
    - Environment variables:
      - `OPENWIKI_PROVIDER`: anthropic
      - `ANTHROPIC_API_KEY`: GitHub Secret
-     - `ANTHROPIC_BASE_URL`: https://open.bigmodel.cn/api/anthropic
+     - `ANTHROPIC_BASE_URL`: https://open.bigmodel.cn/api/anthropic (custom API endpoint)
      - `OPENWIKI_MODEL_ID`: glm-4.7
 
-5. **Commit & Push** (`openwiki-update.yml#L37-L47`):
+5. **Commit & Push**:
    - Configures git user as `github-actions[bot]`
    - Stages changes: `git add openwiki AGENTS.md CLAUDE.md`
-   - Commits if changes exist: `git commit -m "docs: update OpenWiki"`
-   - Pushes to repository
+   - Checks for changes: `git diff --staged --quiet`
+   - Only commits and pushes if actual changes exist to avoid empty commits
+   - Commit message: `"docs: update OpenWiki"`
 
 ### Integration with Documentation
 
@@ -267,7 +308,7 @@ The workflows specifically validate the `kubernetes/flux/cluster` directory stru
 
 ### Concurrency Management
 
-The Flux Local workflow uses concurrency groups (`flux-local.yaml#L9-L11`) to prevent resource waste:
+The Flux Local workflow uses concurrency groups to prevent resource waste:
 - Group key: `${{ github.workflow }}-${{ github.event.number || github.ref }}`
 - `cancel-in-progress: true`: Old runs are canceled when new commits are pushed
 - Ensures only the latest commit is validated
@@ -278,6 +319,7 @@ The Flux Local workflow uses concurrency groups (`flux-local.yaml#L9-L11`) to pr
 - **Diff job failures**: Marked as `continue-on-error: true` to avoid blocking on transient issues
 - **Label sync failures**: No retry mechanism; manual re-run via workflow_dispatch
 - **OpenWiki failures**: No retry; schedule will retry next day
+- **Labeler failures**: Non-blocking; labels can be applied manually
 
 ### Resource Limitations
 
@@ -290,3 +332,14 @@ The Flux Local workflow uses concurrency groups (`flux-local.yaml#L9-L11`) to pr
 - **Minimal permissions**: Each workflow requests only necessary permissions
 - **Secret management**: ANTHROPIC_API_KEY stored as GitHub Secret
 - **Third-party actions**: Use pinned SHAs for supply chain security
+- **pull_request_target**: Labeler uses this event for safe external contributor access
+
+## Integration with Other Systems
+
+### Renovate Integration
+
+The label schema works with Renovate bot, which automatically applies `renovate/*` and `type/*` labels to dependency update PRs. See [Renovate Integration](/openwiki/integrations/renovate.md) for details on dependency automation.
+
+### Application Deployment
+
+These CI/CD workflows validate the manifests that drive the Flux deployment pipeline described in [Application Deployment Workflow](/openwiki/workflows/app-deployment.md). The flux-local validation ensures that app-template HelmReleases and Kustomizations are valid before Flux reconciles them to the cluster.

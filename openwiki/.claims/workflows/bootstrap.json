@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:494861d20869c2cb0274b9f34a88c71272878f3f0c00e94f40e23cad5ffba664",
+  "pageVersion": "sha256:2a3081db8d441cb846b3105fca89fb7915c810abd867f5600e24e98c10832486",
   "claims": [
     {
       "id": "claim_d11cc08ba8894ce49744eed253401d09",
@@ -171,20 +171,6 @@
       ]
     },
     {
-      "id": "claim_d16caa1489b54fc6aafb889cd2b8ba36",
-      "statement": "bootstrap/helmfile.yaml installs Cilium, CoreDNS, cert-manager, flux-operator, and flux-instance in dependency order with atomic updates, waiting for resources and jobs to complete before Flux begins reconciling kubernetes/apps/.",
-      "evidence": [
-        {
-          "resource": "repo://bootstrap/helmfile.yaml#L14-L52",
-          "version": "repo-lines-v1:sha256:8ed7e8e3fe8b1e0f0bd52f9de372dfeaceddb966f93568d84cc9fe0660e2ff7e:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1YTA1OTNjNDU2NDAyZmE2YTYwYWUwZjk4YmMyMjZkMzk4NDZjZmJiODgwYWNkMGM3Zjc4YWZiZTk1ZTUzMDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4NDQxMDY3MGJjNTUxNjEyNDRkZTdlZTRjMDM5YTEzMDUzYzZiN2M5ZTRkZTZiMzY4YzE3MzYzZDcyMjVlY2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjliN2YwYjcwMDgzOGMzOGRiYjE3ZmQxNjdkNGIyMmJmNGQ2NTg2MGNiODI2MWI3OTU1Zjc5ZGM3OTAyYzEzZmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
-        },
-        {
-          "resource": "repo://scripts/bootstrap-apps.sh#L121-L135",
-          "version": "repo-lines-v1:sha256:4515a5f38d778267a0a01fa9085565f92d05944d3c6083e0246c1d74945cb888:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVlMzIwOWYzNDE1ZWE2ZmEwZjE4ZjFiYjBlODlmMWYwNDMxMWI0OTcyODE1NjZkOTA3OTY0ZTQ0MjljMjZlNzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA3NWI3MDE1YWQ1YmNmNzk3Zjk1ODNjMjA3ZGEzNDI2MmNkNDA3YjBlN2VkZmM4YWZlNTRlMzkyMzllOWExZDgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVlYzE2NTUxMWRmNGM2N2I4Njg5OGZkNTFlYmEwYzhiMmVmMmJiMGYzMjM0ZmZjM2NmNTc4MWNhNTAzNDEyZGIifQ"
-        }
-      ]
-    },
-    {
       "id": "claim_05cb327c62914e45867bc0a2c39ee202",
       "statement": "Bootstrap Helm releases form a dependency chain: Cilium (requires Gateway API CRDs) → CoreDNS (requires Cilium) → cert-manager (requires CoreDNS) → flux-operator (requires cert-manager) → flux-instance (requires flux-operator).",
       "evidence": [
@@ -255,6 +241,6 @@
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-08-28T03:38:47.877Z"
+    "at": "2026-08-29T21:52:21.026Z"
   }
 }

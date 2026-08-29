@@ -1,0 +1,268 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:a4c23b0979bf8c95dc3a7b27d6dfa9658a3e52bcd862be07123c3bce3347a72e",
+  "claims": [
+    {
+      "id": "claim_c368688dc28341c08125e3afd80d4101",
+      "statement": "The talconfig.yaml file defines the cluster-wide configuration including cluster name (kubernetes), API endpoint using VIP (https://192.168.50.10:6443), pod network (10.42.0.0/16), service network (10.43.0.0/16), and CNI configuration set to none for Cilium integration.",
+      "evidence": [
+        {
+          "resource": "repo://talos/talconfig.yaml",
+          "version": "repo-file-v1:sha256:d136b9cff87d6ec237ac03a8d8e93f8f766c991330cacbf3cf6ffd68061bdcde"
+        }
+      ]
+    },
+    {
+      "id": "claim_baec9810e3da47ab86319944ce3a00d0",
+      "statement": "The talenv.yaml file pins Talos and Kubernetes versions using Renovate datasource annotations for automated dependency tracking. It specifies talosVersion and kubernetesVersion which are referenced as variables in talconfig.yaml.",
+      "evidence": [
+        {
+          "resource": "repo://talos/talenv.yaml",
+          "version": "repo-file-v1:sha256:4ae26d952e597f70c4bbe7665882b09fe952fe44746284b6ff794e03502b0c1d"
+        }
+      ]
+    },
+    {
+      "id": "claim_df62c530f9e64879858e95b96361ac88",
+      "statement": "Nodes are defined in talconfig.yaml with hostname, ipAddress, installDiskSelector (size <=256GB, type ssd), machineSpec.secureboot enabled, custom talosImageURL for factory image with extensions, controlPlane flag, and nodeLabels for GPU scheduling.",
+      "evidence": [
+        {
+          "resource": "repo://talos/talconfig.yaml",
+          "version": "repo-file-v1:sha256:d136b9cff87d6ec237ac03a8d8e93f8f766c991330cacbf3cf6ffd68061bdcde"
+        }
+      ]
+    },
+    {
+      "id": "claim_ae83f781db9b4bf0a97112ddc5129338",
+      "statement": "Network configuration per node uses deviceSelector based on MAC address, static IP assignment (no DHCP), route configuration with gateway, MTU 1500, and VIP configuration (192.168.50.10) for control plane API endpoint high availability.",
+      "evidence": [
+        {
+          "resource": "repo://talos/talconfig.yaml",
+          "version": "repo-file-v1:sha256:d136b9cff87d6ec237ac03a8d8e93f8f766c991330cacbf3cf6ffd68061bdcde"
+        }
+      ]
+    },
+    {
+      "id": "claim_ac9cab77fe644988b9ad2957b6311f9d",
+      "statement": "Kernel modules loaded per node include dm_thin_pool and dm_mod for TopoLVM storage, plus i915, drm, and drm_kms_helper for Intel GPU support and hardware acceleration.",
+      "evidence": [
+        {
+          "resource": "repo://talos/talconfig.yaml",
+          "version": "repo-file-v1:sha256:d136b9cff87d6ec237ac03a8d8e93f8f766c991330cacbf3cf6ffd68061bdcde"
+        }
+      ]
+    },
+    {
+      "id": "claim_860cb167343f4bb19ab1c85e8b1b2f58",
+      "statement": "The cluster uses a custom Talos factory image (installer-secureboot) with system extensions including i915 for GPU support, intel-ucode for microcode updates, and thunderbolt for Thunderbolt device support.",
+      "evidence": [
+        {
+          "resource": "repo://talos/talconfig.yaml",
+          "version": "repo-file-v1:sha256:d136b9cff87d6ec237ac03a8d8e93f8f766c991330cacbf3cf6ffd68061bdcde"
+        }
+      ]
+    },
+    {
+      "id": "claim_43a73e64612c47a9bf32ad2fb91df43d",
+      "statement": "Patches are organized in talos/patches/ with global/ subdirectory for patches applied to all nodes and controller/ subdirectory for control-plane-specific patches. Individual node-specific patches can be added in ${node-hostname}/ subdirectories.",
+      "evidence": [
+        {
+          "resource": "repo://talos/patches/README.md",
+          "version": "repo-file-v1:sha256:3d67190a6f3d6f90506fbe4926357a32e5665005ac6932da7e9c231715db08ed"
+        }
+      ]
+    },
+    {
+      "id": "claim_6c9c7a3880c644298822ab1f7378da2a",
+      "statement": "Global patches applied to all nodes include machine-api-access.yaml for Talos API access policies, machine-files.yaml for extra file creation, machine-kubelet.yaml for kubelet configuration, machine-network.yaml for network settings, machine-sysctls.yaml for kernel parameters, machine-time.yaml for NTP configuration, and machine-udev.yaml for device permissions.",
+      "evidence": [
+        {
+          "resource": "repo://talos/patches/global/machine-api-access.yaml",
+          "version": "repo-file-v1:sha256:86c2098b4ae130a0f106602bc08d5ed721f74e12fe87a5ce8f7648e13d909300"
+        },
+        {
+          "resource": "repo://talos/patches/global/machine-files.yaml",
+          "version": "repo-file-v1:sha256:444211ddf824af0b7580605ecd349b884ddefbcebec2a8eb140bad3a0a4eb428"
+        },
+        {
+          "resource": "repo://talos/patches/global/machine-kubelet.yaml",
+          "version": "repo-file-v1:sha256:20b3813061f5092a3bf7c1b1f2e52e65dd833283ac29d755b3e11987498fffc8"
+        },
+        {
+          "resource": "repo://talos/patches/global/machine-network.yaml",
+          "version": "repo-file-v1:sha256:48adb2610aed4950c8a3c048aaab37785008bc886db5199c8400187e07a96bb3"
+        },
+        {
+          "resource": "repo://talos/patches/global/machine-sysctls.yaml",
+          "version": "repo-file-v1:sha256:284c1785b5b4579df114f05793c5ea36138f6ea2a3e9d4bfbba1488f1c72a6e1"
+        },
+        {
+          "resource": "repo://talos/patches/global/machine-time.yaml",
+          "version": "repo-file-v1:sha256:fa6a6d71fe9afc35b5b94152180f164f214ec0aac70a47d460bc878c7710a925"
+        },
+        {
+          "resource": "repo://talos/patches/global/machine-udev.yaml",
+          "version": "repo-file-v1:sha256:7e154d158f2c4d2f42dae8791664103b6c15e6a4fed0d72b3f05d848a69d341d"
+        },
+        {
+          "resource": "repo://talos/talconfig.yaml",
+          "version": "repo-file-v1:sha256:d136b9cff87d6ec237ac03a8d8e93f8f766c991330cacbf3cf6ffd68061bdcde"
+        }
+      ]
+    },
+    {
+      "id": "claim_bc3810f173d245a5b6e644d088ebcc49",
+      "statement": "Controller patch (cluster.yaml) configures allowSchedulingOnControlPlanes true, disables CoreDNS and kube-proxy (using custom replacements), enables etcd metrics on port 2381, sets etcd advertisedSubnets to 192.168.50.0/24, enables API aggregator routing, and binds controller manager and scheduler to 0.0.0.0 for monitoring.",
+      "evidence": [
+        {
+          "resource": "repo://talos/patches/controller/cluster.yaml",
+          "version": "repo-file-v1:sha256:b84f1bd6fa79f59238e74442f063dd9f363671d200064815ecfd618c261d47d3"
+        }
+      ]
+    },
+    {
+      "id": "claim_553b246030e2437e88cdda95074ca20c",
+      "statement": "The machine-files.yaml patch creates /etc/cri/conf.d/20-customization.part with discard_unpacked_layers set to false to configure containerd to keep unpacked image layers.",
+      "evidence": [
+        {
+          "resource": "repo://talos/patches/global/machine-files.yaml",
+          "version": "repo-file-v1:sha256:444211ddf824af0b7580605ecd349b884ddefbcebec2a8eb140bad3a0a4eb428"
+        }
+      ]
+    },
+    {
+      "id": "claim_e2f60e4d52784a048f3aa1adff73fee5",
+      "statement": "The machine-kubelet.yaml patch configures kubelet with serializeImagePulls false for parallel image pulls, nodeIP validSubnets restricted to 192.168.50.0/24, and extraMounts binding /var/mnt/local-path-provisioner for local-path storage.",
+      "evidence": [
+        {
+          "resource": "repo://talos/patches/global/machine-kubelet.yaml",
+          "version": "repo-file-v1:sha256:20b3813061f5092a3bf7c1b1f2e52e65dd833283ac29d755b3e11987498fffc8"
+        }
+      ]
+    },
+    {
+      "id": "claim_0a124a620c8f4ebea9cf71b3e29f39a1",
+      "statement": "The machine-network.yaml patch disables search domain and sets DNS nameservers to 1.1.1.1 and 1.0.0.1 (Cloudflare DNS).",
+      "evidence": [
+        {
+          "resource": "repo://talos/patches/global/machine-network.yaml",
+          "version": "repo-file-v1:sha256:48adb2610aed4950c8a3c048aaab37785008bc886db5199c8400187e07a96bb3"
+        }
+      ]
+    },
+    {
+      "id": "claim_8ef97c425e474ec79a394044b2987a1a",
+      "statement": "The machine-sysctls.yaml patch configures kernel parameters including fs.inotify settings for file watching, net.core buffer sizes for QUIC/Cloudflared, and user.max_user_namespaces for rootless container support.",
+      "evidence": [
+        {
+          "resource": "repo://talos/patches/global/machine-sysctls.yaml",
+          "version": "repo-file-v1:sha256:284c1785b5b4579df114f05793c5ea36138f6ea2a3e9d4bfbba1488f1c72a6e1"
+        }
+      ]
+    },
+    {
+      "id": "claim_2eb467952f5c43d5b26c80d1c011d580",
+      "statement": "The machine-time.yaml patch configures NTP servers to 162.159.200.1 and 162.159.200.123 (Cloudflare NTP).",
+      "evidence": [
+        {
+          "resource": "repo://talos/patches/global/machine-time.yaml",
+          "version": "repo-file-v1:sha256:fa6a6d71fe9afc35b5b94152180f164f214ec0aac70a47d460bc878c7710a925"
+        }
+      ]
+    },
+    {
+      "id": "claim_7d6ca66f1d0f4f969010a4f3f9a9eb89",
+      "statement": "The machine-udev.yaml patch configures DRM device permissions with SUBSYSTEM==\"drm\", KERNEL==\"renderD*\", GROUP=\"44\" (video group), MODE=\"0660\" for GPU access by containerized applications.",
+      "evidence": [
+        {
+          "resource": "repo://talos/patches/global/machine-udev.yaml",
+          "version": "repo-file-v1:sha256:7e154d158f2c4d2f42dae8791664103b6c15e6a4fed0d72b3f05d848a69d341d"
+        }
+      ]
+    },
+    {
+      "id": "claim_0173a83e01b6428bb5acdbc5db3fdf7d",
+      "statement": "The machine-api-access.yaml patch enables kubernetesTalosAPIAccess feature with allowedRoles os:admin and allowedKubernetesNamespaces kube-system to permit Talos API access from Kubernetes pods.",
+      "evidence": [
+        {
+          "resource": "repo://talos/patches/global/machine-api-access.yaml",
+          "version": "repo-file-v1:sha256:86c2098b4ae130a0f106602bc08d5ed721f74e12fe87a5ce8f7648e13d909300"
+        }
+      ]
+    },
+    {
+      "id": "claim_0b21b3e1de4a499d836c8cfb43bd22b2",
+      "statement": "Talhelper taskflow defined in .taskfiles/talos/Taskfile.yaml includes generate-config task running talhelper gencommand, apply-node task for applying configuration to specific nodes, upgrade-node for Talos OS upgrades, and upgrade-k8s for Kubernetes version upgrades.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml",
+          "version": "repo-file-v1:sha256:c225f89537001da000f854eaa234bf1973988aa49e84e216fb7284dcbcd786bd"
+        }
+      ]
+    },
+    {
+      "id": "claim_804c9277290a4ed5a2a3d29960193051",
+      "statement": "The generate-config task requires talconfig.yaml, .sops.yaml, SOPS_AGE_KEY_FILE, and talhelper CLI tool to be present before generating machine configurations.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml#L7-L16",
+          "version": "repo-lines-v1:sha256:97e49d6f27ce1378a5fa6e4e28528c73dc704255a1c24be24023d9f91e72b3d9:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZmMzkyM2ZkNDA1ZDI0MDNlMmZiZGIzMzg3ODJiNDExMDQyZmFmMmM2NDA3OGQ2YzU0NmM4NGIxYWQ3YTc4MTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIxZDEyYjU2YzEwYjdmYjYyYzhmMDQxYjM3ZTE4Y2Y4ZjI3YzU3OGEwZDI3YWI3ZThkZDg4ZGJkYzlkZjRiMWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUwOGRhM2YwNzA4OGQwODBjYjQ1M2ViYmMwMmJhMzFkOTdiZmJiNTc2ZjAzM2UzNDVhNzAzYzU4OWJmMjZhY2IifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c3508fc57bbb4f4b9d7c820d36cba2d2",
+      "statement": "The apply-node task uses talhelper gencommand apply with --mode flag supporting auto, no-reboot, and reboot modes, requires node IP parameter, and validates node connectivity via talosctl before applying configuration.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml#L17-L30",
+          "version": "repo-lines-v1:sha256:7d02c3aa59df44decbb768de2cadfcadab5ed35476ef7ee46b3fd6ff94652009:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwOGI1ZWI4N2M5MGVmYjA0NWM2Y2E5NmViMmVkMDU0ODk3MjdmMWJhMjIyMTgxNDUxM2MwOGVhOGFjYTQ2ZTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg4NDI4M2IzNzhmNWIwYjU5MjU3MDQzOThlM2JkMDA4Mjg3YTFmYmNhZTU2NTQ3NDg0MWMzNDk4ZmE3OTgzMzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVlZjk2Mjg3NDQ1OTM1YzBiYTQxMjk4NGNhNGEzYzJmY2YyOWZlZGY0YWEyNzY0NzdkODY2Mzg4Mzk1YmU5MDkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_57e2537658374f6080b77fc6093de0e8",
+      "statement": "The upgrade-node task extracts talosImageURL from talconfig.yaml for the specific node and talosVersion from talenv.yaml, then executes talhelper gencommand upgrade with custom image and timeout flags.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml#L31-L46",
+          "version": "repo-lines-v1:sha256:c7745ffcaf01e49647d3d0c759433bd1c878042e171a2003f9f5ef415c355991:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcyMTc2ZGE5ZmU1N2MzMDM4YzQ5MGNmM2ZkODFlZWU1OTA1NDE0YzYzYzVhY2RhZmE0ZTdjMjExMjk0YjNmNWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlhNjI2MWZlNzI4NDUwMWRiYzY0ODNkOTEyZWFjZGQyMzNiZjkwMmIyNGY1OWU0ZmRjYTFlZTVmMWQ2MmFhMWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJjMjI3NzVjMmU1ZWViMDBmOWFiNzIyZjM5Njc0YTZkZDE1NTNhYTA4ODZmZWM5ZDFiNzZkYjU3OGJlNmJiODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgyMjNlZDA2NGU4NDJmYWNiOThmMGI2ZGViYmE1MWQzODg4MjQ0ZjM0NTVjMTIzZjRiMzRiMDU3OGU3ZDAyZWEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_be72342af7c1481e852cc08de23a52bd",
+      "statement": "The upgrade-k8s task reads kubernetesVersion from talenv.yaml and executes talhelper gencommand upgrade-k8s with --to flag to upgrade Kubernetes across the cluster.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml#L48-L58",
+          "version": "repo-lines-v1:sha256:1172dba8a5f5c572ea4428fc7814a5afe4ba06a270839de086f7fb4f0549a9ca:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQzYWZiZTlhYTEyMmU0N2ZiY2RkZmFlZWViYjQ3NjE0YzMyNTBlNzhmNzlhZDg5NzMyZDczMTY3ODg4MDYyODgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2MGRjZjk2Mjk1YzVkNThhNjk3NjU1MjRjMzc5YTgwOWUxNzRhNzVlZGM1YzdlYTUwMmI4MzFkOGI4MmFiNmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUwMGYyZTc4MmU2ZmRjZDY4ZTU2MDZmNWQ5MzJiYWQyNWRlY2JjNTRiODYzNTlkNjYxYmI4NDE0ZTc5Y2MxODkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdlOWVjZjQ3MzhmZTc2ZWE5N2MzYmYwZmIwNzNmZTkxODQwZThlNTBlYzVjOTdjOGQzZWZiNWU3YWI5YmRkNmQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_bd55776c82654346b59803a151c12cad",
+      "statement": "User volume provisioning is configured via inline manifest in talconfig.yaml with UserVolumeConfig kind, diskSelector matching system_disk, minSize 2GB, and grow enabled for dynamic local-path storage volume allocation.",
+      "evidence": [
+        {
+          "resource": "repo://talos/talconfig.yaml#L54-L63",
+          "version": "repo-lines-v1:sha256:b842be0c4aa111617599ff7c2fba419c643eb9b482992aebb3708f234b512554:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImViOGY5ZjRhN2UwYmE5ODQ1MDAxNjc2YmVjNWJkYWUxYzMwZGNmZWRjYzcwYzU3ZWZlZWM0ZDhiYTdhYzEyZTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjljYjFkNzc5Y2U5ZGU5NjFhNWYwOWRhYjU4M2Q2OTE4OTNmNmIyOTdlNDUyMDMzMjNhYTFjZDFlZmQyZjZjYjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJlNWM3MjZmOTI2N2JhZWYyOTYxMjljNWE0Zjg3YzAyMmI4NzhhOWM2MWVkNjI2ZDgyYWFkOWZjNTliMWJhM2EiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA5M2RkZjI1MzNiNmE1ZjNjYTQ4M2YyMTM5MDA3ZTNkNDFlN2QyMTFiM2M3Yzg0MTc4YzM3NTcyN2Q0M2JmNTYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_3616a0e5821f404bb2b5a06dba4c190c",
+      "statement": "Additional API server and machine certificate SANs are configured with 127.0.0.1 and 192.168.50.10 (VIP) using YAML anchors to allow API access via localhost and the virtual IP address.",
+      "evidence": [
+        {
+          "resource": "repo://talos/talconfig.yaml#L9-L12",
+          "version": "repo-lines-v1:sha256:473a6ce1640788a06877deb10ea03abd5dc6c4e6460779648b374a98a2ec06e0:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTBlYTJlOWFlMWQyODE3ZDhkNDE0Y2EwZTQyMTNiZTUzMTYxYjMzM2ZmNGVjNzVkNDkzMTQwMGU1MDVhNTYyYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiN2U4NWIxZDM3YTlhMGVkMTdiM2FiZGQ2ZmFiM2YxZTFmNGNkNmJhYTRmYzVkNTIwM2FiMzY4M2VlNzAzNTFkYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYmYzOTc5MTBlNmYyNTNmOTMyMDRjNjhiMjAzOGYwYzdjNTcxMmU5ZWZiN2QyNDY5OTI3MDg1Yjk0NjZkOGI3ZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODY0MDdmOWQwMTE5MTg3NTc5MGI5NmFkZGY3MDBmMDQ3MDYzNWM3ZGU2MTViMmJhMDViYWRhMTA0YjU2ODg1MSJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-08-29T21:52:21.026Z"
+  }
+}

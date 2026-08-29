@@ -3,6 +3,9 @@ type: Quickstart Guide
 title: Quick Start Guide
 description: Entry point for understanding the Talos + Flux GitOps cluster repository structure, bootstrapping process, and daily operations.
 tags: [talos, kubernetes, flux, quickstart, gitops, homelab]
+verified:
+  - by: openwiki/0.4.3
+    at: 2026-08-29T21:52:21.026Z
 sources:
   - id: openwiki-source-9c06bd9d7d25770709e07c7c
     resource: repo://.mise.toml
@@ -24,9 +27,11 @@ sources:
     resource: repo://README.md
   - id: openwiki-source-6f1d2c8de9160e178167b990
     resource: repo://scripts/bootstrap-apps.sh
+  - id: openwiki-source-b65e4f1ccd91316116ad973a
+    resource: repo://talos/talenv.yaml
   - id: openwiki-source-b9ff7ee0aa4953cc601052a4
     resource: repo://Taskfile.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-28T03:38:47.877Z" }
+generated: { by: "openwiki/0.4.3", at: "2026-08-29T21:52:21.026Z" }
 ---
 
 # Quick Start Guide
@@ -77,7 +82,7 @@ flowchart TD
 
 ### Key Components
 
-- **Operating System**: Talos Linux (secure-boot enabled, immutable, API-managed)
+- **Operating System**: Talos Linux v1.12.7 (secure-boot enabled, immutable, API-managed)
 - **Orchestration**: Flux for GitOps-based cluster management
 - **Networking**: Cilium (CNI with L2 announcements), Cloudflare Tunnel (ingress), Tailscale (VPN/mesh)
 - **Secrets**: SOPS + age for Git encryption, External Secrets Operator with Bitwarden for runtime secrets
@@ -95,7 +100,7 @@ mise trust
 mise install
 ```
 
-This installs and configures the required tools: `task`, `talhelper`, `talosctl`, `kubectl`, `flux`, `helmfile`, `sops`, `age`, `yq`, `kubeconform`
+This installs and configures the required tools: `task`, `talhelper`, `talosctl`, `kubectl`, `flux`, `helmfile`, `sops`, `age`, `yq`, `kubeconform`, `cilium-cli`, `cloudflared`, `cue`, `helm`, `jq`, `kustomize`, `python`, `makejinja`, `node`, and `pipx`.
 
 ### Environment Variables
 

@@ -5,7 +5,7 @@ description: Dual-layer secrets architecture combining SOPS + age for Git encryp
 tags: [secrets, sops, age, external-secrets, bitwarden, security, encryption]
 verified:
   - by: openwiki/0.4.3
-    at: 2026-08-29T02:22:11.234Z
+    at: 2026-08-29T21:52:21.026Z
 sources:
   - id: openwiki-source-240e6406ed4b6841961679cb
     resource: repo://.sops.yaml

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:b9b65ac59a8ee9d47a2eba4f39b0c5624eb7cee84fa25ccab1c3ae33dff27877",
+  "pageVersion": "sha256:840cf35abcada008b57801ac02dea2ccf7c95aa84d6821ae0455f3c5d4e31832",
   "claims": [
     {
       "id": "claim_ad4aee5586e148f183b37e571c767319",
@@ -74,8 +74,12 @@
     },
     {
       "id": "claim_785d0f365a9f430daf789a58ae77a11d",
-      "statement": "flux-operator OCIRepository sources from ghcr.io/controlplaneio-fluxcd/charts/flux-operator with tag-based versioning",
+      "statement": "flux-operator and flux-instance OCIRepository sources from ghcr.io/controlplaneio-fluxcd/charts/flux-operator and flux-instance with tag-based versioning and layer selection for Helm chart content",
       "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/flux-system/flux-instance/app/helmrelease.yaml#L2-L14",
+          "version": "repo-lines-v1:sha256:c2a49fc0516eea46a24ad23d70fd70cd18408297823c3883064dcd88283701dd:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI0NTcyNDhjOGMzOGE4YTZjOGUxOGQ4MDMyODUwZTA3MGY1OWIxNWM4OWRlZmI2MWJjNDc3YWVjYWIxNGVmZWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFlODdmMmE2NWRjZjE3NTRkMTEzZTA3ZGU3MzgzOGYyZGIyZTQzNDcxZGE3OWIxMjk5M2VlZjhmNWQxZDhmZmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoxLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY0NjY3MzQ4YmRkMGExMDAyYjhiYzAzMWU3ZTBjZTE5ZDllMTQ1YjdiMjJhMGNlODViNzllMzBiZDJmMjhmOTgifQ"
+        },
         {
           "resource": "repo://kubernetes/apps/flux-system/flux-operator/app/helmrelease.yaml#L2-L14",
           "version": "repo-lines-v1:sha256:fdea83c60e1d4d442697f7e8e84dde3bc7cdc2d78b313831786e336ba5fe0995:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI0NTcyNDhjOGMzOGE4YTZjOGUxOGQ4MDMyODUwZTA3MGY1OWIxNWM4OWRlZmI2MWJjNDc3YWVjYWIxNGVmZWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVmY2FlMjI4OWQxOTlhYmQyZWNhYzc5ZGExZmE4YTVkZTMwOTBmNTdmYjU5ZGIyMGViMzIwOGE3NWIxMjA1YWEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoxLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY0NjY3MzQ4YmRkMGExMDAyYjhiYzAzMWU3ZTBjZTE5ZDllMTQ1YjdiMjJhMGNlODViNzllMzBiZDJmMjhmOTgifQ"
@@ -112,7 +116,7 @@
     },
     {
       "id": "claim_2402f6d0816b4e48816b4945e017d345",
-      "statement": "Flux HelmReleases for flux-operator and flux-instance configure rollback remediation with 3 retries and cleanupOnFail for safe upgrades",
+      "statement": "Flux HelmReleases for flux-operator and flux-instance configure rollback remediation with 3 retries, cleanupOnFail, and install remediation with unlimited retries for safe upgrades",
       "evidence": [
         {
           "resource": "repo://kubernetes/apps/flux-system/flux-instance/app/helmrelease.yaml#L16-L36",
@@ -226,11 +230,15 @@
     },
     {
       "id": "claim_101090853af64fc6a8399132f0392356",
-      "statement": "The common Kustomize component creates namespace, adds repository definitions, and configures SOPS secrets for application standardization",
+      "statement": "The common Kustomize component creates namespace, adds repository definitions including app-template OCIRepository, and configures SOPS secrets for application standardization",
       "evidence": [
         {
           "resource": "repo://kubernetes/components/common/kustomization.yaml",
           "version": "repo-file-v1:sha256:6a499644d69e7563a12512291f01942ccdc1ceff4e741dd26aa28a228117f9d2"
+        },
+        {
+          "resource": "repo://kubernetes/components/common/repos/app-template/ocirepository.yaml",
+          "version": "repo-file-v1:sha256:1de7ff03efc07f77a66364c1a51db82e0426d7cd1f6a59263e9a78cdcacd8a71"
         }
       ]
     },
@@ -289,6 +297,6 @@
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-08-29T02:22:11.234Z"
+    "at": "2026-08-29T21:52:21.026Z"
   }
 }

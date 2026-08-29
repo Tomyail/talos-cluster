@@ -5,7 +5,7 @@ description: Layered networking stack comprising Cilium CNI with L2 announcement
 tags: [networking, cilium, cloudflare, dns, gateway, tailscale, vpn, ingress]
 verified:
   - by: openwiki/0.4.3
-    at: 2026-08-29T02:22:11.234Z
+    at: 2026-08-29T21:52:21.026Z
 sources:
   - id: openwiki-source-514428fb63f74f5cc6fe8c1d
     resource: repo://kubernetes/apps/default/qbittorrent/app/egress-gateway-policy.yaml
@@ -33,7 +33,7 @@ sources:
     resource: repo://kubernetes/apps/network/tailscale/app/egress-proxy.yaml
   - id: openwiki-source-d4d025f39bde91bcff75daaa
     resource: repo://kubernetes/apps/network/tailscale/app/helmrelease.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-29T02:22:11.234Z" }
+generated: { by: "openwiki/0.4.3", at: "2026-08-29T21:52:21.026Z" }
 ---
 
 # Networking Architecture
@@ -116,7 +116,7 @@ Cilium implements the Kubernetes Gateway API specification, providing modern ing
 - **External Gateway**: Listens on `192.168.50.13` for public-facing services
 - **Internal Gateway**: Listens on `192.168.50.12` for cluster-internal services
 
-Both gateways support HTTP (port 80) and HTTPS (port 443) with wildcard hostname matching (`*.${SECRET_DOMAIN}`). The external gateway allows routes from all namespaces, while the internal gateway restricts routes to the same namespace for HTTP but allows all namespaces for HTTPS.
+Both gateways support HTTP (port 80) and HTTPS (port 443) with wildcard hostname matching (`*.${SECRET_DOMAIN}`). The external gateway allows routes from all namespaces for HTTPS traffic, while the internal gateway restricts HTTP routes to the same namespace but allows all namespaces for HTTPS.
 
 ### L2 Announcements
 

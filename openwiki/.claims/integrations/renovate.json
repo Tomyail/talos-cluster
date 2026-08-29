@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:2addbf2b7c47ccf801036f80e68d6bb90388945e3e16331ded0c46e567bd42e8",
+  "pageVersion": "sha256:16574b6f14675a7767e75469c1b85af565aafd79457067dd6f8104970b6c334a",
   "claims": [
     {
       "id": "claim_28ba8b626032486cb6cfda160b55c8a5",
@@ -24,7 +24,7 @@
     },
     {
       "id": "claim_b4e771e68f3048178b032d539493ed64",
-      "statement": "Renovate uses flux, helm-values, kubernetes, and kustomize managers to track container images in Kubernetes manifests with pattern matching for .ya?ml and .ya?ml.j2 files.",
+      "statement": "Renovate uses flux, helm-values, helmfile, kubernetes, and kustomize managers to track container images and Helm charts with pattern matching for .ya?ml and .ya?ml.j2 files.",
       "evidence": [
         {
           "resource": "repo://.renovaterc.json5#L16-L30",
@@ -94,7 +94,7 @@
       "evidence": [
         {
           "resource": "repo://.mise.toml#L7-L27",
-          "version": "repo-lines-v1:sha256:1d7efbc10584704a3da81d1876b50ed44b5eaadda8392860966e2d73d6c4aa47:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE4MjZiZWEwNWZlNTBhNzNhNjQ1ZDhmYjEyZGMyODJmMjUzNjM0NDMyNjZkOTAxNzM3MmVhZjg4NDU5NDYzNDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImExMzJiZTlmM2NjMTcwZDEyNjFmZWFmOTIyN2RkZTI2ZmRiNzJhYzMxYjg2ZDQzZmY2ZmYyMTdjZjUwNzM2YTYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc1MDg0MzNmMTUzOWVkODEwOTlhNDhlNjIwMDVhMGE4ZGMyNGUwNDFhMDVlZmMxYjFiNGRiMzQ5ZmZkMTgzMTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRlMmZjMWNmZmMyMTMwOTk5YTk4NDcyYzQ1MzkxZmIwMWZiNzkwNDk5ZDIwZjk3NzllMTYyOTk0MDI4M2ViYzgifQ"
+          "version": "repo-lines-v1:sha256:c0f14c60126faf1ea9f76b6a273aa142e02dd4211d41124dbee8f0a57e27b8d2:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE4MjZiZWEwNWZlNTBhNzNhNjQ1ZDhmYjEyZGMyODJmMjUzNjM0NDMyNjZkOTAxNzM3MmVhZjg4NDU5NDYzNDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImExMzJiZTlmM2NjMTcwZDEyNjFmZWFmOTIyN2RkZTI2ZmRiNzJhYzMxYjg2ZDQzZmY2ZmYyMTdjZjUwNzM2YTYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc1MDg0MzNmMTUzOWVkODEwOTlhNDhlNjIwMDVhMGE4ZGMyNGUwNDFhMDVlZmMxYjFiNGRiMzQ5ZmZkMTgzMTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRlMmZjMWNmZmMyMTMwOTk5YTk4NDcyYzQ1MzkxZmIwMWZiNzkwNDk5ZDIwZjk3NzllMTYyOTk0MDI4M2ViYzgifQ"
         },
         {
           "resource": "repo://.renovaterc.json5#L77-L84",
@@ -114,7 +114,7 @@
     },
     {
       "id": "claim_ec8391b1ca064430a88f79247a0b4e23",
-      "statement": "Renovate applies semantic commit rules with feat for major/minor, fix for patch, and chore for digest updates, with datasource-specific scopes including container, helm, github-action, and github-release.",
+      "statement": "Renovate applies semantic commit rules with feat for major/minor, fix for patch, and chore for digest updates, with datasource-specific scopes including container, helm, github-action, github-release, and mise.",
       "evidence": [
         {
           "resource": "repo://.renovaterc.json5#L86-L131",
@@ -124,7 +124,7 @@
     },
     {
       "id": "claim_1390fd82747745c5a16ba9f545336f8f",
-      "statement": "Renovate applies labels including type/major, type/minor, type/patch for update types and renovate/container, renovate/helm, renovate/github-action for datasources.",
+      "statement": "Renovate applies labels including type/major, type/minor, type/patch for update types and renovate/container, renovate/helm, renovate/github-action, renovate/github-release for datasources.",
       "evidence": [
         {
           "resource": "repo://.renovaterc.json5#L133-L159",
@@ -217,6 +217,6 @@
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-08-28T03:38:47.877Z"
+    "at": "2026-08-29T21:52:21.026Z"
   }
 }

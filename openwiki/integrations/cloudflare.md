@@ -18,7 +18,10 @@ sources:
     resource: repo://kubernetes/apps/network/cloudflare-tunnel/app/resources/config.yaml
   - id: openwiki-source-9ee916fcf53ea3aeec3babe0
     resource: repo://kubernetes/apps/network/cloudflare-tunnel/app/secret.sops.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-28T03:38:47.877Z" }
+generated: { by: "openwiki/0.4.3", at: "2026-08-29T21:52:21.026Z" }
+verified:
+  - by: openwiki/0.4.3
+    at: 2026-08-29T21:52:21.026Z
 ---
 
 # Cloudflare Integration
@@ -58,13 +61,31 @@ Cloudflare Tunnel provides secure inbound connectivity to the cluster without ex
 
 **Deployment:** `kubernetes/apps/network/cloudflare-tunnel/app/helmrelease.yaml`
 
+**HelmRelease Pattern:** The tunnel deployment uses the `app-template` OCI chart pattern, providing a standardized Helm chart structure for application deployment. This pattern encapsulates common Kubernetes workload configurations including controllers, containers, pod options, services, and persistence in a reusable template.
+
 **Key Configuration:**
 - **Image:** `cloudflare/cloudflared:2026.7.3`
-- **Transport Protocol:** HTTP/2 for efficient multiplexing
-- **Origin HTTP/2:** Enabled for improved performance
+- **Transport Protocol:** HTTP/2 for efficient multiplexing (`TUNNEL_TRANSPORT_PROTOCOL: http2`)
+- **Origin HTTP/2:** Enabled for improved performance (`TUNNEL_ORIGIN_ENABLE_HTTP2: true`)
 - **Security:** Runs as non-root user (65534) with read-only root filesystem
 - **Resources:** 10m CPU request, 256Mi memory limit
 - **Metrics:** Exposes metrics on port 8080 for Prometheus scraping
+
+**cloudflared Configuration:**
+
+The tunnel container is configured with several environment variables that control its behavior:
+
+- **TUNNEL_METRICS:** Set to `0.0.0.0:8080` to expose Prometheus metrics on all interfaces
+- **TUNNEL_TRANSPORT_PROTOCOL:** Uses HTTP/2 as the transport protocol between cloudflared and Cloudflare edge
+- **TUNNEL_ORIGIN_ENABLE_HTTP2:** Enables HTTP/2 communication from cloudflared to origin services
+- **NO_AUTOUPDATE:** Disabled (`true`) to ensure version control through container image updates
+
+**Tunnel Run Arguments:**
+
+The container executes with `args: ["tunnel", "run"]`, which instructs cloudflared to:
+1. Read the tunnel token from the `TUNNEL_TOKEN` environment variable
+2. Establish an outbound connection to Cloudflare's edge network
+3. Begin processing ingress requests forwarded through the tunnel
 
 **Ingress Rules:**
 
@@ -79,6 +100,10 @@ The tunnel terminates at the Cilium external gateway service (`cilium-gateway-ex
 **Authentication:**
 
 The tunnel authenticates using a `TUNNEL_TOKEN` stored in the `cloudflare-tunnel-secret` Secret. This token is provisioned in Cloudflare and grants the tunnel permission to route traffic for the configured domain.
+
+**Credential Management:**
+
+The `cloudflare-tunnel-secret` is a SOPS-encrypted Kubernetes Secret stored in Git. Flux decrypts the secret at runtime using the age decryption key, and the token is injected into the cloudflared container via environment variable from the Secret.
 
 **Lifecycle:**
 - **Probes:** Liveness and readiness checks query `/ready` endpoint on port 8080
@@ -107,6 +132,10 @@ External DNS synchronizes Kubernetes resources with Cloudflare DNS records. It w
 **Authentication:**
 
 External DNS authenticates using a Cloudflare API token stored in the `cloudflare-dns-secret` Secret. The token requires DNS edit permissions for the configured domain.
+
+**Credential Management:**
+
+The `cloudflare-dns-secret` is a SOPS-encrypted Kubernetes Secret containing the `CF_API_TOKEN`. Flux decrypts this secret at runtime, and external-dns reads the token value from the Secret via environment variable injection.
 
 **Reload Integration:**
 
@@ -205,7 +234,7 @@ The integration works with k8s-gateway for internal DNS resolution. Services exp
 
 - **Tunnel Token:** Stored in `cloudflare-tunnel-secret`, provisioned from Cloudflare Zero Trust dashboard
 - **DNS API Token:** Stored in `cloudflare-dns-secret`, requires Zone DNS Edit permissions
-- **Secrets Management:** Encrypted with SOPS, mounted as environment variables
+- **Secrets Management:** Encrypted with SOPS, decrypted at runtime by Flux
 
 ### Network Security
 
@@ -253,8 +282,8 @@ Key metrics include tunnel connection status, request counts, and DNS synchroniz
 
 **Tunnel Configuration:**
 - Modify `config.yaml` in `kubernetes/apps/network/cloudflare-tunnel/app/resources/`
-- Kustomize regenerates ConfigMap automatically
-- Reloader annotation triggers pod restart
+- Kustomize regenerates ConfigMap automatically via configMapGenerator
+- Reloader annotation triggers pod restart when ConfigMap changes
 
 **DNS Settings:**
 - Update Helm values in `kubernetes/apps/network/cloudflare-dns/app/helmrelease.yaml`
@@ -266,5 +295,4 @@ Key metrics include tunnel connection status, request counts, and DNS synchroniz
 - **Cilium Gateway:** External gateway must be running and accessible
 - **Flux CD:** Manages Helm releases and Kubernetes resources
 - **SOPS:** Encrypts sensitive configuration values
-- **Secret Store:** Provides Cloudflare credentials to pods
 - **Reloader:** Automates pod restarts on Secret changes

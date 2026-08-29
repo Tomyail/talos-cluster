@@ -32,7 +32,10 @@ sources:
     resource: repo://kubernetes/flux/meta/repos/gateway-api.yaml
   - id: openwiki-source-b65e4f1ccd91316116ad973a
     resource: repo://talos/talenv.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-28T03:38:47.877Z" }
+generated: { by: "openwiki/0.4.3", at: "2026-08-29T21:52:21.026Z" }
+verified:
+  - by: openwiki/0.4.3
+    at: 2026-08-29T21:52:21.026Z
 ---
 
 # Renovate Integration
@@ -128,17 +131,26 @@ talosVersion: v1.12.7
 kubernetesVersion: v1.35.4
 ```
 
-### GitHub Releases and Actions
+### GitHub Actions
+
+**GitHub Actions** are tracked through the `github-actions` manager:
+- Manager: `github-actions`
+- File patterns: `.github/workflows/*.yml`, `.github/workflows/*.yaml`
+- Auto-merge: Enabled for minor, patch, and digest updates
+- Minimum release age: 3 days
+- Commits pinned to digest references via `helpers:pinGitHubActionDigests` preset
+
+Example from `.github/workflows/flux-local.yaml`:
+```yaml
+- name: Checkout
+  uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+```
+
+### GitHub Releases
 
 **GitHub releases** are tracked through `# renovate:` annotations:
 - Flux distribution version (`kubernetes/apps/flux-system/flux-instance/app/helm/values.yaml#L4`)
 - CRD versions for external-dns and gateway-api
-
-**GitHub Actions** (`.renovaterc.json5#L70-L76`)
-- Manager: `github-actions`
-- Auto-merge: Enabled for minor, patch, and digest updates
-- Minimum release age: 3 days
-- Commits pinned to digest references
 
 ### Toolchain Versions
 

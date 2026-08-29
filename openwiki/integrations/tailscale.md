@@ -19,6 +19,9 @@ sources:
   - id: openwiki-source-d787b4e38b39b0dac177c42f
     resource: repo://kubernetes/flux/meta/repos/tailscale.yaml
 generated: { by: "openwiki/0.4.3", at: "2026-08-28T03:38:47.877Z" }
+verified:
+  - by: openwiki/0.4.3
+    at: 2026-08-29T21:52:21.026Z
 ---
 
 # Tailscale Integration
