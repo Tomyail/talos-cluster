@@ -3,9 +3,6 @@ type: integration
 title: Cloudflare Integration
 description: Cloudflare services integration providing secure ingress through Cloudflare Tunnel and automated DNS management via external-dns with DNSEndpoint resources for Kubernetes service discovery.
 tags: [cloudflare, tunnel, dns, external-dns, ingress, networking]
-verified:
-  - by: openwiki/0.4.3
-    at: 2026-08-28T03:38:47.877Z
 sources:
   - id: openwiki-source-fbe6d672adfac057cabd78a2
     resource: repo://kubernetes/apps/network/cloudflare-dns/app/helmrelease.yaml

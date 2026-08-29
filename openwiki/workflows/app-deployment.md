@@ -3,9 +3,6 @@ type: workflow
 title: Application Deployment Workflow
 description: Explains how to deploy and manage applications through Flux, including the app-template pattern, namespace organization, common components (volsync, gatus, image-automation), dependency management, and the structure of typical application resources.
 tags: [flux, deployment, apps, kubernetes, gitops, components, dependencies]
-verified:
-  - by: openwiki/0.4.3
-    at: 2026-08-28T03:38:47.877Z
 sources:
   - id: openwiki-source-951c2cc0849ba28408b9b784
     resource: repo://kubernetes/apps/database/cloudnative-pg/ks.yaml

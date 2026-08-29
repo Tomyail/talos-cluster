@@ -3,9 +3,6 @@ type: Quickstart Guide
 title: Quick Start Guide
 description: Entry point for understanding the Talos + Flux GitOps cluster repository structure, bootstrapping process, and daily operations.
 tags: [talos, kubernetes, flux, quickstart, gitops, homelab]
-verified:
-  - by: openwiki/0.4.3
-    at: 2026-08-28T03:38:47.877Z
 sources:
   - id: openwiki-source-9c06bd9d7d25770709e07c7c
     resource: repo://.mise.toml

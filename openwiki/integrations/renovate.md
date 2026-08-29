@@ -3,9 +3,6 @@ type: integration
 title: Renovate Integration
 description: Automated dependency update bot for container images, Helm charts, OCI repositories, Kubernetes manifests, Talos/Kubernetes versions, and toolchain versions.
 tags: [renovate, dependencies, automation, flux, gitops]
-verified:
-  - by: openwiki/0.4.3
-    at: 2026-08-28T03:38:47.877Z
 sources:
   - id: openwiki-source-9c06bd9d7d25770709e07c7c
     resource: repo://.mise.toml

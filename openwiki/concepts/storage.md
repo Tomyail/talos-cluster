@@ -5,7 +5,7 @@ description: Comprehensive storage infrastructure for the Talos Kubernetes clust
 tags: [storage, topolvm, volsync, lvm, csi, backup, kubernetes]
 verified:
   - by: openwiki/0.4.3
-    at: 2026-08-28T03:38:47.877Z
+    at: 2026-08-29T02:22:11.234Z
 sources:
   - id: openwiki-source-ce5428b32557cc11ea784146
     resource: repo://kubernetes/apps/database/cloudnative-pg/cluster/cluster16.yaml
@@ -35,7 +35,7 @@ sources:
     resource: repo://kubernetes/flux/meta/repos/local-path-provisioner.yaml
   - id: openwiki-source-67d09412df5e9b5263585304
     resource: repo://lvm-format-manual.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-28T03:38:47.877Z" }
+generated: { by: "openwiki/0.4.3", at: "2026-08-29T02:22:11.234Z" }
 ---
 
 # Storage Architecture
@@ -64,6 +64,8 @@ flowchart TD
     
     TopoLVM -->|VolumeSnapshot| SnapCtrl
 ```
+
+*Figure: Storage layer architecture showing provisioning flow from workloads through storage classes to underlying storage implementations, and VolSync backup integration with MinIO.*
 
 ## TopoLVM: Primary Block Storage
 
@@ -218,6 +220,8 @@ spec:
     manual: restore-once
 ```
 
+The restore configuration includes automatic cleanup of cache and temporary PVCs after completion, preventing resource leaks.
+
 ### Storage Backend
 
 VolSync backups are stored in MinIO S3-compatible storage:
@@ -258,6 +262,7 @@ The snapshot-controller provides Kubernetes volume snapshot functionality, enabl
 
 ### Capabilities
 
+- **Version**: 5.2.0 from Piraeus charts
 - **CRD Management**: CreateReplace strategy for CRD upgrades
 - **Default Snapshot Class**: `topolvm-thin-provisioner` marked as cluster default
 - **ServiceMonitor**: Prometheus metrics enabled for monitoring
@@ -271,9 +276,9 @@ The NFS CSI driver provides network-attached storage capabilities for workloads 
 
 ### Configuration
 
+- **Version**: 4.13.4
 - **Replicas**: 1 controller (single-node compatible)
 - **External Snapshotter**: Disabled (snapshot-controller handles snapshots)
-- **Version**: 4.13.4
 
 The NFS driver enables provisioning of PVs backed by NFS shares, supporting ReadWriteMany access modes for workloads that need concurrent read/write access from multiple pods.
 
@@ -283,9 +288,9 @@ The local-path-provisioner provides simple host-local storage for workloads that
 
 ### Configuration
 
-- **Default Path**: `/var/mnt/local-path-provisioner`
 - **Version**: 0.0.37
 - **Chart Source**: Containeroo charts
+- **Default Path**: `/var/mnt/local-path-provisioner`
 
 This provisioner creates directories on the host node and mounts them into pods, providing fast local storage without LVM overhead. It's commonly used for:
 
@@ -302,6 +307,17 @@ Workloads choose the appropriate storage class based on their requirements:
 | `topolvm-thin-provisioner` | Primary storage for databases, applications | ReadWriteOnce | Thin provisioning, snapshots, expansion |
 | `local-path` | Cache, temporary storage, small volumes | ReadWriteOnce | Fast host-local, no snapshots |
 | `nfs` | Shared storage, multi-writer workloads | ReadWriteMany | Network-attached, concurrent access |
+
+## Component Dependencies
+
+Storage components deploy in dependency order to ensure proper initialization:
+
+1. **snapshot-controller** deploys first, providing the VolumeSnapshot API and CRDs
+2. **TopoLVM** deploys second, depending on snapshot-controller for CSI snapshot support
+3. **VolSync** deploys third, depending on TopoLVM for storage classes and CSI driver
+4. **NFS CSI** and **local-path-provisioner** deploy independently
+
+All components deploy to the `storage` namespace with standardized labels and resource management through Flux Kustomizations.
 
 ## Operational Considerations
 
@@ -348,3 +364,30 @@ Storage components expose Prometheus metrics:
 - **Snapshot Controller**: Snapshot creation/deletion rates
 
 These metrics enable monitoring storage health, capacity planning, and backup reliability.
+
+### Troubleshooting TopoLVM Single-Node Issues
+
+In single-node clusters, TopoLVM upgrades may fail due to pod anti-affinity rules preventing new controller pods from scheduling. Symptoms include:
+
+- Controller pod stuck in `Pending` state with `node(s) didn't satisfy existing pods anti-affinity rules`
+- HelmRelease timeout with `context deadline exceeded`
+- Kustomization stuck in `Stalled` state
+
+The current deployment prevents this by:
+- Setting `replicaCount: 1` to prevent multi-replica scheduling conflicts
+- Disabling anti-affinity with `affinity: ""`
+- Using `Recreate` update strategy to force old pod deletion before new pod creation
+
+If issues persist, manually delete pending pods or stale ReplicaSets:
+
+```bash
+kubectl -n storage delete pod topolvm-controller-xxxxxxxx
+kubectl -n storage scale rs topolvm-controller-xxxxxxxx --replicas=0
+```
+
+Then reconcile the Flux resources:
+
+```bash
+flux reconcile kustomization topolvm -n storage --with-source
+flux reconcile helmrelease topolvm -n storage
+```

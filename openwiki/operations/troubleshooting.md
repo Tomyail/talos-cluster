@@ -3,9 +3,6 @@ type: operations
 title: Troubleshooting Guide
 description: Common issues and solutions for the Talos Kubernetes cluster, including TopoLVM single-node upgrade problems, Flux reconciliation failures, secret decryption issues, and single-node architecture constraints.
 tags: [troubleshooting, operations, flux, topolvm, secrets, single-node, sops]
-verified:
-  - by: openwiki/0.4.3
-    at: 2026-08-28T03:38:47.877Z
 sources:
   - id: openwiki-source-6378149bc01898a8718f6f2d
     resource: repo://.github/workflows/flux-local.yaml

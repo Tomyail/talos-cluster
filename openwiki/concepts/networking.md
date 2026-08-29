@@ -1,11 +1,11 @@
 ---
 type: architecture
-title: Network Architecture
+title: Networking Architecture
 description: Layered networking stack comprising Cilium CNI with L2 announcements and Gateway API, Cloudflare Tunnel for secure ingress, Cloudflare DNS and AdGuard DNS integration for external DNS management, k8s-gateway for internal DNS, and Tailscale for VPN and mesh networking.
 tags: [networking, cilium, cloudflare, dns, gateway, tailscale, vpn, ingress]
 verified:
   - by: openwiki/0.4.3
-    at: 2026-08-28T03:38:47.877Z
+    at: 2026-08-29T02:22:11.234Z
 sources:
   - id: openwiki-source-514428fb63f74f5cc6fe8c1d
     resource: repo://kubernetes/apps/default/qbittorrent/app/egress-gateway-policy.yaml
@@ -33,10 +33,10 @@ sources:
     resource: repo://kubernetes/apps/network/tailscale/app/egress-proxy.yaml
   - id: openwiki-source-d4d025f39bde91bcff75daaa
     resource: repo://kubernetes/apps/network/tailscale/app/helmrelease.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-28T03:38:47.877Z" }
+generated: { by: "openwiki/0.4.3", at: "2026-08-29T02:22:11.234Z" }
 ---
 
-# Network Architecture
+# Networking Architecture
 
 The cluster implements a comprehensive networking stack that provides secure external access, internal service discovery, controlled egress traffic, and mesh networking across multiple environments. This layered approach combines Cilium as the foundational CNI with specialized services for DNS management, ingress, and VPN connectivity.
 
@@ -58,7 +58,7 @@ flowchart TD
     TS -->|Pod/Service Access| Cilium
     
     Cilium -->|L2 Announcements| LBIP[LoadBalancer IPs]
-    Cilium -->|BPF Forwarding| Pods[Pods & Services]
+    Cilium -->|BPF Forwarding| Pods[Pods and Services]
     
     Cilium -->|EgressGateway| EgressIP[Designated Egress IPs]
     
@@ -79,6 +79,8 @@ flowchart TD
         AdGuardDNS
     end
 ```
+
+*Network layers and traffic flow through the cluster networking stack*
 
 ## Cilium CNI
 
@@ -347,13 +349,81 @@ All networking components expose Prometheus metrics:
 
 ### Troubleshooting
 
-Key endpoints for debugging:
+Key endpoints for debugging network issues:
 
-- **Cilium Status**: `cilium status` via CLI
+- **Cilium Status**: `cilium status` via CLI or check Cilium pods
 - **Tunnel Health**: `http://cloudflare-tunnel:8080/ready`
 - **DNS Resolution**: Test via CoreDNS (10.43.0.10) or k8s-gateway (192.168.50.11)
 - **Gateway Routes**: Inspect Gateway and HTTPRoute resources
 - **Tailscale**: Check operator logs and tailnet status
+
+#### Common Network Issues
+
+**DNS Resolution Failures**
+
+```bash
+# Check CoreDNS pods
+kubectl get pods -n kube-system -l k8s-app=kube-dns
+
+# Test DNS resolution
+kubectl run -it --rm debug --image=busybox --restart=Never -- nslookup kubernetes.default
+
+# Check k8s-gateway
+kubectl get svc -n network k8s-gateway
+dig @192.168.50.11 service.${SECRET_DOMAIN}
+```
+
+**Gateway Routing Issues**
+
+```bash
+# List gateways
+kubectl get gateway -A
+
+# Check HTTPRoutes
+kubectl get httproute -A
+
+# View gateway status
+kubectl describe gateway external -n kube-system
+```
+
+**Cloudflare Tunnel Connectivity**
+
+```bash
+# Check tunnel pod
+kubectl get pods -n network -l app.kubernetes.io/name=cloudflare-tunnel
+
+# View tunnel logs
+kubectl logs -n network deployment/cloudflare-tunnel
+
+# Test tunnel endpoint
+curl http://cloudflare-tunnel.network.svc.cluster.local:8080/ready
+```
+
+**Cilium Connectivity Problems**
+
+```bash
+# Check Cilium status
+kubectl exec -n kube-system cilium-xxxx -- cilium status
+
+# View connectivity test
+kubectl exec -n kube-system cilium-xxxx -- cilium connectivity test
+
+# Check for policy issues
+kubectl get ciliumpolicy -A
+```
+
+**Tailscale VPN Issues**
+
+```bash
+# Check operator status
+kubectl get pods -n network -l app.kubernetes.io/name=tailscale
+
+# View tailscale logs
+kubectl logs -n network deployment/tailscale
+
+# Check subnet router
+kubectl get tailscaleshaper -A
+```
 
 ## Configuration References
 

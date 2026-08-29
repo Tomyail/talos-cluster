@@ -5,7 +5,7 @@ description: Runtime secret management using Bitwarden as the external secrets p
 tags: [secrets, external-secrets, bitwarden, security]
 verified:
   - by: openwiki/0.4.3
-    at: 2026-08-28T03:38:47.877Z
+    at: 2026-08-29T02:22:11.234Z
 sources:
   - id: openwiki-source-41044dd9a7ebfa0249948610
     resource: repo://kubernetes/apps/default/growth-tracker/app/externalsecret.yaml
@@ -27,7 +27,7 @@ sources:
     resource: repo://kubernetes/apps/network/tailscale/ks.yaml
   - id: openwiki-source-d7ce147b373b74b80f0794fd
     resource: repo://kubernetes/flux/meta/repos/bitwarden-eso.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-28T03:38:47.877Z" }
+generated: { by: "openwiki/0.4.3", at: "2026-08-29T02:22:11.234Z" }
 ---
 
 # Bitwarden Secrets Integration
@@ -39,7 +39,7 @@ The cluster uses Bitwarden as the external secrets provider for runtime secret m
 ```mermaid
 flowchart LR
     subgraph Git["Git Repository"]
-        A["bitwarden-cli Secret"]
+        A["bitwarden-cli Secret.sops.yaml"]
         B["bitwarden-connect HelmRelease"]
     end
 
@@ -49,33 +49,38 @@ flowchart LR
         E["ClusterSecretStore: bitwarden-fields"]
         F["ExternalSecret CRs"]
         G["Kubernetes Secrets"]
+        J["Applications"]
     end
 
     subgraph External["Bitwarden Cloud/Self-hosted"]
         H["Bitwarden Vault"]
     end
 
-    A --> C
-    B --> C
-    C --> D
-    C --> E
+    A -->|Flux decrypts| C
+    B -->|deploys| C
+    C -->|creates| D
+    C -->|creates| E
+    C <-->|authenticates| H
     D --> F
     E --> F
-    F --> G
-    C <--> H
+    F -->|syncs| G
+    G --> J
 ```
+
+*Figure: Secret synchronization flow from Bitwarden to Kubernetes workloads*
 
 ## Components
 
 ### Bitwarden ESO Provider
 
-The Bitwarden ESO Provider is deployed via Helm in the `external-secrets` namespace as `bitwarden-cli` (`kubernetes/apps/external-secrets/bitwarden-connect/app/helmrelease.yaml#L4-L5`). This chart deploys the Bitwarden External Secrets Operator provider that acts as the bridge between External Secrets Operator and the Bitwarden API.
+The Bitwarden ESO Provider is deployed via Helm in the `external-secrets` namespace as `bitwarden-cli`. This chart deploys the Bitwarden External Secrets Operator provider that acts as the bridge between External Secrets Operator and the Bitwarden API.
 
-**Chart Configuration** (`kubernetes/apps/external-secrets/bitwarden-connect/app/helmrelease.yaml#L24-L59`)
+**Chart Configuration** (`kubernetes/apps/external-secrets/bitwarden-connect/app/helmrelease.yaml#L4-L15`)
 - Chart: `bitwarden-eso-provider` version 1.2.0
-- Health checks: Configured with extended liveness probe settings (300s period, 30 failure threshold, 15s timeout) to accommodate Bitwarden API latency
+- Source: Custom Helm repository from `gh-pages` branch raw index
+- Health checks: Extended liveness probe (300s period, 30 failure threshold, 15s timeout)
 - CRD installation: Enabled (`installCRDs: true`)
-- Service monitors: Enabled for the provider, webhook, and cert controller with 1m scrape intervals
+- Service monitors: Enabled for provider, webhook, and cert controller (1m scrape intervals)
 
 The provider authenticates to Bitwarden using credentials from an existing Kubernetes Secret:
 
@@ -109,16 +114,24 @@ decryption:
 
 The Bitwarden ESO Provider chart automatically creates two ClusterSecretStore resources that are cluster-wide and accessible from any namespace:
 
-1. **bitwarden-login**: Extracts secrets from Bitwarden login credentials (username/password properties)
-2. **bitwarden-fields**: Extracts secrets from Bitwarden custom fields (arbitrary key-value pairs)
+1. **bitwarden-login**: Extracts secrets from Bitwarden login credentials (username/password properties) using JSONPath `login.<property>`
+2. **bitwarden-fields**: Extracts secrets from Bitwarden custom fields (arbitrary key-value pairs) using JSONPath `fields[?(@.name=="<property>")].value`
 
 These stores are created by the Helm chart's CRDs and are referenced by ExternalSecret resources throughout the cluster.
 
+### External Secrets Operator
+
+The External Secrets Operator is deployed via Helm in the `external-secrets` namespace using the `external-secrets` chart version 2.8.0 with CRD installation enabled and service monitors for the webhook and cert controller (`kubernetes/apps/external-secrets/external-secrets/app/helmrelease.yaml`).
+
 ## Secret Synchronization
 
-### ExternalSecret Resources
+### ExternalSecret Resource Patterns
 
 Applications define ExternalSecret resources that specify which Bitwarden items to sync and how to transform them. The External Secrets Operator continuously watches these resources and keeps the target Kubernetes Secrets synchronized.
+
+#### Login Credentials Pattern
+
+Use the `bitwarden-login` ClusterSecretStore for username/password authentication.
 
 **Basic Example - AdGuard DNS** (`kubernetes/apps/network/adguard-dns/app/externalsecret.yaml#L1-L26`)
 ```yaml
@@ -144,18 +157,53 @@ spec:
         property: username
 ```
 
-**Advanced Example - Growth Tracker** (`kubernetes/apps/default/growth-tracker/app/externalsecret.yaml#L1-L95`)
-- Uses both `bitwarden-login` and `bitwarden-fields` stores
-- Transforms multiple Bitwarden items into a single Kubernetes Secret
-- Demonstrates mixed property access:
-  - Login properties (username/password) via `bitwarden-login`
-  - Custom fields (API keys, private keys) via `bitwarden-fields`
+**Applicable For**
+- Database credentials
+- Service account authentication
+- Basic auth for applications
+- Any credentials stored as Bitwarden login username/password
 
-The growth-tracker example shows the key distinction between the two stores:
+#### Custom Fields Pattern
 
-**Store Selection Based on Property Type** (`kubernetes/apps/default/growth-tracker/app/externalsecret.yaml#L60-L95`)
+Use the `bitwarden-fields` ClusterSecretStore for structured data stored in Bitwarden custom fields.
+
+**Example - Jellyseerr API Key** (`kubernetes/apps/default/jellyseerr/app/externalsecret.yaml#L42-L49`)
+```yaml
+- secretKey: JELLYSEERR_API_KEY
+  sourceRef:
+    storeRef:
+      name: bitwarden-fields
+      kind: ClusterSecretStore
+  remoteRef:
+    key: 9340af49-3add-4274-b2a0-7e6d16c84416
+    property: JELLYSEERR_API_KEY
+```
+
+**Applicable For**
+- API keys and tokens
+- Application encryption keys
+- Multi-part secrets (e.g., OAuth credentials)
+- Configuration values that don't fit username/password pattern
+
+#### Mixed Store Pattern
+
+ExternalSecret resources can reference both ClusterSecretStore types in a single resource by using `sourceRef.storeRef` to override the default store for specific data entries.
+
+**Example - Growth Tracker** (`kubernetes/apps/default/growth-tracker/app/externalsecret.yaml#L1-L95`)
+- Uses `bitwarden-login` for database and service credentials (username/password)
+- Uses `bitwarden-fields` for App Store Connect credentials (custom fields)
+- Combines multiple Bitwarden items into a single Kubernetes Secret
+- Demonstrates complex secret composition with template synthesis
+
+The growth-tracker example shows the key distinction between the two stores (`kubernetes/apps/default/growth-tracker/app/externalsecret.yaml#L60-L95`):
 - `bitwarden-login`: Uses JSONPath `login.<property>` to access username/password
 - `bitwarden-fields`: Uses JSONPath `fields[?(@.name=="<property>")].value` to access custom fields
+
+#### SMTP Relay Mixed Pattern
+
+The SMTP relay ExternalSecret demonstrates using both stores for a single application (`kubernetes/apps/network/smtp-relay/app/externalsecret.yaml`):
+- Uses `bitwarden-fields` for the SMTP server hostname
+- Uses `bitwarden-login` for SMTP username and password
 
 ### Secret Template Engine
 
@@ -171,6 +219,11 @@ ExternalSecret resources use the template engine to transform Bitwarden data int
 ```yaml
 DATABASE_URL: "postgres://{{ .GT_POSTGRES_USER }}:{{ .GT_POSTGRES_PASS }}@dev-postgres16-rw.database.svc.cluster.local:5432/growth_tracker?sslmode=disable"
 ```
+
+**Multi-Item Synthesis Example** (`kubernetes/apps/default/growth-tracker/app/externalsecret.yaml`):
+- Combines database credentials, Umami credentials, and App Store Connect credentials
+- Transforms them into application-specific environment variables
+- References multiple Bitwarden items: `cloudnative-pg`, `growth-tracker-db`, `umami.tomyail.com`, `growth-tracker-asc`
 
 ## Deployment Dependencies
 
@@ -214,10 +267,10 @@ The Bitwarden ESO Provider includes comprehensive health monitoring:
 
 The Bitwarden ESO Provider chart is sourced from a custom Helm repository:
 
-**Repository Configuration** (`kubernetes/flux/meta/repos/bitwarden-eso.yaml#L1-L12`)
+**Repository Configuration** (`kubernetes/flux/meta/repos/bitwarden-eso.yaml`)
 - Name: `bitwarden-eso-provider`
 - Namespace: `flux-system`
-- URL: GitHub Pages from `gh-pages` branch
+- URL: GitHub Pages from `gh-pages` branch raw index
 - Note: The upstream repository is archived; this cluster uses the gh-pages branch raw index as the chart repository while chart tarballs are still pulled from archived GitHub releases
 
 ### Secret Rotation
@@ -231,6 +284,18 @@ Bitwarden secrets are automatically synchronized by External Secrets Operator:
 
 No manual intervention is required for secret rotation after the initial setup. The synchronization interval is controlled by the ExternalSecret resource's refresh interval (if configured) or by the ESO Provider's polling behavior.
 
+**Special Case - CloudNative PG** (`kubernetes/apps/database/cloudnative-pg/app/externalsecret.yaml#L13-L17`)
+The CloudNative PG ExternalSecret includes a special label for automatic secret reload:
+```yaml
+template:
+  engineVersion: v2
+  metadata:
+    labels:
+      cnpg.io/reload: "true"
+```
+
+This label instructs the CloudNative PG operator to reload database connections when the secret changes, without requiring pod restart.
+
 ## Security Considerations
 
 ### Credential Storage
@@ -238,12 +303,14 @@ No manual intervention is required for secret rotation after the initial setup. 
 - Bitwarden CLI credentials are encrypted at rest in Git using SOPS + age
 - The `bitwarden-cli` Secret exists only in the cluster, never in plain text in Git
 - Flux decrypts the secret during reconciliation using the `sops-age` Secret
+- The SOPS encryption uses `mac_only_encrypted: true` to preserve YAML structure
 
 ### Access Control
 
 - ClusterSecretStore resources are cluster-scoped but access is controlled by Kubernetes RBAC
 - The Bitwarden ESO Provider runs with minimal required permissions
 - Each ExternalSecret can only access the specific Bitwarden items referenced in its `data` section
+- Applications only receive the final Kubernetes Secret, not Bitwarden access
 
 ### Network Security
 
@@ -259,41 +326,31 @@ No manual intervention is required for secret rotation after the initial setup. 
 
 ## Integration Patterns
 
-### Login Credentials Pattern
+### Database Credentials Pattern
 
-Use the `bitwarden-login` ClusterSecretStore for username/password authentication:
+Multiple applications use Bitwarden for database credentials:
 
-**Applicable For**
-- Database credentials
-- Service account authentication
-- Basic auth for applications
+**Common Pattern** (`kubernetes/apps/storage/nextcloud/app/externalsecret.yaml`)
+- References database-specific Bitwarden item (e.g., `nextcloud-db`)
+- Extracts `username` and `password` properties
+- Transforms into `INIT_POSTGRES_USER` and `INIT_POSTGRES_PASS` environment variables
+- Combines with superuser password from `cloudnative-pg` item
 
-**Example** (`kubernetes/apps/network/adguard-dns/app/externalsecret.yaml`)
-- References Bitwarden item by name
-- Maps `username` and `password` properties to Kubernetes Secret keys
+### Multi-Service Credential Pattern
 
-### Custom Fields Pattern
+Applications that require credentials for multiple services combine them into a single ExternalSecret:
 
-Use the `bitwarden-fields` ClusterSecretStore for structured data stored in Bitwarden custom fields:
+**Example - CloudNative PG** (`kubernetes/apps/database/cloudnative-pg/app/externalsecret.yaml`)
+- Combines PostgreSQL credentials from `cloudnative-pg` item
+- Adds MinIO S3 credentials from `hot-minio` item
+- Includes legacy credentials via `bitwarden-fields` for rotation scenarios
 
-**Applicable For**
-- API keys and tokens
-- Multi-part secrets (e.g., OAuth credentials)
-- Configuration values that don't fit username/password pattern
+### OAuth Client Pattern
 
-**Example** (`kubernetes/apps/default/growth-tracker/app/externalsecret.yaml#L64-L95`)
-- References Bitwarden item by name
-- Maps custom field names to Kubernetes Secret keys
-- Supports arbitrary field names and values
-
-### Multi-Item Pattern
-
-Combine multiple Bitwarden items into a single Kubernetes Secret using template synthesis:
-
-**Example** (`kubernetes/apps/default/growth-tracker/app/externalsecret.yaml`)
-- Combines database credentials, Umami credentials, and App Store Connect credentials
-- Transforms them into application-specific environment variables
-- Demonstrates complex secret composition
+The Tailscale integration demonstrates OAuth client credential handling (`kubernetes/apps/network/tailscale/app/externalsecret.yaml`):
+- Uses `bitwarden-login` store with OAuth client ID as `username`
+- OAuth client secret stored as `password`
+- Template transforms into `client_id` and `client_secret` keys
 
 ## Troubleshooting
 
@@ -315,6 +372,7 @@ Combine multiple Bitwarden items into a single Kubernetes Secret using template 
 - Confirm you're using `bitwarden-fields` ClusterSecretStore, not `bitwarden-login`
 - Verify custom field names match exactly (case-sensitive)
 - Check that the Bitwarden item type supports custom fields
+- Use `sourceRef.storeRef` to override the default store if needed
 
 **4. Liveness Probe Failures**
 - The provider is configured with a 150-minute failure threshold for resilience
@@ -338,4 +396,13 @@ kubectl get secret -n <namespace> <secret-name> -o jsonpath='{.data}' | jq 'keys
 
 # View Bitwarden ESO Provider logs
 kubectl logs -n external-secrets deployment/bitwarden-cli --tail=100 -f
+
+# View External Secrets Operator logs
+kubectl logs -n external-secrets deployment/external-secrets --tail=100 -f
 ```
+
+## Related Documentation
+
+- [Secrets Management](/openwiki/concepts/secrets-management.md) - Complete overview of the dual-layer secrets architecture
+- [Flux Architecture](/openwiki/concepts/flux-architecture.md) - How Flux reconciles and decrypts secrets
+- [CI/CD Integration](/openwiki/integrations/ci-cd.md) - How external secrets integrate with deployment pipelines

@@ -3,9 +3,6 @@ type: workflow
 title: Cluster Bootstrap Workflow
 description: Complete bootstrap sequence from Talos configuration generation through cluster initialization, including two-phase bootstrap (talos:talos then bootstrap:apps), prerequisite setup, and verification steps.
 tags: [bootstrap, talos, flux, cluster-initialization, gitops]
-verified:
-  - by: openwiki/0.4.3
-    at: 2026-08-28T03:38:47.877Z
 sources:
   - id: openwiki-source-240e6406ed4b6841961679cb
     resource: repo://.sops.yaml

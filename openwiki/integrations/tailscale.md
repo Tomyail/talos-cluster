@@ -3,9 +3,6 @@ type: integration
 title: Tailscale Integration
 description: Mesh VPN networking using Tailscale operator for secure cluster access, OAuth-based authentication, API server proxy, and egress proxy configuration for multi-cluster service routing.
 tags: [networking, tailscale, vpn, oauth, operator, mesh-networking, egress-proxy]
-verified:
-  - by: openwiki/0.4.3
-    at: 2026-08-28T03:38:47.877Z
 sources:
   - id: openwiki-source-d568e7b5376ab5b1f66e0d17
     resource: repo://kubernetes/apps/network/tailscale/app/egress-proxy.yaml

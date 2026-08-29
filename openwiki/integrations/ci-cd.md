@@ -3,9 +3,6 @@ type: integration
 title: CI/CD Integration
 description: GitHub Actions workflows for validating Kubernetes manifests via flux-local testing and diff generation on pull requests, synchronizing repository labels, and automating OpenWiki documentation updates.
 tags: [ci-cd, github-actions, flux-local, validation, automation, labels]
-verified:
-  - by: openwiki/0.4.3
-    at: 2026-08-28T03:38:47.877Z
 sources:
   - id: openwiki-source-ebc59c0f49296f6fb72696ed
     resource: repo://.github/labels.yaml

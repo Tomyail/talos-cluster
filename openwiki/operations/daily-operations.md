@@ -3,9 +3,6 @@ type: Operations runbook
 title: Daily Operations
 description: Common operational tasks for the Talos cluster including Flux reconciliation, Talos configuration application, node operations, VolSync backup procedures, and monitoring access.
 tags: [operations, runbook, flux, talos, volsync, monitoring, maintenance]
-verified:
-  - by: openwiki/0.4.3
-    at: 2026-08-28T03:38:47.877Z
 sources:
   - id: openwiki-source-4f5be6b4c7dcc699aca46164
     resource: repo://.taskfiles/talos/Taskfile.yaml

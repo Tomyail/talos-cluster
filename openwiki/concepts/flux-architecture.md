@@ -1,11 +1,11 @@
 ---
 type: architecture
 title: Flux GitOps Architecture
-description: Comprehensive documentation of the Flux GitOps reconciliation hierarchy, Kustomization structure (cluster-meta → CRDs → cluster-apps), source management, Helm vs Kustomize resources, and the automated image update system.
+description: Comprehensive documentation of the Flux GitOps reconciliation hierarchy, Kustomization structure (cluster-meta → CRDs → cluster-apps), source management, Helm vs Kustomize resources, SOPS decryption integration, and the automated image update system.
 tags: [flux, gitops, kubernetes, reconciliation, kustomize, helm]
 verified:
   - by: openwiki/0.4.3
-    at: 2026-08-28T03:38:47.877Z
+    at: 2026-08-29T02:22:11.234Z
 sources:
   - id: openwiki-source-1385f4adf262cc0ec92b6d45
     resource: repo://kubernetes/apps/default/echo/ks.yaml
@@ -51,32 +51,45 @@ sources:
     resource: repo://kubernetes/flux/meta/repos/jetstack.yaml
   - id: openwiki-source-12a44dba301e86ea2cf62628
     resource: repo://kubernetes/flux/meta/repos/kustomization.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-28T03:38:47.877Z" }
+generated: { by: "openwiki/0.4.3", at: "2026-08-29T02:22:11.234Z" }
 ---
 
 # Flux GitOps Architecture
 
-Flux serves as the GitOps operator for the Talos Linux cluster, continuously reconciling the cluster state with the Git repository. This document describes the reconciliation hierarchy, Kustomization structure, source management, resource types, and the automated image update system.
+Flux serves as the GitOps operator for the Talos Linux cluster, continuously reconciling the cluster state with the Git repository. This document describes the reconciliation hierarchy, Kustomization structure, source management, resource types, SOPS decryption integration, and the automated image update system.
+
+## Bootstrap Handoff
+
+The cluster bootstrapping process begins with Helmfile, which deploys critical infrastructure components before Flux takes over:
+
+1. **Cilium** (CNI) - Installed first with atomic upgrade and wait-for-jobs
+2. **CoreDNS** - Depends on Cilium, provides cluster DNS
+3. **cert-manager** - Depends on CoreDNS, provisions TLS certificates
+4. **flux-operator** - Depends on cert-manager, installs the Flux operator
+5. **flux-instance** - Depends on flux-operator, deploys the Flux controllers
+
+The Helmfile releases use `atomic: true` for safe upgrades and define explicit dependencies via the `needs` field. Once flux-instance is deployed, Flux begins reconciling from `kubernetes/flux/cluster/ks.yaml`, taking over cluster management.
 
 ## Reconciliation Hierarchy
 
 Flux manages the cluster through a hierarchical Kustomization structure that enforces dependency ordering and enables phased rollouts.
 
-<!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
-```text
+```mermaid
 flowchart TD
-    A[flux-system GitRepository<br/>github.com/tomyail/talos-cluster] --> B[cluster-meta Kustomization<br/>./kubernetes/flux/meta]
-    B --> C[gateway-api-crds Kustomization<br/>Gateway API CRDs]
-    B --> D[external-dns-crds Kustomization<br/>External DNS CRDs]
-    B --> E[flux-operator Kustomization]
-    C --> F[cluster-apps Kustomization<br/>./kubernetes/apps]
-    D --> F
-    E --> G[flux-instance Kustomization]
-    E --> H[image-automation Kustomization]
-    E --> I[notification Kustomization]
-    F --> J[Namespace Kustomizations<br/>default, storage, etc.]
-    J --> K[Application Kustomizations<br/>Helm Releases & Kustomize resources]
+    A[flux-system GitRepository] --> B[cluster-meta Kustomization]
+    B --> C[gateway-api-crds Kustomization]
+    B --> D[external-dns-crds Kustomization]
+    C --> E[cluster-apps Kustomization]
+    D --> E
+    E --> F[Namespace Kustomizations]
+    F --> G[Application Kustomizations]
+    B --> H[flux-operator Kustomization]
+    H --> I[flux-instance Kustomization]
+    H --> J[image-automation Kustomization]
+    H --> K[notification Kustomization]
 ```
+
+*Figure: Flux reconciliation flow showing dependency ordering from cluster-meta through application deployment*
 
 ### Top-Level Kustomizations
 
@@ -100,273 +113,213 @@ The entry point is defined in `kubernetes/flux/cluster/ks.yaml`, which establish
 
 **cluster-apps** (`kubernetes/flux/cluster/ks.yaml#L71-L94`)
 - Depends on: `cluster-meta`, `gateway-api-crds`, `external-dns-crds`
-- Deploys all namespace-level Kustomizations from `./kubernetes/apps`
-- Enables SOPS decryption for secrets
-- Final application layer containing all workloads
+- Deploys all namespace-level and application Kustomizations from `./kubernetes/apps`
+- Enables SOPS decryption for application secrets
+- Ensures all sources and CRDs are available before applications deploy
 
-This hierarchy ensures that source repositories are available before CRDs are installed, and CRDs are present before applications attempt to use them.
+The dependency ordering ensures that:
+1. Source repositories are available first (cluster-meta)
+2. Required CRDs are installed next (gateway-api-crds, external-dns-crds)
+3. Applications can safely deploy with all dependencies in place (cluster-apps)
 
 ## Source Management
 
-Flux manages three types of sources for fetching Kubernetes manifests and Helm charts.
+Flux sources are organized under `kubernetes/flux/meta/` and deployed by the cluster-meta Kustomization.
 
 ### GitRepository Sources
 
-**flux-system** (`kubernetes/flux/cluster/ks.yaml#L18-L19`)
-- URL: `https://github.com/tomyail/talos-cluster.git`
-- Branch: `main`
-- Path: `kubernetes/flux/cluster`
-- Interval: 1 hour
-- Primary source for cluster configuration
+The primary `flux-system` GitRepository sources cluster configuration from `github.com/tomyail/talos-cluster.git` (main branch) with a 1-hour interval.
 
-**flux-system-https** (`kubernetes/apps/flux-system/image-automation/gitrepository.yaml#L3-L12`)
-- URL: `https://github.com/tomyail/talos-cluster.git`
-- Branch: `main`
-- Interval: 1 minute
-- Used by ImageUpdateAutomation for pushing changes back to Git
-- Requires authentication token
+For automated image updates, a separate `flux-system-https` GitRepository with 1-minute interval and authentication token enables ImageUpdateAutomation to push changes back to Git.
 
-**gateway-api** (`kubernetes/flux/meta/repos/gateway-api.yaml#L3-L13`)
-- URL: `https://github.com/kubernetes-sigs/gateway-api`
-- Tag-based versioning with Renovate annotation
-- Interval: 15 minutes
-- Filters to include only `/config/crd/experimental/` directory
-
-**external-dns-crds** (`kubernetes/flux/meta/repos/external-dns-crds.yaml`)
-- Dedicated GitRepository for External DNS CRDs
-- Enables independent CRD versioning from application
-
-### HelmRepository Sources
-
-All HelmRepository sources are defined in `kubernetes/flux/meta/repos/` and deployed by the cluster-meta Kustomization (`kubernetes/flux/meta/repos/kustomization.yaml#L5-L45`).
-
-Representative examples:
-
-**bitnami** (`kubernetes/flux/meta/repos/bitnami.yaml#L3-L10`)
-- Type: OCI registry
-- URL: `oci://registry-1.docker.io/bitnamicharts`
-- Interval: 1 hour
-
-**jetstack** (`kubernetes/flux/meta/repos/jetstack.yaml#L2-L9`)
-- Type: HTTP Helm repository
-- URL: `https://charts.jetstack.io`
-- Interval: 1 hour
-- Used for cert-manager
-
-**external-dns** (`kubernetes/flux/meta/repos/external-dns.yaml#L2-L10`)
-- Type: HTTP Helm repository
-- URL: `https://kubernetes-sigs.github.io/external-dns`
-- Interval: 1 hour
-
-The cluster-meta Kustomization includes approximately 30 HelmRepository sources covering major chart publishers (Bitnami, bjw-s, Prometheus Community, Grafana, etc.) and custom registries (Gitea, Tailscale, etc.).
+GitRepository sources include:
+- `gateway-api` - Kubernetes Gateway API CRDs (tag-based, 15-minute interval)
+- `external-dns-crds` - External DNS CRDs (tag-based, 1-hour interval)
 
 ### OCIRepository Sources
 
-OCI repositories are used for Flux's own components:
+OCI repositories are used for Helm charts from OCI registries:
 
-**flux-operator** (`kubernetes/apps/flux-system/flux-operator/app/helmrelease.yaml#L2-L14`)
-- URL: `oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator`
-- Tag: `0.57.0`
-- Layer selector for Helm chart content
-- Interval: 1 hour
+- `flux-operator` - `ghcr.io/controlplaneio-fluxcd/charts/flux-operator` (tag-based)
+- `flux-instance` - `ghcr.io/controlplaneio-fluxcd/charts/flux-instance` (tag-based)
+- `app-template` - `ghcr.io/bjw-s-labs/helm/app-template` (tag-based, used by applications)
 
-**flux-instance** (`kubernetes/apps/flux-system/flux-instance/app/helmrelease.yaml#L2-L14`)
-- URL: `oci://ghcr.io/controlplaneio-fluxcd/charts/flux-instance`
-- Tag: `0.57.0`
-- Layer selector for Helm chart content
-- Interval: 1 hour
+### HelmRepository Sources
 
-**app-template** (`kubernetes/components/common/repos/app-template/ocirepository.yaml`)
-- Used by application Kustomizations as a common component
-- Provides standardized Helm chart template
+Approximately 30 HelmRepository sources are defined in `kubernetes/flux/meta/repos/`, including:
 
-## Kustomization Structure
+**OCI Protocol Repositories:**
+- `bitnami` - `oci://registry-1.docker.io/bitnamicharts` (1-hour interval)
 
-### Namespace-Level Kustomizations
+**HTTP Protocol Repositories:**
+- `jetstack` - `https://charts.jetstack.io` (1-hour interval, cert-manager charts)
+- `prometheus-community`, `grafana`, `ingress-nginx`, `external-dns`, and many others
 
-Each application namespace has a Kustomization that aggregates individual applications:
+## Cluster-Meta vs Cluster-Apps Separation
 
-**default namespace** (`kubernetes/apps/default/kustomization.yaml#L5-L39`)
-- Includes 34 application Kustomizations
-- Applies common component (namespace, repos, sops)
-- Examples: fava, echo, navidrome, jellyfin, paperless, n8n, home-assistant
+The separation between cluster-meta and cluster-apps serves distinct purposes:
 
-**storage namespace** (`kubernetes/apps/storage/kustomization.yaml#L5-L17`)
-- Includes storage infrastructure: snapshot-controller, topolvm, volsync, csi-driver-nfs, nextcloud
-- Applies common component
+**cluster-meta** (Infrastructure)
+- Deploys source repositories (HelmRepository, GitRepository, OCIRepository)
+- Establishes the foundation for all subsequent reconciliations
+- Runs once sources are available, then enables dependent Kustomizations
 
-**flux-system namespace** (`kubernetes/apps/flux-system/kustomization.yaml#L5-L12`)
-- Includes: flux-instance, flux-operator, image-automation, notification
-- Applies common component
+**cluster-apps** (Applications)
+- Deploys namespace-level Kustomizations and applications
+- Depends on cluster-meta and CRD Kustomizations
+- Contains the bulk of cluster workloads
 
-### Application-Level Kustomizations
+This separation ensures:
+1. Sources are established before any application attempts to use them
+2. CRDs are installed before applications require them
+3. Clear infrastructure/application boundary
+4. Efficient reconciliation (sources change less frequently than applications)
 
-Each application is deployed via a dedicated Kustomization resource:
+## Namespace-Level Kustomization Patterns
 
-**Example: fava** (`kubernetes/apps/default/fava/ks.yaml#L5-L36`)
-- Metadata: name `fava`, namespace `default`
-- Components: gatus monitoring, image automation
-- Path: `./kubernetes/apps/default/fava/app`
-- Post-build substitution: injects cluster secrets and app-specific variables
-- Target namespace: `default`
-- Interval: 1 hour, timeout: 5 minutes, retry interval: 2 minutes
+Namespace-level Kustomizations in `kubernetes/apps/<namespace>/kustomization.yaml` aggregate individual application Kustomizations. For example, the default namespace Kustomization includes applications like echo, fava, navidrome, jellyfin, and many others.
 
-**Example: echo** (`kubernetes/apps/default/echo/ks.yaml#L5-L37`)
-- Metadata: name `echo`, namespace `default`
-- Components: gatus monitoring (external + tailscale)
-- Decryption: SOPS with sops-age secret
-- Post-build substitution: cluster secrets and app variables
+Each namespace Kustomization:
+- Applies the `common` component (namespace creation, repository definitions, SOPS configuration)
+- Lists all application Kustomizations as resources
+- Sets the target namespace
 
-Common features across application Kustomizations:
-- `commonMetadata` adds `app.kubernetes.io/name` label
-- `wait: true` ensures health checks pass before marking successful
-- `prune: true` removes resources not in Git
-- `sourceRef` points to `flux-system` GitRepository
+### Application Kustomizations
 
-## Helm vs Kustomize Resources
+Individual application Kustomizations (e.g., `kubernetes/apps/default/echo/ks.yaml`) consistently configure:
 
-Flux supports both Helm releases and Kustomize-based manifests, with the choice depending on application complexity.
+- **wait: true** - Ensures health checks pass before marking reconciliation successful
+- **prune: true** - Removes resources deleted from Git
+- **interval: 1h** - Reconciles every hour
+- **timeout: 5m** - 5-minute timeout for reconciliation operations
+- **retryInterval: 2m** - Retries failed reconciliations every 2 minutes
+- **commonMetadata labels** - Adds `app.kubernetes.io/name` labels to all resources
+- **decryption** - Enables SOPS decryption with `sops-age` secret (for applications with encrypted secrets)
+- **postBuild substitution** - References cluster-secrets for variable expansion
+- **components** - Includes reusable components (gatus, volsync, image-automation)
 
-### Helm Resources
+### Dependency Management
 
-Used for complex applications with configurable charts:
+Applications declare dependencies via the `dependsOn` field. For example:
 
-**flux-operator** (`kubernetes/apps/flux-system/flux-operator/app/helmrelease.yaml#L16-L36`)
-- Kind: `HelmRelease`
-- Chart reference: OCIRepository `flux-operator`
-- Values from: ConfigMap `flux-operator-values`
-- Health checks configured
-- Remediation strategy: rollback on failure, 3 retries
-- Cleanup on failure enabled
-
-**flux-instance** (`kubernetes/apps/flux-system/flux-instance/app/helmrelease.yaml#L16-L36`)
-- Kind: `HelmRelease`
-- Chart reference: OCIRepository `flux-instance`
-- Values from: ConfigMap `flux-instance-values`
-- Depends on: `flux-operator` Kustomization
-- Remediation strategy: rollback on failure, 3 retries
-
-**Application Helm Releases**
-Most applications in the cluster use Helm releases, typically sourced from the bjw-s app-template or vendor-specific charts.
-
-### Kustomize Resources
-
-Used for simpler applications or when fine-grained manifest control is needed:
-
-**Gateway API CRDs** (`kubernetes/flux/cluster/ks.yaml#L29-L44`)
-- Kustomization applies raw CRD manifests from GitRepository
-- Path: `./config/crd/experimental`
-- No Helm chart needed for CRD installation
-
-**Infrastructure Components**
-- CoreDNS installation
-- Cilium CNI manifests
-- CSI drivers
-
-## Image Automation System
-
-Flux includes a fully automated image update system that scans registries, applies policies, and commits updates back to Git.
-
-### Image Automation Components
-
-**ImageRepository** (`kubernetes/components/image-automation/imagerepository.yaml#L2-L11`)
-- Created per application via the `image-automation` component
-- Specified registry URL (e.g., `gitea.tomyail.com/tomyail/beancount`)
-- Interval: 1 minute for frequent scanning
-- Secret reference for private registry authentication
-
-**ImagePolicy** (`kubernetes/components/image-automation/imagepolicy.yaml#L2-L17`)
-- Created per application via the `image-automation` component
-- Policy type: numerical (ascending order)
-- Filter pattern: extracts timestamp from image tags (e.g., `^.+-[a-f0-9]+-(?P<ts>[0-9]+)$`)
-- Selects latest image by timestamp
-
-**Registry Authentication** (`kubernetes/components/image-automation/registry-externalsecret.yaml#L2-L26`)
-- ExternalSecret creates docker-registry secret
-- Fetches credentials from Bitwarden via ClusterSecretStore
-- Template creates `kubernetes.io/dockerconfigjson` secret
-- Variables: `${REGISTRY_HOST}`, `${BW_ID}` (Bitwarden entry ID)
-
-### ImageUpdateAutomation Objects
-
-**apps automation** (`kubernetes/apps/flux-system/image-automation/automation.yaml#L3-L28`)
-- Name: `apps`
-- Interval: 5 minutes
-- Update strategy: Setters (updates comments in manifests)
-- Path: `./kubernetes/apps/default`
-- Git commit author: `flux-bot`
-- Policy selector: matches resources with `image-automation: enabled` label
-
-**fava automation** (`kubernetes/apps/flux-system/fava-image-automation/automation.yaml#L3-L25`)
-- Name: `fava`
-- Interval: 5 minutes
-- Update strategy: Setters
-- Path: `./kubernetes/apps/default/fava`
-- Git commit author: `flux-bot`
-
-### Image Automation Flow
-
-```mermaid
-sequenceDiagram
-    participant IC as ImageRepository Controller
-    participant IR as ImageRepository
-    participant IP as ImagePolicy
-    participant IA as ImageUpdateAutomation
-    participant Git as Git Repository
-
-    IC->>IR: Scan registry every 1m
-    IC->>IP: Evaluate policy against new tags
-    IC->>IP: Update status with latest image
-    
-    IA->>IP: Check policy every 5m
-    IA->>IA: Scan manifests for setters
-    IA->>Git: Clone repository
-    IA->>Git: Update image tags in manifests
-    IA->>Git: Commit as flux-bot
-    IA->>Git: Push to main branch
-    
-    Note over Git: Git webhook triggers Receiver
-    Note over Flux: Flux reconciles with new images
+```yaml
+dependsOn:
+  - name: topolvm
+    namespace: storage
+  - name: external-secrets
+    namespace: external-secrets
+  - name: cloudnative-pg-cluster
+    namespace: database
 ```
 
-### Component Integration
+This ensures that storage, secrets, and database infrastructure are available before the application deploys.
 
-The `image-automation` component (`kubernetes/components/image-automation/kustomization.yaml#L3-L6`) is composed of:
-- `registry-externalsecret.yaml`: creates registry credentials
-- `imagerepository.yaml`: configures image scanning
-- `imagepolicy.yaml`: defines update policy
+## HelmRelease Management
 
-Applications opt into image automation by adding this component to their Kustomization (`kubernetes/apps/default/fava/ks.yaml#L14`).
+HelmReleases are used for deploying Helm charts. Applications reference OCIRepository sources for modern OCI-based charts.
+
+### Flux Self-Management
+
+The flux-operator and flux-instance HelmReleases configure:
+- **Rollback remediation** with 3 retries for failed upgrades
+- **cleanupOnFail: true** to clean up failed installs
+- **dependsOn** (flux-instance depends on flux-operator)
+
+### Application HelmReleases
+
+Application HelmReleases (e.g., fava, gitea, echo) use:
+- **OCIRepository chartRef** for OCI-based charts
+- **HelmRepository chartRef** for traditional HTTP chart repositories
+- **Remediation strategies** (rollback with retries)
+- **Interval: 1h** for reconciliation
+
+## SOPS Decryption Integration
+
+Flux integrates SOPS decryption at multiple levels:
+
+### Cluster-Level Decryption
+
+Both cluster-meta and cluster-apps enable SOPS decryption using the `sops-age` secret:
+
+```yaml
+decryption:
+  provider: sops
+  secretRef:
+    name: sops-age
+```
+
+### Application-Level Decryption
+
+Individual application Kustomizations also enable SOPS decryption when they contain encrypted secrets. The common component's `sops` subcomponent provides the `sops-age.sops.yaml` secret resource.
+
+This multi-level decryption ensures:
+1. Infrastructure secrets are decrypted during cluster-meta reconciliation
+2. Application secrets are decrypted during their respective Kustomization reconciliations
+3. Encrypted secrets in Git remain secure until decrypted by Flux
+
+## Image Update Automation
+
+Flux includes a comprehensive image update automation system that scans container registries, selects image versions, and updates Git manifests.
+
+### Components
+
+**ImageRepository** (`kubernetes/components/image-automation/imagerepository.yaml`)
+- Scans container registries every 1 minute
+- References secrets for private registry authentication
+- Templated with `${APP}`, `${NAMESPACE}`, and `${REGISTRY_URL}` variables
+
+**ImagePolicy** (`kubernetes/components/image-automation/imagepolicy.yaml`)
+- Selects images using numerical ascending order
+- Filters tags with regex pattern to extract timestamps for version sorting
+- Labels policies with `image-automation: enabled` for automation discovery
+
+**ExternalSecret** (`kubernetes/components/image-automation/registry-externalsecret.yaml`)
+- Creates `docker-registry` secrets by fetching credentials from Bitwarden
+- Templates `kubernetes.io/dockerconfigjson` format with username and password
+- Generates `${APP}-registry-secret` for ImageRepository authentication
+
+**ImageUpdateAutomation** (`kubernetes/apps/flux-system/image-automation/automation.yaml`)
+- Runs every 5 minutes
+- Uses Setters strategy to update image tags in manifests
+- Commits changes via flux-bot to the main branch
+- Matches policies with `image-automation: enabled` label
+
+### Workflow
+
+1. ImageRepository scans the registry for new tags
+2. ImagePolicy selects the latest image based on numerical sorting and timestamp extraction
+3. ImageUpdateAutomation detects policy changes and updates manifests in `./kubernetes/apps/default`
+4. Changes are committed and pushed by flux-bot
+5. Flux reconciles the updated manifests, triggering application deployments
 
 ## Notification System
 
-Flux notifies external systems about reconciliation events via the notification controller.
+Flux posts reconciliation status to GitHub via the notification controller.
 
-**GitHub Provider** (`kubernetes/apps/flux-system/notification/github-provider.yaml#L2-L11`)
-- Type: `github`
-- Address: `https://github.com/tomyail/talos-cluster`
-- Secret reference: `flux-github-token`
-- Used for committing status updates
+**GitHub Provider** (`kubernetes/apps/flux-system/notification/github-provider.yaml`)
+- Posts to `github.com/tomyail/talos-cluster`
+- Uses `flux-github-token` secret for authentication
 
-**GitHub Status Alert** (`kubernetes/apps/flux-system/notification/alert.yaml#L2-L39`)
-- Provider: `github`
-- Event severity: `info`
-- Event sources: All Kustomizations in flux-system, default, database, storage, observability, network, kube-system, cert-manager, external-server namespaces
-- Metadata: Includes kind, name, namespace in summary
-- Updates Git commit status with reconciliation results
+**GitHub Status Alert** (`kubernetes/apps/flux-system/notification/alert.yaml`)
+- Monitors all Kustomizations across flux-system, default, database, storage, observability, network, kube-system, cert-manager, and external-server namespaces
+- Posts reconciliation status as GitHub commit checks
 
-**Receiver for Webhooks** (`kubernetes/apps/flux-system/flux-instance/app/receiver.yaml#L2-L20`)
-- Type: `github`
-- Events: `ping`, `push`
-- Secret: `github-webhook-token-secret`
-- Triggers: `flux-system` GitRepository and Kustomization
-- Enables Git push-based reconciliation
+## Webhook Integration
 
-## Flux Components Configuration
+Flux integrates with GitHub webhooks for push-based reconciliation:
 
-The Flux instance is configured via Helm values (`kubernetes/apps/flux-system/flux-instance/app/helm/values.yaml`):
+**GitHub Receiver** (`kubernetes/apps/flux-system/flux-instance/app/receiver.yaml`)
+- Listens for `ping` and `push` events
+- Uses `github-webhook-token-secret` for signature verification
+- Triggers reconciliation of flux-system GitRepository and Kustomization
 
-**Installed Components** (`kubernetes/apps/flux-system/flux-instance/app/helm/values.yaml#L8-L14`)
+This enables immediate reconciliation on Git push, reducing the latency from the default 1-hour interval.
+
+## Flux Controller Configuration
+
+The Flux controllers are configured for performance and reliability via `flux-instance/app/helm/values.yaml`:
+
+**Enabled Controllers:**
 - source-controller
 - kustomize-controller
 - helm-controller
@@ -374,79 +327,26 @@ The Flux instance is configured via Helm values (`kubernetes/apps/flux-system/fl
 - image-reflector-controller
 - image-automation-controller
 
-**Sync Configuration** (`kubernetes/apps/flux-system/flux-instance/app/helm/values.yaml#L15-L19`)
-- Kind: `GitRepository`
-- URL: `https://github.com/tomyail/talos-cluster.git`
-- Ref: `refs/heads/main`
+**Performance Optimizations:**
+- Concurrent reconciles: 10-20 workers per controller
+- Memory limits: 512Mi for kustomize, helm, and source controllers
+- In-memory Kustomize builds (tmpfs volume)
+- Helm caching: 20 charts, 60-minute TTL, 5-minute purge interval
+- OOM detection for Helm controller (95% threshold, 500ms interval)
+
+**Sync Configuration:**
+- GitRepository: `https://github.com/tomyail/talos-cluster.git`
+- Branch: `refs/heads/main`
 - Path: `kubernetes/flux/cluster`
 
-**Performance Tuning** (`kubernetes/apps/flux-system/flux-instance/app/helm/values.yaml#L25-L95`)
-- Concurrent reconciles: 10 for kustomize/helm/source controllers
-- Requeue dependency: 5s
-- Memory limits: 512Mi for controllers
-- Kustomize in-memory builds: enabled with 20 concurrent workers
-- Helm cache: 20 chart max size, 60m TTL, 5m purge interval
-- OOM detection: enabled for helm-controller at 95% threshold
-- Chart digest tracking: disabled to improve performance
+These settings ensure efficient reconciliation while preventing resource exhaustion.
 
-## Common Components
+## Common Component Structure
 
-Reusable components are applied across application Kustomizations to standardize configuration:
+The `common` Kustomize component (`kubernetes/components/common/kustomization.yaml`) provides standardized resources for applications:
 
-**common component** (`kubernetes/components/common/kustomization.yaml#L4-L7`)
-- Creates namespace
-- Adds repository definitions
-- Adds SOPS configuration and secrets
+1. **namespace.yaml** - Creates namespace with pod-security annotation and prune-disabled marker
+2. **repos/** - Adds repository definitions (e.g., app-template OCIRepository)
+3. **sops/** - Adds SOPS decryption secret resource
 
-**image-automation component** (`kubernetes/components/image-automation/kustomization.yaml#L3-L6`)
-- Configures ImageRepository, ImagePolicy, and registry credentials
-- Applied to applications needing automated image updates
-
-**gatus components** (external, guarded, tailscale variants)
-- Adds Gatus monitoring configuration
-- Configures HTTP/TCP checks
-- Applied based on application exposure requirements
-
-## Operational Considerations
-
-### Decryption Strategy
-
-SOPS decryption is configured at multiple levels:
-- **cluster-meta**: decrypts source repository manifests
-- **cluster-apps**: decrypts application manifests
-- **Application Kustomizations**: per-app decryption (e.g., echo)
-- All use the same `sops-age` secret
-
-### Dependency Management
-
-Kustomization dependencies ensure proper ordering:
-- CRDs install before applications (gateway-api-crds, external-dns-crds → cluster-apps)
-- Flux operator installs before flux-instance (flux-operator → flux-instance)
-- Repositories available before consuming resources (cluster-meta → all)
-
-### Health Checks
-
-Flux waits for resources to become healthy before marking reconciliation successful:
-- `wait: true` on all Kustomizations
-- `timeout: 5m` for application-level resources
-- Health checks configured on flux-operator HelmRelease
-
-### Prune Strategy
-
-All Kustomizations enable `prune: true`, which:
-- Removes resources deleted from Git
-- Operates within the Kustomization's path and namespace
-- Requires careful resource management to avoid unintended deletion
-
-### Retry Configuration
-
-Standard retry configuration across Kustomizations:
-- Interval: 1 hour (reconciliation frequency)
-- Retry interval: 2 minutes (on failure)
-- Ensures transient failures don't prevent eventual reconciliation
-
-## Related Documentation
-
-- [Cluster Architecture Overview](/openwiki/concepts/cluster-architecture.md) - Overall cluster design and networking
-- [Bootstrap Workflow](/openwiki/workflows/bootstrap.md) - Initial Flux installation
-- [Daily Operations](/openwiki/operations/daily-operations.md) - Common Flux operational tasks
+This component is included by all namespace and application Kustomizations, ensuring consistency across the cluster.

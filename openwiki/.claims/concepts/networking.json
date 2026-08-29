@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:753f39da92b7e9be10fd93cd77ede76af512e5fa5cfaf947424ef3ffceea8e40",
+  "pageVersion": "sha256:42c0746c132cbd0646134e9da17012ae5aa9650d51bd4cc82c730b2eca80dea1",
   "claims": [
     {
       "id": "claim_0e4b64aa301a4c2dac2447bb89e242db",
@@ -17,8 +17,8 @@
       "statement": "Cilium implements the Kubernetes Gateway API specification with two gateway instances using the cilium gatewayClass: an external gateway on 192.168.50.13 for public-facing services, and an internal gateway on 192.168.50.12 for cluster-internal services. Both support HTTP (port 80) and HTTPS (port 443) with wildcard hostname matching for *.SECRET_DOMAIN.",
       "evidence": [
         {
-          "resource": "repo://kubernetes/apps/kube-system/cilium/app/helm/values.yaml#L27-L28",
-          "version": "repo-lines-v1:sha256:2685453ec165e5a900c0e9cb4907ec4fb54eae25beb9ec1e552369619365b5cb:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDYxMDI5NDhiNmJjNDNmZDU2NzFmZTBjMzA5YTJkNjliOTFlZDdjMjU2ZDdkOTVhNWIxZDY1MzRlYmE2YzdiNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzhhMWNhNWE4YTU2NzhmMTlhOGYwYjliYjlhY2M4NjQ2NDY2ODY4YjMxOGM0MDA2MjE3ZGRkNGM3ZmY4MGM4MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMGNjMWQ3NjAyNTVkNTBiOWY5ZDNkZTNjNjQwMjA4MzBlNzZlNTM3NWI5MzAwYWY4N2U3OTliMTFlMjY1OTQxNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjllYmM0ZDQwMGY1NzVmODQyNDYxYzdkZWIzODFjNTQyMDRkNmMzYzY1M2I4ZDBkZDhmZmZiMjlkMGNkMGMxOSJ9"
+          "resource": "repo://kubernetes/apps/kube-system/cilium/app/helm/values.yaml",
+          "version": "repo-file-v1:sha256:a5d44cfd8523a63bed8cf76f09c859c2a9a91a46e254c263386774dccf811abf"
         },
         {
           "resource": "repo://kubernetes/apps/kube-system/cilium/gateway/external.yaml",
@@ -35,8 +35,8 @@
       "statement": "Cilium advertises LoadBalancer service IPs via L2 announcements enabled in configuration, providing LoadBalancer functionality in bare-metal environments without cloud provider integration by advertising IPs directly on the local network segment.",
       "evidence": [
         {
-          "resource": "repo://kubernetes/apps/kube-system/cilium/app/helm/values.yaml#L38-L39",
-          "version": "repo-lines-v1:sha256:cf2552853011c15cbb7fe18d960fc46b0112e2c411fe8cad736e6de51650f13b:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYWFjNmYwMDQwZDEyMjc3YWM0NGRjNmNkMTE3YTQ4ZTQxYmUxNjkyNmMyODE2ZDczZWJiZDRiOGNhZWY0ODQ4MyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzhhMWNhNWE4YTU2NzhmMTlhOGYwYjliYjlhY2M4NjQ2NDY2ODY4YjMxOGM0MDA2MjE3ZGRkNGM3ZmY4MGM4MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzVlYWZjMGQyMDkyNGFlODRiMzVmNzgwMjllNTFhYjc0NWJkODQyOTU5OGU1NWU1OWFmMWMyN2MwZTMwYTdkNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzc5YTc5YWZlZjBjNTkyNGYyMTc5M2Y0OGMwZjI1NTQ2MmI0ZDMyMjYyNWVkNjQ5NDRmZTMyMDJlMjE0MzUzMyJ9"
+          "resource": "repo://kubernetes/apps/kube-system/cilium/app/helm/values.yaml",
+          "version": "repo-file-v1:sha256:a5d44cfd8523a63bed8cf76f09c859c2a9a91a46e254c263386774dccf811abf"
         }
       ]
     },
@@ -49,8 +49,8 @@
           "version": "repo-file-v1:sha256:a030227aba781b890064c40ea41390fa548b0e6693f5ab21bbbd05f17f7c3e50"
         },
         {
-          "resource": "repo://kubernetes/apps/kube-system/cilium/app/helm/values.yaml#L18-L19",
-          "version": "repo-lines-v1:sha256:79b437525f4a1fb6c907cf7eee7d7c542ac9d342126745f667a2cf53edc01575:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDA5YzBlOGI3NzVlMTAwYzhhNTI3YzFmYjA3MGEzOGFlMTcxMTQ1YzQxZTEzMjkyZjNjNTJiNzUwODYxMGI0OCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzhhMWNhNWE4YTU2NzhmMTlhOGYwYjliYjlhY2M4NjQ2NDY2ODY4YjMxOGM0MDA2MjE3ZGRkNGM3ZmY4MGM4MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTVkY2RiZmZhZmNmMTc3OTNjY2I1YjZmMGU0NGRjMDUwNTdlMGJiNmNlZmNiYmI1MGY1ZjQ0YjkwMTE3M2I5YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOWJlMDExZWNjMzU3MjkyYzNlZjIxMDEyOGUwODI1MzY3MjFiYzdiNTk2MjVmYjk2MjgyMWM0YmIxYzAxYmRhYyJ9"
+          "resource": "repo://kubernetes/apps/kube-system/cilium/app/helm/values.yaml",
+          "version": "repo-file-v1:sha256:a5d44cfd8523a63bed8cf76f09c859c2a9a91a46e254c263386774dccf811abf"
         }
       ]
     },
@@ -167,30 +167,30 @@
       "statement": "The cluster uses distinct IP ranges: 10.42.0.0/16 for pod network (Cilium native routing), 10.43.0.0/16 for service network with CoreDNS at 10.43.0.10, 192.168.50.13 for external gateway, 192.168.50.12 for internal gateway, 192.168.50.11 for k8s-gateway DNS, 192.168.50.10 for cluster VIP and qBittorrent egress, all within the 192.168.50.0/24 local network.",
       "evidence": [
         {
-          "resource": "repo://kubernetes/apps/kube-system/cilium/app/helm/values.yaml#L33-L33",
-          "version": "repo-lines-v1:sha256:581be253d7ede9105e328741b32b02c0cdb38df5427e2a59d6bae2667b798c1d:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTgxYmUyNTNkN2VkZTkxMDVlMzI4NzQxYjMyYjAyYzBjZGIzOGRmNTQyN2UyYTU5ZDZiYWUyNjY3Yjc5OGMxZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTgxYmUyNTNkN2VkZTkxMDVlMzI4NzQxYjMyYjAyYzBjZGIzOGRmNTQyN2UyYTU5ZDZiYWUyNjY3Yjc5OGMxZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzhhMzFjMzU4NGEzZGUwNzIzMTY3NWU3OGJmZmFkZjY4Yjc1YzNhZjYyYjU1MTcyYTg3NzVjM2IyODhkMDc0NiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzEzZTE1YmEwZTI0ZDliMGM5ZWQ4ZWRmYjFhYzE0YjdhYWEyYTEyZGZhN2Y5MzM1MWFmYTAwMzkxOTRiNzI5YyJ9"
+          "resource": "repo://kubernetes/apps/kube-system/cilium/app/helm/values.yaml",
+          "version": "repo-file-v1:sha256:a5d44cfd8523a63bed8cf76f09c859c2a9a91a46e254c263386774dccf811abf"
         },
         {
-          "resource": "repo://kubernetes/apps/kube-system/cilium/gateway/external.yaml#L12-L13",
-          "version": "repo-lines-v1:sha256:82cca9b169b96df1c2db2f3d1359ee1ecaa949782a65209fd0c9797f1cda3ebc:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYWEyZDNjYmU5NDFhZjQ2NGMwNzExNTZiNTBmNTBhY2U3Njc4YjZmMDZmMGRhMmRjNGM5MDM2NWIyMjM1YTQ5YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTQyMjVhYTNkZDc1ODlkMGNmNDMwYmRmMjlmZDE5Nzg5ZDM0ZDYyZmU4ZGI5ZjhiYzY0NzMzMDQyNGEyNmVhYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzJhZjcyMTEyYjc1ODBlZmRjNDg5N2ZiYTQxYTg2NWFjZmFhZmIyODVkYmM0MWJlYzcyYjdhNGEwZDlhZTYzZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDkxNDcyZmMwMjk4ZjBlZGUxNmIzZTgzZDcyMDJmZDJmMDQwYzM1OTQ2YWVkMDZiMTNlYmVhNzE5NzBlZjgxNCJ9"
+          "resource": "repo://kubernetes/apps/kube-system/cilium/gateway/external.yaml",
+          "version": "repo-file-v1:sha256:426b7b64b1da0b8b74c808898ac65e0bd8012c6c6112cb542a5ede5991937bbb"
         },
         {
-          "resource": "repo://kubernetes/apps/kube-system/cilium/gateway/internal.yaml#L12-L13",
-          "version": "repo-lines-v1:sha256:d034d4a423e7a5359595226a7c8a0a9548208c71473ce816ebfe5f95f3592f61:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYWEyZDNjYmU5NDFhZjQ2NGMwNzExNTZiNTBmNTBhY2U3Njc4YjZmMDZmMGRhMmRjNGM5MDM2NWIyMjM1YTQ5YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGY0Nzk3NWM2NjE2YTNmYjM0YTMxZjBlYjFhMjFlNDRmOGVlMmExMDE5NDcxYWU2NWNmZTg1NDIxYjYxNTliZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzJhZjcyMTEyYjc1ODBlZmRjNDg5N2ZiYTQxYTg2NWFjZmFhZmIyODVkYmM0MWJlYzcyYjdhNGEwZDlhZTYzZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMGMzMTE0NmJmZjc4OGNmNjYzNGFkYzQzYjMyOGJiNzZmY2Y0ODBiZTY2OTA0NTRkMjVlYWMwM2EyNjU4MGU4ZiJ9"
+          "resource": "repo://kubernetes/apps/kube-system/cilium/gateway/internal.yaml",
+          "version": "repo-file-v1:sha256:81732658aff94d72a4c861f0feb4d7e41dfb5e62f4d2611e190e4fc328d82ee5"
         },
         {
-          "resource": "repo://kubernetes/apps/kube-system/coredns/app/helm/values.yaml#L10-L10",
-          "version": "repo-lines-v1:sha256:e5b8c98cf1f1edb8b0a6bc2245a59ff1e5b4780a855e7e40b8c6bbd830599e9a:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTViOGM5OGNmMWYxZWRiOGIwYTZiYzIyNDVhNTlmZjFlNWI0NzgwYTg1NWU3ZTQwYjhjNmJiZDgzMDU5OWU5YSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTViOGM5OGNmMWYxZWRiOGIwYTZiYzIyNDVhNTlmZjFlNWI0NzgwYTg1NWU3ZTQwYjhjNmJiZDgzMDU5OWU5YSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNGZiODcyMWM2MjkyOGFlNmQ5MjViMTUwOTNjZTI4NWUxOGM3ODU0MzlmOGMwYjE1MWVhZjllMDAxMGM2NjZiOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjBkZDc5MzM0ZTM1MTEzYTg1NGU2ZWZmYTZiZjc5ZjFlYTdmOGZmMjNhM2YwNDNjOWJlY2ZmOWRlNDc0ZTVlYSJ9"
+          "resource": "repo://kubernetes/apps/kube-system/coredns/app/helm/values.yaml",
+          "version": "repo-file-v1:sha256:cfeb5989d899c6afee7904de7ca411a2786a08f89dc5f1fb6999f45bb3b0ee21"
         },
         {
-          "resource": "repo://kubernetes/apps/network/k8s-gateway/app/helmrelease.yaml#L41-L41",
-          "version": "repo-lines-v1:sha256:f0ceb0d2c97996dd96962e77ba9fad2f67e3983abf016513b1fc51647eb5d36a:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjBjZWIwZDJjOTc5OTZkZDk2OTYyZTc3YmE5ZmFkMmY2N2UzOTgzYWJmMDE2NTEzYjFmYzUxNjQ3ZWI1ZDM2YSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjBjZWIwZDJjOTc5OTZkZDk2OTYyZTc3YmE5ZmFkMmY2N2UzOTgzYWJmMDE2NTEzYjFmYzUxNjQ3ZWI1ZDM2YSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODNmYzFkZGQ2YmNjNTMwM2M2NjNiOTM2MDgzNGUwNmRkMDhhYmNiNjY3ZjU1ZGQwYTkxZWFlMjdhYzMwZjI3YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjIsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDYzOTk0MTQ4MjUzNjcyY2ExZjMxNzg3NDY4NDYxMDY3MDk3NGQ1NmYyZGMyZTI0ZDVjZTE5YjdkYzVkYzNmMyJ9"
+          "resource": "repo://kubernetes/apps/network/k8s-gateway/app/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:cb73c1131dfb173d74fdba526d3cc90af9d8a0c6cdee54badc6b3e5672b29ef2"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-08-28T03:38:47.877Z"
+    "at": "2026-08-29T02:22:11.234Z"
   }
 }

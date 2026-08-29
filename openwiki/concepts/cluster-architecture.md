@@ -3,9 +3,6 @@ type: architecture
 title: Cluster Architecture Overview
 description: High-level architecture of the Talos Linux Kubernetes cluster including control plane, networking stack with Cilium and Cloudflare Tunnel, storage layers with TopoLVM and VolSync, observability with Prometheus/Grafana/Loki, and security via SOPS and External Secrets.
 tags: [talos, kubernetes, architecture, cilium, storage, networking, observability, flux]
-verified:
-  - by: openwiki/0.4.3
-    at: 2026-08-28T03:38:47.877Z
 sources:
   - id: openwiki-source-240e6406ed4b6841961679cb
     resource: repo://.sops.yaml

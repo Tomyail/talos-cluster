@@ -3,9 +3,6 @@ type: workflow
 title: Cluster Upgrade Workflow
 description: Upgrade processes for Talos OS, Kubernetes, and applications including talhelper-based upgrade tasks, tuppr automation system, and manual upgrade procedures.
 tags: [upgrade, talos, kubernetes, talhelper, tuppr, workflow, maintenance]
-verified:
-  - by: openwiki/0.4.3
-    at: 2026-08-28T03:38:47.877Z
 sources:
   - id: openwiki-source-4f5be6b4c7dcc699aca46164
     resource: repo://.taskfiles/talos/Taskfile.yaml
