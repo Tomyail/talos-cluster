@@ -20,10 +20,10 @@ sources:
     resource: repo://talos/talconfig.yaml
   - id: openwiki-source-b65e4f1ccd91316116ad973a
     resource: repo://talos/talenv.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-29T21:52:21.026Z" }
+generated: { by: "openwiki/0.4.3", at: "2026-08-30T21:57:36.532Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-08-29T21:52:21.026Z
+    at: 2026-08-30T21:57:36.532Z
 ---
 
 # Cluster Bootstrap Workflow
@@ -35,7 +35,7 @@ The cluster bootstrap process transforms fresh Talos nodes into a fully function
 ```mermaid
 flowchart TD
     A[Prerequisites Check] --> B[Phase 1: Talos Bootstrap]
-    B --> C[Generate/Update Secrets]
+    B --> C[Generate or Update Secrets]
     C --> D[Generate Machine Configs]
     D --> E[Apply Config to Nodes]
     E --> F[Bootstrap Control Plane]
@@ -53,6 +53,8 @@ flowchart TD
     style H fill:#fff4e1
     style N fill:#e8f5e9
 ```
+
+*Figure: Two-phase bootstrap sequence from Talos node provisioning to Flux GitOps handoff*
 
 ## Phase 1: Talos Bootstrap (`bootstrap:talos`)
 
@@ -83,6 +85,7 @@ The `talos` task executes the following sequence (`.taskfiles/bootstrap/Taskfile
 - Checks if `talos/talsecret.sops.yaml` already exists
 - If missing, generates new cluster secrets and encrypts them with age
 - Secrets include cluster ID, bootstrap tokens, and encryption keys
+- File is created only once; subsequent runs reuse existing secrets
 
 **2. Generate Machine Configurations** (`.taskfiles/bootstrap/Taskfile.yaml#L12`)
 ```bash
@@ -92,6 +95,7 @@ talhelper genconfig
 - Merges patches from `talos/patches/` directory
 - Generates node-specific machine configs in `talos/clusterconfig/`
 - Applies global and controller-specific patches
+- Creates Talos configuration for each node defined in `talconfig.yaml`
 
 **3. Apply Machine Configs to Nodes** (`.taskfiles/bootstrap/Taskfile.yaml#L13`)
 ```bash
@@ -100,6 +104,7 @@ talhelper gencommand apply --extra-flags="--insecure" | bash
 - Applies generated machine configurations to each node defined in `talconfig.yaml`
 - Uses `--insecure` flag for initial node communication (nodes not yet trusted)
 - Establishes network configuration, disk partitioning, and base system settings
+- Configures VIP, kernel modules, and machine-specific settings
 
 **4. Bootstrap the Control Plane** (`.taskfiles/bootstrap/Taskfile.yaml#L14`)
 ```bash
@@ -133,7 +138,7 @@ The `talos/talconfig.yaml` file defines the cluster blueprint:
 **Node Definitions** (`talos/talconfig.yaml#L21-L64`)
 Each node specifies:
 - Hostname and IP address
-- Disk selector for installation
+- Disk selector for installation (size, type)
 - Secure boot configuration
 - Kernel modules (e.g., `i915` for Intel GPU support)
 - Network interfaces with VIP configuration
@@ -193,7 +198,7 @@ apply_namespaces
 - Iterates through `kubernetes/apps/*/` directories
 - Creates a namespace for each directory
 - Uses server-side apply with dry-run client to generate manifests
-- Skips namespaces that already exist
+- Skips namespaces that already exist (idempotent)
 - Example: creates `kube-system`, `flux-system`, `cert-manager`, etc.
 
 **3. Apply SOPS Secrets** (`scripts/bootstrap-apps.sh#L57-L85`)
@@ -299,6 +304,25 @@ kubectl get crds | grep -E 'gateway|externaldns|cert-manager'
 ```
 Essential API services and CRDs should be available.
 
+## SOPS Encryption Rules
+
+The `.sops.yaml` file defines two encryption patterns:
+
+**Talos Secrets** (`.sops.yaml#L3-L5`)
+- Pattern: `talos/.*\.sops\.ya?ml`
+- Encryption: Entire file encrypted
+- Use case: `talos/talsecret.sops.yaml` containing cluster bootstrap secrets
+
+**Kubernetes Secrets** (`.sops.yaml#L6-L9`)
+- Pattern: `(bootstrap|kubernetes)/.*\.sops\.ya?ml`
+- Encryption: Only `data` and `stringData` fields encrypted
+- Use case: Application secrets, Flux credentials, cluster configuration values
+
+Both patterns use:
+- Same age recipient for encryption
+- `mac_only_encrypted: true` setting
+- 2-space YAML indentation
+
 ## Failure Recovery
 
 **Talos Bootstrap Failures**
@@ -328,8 +352,8 @@ If Flux doesn't start syncing:
 
 The bootstrap workflow integrates with several operational procedures:
 
-- **Flux Architecture** ([`/openwiki/concepts/flux-architecture.md`](/openwiki/concepts/flux-architecture.md)) - After bootstrap, Flux manages all applications through the reconciliation hierarchy
-- **Networking** ([`/openwiki/concepts/networking.md`](/openwiki/concepts/networking.md)) - Bootstrap installs Cilium which provides the foundational CNI and Gateway API integration
+- **Application Deployment** ([`/openwiki/workflows/app-deployment.md`](/openwiki/workflows/app-deployment.md)) - After bootstrap, all applications follow the Flux GitOps deployment pattern
+- **Cluster Architecture** ([`/openwiki/concepts/cluster-architecture.md`](/openwiki/concepts/cluster-architecture.md)) - Bootstrap establishes the foundational cluster architecture
 - **Talos Configuration** ([`/openwiki/talos/configuration.md`](/openwiki/talos/configuration.md)) - Detailed reference on talhelper, machine patches, and node definitions
 - **Quick Start** ([`/openwiki/quickstart.md`](/openwiki/quickstart.md)) - Entry point for bootstrap and daily operations
 

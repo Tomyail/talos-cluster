@@ -5,7 +5,7 @@ description: Comprehensive documentation of the Flux GitOps reconciliation hiera
 tags: [flux, gitops, kubernetes, reconciliation, kustomize, helm]
 verified:
   - by: openwiki/0.4.3
-    at: 2026-08-29T21:52:21.026Z
+    at: 2026-08-30T21:57:36.532Z
 sources:
   - id: openwiki-source-1385f4adf262cc0ec92b6d45
     resource: repo://kubernetes/apps/default/echo/ks.yaml
@@ -53,7 +53,7 @@ sources:
     resource: repo://kubernetes/flux/meta/repos/jetstack.yaml
   - id: openwiki-source-12a44dba301e86ea2cf62628
     resource: repo://kubernetes/flux/meta/repos/kustomization.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-29T21:52:21.026Z" }
+generated: { by: "openwiki/0.4.3", at: "2026-08-30T21:57:36.532Z" }
 ---
 
 # Flux GitOps Architecture
@@ -136,7 +136,7 @@ For automated image updates, a separate `flux-system-https` GitRepository with 1
 
 GitRepository sources include:
 - `gateway-api` - Kubernetes Gateway API CRDs (tag-based, 15-minute interval)
-- `external-dns-crds` - External DNS CRDs (tag-based, 1-hour interval)
+- `external-dns-crds` - External DNS CRDs (tag-based, 15-minute interval)
 
 ### OCIRepository Sources
 

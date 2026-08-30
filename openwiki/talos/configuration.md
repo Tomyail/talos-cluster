@@ -5,7 +5,7 @@ description: How Talos Linux is configured and managed in this cluster via talhe
 tags: [talos, configuration, talhelper, machine-config]
 verified:
   - by: openwiki/0.4.3
-    at: 2026-08-29T21:52:21.026Z
+    at: 2026-08-30T21:57:36.532Z
 sources:
   - id: openwiki-source-4f5be6b4c7dcc699aca46164
     resource: repo://.taskfiles/talos/Taskfile.yaml
@@ -31,7 +31,7 @@ sources:
     resource: repo://talos/talconfig.yaml
   - id: openwiki-source-b65e4f1ccd91316116ad973a
     resource: repo://talos/talenv.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-29T21:52:21.026Z" }
+generated: { by: "openwiki/0.4.3", at: "2026-08-30T21:57:36.532Z" }
 ---
 
 # Talos Configuration
@@ -56,7 +56,9 @@ Talhelper is the tool that generates Talos machine configurations from a high-le
 The `talos/talenv.yaml` file pins versions:
 
 ```yaml
+# renovate: datasource=docker depName=ghcr.io/siderolabs/installer
 talosVersion: v1.12.7
+# renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
 kubernetesVersion: v1.35.4
 ```
 
@@ -378,16 +380,41 @@ cluster:
 - `etcd.advertisedSubnets`: Advertises etcd on local subnet
 - `enable-aggregator-routing`: Enables API aggregator routing
 
-## Machine Config Generation
+## Configuration Generation Workflow
 
-### Generation Process
+### Talhelper Tasks
 
-When you run `task talos:generate-config`:
+The `.taskfiles/talos/Taskfile.yaml` defines the talhelper workflow:
 
-1. Talhelper reads `talos/talconfig.yaml`
-2. Expands variables from `talos/talenv.yaml` (versions)
+```mermaid
+flowchart TD
+    A[talconfig.yaml] --> B[talhelper genconfig]
+    C[talenv.yaml] --> B
+    D[patches/] --> B
+    B --> E[clusterconfig/]
+    E --> F[talhelper gencommand apply]
+    F --> G[Apply to Node]
+    
+    H[talenv.yaml] --> I[talhelper gencommand upgrade-k8s]
+    I --> J[Kubernetes Upgrade]
+    
+    K[talconfig.yaml] --> L[talhelper gencommand upgrade]
+    L --> M[TalOS Upgrade]
+```
+
+**Configuration generation and application**
+
+### generate-config Task
+
+```bash
+task talos:generate-config
+```
+
+This task:
+1. Requires `talos/talconfig.yaml`, `.sops.yaml`, `SOPS_AGE_KEY_FILE`, and `talhelper` CLI
+2. Expands variables from `talenv.yaml` (versions)
 3. Merges patches from `talos/patches/`
-4. Encrypts secrets with `talos/talsecret.sops.yaml`
+4. Encrypts secrets with SOPS
 5. Writes machine configs to `talos/clusterconfig/`
 
 **Output structure**:
@@ -400,31 +427,65 @@ talos/clusterconfig/
 
 The `clusterconfig/` directory is gitignored and should never be manually edited.
 
-### Applying Configuration
-
-To apply updated configuration to a node:
+### apply-node Task
 
 ```bash
 task talos:apply-node IP=192.168.50.145
 ```
 
-This:
-1. Reads the node's machine config from `talos/clusterconfig/`
-2. Applies it via Talos API using talhelper-generated command
-3. Triggers necessary services to restart (most changes are non-disruptive)
+This task:
+1. Validates node connectivity via `talosctl get machineconfig`
+2. Generates apply command via `talhelper gencommand apply`
+3. Applies configuration to the specified node
+4. Supports `MODE` flag: `auto`, `no-reboot`, or `reboot` (default: `auto`)
 
-The apply-node task supports a `MODE` variable (default: `auto`):
-- `auto`: Talos decides whether to reboot
-- `no-reboot`: Apply without reboot
-- `reboot`: Force reboot after apply
-
-### Configuration Validation
-
-Before applying, validate:
+### upgrade-node Task
 
 ```bash
-talosctl validate --config talos/clusterconfig/master0-nuc12.yaml --mode strict
+task talos:upgrade-node IP=192.168.50.145
 ```
+
+This task:
+1. Extracts `talosImageURL` from `talos/talconfig.yaml` for the specific node
+2. Extracts `talosVersion` from `talos/talenv.yaml`
+3. Executes `talhelper gencommand upgrade` with custom image and timeout flags
+4. Upgrades Talos OS on the specified node
+
+### upgrade-k8s Task
+
+```bash
+task talos:upgrade-k8s
+```
+
+This task:
+1. Reads `kubernetesVersion` from `talos/talenv.yaml`
+2. Executes `talhelper gencommand upgrade-k8s` with `--to` flag
+3. Upgrades Kubernetes across the cluster
+
+## Custom Factory Image
+
+The cluster uses a custom Talos factory image with system extensions:
+
+```yaml
+talosImageURL: factory.talos.dev/installer-secureboot/a30c16a32db3c99cb35f22401fad96807f80896dfc86aa4ec716ed6b4aff09de
+```
+
+This image includes:
+- Secure boot support (`installer-secureboot`)
+- i915 GPU driver
+- Intel microcode
+- Thunderbolt support
+
+**Why custom image**:
+- Hardware acceleration support (GPU)
+- Secure boot enforcement
+- Built-in extensions without runtime loading
+
+**Updating the image**:
+1. Build new factory image via [Talos image factory](https://factory.talos.dev/)
+2. Update `talosImageURL` in `talos/talconfig.yaml`
+3. Regenerate configs: `task talos:generate-config`
+4. Apply to nodes: `task talos:apply-node IP=<ip>`
 
 ## Cluster Secrets
 
@@ -458,97 +519,8 @@ To rotate cluster secrets (rare, destructive):
 
 **This is extremely disruptive** - only do this for critical security incidents.
 
-## Custom Factory Image
+## Related Workflows
 
-The cluster uses a custom Talos factory image with system extensions:
-
-```yaml
-talosImageURL: factory.talos.dev/installer-secureboot/a30c16a32db3c99cb35f22401fad96807f80896dfc86aa4ec716ed6b4aff09de
-```
-
-This image includes:
-- Secure boot support (`installer-secureboot`)
-- i915 GPU driver
-- Intel microcode
-- Thunderbolt support
-
-**Why custom image**:
-- Hardware acceleration support (GPU)
-- Secure boot enforcement
-- Built-in extensions without runtime loading
-
-**Updating the image**:
-1. Build new factory image via [Talos image factory](https://factory.talos.dev/)
-2. Update `talosImageURL` in `talos/talconfig.yaml`
-3. Regenerate configs: `task talos:generate-config`
-4. Apply to nodes: `task talos:apply-node IP=<ip>`
-
-## Troubleshooting
-
-### Node Not Booting
-
-1. Check Talos API:
-   ```bash
-   talosctl --nodes 192.168.50.145 version
-   ```
-
-2. Check machine config:
-   ```bash
-   talosctl --nodes 192.168.50.145 get mc
-   ```
-
-3. Check if configuration is applied:
-   ```bash
-   talosctl --nodes 192.168.50.145 get machineconfig
-   ```
-
-### Network Issues After Config Apply
-
-1. Verify network interface configuration in machine config
-2. Check if IP address is correct
-3. Test connectivity from Talos API:
-   ```bash
-   talosctl --nodes 192.168.50.145 interfaces
-   ```
-
-### Module Loading Failures
-
-1. Check if kernel modules are loaded:
-   ```bash
-   talosctl --nodes 192.168.50.145 read /proc/modules
-   ```
-
-2. Verify schematic extensions include required modules
-
-3. Re-apply machine config if modules were added recently
-
-### Regeneration Issues
-
-If `talhelper genconfig` fails:
-
-1. Check `talos/talconfig.yaml` syntax:
-   ```bash
-   yq eval . talos/talconfig.yaml
-   ```
-
-2. Verify `talos/talenv.yaml` has valid versions
-
-3. Check if `talos/talsecret.sops.yaml` can be decrypted:
-   ```bash
-   sops --decrypt talos/talsecret.sops.yaml
-   ```
-
-4. Review patch files for syntax errors
-
-## Best Practices
-
-1. **Never edit `talos/clusterconfig/` directly** - It's generated from source
-2. **Always validate** before applying to production nodes
-3. **Test patches** on a single node first
-4. **Keep secrets encrypted** - Never commit decrypted secrets
-5. **Version control everything** - All configuration is in git
-6. **Document changes** - Commit messages explain why patches were added
-7. **Monitor after changes** - Check node health and pod status
-8. **Use Renovate** - Let automation handle version updates when possible
-9. **Backup before major changes** - Use VolSync snapshots before upgrades
-10. **Test network changes** - VIP and network config can cause connectivity issues if misconfigured
+- **[Cluster Bootstrap](/openwiki/workflows/bootstrap.md)** - Initial cluster setup from Talos configuration
+- **[Cluster Upgrade](/openwiki/workflows/upgrade.md)** - Talos and Kubernetes upgrade procedures
+- **[Cluster Architecture](/openwiki/concepts/cluster-architecture.md)** - Overall system design

@@ -5,7 +5,7 @@ description: Comprehensive storage infrastructure for the Talos Kubernetes clust
 tags: [storage, topolvm, volsync, lvm, csi, backup, kubernetes]
 verified:
   - by: openwiki/0.4.3
-    at: 2026-08-29T21:52:21.026Z
+    at: 2026-08-30T21:57:36.532Z
 sources:
   - id: openwiki-source-ce5428b32557cc11ea784146
     resource: repo://kubernetes/apps/database/cloudnative-pg/cluster/cluster16.yaml
@@ -35,7 +35,7 @@ sources:
     resource: repo://kubernetes/flux/meta/repos/local-path-provisioner.yaml
   - id: openwiki-source-67d09412df5e9b5263585304
     resource: repo://lvm-format-manual.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-29T21:52:21.026Z" }
+generated: { by: "openwiki/0.4.3", at: "2026-08-30T21:57:36.532Z" }
 ---
 
 # Storage Architecture
@@ -66,6 +66,17 @@ flowchart TD
 
 *Figure: Storage layer architecture showing provisioning flow from workloads through storage classes to underlying storage implementations, and VolSync backup integration with MinIO.*
 
+## Component Deployment Order
+
+Storage components deploy in strict dependency order to ensure proper initialization:
+
+1. **snapshot-controller** deploys first, providing the VolumeSnapshot API and CRDs
+2. **TopoLVM** deploys second, depending on snapshot-controller for CSI snapshot support
+3. **VolSync** deploys third, depending on TopoLVM for storage classes and CSI driver
+4. **NFS CSI** and **local-path-provisioner** deploy independently
+
+All components deploy to the `storage` namespace with standardized labels and resource management through Flux Kustomizations.
+
 ## TopoLVM: Primary Block Storage
 
 TopoLVM serves as the cluster's default storage provisioner, providing high-performance local block storage through LVM thin provisioning. It combines the flexibility of Kubernetes CSI with the efficiency of LVM thin pools.
@@ -75,13 +86,25 @@ TopoLVM serves as the cluster's default storage provisioner, providing high-perf
 TopoLVM operates with an embedded lvmd daemon running on each node, managed by the TopoLVM controller:
 
 - **Controller Deployment**: Single replica (`replicaCount: 1`) with Recreate update strategy and anti-affinity disabled for single-node cluster compatibility
-- **Embedded lvmd**: Each node runs an embedded lvmd daemon that manages LVM operations locally
+- **Embedded lvmd**: Each node runs an embedded lvmd daemon (`lvmdEmbedded: true`) that manages LVM operations locally
 - **CSI Driver**: TopoLVM CSI driver implements the Kubernetes CSI interface for volume provisioning
 - **Metrics**: Prometheus metrics enabled for monitoring volume operations
 
+### Single-Node Cluster Configuration
+
+The TopoLVM deployment is optimized for single-node clusters to prevent upgrade failures. Default TopoLVM chart settings include pod anti-affinity rules and `replicaCount: 2`, which causes rolling upgrades to fail in single-node environments when the new replica cannot schedule.
+
+The deployment prevents this through three configuration overrides:
+
+- **Replica Count**: 1 (prevents scheduling conflicts)
+- **Anti-Affinity**: Disabled (`affinity: ""`)
+- **Update Strategy**: Recreate (ensures old pod deleted before new pod created)
+
+This configuration prevents the common single-node issue where default anti-affinity rules prevent controller pod scheduling during upgrades.
+
 ### LVM Configuration
 
-The storage infrastructure relies on a manually configured LVM setup:
+The storage infrastructure relies on a manually configured LVM setup that must be completed before TopoLVM can provision volumes:
 
 ```bash
 # Physical volume creation
@@ -138,16 +161,6 @@ TopoLVM integrates with the snapshot-controller for volume snapshots:
 - **Default**: Yes (used when no snapshot class specified)
 
 Snapshots enable instant point-in-time copies of volumes for backup or cloning operations.
-
-### Single-Node Cluster Configuration
-
-The TopoLVM deployment is optimized for single-node clusters to prevent upgrade failures:
-
-- **Replica Count**: 1 (prevents scheduling conflicts)
-- **Anti-Affinity**: Disabled (`affinity: ""`)
-- **Update Strategy**: Recreate (ensures old pod deleted before new pod created)
-
-This configuration prevents the common single-node issue where default anti-affinity rules prevent controller pod scheduling during upgrades. For details on troubleshooting this scenario, see the TopoLVM troubleshooting notes.
 
 ## VolSync: Backup and Replication
 
@@ -305,6 +318,16 @@ dependsOn:
 
 This ensures TopoLVM CSI and storage classes are available before VolSync attempts backup or restore operations.
 
+### Common VolSync Component Pattern
+
+Applications using VolSync follow a common component pattern visible in the cluster:
+
+1. **ExternalSecret**: Creates `${APP}-volsync-secret` from Bitwarden credentials
+2. **ReplicationSource**: Defines scheduled backup from `${APP}` PVC every 6 hours
+3. **ReplicationDestination**: Template for manual restore operations (created on-demand via Taskfile)
+
+The pattern standardizes backup configuration across applications while allowing per-app customization of security contexts, storage classes, and retention policies through template variables in `.taskfiles/volsync/templates/`.
+
 ## Snapshot Controller
 
 The snapshot-controller provides Kubernetes volume snapshot functionality, enabling instant point-in-time copies of persistent volumes.
@@ -357,17 +380,6 @@ Workloads choose the appropriate storage class based on their requirements:
 | `local-path` | Cache, temporary storage, small volumes | ReadWriteOnce | Fast host-local, no snapshots |
 | `nfs` | Shared storage, multi-writer workloads | ReadWriteMany | Network-attached, concurrent access |
 
-## Component Dependencies
-
-Storage components deploy in dependency order to ensure proper initialization:
-
-1. **snapshot-controller** deploys first, providing the VolumeSnapshot API and CRDs
-2. **TopoLVM** deploys second, depending on snapshot-controller for CSI snapshot support
-3. **VolSync** deploys third, depending on TopoLVM for storage classes and CSI driver
-4. **NFS CSI** and **local-path-provisioner** deploy independently
-
-All components deploy to the `storage` namespace with standardized labels and resource management through Flux Kustomizations.
-
 ## Operational Considerations
 
 ### LVM Management
@@ -405,6 +417,7 @@ VolSync backups should be verified periodically by:
 4. Validating restored data integrity
 
 Use the Taskfile helpers for backup listing and restore testing:
+
 ```bash
 task volsync:list NS=default APP=myapp
 task volsync:restore NS=default APP=myapp-test previous=1
@@ -446,13 +459,3 @@ Then reconcile the Flux resources:
 flux reconcile kustomization topolvm -n storage --with-source
 flux reconcile helmrelease topolvm -n storage
 ```
-
-### Common VolSync Component Pattern
-
-Applications using VolSync follow a common component pattern visible in the cluster:
-
-1. **ExternalSecret**: Creates `${APP}-volsync-secret` from Bitwarden credentials
-2. **ReplicationSource**: Defines scheduled backup from `${APP}` PVC every 6 hours
-3. **ReplicationDestination**: Template for manual restore operations (created on-demand via Taskfile)
-
-The pattern standardizes backup configuration across applications while allowing per-app customization of security contexts, storage classes, and retention policies through template variables in `.taskfiles/volsync/templates/`.

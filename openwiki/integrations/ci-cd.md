@@ -1,21 +1,25 @@
 ---
 type: integration
 title: CI/CD Integration
-description: GitHub Actions workflows for validating Kubernetes manifests via flux-local testing and diff generation on pull requests, synchronizing repository labels, and automating OpenWiki documentation updates.
+description: GitHub Actions workflows for validating Kubernetes manifests via flux-local testing and diff generation on pull requests, synchronizing repository labels, automating area-based PR labeling, and automating OpenWiki documentation updates.
 tags: [ci-cd, github-actions, flux-local, validation, automation, labels]
 sources:
+  - id: openwiki-source-6d9eaf54557a60120951afe0
+    resource: repo://.github/labeler.yaml
   - id: openwiki-source-ebc59c0f49296f6fb72696ed
     resource: repo://.github/labels.yaml
   - id: openwiki-source-6378149bc01898a8718f6f2d
     resource: repo://.github/workflows/flux-local.yaml
   - id: openwiki-source-31f5d25b2ebfab3b3af2f051
     resource: repo://.github/workflows/label-sync.yaml
+  - id: openwiki-source-7a6aa65190c9f2f4cf9c3e60
+    resource: repo://.github/workflows/labeler.yaml
   - id: openwiki-source-6d4b4e707b8d60b6ccfa3425
     resource: repo://.github/workflows/openwiki-update.yml
-generated: { by: "openwiki/0.4.3", at: "2026-08-29T21:52:21.026Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-08-29T21:52:21.026Z
+    at: 2026-08-30T21:57:36.532Z
+generated: { by: "openwiki/0.4.3", at: "2026-08-30T21:57:36.532Z" }
 ---
 
 # CI/CD Integration
@@ -342,4 +346,4 @@ The label schema works with Renovate bot, which automatically applies `renovate/
 
 ### Application Deployment
 
-These CI/CD workflows validate the manifests that drive the Flux deployment pipeline described in [Application Deployment Workflow](/openwiki/workflows/app-deployment.md). The flux-local validation ensures that app-template HelmReleases and Kustomizations are valid before Flux reconciles them to the cluster.
+These CI/CD workflows validate the manifests that drive the Flux deployment pipeline. The flux-local validation ensures that app-template HelmReleases and Kustomizations are valid before Flux reconciles them to the cluster.

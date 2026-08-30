@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:11f8e019c610f98e34c27882bffd815b271381ccb1b345b1b62ad8fb16f071fe",
+  "pageVersion": "sha256:840c23b953a6b6663a0ca1f24666b05de2d5669aa923044c64ae0d5067761426",
   "claims": [
     {
       "id": "claim_fdb31951fbef449e8d6a7379d6290774",
@@ -70,7 +70,7 @@
     },
     {
       "id": "claim_564c51e6d0bd46bcbec659c7fadbc5ef",
-      "statement": "Tuppr upgrade monitoring is configured via PrometheusRule at `kubernetes/apps/kube-system/system-upgrade/tuppr/prometheusrule.yaml`, which defines alerts for Talos upgrade failures (node failures, phase failures, stuck upgrades), Kubernetes upgrade failures (phase failures, stuck upgrades), and upgrade job duration issues. Critical alerts fire immediately on phase failures, while warning alerts fire after 30-60 minutes of stuck conditions.",
+      "statement": "Tuppr upgrade monitoring is configured via PrometheusRule at `kubernetes/apps/kube-system/system-upgrade/tuppr/prometheusrule.yaml#L9-L93`, which defines alerts for Talos upgrade failures (node failures, phase failures, stuck upgrades), Kubernetes upgrade failures (phase failures, stuck upgrades), and upgrade job duration issues. Critical alerts fire immediately on phase failures, while warning alerts fire after 30-60 minutes of stuck conditions.",
       "evidence": [
         {
           "resource": "repo://kubernetes/apps/kube-system/system-upgrade/tuppr/prometheusrule.yaml#L9-L93",
@@ -151,6 +151,6 @@
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-08-29T21:52:21.026Z"
+    "at": "2026-08-30T21:57:36.532Z"
   }
 }

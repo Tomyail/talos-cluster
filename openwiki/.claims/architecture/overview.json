@@ -1,0 +1,298 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:cff08270473fa372d3c36099d940ea8cae12a1d5ae55bd9e21e89c924679f882",
+  "claims": [
+    {
+      "id": "claim_568d0013139d486d968deda03423763a",
+      "statement": "The cluster runs on Talos Linux as an immutable OS foundation with secure boot enabled via custom factory image, single-node control plane at 192.168.50.145 with VIP at 192.168.50.10, and disk management using install disk selectors (≤256GB SSD).",
+      "evidence": [
+        {
+          "resource": "repo://talos/talconfig.yaml",
+          "version": "repo-file-v1:sha256:d136b9cff87d6ec237ac03a8d8e93f8f766c991330cacbf3cf6ffd68061bdcde"
+        }
+      ]
+    },
+    {
+      "id": "claim_60c9401f8b074fa4ab2735b7f9d26153",
+      "statement": "Talos preloads kernel modules for thin provisioning (dm_thin_pool, dm_mod) and Intel GPU support (i915, drm, drm_kms_helper), with system extensions including i915, intel-ucode, and thunderbolt.",
+      "evidence": [
+        {
+          "resource": "repo://talos/talconfig.yaml#L35-L40",
+          "version": "repo-lines-v1:sha256:66f3be51e7d7aca12327ddb12e9b78edbbd9ec76ae21f916395cab2898961864:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODI3Mjk3MzY5MjMyYmZmYWM1YjUxMmU5OWE1NThmOTZlNmIxYjU3NDQyYTEyZjU2MTJlYWRlODg4ZDNkZWZhOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYWEzMGJjZDVmNGZmNzhlMzI3ZDFkNGUwZThlNmNkZjkzNDMxNjJjYWQ5M2E2ZTg3NTM0Y2E4YmFiZGE0NjExMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODQ1NTgzZmY2ZDZkNTIwMThlNGRmNTk2MWI0ZDJkNzU2MjkyZjYxY2U4NDMyMjFkMGViNjk3OTE2YmUxNmU0NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYWExYWVjYjAzMzRlYTZlZTQ1NjRkMGM0MGJmNjE5ODE4NjI2NjQyMzM4Mzc2YWU1YmU2ZmQyNGEwZTVjODc1NSJ9"
+        },
+        {
+          "resource": "repo://talos/talconfig.yaml#L78-L84",
+          "version": "repo-lines-v1:sha256:788be131890418556fdcb261fb3775aa50b0dfefb678238501d02c39959e528d:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjk5YTFkMmM2NDFkMjhhYjAzZWY2ZjYxMTdhZmE1NTg4NDcxYWJhNWM4YzA4NGNiNWJmYzcxY2ZlYWUzYTJhZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzcyZDIxYjRhNTYyYThkNjkxYmE1YTVjZGViMjI1OTVmZGJkOWRlZTE1OTIyYjcwNDA4YjAxMDE0NTYwODY0MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzM2ZWI0OTVlZjhmNGM0N2MyZTYwM2MwZmIzN2VkZTliYWQ5MDlhYzBlYzNkYThmNDFlZmVhNGE0MzI3MmU1YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_ea58f16dbb044ad18ff3b24274232d14",
+      "statement": "Kubernetes platform uses pod network 10.42.0.0/16, service network 10.43.0.0/16, API endpoint at https://192.168.50.10:6443 via VIP, and Cilium as CNI with Talos built-in CNI disabled.",
+      "evidence": [
+        {
+          "resource": "repo://talos/talconfig.yaml#L8-L19",
+          "version": "repo-lines-v1:sha256:74bdb542d890b56cc39721ff16d736c419a434c2f8cbc4aaefb5f1a566dde714:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3OGY4NDAxMTQyNjJmMWViMzdmY2NmYjg3YjAxZjgwZDJmYTZhYjgzYWNiNmJmYmRlMTk5NDRmYTU3N2VlMzAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIzMTIwMGJjMmQ1NTczM2RkZDZhNGIyOWUzZjFmODA5NmI5YzQ5ZmI0MTZmZjA4NmE2ZDdkNmY3N2U5M2YwOTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI1OGYzYzIwZTE0MTUyZjY5MjY0NGEzMGE4NjllM2RkN2E3NWY5Yjk4NTE0OGVjNjljYjk4YWFiMjEwMzUwNGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNkNzlkMTFiNTFhMmRjZDQ5YzlmOTFmZmYyYTkwNTBmNGExZDAzMDYwODg0YWNiY2Y3NmZmZTU5OGQ1YTZiNzcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ad81243d8ce14921ba3f66ae3033409c",
+      "statement": "Bootstrap phase installs core platform components via helmfile: Cilium 1.20.0, CoreDNS 1.47.0, cert-manager v1.21.1, flux-operator 0.57.0, and flux-instance 0.57.0 with explicit dependency ordering.",
+      "evidence": [
+        {
+          "resource": "repo://bootstrap/helmfile.yaml#L14-L52",
+          "version": "repo-lines-v1:sha256:8ed7e8e3fe8b1e0f0bd52f9de372dfeaceddb966f93568d84cc9fe0660e2ff7e:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1YTA1OTNjNDU2NDAyZmE2YTYwYWUwZjk4YmMyMjZkMzk4NDZjZmJiODgwYWNkMGM3Zjc4YWZiZTk1ZTUzMDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4NDQxMDY3MGJjNTUxNjEyNDRkZTdlZTRjMDM5YTEzMDUzYzZiN2M5ZTRkZTZiMzY4YzE3MzYzZDcyMjVlY2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjliN2YwYjcwMDgzOGMzOGRiYjE3ZmQxNjdkNGIyMmJmNGQ2NTg2MGNiODI2MWI3OTU1Zjc5ZGM3OTAyYzEzZmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e13bc8db161948d9aa11fc80bcc35874",
+      "statement": "Flux reconciliation follows dependency chain: cluster-meta Kustomization installs OCI/Helm repositories, cluster-apps Kustomization depends on cluster-meta and CRDs to install all namespace Kustomizations, each namespace manages apps through HelmRelease resources.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/flux/cluster/ks.yaml",
+          "version": "repo-file-v1:sha256:34d6970a4822f2b762ed2b48b96225a7d9a1bb7f3c4007fed459656c84134c45"
+        },
+        {
+          "resource": "repo://kubernetes/flux/meta/repos/kustomization.yaml",
+          "version": "repo-file-v1:sha256:fa10b5630965480f453261c86956a0d97171b2b134e7d859a4caa3c6fa46a277"
+        }
+      ]
+    },
+    {
+      "id": "claim_12473d54de384f96a45af79ca3434416",
+      "statement": "All applications use shared app-template chart pattern via OCIRepository defined in kubernetes/components/common/repos/app-template/, with HelmRelease resources referencing OCIRepository kind and app-template name.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/app/helmrelease.yaml#L1-L11",
+          "version": "repo-lines-v1:sha256:5756b9fd015e055b38c2478ea70435f59f4581c86459305458c459dad6d0dd20:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIzN2VhODkwOGI1YzY1YjBhZWZlMjgwNTQyZjI0MDU1NmMyOGI0Y2Y2M2NiMjhhMGZlYWMxMWRiYjMzMzEzODUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ0OTUzY2Y4OTliNTYyZjRjMzY1NTdhOGYyZTc4YTIwNDQwOTljYzJlNGYyNzFjM2M3MmU2YTE0ZTk2NmNkMjAifQ"
+        },
+        {
+          "resource": "repo://kubernetes/components/common/repos/kustomization.yaml",
+          "version": "repo-file-v1:sha256:9d547b7855d2377defcba2b0d884a93e2a74c2dbd428a51df19261a7d8545eb1"
+        }
+      ]
+    },
+    {
+      "id": "claim_e13b8dafd6ce4b5fa5812a1631e2f278",
+      "statement": "Applications are organized by namespace (kube-system, network, observability, storage, database, external-secrets, default, external-server) with each namespace having its own Kustomization managing app-specific resources.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/database/kustomization.yaml",
+          "version": "repo-file-v1:sha256:788941ecc8774f2e6d473403f08bacdd588cd521afddc711a875b9bc782c37f1"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/kustomization.yaml",
+          "version": "repo-file-v1:sha256:540735f8d31f4c0b14c141cb59bd450d92a07194ac9283a99b888e114dc9d4ad"
+        },
+        {
+          "resource": "repo://kubernetes/apps/kube-system/kustomization.yaml",
+          "version": "repo-file-v1:sha256:1bfec7c10e99e1c6fc15d8eb3ed30b97520c517d27e8a3d83beea18885ab36fc"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/kustomization.yaml",
+          "version": "repo-file-v1:sha256:047360d70b32ca409e054e30a135afbbd0e93eef3f44c37c4528a3199435c333"
+        },
+        {
+          "resource": "repo://kubernetes/apps/observability/kustomization.yaml",
+          "version": "repo-file-v1:sha256:7327e52b15578f1b15aa3bc933d03c91585b9fbe7f8e0d932df686baa01d827a"
+        },
+        {
+          "resource": "repo://kubernetes/apps/storage/kustomization.yaml",
+          "version": "repo-file-v1:sha256:e46a24b0ed45feb970a628ca5917362415dff3ecd1e15beac3a4c4029d501549"
+        }
+      ]
+    },
+    {
+      "id": "claim_c9d1725ddece43fd845045650585daf9",
+      "statement": "Cilium replaces kube-proxy with eBPF-based data plane, provides BGP for load balancing and network policies, deployed via Helm in bootstrap phase at version 1.20.0 from official repository.",
+      "evidence": [
+        {
+          "resource": "repo://bootstrap/helmfile.yaml#L14-L19",
+          "version": "repo-lines-v1:sha256:382b76c3846ced267ba0496de8bd54b47d27dae021f295dc47c77fc179973115:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODVhMDU5M2M0NTY0MDJmYTZhNjBhZTBmOThiYzIyNmQzOTg0NmNmYmI4ODBhY2QwYzdmNzhhZmJlOTVlNTMwMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTMyNTg5MzVmOTU1MDM4YjU1ZDc2NWZmNGFhNTc4MjM0ZWZlODdmN2QyNzhlYzEyODVlMWY4Njk4NTEzNGIwZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWI3ZjBiNzAwODM4YzM4ZGJiMTdmZDE2N2Q0YjIyYmY0ZDY1ODYwY2I4MjYxYjc5NTVmNzlkYzc5MDJjMTNmZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTEzOGEzZGY2MjA0MmQ4OGRkNzEyNTIyYjkwN2E5ZGNkNGRmNjBlNGI0NmFkNmQ3MDQ3NDBlMTNjZTdkMDcwOSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/kube-system/cilium/app/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:f71f4d04a383bf24aad244ebeb862b4943a225c23fedfc8bc933118d37d68cf2"
+        }
+      ]
+    },
+    {
+      "id": "claim_3cbe0af998d04c41bf506f902fce6305",
+      "statement": "k8s-gateway provides internal Gateway API controller for DNS-based routing with LoadBalancer IP 192.168.50.11 assigned via Cilium BGP, watches HTTPRoute and Service resources, and creates DNS records with 1-second TTL.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/k8s-gateway/app/helmrelease.yaml#L33-L43",
+          "version": "repo-lines-v1:sha256:98784f7c78779f8bdf25b601ba67e69ecaa29456762db00ee616af7869004e82:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2ZjFjNzJiNTlhZGU1MjRjMDEzNWM3Y2RiMGViMjRhYWZiZjE0ZGIxOWYxNzYwZjE5M2IyNzA3N2M5Nzg0NjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdiNWQ5ZmI3ZThhYmE4Y2VjMTRjNzlkMjM3NTA1ZmM0NTk1NTdhOWY0MDliMWQxMDRkZTM1OTczNDViNDAzMjIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYxNWE0YjNlMTM3YTVhOWRiMGRkMDVhZGY4ODcyMTcyMGJmODMyNjA2Yzg2MDI0MDc4ZDk5YmZiYWEyMjE5ODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_045db16ab365481bbb8677b124542011",
+      "statement": "Cloudflare Tunnel exposes selected services publicly without open ports using cloudflared image with tunnel run command, HTTP/2 transport protocol, and metrics on port 8080.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/helmrelease.yaml#L19-L80",
+          "version": "repo-lines-v1:sha256:be471bb66998dd7917ca4d5cacb7b512ed7ee29c71bd68c2c0ab3a087a1c37fc:eyJzZWxlY3RlZExpbmVDb3VudCI6NjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2ZjFjNzJiNTlhZGU1MjRjMDEzNWM3Y2RiMGViMjRhYWZiZjE0ZGIxOWYxNzYwZjE5M2IyNzA3N2M5Nzg0NjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY0ZWJmMDIyOTI2YzkxMDA1YjQxYzA4ODc0NWI3MGM2N2ZhN2JiMjljNDRjMDRiZTY2YzVmMmI2ODEzNjQ5ODYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYxNWE0YjNlMTM3YTVhOWRiMGRkMDVhZGY4ODcyMTcyMGJmODMyNjA2Yzg2MDI0MDc4ZDk5YmZiYWEyMjE5ODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFkYmZhMzJkMzI0ODRkOTNhMDZiMmMxNGMxYWU3NjUyNjIzMDM0ZmQ0NWFmYzVjYjAxMzYwM2UzYTgwOTE3MzYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_5f43f4fc7a6143e991260299d2a9b775",
+      "statement": "TopoLVM provides CSI provisioner for dynamic LVM volume management using lvm_vg volume group with thin provisioning, topolvm-thin-provisioner storage class (default, XFS), embedded lvmd daemon, and 10.0 overprovision ratio.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/topolvm/app/helmrelease.yaml#L22-L55",
+          "version": "repo-lines-v1:sha256:d876480004b3a2390c1e795b507f473e265efb59f9a0cba1f63ec61b7737e44c:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2ZjFjNzJiNTlhZGU1MjRjMDEzNWM3Y2RiMGViMjRhYWZiZjE0ZGIxOWYxNzYwZjE5M2IyNzA3N2M5Nzg0NjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVlYjkzNjFjMzYzNGVmN2ViNGY5YzcwMTRjMThjZmM5ZTA0NDA3OWU5MzhlZjQ4YWNmMDk4MTJhMDE2M2Y3OGMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImEyZWU1ZDVjMTY2YmUwMTAwZmVhZDc5MTIxZGQzMmEyYzkxZjliZmNiOGU5NGQ4ZDQ4MTMzMTkzN2E1ZTgxMGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_399d753ee69a43acbd7b76e66ceaa118",
+      "statement": "VolSync provides application-level backup with ReplicationDestination/Source supporting MinIO local backups and Backblaze B2 cloud backups, with configurable capacity and retention templates.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L28-L28",
+          "version": "repo-lines-v1:sha256:5625a41b15276d66e4a46c9e61c919718981f66945d7670394f8cce79e89f6de:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTYyNWE0MWIxNTI3NmQ2NmU0YTQ2YzllNjFjOTE5NzE4OTgxZjY2OTQ1ZDc2NzAzOTRmOGNjZTc5ZTg5ZjZkZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTYyNWE0MWIxNTI3NmQ2NmU0YTQ2YzllNjFjOTE5NzE4OTgxZjY2OTQ1ZDc2NzAzOTRmOGNjZTc5ZTg5ZjZkZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDA3NDNkODljMzgyZGMxZDJkMGUzZmUwMjA4ODRhYzZiYTEyNzc2YTQxYzlkOTE1YjBiNzY3NDUwNzFiYjQ2OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzgwZDhjZjJiNDQ3NzY2ZTkzZmNjODU1NDRkOTU4OWI4ZmFmOWUyOTdkNjQ5Nzc4Yjg3NzY0M2U2MjEwYTUwOSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/storage/volsync/app/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:5a2c230b999209d0d610f2ebb374d085fcb7f154533e72f3f27f6206993cab20"
+        }
+      ]
+    },
+    {
+      "id": "claim_4b1180eb133a45b593b178955b687350",
+      "statement": "Storage architecture uses three provisioners: TopoLVM CSI for dynamic LVM volumes, NFS CSI for external NFS shares, and local-path provisioner for hostPath ephemeral data.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L29-L29",
+          "version": "repo-lines-v1:sha256:8e4e94f2b81e998f0331088e44dc9d6318724888732464ed6cf3fb62d3fad8ca:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOGU0ZTk0ZjJiODFlOTk4ZjAzMzEwODhlNDRkYzlkNjMxODcyNDg4ODczMjQ2NGVkNmNmM2ZiNjJkM2ZhZDhjYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOGU0ZTk0ZjJiODFlOTk4ZjAzMzEwODhlNDRkYzlkNjMxODcyNDg4ODczMjQ2NGVkNmNmM2ZiNjJkM2ZhZDhjYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjI0ODkxOTUzZTVmNzdjODQzNTRhZjE4NGQ0MmI2MzcyNzZmMDgwYzFhM2FkZjU3YTE4OTE5MTg2OTMxY2Y0OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMmJmNWU1ZDBjNGI1MzY0MWMzNzM1MjBjMWZiNjJiOGIzZmQ5YTEwZmIxM2E0MDAxMWE4NTMzZmE0NDcwOGQwMCJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/storage/kustomization.yaml#L12-L16",
+          "version": "repo-lines-v1:sha256:c03f4ea2136081d3d67d2c9fe2eaa72a50e5c37898b133cf4705aa21ce213645:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDhkN2JkZDA3NWIxYmE2NWQxMWRmODAzMzg5NTQxZTIzMDI4ODMwYWM4YjUyMTZlZDkxYjg2NDRmZmJmMTBkZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzFkMjNlOWMyMzY4MmM1NzU4ODZlMDE5Mjg0MWZiMjMzYjI2MmFhNjgzZjQ3YTk1ZWQ1ZTM2YWRkNmMzM2NlYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDFjODU4ODdmMjE2NjZhMzkxMjAzN2JmOWQwMWJkYTZmNDQ2YjA4NzllNjI1MzQyZWQwNjg1MmM2MDkzY2VjZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzkxNGYyZGJlYjdkYTZkMTdiZTY0MWJjMTgxYzA5MjBlNWE0NjdmMTQ5MDU3MmY4OTFmMjVjZWExOTRmZGY2MCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_61ac8f30bcd64fadb5cfe2b6c4b92f52",
+      "statement": "Secret management uses SOPS + age with age.key for local decryption, flux-system/sops-age Secret for cluster decryption, .sops.yaml for encryption rules, whole-file encryption for talos/*.sops.yaml, and data/stringData-only encryption for Kubernetes manifests.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L27-L27",
+          "version": "repo-lines-v1:sha256:7fa18dbeda3ef403f907007033d75768cfe60e77d256f69952626358b418fac3:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiN2ZhMThkYmVkYTNlZjQwM2Y5MDcwMDcwMzNkNzU3NjhjZmU2MGU3N2QyNTZmNjk5NTI2MjYzNThiNDE4ZmFjMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiN2ZhMThkYmVkYTNlZjQwM2Y5MDcwMDcwMzNkNzU3NjhjZmU2MGU3N2QyNTZmNjk5NTI2MjYzNThiNDE4ZmFjMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDA0NTk0NjUyZTAxMGJkNDFhNzg3ZmQ3Y2IzMTFiMmU5OWRiYzhiMTBlYjkxNjFjMDJkYThiZThmMDJkYWQzNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjU3NmZhMDc5YTE0ZWI1MDU4ODRiM2RlNjhmNGE3NzU1MzZjZTQ4ZDNmMDkyYjNhNWEwNTI5ZjEzYWQ3ZDVmNSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/flux/cluster/ks.yaml#L9-L12",
+          "version": "repo-lines-v1:sha256:f000b31c3522bd306a024cee6cfaa7daf3e17c4cde85925ad1ade76d25df1976:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGFiNmUwZWUyMWNmZTcxYTkwNWE5OTkwNWM1ZGEzOTc2ZDA1YTk5MDBhMzVjMGFkMWIxMjc3Y2RjOWUxOWRlZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGUxNWFiOThmYjQ2MzhhOTc1MTM4OTdiMWNmOWZmYTlhZTJmNjVlNWZjYzY1ZTI0YTJhYWRiNGI5ZjQ0YjBlNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjNmYzJmYmI4MWVjM2Q2M2VhN2VjMTQ1ZjE0NGEzNDViNzVlZDI5YjFkZjIxMzMwZDcyMjQ2NmQ3ZmU2NTJlNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTg4YzNhZDUzMDMyNGZkZmNjMjY0Mjk0MmU5MTFiYWNhYTI1MjNhNzI5ZDc4ZjA2NTI3NTQzY2Y2YjQ1ZDA4MSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_ce426f33471146c6a88718feffeaab65",
+      "statement": "External Secrets Operator integrates with Bitwarden via bitwarden-cli provider, using bitwarden-cli Secret for credentials and creating Kubernetes Secrets from ExternalSecret resources with 1-hour refresh interval.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/external-secrets/bitwarden-connect/app/helmrelease.yaml#L24-L47",
+          "version": "repo-lines-v1:sha256:97163b51ccf1a033119228ab6b5230a3220d4ac8ea4ddf0256017071cc80e05a:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2ZjFjNzJiNTlhZGU1MjRjMDEzNWM3Y2RiMGViMjRhYWZiZjE0ZGIxOWYxNzYwZjE5M2IyNzA3N2M5Nzg0NjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJmOWM5ZWVjZjMxZWUxMWI5NTJkYjUxZTM0NTZiMjhmMzE2ZGJlZGQ4YzJlYzBiMjMxNTdiMDgyZGE1MDRjODciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZkODI1N2RlMzZhODAyNGM3MmUzODA2M2RiMDdjYzA3M2I2NjhjOWViNTM3Y2U3MDhiZjhiYzhjNjM0MmFjOTQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ef7c45073f974c009c189852a168a5b6",
+      "statement": "Monitoring stack uses Prometheus Operator via kube-prometheus-stack 88.1.3 scraping metrics from pods, nodes, kubelet, and API server, with Thanos for long-term storage and deduplication, and Grafana for visualization.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L28-L28",
+          "version": "repo-lines-v1:sha256:5625a41b15276d66e4a46c9e61c919718981f66945d7670394f8cce79e89f6de:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTYyNWE0MWIxNTI3NmQ2NmU0YTQ2YzllNjFjOTE5NzE4OTgxZjY2OTQ1ZDc2NzAzOTRmOGNjZTc5ZTg5ZjZkZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTYyNWE0MWIxNTI3NmQ2NmU0YTQ2YzllNjFjOTE5NzE4OTgxZjY2OTQ1ZDc2NzAzOTRmOGNjZTc5ZTg5ZjZkZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDA3NDNkODljMzgyZGMxZDJkMGUzZmUwMjA4ODRhYzZiYTEyNzc2YTQxYzlkOTE1YjBiNzY3NDUwNzFiYjQ2OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzgwZDhjZjJiNDQ3NzY2ZTkzZmNjODU1NDRkOTU4OWI4ZmFmOWUyOTdkNjQ5Nzc4Yjg3NzY0M2U2MjEwYTUwOSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/observability/kube-prometheus-stack/app/helmrelease.yaml#L1-L80",
+          "version": "repo-lines-v1:sha256:b7e52798763bed14d3a78b80ddd065cc0cbe2e24280f72deedfbfff587a5133a:eyJzZWxlY3RlZExpbmVDb3VudCI6ODAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ2OTE0M2Y5NTZlMDU5OWI4MWFiNTk5ZGMxZWRhYzQ0Njg3NTc3OGZhZDU3ODFmYmIyODQxNzY4NWQ3YzljMDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1YWM2YTA1NWExMWYxYTdmM2MwMWJiNTk5MDc0YjY3ZTVmNmRiMzhmYzQ4OGY3OTI3YTJiMzkyOTdkNjM1OTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdkMzg2YmQ2MjEzNDllMzkwZDdkMmE1ODJjZjRiYTBjMjEzNzU3Yjk0ZGNlMTRjZWFiMDc3MDIzMDFhNmQ5YzAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_5f16daef199c47f9bd4b0630a85db9b9",
+      "statement": "Logging pipeline uses Promtail on each node to read journal logs, Loki for log aggregation with label-based indexing, and Grafana for log queries and inspection.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L28-L28",
+          "version": "repo-lines-v1:sha256:5625a41b15276d66e4a46c9e61c919718981f66945d7670394f8cce79e89f6de:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTYyNWE0MWIxNTI3NmQ2NmU0YTQ2YzllNjFjOTE5NzE4OTgxZjY2OTQ1ZDc2NzAzOTRmOGNjZTc5ZTg5ZjZkZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTYyNWE0MWIxNTI3NmQ2NmU0YTQ2YzllNjFjOTE5NzE4OTgxZjY2OTQ1ZDc2NzAzOTRmOGNjZTc5ZTg5ZjZkZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDA3NDNkODljMzgyZGMxZDJkMGUzZmUwMjA4ODRhYzZiYTEyNzc2YTQxYzlkOTE1YjBiNzY3NDUwNzFiYjQ2OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzgwZDhjZjJiNDQ3NzY2ZTkzZmNjODU1NDRkOTU4OWI4ZmFmOWUyOTdkNjQ5Nzc4Yjg3NzY0M2U2MjEwYTUwOSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/observability/kustomization.yaml#L13-L15",
+          "version": "repo-lines-v1:sha256:7190d57293f52094e5d3bf96d6650219332fbedb37cea13a5b13794c54f9d784:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOWNlOWU5ZWQ2ODUxMzUyZTdiYTY4ZGNjZDM1MjA0ZjFkY2M4Y2U1OWJhMDEwNzIyN2IyOGZmOTA2NDM0ZTRhYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGMwZmVlNzEwNTg2MDkxNzMzYTA1ZmZjYTkyZWFjMzRiZTQ3MTMxNzQ2YzZlZmNjNmM4YzE1ODk5NGY2NzE3ZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZmRhNTYzYzBkZDJjY2VmNWZiNTBjNTRmZjQ0ZmY3MzEwYTczNjRhMzczMGM1Njc5NGVkZDE1NjdhYTJkZGMyYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTI2NGUzNmEwZTgzYzZlMDVlN2FkZTY1OGM2ZTU2NTA4NDU1NTg4ZGU5ZjAxM2M0NGNjNjkyMDJmM2Q3MTI5MyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_d8d3efa817a34294afb99ffef45bbd0b",
+      "statement": "Uptime monitoring uses Gatus for active endpoint monitoring (external, tailscale, guarded), Uptime Kuma for status page at status-dev.tomyail.com, and smartctl-exporter for disk health metrics.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L28-L28",
+          "version": "repo-lines-v1:sha256:5625a41b15276d66e4a46c9e61c919718981f66945d7670394f8cce79e89f6de:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTYyNWE0MWIxNTI3NmQ2NmU0YTQ2YzllNjFjOTE5NzE4OTgxZjY2OTQ1ZDc2NzAzOTRmOGNjZTc5ZTg5ZjZkZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTYyNWE0MWIxNTI3NmQ2NmU0YTQ2YzllNjFjOTE5NzE4OTgxZjY2OTQ1ZDc2NzAzOTRmOGNjZTc5ZTg5ZjZkZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDA3NDNkODljMzgyZGMxZDJkMGUzZmUwMjA4ODRhYzZiYTEyNzc2YTQxYzlkOTE1YjBiNzY3NDUwNzFiYjQ2OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzgwZDhjZjJiNDQ3NzY2ZTkzZmNjODU1NDRkOTU4OWI4ZmFmOWUyOTdkNjQ5Nzc4Yjg3NzY0M2U2MjEwYTUwOSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/observability/kustomization.yaml#L16-L17",
+          "version": "repo-lines-v1:sha256:cf5d2bcc27b3e2c8af4717f7f13b863d9603e3b36308555d604b08f5da880152:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2JiNDZkNjc5NjE1YmFmODg0ZjdmYTY1MjRiOGQyODUzZDkyNzMwYWQwMzY0NDc0MDU1MDA0MjM5ODc1NWJmMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMTdjN2IzNzYxZDg2YjY0N2YxNjllZmNjMmVhZGVmMmNhMTk2NWI1ZDlmMjI2YWVlNWM3YmI2Y2UwOWIxMzUwMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzE5MGQ1NzI5M2Y1MjA5NGU1ZDNiZjk2ZDY2NTAyMTkzMzJmYmVkYjM3Y2VhMTNhNWIxMzc5NGM1NGY5ZDc4NCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_d238fba9a30544f9bcb65404c79f655c",
+      "statement": "Gateway API hierarchy uses Gateway in kube-system namespace with internal listener (192.168.50.12) and external listener (Cloudflare Tunnel), HTTPRoute resources for routing, and k8s-gateway for automatic DNS record creation.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/kube-prometheus-stack/app/helmrelease.yaml#L36-L39",
+          "version": "repo-lines-v1:sha256:133320cd3960535931521485ef7fccbb24e3838427363234c7fb9e56dc8b7713:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzNjODFlNGQ5ZTgzNGMzMjIyMDU1MGMxMjllYmNjZjYxMzdhNjM0ZDU3NjQ0MTc0NWM2YWUyODk3YzcxZTZiMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODQ0ZDhjMmI2OWE4ZDNmNmY2MTEzNDFjMzllZjA3ZjBhMzE2Yzg1YjBjYTM4NjY5OWU4NWZjZjRlMzRkMzNiNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiY2RlNjBmM2ZjNjNmM2E1OWE3MzEwMDg5Nzg1ZTVkMWNmYjVkYjdkYTBiOWE3NzMxNTA1YTEzNmRkODg0MTgyZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMGY5Yzk5MjM0YzU2YjZmZGQxOGQ0YjA1Y2M0ZTgzN2IxYTczYWZlYmExM2ZiNGVmNDBiYjFjODc3M2RlN2FkZCJ9"
+        },
+        {
+          "resource": "repo://kubernetes/flux/cluster/ks.yaml#L29-L44",
+          "version": "repo-lines-v1:sha256:59681f7fbfd7e49f85971f29130fdb4eab0632d63d5a0fd91bc206bc607d8963:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjczZWNiYmMwM2RlNDZhNWU2M2FkNTZmODYzMzYzZTAwZDRlN2I1ZDU4ZTY1ZTgwNzAwY2M3ZWEyOTk4OTEwM2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyY2ZmNWZmYmE1MGFjMzgxNmFmZjljODViNmI3YTQ4NWU3ZTJhNzM0NjI1ZjM5NGMwNDlkNGI5NmQ1N2E4YzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgzMjBjMjdjOTc3MzU1N2IwOTNlMmZkYmQ1NTIxNWRhZDZmODQ1YjFjMzg5NmE3MzYzYjRlYjZiNmQ1ZjEwMGIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ4NjllNzFiYzE5ZjhkNjJjYWQ0NzNjY2RiMDQ2ZDA3Yzk1YTM1YTlhMGJjNTQ5MDk5NDczYmEzNThmYTU3MTMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_60c6acbc5bcb44e990e345b93024b291",
+      "statement": "Reusable components in kubernetes/components/ include common/ (namespace, SOPS secret, app-template OCIRepository) included in every namespace, gatus/ for monitoring endpoints, volsync-new/ for backup templates, and image-automation/ for Flux image updates.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L47-L48",
+          "version": "repo-lines-v1:sha256:aaaecdafeb3be53a7849fbbb61322cc08d2c0ac3ec1b089e57774a520e69dec0:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjZmMWE3ODdkNGUwMjdjZGFhYTk2ZDgwYmE2N2ZjZmVlOWNlZTJjMmJmODMwNTJiM2VhZDA0MDJjZTY3ZDYxNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzg0NWQyMDc5ZTEzMzdlYzliOWIxMWVmOTk4NDEzM2Q2NGFmOTYxZWM3ODRjOGE1Mjg3YjQ5NGM3MTljMTQ5MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTQwOTJhNTYzMDMxYTQwMjJkZGFiZjJiNDAyNWQ0ZDVlZTAzNjkyYjU5OTQzMTBlMDMwNmE2ZWYyNjhhZDEyNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMGU5YTU0MWI3ZjcyZDNjZDZkZjU4YmQyNDJiOWVkZTIzYTk3ZjExZDIxYWZhOTQ4MmQ2NjIwOGMyZWExY2Q1ZiJ9"
+        },
+        {
+          "resource": "repo://kubernetes/components/common/kustomization.yaml",
+          "version": "repo-file-v1:sha256:6a499644d69e7563a12512291f01942ccdc1ceff4e741dd26aa28a228117f9d2"
+        }
+      ]
+    },
+    {
+      "id": "claim_95c9f337d60f42daa400ac9148319741",
+      "statement": "Renovate bot auto-updates container images, Helm charts, GitHub releases, mise tools, and GitHub Actions on weekend schedule with auto-merge for patch updates and grouping for major components.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L27-L28",
+          "version": "repo-lines-v1:sha256:bbe805a8ea8d1d4891ceb38ee0b261071de778f2fcd8507dd600ebb6174c9c82:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiN2ZhMThkYmVkYTNlZjQwM2Y5MDcwMDcwMzNkNzU3NjhjZmU2MGU3N2QyNTZmNjk5NTI2MjYzNThiNDE4ZmFjMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTYyNWE0MWIxNTI3NmQ2NmU0YTQ2YzllNjFjOTE5NzE4OTgxZjY2OTQ1ZDc2NzAzOTRmOGNjZTc5ZTg5ZjZkZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDA0NTk0NjUyZTAxMGJkNDFhNzg3ZmQ3Y2IzMTFiMmU5OWRiYzhiMTBlYjkxNjFjMDJkYThiZThmMDJkYWQzNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzgwZDhjZjJiNDQ3NzY2ZTkzZmNjODU1NDRkOTU4OWI4ZmFmOWUyOTdkNjQ5Nzc4Yjg3NzY0M2U2MjEwYTUwOSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_723ede123fc84144b12f3a4989882795",
+      "statement": "Architecture follows four-layer model: Infrastructure (Talos nodes, LVM), Platform (Kubernetes, Cilium, TopoLVM), GitOps (Git repository, Flux controllers, Helm releases), and Services (networking, observability, applications).",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L22-L30",
+          "version": "repo-lines-v1:sha256:b3adb023db98fd9bdbdbf2931406ff425918a47a2d9cb9859031bcff975aeffb:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2MxMTE1ZDAxMWE3YjVlYzA4OWM2YTVkMDM1MWNhZGIwYzZhODM0ZDI0NDI0OTVmODJhM2UyNjEzNjUzN2JmZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGMyYzI2ZTU2ZGQyMTBjMjllYTg1YWM3NTBlMWJjYjgzN2Y3ODIxMWFmMDE3YzM2MWMyOTBjOGUyNjliMTllMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDdlMTQ2NTllODM0YjI5ZjNkZmQ5ODlhNTU1N2QxNmE0MDRlNDhjZjA3OGQ1MGQ2ZmIxNGI0MDc5NDc0OTFlNSJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-08-30T21:57:36.532Z"
+  }
+}

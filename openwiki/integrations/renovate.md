@@ -32,15 +32,60 @@ sources:
     resource: repo://kubernetes/flux/meta/repos/gateway-api.yaml
   - id: openwiki-source-b65e4f1ccd91316116ad973a
     resource: repo://talos/talenv.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-29T21:52:21.026Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-08-29T21:52:21.026Z
+    at: 2026-08-30T21:57:36.532Z
+generated: { by: "openwiki/0.4.3", at: "2026-08-30T21:57:36.532Z" }
 ---
 
 # Renovate Integration
 
 Renovate provides automated dependency updates for the Talos cluster, handling container images, Helm charts, OCI repositories, Kubernetes manifests, Talos/Kubernetes versions, and development toolchains. The bot runs on a schedule and creates pull requests for dependency updates while supporting selective auto-merge policies.
+
+## Architecture Overview
+
+```mermaid
+flowchart TB
+    subgraph Renovate["Renovate (GitHub App)"]
+        R[Config: .renovaterc.json5]
+        R2[Schedule: Every Weekend]
+        R3[Custom Managers: Regex]
+    end
+
+    subgraph Manifests["Git Repository"]
+        K8s[Kubernetes Manifests]
+        Helm[Helm Charts]
+        Flux[Flux Sources]
+        Mise[mise.toml]
+        GH[GitHub Workflows]
+        SysUp[System Upgrade Plans]
+    end
+
+    subgraph Flux["Flux Cluster"]
+        F1[ImageUpdateAutomation]
+        F2[ImageRepository]
+        F3[ImagePolicy]
+        F4[OCIRepository]
+    end
+
+    subgraph Registry["Container Registry"]
+        REG[(Docker/OCI Images)]
+    end
+
+    R -->|Scans| Manifests
+    R3 -->|Extracts annotations| Manifests
+    R2 -->|Creates PRs| Manifests
+
+    Manifests -->|Flux reconciles| Flux
+    Flux -->|Scans| Registry
+    F1 -->|Updates tags| Manifests
+
+    style Renovate fill:#e1f5ff
+    style Flux fill:#ffe1e1
+    style Registry fill:#e1ffe1
+```
+
+Renovate operates as the **upstream dependency tracking layer** that creates pull requests for version updates in Git, while **Flux handles downstream reconciliation** of those changes into the cluster. ImageUpdateAutomation provides a separate mechanism for automated image tag updates that complements Renovate's version reference tracking.
 
 ## Configuration
 
@@ -123,7 +168,7 @@ version: v1.35.4
 version: v1.12.7
 ```
 
-**Talenv configuration** (`/talos/talenv.yaml`)
+**Talenv configuration** (`talos/talenv.yaml`)
 ```yaml
 # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
 talosVersion: v1.12.7
@@ -160,6 +205,16 @@ Example from `.github/workflows/flux-local.yaml`:
 - Auto-merge: Enabled for minor and patch updates
 - Tracks: Python, aqua tools, Node.js, pipx versions
 
+Example from `.mise.toml`:
+```toml
+[tools]
+"python" = "3.14.7"
+"aqua:budimanjojo/talhelper" = "3.1.17"
+"aqua:cilium/cilium-cli" = "0.20.0"
+node = "latest"
+pipx = "latest"
+```
+
 ## Custom Managers
 
 Renovate uses a custom regex manager to process annotated dependencies in shell scripts, environment files, and YAML manifests (`.renovaterc.json5#L206-L229`):
@@ -174,6 +229,12 @@ This pattern matches annotations like:
 KUBERNETES_VERSION=v1.31.1
 ```
 
+The custom manager extracts four key fields from annotated comments:
+- `datasource`: The type of dependency source (docker, github-releases, helm)
+- `depName`: The dependency name/path
+- `registryUrl`: Optional repository URL for Helm charts
+- `currentValue`: The current version string
+
 ## Package Grouping
 
 Dependencies are grouped to reduce PR noise and ensure coordinated updates (`.renovaterc.json5#L31-L67`):
@@ -182,6 +243,8 @@ Dependencies are grouped to reduce PR noise and ensure coordinated updates (`.re
 - **CoreDNS**: CoreDNS images
 - **Flux Operator**: Flux operator and instance images
 - **Spegel**: Spegel image cache images
+
+Each group creates a single PR when multiple dependencies in the group have updates available.
 
 ## Semantic Commit Rules
 
@@ -307,119 +370,26 @@ image:
   tag: "main-786bccf17263-1785740665" # {"$imagepolicy": "default:fava:tag"}
 ```
 
-The `{"$imagepolicy": "NAMESPACE:APP:tag"}` marker tells ImageUpdateAutomation to replace the tag with the latest value from the ImagePolicy.
+The `{"$imagepolicy": "NAMESPACE:APP:tag"}` marker syntax enables ImageUpdateAutomation to replace image tags with values from ImagePolicy resources.
 
-### Policy Configuration
+### Policy Customization
 
-The default ImagePolicy (`kubernetes/components/image-automation/imagepolicy.yaml`) uses numerical sorting with timestamp extraction:
-
-```yaml
-spec:
-  filterTags:
-    pattern: "^.+-[a-f0-9]+-(?P<ts>[0-9]+)$"
-    extract: "$ts"
-  policy:
-    numerical:
-      order: asc
-```
-
-Applications can override this policy via Kustomization patches, such as using alphabetical sorting for SHA tags (`kubernetes/apps/default/omnifocus-sync-server/app/kustomization.yaml`):
+Applications can override default ImagePolicy behavior via Kustomization patches. For example, changing from numerical to alphabetical sorting for SHA-based tags (`kubernetes/apps/default/omnifocus-sync-server/app/kustomization.yaml`):
 
 ```yaml
-patch:
-  spec:
-    policy:
-      alphabetical:
-        order: desc
-    filterTags:
-      pattern: "^sha-[a-f0-9]+$"
+patches:
+  - target:
+      kind: ImagePolicy
+      name: omnifocus-sync-server
+    patch: |
+      spec:
+        policy:
+          alphabetical:
+            order: desc
+        filterTags:
+          pattern: "^sha-[a-f0-9]+$"
 ```
 
-## Namespace Hardcoding
+### Namespace Configuration
 
-Flux repositories under the cluster-meta Kustomization must hardcode `flux-system` as their namespace to ensure Renovate can correctly locate and update them (`kubernetes/flux/cluster/ks.yaml#L21-L22`):
-
-```yaml
-# Flux repositories under this need flux-system hardcoded as namespace for Renovate lookups
-targetNamespace: flux-system
-```
-
-This requirement exists because Renovate searches for resources in the flux-system namespace regardless of the actual namespace specified in the manifest.
-
-## Integration with Flux GitOps
-
-Renovate operates as the upstream dependency tracking layer, while Flux handles downstream reconciliation:
-
-```mermaid
-flowchart LR
-    A[Renovate Bot] -->|Creates PRs| B[Git Repository]
-    B -->|Flux pulls| C[Flux Controllers]
-    D[ImageUpdateAutomation] -->|Updates tags| B
-    C -->|Applies manifests| E[Kubernetes Cluster]
-    
-    subgraph "Update Workflow"
-        F[Renovate detects new version] --> G[Creates PR with version update]
-        G --> H[Developer reviews and merges]
-        H --> I[Flux reconciles new manifest]
-        J[ImageRepository detects new image] --> K[ImagePolicy selects latest]
-        K --> L[ImageUpdateAutomation commits tag update]
-        L --> I
-    end
-```
-
-1. **Renovate** scans dependency sources (Docker registries, Helm repositories, GitHub releases)
-2. **Renovate** creates PRs with updated version references
-3. **Developer** reviews and merges PRs
-4. **Flux** reconciles the updated manifests to the cluster
-5. **ImageRepository** scans container registries for new image tags
-6. **ImagePolicy** selects the appropriate image based on policy rules
-7. **ImageUpdateAutomation** commits image tag updates back to Git
-8. **Flux** reconciles the image updates
-
-## Operations
-
-### Reviewing Renovate PRs
-
-Check the Renovate Dashboard to see all pending dependency updates. PRs are labeled by type and datasource for easy filtering.
-
-**High-risk updates** require manual review:
-- Major version bumps for core infrastructure (storage, networking, monitoring)
-- Kubernetes and Talos version upgrades
-- Changes to shared components like app-template
-
-**Low-risk updates** may be auto-merged:
-- GitHub Actions minor/patch updates
-- mise toolchain updates
-- Application-level image updates (non-infrastructure)
-
-### Custom Dependency Tracking
-
-Add custom dependencies using the `# renovate:` annotation syntax:
-
-```yaml
-# renovate: datasource=<type> depName=<package-name> [repository=<url>]
-version: <current-version>
-```
-
-Supported datasources:
-- `docker`: Container images
-- `helm`: Helm charts
-- `github-releases`: GitHub releases
-- `github-tags`: GitHub tags
-
-### Troubleshooting
-
-**Renovate not finding dependencies**:
-- Verify file patterns match the actual file paths
-- Check that `# renovate:` annotations use correct syntax
-- Ensure GitRepository sources use the hardcoded `flux-system` namespace
-
-**ImageUpdateAutomation not updating tags**:
-- Verify ImagePolicy has the `image-automation: enabled` label
-- Check that the `{"$imagepolicy": "..."}` marker syntax is correct
-- Ensure flux-github-token secret exists and has write permissions
-
-**Auto-merge not working**:
-- Verify branch protection rules allow auto-merge
-- Check that the update type matches auto-merge rules
-- Ensure minimum release age has passed
+Flux repositories under the cluster-meta Kustomization must hardcode `flux-system` as their namespace to ensure Renovate can correctly locate and update them (`kubernetes/flux/cluster/ks.yaml#L21-L22`). Renovate searches in `flux-system` regardless of the manifest's specified namespace, so the targetNamespace must match this expectation.

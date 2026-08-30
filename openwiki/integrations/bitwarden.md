@@ -5,7 +5,7 @@ description: Runtime secret management using Bitwarden as the external secrets p
 tags: [secrets, external-secrets, bitwarden, security]
 verified:
   - by: openwiki/0.4.3
-    at: 2026-08-29T21:52:21.026Z
+    at: 2026-08-30T21:57:36.532Z
 sources:
   - id: openwiki-source-41044dd9a7ebfa0249948610
     resource: repo://kubernetes/apps/default/growth-tracker/app/externalsecret.yaml

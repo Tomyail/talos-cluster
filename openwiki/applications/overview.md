@@ -3,6 +3,73 @@ type: Applications overview
 title: Applications Overview
 description: How applications are structured and deployed in the cluster, including namespace layout, Flux Kustomizations, HelmRelease patterns, and reusable components.
 tags: [applications, flux, helm, namespaces, gitops]
+verified:
+  - by: openwiki/0.4.3
+    at: 2026-08-30T21:57:36.532Z
+sources:
+  - id: openwiki-source-3575fddf30ac39cfa744fb2f
+    resource: repo://kubernetes/apps/cert-manager/cert-manager/app/helmrelease.yaml
+  - id: openwiki-source-878c71c8660186a07262b148
+    resource: repo://kubernetes/apps/database/cloudnative-pg/app/externalsecret.yaml
+  - id: openwiki-source-b036f144da153ee24467316a
+    resource: repo://kubernetes/apps/database/cloudnative-pg/app/helmrelease.yaml
+  - id: openwiki-source-ce5428b32557cc11ea784146
+    resource: repo://kubernetes/apps/database/cloudnative-pg/cluster/cluster16.yaml
+  - id: openwiki-source-951c2cc0849ba28408b9b784
+    resource: repo://kubernetes/apps/database/cloudnative-pg/ks.yaml
+  - id: openwiki-source-6a7bc35744e35cf9c477e58f
+    resource: repo://kubernetes/apps/database/dragonfly/app/helmrelease.yaml
+  - id: openwiki-source-91a83fcea6f6c07669970325
+    resource: repo://kubernetes/apps/database/dragonfly/cluster/cluster.yaml
+  - id: openwiki-source-94bb4e23c21de8a42f981d2f
+    resource: repo://kubernetes/apps/database/dragonfly/ks.yaml
+  - id: openwiki-source-ee06019c49401bb5e952b0ff
+    resource: repo://kubernetes/apps/database/kustomization.yaml
+  - id: openwiki-source-dbd8b5c09621dda4424792fd
+    resource: repo://kubernetes/apps/default/gitea/app/helmrelease.yaml
+  - id: openwiki-source-649e5ed74d5376f95cff2b2a
+    resource: repo://kubernetes/apps/default/gitea/ks.yaml
+  - id: openwiki-source-b9d4da166d7fb6816b60fef7
+    resource: repo://kubernetes/apps/default/jellyfin/app/helmrelease.yaml
+  - id: openwiki-source-dab2a819a5e570335c6a1129
+    resource: repo://kubernetes/apps/default/jellyfin/ks.yaml
+  - id: openwiki-source-83fcf5098607a9b2edbdd01e
+    resource: repo://kubernetes/apps/default/kustomization.yaml
+  - id: openwiki-source-0c521bf9d00ed413e75ea3ac
+    resource: repo://kubernetes/apps/default/paperless/app/helmrelease.yaml
+  - id: openwiki-source-e77c6b8832294602885266c1
+    resource: repo://kubernetes/apps/external-secrets/external-secrets/app/helmrelease.yaml
+  - id: openwiki-source-ad95146e587c2b5efe4f98d1
+    resource: repo://kubernetes/apps/kube-system/cilium/app/helmrelease.yaml
+  - id: openwiki-source-473a10228ca4b1e96867e493
+    resource: repo://kubernetes/apps/kube-system/kustomization.yaml
+  - id: openwiki-source-f340d1876ec8cdef13a12327
+    resource: repo://kubernetes/apps/network/cloudflare-tunnel/app/helmrelease.yaml
+  - id: openwiki-source-1ff1d265d4864ecc58515b0a
+    resource: repo://kubernetes/apps/network/k8s-gateway/app/helmrelease.yaml
+  - id: openwiki-source-cfa24be7f3923928e4fe05dd
+    resource: repo://kubernetes/apps/network/kustomization.yaml
+  - id: openwiki-source-d4d025f39bde91bcff75daaa
+    resource: repo://kubernetes/apps/network/tailscale/app/helmrelease.yaml
+  - id: openwiki-source-713804fe0a8649683e2d52d6
+    resource: repo://kubernetes/apps/observability/gatus/app/helmrelease.yaml
+  - id: openwiki-source-b742f8057573a80a14049cc3
+    resource: repo://kubernetes/apps/observability/grafana/app/helmrelease.yaml
+  - id: openwiki-source-3bb8db68d9e76fc96ebaa8a0
+    resource: repo://kubernetes/apps/observability/kustomization.yaml
+  - id: openwiki-source-f4981326e8ef2c12ac7b791b
+    resource: repo://kubernetes/apps/storage/kustomization.yaml
+  - id: openwiki-source-9baccf3ae41f07f1fd5a1914
+    resource: repo://kubernetes/apps/storage/topolvm/app/helmrelease.yaml
+  - id: openwiki-source-015490ec49e95d08d0ea6358
+    resource: repo://kubernetes/apps/storage/topolvm/ks.yaml
+  - id: openwiki-source-710f7608ef2681013d8705c7
+    resource: repo://kubernetes/apps/storage/volsync/app/helmrelease.yaml
+  - id: openwiki-source-63c7de935f96b1aa0a5dc1a4
+    resource: repo://kubernetes/components/common/kustomization.yaml
+  - id: openwiki-source-0aa0479be229def909bbfa22
+    resource: repo://kubernetes/components/common/repos/app-template/ocirepository.yaml
+generated: { by: "openwiki/0.4.3", at: "2026-08-30T21:57:36.532Z" }
 ---
 
 # Applications Overview
@@ -15,40 +82,42 @@ How applications are structured and deployed in the cluster.
 
 Applications are grouped by namespace under `kubernetes/apps/`:
 
-- **`kube-system`** - Core cluster components (Cilium, CoreDNS, metrics-server)
-- **`flux-system`** - GitOps operator and instance
+- **`kube-system`** - Core cluster components (Cilium, CoreDNS, metrics-server, reloader, node-feature-discovery, intel-device-plugin-operator, system-upgrade)
+- **`flux-system`** - GitOps operator and instance (flux-operator, flux-instance, image-automation, notification)
 - **`cert-manager`** - Certificate management
-- **`network`** - Networking services (Cloudflare Tunnel, AdGuard, k8s-gateway, Tailscale)
-- **`observability`** - Monitoring stack (Grafana, Prometheus, Loki, Thanos, Gatus, Uptime Kuma)
-- **`storage`** - Storage operators (TopoLVM, VolSync, NFS CSI)
-- **`database`** - Database operators (PostgreSQL via CloudNative-PG, Redis via Dragonfly)
+- **`network`** - Networking services (Cloudflare Tunnel, Cloudflare DNS, AdGuard DNS, k8s-gateway, Tailscale, SMTP relay)
+- **`observability`** - Monitoring stack (Grafana, Prometheus operator, kube-prometheus-stack, Loki, Promtail, Thanos, Gatus, Uptime Kuma, kromgo, smartctl-exporter)
+- **`storage`** - Storage operators (TopoLVM, VolSync, snapshot-controller, local-path-provisioner, NFS CSI, Nextcloud)
+- **`database`** - Database operators (PostgreSQL via CloudNative-PG, Redis-compatible via Dragonfly, pgAdmin)
 - **`external-secrets`** - External Secrets Operator and Bitwarden integration
-- **`default`** - Personal applications (~30 apps, including Gitea, Jellyfin, growth-tracker, Paperless, Navidrome)
+- **`default`** - Personal applications (~35 apps, including Gitea, Jellyfin, growth-tracker, Paperless, Navidrome, n8n, Home Assistant)
 - **`external-server`** - Public-facing applications
 
 ### Namespace Kustomization Pattern
 
-Each namespace has a `kustomization.yaml`:
+Each namespace has a `kustomization.yaml` that aggregates all applications:
 
 ```yaml
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: default
-resources:
-  - ./atuin
-  - ./calibre-web-automated
-  - ./gitea
-  # ... more apps
 components:
   - ../../components/common
+resources:
+  - ./atuin/ks.yaml
+  - ./gitea/ks.yaml
+  - ./jellyfin/ks.yaml
+  # ... more apps
 ```
 
 **Key points**:
-- Includes all app directories
-- Includes `common` component (namespace, repos, SOPS)
-- Flux reconciles this as one Kustomization
+- Includes all app directories as Flux Kustomizations (`./app/ks.yaml`)
+- Includes `common` component (namespace, repos, SOPS decryption)
+- Flux reconciles this as one Kustomization per namespace
 
 ### Application Directory Structure
+
+Each application follows this pattern:
 
 ```
 kubernetes/apps/<namespace>/<app>/
@@ -61,13 +130,13 @@ kubernetes/apps/<namespace>/<app>/
     [sub-app/]             # Additional components (optional)
 ```
 
-**Example**: `kubernetes/apps/default/gitea/`
+**Example**: `kubernetes/apps/default/gitea/` contains the main app in `app/` and a runner in `runner/`.
 
 ## Application Template
 
 ### Shared OCI Chart
 
-Most apps use the `app-template` OCI chart:
+Most applications use the `app-template` OCI chart from `ghcr.io/bjw-s-labs/helm/app-template`:
 
 ```yaml
 apiVersion: helm.toolkit.fluxcd.io/v2
@@ -80,41 +149,39 @@ spec:
     name: app-template
 ```
 
-**Chart location**: `ghcr.io/bjw-s-labs/helm/app-template`
+**Chart definition** in `kubernetes/components/common/repos/app-template/ocirepository.yaml`:
+- URL: `oci://ghcr.io/bjw-s-labs/helm/app-template`
+- Version: 5.0.1
+- Parsed as Helm chart content
 
 **Why shared chart**:
-- Consistent app structure
+- Consistent application structure across all apps
 - Simplifies updates (update chart once, all apps benefit)
-- Flexible values schema for common patterns
-
-**Chart is defined** in `kubernetes/components/common/repos/app-template/`.
+- Flexible values schema for common patterns (controllers, containers, services, routes, persistence)
 
 ### HelmRelease Values
 
 The `app-template` chart supports these common patterns:
 
-**Container image**:
+**Controllers and containers**:
 ```yaml
-image:
-  repository: ghcr.io/example/my-app
-  tag: 1.2.3
-  pullPolicy: IfNotPresent
-```
-
-**Environment variables**:
-```yaml
-env:
-  TZ: America/New_York
-  SOME_VAR: value
+controllers:
+  main:
+    containers:
+      app:
+        image:
+          repository: ghcr.io/example/my-app
+          tag: 1.2.3
+        env:
+          TZ: America/New_York
+          SOME_VAR: value
 ```
 
 **Secrets from ExternalSecret**:
 ```yaml
-env:
-  PASSWORD:
-    secretKeyRef:
+envFrom:
+  - secretRef:
       name: my-app-secret
-      key: password
 ```
 
 **Service and ports**:
@@ -126,26 +193,25 @@ service:
         port: 8080
 ```
 
-**Ingress via Gateway API**:
+**Gateway API routes** (for ingress):
 ```yaml
-ingress:
+route:
   main:
-    hosts:
-      - host: my-app.tomyail.com
-        paths:
-          - path: /
-            service: main
-            port: http
+    hostnames:
+      - "my-app.example.com"
+    parentRefs:
+      - name: internal
+        namespace: kube-system
+        sectionName: https
 ```
 
 **Persistent volumes**:
 ```yaml
 persistence:
   data:
-    enabled: true
-    storageClass: topolvm-provisioner
-    size: 10Gi
-    accessMode: ReadWriteOnce
+    existingClaim: my-app-data
+    globalMounts:
+      - path: /data
 ```
 
 ## Database Applications
@@ -158,19 +224,29 @@ The `database` namespace runs database operators for both relational and in-memo
 
 PostgreSQL operator providing high-availability, backup, and replication for relational databases.
 
+**Two-stage deployment**:
+1. **Operator installation** (`./app/helmrelease.yaml`): Installs CloudNative-PG operator with CRDs
+2. **Cluster instance** (`./cluster/cluster16.yaml`): Creates PostgreSQL 16 cluster
+
+**Cluster configuration** (`cluster16.yaml`):
+- Image: `ghcr.io/cloudnative-pg/postgresql:16.3-7`
+- Storage: 10Gi, `topolvm-thin-provisioner` storage class
+- Resources: 500m CPU, 1Gi request; 2Gi memory limit
+- Backups: S3-compatible storage (MinIO) with 7-day retention
+- Monitoring: PodMonitor enabled for Prometheus scraping
+
+**ExternalSecret** (`./app/externalsecret.yaml`):
+- Syncs credentials from Bitwarden (username, password, S3 credentials)
+- Uses `ClusterSecretStore` for secret access
+
 **Components**:
 - `app/helmrelease.yaml` - CloudNative-PG operator
 - `app/externalsecret.yaml` - S3 credentials for backups
 - `cluster/cluster16.yaml` - PostgreSQL 16 cluster instance
 - `cluster/externalsecret-n8n.yaml` - Database credentials for n8n
-- `cluster/scheduledbackup.yaml` - Automated backups via S3
+- `cluster/scheduledbackup.yaml` - Automated backups via CronJob
 - `cluster/gatus.yaml` - Health checks for Gatus
-
-**Features**:
-- Managed PostgreSQL 16 with automated failover
-- S3-backed backups scheduled via CronJob
-- Dedicated database for n8n workflow automation
-- Prometheus integration via Cluster monitoring defaults
+- `cluster/prometheusrule.yaml` - Prometheus alerting rules
 
 ### Dragonfly (Redis-compatible)
 
@@ -178,7 +254,7 @@ PostgreSQL operator providing high-availability, backup, and replication for rel
 
 **Location**: `kubernetes/apps/database/dragonfly/`
 
-**Architecture**: Two-stage Flux Kustomization pattern:
+**Two-stage Flux Kustomization pattern**:
 
 ```yaml
 # Stage 1: Operator + CRD
@@ -203,15 +279,7 @@ spec:
   # Creates Dragonfly instance after CRDs are available
 ```
 
-**Components**:
-- `app/helmrelease.yaml` - Dragonfly operator Helm chart
-- `app/crd.yaml` - Dragonfly CRD definitions (dragonflydb.io/v1alpha1)
-- `app/rbac/` - Service account, Role, and RoleBinding
-- `cluster/cluster.yaml` - Dragonfly custom resource instance
-- `cluster/podmonitor.yaml` - Prometheus PodMonitor for metrics scraping
-- `cluster/network-policy.yaml` - Allow Prometheus metrics access
-
-**Dragonfly instance configuration**:
+**Dragonfly instance configuration** (`cluster/cluster.yaml`):
 ```yaml
 apiVersion: dragonflydb.io/v1alpha1
 kind: Dragonfly
@@ -241,605 +309,229 @@ spec:
 - **Memory-based limits**: Uses `MAX_MEMORY` env var from memory limit (512Mi)
 - **Cluster mode**: `emulated` for single-replica setups
 - **Monitoring**: Prometheus scraping via PodMonitor on port 9377
-- **Topology spread**: Ensures pods distribute across nodes
+- **Network policy**: Allows only Prometheus metrics access
 
 **When to use Dragonfly vs PostgreSQL**:
 - Dragonfly: In-memory caching, session storage, rate limiting, queues
 - PostgreSQL (CloudNative-PG): Relational data, transactions, complex queries
+
+## Core Infrastructure Applications
+
+### kube-system Components
+
+**Cilium** (`./kube-system/cilium/`):
+- CNI plugin for cluster networking
+- Uses HelmRepository source (not OCI)
+- ConfigMap-based values injection
+- Installs with CRDs and comprehensive network policies
+
+**CoreDNS** (`./kube-system/coredns/`):
+- Cluster DNS service
+- OCI chart from `ghcr.io/coredns/charts/coredns`
+- ConfigMap-based values
+
+**metrics-server** (`./kube-system/metrics-server/`):
+- Metrics collection for resource usage
+- HelmRepository source
+- Enables horizontal pod autoscaling
+
+**reloader** (`./kube-system/reloader/`):
+- Auto-reload pods when ConfigMaps/Secrets change
+- OCI chart from `ghcr.io/stakater/charts/reloader`
+- PodMonitor enabled for metrics
+
+### Storage Applications
+
+**TopoLVM** (`./storage/topolvm/`):
+- LVM-based dynamic provisioning
+- Uses `topolvm-thin-provisioner` storage class
+- Device classes: thin provisioning with 10GB spare
+- Embedded lvmd per node
+- Default storage class for the cluster
+
+**VolSync** (`./storage/volsync/`):
+- Data replication and backup for PVCs
+- HelmRepository source from Backube
+- CRDs managed by the chart
+
+**snapshot-controller** (`./storage/snapshot-controller/`):
+- Volume snapshot creation and restoration
+- CRDs installed with CreateReplace strategy
+
+### Networking Applications
+
+**k8s-gateway** (`./network/k8s-gateway/`):
+- Gateway API-based DNS routing
+- OCI chart from `ghcr.io/k8s-gateway/charts/k8s-gateway`
+- LoadBalancer service with IPAM annotation
+- Watches HTTPRoute and Service resources
+
+**Cloudflare Tunnel** (`./network/cloudflare-tunnel/`):
+- Ingress tunnel to Cloudflare network
+- Uses app-template
+- Metrics on port 8080
+- HTTP/2 transport protocol
+
+**Tailscale** (`./network/tailscale/`):
+- VPN overlay network
+- HelmRepository source
+- OAuth credentials from Secret
+
+### Observability Applications
+
+**Grafana** (`./observability/grafana/`):
+- OCI chart from `ghcr.io/grafana/helm-charts/grafana`
+- Data sources: Thanos (Prometheus-compatible), Loki, Alertmanager
+- Anonymous access enabled (Viewer role)
+- Dashboard providers configured
+
+**Prometheus operator** (`./observability/prometheus-operator/`):
+- CRDs for Prometheus resources
+- Deploys before kube-prometheus-stack
+
+**Thanos** (`./observability/thanos/`):
+- Long-term metrics storage and querying
+- Sidecar configuration for Prometheus
+
+**Loki** (`./observability/loki/`):
+- Log aggregation system
+- Uses app-template
+
+**Gatus** (`./observability/gatus/`):
+- Health check and status page
+- Uses app-template
+- Init container with k8s-sidecar for config discovery
+- Watches ConfigMaps/Secrets with `gatus.io/enabled` label
+
+**Uptime Kuma** (`./observability/uptime-kuma/`):
+- Uptime monitoring
+- Uses app-template
+- Route to both internal and external gateways
 
 ## Application Examples
 
-### Simple Web App
+### Gitea (Git Server)
 
-**`helmrelease.yaml`**:
-```yaml
-apiVersion: helm.toolkit.fluxcd.io/v2
-kind: HelmRelease
-metadata:
-  name: my-web-app
-  namespace: default
-spec:
-  chartRef:
-    kind: OCIRepository
-    name: app-template
-  values:
-    image:
-      repository: ghcr.io/example/my-web-app
-      tag: 1.0.0
-    service:
-      main:
-        ports:
-          http:
-            port: 8080
-    ingress:
-      main:
-        hosts:
-          - host: my-app.tomyail.com
-            paths:
-              - path: /
-                service: main
-                port: http
-    env:
-      TZ: America/New_York
-```
-
-### Database-Backed App
-
-**`pvc.yaml`**:
-```yaml
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: my-app-data
-spec:
-  storageClassName: topolvm-provisioner
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 10Gi
-```
-
-**`externalsecret.yaml`**:
-```yaml
-apiVersion: external-secrets.io/v1beta1
-kind: ExternalSecret
-metadata:
-  name: my-app-secret
-spec:
-  refreshInterval: 1h
-  secretStoreRef:
-    name: bitwarden-connect
-  target:
-    name: my-app-secret
-  data:
-    - secretKey: DATABASE_URL
-      remoteRef:
-        key: "my-app-database-url"
-```
-
-**`helmrelease.yaml`**:
-```yaml
-values:
-  persistence:
-    data:
-      enabled: true
-      existingClaim: my-app-data
-  env:
-    DATABASE_URL:
-      secretKeyRef:
-        name: my-app-secret
-        key: DATABASE_URL
-```
-
-### VolSync-Enabled App
-
-**In `app/volsync.yaml`** (included in kustomization):
-```yaml
-apiVersion: volsync.backube/v1alpha1
-kind: ReplicationSource
-metadata:
-  name: my-app
-spec:
-  sourcePVC: my-app-data
-  trigger:
-    schedule: "0 2 * * *"
-  restic:
-    copyMethod: Snapshot
-    repository: my-app-minio
-    storageClassName: topolvm-provisioner
-    mover:
-      image: ghcr.io/backube/volsync:latest
-```
-
-**MinIO secret** (in `app/volsync-secret.sops.yaml`):
-```yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: my-app-minio
-stringData:
-  RESTIC_REPOSITORY: s3:http://minio.default.svc.cluster.local:9000/volsync-default
-  RESTIC_PASSWORD: <encrypted>
-  AWS_ACCESS_KEY_ID: <encrypted>
-  AWS_SECRET_ACCESS_KEY: <encrypted>
-```
-
-### Database Operator: Dragonfly
-
-**Dragonfly** is a Redis-compatible in-memory data store with improved performance and resource efficiency.
-
-**Location**: `kubernetes/apps/database/dragonfly/`
-
-**Architecture**: Two-stage Flux Kustomization pattern:
-
-```yaml
-# Stage 1: Operator + CRD
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: dragonfly
-spec:
-  path: ./kubernetes/apps/database/dragonfly/app
-  # Installs Dragonfly operator, CRDs, and RBAC
-
----
-# Stage 2: Database instance (depends on operator)
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: dragonfly-cluster
-spec:
-  path: ./kubernetes/apps/database/dragonfly/cluster
-  dependsOn:
-    - name: dragonfly
-  # Creates Dragonfly instance after CRDs are available
-```
+**Location**: `kubernetes/apps/default/gitea/`
 
 **Components**:
-- `app/helmrelease.yaml` - Dragonfly operator Helm chart
-- `app/crd.yaml` - Dragonfly CRD definitions (dragonflydb.io/v1alpha1)
-- `app/rbac/` - Service account, Role, and RoleBinding
-- `cluster/cluster.yaml` - Dragonfly custom resource instance
-- `cluster/podmonitor.yaml` - Prometheus PodMonitor for metrics scraping
-- `cluster/network-policy.yaml` - Allow Prometheus metrics access
-
-**Dragonfly instance configuration**:
-```yaml
-apiVersion: dragonflydb.io/v1alpha1
-kind: Dragonfly
-metadata:
-  name: dragonfly
-spec:
-  image: ghcr.io/dragonflydb/dragonfly:v1.40.1
-  replicas: 1
-  env:
-    - name: MAX_MEMORY
-      valueFrom:
-        resourceFieldRef:
-          resource: limits.memory
-          divisor: 1Mi
-  args:
-    - --maxmemory=$(MAX_MEMORY)Mi
-    - --cluster_mode=emulated
-  resources:
-    requests:
-      cpu: 100m
-      memory: 128Mi
-    limits:
-      memory: 512Mi
-```
+- Main app in `app/` with HelmRelease using app-template
+- Runner in `runner/` for CI/CD actions
+- Two Kustomizations in `ks.yaml`: `gitea` and `gitea-runner`
 
 **Key features**:
-- **Memory-based limits**: Uses `MAX_MEMORY` env var from memory limit (512Mi)
-- **Cluster mode**: `emulated` for single-replica setups
-- **Monitoring**: Prometheus scraping via PodMonitor on port 9377
-- **Topology spread**: Ensures pods distribute across nodes
+- Init container for database initialization
+- PostgreSQL backend via CloudNative-PG
+- ExternalSecret for credentials
+- Gateway API routes to internal and external gateways
+- VolSync component for data replication
+- PVC for persistent storage
 
-**When to use Dragonfly vs PostgreSQL**:
-- Dragonfly: In-memory caching, session storage, rate limiting, queues
-- PostgreSQL (CloudNative-PG): Relational data, transactions, complex queries
+**Dependencies** (via `dependsOn`):
+- TopoLVM (storage)
+- External Secrets operator
+- CloudNative-PG cluster (database)
 
-### CronJob-Based Analytics App
+### Jellyfin (Media Server)
 
-**Example**: `growth-tracker` - Daily sync of blog traffic, app downloads, and extension stats
+**Location**: `kubernetes/apps/default/jellyfin/`
 
-**`helmrelease.yaml`** (CronJob controller):
+**Key features**:
+- Uses app-template
+- Intel GPU acceleration (`gpu.intel.com/i915: 1`)
+- LoadBalancer service with IPAM (192.168.50.127)
+- Gateway API routes
+- Three PVCs: config, cache, media
+- Media PVC mounts NAS storage
+
+### Paperless (Document Management)
+
+**Location**: `kubernetes/apps/default/paperless/`
+
+**Key features**:
+- Uses app-template
+- Dragonfly for Redis backend (task queue, caching)
+- PostgreSQL database via CloudNative-PG
+- OCR with Chinese and English language support
+- ExternalSecret for credentials
+- Gateway API route to internal gateway
+
+## Common Patterns
+
+### Security Context
+
+Most applications use this security pattern:
+
 ```yaml
-apiVersion: helm.toolkit.fluxcd.io/v2
-kind: HelmRelease
-metadata:
-  name: growth-tracker
-spec:
-  interval: 1h
-  chartRef:
-    kind: OCIRepository
-    name: app-template
-  values:
-    controllers:
-      growth-tracker:
-        type: cronjob
-        cronjob:
-          schedule: "30 6 * * *"
-          backoffLimit: 1
-          concurrencyPolicy: Forbid
-          successfulJobsHistory: 3
-          failedJobsHistory: 3
-        containers:
-          app:
-            image:
-              repository: gitea.tomyail.com/tomyail/growth-tracker
-              tag: "main-9f5e7740137f-1785251293"
-            args: ["sync"]
-            envFrom:
-              - secretRef:
-                  name: growth-tracker-secret
-            env:
-              # Non-secret config
-              UMAMI_BASE_URL: "https://umami.tomyail.com"
-              CWS_EXTENSION_IDS: "gppofoolnalffmfnponnahhfafkcnmln=x-likes-backup"
-        initContainers:
-          init-db:
-            image:
-              repository: ghcr.io/home-operations/postgres-init
-              tag: 18.4
+defaultPodOptions:
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    runAsGroup: 1000
+    fsGroup: 1000
+    fsGroupChangePolicy: OnRootMismatch
 ```
 
-**`externalsecret.yaml`** (multi-source secrets):
+Container-specific security:
 ```yaml
-apiVersion: external-secrets.io/v1
-kind: ExternalSecret
-metadata:
-  name: growth-tracker
-spec:
-  secretStoreRef:
-    kind: ClusterSecretStore
-    name: bitwarden-login
-  target:
-    name: growth-tracker-secret
-    template:
-      engineVersion: v2
-      data:
-        DATABASE_URL: "postgres://{{ .GT_POSTGRES_USER }}:{{ .GT_POSTGRES_PASS }}@dev-postgres16-rw.database.svc.cluster.local:5432/growth_tracker"
-        # App Store Connect credentials use bitwarden-fields store
-        ASC_ISSUER_ID: "{{ .ASC_ISSUER_ID }}"
-        ASC_KEY_ID: "{{ .ASC_KEY_ID }}"
-  data:
-    - secretKey: GT_POSTGRES_USER
-      remoteRef:
-        key: growth-tracker-db
-        property: username
-    - secretKey: ASC_ISSUER_ID
-      sourceRef:
-        storeRef:
-          kind: ClusterSecretStore
-          name: bitwarden-fields  # Uses fields[] JSONPath
-      remoteRef:
-        key: growth-tracker-asc
-        property: issuer_id
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  capabilities:
+    drop:
+      - ALL
 ```
 
-**`configmap-grafana-dashboard.yaml`**:
+### Resource Management
+
+Typical resource requests/limits:
+- Small apps: 10m CPU, 64-128Mi memory (request); 256Mi memory (limit)
+- Medium apps: 100m CPU, 512Mi memory (request); 1-2Gi memory (limit)
+- Large apps (Jellyfin): 100m CPU, 1Gi memory (request); 8Gi memory + GPU
+
+### Probes and Health Checks
+
+Standard probe pattern:
 ```yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: growth-tracker-grafana-dashboard
-  labels:
-    grafana_dashboard: "true"
-data:
-  growth-tracker.json: |
-    {
-      "title": "Growth Tracker",
-      "panels": [
-        {
-          "title": "Blog Traffic",
-          "datasource": { "uid": "growth-tracker-postgres" },
-          "targets": [{
-            "rawSql": "SELECT date, pageviews FROM blog_stats WHERE $__timeFilter(date)"
-          }]
-        }
-      ]
-    }
+probes:
+  liveness: &probes
+    enabled: true
+    custom: true
+    spec:
+      httpGet:
+        path: /health
+        port: &port 8080
+      initialDelaySeconds: 0
+      periodSeconds: 10
+      timeoutSeconds: 1
+      failureThreshold: 3
+  readiness: *probes
 ```
 
-**Key patterns**:
-- `type: cronjob` for scheduled workloads
-- `initContainers` for database setup (postgres-init)
-- Multi-source ExternalSecret (bitwarden-login + bitwarden-fields)
-- Grafana dashboard as ConfigMap for visualization
-- PostgreSQL backend via CloudNative-PG cluster
+### Reloader Integration
 
-## Flux Kustomization
+Many apps use Reloader for automatic pod restart on ConfigMap/Secret changes:
 
-### App-Level Kustomization
-
-**`kubernetes/apps/default/my-app/ks.yaml`**:
 ```yaml
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: my-app
-  namespace: flux-system
-spec:
-  interval: 30m
-  path: ./kubernetes/apps/default/my-app
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  dependsOn:
-    - name: default
-      namespace: flux-system
+annotations:
+  reloader.stakater.com/auto: "true"
 ```
 
-**Key fields**:
-- `interval`: How often Flux checks for changes
-- `path`: Where the app resources are
-- `prune`: Enable resource deletion when removed from git
-- `dependsOn`: Wait for namespace kustomization first
+### Monitoring Integration
 
-### Post-Build Substitution
-
-**For app-specific variables**:
+ServiceMonitor for Prometheus scraping:
 ```yaml
-spec:
-  postBuild:
-    substitute:
-      APP: my-app
-      VOLSYNC_CAPACITY: 10Gi
-    substituteFrom:
-      - name: cluster-secrets
-        kind: ConfigMap
-```
-
-**Common variables**:
-- `APP`: App name for labeling
-- `VOLSYNC_CAPACITY`: Backup capacity
-- Custom values from `cluster-secrets` ConfigMap
-
-## Application Dependencies
-
-### Namespace Dependencies
-
-In `kubernetes/apps/<namespace>/kustomization.yaml`:
-
-```yaml
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: default
-spec:
-  dependsOn:
-    - name: database
-      namespace: flux-system
-    - name: external-secrets
-      namespace: flux-system
-```
-
-**Why**: Ensure database and secret operators are ready before app reconciliation.
-
-### App Dependencies
-
-In app `ks.yaml`:
-
-```yaml
-spec:
-  dependsOn:
-    - name: postgres-operator
-      namespace: database
-    - name: bitwarden-connect
-      namespace: external-secrets
-```
-
-**Why**: App needs specific operators/infrastructure first.
-
-## Image Updates
-
-### Image Automation
-
-**From `kubernetes/components/image-automation/`**:
-
-**ImageRepository**:
-```yaml
-apiVersion: image.toolkit.fluxcd.io/v1beta1
-kind: ImageRepository
-metadata:
-  name: my-app
-spec:
-  image: ghcr.io/example/my-app
-  interval: 1h
-```
-
-**ImagePolicy**:
-```yaml
-apiVersion: image.toolkit.fluxcd.io/v1beta2
-kind: ImagePolicy
-metadata:
-  name: my-app
-spec:
-  imageRepositoryRef:
-    name: my-app
-  policy:
-    semver:
-      range: 1.x.x
-```
-
-**ImageUpdateAutomation**:
-```yaml
-apiVersion: image.toolkit.fluxcd.io/v1beta1
-kind: ImageUpdateAutomation
-metadata:
-  name: my-app
-spec:
-  gitRepositoryRef:
-    name: flux-system
-  update:
-    path: ./kubernetes/apps/default/my-app/app
-    strategy: Setters
-```
-
-**In `helmrelease.yaml`**:
-```yaml
-values:
-  image:
-    tag: 1.2.3 # {"$imagepolicy": "flux-system:my-app:tag"}
-```
-
-Flux updates the tag when new images are available.
-
-### Manual Image Update
-
-Edit `helmrelease.yaml`:
-```yaml
-image:
-  tag: 1.2.4
-```
-
-Commit and push. Flux updates within 30 minutes (or use `task reconcile`).
-
-## Application Removal
-
-To remove an application:
-
-1. **Remove from namespace kustomization**:
-   ```yaml
-   # Remove this line from kubernetes/apps/default/kustomization.yaml
-   - ./my-app
-   ```
-
-2. **Commit and push**
-
-3. **Flux prunes resources**:
-   - HelmRelease deleted
-   - Deployment deleted
-   - PVC deleted (if not in use)
-   - Route deleted
-
-**Backup first**:
-- Take VolSync snapshot
-- Export PVC data if important
-- Save config before deletion
-
-## Application Monitoring
-
-### Health Checks
-
-**From `kubernetes/components/gatus/guarded`**:
-
-```yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: gatus-my-app
-data:
-  my-app.yaml: |
+serviceMonitor:
+  app:
     endpoints:
-      - name: my-app
-        url: http://my-app.default.svc.cluster.local:8080/health
-        interval: 5m
-        conditions:
-          - "[STATUS] == 200"
+      - port: http
 ```
 
-Gatus checks health and sends alerts on failure.
+## Related Topics
 
-### Gatus External Monitoring
-
-**From `kubernetes/components/gatus/external`**:
-
-```yaml
-endpoints:
-  - name: my-app-public
-    url: https://my-app.tomyail.com
-    conditions:
-      - "[STATUS] == 200"
-```
-
-Monitors public-facing apps via Cloudflare Tunnel.
-
-## Application Troubleshooting
-
-### HelmRelease Not Ready
-
-```bash
-flux --namespace default get helmreleases
-flux --namespace default logs helmrelease my-app --tail 50
-```
-
-**Common issues**:
-- Chart version doesn't exist
-- Values schema error
-- Missing dependency (namespace not ready)
-
-### Pod Not Starting
-
-```bash
-kubectl describe pod my-app -n default
-kubectl logs my-app -n default
-```
-
-**Common issues**:
-- Image pull error
-- ConfigMap/Secret missing
-- PVC not bound
-- Resource quota exceeded
-
-### PVC Not Bound
-
-```bash
-kubectl get pvc -n default
-kubectl describe pvc my-data -n default
-```
-
-**Common issues**:
-- StorageClass doesn't exist
-- No node capacity
-- Wrong access mode
-
-### Route Not Working
-
-```bash
-kubectl get httproute -A
-kubectl describe httproute my-app -n default
-```
-
-**Common issues**:
-- Gateway doesn't exist
-- TLS certificate issue
-- Wrong backend port
-
-## Best Practices
-
-1. **Use shared components**:
-   - Reuse `volsync-new` for backups
-   - Use `gatus` components for monitoring
-   - Include `common` in every namespace
-
-2. **Label everything**:
-   - Add labels to resources for easy filtering
-   - Use consistent label naming
-
-3. **Document dependencies**:
-   - List app dependencies in `ks.yaml` dependsOn
-   - Document external services (databases, APIs)
-
-4. **Test in dev first**:
-   - Try new apps in development
-   - Verify values schema
-   - Test backup/restore
-
-5. **Monitor resource usage**:
-   - Set resource limits/requests
-   - Check PVC usage
-   - Monitor CPU/memory
-
-6. **Backup before deletion**:
-   - VolSync snapshots
-   - Export configs
-   - Document app settings
-
-7. **Use post-build substitution**:
-   - Define app-specific variables
-   - Pull cluster-wide configs
-   - Keep values template-friendly
+<!-- openwiki: broken internal link [/concepts/flux-architecture.md] file "/concepts/flux-architecture.md" does not exist. Fix the href or restore the target, then delete this comment. -->
+- **Flux Architecture**: See [Flux Architecture](/concepts/flux-architecture.md) for reconciliation and GitOps patterns
+<!-- openwiki: broken internal link [/operations/daily-operations.md] file "/operations/daily-operations.md" does not exist. Fix the href or restore the target, then delete this comment. -->
+- **Daily Operations**: See [Daily Operations](/operations/daily-operations.md) for application management
+<!-- openwiki: broken internal link [/workflows/app-deployment.md] file "/workflows/app-deployment.md" does not exist. Fix the href or restore the target, then delete this comment. -->
+- **App Deployment**: See [App Deployment](/workflows/app-deployment.md) for deploying new applications

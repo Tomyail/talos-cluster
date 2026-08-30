@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:1e59f1099187df7e9249f3651f3e6f480d6e0b3d7781dccacb333627bc3b2fc2",
+  "pageVersion": "sha256:c0af61d6f447436a566a47029ccb35f1848b65c4628a1696f16eb503562366ca",
   "claims": [
     {
       "id": "claim_b4aa9234d97a441c954cfb4829fa91d1",
@@ -233,10 +233,38 @@
           "version": "repo-lines-v1:sha256:3135d1d5aefd92112d86a1e73728e4ff639c9c35894f9084e389af15aed7a9d5:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTE2ZDJlMGNkMTBhNmQ0MjgwOGMyNzY5NmM3NTBlYjYwM2QzMWFlMjJhNTljMzM2ZDFmNGUxZmM4YmVjNzBhOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzBhYTU5MTc3OGRlYTYxOTE2OGUyN2MzNWNlZDM0ZTg0MTJhYzQ1NmIyM2Q0YmE3ODRlMzY5MmNkYjI2YTliMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTYwYjAyZTY5NTQwY2JiNWQ5YjlkYzQ4NDM4NWUyODI4ZmUyZWFmNTVmZTE5MWI2MjkyYmU0YWRlMjA3Yzg4MCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzYyNTNjNWNlOGZiYjkwMTI0YWJhZmMwODhiZjE5NzY3MTQ1NWJiMmVhYzQxNTNiYjk2ZjM1Nzk5YjZjYzhmMiJ9"
         }
       ]
+    },
+    {
+      "id": "claim_a1605001b0d54a45b82f3f8682f564ea",
+      "statement": "Labeler workflow runs on pull_request_target event for main branch and via manual workflow_dispatch, using actions/labeler@v5.0.0 with configuration from .github/labeler.yaml to automatically apply area labels based on changed files.",
+      "evidence": [
+        {
+          "resource": "repo://.github/labeler.yaml#L1-L43",
+          "version": "repo-lines-v1:sha256:9c8d8f732d6bfd677c40a340b607eac9c15b5072268f67479110d60dbf031f06:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE4NGRjMDdhNTRkZDBhZDg5YzZjNDUxMWM5MmFhNDk4NjVlNDc0OTE3ODE1MDQ1YzM1MDRmMGRmZGVkYmFlYzkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://.github/workflows/labeler.yaml#L18-L21",
+          "version": "repo-lines-v1:sha256:5db337ea1fbc6455b2726b238f4a26ed98d176449acdbe2afc3fca984c23a149:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTgzNjJmNDBlNzA3MDhmZDlhODU2ZjdiMjlhYjQ5ZjI2MDllMDM1NTJiNzRlZmQzYTc5ZDM4OTc2YzgyMTVlMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDljNWFhZjAyMDFmZjM1NzIxZDIwNjZjYzgxNjBkNWU4Y2YwM2QyMGEyN2MzMzlmZTJiNTQ1MGRhZDVkM2M4OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjYxMWRkMjU4MDVkOGVlMWQzMDc4OGQ2OGQyOTdhM2E4ZGQ4YWUxNGI3NmJlYmVjMGExZjRiZjI2NzhlNGY4OSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://.github/workflows/labeler.yaml#L5-L9",
+          "version": "repo-lines-v1:sha256:991c7d19882a16b875bcb35c97e293acfc1186ab71b8539949a56252cce9257b:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTk2ZGM0ODE0OWY1YTgzZDFlZDZkYmIzOWJiYzdlMmI5MDJhYTNkMzRkNmJkNWFlNGIyOTFiNjhkZjBjYTc5YSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjY2MmM4MWM1M2Y1YWY5YTE3MWVkYTc4NTE3OGY4ZDZmN2U1OGIwMjAyY2QzMzQ1YjE5MDNhZmQ0Y2ZhMDczZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjAwNzVlYjQ4NGZjMTBiYzZmM2U3NmEyMjFlZDExMDBlODg1YTQ5M2ExNjBkOTg5NDg2YzdjNDEwOWVkOTBjZSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_81a596f9e4234b64b8be8da09c2397d0",
+      "statement": "Labeler workflow requires contents: read and pull-requests: write permissions to read repository files and apply labels to pull requests.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/labeler.yaml#L14-L16",
+          "version": "repo-lines-v1:sha256:36a25e1fd4546a486d3a7131e598553d20aeeefabfe2a332bc77a2ccebf8af2b:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjUxNzRmZDI1NWNlNTY3MGI0NzhhZjA0NmNkNDNjNjczNGYyMDY1OWNkMTEyMzg1Zjc1MzMwNzU4M2JmY2RlMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOGU3MDc5ZWRhMmRjNzI5MDk2MWZkNzI4ODQyYmJjM2MzZDBiMjEyNTUzMjQ1MTI3OGQxYWE3NTU3MzdkZGIzMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDU3MDQyMTYxYzA1OGIxZmFiZDc2MTU2M2YzN2YyYTgxMTBmNmIxYzBmOTdkNGU1ZmRhMjk5YmIwZTRmYTM5NyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjFjYTY4ZDU1ODQ5ZDc1MzJkZmEyMzM3ZDJlMDA1Njk5ZmFjMjEyNWJhZDBiZmExZWJhYWM0NTgxNGU5NjI5ZCJ9"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-08-29T21:52:21.026Z"
+    "at": "2026-08-30T21:57:36.532Z"
   }
 }

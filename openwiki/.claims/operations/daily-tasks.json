@@ -1,0 +1,164 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:96e5a5d28abb44a337151849a236344976e1e9002216c1a0f52ba8db0fb9f989",
+  "claims": [
+    {
+      "id": "claim_a9e22a8d78bf49e0a4db24ac73411ff3",
+      "statement": "The task reconcile command forces Flux to immediately pull changes from the Git repository by executing flux reconcile kustomization flux-system --with-source, which cascades to all downstream Kustomizations.",
+      "evidence": [
+        {
+          "resource": "repo://Taskfile.yaml#L30-L35",
+          "version": "repo-lines-v1:sha256:2d7afb436ef2bf4a0fd148c2805957c35d446a460ca2d84fcbf88bb511ba7c0f:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzlmZmE1YWUzNzQ3OGVlOTE2MDczYjA2OGU2NjdiOWMwODg5OThkYzY4YTZlZDI4MjJhZmNhNzExNzU4YTMyYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjQ4ODYzNzQzM2VmMDE0ODM3YWFjYmRmZTNjMWMyYWVhMmIyNjZhNTRjZjRkZjMzZmQ0OTQyODQ5YWVhMzY2OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWZlZGUyOTQyYTEwYjhkMzc2NDg4MWYwYzdhMzQ0YmM3ZGYxY2YwYWEzODhhOGFmMWQ3ZjcwODY4MDg2Yzc5ZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_0942edc825da481bbc49f54914374fa3",
+      "statement": "The task talos:generate-config command regenerates Talos machine configurations by running talhelper genconfig after modifications to talconfig.yaml or talenv.yaml, creating machine configs in the clusterconfig directory.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml#L7-L15",
+          "version": "repo-lines-v1:sha256:5db79c470b1c68418177ca82986169ee2ae71e736ae8d5d8740dafbe2ab9dd75:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZmYzOTIzZmQ0MDVkMjQwM2UyZmJkYjMzODc4MmI0MTEwNDJmYWYyYzY0MDc4ZDZjNTQ2Yzg0YjFhZDdhNzgxMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNmFjZDNkMzBjOTYyNmFmYTViYWU4YWUzOWU5MTNmOGY4YmU3YzhhNDgwYmYwNjM2ZmZhNmE4ZTBhODNmMjc3NSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjFkMTJiNTZjMTBiN2ZiNjJjOGYwNDFiMzdlMThjZjhmMjdjNTc4YTBkMjdhYjdlOGRkODhkYmRjOWRmNGIxZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzUzNjllYjE0MGJkMzM3ODgwZTY0OWQyZDk4NzhlZjY1ZDM4OGRlYmQzZjkzOWQxODY1MzRhZWE3OTE3ZGI1YSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_9792d110f5a141fc9279ac864e4d8d2b",
+      "statement": "The task talos:apply-node command applies updated Talos configuration to a specific node using talhelper gencommand apply with the node IP address, supporting an optional MODE parameter that defaults to auto.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml#L17-L29",
+          "version": "repo-lines-v1:sha256:35ce0aa449263507466334f03fc68ca500a4142bce0b6b479f91f5e911098d74:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwOGI1ZWI4N2M5MGVmYjA0NWM2Y2E5NmViMmVkMDU0ODk3MjdmMWJhMjIyMTgxNDUxM2MwOGVhOGFjYTQ2ZTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2MGRjZjk2Mjk1YzVkNThhNjk3NjU1MjRjMzc5YTgwOWUxNzRhNzVlZGM1YzdlYTUwMmI4MzFkOGI4MmFiNmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg4NDI4M2IzNzhmNWIwYjU5MjU3MDQzOThlM2JkMDA4Mjg3YTFmYmNhZTU2NTQ3NDg0MWMzNDk4ZmE3OTgzMzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhjMWVlZGU5NTk4NzJmMzk2ZGQ0NDY3NTZkMDc2ODg1YmIyMGMwY2ZkYTc2ZjE2YjA2NGZlOGIyM2NhYTZlMDMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_dcfcabe94c7549ed8b2dc91ceada7db6",
+      "statement": "The task talos:upgrade-node command upgrades Talos on a single node by retrieving the Talos image URL from talconfig.yaml and version from talenv.yaml, then executing talhelper gencommand upgrade with a 10-minute timeout.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml#L31-L46",
+          "version": "repo-lines-v1:sha256:c7745ffcaf01e49647d3d0c759433bd1c878042e171a2003f9f5ef415c355991:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcyMTc2ZGE5ZmU1N2MzMDM4YzQ5MGNmM2ZkODFlZWU1OTA1NDE0YzYzYzVhY2RhZmE0ZTdjMjExMjk0YjNmNWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlhNjI2MWZlNzI4NDUwMWRiYzY0ODNkOTEyZWFjZGQyMzNiZjkwMmIyNGY1OWU0ZmRjYTFlZTVmMWQ2MmFhMWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJjMjI3NzVjMmU1ZWViMDBmOWFiNzIyZjM5Njc0YTZkZDE1NTNhYTA4ODZmZWM5ZDFiNzZkYjU3OGJlNmJiODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgyMjNlZDA2NGU4NDJmYWNiOThmMGI2ZGViYmE1MWQzODg4MjQ0ZjM0NTVjMTIzZjRiMzRiMDU3OGU3ZDAyZWEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_54294c95a4414e949de268da9c35f888",
+      "statement": "The task talos:upgrade-k8s command upgrades Kubernetes cluster-wide to the version specified in talenv.yaml by applying updated kubelet configurations to all nodes via talhelper gencommand upgrade-k8s.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml#L48-L58",
+          "version": "repo-lines-v1:sha256:1172dba8a5f5c572ea4428fc7814a5afe4ba06a270839de086f7fb4f0549a9ca:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQzYWZiZTlhYTEyMmU0N2ZiY2RkZmFlZWViYjQ3NjE0YzMyNTBlNzhmNzlhZDg5NzMyZDczMTY3ODg4MDYyODgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2MGRjZjk2Mjk1YzVkNThhNjk3NjU1MjRjMzc5YTgwOWUxNzRhNzVlZGM1YzdlYTUwMmI4MzFkOGI4MmFiNmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUwMGYyZTc4MmU2ZmRjZDY4ZTU2MDZmNWQ5MzJiYWQyNWRlY2JjNTRiODYzNTlkNjYxYmI4NDE0ZTc5Y2MxODkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdlOWVjZjQ3MzhmZTc2ZWE5N2MzYmYwZmIwNzNmZTkxODQwZThlNTBlYzVjOTdjOGQzZWZiNWU3YWI5YmRkNmQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_6a1ea854eb6b42379ceebfd04e4041ea",
+      "statement": "The task talos:reset command destroys all cluster state and returns nodes to maintenance mode by wiping STATE and EPHEMERAL system labels with a non-graceful reset, requiring user confirmation at runtime.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml#L60-L66",
+          "version": "repo-lines-v1:sha256:ea5c7acd6103a621dad1b3b7c305e16662777d9012a66a6a79cc3df39188b6c6:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjFjMjlkMWIyZDAzZjAzNjNhMTJmY2Y2OTMwN2M3MGU3ZTRlZjIxN2I5YjA4YTcxMjFkZjdmNDQ3MmY0YTE4NiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNmFjZDNkMzBjOTYyNmFmYTViYWU4YWUzOWU5MTNmOGY4YmU3YzhhNDgwYmYwNjM2ZmZhNmE4ZTBhODNmMjc3NSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYmMyMjc3NWMyZTVlZWIwMGY5YWI3MjJmMzk2NzRhNmRkMTU1M2FhMDg4NmZlYzlkMWI3NmRiNTc4YmU2YmI4MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_f0b9ec0073554dd3a66276b3d55aa870",
+      "statement": "The VolSync snapshot task triggers a manual backup by patching the ReplicationSource with a manual trigger timestamp, waiting for the sync job to start, and waiting for job completion with a 120-minute timeout.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/volsync/Taskfile.yaml#L51-L64",
+          "version": "repo-lines-v1:sha256:f2b409c9b3a966056cf81ffda46d1fa84e0dac6fa0864aadf96e29fd134d093e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3ZTQ3NDY4MDg4NDE0M2E0NWY2ZWFiOWZiZjcxMWJlMjc1MmMwYjQyZjczYzU5MDg4MjZhZjkzZjllMjFmNmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ1MTQxYzY3MjM1NThmYzdjZGQyYTllYjFlZWRiMmYzMWQ3YjY0MTcwN2U0ODk3ZGVmZDZmNTI3ZDdkOWE4ZTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiY2Y4NDg1MWJhNDM1Y2M0NTM1YjdhYzRmZDY1ZDVjOTkyYzQyNDViNGU0MjUyNzI4OWJmNzdkNjk3NTFhOTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA2ZTFhNDk4NjgwY2QwM2JhNzVhMzNhNzdkNjg4NDhjMjhkM2U3MzIwNGVlYWQ5Y2NkMTY3MTY1ZDFiMTY1MWYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ee02853e5be142a8b28fc422b00b9cd4",
+      "statement": "The VolSync restore command suspends Flux reconciliation and the application, wipes existing PVC data, creates a ReplicationDestination to trigger restore, waits for completion up to 2 hours, then resumes the application.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/volsync/Taskfile.yaml#L190-L230",
+          "version": "repo-lines-v1:sha256:41c5df3b196771b1a7047e7d425452644340d23b498387ba7e80d54ecef2342b:eyJzZWxlY3RlZExpbmVDb3VudCI6NDEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk0OWFhNWFlNDVjMjhlNWY4NGI2NzdhYTUxNjhlMGYyNGI4YTBiZDAzMjllZWQ2NzljMDMwNGMxMjJhYTJmMGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI0NjQxYjc1ODE0ZGY4ZmQwNWE1MTlmOTJiMzhhMmQ1ZWU5YTEyYzVmNGFmNjA4YmUyMGI2MGNhZWNjMjExNWIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJhNTA4NTY3ZjRlOWQyYjRlZTA0MjcxMzcyZDY1YTdhNjYxNDRhOTkwYTA4OTI3MDY0ZDc2ZjY3ZWU2N2E4NTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU2YjNkMjcwOGJiYWM3NDAwMTgyYjY0OTdiNTUzZDczZWQ0MzM0YTRjOTNiMjBkNGNiZWFmMDNjYThiNmRlZDYifQ"
+        },
+        {
+          "resource": "repo://.taskfiles/volsync/Taskfile.yaml#L92-L122",
+          "version": "repo-lines-v1:sha256:85966caee5bd086f087136e51eeeebf62202b716d0c29c883ff2791218d2bddb:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEwMDQ4N2RmNGJiYWExMjNmNDIxYzAzYzMyZmViYWI0NjkxNDUyYTk1ZDAxYjFkYzllMmY1YThhMWE2YzRjOWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkwMWVkYjEyMDZhMTk5MjVkMDVkYWE2NjU1MjZmNjJmYTJjNjVjOGRmY2EzYTRlMDNmYjhjYzVhOWE0ZGNiYmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdhMWExMDQxYjNlZWQ0OGM2ZTJiMzRkNzQyMzU1MjM1MGM5YjFhYjlmNTdiYmQ1ZDE3NTI4NDY5NzAwMWYzZDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY1OWRiZDhmNmUwMzY2YzdjYjk3MjQyNTU4NjdkZDk0YTgxYzAyOGU1ZWI3ZDE5MjFiYjhjNTJmYjJjMjdjYWYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_cc6ffa92b5334799bb26f5c6ba2cf219",
+      "statement": "The VolSync list task creates a temporary job to list all snapshots in the Restic repository, waits for job completion, outputs the logs, and then deletes the job.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/volsync/Taskfile.yaml#L66-L87",
+          "version": "repo-lines-v1:sha256:ae5acc0ed7394aa134dc600e46afbbadf79378542411eb73d790c48aab4f8e33:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBiOTUyNmMzYmUyY2E0MTU2ZGYwMmI0ZmViZjI5Y2VjNGIyYmE1YmQyYWM2NmEwNjc1ZDU0N2RlZmE0MGM2ZWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNjM2IzMjNhNjVkODJkMjBkZmM4ZWZmYWQ5YzY1OTBhYjhkZjhiODQ3MzdlZmZkYmU1ZTNmMGE2NDNiMzAxNDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImEwM2IzYzRjM2FjMDdjYmJkODhjZTAyOGYzMTVkMTEwZDBlYTQwMmYxNjI3ZWIyOTJiMTY3ZWIxYjRiOWFhZTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkxYmZhYmE3Mzg0OTY3ZTUwOGFjN2E4OTVlNjlhZGVkM2NiMTI2MjVlNzg1Mjk5ODI2MmRjNTExNTc2MGE5OGMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9784f67eea9548a6bdbcea01fb117451",
+      "statement": "The VolSync unlock-local task creates a job to unlock a Restic repository, waits for job completion with a 5-minute timeout, displays logs using stern, and then deletes the job.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/volsync/Taskfile.yaml#L170-L187",
+          "version": "repo-lines-v1:sha256:6965f9eba1a98bd07e46101be9c9841ecacd94019177751affb3230e1323c466:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA4ZTU3YmU2MTYwNGYyODIyODJjZTAxOWY2ZDYyNzE1NDMzOGQ2MzFmNTgwNTdiOGExOGIyNDhiYTVmODVlYWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ0OWE4MTQ4OTBhNmY2NzJhODBlMTA5ZTFmYzdhMzc4YmZhMDYxMzk5Njg4MzU0NmVmNjk1OWMwZTdkOWFjYjEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM2ZGVmY2M4N2IwMmMwNWFiYWI4YmNlNjI4Y2ZlZTgzMzFjMDVhY2U3ZGJhMThhYWRhMTdhZTA0MjM1ZWRmNTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAxODk2MjYwNmU4ZWE5NmNjYjYzODNmZTQ3M2U3MWNmZjI5NjY1ZDczMzZjOGZmNjI2NDI0MjM0MThlMDg4NTQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_873f58851c854081a3e72335f336aade",
+      "statement": "The cluster bootstrap process consists of two phases: bootstrap:talos establishes the Kubernetes control plane using talhelper for machine config generation and Talos API operations, while bootstrap:apps installs essential infrastructure components and hands off management to Flux.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/bootstrap/Taskfile.yaml#L7-L31",
+          "version": "repo-lines-v1:sha256:4b2ea54d34b62184bd25d7f147cf6d8153652193416df230a71297488e508c54:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZiOGU3MDRjNjBkYTQyMjIzODFlZWM4OWFlNDRiYzIyNTZmOTE5NTY5NTQ4MmFiOWE2MzEwMmY3NDI0NDA0OWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI4NzMzYzI3MTA5ZjJkNjkyNjQ1MGI4Mzc4N2UzNjQwMTVlNDhiOTNlMDc1YjkzMzBhZThlNmI5YTk0NTg3ZDYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIxZDEyYjU2YzEwYjdmYjYyYzhmMDQxYjM3ZTE4Y2Y4ZjI3YzU3OGEwZDI3YWI3ZThkZDg4ZGJkYzlkZjRiMWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_cf84d1c162c24864814b8fb039b032ca",
+      "statement": "The OpenWiki documentation update workflow runs daily at 19:30 UTC via GitHub Actions, using the Anthropic-compatible API with glm-4.7 model to update documentation, and can also be triggered manually via workflow_dispatch.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L1-L47",
+          "version": "repo-lines-v1:sha256:cbdc6eafa20cb69d2e9851a0df2b26115478efc20d31755b6a56e33dcb25b6fb:eyJzZWxlY3RlZExpbmVDb3VudCI6NDcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA2MDI3ODdhZjZkY2MwODM0ZGUxMjFjYmIxY2I5NWY5NDU5YjcyMWVhYjAzNDlmMTA1MDFiOTk2YzFjNzdmZmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJmNTU5NzljZTczMDIwMzNlNmIyZmQ3ZDg4ZjUzN2EzYjhlMDkxZWEzMDVjODExZmZhMTI3NGJmNTc2NGVhNWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ebabb4c723084c9e81c8d1381c87492a",
+      "statement": "Renovate handles automated dependency updates for container images, Helm charts, GitHub releases and Actions, and mise toolchain versions, configured to run on weekends only with auto-merge for patch updates and mise/GHA minor updates.",
+      "evidence": [
+        {
+          "resource": "repo://.renovaterc.json5#L1-L100",
+          "version": "repo-lines-v1:sha256:b4a2631840356cab65de344eb0b746db8325bb26edf8698dde0474250a9103d1:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAwLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJhNmZiMDhmZGExYWNiOTU3YjYxMTZiZDM3ODExYTFmZTQxYTAxNjExYzA2MzFlZGJmNzg2ZDY4ODlhMjdhNTVjIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIxZjBjZGI5NzJhN2JmYjdlZDI0NmY5ZmY2NzIzODVlNTVmNDk2OGZjMTEwNDNkYzViNjg0ZDUxZGZhMzFkYmNiIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI2MWQzY2FkNGJiMzMxNDRjZjdkMGMzMDczZjU5NTAzN2UwYzM4OGY2Yzk0YjBlMjY3NDQ0MmNiYTlkMjRjNmM4In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_2afbfb3c67c849548adef81664bc98e9",
+      "statement": "The wait-for-rd.sh script monitors ReplicationDestination completion by polling the latestMoverStatus field, checking for 'Successful' or 'Failed' results, with a default 2-hour timeout and automatic log dumping on failure.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/volsync/scripts/wait-for-rd.sh#L1-L78",
+          "version": "repo-lines-v1:sha256:5e1b2e2e769e64674fdcaa258c1544e96a7da0226a40eba26a65c763369f1e99:eyJzZWxlY3RlZExpbmVDb3VudCI6NzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFkOTVmYzA0YTgwYzk1MmY0OWNlNDE4ODYyN2M1M2IwZmJlOGM0NDA0MWI5NTJkNTkyYWNkMWRlOTk4NjE0NjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI4ZDNiOWU4ODBhNzc5NzU0OTNkYzdlMzU5MTQ0YzAyOTVhNGY2OTRjZmUwYWY0ZjkyOGMyMjMwN2JjNWMzMjAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_1acb47d791234f7b86a3197930aaf218",
+      "statement": "The wait-for-job.sh script waits for a Kubernetes job to reach Pending status by polling the pod phase, used by VolSync tasks to ensure jobs are properly initialized before further operations.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/volsync/scripts/wait-for-job.sh#L1-L13",
+          "version": "repo-lines-v1:sha256:30eda5587a896aa27054b708fa00e8b65f64118f5bdbdf32830315ecca207076:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFkOTVmYzA0YTgwYzk1MmY0OWNlNDE4ODYyN2M1M2IwZmJlOGM0NDA0MWI5NTJkNTkyYWNkMWRlOTk4NjE0NjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE0YzNlZDA0YTk1YTNkYTE0YTlkMjM1YzgzZDg2OGJlZDdjMGY0NWNmN2YzZmFhNzUxZWU4ZjUwNTk4ZDIyMTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-08-30T21:57:36.532Z"
+  }
+}

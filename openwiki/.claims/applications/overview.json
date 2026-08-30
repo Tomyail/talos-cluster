@@ -1,0 +1,398 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:8ea4936e6b91c659b24e217f339d87204165ea870cfc54ae0ac6ac09aa961693",
+  "claims": [
+    {
+      "id": "claim_1971274329bf4863857c0f694b7f0a92",
+      "statement": "Applications are organized by namespace under kubernetes/apps/, with each namespace (kube-system, flux-system, network, observability, storage, database, cert-manager, external-secrets, default, external-server) containing a kustomization.yaml that aggregates all applications as Flux Kustomizations.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/database/kustomization.yaml",
+          "version": "repo-file-v1:sha256:788941ecc8774f2e6d473403f08bacdd588cd521afddc711a875b9bc782c37f1"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/kustomization.yaml",
+          "version": "repo-file-v1:sha256:540735f8d31f4c0b14c141cb59bd450d92a07194ac9283a99b888e114dc9d4ad"
+        },
+        {
+          "resource": "repo://kubernetes/apps/kube-system/kustomization.yaml",
+          "version": "repo-file-v1:sha256:1bfec7c10e99e1c6fc15d8eb3ed30b97520c517d27e8a3d83beea18885ab36fc"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/kustomization.yaml",
+          "version": "repo-file-v1:sha256:047360d70b32ca409e054e30a135afbbd0e93eef3f44c37c4528a3199435c333"
+        },
+        {
+          "resource": "repo://kubernetes/apps/observability/kustomization.yaml",
+          "version": "repo-file-v1:sha256:7327e52b15578f1b15aa3bc933d03c91585b9fbe7f8e0d932df686baa01d827a"
+        },
+        {
+          "resource": "repo://kubernetes/apps/storage/kustomization.yaml",
+          "version": "repo-file-v1:sha256:e46a24b0ed45feb970a628ca5917362415dff3ecd1e15beac3a4c4029d501549"
+        }
+      ]
+    },
+    {
+      "id": "claim_fdb69e1a9d0d49c5a66e6b238ea03cc3",
+      "statement": "Each namespace kustomization.yaml includes the ../../components/common component which provides namespace resources, repository definitions, and SOPS decryption configuration.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/database/kustomization.yaml",
+          "version": "repo-file-v1:sha256:788941ecc8774f2e6d473403f08bacdd588cd521afddc711a875b9bc782c37f1"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/kustomization.yaml",
+          "version": "repo-file-v1:sha256:540735f8d31f4c0b14c141cb59bd450d92a07194ac9283a99b888e114dc9d4ad"
+        },
+        {
+          "resource": "repo://kubernetes/apps/kube-system/kustomization.yaml",
+          "version": "repo-file-v1:sha256:1bfec7c10e99e1c6fc15d8eb3ed30b97520c517d27e8a3d83beea18885ab36fc"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/kustomization.yaml",
+          "version": "repo-file-v1:sha256:047360d70b32ca409e054e30a135afbbd0e93eef3f44c37c4528a3199435c333"
+        },
+        {
+          "resource": "repo://kubernetes/components/common/kustomization.yaml",
+          "version": "repo-file-v1:sha256:6a499644d69e7563a12512291f01942ccdc1ceff4e741dd26aa28a228117f9d2"
+        }
+      ]
+    },
+    {
+      "id": "claim_9307a511041c4c438c596a79a0816a7e",
+      "statement": "Each application follows a standard structure with ks.yaml (Flux Kustomization metadata) and an app/ subdirectory containing helmrelease.yaml, optionally with externalsecret.yaml, kustomization.yaml, pvc.yaml, and additional sub-app/ directories.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/app/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:49858e9082e7cb72c2f4888e40509c4f8b20c888859823405cb5aa78931a6ab5"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/ks.yaml",
+          "version": "repo-file-v1:sha256:ff7408f8816c4ea8ec6166d7e1df5d61eb085dab2621b2ad42c89c1e48e7a1e5"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/jellyfin/ks.yaml",
+          "version": "repo-file-v1:sha256:52b18b69835bd1881b0eb425f667c2b028c6ea84b56e6e3febddaeef50a7e96c"
+        },
+        {
+          "resource": "repo://kubernetes/apps/storage/topolvm/ks.yaml",
+          "version": "repo-file-v1:sha256:0a948f18263a27ca682f29f251187c7f7fa6bb51b2aa08be369dbb0b602ae25e"
+        }
+      ]
+    },
+    {
+      "id": "claim_5b47adffda96463398850b5ca6b874ce",
+      "statement": "Most applications use the shared app-template OCI chart from ghcr.io/bjw-s-labs/helm/app-template (version 5.0.1), defined as an OCIRepository in kubernetes/components/common/repos/app-template/ocirepository.yaml.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/app/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:49858e9082e7cb72c2f4888e40509c4f8b20c888859823405cb5aa78931a6ab5"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/jellyfin/app/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:61af8417a41b6430ff803ec3a34145d5e2304c5cce09549e3478c2eff6c60ab1"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/paperless/app/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:fbb57a02f4e306ff2b83c7a98638f3fe90f2c84211fc5d3dd24656a15f7980e1"
+        },
+        {
+          "resource": "repo://kubernetes/components/common/repos/app-template/ocirepository.yaml",
+          "version": "repo-file-v1:sha256:1de7ff03efc07f77a66364c1a51db82e0426d7cd1f6a59263e9a78cdcacd8a71"
+        }
+      ]
+    },
+    {
+      "id": "claim_106e46b2daeb4347b8ed516c94e56dca",
+      "statement": "Applications using app-template define chartRef with kind: OCIRepository and name: app-template, then specify values for controllers, containers, services, routes, persistence, and other configuration.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/app/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:49858e9082e7cb72c2f4888e40509c4f8b20c888859823405cb5aa78931a6ab5"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/jellyfin/app/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:61af8417a41b6430ff803ec3a34145d5e2304c5cce09549e3478c2eff6c60ab1"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/paperless/app/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:fbb57a02f4e306ff2b83c7a98638f3fe90f2c84211fc5d3dd24656a15f7980e1"
+        }
+      ]
+    },
+    {
+      "id": "claim_c35951352d3f4188b5508171380d940e",
+      "statement": "Applications expose external services using Gateway API routes configured in the route section of HelmRelease values, typically referencing parentRefs in kube-system (internal and external gateways).",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/app/helmrelease.yaml#L72-L86",
+          "version": "repo-lines-v1:sha256:c0a73f636a0bf8b88a66f0862d1bf9eeae56e6cd519bf1854e6b7c3d7a42cec7:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE3YmJhNWJmZDQ2MWU2MmE1Y2ZlMzE4NzJkZjUzMWY5NDRlYzFjNmRkMTg3ZWZmODZmNjkxMGEyNTVkNDM4NmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVhNzZlYzA3ZWVjMTFkMjdiOTUwMzkxMmMyZmFiNjlmZDgzMTBmODBhN2NmYWVlYzA2NjlhN2EyMmNiOGZmOWEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdmZTA2YzRhNjc5OGJlZDI1YmZiZmFjYTdjZjhlOGNjMTc2YzViYTI2MWNhZjMyMTJjMDE5MTdmMDFhZmI3MTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVmYTAzYWM2MmQ5NmFkMmNmNjQxYjNlZGE5ZTNjMjJiNDM4MjgyZjE2NTczYzY5NDg4YzE3ZGRiYzA1NzI3NTAifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/jellyfin/app/helmrelease.yaml#L78-L87",
+          "version": "repo-lines-v1:sha256:06d4ca212a5aa5083f16536ea0ee83442b3f9577dce7fc1cfd6f576f3b406311:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE3YmJhNWJmZDQ2MWU2MmE1Y2ZlMzE4NzJkZjUzMWY5NDRlYzFjNmRkMTg3ZWZmODZmNjkxMGEyNTVkNDM4NmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY5OTI4MTczMmRjNzM5Yzg4YjhhNTI1YzIyNmZhYzQ1MDQ2ODY3ZTYyZTdkOWQxZWMyZGE4ZTZkZmMxOThmYWIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIzYjdhMDlhMjY5YmRlMTQ1OGVhZGRjMTI2OWE3M2NlYTEyMDU2MWRmMmJhM2ZkMGQ2NGEzYzFlZWE5NjhkZjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRkNDVhNGQ1MjRjY2ViYTZlZmIxNjhlZmJmOTMwNDQ5Yzk1NWQzODEwMTViZDY0YTQwNGYxZTJhZWU4OTI3MWQifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/k8s-gateway/app/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:cb73c1131dfb173d74fdba526d3cc90af9d8a0c6cdee54badc6b3e5672b29ef2"
+        }
+      ]
+    },
+    {
+      "id": "claim_ebfb45cbafb7406a8f8970eed9eec3c2",
+      "statement": "CloudNative-PG uses a two-stage deployment pattern: the first Kustomization (cloudnative-pg) installs the operator and CRDs from ./app path, and the second (cloudnative-pg-cluster) creates the PostgreSQL cluster instance from ./cluster path with dependsOn on the operator.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/database/cloudnative-pg/app/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:88c849192121ddf5dbcf8b07bbc36ea1ddba062630ffe2d3d9fac67d578b960b"
+        },
+        {
+          "resource": "repo://kubernetes/apps/database/cloudnative-pg/cluster/cluster16.yaml",
+          "version": "repo-file-v1:sha256:9b34dd7e73f09e0324e1cfed308190edcbd32a0779ef2adee4b7e34ed1acf7ac"
+        },
+        {
+          "resource": "repo://kubernetes/apps/database/cloudnative-pg/ks.yaml",
+          "version": "repo-file-v1:sha256:aa6f505e65ce130d253450a84932797a5ff6825e90db37b3ade45b9dd62b9efd"
+        }
+      ]
+    },
+    {
+      "id": "claim_2d3dae5bdd6249b98b4b6823a01d2fc9",
+      "statement": "CloudNative-PG cluster configures S3-compatible backups to MinIO with 7-day retention, credentials sourced from ExternalSecret referencing Bitwarden ClusterSecretStore.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/database/cloudnative-pg/app/externalsecret.yaml",
+          "version": "repo-file-v1:sha256:279d90755eb9cab3b499349944ce39ce3c371c54f0b956d5cfbedfefa82ce8b4"
+        },
+        {
+          "resource": "repo://kubernetes/apps/database/cloudnative-pg/cluster/cluster16.yaml#L37-L57",
+          "version": "repo-lines-v1:sha256:45a4cdaf23a86044f738cf5eb940e3e536c147f8adb7d899b660d86628309924:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIyMmVmOWRlYjVjNzNlMDc0MTk3OGM4MGVlMzg4YWQ1YWU5ODdlMjM2M2U3MjRlMDEwODFiNzRkYjg2OTZiNTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNiYTYyMzllY2M2ZjFhYzJiODgwNjVlYjgxOGM1NjM2MTc5OGIwYmM3MTU5YzAyNjM0MjliYzc4OWJjOWEwMTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImExY2JlM2I1NTYxODA4MjBmNmI0NjFmMzZmYmIwNmQzMTVjNmY4MTRkOGQ5ZjBjZmE0YWI1NDJmZWNlOTNiYjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZmZjUwZWIwNDVjZTBlNGM3OGE5NGIxYzAxNmFjZDEwMWY5NmUzNTJiZDZlZDRlYjA1ZDYwOGZhNmYyZjE2ZmYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_30a11e47313b42e8acd7a1972ea848c9",
+      "statement": "Dragonfly uses a two-stage Flux Kustomization pattern: dragonfly Kustomization installs the operator (using HelmRepository with app-template chart), and dragonfly-cluster Kustomization creates the Dragonfly instance with dependsOn on the operator.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/database/dragonfly/app/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:1087a5ca0213531cb9a3002181f54f921299dcead4bed4556eb72dd62ea29aab"
+        },
+        {
+          "resource": "repo://kubernetes/apps/database/dragonfly/ks.yaml",
+          "version": "repo-file-v1:sha256:0ac579f8701b0400bd8c59aa2b03e7b31f8b77fafdd6399c0a3ae4264a7ed3de"
+        }
+      ]
+    },
+    {
+      "id": "claim_eb0bd21dce0148e3bd253f67c03b015f",
+      "statement": "Dragonfly instance configures MAX_MEMORY environment variable using resourceFieldRef from limits.memory (512Mi), then passes it to the --maxmemory=$(MAX_MEMORY)Mi argument for in-memory data store configuration.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/database/dragonfly/cluster/cluster.yaml#L10-L18",
+          "version": "repo-lines-v1:sha256:8617e2fa73da457ab6e1c6c95e2c37ef8760d12aba1595f5c6a3dcf890e5e149:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTQyM2IzN2YwYWE5MWExMjljOTRkODM2MDQ4NGIwMzdjN2E2MTEyMTU5MDM5ZmM3NTU0OGNlYjQ0MWQxNWNiMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZWZkNTVkZDRjMzBiNDVhN2NlNjg1NjU1NmQ4Yjk2MzNlNjE0ZjQyZTJjMDIxOTIwNjBiZWQ2OTM2Y2NjZjA1YSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNmIwODg2ZGI4Y2UwZWU1N2FkYTExZTZiYzllMGQ2NWE0YzhmZDc2ZTk2MDU3MTBmM2FlMDlmMTkwNTMzNDI2MyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZGM1NDU2NWYxYjMyOWVmZDViMzlmZmIzMTcwYjYxZDA4MDZjNWQ4ZmQ3ZTc3NzAwNTQ2MjkyZWFjN2E3Mjg3YSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_095ebe5f69c446d8ac6dc4787fff1e68",
+      "statement": "TopoLVM provides dynamic provisioning with topolvm-thin-provisioner as the default storage class, using LVM thin provisioning with 10GB spare capacity and 10x overprovision ratio.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/topolvm/app/helmrelease.yaml#L29-L46",
+          "version": "repo-lines-v1:sha256:f2188bcbafe0242399cfbdd26957bc6b41f2b1cc8be79f2ad5f7ab8842a5de12:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2NzM1YmE5MGMwNDhjYWYzY2ZiYTY4MjU1Njg3MDk2ODM5YTA1MjcxOGQxMWFmMjUyMDJlYWMxMDlkN2Y5Y2EiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFmY2U2Zjk2ZTExODFiMjBlOTlkYTM5NTNjYTExOWJiOTVhZDdjNzAxN2Y3OWU3NWM5OGQ0NTViODgwNWU1MDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc0MmNhMDA5YzY1MWViMmZiOTRhZGUzMGMxMGJlMDgxN2U5MmRjYTBiYjhkY2UxOWViMThhMWI2NjhlZjJmM2MiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjViZjczMGQ2YTcxYWRmNmNjYWVhZTU5YjEzNmY1M2I5YmZiOWRhMDNkODUzMzlkMzYzY2FlN2VhY2M3NTI0NTcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_078bb24b1b474b309a2e7fe88d9e36d8",
+      "statement": "Cilium CNI plugin is installed via HelmRepository source (not OCI) from https://helm.cilium.io, with values injected from a ConfigMap.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/cilium/app/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:f71f4d04a383bf24aad244ebeb862b4943a225c23fedfc8bc933118d37d68cf2"
+        }
+      ]
+    },
+    {
+      "id": "claim_b2ae79234ed740cebb36ce345e68177f",
+      "statement": "Grafana uses an OCI chart from ghcr.io/grafana/helm-charts/grafana and configures datasources for Thanos (Prometheus-compatible), Loki, and Alertmanager with anonymous Viewer access enabled.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/grafana/app/helmrelease.yaml#L1-L14",
+          "version": "repo-lines-v1:sha256:fa900b1a1f124576ca7804e3c602a65cf990e913da9059f6b901babeac5295ef:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImExZjE4NDc3NTNiNmNlODc4MDk3YzhmNDFiMjlmMmU5YzY5YmI3MmY4MDAwMWNmZmQzNjEyZGE4Y2NmNDI5YzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFjM2QyMzVhMzAyMzMwNzFiNDIwZjg0ZWM1MmE1ODUxNjMzNDgwYzc0MmY5OTMyNmJkYmY0MWRlOTY3Zjk4NWUifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/observability/grafana/app/helmrelease.yaml#L60-L92",
+          "version": "repo-lines-v1:sha256:0bc94c7a9163854973534adca7d9f3c2665dd932556fd75f809bcc98d170ca0b:eyJzZWxlY3RlZExpbmVDb3VudCI6MzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIwNzdmMGFmM2U2ODNjNjEwYTE3NDU0MWNjN2ZjMTBkYWYzOTdhMWViYjNkYzcxOWQ1MzRmMjk2NmI3ZjUxZDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ0Y2Y3MmUwYTdlZTljNGJhOWEwN2FiMzg4NGU3MjJlMDZiNWFhYWI2YjQ0M2FiMTYwNmJlMWFmNzQzZmFlODciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg3MGIzZmUzMmVmNTY3NGZkNmM3NzU4M2MyNDkxOTc5MWY2ZDgzOTFhZmZlYzRmZWY1Yjg3YjgyOWQ3ZGU4ODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJmNjRjNjlmOGU0MzczNTMyMTdmMGY4ZDk2YThlNmRhZjViYjU2OWRjZmYwMGY0NzZkOGJlNmNkMWI4YTM2OTEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f7fe1d49884547a59b8ece74628e5dcf",
+      "statement": "Gatus uses a k8s-sidecar init container to discover ConfigMaps and Secrets labeled with gatus.io/enabled across all namespaces, watching for changes to dynamically update health check configurations.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/gatus/app/helmrelease.yaml#L24-L42",
+          "version": "repo-lines-v1:sha256:9da1bf5c40fd45aa48efb71797cefaa9b64ba68c3cfd175ee4ee529050280402:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM3MTZhMWViNzYwYTJlNjI0YjI1NDE5OWQ5YWFhOGU4NGZlNGIxYTU5OTdjZTZlMjU2YjkzNjk2NGU0NWUwMGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2YTQ5NmJjYTQzNjliZjUyODBhYWQwNTNlOTk5ODZlYjRlNGQ5ZWU4ZmY4ZGQyNGVkZTNmNGU3NWIyODM5NDAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjMyZWI3NjUzNzA1NzE4Y2VkOTdiMmE0MzhjZjk3NWFhMTYyMDEyYzhhNDk0ZjM2MTA1NDU5YTVlZTA5NTM0MDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY4OTI5Zjk5MDMzMzg5OGRjNzFmZTMyYjczYTA3YzA2YThhYzk1MWRhYWU4ZmE4ZjJiZGI0MjkwOGE4ZGQ0ZDgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_92a7ef953f7e45a7b4c9bd8c96570ff3",
+      "statement": "k8s-gateway provides Gateway API-based DNS routing with a LoadBalancer service using IPAM annotation (192.168.50.11), watching HTTPRoute and Service resources to generate DNS records.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/k8s-gateway/app/helmrelease.yaml#L34-L43",
+          "version": "repo-lines-v1:sha256:be2dad5c901440aa4eeb5d0d6adc9ed45d894a7c43a8ce1999e1faadd68d0cd1:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY4ZTBhZmIyOGIzOTZiNDU3Zjg5ZTI1YTcxMWQwYTBhYTM0ODA0MWQ5MWU0MTg4MWJlMDU5M2QwODgwMThhZDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdiNWQ5ZmI3ZThhYmE4Y2VjMTRjNzlkMjM3NTA1ZmM0NTk1NTdhOWY0MDliMWQxMDRkZTM1OTczNDViNDAzMjIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYyNWFlMmVlMjgxZTBlZmE4NzgxZTIwNjlhNjM4NWIyMjhlMDVmMTBlN2RhMGFiZWRiNTczN2Q0ZTAwOTM1ODYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e6824e562def4fd19b11bbce2c37989f",
+      "statement": "External Secrets Operator is installed via HelmRepository source with CRDs created, enabling ExternalSecret resources to sync credentials from Bitwarden ClusterSecretStores.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/external-secrets/external-secrets/app/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:15b13bc179654329e453a99b3154fc301d4c1684179fc28cb451e4765d39cb8d"
+        }
+      ]
+    },
+    {
+      "id": "claim_015b4d93ad614e3c95c7d76510685b4e",
+      "statement": "Cert-manager uses an OCI chart from quay.io/jetstack/charts/cert-manager with values injected from a ConfigMap, providing TLS certificate automation.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/cert-manager/cert-manager/app/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:3be64a6e7701df7ed39aff0965cf788b010b8eb8529d94afcffbc2fbc2a5b32d"
+        }
+      ]
+    },
+    {
+      "id": "claim_d3dab6ac810b439b82295b9835725a63",
+      "statement": "VolSync is installed via HelmRepository source with CRDs managed by the chart, providing data replication and backup capabilities for PVCs.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/volsync/app/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:5a2c230b999209d0d610f2ebb374d085fcb7f154533e72f3f27f6206993cab20"
+        }
+      ]
+    },
+    {
+      "id": "claim_cc1e986c0e7d4d71a1f56cf16119147a",
+      "statement": "Jellyfin configures Intel GPU acceleration with gpu.intel.com/i915: 1 resource limit, uses a LoadBalancer service with IPAM for direct access, and mounts three PVCs for config, cache, and media storage.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/jellyfin/app/helmrelease.yaml#L55-L61",
+          "version": "repo-lines-v1:sha256:6e77a46fae1228bd8d0771df9e2a2ad017f0e7ed017d7345affc6d12c85ecf7b:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmVjZWVmMjVkNmZhNDk4ZmNmNjYyZGEzNTIxNTE1ODliZGFjNTk2NTI5ODFjNzJiNDQ0OGVmYTdiNmI3YThkOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZWE3YmE0MGQ0YWI2MGQ0YjYyOGFkYjQxNDY4M2QwMDZlOTZjNzIyM2Y5NWRlNzljMzQ3MDAxNDRkYjMxOGU4NCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzg4NDAwM2VlNjYwZjMwZDUzZjNmM2I1ODI1YmU5NmJhZGMzNTUyMzMyODAyMTAwYjZkN2MyZTAwZmJjY2VjOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZWZlOTEzZDc5NjAwYmY0ZjNhZDQ4ODQxMWIzNzMyZTcyZjkyMzlkNTZkOGQwZmUyNzE0ZWY5M2ExZDM3YWFjZSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/jellyfin/app/helmrelease.yaml#L70-L77",
+          "version": "repo-lines-v1:sha256:d740135a599976338d5d5aa75d47ea74ea51a31be8ba1a15c1b1c4706f5c25d4:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYWQxMmEwNWVkMjI4Njg4MTU1M2FiNTE4ODUxZjY4NTdhNTJjZTAwYzdkYjU5NjllYTJkMTk2OGI2Njk5ZmVkYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZWU5ZTAwNzZiN2E1YzRhNWRkMGEwNTdjMzhiNjU2NTgwN2U4Yjk4OGQwMTZjZWNhMWQzZTUzZDMyNmY4MjU5OCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODUzM2Q5YmYzOGYxNGUyNGI4ODJmNzZjNGE3NmE1YjViMTZmYzQ4ZjQ1ZThhMjU4OTJhNjBmZThmNjY4ZjY5ZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTg2OGRjMjgyN2UyMjZjZGVkNTUyNTg4ZTYwMTM0NzlhYTM5NDU3ZWVlOGMyOTZiODJlNzg4NjQ0MWNhNGJkZiJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/jellyfin/app/helmrelease.yaml#L88-L100",
+          "version": "repo-lines-v1:sha256:a6f9e9f226ceebedfee75bad88b5a45879f3620b460aec172209caddb196d36f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJiZTdjNmFmNzMwY2NmMWJjYzI4M2YxYmQwMjFmYzUzYzE3Y2QzNjUzNDY2MmU0Zjg1Y2U3OTQ0YmQ3NTE1YjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZhNzlkYTEzNWM4OTVlYjVmNjI0MTBjNTRiYmI5NjMxNzJhMzFhM2M3NDM2YTZiZmViM2NmODgyZmQ3MTUzNGMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU3OTVmOTg5YjRhM2Y1Y2ZiNTc3Mjc0N2JiNWJmZDRlMWNiMzBkNTc0MmYzZGYzZWUxNmQ3ODkzOGZhZWRkMmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg2NzkyOTJlNGM3ODZlZTVhZDU3OWU4ZjJiYjIxMWEwOTIwNTQwZDdlMmI5MTQ2MjgzZGQzYmQyYTJiMDliNTMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_303f6721d09b49d8b8ca50551c6cfce3",
+      "statement": "Paperless-ngx integrates with Dragonfly for Redis backend (task queue, caching) via PAPERLESS_REDIS environment variable pointing to dragonfly.database.svc.cluster.local:6379.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/paperless/app/helmrelease.yaml#L48-L48",
+          "version": "repo-lines-v1:sha256:81358a6ed1d96f490aaa8e3ac2df9cba1f2923895ae5ad3f99d59cc3f3245aad:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODEzNThhNmVkMWQ5NmY0OTBhYWE4ZTNhYzJkZjljYmExZjI5MjM4OTVhZTVhZDNmOTlkNTljYzNmMzI0NWFhZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODEzNThhNmVkMWQ5NmY0OTBhYWE4ZTNhYzJkZjljYmExZjI5MjM4OTVhZTVhZDNmOTlkNTljYzNmMzI0NWFhZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTcyYjE2ZjJlZmIzZDAwMjU2ZDljNDEwNDRkMzI5N2JhYzdkMDQ2YzQ0ZTNjYjg5ODk1ZTU5NjZkZjI5MTM4OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzg5ZTM3MzFjZGVkOWM1YzgyN2E4NWI4N2JmMmFmN2QwNTRmZWZjOTVjZjYxYjZjZTdmZGFiNGNmYjNiODAxNyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_02fa53fef93e4475984576b8d081aae7",
+      "statement": "Application Kustomizations specify dependsOn to enforce deployment order, such as Gitea depending on TopoLVM, external-secrets, and CloudNative-PG cluster before installation.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/database/cloudnative-pg/ks.yaml#L46-L50",
+          "version": "repo-lines-v1:sha256:135cf98521ff97f6ee5631445d7ec12031b0ec8b046314dacf7ffa2debe98983:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTYwYzNiZDdiYzU5ZmVjOWU0ZGVkMzVkN2NjZjcwMGEzODVhY2U1ODYzNGZhNjBkM2IyMmZmMjY4YzAxN2ViZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzQ1OTdmODNhNWQ5OWFhYzllNTJjYTE3YTk4MjZhNDkyYWRlMmJlOWQ1M2FmMDMxNTAwYmNmY2UyY2UzYjlmNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjBiZWRmNWJiZGMwOGY0OTI3NmI3ZWJjNjhkZWVkMDlmZjBkMmM4NzkwMDcwMDk0MzVmM2I5NjQ3NjRmNTRkYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYThmOTljN2YwNDg0NDUwMzhiYjJlZTM1NWJmYzU1NGI0MjI0OTNiZmIzZDhmMWIwOTU1YmY2NTA3MWI4YmQ2NCJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/ks.yaml#L16-L22",
+          "version": "repo-lines-v1:sha256:e1a2bc089489f21daec5b13be7c0faa06484f30b487c8e43647034f66837ae11:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTYwYzNiZDdiYzU5ZmVjOWU0ZGVkMzVkN2NjZjcwMGEzODVhY2U1ODYzNGZhNjBkM2IyMmZmMjY4YzAxN2ViZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzY1ZDQwMmQyNWRkNTY1NTE5Zjg3ZGZiZTk2NDdlMGEzZTMzNmEwZGNjNzJlNWE1MDMwYjA5YzE3N2NlOTQxMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWY0MDVjM2RmN2ViYTlkYmY5MGU1Mjk5M2QyYzQ5ZGM5OTM0YWMzNzMyY2Y5ODliYzg1NjdlZmY2NTEyMzBhZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjEyYzRiZjI5NTM4Y2IwMzY5NTdiZDVhYjA5ZjFlOGJiNTgwOTJjODI3YjViYTVhMGIyZDg1MDQ0NWIxOGU5YiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_c2bc87266d2e4cfe8a1f580476df71e5",
+      "statement": "Applications integrate with Reloader by adding the reloader.stakater.com/auto: \"true\" annotation to enable automatic pod restarts when ConfigMaps or Secrets change.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/jellyfin/app/helmrelease.yaml#L23-L24",
+          "version": "repo-lines-v1:sha256:f1bd263f30cf855b5fdf6b57f349df8b5f9e22c86690a20a4a06dfa5137c1f5d:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODNlMzc1OTQ4MjMxZmMwMjQ4NDRlNTY1ZjgzNjk2NWNmNzUwZDYzNjdmZmQ0N2Q0MjM4YTFkZTk2ODE0YzhlMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYWU2N2Q5ZjE5MTgwMzk3YmI1NWY1NDQwMTFiMWQ5NjA5ZTZkNmI4YjRmYjQ5Yjc2YzczZDBkYzMyOTRiMTNkMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNGIwNDI5ZGI5YTRiOWM4OTc1OTA4Njg5MDcxYjMwNTY3ODNlM2U0YjM0NGZkNzk1NjhlNDU1NGE4YjFkNzY5MyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjg5MjlmOTkwMzMzODk4ZGM3MWZlMzJiNzNhMDdjMDZhOGFjOTUxZGFhZThmYThmMmJkYjQyOTA4YThkZDRkOCJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/tailscale/app/helmrelease.yaml#L23-L24",
+          "version": "repo-lines-v1:sha256:3df8fc9be622bb00f59807407ca58b34b0376294de1493d4bda0f988a28406a0:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTRjN2NkNjA1MDc2YTgwNWRkMGVjOGQyZGZiNmUzNDllMjIxMzUyMTU3YzJiNDcyZGNkOTM1YTljMzEyMWE1ZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODdjZjI4ZjExOWZiZmY4YjUwYThjZWI0YjZmYmY3NDk4MmJlMWU3N2MyMzI3YjVkMDUxOGIxMzJhY2I3YjRhZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiM2VkYmEyMjFmMzlkMGQ3YTM4ZjliNzU2MjZkYzJkNzk0ZGNiMDcxN2EwNGUyNDVkYTM0YzQ1NDI3MmE2NzMzNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNmJhMDc2NGI1ODVhOTNiMDg1YTVkYTc3YjBmZDU3ODI5MjNmNWY5MjJmMjMyY2EyYzM2NDI1Y2FhOWNjMWI3MyJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/observability/gatus/app/helmrelease.yaml#L22-L24",
+          "version": "repo-lines-v1:sha256:4ad397e3801e2bc67de30646739c0fffe7190537ff254ab138a45b5af9598b0f:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODNlMzc1OTQ4MjMxZmMwMjQ4NDRlNTY1ZjgzNjk2NWNmNzUwZDYzNjdmZmQ0N2Q0MjM4YTFkZTk2ODE0YzhlMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzcxNmExZWI3NjBhMmU2MjRiMjU0MTk5ZDlhYWE4ZTg0ZmU0YjFhNTk5N2NlNmUyNTZiOTM2OTY0ZTQ1ZTAwYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTJkZmUxMmVjZDc0YTJkZGE4ODA1ODc5OTAyNzM2MjY1MDdiMGEwMTdjNGZiZGI4NWZiMzAxYmViZTBkYTllNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMWVlZmUwNTRjMGMxZjY5NWQyNGMyNDNiZWFiMGMwYzFlZDVlNjhlNWJhODZiYmQ3ZmNiMWE2NDY4MGViZTBiYSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_48310dff36654216b024e438dd765f39",
+      "statement": "Applications typically harden security with runAsNonRoot: true, readOnlyRootFilesystem: true, allowPrivilegeEscalation: false, and capabilities.drop: [ALL] at both pod and container levels.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/app/helmrelease.yaml#L57-L62",
+          "version": "repo-lines-v1:sha256:f61dff9bfd80ada1bad3fa341147286e243501dfc799a5c37d38df3318d19401:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTBjMjM5Y2VmMjE1ZGZiN2ZjMDE3ZGY4ZDBlZjIxYTU2YzAzMmNlNGZiZDBhOGUyYzU3ZTJiNGNlNWU4NjU0NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTljZWE2M2VhY2RiYTE3NzZkZjIwNzFiYTYxNzJjZmMxNjhjZTU0NmNkYTFiNjBjY2VlZmIzNWZkMTI4YmNmMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzg4MDMyMDUwOWQ2MWE2Y2U0NDcxOGU0YTdlOWViNTIwNmM3OGQ0N2MyOTU4ZWNhYzUxNWFiMTI0MjQxNjFmYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZWZlOTEzZDc5NjAwYmY0ZjNhZDQ4ODQxMWIzNzMyZTcyZjkyMzlkNTZkOGQwZmUyNzE0ZWY5M2ExZDM3YWFjZSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/jellyfin/app/helmrelease.yaml#L51-L54",
+          "version": "repo-lines-v1:sha256:de8038f3a99c7161cb3371d9258014ceafc11ae260295210371f5ae3a5f45adf:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTBjMjM5Y2VmMjE1ZGZiN2ZjMDE3ZGY4ZDBlZjIxYTU2YzAzMmNlNGZiZDBhOGUyYzU3ZTJiNGNlNWU4NjU0NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWMwZjk1ZjI5YzI2Mjk5NjA4OWRmYjgwMjY5Mjc2NjcxZjU5ZmIyNDA2ZjI2MWUyNjUxOTk2MGU1NmFjMjc3ZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiM2JhYzFlNGJkZWNkOGY0ZjQxOWQ3YjhiNzEwN2IxYzUxNmYzNDNlOTkwNTA0YmMzNWQ4NTAyMmNiMDI2MWM3YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTUzNTEyYmNkOWE4N2FjYTlkNGU1YTM2NzcxMWYxNzkxZjM5ZDEyM2MyMjU3NzM0ZWJkMTE2ZmNkNjE4ZjQ4ZCJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/helmrelease.yaml#L53-L56",
+          "version": "repo-lines-v1:sha256:de8038f3a99c7161cb3371d9258014ceafc11ae260295210371f5ae3a5f45adf:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTBjMjM5Y2VmMjE1ZGZiN2ZjMDE3ZGY4ZDBlZjIxYTU2YzAzMmNlNGZiZDBhOGUyYzU3ZTJiNGNlNWU4NjU0NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWMwZjk1ZjI5YzI2Mjk5NjA4OWRmYjgwMjY5Mjc2NjcxZjU5ZmIyNDA2ZjI2MWUyNjUxOTk2MGU1NmFjMjc3ZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDc3Y2RjYmZkOGY0MTk2MjQ1NDllYmY1NzhiNjM2MmU0YzkyMWEwNDdhNDhhMmU1ZTcxYjBhM2VhYzA0ZTExZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiY2FiYjFjNGQyYzJmYmYzZjM0OWE2NzczYmIwYWMwNDgzMWZlNDA2NGVlNzI3MmEzOTg2ODU4ZmFjMjI1MDYwZSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_800e93d4f097482a83ec2a9ed2821202",
+      "statement": "Cloudflare Tunnel uses app-template with cloudflared image, configuring HTTP/2 transport protocol, metrics on port 8080, and a ConfigMap-mounted config.yaml file for tunnel configuration.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/helmrelease.yaml#L26-L39",
+          "version": "repo-lines-v1:sha256:af3d77a55b63dacdf5ad8dee6159da566025847f5b96c98b2a2ec7c773da53c8:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlZDM4ZDY4M2E2OGI1MTU1M2JiYmZmNjFiZGJkMzA5ODk2ODYzZmU2NWNmODljZjljYTk0MTE3MjZjYTI0MzgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2NDc0ZDFiNzA3YTNhMmZlNzQ4YjJhNDM2MDZlMTViMTM4YWI4NTMxMjVhYmU4YWRjZTk2OTlkZTliYWRkMGYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQyYzQyMWY4YzA3ODVlOGM1YTRjMWNmODA5YzE3M2M4OTQwODMxMDAzMjE0NTIxMjQ1OGRhZGNlYTI5YzU4MGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRlYTJkNzQyZDhjZTc1Y2Q2NjJlNmM3MzdhNTc0YWRkNTQ4NjM3ZDM1MTJlZTEyZmVjNWUwOTRkZjMyYjVmN2EifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/helmrelease.yaml#L76-L83",
+          "version": "repo-lines-v1:sha256:5286938c9e5de2b6b0d209b505c9012960a5de801c805be3b6e3c982379c16ce:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMmJlN2M2YWY3MzBjY2YxYmNjMjgzZjFiZDAyMWZjNTNjMTdjZDM2NTM0NjYyZTRmODVjZTc5NDRiZDc1MTViOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTc3ZGFhY2E1MGQ5NWM5ODhmMDg4NWE2YWYzZmZkZjMzNWVmNDY1MTFkMDg4YWY1NDM5MDQ0YjhjNjBjMmQ5MyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWYzZDZlOTZjMGNiNTJlZmM0ZTQ4N2RlYmU3ZDM1NDI0MzA4NTRjZmI4MzdmYWJiMzBmMTk0YzVkMjZmNDdkNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_9eb7e047286d41c79a470994cf325d22",
+      "statement": "Gitea deploys two Kustomizations from a single ks.yaml file: gitea for the main application and gitea-runner for CI/CD actions, each with separate paths and dependencies.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/ks.yaml",
+          "version": "repo-file-v1:sha256:ff7408f8816c4ea8ec6166d7e1df5d61eb085dab2621b2ad42c89c1e48e7a1e5"
+        }
+      ]
+    },
+    {
+      "id": "claim_e9c45e3f73e343dc8c5d8adc31a009f9",
+      "statement": "TopoLVM configures an embedded lvmd per node with a single device class named 'thin' using the lvm_vg volume group and lvm_thin logical volume, with 10GB spare capacity.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/topolvm/app/helmrelease.yaml#L23-L37",
+          "version": "repo-lines-v1:sha256:008f85def79db8342cdb585ca0dfa6e64293593f7966e583fa06113f53661dc2:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjllMjM2MjgzYjMzNjYwZmZlODhlMzViODc5ZDI3NDMyODIyNThhMTQ1ZWU1YmYxNTIxMDJiMWY3M2VhMjI2NGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRlZjhiYTA0NmM0NjRjNThlMDhhMWZiMGI0ZGUzM2QzM2M2ZjA5MTBjY2QxOTZkMjZjZDA4NzQxNjg3MGEwMGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUzNWQ4NzcxMTQyMDkwZGQ3ZjcyMmU4NDE2Y2Y2ZDk5ODFjMWQ2NmI4YWQ1NWJjZWQ3NGY4NWFhZGExNWYxODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNjNjMxYmZhZmQ3YzQ2ZWEzNTYyNDk2MDVkZmVkOGNkZjg4YTM3NjRiZmE3YjM0OGRlYzc3Mzc5ZGU4NWRhYjYifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-08-30T21:57:36.532Z"
+  }
+}

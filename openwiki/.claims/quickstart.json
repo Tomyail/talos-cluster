@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:39f2f0b503a3c05a893e9d39396ff2a0587c9f55759458083b9786bb62394e0c",
+  "pageVersion": "sha256:af5b725b6d35010601a9e16bfea9efa49b9e2582e69d2f4a4dedc154e957370e",
   "claims": [
     {
       "id": "claim_7007b04a9365408685923e5725757fbe",
@@ -22,7 +22,7 @@
       "evidence": [
         {
           "resource": "repo://.mise.toml",
-          "version": "repo-file-v1:sha256:ce105527b8cd611b98d8c10adb4df935be9f29ca714337aa98500c8fa44a8db0"
+          "version": "repo-file-v1:sha256:b3260a3ed5674fa9008920df471767ab594aa0cdd40dfc0c464d1607991a26ed"
         },
         {
           "resource": "repo://README.md#L59-L87",
@@ -155,6 +155,6 @@
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-08-29T21:52:21.026Z"
+    "at": "2026-08-30T21:57:36.532Z"
   }
 }

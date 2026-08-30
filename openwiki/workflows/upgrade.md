@@ -22,10 +22,10 @@ sources:
     resource: repo://kubernetes/apps/kube-system/system-upgrade/upgrades/talos.yaml
   - id: openwiki-source-b65e4f1ccd91316116ad973a
     resource: repo://talos/talenv.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-28T03:38:47.877Z" }
+generated: { by: "openwiki/0.4.3", at: "2026-08-30T21:57:36.532Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-08-29T21:52:21.026Z
+    at: 2026-08-30T21:57:36.532Z
 ---
 
 # Cluster Upgrade Workflow
@@ -281,9 +281,11 @@ stateDiagram-v2
 
 ### Monitoring and Alerts
 
-Tuppr exposes Prometheus metrics for monitoring upgrade progress and fires alerts on failures:
+Tuppr exposes Prometheus metrics for monitoring upgrade progress and fires alerts on failures. The cluster deploys two PrometheusRule files for comprehensive monitoring:
 
-**Talos upgrade alerts** (`kubernetes/apps/kube-system/system-upgrade/tuppr/prometheusrule.yaml#L9-L49`):
+**Detailed alerts** (`kubernetes/apps/kube-system/system-upgrade/tuppr/prometheusrule.yaml`):
+
+**Talos upgrade alerts** (`tuppr/prometheusrule.yaml#L9-L49`):
 
 | Alert | Condition | Severity | Description |
 |-------|-----------|----------|-------------|
@@ -291,18 +293,26 @@ Tuppr exposes Prometheus metrics for monitoring upgrade progress and fires alert
 | `TalosUpgradeFailed` | `phase=Failed` | Critical | Upgrade entered Failed phase |
 | `TalosUpgradeStuck` | In transient phase > 1h | Warning | Upgrade stuck in Draining/Rebooting/Upgrading |
 
-**Kubernetes upgrade alerts** (`kubernetes/apps/kube-system/system-upgrade/tuppr/prometheusrule.yaml#L51-L78`):
+**Kubernetes upgrade alerts** (`tuppr/prometheusrule.yaml#L51-L78`):
 
 | Alert | Condition | Severity | Description |
 |-------|-----------|----------|-------------|
 | `KubernetesUpgradeFailed` | `phase=Failed` | Critical | Upgrade entered Failed phase |
 | `KubernetesUpgradeStuck` | In transient phase > 45m | Warning | Upgrade stuck in Upgrading/HealthChecking |
 
-**Upgrade job alerts** (`kubernetes/apps/kube-system/system-upgrade/tuppr/prometheusrule.yaml#L80-L93`):
+**Upgrade job alerts** (`tuppr/prometheusrule.yaml#L80-L93`):
 
 | Alert | Condition | Severity | Description |
 |-------|-----------|----------|-------------|
 | `UpgradeJobRunningTooLong` | Active job > 1h | Warning | Upgrade job exceeds expected duration |
+
+**Simplified alerts** (`kubernetes/apps/kube-system/system-upgrade/upgrades/prometheusrule.yaml`):
+
+| Alert | Condition | Severity | Description |
+|-------|-----------|----------|-------------|
+| `TupprUpgradeFailed` | `phase=Failed` for either upgrade type | Critical | Immediate alert on upgrade failure |
+| `TupprUpgradeStuck` | In Progress phase with no node completions | Warning | Upgrade stuck for 30+ minutes |
+| `TupprHealthCheckFailures` | Health check failure rate > 0.1/min | Warning | High health check failure rate |
 
 ### Recovering from Failed Tuppr Upgrades
 
