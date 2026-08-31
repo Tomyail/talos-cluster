@@ -5,12 +5,14 @@ description: Layered networking stack comprising Cilium CNI with L2 announcement
 tags: [networking, cilium, cloudflare, dns, gateway, tailscale, vpn, ingress]
 verified:
   - by: openwiki/0.4.3
-    at: 2026-08-30T21:57:36.532Z
+    at: 2026-08-31T23:16:37.333Z
 sources:
   - id: openwiki-source-514428fb63f74f5cc6fe8c1d
     resource: repo://kubernetes/apps/default/qbittorrent/app/egress-gateway-policy.yaml
   - id: openwiki-source-d9f5f9eb0be17b72994fcd3e
     resource: repo://kubernetes/apps/kube-system/cilium/app/helm/values.yaml
+  - id: openwiki-source-0fea713b3cc38997c9682b8e
+    resource: repo://kubernetes/apps/kube-system/cilium/app/networks.yaml
   - id: openwiki-source-406c92f3368aa84a28fbd72b
     resource: repo://kubernetes/apps/kube-system/cilium/gateway/external.yaml
   - id: openwiki-source-367dcc8235c3b0a144a93539

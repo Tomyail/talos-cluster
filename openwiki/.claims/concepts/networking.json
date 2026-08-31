@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:c76b33ecc9101787e76f4106c5cf9bd8c3d2ca9d8d5ddf1fb644ccebd7cc153a",
+  "pageVersion": "sha256:67d1de9cb31db27ae835fb0fa47e4c2977bc52a7d4255132f64b76ed23e68e2a",
   "claims": [
     {
       "id": "claim_0e4b64aa301a4c2dac2447bb89e242db",
@@ -37,6 +37,10 @@
         {
           "resource": "repo://kubernetes/apps/kube-system/cilium/app/helm/values.yaml",
           "version": "repo-file-v1:sha256:a5d44cfd8523a63bed8cf76f09c859c2a9a91a46e254c263386774dccf811abf"
+        },
+        {
+          "resource": "repo://kubernetes/apps/kube-system/cilium/app/networks.yaml",
+          "version": "repo-file-v1:sha256:58a63ab2e3b79b5aac6768a7908359fe9b70c4fe30e528e922cdb90ab4e0a3ec"
         }
       ]
     },
@@ -128,7 +132,7 @@
     },
     {
       "id": "claim_af9546e7cb744df696ac7a489a3f147b",
-      "statement": "External ingress traffic flows from users through DNS resolution to Cloudflare Tunnel endpoint, then via Cloudflare Edge to the tunnel, which forwards HTTP/2 traffic to the external Cilium Gateway (192.168.50.13). The gateway routes HTTPRoutes to backend services via Cilium's BPF load balancing to pods. Cloudflare External DNS manages DNS records for exposed services.",
+      "statement": "External ingress traffic flows from users through DNS resolution to Cloudflare Tunnel endpoint, then via Cloudflare Edge to the tunnel, which forwards HTTP/2 traffic to the external Cilium Gateway (192.168.50.13). The gateway routes HTTPRoutes to backend services via Cilium's BPF load balancing. Cloudflare External DNS manages DNS records for exposed services.",
       "evidence": [
         {
           "resource": "repo://kubernetes/apps/kube-system/cilium/gateway/external.yaml",
@@ -171,6 +175,10 @@
           "version": "repo-file-v1:sha256:a5d44cfd8523a63bed8cf76f09c859c2a9a91a46e254c263386774dccf811abf"
         },
         {
+          "resource": "repo://kubernetes/apps/kube-system/cilium/app/networks.yaml",
+          "version": "repo-file-v1:sha256:58a63ab2e3b79b5aac6768a7908359fe9b70c4fe30e528e922cdb90ab4e0a3ec"
+        },
+        {
           "resource": "repo://kubernetes/apps/kube-system/cilium/gateway/external.yaml",
           "version": "repo-file-v1:sha256:426b7b64b1da0b8b74c808898ac65e0bd8012c6c6112cb542a5ede5991937bbb"
         },
@@ -191,6 +199,6 @@
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-08-30T21:57:36.532Z"
+    "at": "2026-08-31T23:16:37.333Z"
   }
 }

@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:7e90c54beddeef7b69fe991a485c8ceedf4cc283f021bdd11a5122fbb76e4ab8",
+  "claims": [
+    {
+      "id": "claim_89e756bd94554d7abb09b1c8a96e73f7",
+      "statement": "The Talos operations are defined in `.taskfiles/talos/Taskfile.yaml` with five primary tasks: `generate-config` for regenerating machine configurations, `apply-node` for applying configuration to a single node, `upgrade-node` for Talos OS upgrades, `upgrade-k8s` for Kubernetes upgrades, and `reset` for cluster destruction.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml#L7-L66",
+          "version": "repo-lines-v1:sha256:0d17499ac3b179938fa02ec4a0602ca46fa8ce5c2fc9d7422932dc6e229f45e4:eyJzZWxlY3RlZExpbmVDb3VudCI6NjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZmMzkyM2ZkNDA1ZDI0MDNlMmZiZGIzMzg3ODJiNDExMDQyZmFmMmM2NDA3OGQ2YzU0NmM4NGIxYWQ3YTc4MTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZhY2QzZDMwYzk2MjZhZmE1YmFlOGFlMzllOTEzZjhmOGJlN2M4YTQ4MGJmMDYzNmZmYTZhOGUwYTgzZjI3NzUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIxZDEyYjU2YzEwYjdmYjYyYzhmMDQxYjM3ZTE4Y2Y4ZjI3YzU3OGEwZDI3YWI3ZThkZDg4ZGJkYzlkZjRiMWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_622679134b28451293af78aed1596dc0",
+      "statement": "The `talos:generate-config` task executes `talhelper genconfig` to regenerate machine configurations from `talconfig.yaml`, substituting versions from `talenv.yaml` and applying patches from the patches directory hierarchy.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml#L7-L15",
+          "version": "repo-lines-v1:sha256:5db79c470b1c68418177ca82986169ee2ae71e736ae8d5d8740dafbe2ab9dd75:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZmYzOTIzZmQ0MDVkMjQwM2UyZmJkYjMzODc4MmI0MTEwNDJmYWYyYzY0MDc4ZDZjNTQ2Yzg0YjFhZDdhNzgxMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNmFjZDNkMzBjOTYyNmFmYTViYWU4YWUzOWU5MTNmOGY4YmU3YzhhNDgwYmYwNjM2ZmZhNmE4ZTBhODNmMjc3NSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjFkMTJiNTZjMTBiN2ZiNjJjOGYwNDFiMzdlMThjZjhmMjdjNTc4YTBkMjdhYjdlOGRkODhkYmRjOWRmNGIxZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzUzNjllYjE0MGJkMzM3ODgwZTY0OWQyZDk4NzhlZjY1ZDM4OGRlYmQzZjkzOWQxODY1MzRhZWE3OTE3ZGI1YSJ9"
+        },
+        {
+          "resource": "repo://talos/talconfig.yaml#L1-L84",
+          "version": "repo-lines-v1:sha256:d136b9cff87d6ec237ac03a8d8e93f8f766c991330cacbf3cf6ffd68061bdcde:eyJzZWxlY3RlZExpbmVDb3VudCI6ODQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk3OTIyNDAyMDAwN2ZkZmEzZTMxYWFjMTkwZjMwNWUwYjc3MzZjODcyYzYyZjYxNWU3OTM0Y2FjMDQzMzEwZGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM3MmQyMWI0YTU2MmE4ZDY5MWJhNWE1Y2RlYjIyNTk1ZmRiZDlkZWUxNTkyMmI3MDQwOGIwMTAxNDU2MDg2NDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://talos/talenv.yaml#L1-L4",
+          "version": "repo-lines-v1:sha256:4ae26d952e597f70c4bbe7665882b09fe952fe44746284b6ff794e03502b0c1d:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDBmMTUwYTFhMDAwNzUyODM5MzU2NzZjZDY3Y2RmN2E4NmI2ZjhiYTE5YzkxMDI4YzMwYWM3MTNmZjNjMDAzMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiY2VmNGJjZTcyOGNmYTdhYjVkYjhlYTlkMTYxODZjM2NmZGU1ZWEyYjUxZGE0YTM5NzY4MTQyZjFiM2I5MDQ0MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_33fa47a7e2944a43bad1ce2636cfdc73",
+      "statement": "The `talos:apply-node` task uses `talhelper gencommand apply` with `--mode=auto` by default to apply updated machine configuration to a specific node identified by IP address, supporting mode overrides for reboot behavior control.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml#L17-L29",
+          "version": "repo-lines-v1:sha256:35ce0aa449263507466334f03fc68ca500a4142bce0b6b479f91f5e911098d74:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwOGI1ZWI4N2M5MGVmYjA0NWM2Y2E5NmViMmVkMDU0ODk3MjdmMWJhMjIyMTgxNDUxM2MwOGVhOGFjYTQ2ZTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2MGRjZjk2Mjk1YzVkNThhNjk3NjU1MjRjMzc5YTgwOWUxNzRhNzVlZGM1YzdlYTUwMmI4MzFkOGI4MmFiNmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg4NDI4M2IzNzhmNWIwYjU5MjU3MDQzOThlM2JkMDA4Mjg3YTFmYmNhZTU2NTQ3NDg0MWMzNDk4ZmE3OTgzMzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhjMWVlZGU5NTk4NzJmMzk2ZGQ0NDY3NTZkMDc2ODg1YmIyMGMwY2ZkYTc2ZjE2YjA2NGZlOGIyM2NhYTZlMDMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7362a9db988240f1b0cf547be16c7db0",
+      "statement": "The `talos:upgrade-node` task retrieves the node-specific Talos image URL from `talconfig.yaml` and the Talos version from `talenv.yaml`, then executes `talhelper gencommand upgrade` with `--image` and `--timeout=10m` flags to upgrade a single node.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml#L31-L46",
+          "version": "repo-lines-v1:sha256:c7745ffcaf01e49647d3d0c759433bd1c878042e171a2003f9f5ef415c355991:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcyMTc2ZGE5ZmU1N2MzMDM4YzQ5MGNmM2ZkODFlZWU1OTA1NDE0YzYzYzVhY2RhZmE0ZTdjMjExMjk0YjNmNWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlhNjI2MWZlNzI4NDUwMWRiYzY0ODNkOTEyZWFjZGQyMzNiZjkwMmIyNGY1OWU0ZmRjYTFlZTVmMWQ2MmFhMWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJjMjI3NzVjMmU1ZWViMDBmOWFiNzIyZjM5Njc0YTZkZDE1NTNhYTA4ODZmZWM5ZDFiNzZkYjU3OGJlNmJiODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgyMjNlZDA2NGU4NDJmYWNiOThmMGI2ZGViYmE1MWQzODg4MjQ0ZjM0NTVjMTIzZjRiMzRiMDU3OGU3ZDAyZWEifQ"
+        },
+        {
+          "resource": "repo://talos/talconfig.yaml#L29-L29",
+          "version": "repo-lines-v1:sha256:e073fc1df6d52f0cf47348f7ce852892950bbb6ac934d40230b96b517c09bbf8:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTA3M2ZjMWRmNmQ1MmYwY2Y0NzM0OGY3Y2U4NTI4OTI5NTBiYmI2YWM5MzRkNDAyMzBiOTZiNTE3YzA5YmJmOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTA3M2ZjMWRmNmQ1MmYwY2Y0NzM0OGY3Y2U4NTI4OTI5NTBiYmI2YWM5MzRkNDAyMzBiOTZiNTE3YzA5YmJmOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjU4MDVlODljNWI2ZDI3OWNhMDVlMTFjY2UwYTMwMjY4MTljMGI0OTBhYjM5MjBmYjI2NDhhYmI4M2UwODcyMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzYyYzIwYWNhMDUyZGE3ZmY5OWJlMDlmODM2MzExNThjNmVkNjA2OGY5OWU0MDk2NDQzMjgxMDdjOTRiZDkwYSJ9"
+        },
+        {
+          "resource": "repo://talos/talenv.yaml#L1-L2",
+          "version": "repo-lines-v1:sha256:258a26387c4f6750882baf320cb0b4f153c74368864fc475a6c8b242d7ce8c61:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDBmMTUwYTFhMDAwNzUyODM5MzU2NzZjZDY3Y2RmN2E4NmI2ZjhiYTE5YzkxMDI4YzMwYWM3MTNmZjNjMDAzMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWVhMDBiYmQwMWQ0MzBkZjJlNDE4MGQ2YTFmM2E2MDVlOGM4OGQ0OWNjMDBmMDlkZDk5ODhmNDZlMTliYmQ1NiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjIsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjk0OTBhODk4Yjk2YzBiNzU0NjgwYzMwMWEzYWU1NmMxN2VmNjA0N2I2ZTFjOWI2YzFlMDAwMjM0YWJiYmY4NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_19ab7a47a4254d2ca7d1ecbce4a777c2",
+      "statement": "The `talos:upgrade-k8s` task retrieves the Kubernetes version from `talenv.yaml` and executes `talhelper gencommand upgrade-k8s` with the `--to` flag to upgrade Kubernetes across all control plane and worker nodes.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml#L48-L58",
+          "version": "repo-lines-v1:sha256:1172dba8a5f5c572ea4428fc7814a5afe4ba06a270839de086f7fb4f0549a9ca:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQzYWZiZTlhYTEyMmU0N2ZiY2RkZmFlZWViYjQ3NjE0YzMyNTBlNzhmNzlhZDg5NzMyZDczMTY3ODg4MDYyODgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2MGRjZjk2Mjk1YzVkNThhNjk3NjU1MjRjMzc5YTgwOWUxNzRhNzVlZGM1YzdlYTUwMmI4MzFkOGI4MmFiNmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUwMGYyZTc4MmU2ZmRjZDY4ZTU2MDZmNWQ5MzJiYWQyNWRlY2JjNTRiODYzNTlkNjYxYmI4NDE0ZTc5Y2MxODkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdlOWVjZjQ3MzhmZTc2ZWE5N2MzYmYwZmIwNzNmZTkxODQwZThlNTBlYzVjOTdjOGQzZWZiNWU3YWI5YmRkNmQifQ"
+        },
+        {
+          "resource": "repo://talos/talenv.yaml#L3-L4",
+          "version": "repo-lines-v1:sha256:f9490a898b96c0b754680c301a3ae56c17ef6047b6e1c9b6c1e000234abbbf85:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNGE5N2MxNTI1NTAxNDA4YjQ1OWJkYjNmMzFkMjM1ODAxOTQ2ZTgxZmJjNDc3NTBhMmVmZDMzNzhhNWNkMWJkNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiY2VmNGJjZTcyOGNmYTdhYjVkYjhlYTlkMTYxODZjM2NmZGU1ZWEyYjUxZGE0YTM5NzY4MTQyZjFiM2I5MDQ0MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjIsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjU4YTI2Mzg3YzRmNjc1MDg4MmJhZjMyMGNiMGI0ZjE1M2M3NDM2ODg2NGZjNDc1YTZjOGIyNDJkN2NlOGM2MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_dcc3584e4b7b47249c85b65bf36f036e",
+      "statement": "The `talos:reset` task prompts for confirmation, then executes `talhelper gencommand reset` with `--reboot`, `--system-labels-to-wipe STATE`, `--system-labels-to-wipe EPHEMERAL`, `--graceful=false`, and `--wait=false` flags to destroy the cluster and reset nodes to maintenance mode.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml#L60-L66",
+          "version": "repo-lines-v1:sha256:ea5c7acd6103a621dad1b3b7c305e16662777d9012a66a6a79cc3df39188b6c6:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjFjMjlkMWIyZDAzZjAzNjNhMTJmY2Y2OTMwN2M3MGU3ZTRlZjIxN2I5YjA4YTcxMjFkZjdmNDQ3MmY0YTE4NiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNmFjZDNkMzBjOTYyNmFmYTViYWU4YWUzOWU5MTNmOGY4YmU3YzhhNDgwYmYwNjM2ZmZhNmE4ZTBhODNmMjc3NSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYmMyMjc3NWMyZTVlZWIwMGY5YWI3MjJmMzk2NzRhNmRkMTU1M2FhMDg4NmZlYzlkMWI3NmRiNTc4YmU2YmI4MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_9dcbb4db02ee4018aa0a9841a6372962",
+      "statement": "The talhelper gencommand workflow generates node-specific talosctl commands by reading cluster configuration, creating appropriate commands with flags, and executing them through bash, providing consistent command generation across apply-node, upgrade-node, upgrade-k8s, and reset operations.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml#L20-L20",
+          "version": "repo-lines-v1:sha256:67880d4b7e71bd91574003f45757afb25a678719055cfed2e0e1cd6cfd932042:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjc4ODBkNGI3ZTcxYmQ5MTU3NDAwM2Y0NTc1N2FmYjI1YTY3ODcxOTA1NWNmZWQyZTBlMWNkNmNmZDkzMjA0MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNjc4ODBkNGI3ZTcxYmQ5MTU3NDAwM2Y0NTc1N2FmYjI1YTY3ODcxOTA1NWNmZWQyZTBlMWNkNmNmZDkzMjA0MiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTA4ZGEzZjA3MDg4ZDA4MGNiNDUzZWJiYzAyYmEzMWQ5N2JmYmI1NzZmMDMzZTM0NWE3MDNjNTg5YmYyNmFjYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNGRhNTYwNmQxMTAzMmI1Yzk5NGRjOWM0MjRhYzQ4N2JkNDZhNGFhNzRlYjNmZjU1ZmFkZjhkZGQyZjgwZTEzNiJ9"
+        },
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml#L34-L34",
+          "version": "repo-lines-v1:sha256:7784585bb611dbde6774d25315bffce0e2cf03428c074c952e260d949deca5eb:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzc4NDU4NWJiNjExZGJkZTY3NzRkMjUzMTViZmZjZTBlMmNmMDM0MjhjMDc0Yzk1MmUyNjBkOTQ5ZGVjYTVlYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzc4NDU4NWJiNjExZGJkZTY3NzRkMjUzMTViZmZjZTBlMmNmMDM0MjhjMDc0Yzk1MmUyNjBkOTQ5ZGVjYTVlYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNWVmOTYyODc0NDU5MzVjMGJhNDEyOTg0Y2E0YTNjMmZjZjI5ZmVkZjRhYTI3NjQ3N2Q4NjYzODgzOTViZTkwOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzJjYzcwNGYwMTZlYWJkNGVjMjY5M2QzYmQ2YmI2ZTlkOTA5NTY2NjExMDU4NzU3OTc5MGEwNDk3ZmUyNWY5NiJ9"
+        },
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml#L51-L51",
+          "version": "repo-lines-v1:sha256:7d8f787bfc250a8d11d388f3536286f0ab384bec69ecd416b21193c52cd7350d:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiN2Q4Zjc4N2JmYzI1MGE4ZDExZDM4OGYzNTM2Mjg2ZjBhYjM4NGJlYzY5ZWNkNDE2YjIxMTkzYzUyY2Q3MzUwZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiN2Q4Zjc4N2JmYzI1MGE4ZDExZDM4OGYzNTM2Mjg2ZjBhYjM4NGJlYzY5ZWNkNDE2YjIxMTkzYzUyY2Q3MzUwZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjJiNzdjODUwMTU4NzQzOTY5MTU2YmRmMmZiOGMzNDRlYzBmNzc2ZjgwNzc0NzZiMWI1N2U0NjdmYmNmOGY1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjNiY2JlNTY4MjNiMzhjMDliMWRkNWNlN2EzMGYxMWZhMDM3NmM5NjIyNWJiMzcwOTRlZjA1Zjc3NTdmZjQ4ZSJ9"
+        },
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml#L64-L64",
+          "version": "repo-lines-v1:sha256:3b5327661acc3bde268137c776ea7b5fdef4180d9770fe767289c69ea06ee71b:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2I1MzI3NjYxYWNjM2JkZTI2ODEzN2M3NzZlYTdiNWZkZWY0MTgwZDk3NzBmZTc2NzI4OWM2OWVhMDZlZTcxYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiM2I1MzI3NjYxYWNjM2JkZTI2ODEzN2M3NzZlYTdiNWZkZWY0MTgwZDk3NzBmZTc2NzI4OWM2OWVhMDZlZTcxYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTBjMjVjMjkxNWVjZTVhNGZlMzdjNjAwMDA2Y2ZkZmQ0ZGM2NjVkY2ZmMGNmZTQ3MjAxNTMzMmIyOTI0MDdhNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjIsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzU4MWJkNzA3OGVjZGFiNDc2MGZlYTI5ZDZhZjVlYjU5YjNkMTAyOTRlNDg0NDZlODAzNjhiMDNhMGRlYWQ2MCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_9c46c1ecb48a44ccadf7921bb0e388fc",
+      "statement": "Talos and Kubernetes versions are managed in `talos/talenv.yaml` using Renovate datasource annotations that track `ghcr.io/siderolabs/installer` and `ghcr.io/siderolabs/kubelet` for automated dependency updates, with variables referenced by `talconfig.yaml` and upgrade tasks.",
+      "evidence": [
+        {
+          "resource": "repo://talos/talconfig.yaml#L5-L6",
+          "version": "repo-lines-v1:sha256:3e2e28f7c7aa8d216a760287963dee3cfef8151f90933134d54acdfbaf2be6fa:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTVlZWM1N2QwZDY0Zjc2ZGM2YTRkYTM5MzYxM2NmM2YzMDM5MjJmZDQ3OTU3ZTU1MDM4ZmUwZjFhOTFkNDVmMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMmFkNWVkNDEzY2I4YzVlZGI4NjQ0MWVhMjYxOTlmNTRiMGE1MDFjMDViOGY3ODljNzQ1NTE2YTYwOGNkNTcyOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMGJhNDMyYTBhYWY3YjZlYzMxNGE4ZDI5MWExOWZkZDFiNzlhMmJlYzI2ODRjZjEzNTI3ZjEwZGVkZDc3OWQ0NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOWQxN2U4NzZjOGIxNTI0NDBkNzlmMzE1MzY1ZTY2YmIwZWUzM2M3MDQyN2I3M2I3NGE0ZDdiZDQzNDFiZDNhMSJ9"
+        },
+        {
+          "resource": "repo://talos/talenv.yaml#L1-L4",
+          "version": "repo-lines-v1:sha256:4ae26d952e597f70c4bbe7665882b09fe952fe44746284b6ff794e03502b0c1d:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDBmMTUwYTFhMDAwNzUyODM5MzU2NzZjZDY3Y2RmN2E4NmI2ZjhiYTE5YzkxMDI4YzMwYWM3MTNmZjNjMDAzMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiY2VmNGJjZTcyOGNmYTdhYjVkYjhlYTlkMTYxODZjM2NmZGU1ZWEyYjUxZGE0YTM5NzY4MTQyZjFiM2I5MDQ0MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-08-31T23:16:37.333Z"
+  }
+}

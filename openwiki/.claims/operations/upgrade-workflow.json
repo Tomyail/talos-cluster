@@ -1,0 +1,138 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:58a207a442909756ca43d274083db43dbf3d4dbebfae6fdec610bbe704f6efe2",
+  "claims": [
+    {
+      "id": "claim_3e10603fa3e24b1c8d82863d9900d32f",
+      "statement": "The upgrade workflow enforces strict ordering: Talos nodes one-by-one, then Kubernetes cluster-wide, then applications. This ordering maintains control plane quorum and minimizes cluster disruption during upgrades.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml#L31-L58",
+          "version": "repo-lines-v1:sha256:267a2e1d3c62adf33264ff5ff9fb740b9bd6894bb8f0708ab17fa5b8d5b20468:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcyMTc2ZGE5ZmU1N2MzMDM4YzQ5MGNmM2ZkODFlZWU1OTA1NDE0YzYzYzVhY2RhZmE0ZTdjMjExMjk0YjNmNWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2MGRjZjk2Mjk1YzVkNThhNjk3NjU1MjRjMzc5YTgwOWUxNzRhNzVlZGM1YzdlYTUwMmI4MzFkOGI4MmFiNmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJjMjI3NzVjMmU1ZWViMDBmOWFiNzIyZjM5Njc0YTZkZDE1NTNhYTA4ODZmZWM5ZDFiNzZkYjU3OGJlNmJiODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdlOWVjZjQ3MzhmZTc2ZWE5N2MzYmYwZmIwNzNmZTkxODQwZThlNTBlYzVjOTdjOGQzZWZiNWU3YWI5YmRkNmQifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/kube-system/system-upgrade/ks.yaml#L28-L45",
+          "version": "repo-lines-v1:sha256:9a835a6945897bb2d9f5c7f28fcbf6400ebbc3b7db0592aa72a7f15b6e0c6216:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA3ZGNlOWJlNWFjZWRlZjgyZTdlODkzNzlkZmIwZjgxZDk3ZjRjNzIxYmVkMDEyMzExNThhZmM4OTA2ZmU3OTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ0ZTJmODg0YmM1MzQ0MDE0ZmQ1YjVmNjJhNjZkOTJlNmQ4ZTZjM2Y5M2I2MzA5ZGM2NmU4YTNmNjU1YzUzM2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRhYzA2N2UyNDVjYmRkZGFmMzkzOTNkYzFlZmQzYWI2ZjAzODFhYmYzNjQ3Nzg4ODNkMmU4NWQxYThhNjMxOGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_77b32e4263164223b137d4f52fd40795",
+      "statement": "The talos:upgrade-node task upgrades Talos on a single node by retrieving the node-specific image URL from talconfig.yaml and the target version from talenv.yaml, then executing talosctl upgrade with a 10-minute timeout.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml#L31-L46",
+          "version": "repo-lines-v1:sha256:c7745ffcaf01e49647d3d0c759433bd1c878042e171a2003f9f5ef415c355991:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcyMTc2ZGE5ZmU1N2MzMDM4YzQ5MGNmM2ZkODFlZWU1OTA1NDE0YzYzYzVhY2RhZmE0ZTdjMjExMjk0YjNmNWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlhNjI2MWZlNzI4NDUwMWRiYzY0ODNkOTEyZWFjZGQyMzNiZjkwMmIyNGY1OWU0ZmRjYTFlZTVmMWQ2MmFhMWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJjMjI3NzVjMmU1ZWViMDBmOWFiNzIyZjM5Njc0YTZkZDE1NTNhYTA4ODZmZWM5ZDFiNzZkYjU3OGJlNmJiODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgyMjNlZDA2NGU4NDJmYWNiOThmMGI2ZGViYmE1MWQzODg4MjQ0ZjM0NTVjMTIzZjRiMzRiMDU3OGU3ZDAyZWEifQ"
+        },
+        {
+          "resource": "repo://talos/talenv.yaml#L1-L2",
+          "version": "repo-lines-v1:sha256:258a26387c4f6750882baf320cb0b4f153c74368864fc475a6c8b242d7ce8c61:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDBmMTUwYTFhMDAwNzUyODM5MzU2NzZjZDY3Y2RmN2E4NmI2ZjhiYTE5YzkxMDI4YzMwYWM3MTNmZjNjMDAzMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWVhMDBiYmQwMWQ0MzBkZjJlNDE4MGQ2YTFmM2E2MDVlOGM4OGQ0OWNjMDBmMDlkZDk5ODhmNDZlMTliYmQ1NiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjIsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjk0OTBhODk4Yjk2YzBiNzU0NjgwYzMwMWEzYWU1NmMxN2VmNjA0N2I2ZTFjOWI2YzFlMDAwMjM0YWJiYmY4NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_8ef196fdff18435da632d2f89c8c5187",
+      "statement": "The talos:upgrade-k8s task performs a cluster-wide Kubernetes upgrade by retrieving the target version from talenv.yaml and executing talosctl upgrade-k8s with the --to flag.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml#L48-L58",
+          "version": "repo-lines-v1:sha256:1172dba8a5f5c572ea4428fc7814a5afe4ba06a270839de086f7fb4f0549a9ca:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQzYWZiZTlhYTEyMmU0N2ZiY2RkZmFlZWViYjQ3NjE0YzMyNTBlNzhmNzlhZDg5NzMyZDczMTY3ODg4MDYyODgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2MGRjZjk2Mjk1YzVkNThhNjk3NjU1MjRjMzc5YTgwOWUxNzRhNzVlZGM1YzdlYTUwMmI4MzFkOGI4MmFiNmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUwMGYyZTc4MmU2ZmRjZDY4ZTU2MDZmNWQ5MzJiYWQyNWRlY2JjNTRiODYzNTlkNjYxYmI4NDE0ZTc5Y2MxODkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdlOWVjZjQ3MzhmZTc2ZWE5N2MzYmYwZmIwNzNmZTkxODQwZThlNTBlYzVjOTdjOGQzZWZiNWU3YWI5YmRkNmQifQ"
+        },
+        {
+          "resource": "repo://talos/talenv.yaml#L3-L4",
+          "version": "repo-lines-v1:sha256:f9490a898b96c0b754680c301a3ae56c17ef6047b6e1c9b6c1e000234abbbf85:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNGE5N2MxNTI1NTAxNDA4YjQ1OWJkYjNmMzFkMjM1ODAxOTQ2ZTgxZmJjNDc3NTBhMmVmZDMzNzhhNWNkMWJkNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiY2VmNGJjZTcyOGNmYTdhYjVkYjhlYTlkMTYxODZjM2NmZGU1ZWEyYjUxZGE0YTM5NzY4MTQyZjFiM2I5MDQ0MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjIsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjU4YTI2Mzg3YzRmNjc1MDg4MmJhZjMyMGNiMGI0ZjE1M2M3NDM2ODg2NGZjNDc1YTZjOGIyNDJkN2NlOGM2MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_18e2b7ad831b470fb7d74d2267650ac1",
+      "statement": "tuppr automates Talos node upgrades via the TalosUpgrade CR which specifies the target Talos version and reboot policy. The controller upgrades nodes one-by-one to maintain control plane quorum.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/system-upgrade/tuppr/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:8e432848d9ef1e726f04d1054450b2af89eb6b17afdee275a0902c7e3e0d20a9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/kube-system/system-upgrade/upgrades/talos.yaml",
+          "version": "repo-file-v1:sha256:f041519d65e43b5cfa242a7a506f5d21aaf537a2514cc8f8e6a966267f533e60"
+        }
+      ]
+    },
+    {
+      "id": "claim_b34316c6334c4b94a60a320d823278a8",
+      "statement": "tuppr automates Kubernetes upgrades via the KubernetesUpgrade CR which specifies the target Kubernetes version. The CR is deployed separately from the controller to enable coordinated upgrades.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/system-upgrade/ks.yaml#L23-L45",
+          "version": "repo-lines-v1:sha256:e74ffa491a663147a3e74492721fc2a7f465ae8bb0e4e9203b7f300613cf11bd:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAzMTI1OGFlNDc5YzY5MTNjM2MxYjFmNzc0ZTc2NWEyYzA3NjVhNDQ4ZDk5M2I2ZmUzODIxZjUwM2VhNGM1ZDciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ0ZTJmODg0YmM1MzQ0MDE0ZmQ1YjVmNjJhNjZkOTJlNmQ4ZTZjM2Y5M2I2MzA5ZGM2NmU4YTNmNjU1YzUzM2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAzNDAwYWQ1ZGM2NGZiMjg4ZGNlYjhiNjViNDdjYmJkYTE0Nzc2OTQ5NTUxOTE3MTBjMTY0MGNjNDY4NjQ1MmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/kube-system/system-upgrade/upgrades/kubernetes.yaml",
+          "version": "repo-file-v1:sha256:be50b9911d94a2b8e4c3b8b47c3f730630ef79612220c90423ef7566be7fcd14"
+        }
+      ]
+    },
+    {
+      "id": "claim_a0322f88027342239a15335af518d5e8",
+      "statement": "Renovate tracks Talos and Kubernetes versions in talenv.yaml via # renovate: comments that specify the datasource and depName. This enables automated dependency tracking and PR creation for version updates.",
+      "evidence": [
+        {
+          "resource": "repo://.renovaterc.json5#L1-L30",
+          "version": "repo-lines-v1:sha256:f03aba33416f83ce226c494891a72802c6011506a786dc524b5988e530a1f18d:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE2ZmIwOGZkYTFhY2I5NTdiNjExNmJkMzc4MTFhMWZlNDFhMDE2MTFjMDYzMWVkYmY3ODZkNjg4OWEyN2E1NWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkNWNkMmZiNGYzZGY4ODQ1MTUyNTViMzk1MjNmMmY4YjU0NzJiZWVhOWY1NjZmZmNhMjA0ZGI4MDI1NjEwNDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZjY2YxMTg1NDljNzE0NmQyMjViZjI1NTM1NDk0YjAyMmEwZTM1ZGJkMDJmMTdhYzAwNmVhNWM0ZDUwODZjZjAifQ"
+        },
+        {
+          "resource": "repo://talos/talenv.yaml#L1-L4",
+          "version": "repo-lines-v1:sha256:4ae26d952e597f70c4bbe7665882b09fe952fe44746284b6ff794e03502b0c1d:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDBmMTUwYTFhMDAwNzUyODM5MzU2NzZjZDY3Y2RmN2E4NmI2ZjhiYTE5YzkxMDI4YzMwYWM3MTNmZjNjMDAzMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiY2VmNGJjZTcyOGNmYTdhYjVkYjhlYTlkMTYxODZjM2NmZGU1ZWEyYjUxZGE0YTM5NzY4MTQyZjFiM2I5MDQ0MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_6f385d67ffc3498bbed2b279694c257e",
+      "statement": "Talos upgrades can be rolled back using talosctl rollback if an upgrade fails. This provides quick recovery to the previous Talos version with minimal disruption.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml#L31-L46",
+          "version": "repo-lines-v1:sha256:c7745ffcaf01e49647d3d0c759433bd1c878042e171a2003f9f5ef415c355991:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcyMTc2ZGE5ZmU1N2MzMDM4YzQ5MGNmM2ZkODFlZWU1OTA1NDE0YzYzYzVhY2RhZmE0ZTdjMjExMjk0YjNmNWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlhNjI2MWZlNzI4NDUwMWRiYzY0ODNkOTEyZWFjZGQyMzNiZjkwMmIyNGY1OWU0ZmRjYTFlZTVmMWQ2MmFhMWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJjMjI3NzVjMmU1ZWViMDBmOWFiNzIyZjM5Njc0YTZkZDE1NTNhYTA4ODZmZWM5ZDFiNzZkYjU3OGJlNmJiODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgyMjNlZDA2NGU4NDJmYWNiOThmMGI2ZGViYmE1MWQzODg4MjQ0ZjM0NTVjMTIzZjRiMzRiMDU3OGU3ZDAyZWEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_2878bf79d6a443dcb7602312a8d4508c",
+      "statement": "Kubernetes upgrades are difficult to rollback due to etcd schema changes and API incompatibilities. Rollback may require cluster re-bootstrap, making pre-upgrade testing critical.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml#L48-L58",
+          "version": "repo-lines-v1:sha256:1172dba8a5f5c572ea4428fc7814a5afe4ba06a270839de086f7fb4f0549a9ca:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQzYWZiZTlhYTEyMmU0N2ZiY2RkZmFlZWViYjQ3NjE0YzMyNTBlNzhmNzlhZDg5NzMyZDczMTY3ODg4MDYyODgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2MGRjZjk2Mjk1YzVkNThhNjk3NjU1MjRjMzc5YTgwOWUxNzRhNzVlZGM1YzdlYTUwMmI4MzFkOGI4MmFiNmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUwMGYyZTc4MmU2ZmRjZDY4ZTU2MDZmNWQ5MzJiYWQyNWRlY2JjNTRiODYzNTlkNjYxYmI4NDE0ZTc5Y2MxODkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdlOWVjZjQ3MzhmZTc2ZWE5N2MzYmYwZmIwNzNmZTkxODQwZThlNTBlYzVjOTdjOGQzZWZiNWU3YWI5YmRkNmQifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/kube-system/system-upgrade/upgrades/kubernetes.yaml",
+          "version": "repo-file-v1:sha256:be50b9911d94a2b8e4c3b8b47c3f730630ef79612220c90423ef7566be7fcd14"
+        }
+      ]
+    },
+    {
+      "id": "claim_5859655e43034dd4a3e7eed0f6a47142",
+      "statement": "The Flux Kustomization dependency chain ensures tuppr controller is deployed before upgrade CRs. The tuppr-upgrades Kustomization dependsOn tuppr deployment.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/system-upgrade/ks.yaml#L23-L45",
+          "version": "repo-lines-v1:sha256:e74ffa491a663147a3e74492721fc2a7f465ae8bb0e4e9203b7f300613cf11bd:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAzMTI1OGFlNDc5YzY5MTNjM2MxYjFmNzc0ZTc2NWEyYzA3NjVhNDQ4ZDk5M2I2ZmUzODIxZjUwM2VhNGM1ZDciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ0ZTJmODg0YmM1MzQ0MDE0ZmQ1YjVmNjJhNjZkOTJlNmQ4ZTZjM2Y5M2I2MzA5ZGM2NmU4YTNmNjU1YzUzM2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAzNDAwYWQ1ZGM2NGZiMjg4ZGNlYjhiNjViNDdjYmJkYTE0Nzc2OTQ5NTUxOTE3MTBjMTY0MGNjNDY4NjQ1MmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_3f44533816884a479f8f3af06125c477",
+      "statement": "After each upgrade stage, verification steps include checking node readiness via talosctl get machineconfig, verifying versions with talosctl version and kubectl version, and confirming system pods are running.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml#L26-L46",
+          "version": "repo-lines-v1:sha256:d48d73933fcf6ca9d98bc07075320f9803a9b558d1ed23361a46c384a7894104:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcxOWNkNDA1ZWQzMWMwZGY3NDJlNjMzN2VhMDEwZDJjYjc4YjhlYTVlZGFjNzJkYmFiOTc5N2RkYzllOGZiNDgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlhNjI2MWZlNzI4NDUwMWRiYzY0ODNkOTEyZWFjZGQyMzNiZjkwMmIyNGY1OWU0ZmRjYTFlZTVmMWQ2MmFhMWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNlNTEyMDA2NjNiZjI0YzRiMjhiMzVlZjY0ZjcyMmY2YzU0ZWZjZTg2MTEzZGM5NDMyZGE1NTA1NDllMzg2ZmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgyMjNlZDA2NGU4NDJmYWNiOThmMGI2ZGViYmE1MWQzODg4MjQ0ZjM0NTVjMTIzZjRiMzRiMDU3OGU3ZDAyZWEifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-08-31T23:16:37.333Z"
+  }
+}

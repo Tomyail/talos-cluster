@@ -1,0 +1,398 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:70f8e30c389a1535253850e1ad1d16ed4786bb406058f2f8aee800f396d93e3e",
+  "claims": [
+    {
+      "id": "claim_5ae66d25e4cc42ec9bb35d381c27e614",
+      "statement": "The observability stack follows a strict installation dependency chain: prometheus-operator-crds provides foundational CRDs, kube-prometheus-stack depends on prometheus-operator-crds, Thanos depends on kube-prometheus-stack, and Grafana depends on both Thanos and kube-prometheus-stack.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/grafana/ks.yaml#L15-L23",
+          "version": "repo-lines-v1:sha256:af5f1f77139741e86be0891628ce3cc47559e7008855080d675a72c65fcb7689:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTYwYzNiZDdiYzU5ZmVjOWU0ZGVkMzVkN2NjZjcwMGEzODVhY2U1ODYzNGZhNjBkM2IyMmZmMjY4YzAxN2ViZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzQ1OTdmODNhNWQ5OWFhYzllNTJjYTE3YTk4MjZhNDkyYWRlMmJlOWQ1M2FmMDMxNTAwYmNmY2UyY2UzYjlmNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMGFlNDIxMzZhZDA3MWZjYzVlMmRjNDc2ZDE3YzYzNTFhOWZkNWIxY2I2OWJhMGU2MWEwYTdiNzU4YzAyNTEyZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMGI3Y2ZlMzYxOTkwODg0NWZmMTQzMThkMDgxYWU3MzJmZGE2NmVkODdhMTE4YTM1Yzc2YjI4ZWM1NWQzNzQ3NiJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/observability/kube-prometheus-stack/ks.yaml#L13-L19",
+          "version": "repo-lines-v1:sha256:eab219617971d44f900025e04684a589da35a69c98901eea7491951ef933145a:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTYwYzNiZDdiYzU5ZmVjOWU0ZGVkMzVkN2NjZjcwMGEzODVhY2U1ODYzNGZhNjBkM2IyMmZmMjY4YzAxN2ViZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzQ1OTdmODNhNWQ5OWFhYzllNTJjYTE3YTk4MjZhNDkyYWRlMmJlOWQ1M2FmMDMxNTAwYmNmY2UyY2UzYjlmNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjBiZWRmNWJiZGMwOGY0OTI3NmI3ZWJjNjhkZWVkMDlmZjBkMmM4NzkwMDcwMDk0MzVmM2I5NjQ3NjRmNTRkYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTdkYzdmYjY5Y2I3OTEwN2RiMGQ2Zjg2MmVjODQ1YTM5NGM1MjZlN2VkMDY1ODczY2VlODNkZDRmNTM3MTc0MSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/observability/prometheus-operator/ks.yaml",
+          "version": "repo-file-v1:sha256:3693808a392461026dd3f546da1f98d38f77c7ac989c528bbac0db2c98e99853"
+        },
+        {
+          "resource": "repo://kubernetes/apps/observability/thanos/ks.yaml#L12-L18",
+          "version": "repo-lines-v1:sha256:f4cb6324a5a1029de82949ed3702fa915038dc76d1fc49ae5367b99a2f53c3ac:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTYwYzNiZDdiYzU5ZmVjOWU0ZGVkMzVkN2NjZjcwMGEzODVhY2U1ODYzNGZhNjBkM2IyMmZmMjY4YzAxN2ViZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYmY5ODk5M2QyZTQ4YWE2MTY4NTMwNzlkNTgzOWU0NGVlYmNjYmJlMWVlYzhkZWI4MWM3ZDRiZmFiMDVhZTljNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjBiZWRmNWJiZGMwOGY0OTI3NmI3ZWJjNjhkZWVkMDlmZjBkMmM4NzkwMDcwMDk0MzVmM2I5NjQ3NjRmNTRkYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODA1NjI5MjkwYjAzYmI2MWRmNjkwNDBiOTkxNGVkMDg3NGY0ODMwOWRhODg5ZTc2OTJkNGNlYzdjMjAwZjhjMCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_1e245f0b100f4a7d9d466feeb0ec1d00",
+      "statement": "prometheus-operator-crds installs version 31.0.0 of the Prometheus Operator CRDs (Prometheus, Alertmanager, ServiceMonitor, PrometheusRule, ScrapeConfig) via OCI chart from ghcr.io/prometheus-community/charts.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/prometheus-operator/crds/helmrelease.yaml#L4-L14",
+          "version": "repo-lines-v1:sha256:eefb3e028406437ccad5e049bde9239147d0c97c0c6fda77ce6a17d0430ec263:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUxMGI4YjNhZDdmN2Q5MTRiMTA4MTE3NTdjZTBhMmU1ODQxYjcwNTI0MDg3YzA3Y2EwMWJjNmQ4MWY1ZWRjNmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZhZjEwYTlmMDRiYTc3MTM5MjI1YjQ5OGUxN2RkYzJlMTg0NzVhZTY1ZTQwYmM1NmUzNjU5NTE4YTFlYzRlNjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVlYjdlMWY1ODU3YzkxZGVjOTA0MjI2YzYxNDdjODZjMGNhNDU3NTQyZDM4MjJiODE4MGE0N2M5ZDc1MWI4NTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU2YmYzMTYzMzE1Y2EyZmM1ZTc3N2I2YWUyMzFmZGNiYjljZDIxOWI4M2VlNjYwODc5MmI2YjM5ZDkzOGExODQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_6dbc31ce77a94875b85d326659c46230",
+      "statement": "kube-prometheus-stack chart (version 88.1.3) explicitly skips CRD installation with crds.enabled=false and install.crds=Skip, relying on the separate prometheus-operator-crds deployment.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/kube-prometheus-stack/app/helmrelease.yaml#L18-L23",
+          "version": "repo-lines-v1:sha256:0a4c71f713c5faa6834981319f45617034037dcae8379e5f782566fd2c99112c:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzMxYmI3MmJhMDNiMzUyMDc1YTFkNTlkMjBiZDhmMDdkZDM2YjMzM2Q4ZWJiY2RlNzk2Mjg2MmY1OWE5OGRmZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYzMxYmI3MmJhMDNiMzUyMDc1YTFkNTlkMjBiZDhmMDdkZDM2YjMzM2Q4ZWJiY2RlNzk2Mjg2MmY1OWE5OGRmZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYWU3ZjQ2MTczZDAyZjBlMWY0YjVhODQ0ZDNhMDFkODhkMmQ2NDFjYzcwZTY2ZjdkMzAxYjJlOWU3MzFiN2RiYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYmY5YzllZWNmMzFlZTExYjk1MmRiNTFlMzQ1NmIyOGYzMTZkYmVkZDhjMmVjMGIyMzE1N2IwODJkYTUwNGM4NyJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/observability/kube-prometheus-stack/app/helmrelease.yaml#L28-L29",
+          "version": "repo-lines-v1:sha256:9db1aebb54ed86c568b8c856b64bfab0f2869f210ee57d52a7bdc65d8b161b54:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzBlMDg4ZTIxOTA5OWM0MTRlOTJlNWExNzUxODYxYTVhZWQwYWY2MzZiNjFkNzU4MzBhZGVmNDBkMTkxMGUxNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYzE5NzQ3OGZlOWNlZmQyYThiYjE2MzM0OWZiZGUwYzU2OWJlMzk2MWQ3M2Q3ZDljMjBhNThmMTBkZDU3YWMwYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTUyNmY1MjMzOTQ5NTdkMzQ5ZmU5NmI5MjNlZTNjYzBkYjE5Mzk1MDI1ZWE2M2NlYWM1NmUzNDk2NDdkZGQ0MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNmE3YzMxNmQzN2NhNmIxMTM1ZGMzYTE4YjM0YmNjZjkwMmM3OTliZGYzMWNjZjI5MzhmMGZhN2NlYjliYzcxOSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_766db8148e404cbf886871d3c7fe772d",
+      "statement": "Grafana is configured to use Thanos Query Frontend as its Prometheus datasource, querying thanos-query-frontend.observability.svc.cluster.local:9090 with prometheusType set to Thanos.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/grafana/app/helmrelease.yaml#L68-L77",
+          "version": "repo-lines-v1:sha256:20438f515fd752bc9ccfc8448b29f6172dda84ee65c996914d53494f0d38dd78:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIxNzRkMTAwNjA2YThjMmEyZDljNzZjOTFmZWY1ZDhhYmJjZGZmODBjMDU4YjBkMGExZDlmY2NjMTRjOGM1MmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc0YThiYTJjNGVlYWI4MzYwZTdjODA5NzM4NzgyZGNhODRkMDI3NTNkZTM3YWIyMTBlODQ0NTk4NmYzZTVkOGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImViNjMzYjhlMzcyYzY0N2E0ZmY0ZmZkZDY1YTliYWU0NTk5MzIyZWQwMjViMmRjNTdjMzk1NDIwYmEwODRlZDAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc2ZDk4MWM1NzNiMzc0Y2JlMTM1ODZlMGQzNDlhYzk4MWU0YWNiYzdlNDM3MzAxY2I0MTdiYzg0YjI0MmEwZWIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f6226dd99f5b418292df529d400cd3dc",
+      "statement": "Grafana includes Loki as a datasource pointing to loki-headless.observability.svc.cluster.local:3100 with 250 max lines per query configuration.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/grafana/app/helmrelease.yaml#L78-L84",
+          "version": "repo-lines-v1:sha256:848252b55410d614ad1c57985edf18c397e0a1f712cd410fa9d449b0be86bffe:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiN2E1NDMzMTdmNDc3NzhmNmJlYTYxYmNhNTQ5NjVlYmM4OGMxZDU0ZjdmNmY1NzE4YTIyNjY3ZmIzZjQ0NDlmNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzgwZjI2NGJjMjU2ZTU3NWY3NThjNGJjZDFmMzVmZmRkMDkyMjlmMDU5NTkwYTJmZDI4YmYyNDkxYzMwNTBmZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTI1ZDBjY2MzYTA4OTdiY2EzNGU4MjRhMWU0ZGRkZjgyMjA3NjFlNTI5ZDcyNTk2OTI0ZmNmZDRmZmI2ZmZlZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMmE3OWFhOWFmZDQ1OTM0YjJhYjRmNTViYjZiOGMyOTU2MGE1Mzc1ZGMyYTA4OGViNmIwNDc0YzRiZTk0OTQ3YyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_ffdfa0bd23b04528a20f67039335da6f",
+      "statement": "Grafana includes Alertmanager as a datasource pointing to alertmanager-operated.observability.svc.cluster.local:9093 with prometheus implementation.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/grafana/app/helmrelease.yaml#L85-L91",
+          "version": "repo-lines-v1:sha256:ebd3e2276fc7a44e01165ec802e3de9653f6db8a4f683115fcf42cf2b8ae8457:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMmEyOTU0ODM1MWJkZDcxMmE0ZDkyNDc1ZTlkZmJlMjIwMWY1ZmIzYWEyMTE5YTUxOWQyM2IxNWQ4NjBkYjc5MyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjFkOTk1NWM3ZWRlMTY3YzMzNzI0YjQyMmE3NTA4ODE1MjNjZjBkOWJhMTdiMDdhNzMwN2IxMDZiOGQzZTZmNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTI1OTEwMjc0YWEzZDcwN2UwOTgyMGJhNTcxZmNmZjY0NWNmYTY3MzMzYjYxOGRhNDU5NTA4MmNjNzQxMTEyYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2Y0MjliNzYwOGYyODhiYWIwYWYxNTY3ZDNiNzExYjA2ZDgxNTM0OTk4OTg0MDVmZDdiOWViZDFkNWExNjFkNSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_231adb900f0a4c06b37dfd1aa32e4169",
+      "statement": "Thanos compactor is configured with tiered retention: 14 days for raw resolution, 30 days for 5-minute resolution, and 60 days for 1-hour resolution, with 30-minute delete delay.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/thanos/app/helmrelease.yaml#L67-L78",
+          "version": "repo-lines-v1:sha256:3cce195006d0663445013a7e8649cbdd484958cf41163ae8a90f4e0d100ded8a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk1MTM0NmRjMmJkZjM0ODY0NDM2NjliZWY1NGE4YjM3NmFiZmEzOWE3MjEwMjRkYTlmNDE0YWZmOGZlMGNmZDciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlhMDg5YjliODJmMTM3N2ZlYjI3NGMyODA2NTM3MjY5ZjBlNTIyMTMzYjFjYWJhOGJmOGRjMjA3ODI3NzkwMTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU2OGQ5NDZmYTEwMzY5NDBiMmRkZmI1OGQ1OWFlYjQxMzI1M2VmYjQ4MDNhYTdhZGQ2YzU1MmJmNjRiYzcxNDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhjZmJiMDNlODI0ZjUwMzNmMzJmZmY3YzVkMmRhNTQyYzA0OTU5M2JjMGJiYzZmNmEzNmQ1Nzk0NzY5MDlkZjYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_94bcc88fd37b4bbfa6acc7664e849b65",
+      "statement": "Thanos stores metrics in MinIO object storage at endpoint 192.168.50.220:9010 in bucket 'thanos-dev' using insecure TLS, with credentials injected via ExternalSecret from Bitwarden.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/thanos/app/externalsecret.yaml#L14-L21",
+          "version": "repo-lines-v1:sha256:a6e5daddde073c9bbf85e3e89c0aac8a342f78aed07e33197ebffd9773b96f69:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOWVhNDgzMWJiMWJkYmI4Mzk3ZWY5YjY4MWI0YzM4ZTM0OWQxMWRlYmZlZGQ2OTQ2MThmM2E5ZGVmNmIzZWQ3NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWVkYWY5OWI1ZjMyMGI4MTdlOTIyNjM0Y2FmZmRmMDg4ODdmMzRjMjYwYjRkODU4M2NhYTc4NjVlNjM0MGZkMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzQ0ZGY0NGE2MTcxMmYxMDcxZTA4ODYwNTY0NjQ2MTcxNjRhMGFhYWE3OGZhMGYzMDgyNTNlMWQ5NDQxNTM4NyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTAwZTdkNmU4ZTUxODlhNjczMTQ1MzYxZGEyNGI5YTU2ZjI3Yzk1MWY4ZjM3ZjcwYjVkYWJlYTNkNjc4NGUxYSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/observability/thanos/app/helmrelease.yaml#L35-L35",
+          "version": "repo-lines-v1:sha256:54644c300587e29606e762f610ff9b3db28d69893e417f4979a443bd92e15b03:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTQ2NDRjMzAwNTg3ZTI5NjA2ZTc2MmY2MTBmZjliM2RiMjhkNjk4OTNlNDE3ZjQ5NzlhNDQzYmQ5MmUxNWIwMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTQ2NDRjMzAwNTg3ZTI5NjA2ZTc2MmY2MTBmZjliM2RiMjhkNjk4OTNlNDE3ZjQ5NzlhNDQzYmQ5MmUxNWIwMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjU0N2RjZjQzNGI3NTJiNWJhOTk4YjQ4ZGZjMDU3NDk1ZWUwMjJiNTczNmU0N2U1NzFkMjViZWQxZjQ3YjBhNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjZiZTQxOTA2Njg2YzQ0ODNjNTM0Y2QzMDgyYzEwNmRlMjg3OWVmOGZiMjAzNGM4Mjk3YWMxNTQ5ZGNjMzNiOSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_e423d855f7d94a5a8ce882b958b56d40",
+      "statement": "Thanos Query Frontend is enabled with 1 replica and 1Gi memory limit, providing the query API that Grafana uses as its Prometheus datasource.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/thanos/app/helmrelease.yaml#L36-L44",
+          "version": "repo-lines-v1:sha256:f8fab163531c53e0ba7ccb56668960987d964adec3db90bc7108bea3c9c6c43f:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTg2YjVkNmZiYTk2Nzc0ZTVlNTE0MGNmNDhmOTA3MzAyMWMyZjE0MGZkZWU3OGEwMTRmMmYzNjdmMjkyYWE5NSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNmUyNDc5MjI3NDgzYjI2NDFhOTgyNDlkODkyNTBkZWY0OTliYjcxNTAyYzZkN2VlNTEyODQzNWQyYTJmNjc4ZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiM2MyOTEzOTQ3ZTBkMTZjZWQ4OWYwZDU3NjhjMTIyNGQ4ZDZmMDk5YTEzMTQzNzY2MjQ1NjliNTgwZjMzN2U3YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZmMxZWUzNjA2YzhhZWFlMjFiMjFkMDMyYzY5N2E5YTlmMTYxMTEwYTBlMTc0NjFmMDI0ZjYzNWFkNzUxNGIzNCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_1954be9f540a413bb754fb40eba8376b",
+      "statement": "Thanos Store Gateway is enabled with 1 replica, 10Gi TopoLVM persistence, and 1Gi memory limit for serving historical metrics from object storage.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/thanos/app/helmrelease.yaml#L85-L97",
+          "version": "repo-lines-v1:sha256:7ce5b96e0b45ad181b889ac315296b0b2fea566cab7fe5b24fadd0f088ac459a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY4Mzg1NGY5NDIzNTQxNDlhOTEwOGMyOGVjMWE1YWU5Mjg0OTQxZDZlN2ViZGVhYWU3OTAyZWUxMzQ5MDAyNDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZlMDcwMzNjYTdhOGUwNTgzMmMyODc0MzVlMWE4MzFlZmRmNWI1MjJhZjlkNTMyMmU5MWZhN2NlODc5YTY4NjkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU2OGQ5NDZmYTEwMzY5NDBiMmRkZmI1OGQ1OWFlYjQxMzI1M2VmYjQ4MDNhYTdhZGQ2YzU1MmJmNjRiYzcxNDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIwZDBkNTQzZWJmMmQ3NTQ5ZTRiZTA5MjkxN2RjNjFmYjRmZjdjYjgxNTRjMWZjNjAwYzE3ZDdkYTNjZmU2ZDIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_83638d9ec0a34f41999db9bb220b6c27",
+      "statement": "Thanos Ruler is enabled with 1 replica for evaluating recording and alerting rules against historical metrics data.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/thanos/app/helmrelease.yaml#L98-L100",
+          "version": "repo-lines-v1:sha256:b0d0d543ebf2d7549e4be092917dc61fb4ff7cb8154c1fc600c17d7da3cfe6d2:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDNkNWE2ODZiYjljZGM3NmNmMjE0YWEyZGI5MGE0ZjMxMWNmZWZkZWU1MThlOTQyYjFmNDQ5MGU1MDk4ZGZkYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOGM4ZGVlOWJlZTk1MWJmMDk5Nzc2ODJkZWQ4MmZhYmQ5ZGVkOTFkODVmMDBiYTZlOWU3NTdmODcwNWYyOWRkZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMmYyMmZiNTYxMWQzNDliMjFhMTUyNjAyZTk5YTQwZDI3ZDM0MzEyN2I0MzYwNDNhYThjYTRkY2FhYjc4ZGNiNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZmVjZTFkMDNmNWExY2Y3YTQ5NWI3NGY2MjEyYTY0NjE4ZDA4NzIyZGQ5ZTQyMWI0OWU4OWE5MTA0ZjQ2ZDU5NyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_e9aee9adaa5444239182a084cf263a2a",
+      "statement": "Loki is deployed in SingleBinary mode with filesystem storage, 8Gi TopoLVM persistence, 7-day retention period, and TSDB schema v13.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/loki/app/helmrelease.yaml#L29-L64",
+          "version": "repo-lines-v1:sha256:0b52766a0d9d96c01636b75b7f4ef2d77315e0671c9031ace013615292b27396:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVkY2VmZTVmYmI4YjU5MDkyNTNlOGY0ZDVjYjQ1NTczZmViZTA4OTJhZGQ1NjY3NDg2Y2ViZDk4NzU4OTFhMGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRlMjA3NDc4OTFkNDU3ZDBkMzUyMGU0ODUzODZmM2UxNmM1NTVkNTY4NDM3NmNkNGU4YjI1YzFkYmY0NWExN2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE1MjZmNTIzMzk0OTU3ZDM0OWZlOTZiOTIzZWUzY2MwZGIxOTM5NTAyNWVhNjNjZWFjNTZlMzQ5NjQ3ZGRkNDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQzOTVmOTQ2MTRlMDk1NTBmZmMxNjZiYmI5ZGI2NzFiNzhkYmUwODA3NmM5MjA4ODY1NGVlN2VlODZhNjE5ODIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c5df903769d1497a9ccb500b2bb05a85",
+      "statement": "Loki is configured with auth_enabled=false for internal cluster access without authentication.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/loki/app/helmrelease.yaml#L31-L31",
+          "version": "repo-lines-v1:sha256:875a02d91caabfd37739fe2e3624b22166b251e83daa11485d6a545abf78d60f:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODc1YTAyZDkxY2FhYmZkMzc3MzlmZTJlMzYyNGIyMjE2NmIyNTFlODNkYWExMTQ4NWQ2YTU0NWFiZjc4ZDYwZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODc1YTAyZDkxY2FhYmZkMzc3MzlmZTJlMzYyNGIyMjE2NmIyNTFlODNkYWExMTQ4NWQ2YTU0NWFiZjc4ZDYwZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDYzOTgzMjMzNDczZTZkMjc0NGZiNGNlNGQ5ZDIwODUwYWMwYTg5ZTA1OWVjYWU3YzIyM2RiYTE5MGM4ODA5YyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzZiZjlkOTFkZjFlOWQwZTJlOWNkNmNkMjczYzY2OWExNzM2MDUzNDIwOTM5OTZmNGI4ZDkwOWNlMzE0ODZjMSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_dd47df44513d4fa999cfdbd4e3ea04bf",
+      "statement": "Promtail is configured to send logs to Loki at http://loki-headless.observability.svc.cluster.local:3100/loki/api/v1/push and depends on Loki being running first.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/promtail/app/helmrelease.yaml#L36-L37",
+          "version": "repo-lines-v1:sha256:0c2290313e806a8a376e3bf59f27007dfc9bd6b82bfbcf71d7a394cb9d0be2cf:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZmJmNmJhZTAxZGQ4MDBmMjliMGE0MDBhM2UxNjM1OTdmZGYzOGE3NWE3NmQ0NTVjMWUzYmIzNGJlNjc4N2UyMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiM2FhZmU5MGExNmI5OWQxOTIyNGUxZWZhMDI0ZDQ3MmVhMzk3MzRiZTZlZDdhZTBhYjZhNzdkZjhjYjkyNmQ2OCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTg1ZThjZGNiOTIxOGY5MDc5YmIwODliMWNmNDZkYTA0NjExNGQ3MDllNTE2ZWI5NzA2ZjBlMGU2MDczNjZlYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjIsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZWZiNjYwZGYyYmNlYmY0NDllNTQ2NjkxZDliOWZmYmVjMzRjYTI3OTJlN2U0YzY3Mjg2YmI2MmQwNDBiNDUyYyJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/observability/promtail/ks.yaml#L15-L17",
+          "version": "repo-lines-v1:sha256:409cfb28e6c69497ba34171fb4deb89618f93a74a228738661a750b724fe7d6b:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTYwYzNiZDdiYzU5ZmVjOWU0ZGVkMzVkN2NjZjcwMGEzODVhY2U1ODYzNGZhNjBkM2IyMmZmMjY4YzAxN2ViZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGUzNzU5NmI4M2ZiYjg5MmFiOTUyOGVhMTAwMTI3N2FjN2QyNzU4MGM5NTVjMDk0MzVlYjBkMmNlMGUwZTFiYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODViYWM1ZWZkNzlmMmExNzhiMzJkMWUzZWQzYzk2ODAwNzllOGFhMGJjODMyMDk4ZjJhNmI3ZjNlNDdiNWFkYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzFiOWIxNTdlOTZlZWEyNzlhOWE4NzAyOTY1YWZmNThlZTE0MGE4OTZhMWFkZDQwNGM0MjFlN2Q4Y2E4YTM3ZCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_2e6d9df2487046ecaa866fad210c1de8",
+      "statement": "Gatus uses k8s-sidecar init container to discover endpoint ConfigMaps labeled with gatus.io/enabled across all namespaces using WATCH method for dynamic configuration updates.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/gatus/app/helmrelease.yaml#L24-L42",
+          "version": "repo-lines-v1:sha256:9da1bf5c40fd45aa48efb71797cefaa9b64ba68c3cfd175ee4ee529050280402:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM3MTZhMWViNzYwYTJlNjI0YjI1NDE5OWQ5YWFhOGU4NGZlNGIxYTU5OTdjZTZlMjU2YjkzNjk2NGU0NWUwMGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2YTQ5NmJjYTQzNjliZjUyODBhYWQwNTNlOTk5ODZlYjRlNGQ5ZWU4ZmY4ZGQyNGVkZTNmNGU3NWIyODM5NDAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjMyZWI3NjUzNzA1NzE4Y2VkOTdiMmE0MzhjZjk3NWFhMTYyMDEyYzhhNDk0ZjM2MTA1NDU5YTVlZTA5NTM0MDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY4OTI5Zjk5MDMzMzg5OGRjNzFmZTMyYjczYTA3YzA2YThhYzk1MWRhYWU4ZmE4ZjJiZGI0MjkwOGE4ZGQ0ZDgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_5280fc519bfb4ee5a6d95682fcc20dfe",
+      "statement": "Gatus exposes Prometheus metrics via ServiceMonitor on the http port, exporting gatus_results_endpoint_success metric for endpoint health tracking.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/gatus/app/helmrelease.yaml#L91-L95",
+          "version": "repo-lines-v1:sha256:f9ea50f1b38ebae0c2b8bb0e6064e9fe81ac3063e03ec06f58b5c56d54d7c8d4:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjdhOTFjOTc2YTJlZmI1Nzk0MWQyNTI2MjE5NzZjZDRiNjZmYzQ4YzgxMzZhZDYwOWRkZTE1ZDFiNjBlODA4MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTdiYmE1YmZkNDYxZTYyYTVjZmUzMTg3MmRmNTMxZjk0NGVjMWM2ZGQxODdlZmY4NmY2OTEwYTI1NWQ0Mzg2ZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjNiN2EwOWEyNjliZGUxNDU4ZWFkZGMxMjY5YTczY2VhMTIwNTYxZGYyYmEzZmQwZDY0YTNjMWVlYTk2OGRmNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzMzN2IxYjE4OGM4YTI1ZDQ0NDkzN2ZjNmNiNzU3NWNlNTFhMWQyYjkxZmI1YmEyNDlmYTc5MGM2NTI3NjdlNiJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/observability/gatus/app/prometheusrule.yaml#L11-L19",
+          "version": "repo-lines-v1:sha256:d4dd5a62228c5a330b5533ea28f083dea3ed0bc6963488ebc2285a02259d4a11:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGIzODc3MmVjNWI0OWU0ODcxOThmNTk5YzczMjAwYmMzMmM0NDFkNDNkODVhMjdhNjE3NDg5NTUyZmU5YjkxZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTFjNWFjZTMyODM5ODhkZmExMmJlYmRlNjA4MWJlOTA2NGJlNDM3MTgxZWQ3ZGRiOTBmNTQxNTFjMmYwZjg3MyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzljZGIxMzE1NzIyNjk5N2IwMDc4YTU5YTczNDg2ODA5OTY0YTEyNjc1OGJhMTc4Mzk4OTljZTFmNDk4YjE4YyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOWZkZTgwOTRhM2NjZTI5NjNlNGRkM2UxMWQzMzk4ZWJkYjkwMTA2YmFiZGQ2NzkzYzQ0MDk2NDNkMGE2Njk3OSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_691be53b9ddd408e9ac5438220480d83",
+      "statement": "Gatus defines two PrometheusRule alerts: GatusEndpointDown fires when external endpoints fail for 5 minutes, and GatusEndpointExposed fires when guarded endpoints become publicly accessible, both at critical severity.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/gatus/app/prometheusrule.yaml#L10-L29",
+          "version": "repo-lines-v1:sha256:792c9304a17be1fa05782974b1987cb4f91e95d345f9af2054db6f87d9ee2b86:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVmYjIzZTMyMTEwZDI2ZjNlMGI0ODVjZDRiYzczMmJhYjQ0NjZlNWQ1MzAwN2NjODhlZmYyNmZlNzJlNGQxMTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRkMDFkMzZkZWVhZDMxY2JlNjNlYmNlM2JjZWUyMmUyNjMyODNmYjY3NWIzMGU0ODVjOWYzNGMzMGJhNjIzMWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM0YWIyNzM3NTk4NDUwZDYwMDBjNDczM2RlY2QwODEwMmRmYmU2YjYwNTljZjk5Nzc2MzUxZTE3MzdlMDc1MjciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d030a750140148589ad54a6e01e6b48b",
+      "statement": "Uptime Kuma includes Gatus as an external component for automated uptime monitoring of its HTTPRoute endpoint.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/uptime-kuma/ks.yaml#L13-L15",
+          "version": "repo-lines-v1:sha256:297e677c8b0d4b1f26c62b8ec8b1a4297f6005b1307f2ce273b63acfb50a92a9:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWQzYTVkNjE1ZDhjOGNhZmVkMzgyZTZmYzE4NWY0NTk3MDJhYTg2OGNlNzUyNGZkMjY2ZjNmYjZkNjBjMDY3MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDllZDgyNmJlNWI3MjJjYzcxMmE1MjU3NTVmNzgzNDZjZGFiZjJhM2NiMzc1ZmMyZThmOWE0NTE0NzkzNjAyMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjBiZWRmNWJiZGMwOGY0OTI3NmI3ZWJjNjhkZWVkMDlmZjBkMmM4NzkwMDcwMDk0MzVmM2I5NjQ3NjRmNTRkYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjVhMDVkNWM4M2UzNmUxYWIxYTBiZDVhMTA4N2RhYmY2OTQ2MmYzNWIxMDcyMjU1M2I1MTExMDQ1NTg2N2JiNSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_7774b739d75f480e9f9ea19c662cd614",
+      "statement": "Uptime Kuma uses VolSync component for backup and restore of its configuration data.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/uptime-kuma/ks.yaml#L13-L14",
+          "version": "repo-lines-v1:sha256:ed690aa268f54bf459f11d025d369fae1e5a2d0bec4e4ba94d112ac30a44561f:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWQzYTVkNjE1ZDhjOGNhZmVkMzgyZTZmYzE4NWY0NTk3MDJhYTg2OGNlNzUyNGZkMjY2ZjNmYjZkNjBjMDY3MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiY2IyN2I1MjE2OWVmMjBjMDJhMzE3NTBjM2I5MGFmMzA1ZGUwY2MzY2I1MjdlNWY0YjIzMGNjMWNjN2RlNGM5YyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjBiZWRmNWJiZGMwOGY0OTI3NmI3ZWJjNjhkZWVkMDlmZjBkMmM4NzkwMDcwMDk0MzVmM2I5NjQ3NjRmNTRkYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMGE5ODcxZTVjOWYwMTcwNWY1ZmFlNTNmMDM3ZTRhYjFlZmM3N2ZmNTJkMTFmMjYxOTZhYjc1MDI4ZmEyNzhjYiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_82d96ff2644343a0b961a619ebe66329",
+      "statement": "Alertmanager is configured with a Pushover receiver using templates for HTML messages, priority based on firing status, and credentials from ExternalSecret alertmanager-secret.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/kube-prometheus-stack/app/alertmanagerconfig.yaml#L43-L80",
+          "version": "repo-lines-v1:sha256:c037cf6395ea22d8cf8bf0754d118b0b8f524227c2919fdd6ac5d25253c48077:eyJzZWxlY3RlZExpbmVDb3VudCI6MzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM5MzRjOThmMjVlNGUwNjk5NzQyZmEzYmE0ODVlMmYwYWJmODJkM2Y4MDAwYjhmZTE5YTBlN2M4NzA3ZTkwNGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjNDE4NjM1ZTA2ZjUyOTg4ZDZkMDVkNjdmMTU5NTlmZmU1MjQwMTk3NjNiOTA5OGYxMTQ0MjM2MGVmZjZiNzciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI5MzRmZTg2MjQzZDdmZDM4NzMzYTYxOWM4N2I5ZDliMjFkNWRjZDRlNzViNzM5OTE0ZGE4NjRlZThhYzQ0ZTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdmODRhYTQ4ZTdlMWNiOWMzNzliMmI0Mjk4NzZkMTYxMDFkNWM0MjQyNTljNzk5NmViOWRmMmNkYTc1ZDAyMmUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c43305d2e5d2483497c8cfff426051ef",
+      "statement": "Alertmanager inhibition rules suppress warning alerts when critical alerts exist for the same alertname and namespace, preventing notification fatigue.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/kube-prometheus-stack/app/alertmanagerconfig.yaml#L33-L42",
+          "version": "repo-lines-v1:sha256:be8b5d90b1d799fa0cd3d679a3ae8829ee42ce9fbbdaa1c875fb5f9e78870b56:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUzMzJmOWY4YjM4YmM0ZjdkMDdmMzA4NDllZDhmZWYzMjBiNTBkNDYxYzkwMTE1MjgzYzIwMjM2MzA1NDZiOWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg2NTE5OGEyYWE4ZDA2YTNhOTZiMjBlNWFkYmYzNzVmNzQzNjUxMTA0YzhjNDg4OTZjZmE2MWExMzgyZTkxYTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY2MTVmOGZmNjI0ZmFmZGMyMGNkODk4MTY0YzRiZGQ2OTU5NDZjN2IzODc3ZmM5NTg1MzJmYzg5ZmJhYzI1YzMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJiNDQyNWU0MjhkN2MzYTllNjQ2MzQzNTQ1NGQ4ODAxZjU2ZjZiMWZlYjgyNDRhMzNmZmMxMjlmN2Y2ZDI1ODcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_80d852f82fde463c8195aa29ba723b1d",
+      "statement": "ScrapeConfig 'smartctl-exporters' targets external nodes at 192.168.50.100 and 192.168.50.220 on port 9633 with 30-minute intervals for disk health metrics.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/kube-prometheus-stack/app/scrapconfig.yaml#L4-L21",
+          "version": "repo-lines-v1:sha256:8a44f8b2290660c7da0e999f25f7c670fdfbcec89f9d480c9bdfbc05f44c91ea:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMyMmI3M2E1NGRiNWZjMDE0NDVkODM1ZTVmMWNhNjNhOTcyZjIyMjJhODU2YjY0MDc0OTYwY2FmNWViMTY0N2IiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU3MTY3ODM3YmYwZDUxZjc5Mjk1YTcyZmI3NzhlMGQ1NjgyYTFmNzgyMGU3NDMzZmJmMzM3NjBjOTVmYjFlNzIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjExMTY2YzBkOGYzOTRkOTljOTYyNWUxNWNkMTA4OGViYjNjNzg4NGFjZmJjMGEwNDIyZmU4MjhjODkzMzc4Y2MiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkyNjYzYTI4NjUwODgzOTI4Zjc2MjcxNGM0NTIzOTQxYWZiMTUzOTI3ZGY3MTc1YWMzNmUwOWU1MGYwNGI4ZGQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9d82df6ad9a34a7f8cbd2bc452b47727",
+      "statement": "ScrapeConfig 'node-exporter-raspberry-pi' targets Raspberry Pi at 192.168.50.1 on port 9100 with 30-second intervals for system metrics.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/kube-prometheus-stack/app/scrapconfig.yaml#L24-L47",
+          "version": "repo-lines-v1:sha256:0a152c8a5878fd2e5e486d5ac6fe6f6f508b315408e422ed35eafcbe3b3664ca:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU5YjYyZjY4MzViOTVhNzhmYWQyMDgyYzdkYjVlNjM2ZWIxMThhNzQwODk0MzA4MDY1MWZiZjg0NzFlMjBmNGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU3MTY3ODM3YmYwZDUxZjc5Mjk1YTcyZmI3NzhlMGQ1NjgyYTFmNzgyMGU3NDMzZmJmMzM3NjBjOTVmYjFlNzIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNhZDZiOWIwY2E1YTgxMjU3MjgyOTE4ZDdlMzE1NGViZWE0YTFjOTc5OWY1YmViZjU4Y2ZiZGNlODRlODMwYzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQwZDNjNGUxZTc5NDM2YzE5YTU5YTlmZjQ5NWM4ZjE4MzMzMmM2MWFkMjBiOTJhNGRjZDFhMGY2MWUzMmZmYmYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_2eaf3ca34c71496d996e71e8e91ea2ff",
+      "statement": "ScrapeConfig 'borgmatic-exporter' targets backup host at 192.168.50.220 on port 9996 with 24-hour intervals for backup status monitoring.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/kube-prometheus-stack/app/scrapconfig.yaml#L50-L75",
+          "version": "repo-lines-v1:sha256:ffad4607d5e7efa2176546a2ad56fcf1da5821b525d164c3f2f50444a2e1ac9c:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY1ZmYzZGExNWI5MjFkYzgwNDJmYzM0MmI1MjViNTkwNWU1Y2M5MzNmNGY4YmNhMGIyYTgwZTcwMWYzNThlYzAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU3MTY3ODM3YmYwZDUxZjc5Mjk1YTcyZmI3NzhlMGQ1NjgyYTFmNzgyMGU3NDMzZmJmMzM3NjBjOTVmYjFlNzIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNhZDZiOWIwY2E1YTgxMjU3MjgyOTE4ZDdlMzE1NGViZWE0YTFjOTc5OWY1YmViZjU4Y2ZiZGNlODRlODMwYzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_0e8789c540a04020a99f8376c98b60d3",
+      "statement": "kube-prometheus-stack enables Thanos sidecar injection via thanosService and thanosServiceMonitor for uploading metrics to object storage.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/kube-prometheus-stack/app/helmrelease.yaml#L95-L99",
+          "version": "repo-lines-v1:sha256:8f0a243c6424e1c3808cfdfb640e6dc7b1daad0e3e917afdb4149a9ec449928c:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTUyYjYyOGQ5ZDA4MTVjM2FjMGU3MGE0ZDBmZjMwMzk3ZjA1OTBhMjA3MWE4M2M1MDQwNzY4ZDMyN2M2MjgzMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNWU5YzI5MmQ1NjM2NmRiMjM3NWU4ODFiOTA5NjI1ODJiYjgxMGI2M2ZkZWYwY2I5NDNlNThlMjc1NzM4YzE3NyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzEzNTYzNzY1YjU3ZjZlMzQzODQ3MDdmNTEwN2JiNmM4MzQ0ZmZjMjA0NjdhZGJiMDMxN2U1NDllYjFmNDM2YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZWE3ODE4NTFjMWU2N2I4N2UzNjdkMTQ0NWFlMTIyMmM2Zjg5ZTYxMzkxMDA4Mzg1ZTQ5Y2RiY2E0ZjQwZmY0MCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_53b81ae126524f5b9a644d4f4d854acf",
+      "statement": "kube-prometheus-stack Alertmanager uses 1Gi TopoLVM persistent volume with storageClassName topolvm-thin-provisioner for alert state storage.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/kube-prometheus-stack/app/helmrelease.yaml#L50-L59",
+          "version": "repo-lines-v1:sha256:99062737db017be1a3e28a77e92ac603cf373b29b43adf2c6e7c08442ba13fbb:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZjNmE2MWFmNmE2NjY4MTdmODQ1YmZjNzFmYTJkYWMyYTRmNTc5ZGUyMDQwZDMyYTQ5M2Y5OTYyY2ZmOWI5YzgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQwZWEzZThmMTU4ZGNiODNiNTQyMjhmMTY1ZjQ1YjhjNzRiZDk3YzE5ODQyMDViZDYxMWMxZDVmMWJiNzMzODAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjlmNjk0MjkzNzc2ZTI3OGZjNzM1ZDEwZDlhNjY3MGU1ODM2MmI4NTBhNWJkOWRlNjM0MGZiNTY5MmU1NzFjNGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAyOWZmMmIwMjQ0Zjc3ZDEzZWQyZWYyYmI0NTg3OWYzOWY0MWMyZDk0ZTIzYmVhZWQ4MTQyODAxYTgzZjE0NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_43608c26e1b04904b7c5b65c5c05311e",
+      "statement": "Grafana admin credentials are injected via ExternalSecret from Bitwarden 'grafana' entry with username and password properties.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/grafana/app/externalsecret.yaml#L14-L25",
+          "version": "repo-lines-v1:sha256:b4af55530d52b999a2f9a1aaf3867ee58b827115a4a73efdcdb359dd26fab9cd:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjllYTQ4MzFiYjFiZGJiODM5N2VmOWI2ODFiNGMzOGUzNDlkMTFkZWJmZWRkNjk0NjE4ZjNhOWRlZjZiM2VkNzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNiMzNjM2E3YTkyZjgwZGU4YThjMDQyODUxYWE2NmExN2JkMzI1ZWJhNWE3NWI3Njg4ZWFlY2FlNzU0ZDkxMDMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE5MTgxMjA0OGQ1MzVjYzc0NzU1MjMxNzhmZDJiMWVjZWFhYWQ3NmVkY2UyMmNmMTJlZTE2YWFjYjVjZGQ0ZmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_87d320c7d1a74771970e3287a62a9037",
+      "statement": "Grafana is configured with anonymous access enabled at Viewer role for Main Org organization.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/grafana/app/helmrelease.yaml#L53-L57",
+          "version": "repo-lines-v1:sha256:ba6e356e54f6080d510269c9361c5150b7ef1dc8704fa2945a8aa07e13623617:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODA2MDljODA0Y2E0NTc2YmQ0Yjg3ZGRiY2FjN2Q5NzYzMWMzYWQ3MzE0ZTAyMjBkZTJkMTE0ZTI1Y2NhZjIzYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZWVlZDMwYjdmYmEzYTdhZmY2MWZlZDY5Zjg1MWI4MDkwODM1ZjJkNWE0N2FjN2RiMWExMTVjMTViNTYzNzBmZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMWFhMWZlZTk0YzQxZTg5NjFmOGM1ODJmOGQ1NmNiYjMxMDU3MGNlZGExZWQ0YWZjNzdjZDU0OTYzZDM3YmMwOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjRiZGM3MGJkZDg0YzQyZjlmZjA2NGQwZGYzNTc5NjAxYTYzOGExZjFiNzZkYWNmZWY4MmQ1MDAyNjg4ODk3NiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_df7a597c860d4ce69ab5366b71628798",
+      "statement": "Kubelet and API Server monitoring apply metric relabeling to drop high-cardinality labels including uid, id, name labels, and duration bucket metrics to prevent metric explosion.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/kube-prometheus-stack/app/helmrelease.yaml#L61-L82",
+          "version": "repo-lines-v1:sha256:e42118fc7814f259605a5900aa927a4db0d32622f2186f9015842d1b19440aa2:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ3MDUzNDNlYjI1NWU0ZDk2MmJmYjdhZWY1OTE1NTY5M2JmYTg4YmY4YjRlMmZiNjNhYjMxZTY1Y2ZhMGI5MGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFiN2JiYjliZDlkZWRmNjczZWJkOWExMWVjYjMyZTZiZjVjODE0M2VmOGVhZGViMTkzYTZhOGZkZTdmNDIyOGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY3ZjY1M2JlNDAwYTU3NTNlMjU0Y2EyMDZiMjY0ODNlNzY4OWM5ZGEzZWNhMTM3Y2E3YTE4NDQyNzZkMjY3NjkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYxOTMzODIwZmNlYzQ5ODI4NDlhYWJhZGRkNWEyY2ZiMTAyMGJhNWM0ZWNhZWQ4M2ZmMzkzM2FlMjZhMzA3MzEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_39ab8ec8dd0d46cfaf2abe6857f08229",
+      "statement": "kube-prometheus-stack disables monitoring for etcd, controller manager, scheduler, and proxy components appropriate for k3s environment.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/kube-prometheus-stack/app/helmrelease.yaml#L84-L94",
+          "version": "repo-lines-v1:sha256:8ff4878627a247dbfb950c2415c149294258faf2274059bda296bb838e100fe8:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY5OTc1NTIxNWNiZjZkMmM5ZDc4M2I5YjA5YTg0NGZjNWI2MWViYWU2ODQxYzg2YTYwODVmZDEwYjU4YWM2ODQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMxOTc0NzhmZTljZWZkMmE4YmIxNjMzNDlmYmRlMGM1NjliZTM5NjFkNzNkN2Q5YzIwYTU4ZjEwZGQ1N2FjMGMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdkMzg2YmQ2MjEzNDllMzkwZDdkMmE1ODJjZjRiYTBjMjEzNzU3Yjk0ZGNlMTRjZWFiMDc3MDIzMDFhNmQ5YzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc5ZWMzYWIxYTlhYjRkMWUyYWRjNmNiNTI5NjgwYzk2MzliZDUzZDlkYWQ1Mjg4NWViMmI2YTIyYWUwNjQ1YzUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e28649a9c87947cd99c343ca60a66f23",
+      "statement": "All observability components are deployed in the 'observability' namespace as specified in each Kustomization's targetNamespace.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/gatus/ks.yaml#L6-L9",
+          "version": "repo-lines-v1:sha256:725d997de89fd493c934ef2d934207d481e68847b9b3606169be847ef558f415:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzBjMTY5NDgwNzE3OTYwOTQzNzBjYWQ5Mjc5OTM4YzRmNzcwZWM5MGYyY2I5ZjI1ZGZjZTE4NjAzOTg0MzlkMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWIzNmI3MmFjOWE4NDMzY2IyZjQxZGM5ZDJiZmZiYzAyOWFhZGU1ZGMwYzJlMWIwMmE5MWI0MGNmMzUzYmRiMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODMyMGMyN2M5NzczNTU3YjA5M2UyZmRiZDU1MjE1ZGFkNmY4NDViMWMzODk2YTczNjNiNGViNmI2ZDVmMTAwYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjBiZWRmNWJiZGMwOGY0OTI3NmI3ZWJjNjhkZWVkMDlmZjBkMmM4NzkwMDcwMDk0MzVmM2I5NjQ3NjRmNTRkYyJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/observability/grafana/ks.yaml#L6-L9",
+          "version": "repo-lines-v1:sha256:15fccd488f6e374d5154287816c456ebaa4f689d614862ca34e338d1f1ade996:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzkxODlkMzQ5ZDU0NmM4YjE3OWRmNjYxNTA3ZDE3NmUxZGNhMWNiZGFiOGUyMGE5OWE4YzZjMWNiODAyNzZhZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWIzNmI3MmFjOWE4NDMzY2IyZjQxZGM5ZDJiZmZiYzAyOWFhZGU1ZGMwYzJlMWIwMmE5MWI0MGNmMzUzYmRiMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODMyMGMyN2M5NzczNTU3YjA5M2UyZmRiZDU1MjE1ZGFkNmY4NDViMWMzODk2YTczNjNiNGViNmI2ZDVmMTAwYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjBiZWRmNWJiZGMwOGY0OTI3NmI3ZWJjNjhkZWVkMDlmZjBkMmM4NzkwMDcwMDk0MzVmM2I5NjQ3NjRmNTRkYyJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/observability/kube-prometheus-stack/ks.yaml#L6-L9",
+          "version": "repo-lines-v1:sha256:bdda1d3f566a3d6236e7935e53f024ef58c6f4d91b75da242db1eced72476d4d:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTg1YmE3OTQxYjNlMmNhY2FlMTBlZjU2NzE5Zjg4NTk1OWIxN2M5YmZmMDFmMzYwNDQ3OGZhNTE4MDdhMGFjOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWIzNmI3MmFjOWE4NDMzY2IyZjQxZGM5ZDJiZmZiYzAyOWFhZGU1ZGMwYzJlMWIwMmE5MWI0MGNmMzUzYmRiMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODMyMGMyN2M5NzczNTU3YjA5M2UyZmRiZDU1MjE1ZGFkNmY4NDViMWMzODk2YTczNjNiNGViNmI2ZDVmMTAwYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjBiZWRmNWJiZGMwOGY0OTI3NmI3ZWJjNjhkZWVkMDlmZjBkMmM4NzkwMDcwMDk0MzVmM2I5NjQ3NjRmNTRkYyJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/observability/loki/ks.yaml#L6-L9",
+          "version": "repo-lines-v1:sha256:ac5e7a3955347f435b22345d2eb71cb28dd9193c41c6e04679b8723feab68ffb:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODQ3MDEwMjdhN2UwN2NhMmNhOWUyMDBmMWVhODFkZDg2MWRjZWMzOGM3MTZjNDA5Mjg0NGRmYTE5ZGQyMWU2OSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWIzNmI3MmFjOWE4NDMzY2IyZjQxZGM5ZDJiZmZiYzAyOWFhZGU1ZGMwYzJlMWIwMmE5MWI0MGNmMzUzYmRiMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODMyMGMyN2M5NzczNTU3YjA5M2UyZmRiZDU1MjE1ZGFkNmY4NDViMWMzODk2YTczNjNiNGViNmI2ZDVmMTAwYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjBiZWRmNWJiZGMwOGY0OTI3NmI3ZWJjNjhkZWVkMDlmZjBkMmM4NzkwMDcwMDk0MzVmM2I5NjQ3NjRmNTRkYyJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/observability/thanos/ks.yaml#L5-L9",
+          "version": "repo-lines-v1:sha256:a148396c2d4657b026d4a5a29758f1d03219a6e1224a20c99f67c628a37d0448:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2E2ZjRkZGEzZWFlYzAzMGY1NTI4MjgxYWViMjU4ZGZjNGI5MDIwOGViOWU1ZGJkOTFkYmVjYTMxZGJkMWE1OCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZThkNzY3ZGIxNmIzNzJmZWMzNWEzMTlkYWJlMTllZjEzNWQ1NzI5MmNjY2ViZDA3YWNjY2RlNWU0N2IzNDAyYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMGY2ZjhlZDUxNGMzNWZjNGU5MjQ4MTY1OTVkYzg5MWVmNGU0NWU1NGI3NzhiOWJhYjYwNTI1MzBlYjU3M2VmZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZGQxMzc1Y2I4OTdkMDYxYzA3NGJhNDZjMDlhZDAwNjlkOTU2NjQwOWQyZDk3ZWRmODJhNzU4NDRkMTYwZmU3MyJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/observability/uptime-kuma/ks.yaml#L6-L9",
+          "version": "repo-lines-v1:sha256:f5f9e7f87ae7505a4621651cccaa356e876b2ba03e0ef7b38a4643d55a666101:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZmQ5MWU4NTU4MjM2YWFiZDNlMTI1NTMyYWUzMmE2Njk5YjQ0YmE4MDQ2MjkwMDA4YWNkZTIxYThkN2I4OWRiOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWIzNmI3MmFjOWE4NDMzY2IyZjQxZGM5ZDJiZmZiYzAyOWFhZGU1ZGMwYzJlMWIwMmE5MWI0MGNmMzUzYmRiMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODMyMGMyN2M5NzczNTU3YjA5M2UyZmRiZDU1MjE1ZGFkNmY4NDViMWMzODk2YTczNjNiNGViNmI2ZDVmMTAwYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjBiZWRmNWJiZGMwOGY0OTI3NmI3ZWJjNjhkZWVkMDlmZjBkMmM4NzkwMDcwMDk0MzVmM2I5NjQ3NjRmNTRkYyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_17221b8c70be4e0ea4711e2a7fa72896",
+      "statement": "All observability Kustomizations have wait=true enabled to ensure resources are fully ready before considering the reconciliation successful.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/gatus/ks.yaml#L29-L29",
+          "version": "repo-lines-v1:sha256:dc3517e813b3a32b96561b9e54b422328460a8b4951d1b442a0b5409e0f282e1:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZGMzNTE3ZTgxM2IzYTMyYjk2NTYxYjllNTRiNDIyMzI4NDYwYThiNDk1MWQxYjQ0MmEwYjU0MDllMGYyODJlMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZGMzNTE3ZTgxM2IzYTMyYjk2NTYxYjllNTRiNDIyMzI4NDYwYThiNDk1MWQxYjQ0MmEwYjU0MDllMGYyODJlMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiM2E0ZDRhN2E5YzgzY2I2N2NjZjQ4Y2I5ODE1ZDE2MGRlY2Y0NjEyYzVhNzVjZGU4ZDUxYzUwMDBiY2ZmMzYxMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYWY0NjBmZTA2MTAwY2UyNjg0MjcwMjE1YmIyY2FlYjYyN2M1NjQxMDdmYzIwMGM3NDY1ZWE2ZmRlZjhlZTJmYSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/observability/grafana/ks.yaml#L40-L40",
+          "version": "repo-lines-v1:sha256:a2cff5ffba50ac3816aff9c85b6b7a485e7e2a734625f394c049d4b96d57a8c0:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTJjZmY1ZmZiYTUwYWMzODE2YWZmOWM4NWI2YjdhNDg1ZTdlMmE3MzQ2MjVmMzk0YzA0OWQ0Yjk2ZDU3YThjMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTJjZmY1ZmZiYTUwYWMzODE2YWZmOWM4NWI2YjdhNDg1ZTdlMmE3MzQ2MjVmMzk0YzA0OWQ0Yjk2ZDU3YThjMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDE5YzY4NjVkM2U3MDk1MTU5ZGFlMWM3ZjE3ZmM2NWMyNjcyZTFlYmJiZGIyNzllMWUzMDk4YTQ5YWMyZGMyNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYWVmZWJkNTliNzIxMWFhOGRiOGEyMWQ0ZjI1YzU3MzI0ZDM5NDBjZGI5MDRmM2FkYmMxOTRjOWQ5ZGIzNTI0OCJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/observability/kube-prometheus-stack/ks.yaml#L34-L34",
+          "version": "repo-lines-v1:sha256:a2cff5ffba50ac3816aff9c85b6b7a485e7e2a734625f394c049d4b96d57a8c0:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTJjZmY1ZmZiYTUwYWMzODE2YWZmOWM4NWI2YjdhNDg1ZTdlMmE3MzQ2MjVmMzk0YzA0OWQ0Yjk2ZDU3YThjMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTJjZmY1ZmZiYTUwYWMzODE2YWZmOWM4NWI2YjdhNDg1ZTdlMmE3MzQ2MjVmMzk0YzA0OWQ0Yjk2ZDU3YThjMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDE5YzY4NjVkM2U3MDk1MTU5ZGFlMWM3ZjE3ZmM2NWMyNjcyZTFlYmJiZGIyNzllMWUzMDk4YTQ5YWMyZGMyNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYWVmZWJkNTliNzIxMWFhOGRiOGEyMWQ0ZjI1YzU3MzI0ZDM5NDBjZGI5MDRmM2FkYmMxOTRjOWQ5ZGIzNTI0OCJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/observability/loki/ks.yaml#L30-L30",
+          "version": "repo-lines-v1:sha256:a2cff5ffba50ac3816aff9c85b6b7a485e7e2a734625f394c049d4b96d57a8c0:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTJjZmY1ZmZiYTUwYWMzODE2YWZmOWM4NWI2YjdhNDg1ZTdlMmE3MzQ2MjVmMzk0YzA0OWQ0Yjk2ZDU3YThjMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTJjZmY1ZmZiYTUwYWMzODE2YWZmOWM4NWI2YjdhNDg1ZTdlMmE3MzQ2MjVmMzk0YzA0OWQ0Yjk2ZDU3YThjMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiM2E0ZDRhN2E5YzgzY2I2N2NjZjQ4Y2I5ODE1ZDE2MGRlY2Y0NjEyYzVhNzVjZGU4ZDUxYzUwMDBiY2ZmMzYxMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYWVmZWJkNTliNzIxMWFhOGRiOGEyMWQ0ZjI1YzU3MzI0ZDM5NDBjZGI5MDRmM2FkYmMxOTRjOWQ5ZGIzNTI0OCJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/observability/thanos/ks.yaml#L28-L28",
+          "version": "repo-lines-v1:sha256:a2cff5ffba50ac3816aff9c85b6b7a485e7e2a734625f394c049d4b96d57a8c0:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTJjZmY1ZmZiYTUwYWMzODE2YWZmOWM4NWI2YjdhNDg1ZTdlMmE3MzQ2MjVmMzk0YzA0OWQ0Yjk2ZDU3YThjMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTJjZmY1ZmZiYTUwYWMzODE2YWZmOWM4NWI2YjdhNDg1ZTdlMmE3MzQ2MjVmMzk0YzA0OWQ0Yjk2ZDU3YThjMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzQ5ZTIyMmNmYWM4MTBlZTZhYWQ0N2JmN2I5NDkwN2EzYjg5Y2YxMmNmYTRiY2IxMjEzN2Y0NTIyMzljNmVkNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/observability/uptime-kuma/ks.yaml#L35-L35",
+          "version": "repo-lines-v1:sha256:a2cff5ffba50ac3816aff9c85b6b7a485e7e2a734625f394c049d4b96d57a8c0:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTJjZmY1ZmZiYTUwYWMzODE2YWZmOWM4NWI2YjdhNDg1ZTdlMmE3MzQ2MjVmMzk0YzA0OWQ0Yjk2ZDU3YThjMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTJjZmY1ZmZiYTUwYWMzODE2YWZmOWM4NWI2YjdhNDg1ZTdlMmE3MzQ2MjVmMzk0YzA0OWQ0Yjk2ZDU3YThjMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzM1ZTkzNzQwMjRiNTg2ODk3NzYzODcxNmU4NmEwOTQ0MDk4MzYwNjFhN2I2Y2RlZDU1NWIwN2NlOTQ0ZThmYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYWVmZWJkNTliNzIxMWFhOGRiOGEyMWQ0ZjI1YzU3MzI0ZDM5NDBjZGI5MDRmM2FkYmMxOTRjOWQ5ZGIzNTI0OCJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-08-31T23:16:37.333Z"
+  }
+}

@@ -1,0 +1,222 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:451cce8143fe3dbac540854656092040079a5512b489d3f62433fab67aba8fb2",
+  "claims": [
+    {
+      "id": "claim_30f820b5ccba4c9a9c4aad7234c3dfc2",
+      "statement": "The cluster bootstrap process uses a two-phase approach: Phase 1 establishes the Talos Linux control plane using talhelper, while Phase 2 installs critical infrastructure components via Helmfile before Flux assumes continuous reconciliation responsibility.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/bootstrap/Taskfile.yaml",
+          "version": "repo-file-v1:sha256:3c26042d3a22fc7582ce3641d7090c5346b19f8f4ed41f1d2bf4109072973fa9"
+        },
+        {
+          "resource": "repo://bootstrap/helmfile.yaml",
+          "version": "repo-file-v1:sha256:79387e3a12f1408ab259b0a4198d1f8c5fcdd17632b5f1f7877a21b56d2a7847"
+        },
+        {
+          "resource": "repo://scripts/bootstrap-apps.sh",
+          "version": "repo-file-v1:sha256:d6be6964a73238e0828b2336ca8095a4a0de975009e5c422f31493d6a60e302b"
+        }
+      ]
+    },
+    {
+      "id": "claim_f5192304800e4a88b22d6e7e9ba7e883",
+      "statement": "Phase 1 Talos bootstrap begins with generating encrypted cluster secrets using talhelper gensecret, which are then encrypted via SOPS with age and saved to talos/talsecret.sops.yaml.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/bootstrap/Taskfile.yaml#L11-L11",
+          "version": "repo-lines-v1:sha256:fd794754de8f2e278f5e512300668cf11cc05683f6c95d456010efb8fc9dba45:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZmQ3OTQ3NTRkZThmMmUyNzhmNWU1MTIzMDA2NjhjZjExY2MwNTY4M2Y2Yzk1ZDQ1NjAxMGVmYjhmYzlkYmE0NSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZmQ3OTQ3NTRkZThmMmUyNzhmNWU1MTIzMDA2NjhjZjExY2MwNTY4M2Y2Yzk1ZDQ1NjAxMGVmYjhmYzlkYmE0NSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjZkMGU5ZDg2ZDY2MzE5NzQ0MDY4Y2NmOGQ5ZWQwNGI1ZDkwZTMxOTViMTliYjI2ZTcxMzg5NTY4M2Q4YjhmZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTU1NTU2MmNiODU1MDI5NTNlNTFmODIzZGFlMTRmOGYwZWY1ZDBmMjgwYmVhZDZiNDAwYjU0NTM1ZDU0MTM1ZSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_4ed4bfac61294147a4b93766b95b3277",
+      "statement": "talhelper genconfig reads from talos/talconfig.yaml to generate machine configurations for each node, producing node-specific configs in the talos/clusterconfig/ directory.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/bootstrap/Taskfile.yaml#L12-L12",
+          "version": "repo-lines-v1:sha256:9a2c2526e9bfa21cde354772a8caf63060187c916ebd7ab121a8f2806da51b2b:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOWEyYzI1MjZlOWJmYTIxY2RlMzU0NzcyYThjYWY2MzA2MDE4N2M5MTZlYmQ3YWIxMjFhOGYyODA2ZGE1MWIyYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWEyYzI1MjZlOWJmYTIxY2RlMzU0NzcyYThjYWY2MzA2MDE4N2M5MTZlYmQ3YWIxMjFhOGYyODA2ZGE1MWIyYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTE5NjJlNGI3MzNjOGY0MjAwNDY4MzYzOGY5OWM2MDFkZWYyN2QyNzliOTEyNzJlZWYxNzcyZTA0NTBlMzc3YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTM5Y2Y2YWUxZGQxOWNlNWQ2MTIwZDFhMjVlZWE3ZGI0ZjlhNThkNjIzNDc3YTEyNTI5MDYzYmRmMWFiY2ZhNyJ9"
+        },
+        {
+          "resource": "repo://talos/talconfig.yaml",
+          "version": "repo-file-v1:sha256:d136b9cff87d6ec237ac03a8d8e93f8f766c991330cacbf3cf6ffd68061bdcde"
+        }
+      ]
+    },
+    {
+      "id": "claim_9620f5abed8740b5bb65a808dd7ab261",
+      "statement": "talhelper gencommand apply with the --insecure flag applies machine configurations to target nodes via the Talos API, establishing initial node state on bare-metal hardware.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/bootstrap/Taskfile.yaml#L13-L13",
+          "version": "repo-lines-v1:sha256:e57d7bfc35b80d2aca0d8be74619980808f51cc4f2ada5844baa9bfe3ba3bb00:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTU3ZDdiZmMzNWI4MGQyYWNhMGQ4YmU3NDYxOTk4MDgwOGY1MWNjNGYyYWRhNTg0NGJhYTliZmUzYmEzYmIwMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTU3ZDdiZmMzNWI4MGQyYWNhMGQ4YmU3NDYxOTk4MDgwOGY1MWNjNGYyYWRhNTg0NGJhYTliZmUzYmEzYmIwMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYWY3MzU3Y2YxZGI2NjI3MTg4ZDliNzQ3MmQ5NjU2NjhmM2I5NTEzOTIxOWUxYzAwMzliZTE0ZjY1MjljNWVlMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOWU1YzU0ZTRmMmY3ZjdhN2IyNTRlYzY3ZGVjZmQ1MWEyNjQxZTJiZGYzNGI5MWU1MTYwY2YxNjdmNmZmYzY3MSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_cb19c47eef3b43b79ffe8b3910a86191",
+      "statement": "talhelper gencommand bootstrap initializes etcd and Kubernetes control plane components, transforming nodes into a functioning cluster. The task retries this command until successful.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/bootstrap/Taskfile.yaml#L14-L14",
+          "version": "repo-lines-v1:sha256:74579b934f0e417eee707a5aaf8b33f858c00e21ac37b62ce4936b86e802f8e0:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzQ1NzliOTM0ZjBlNDE3ZWVlNzA3YTVhYWY4YjMzZjg1OGMwMGUyMWFjMzdiNjJjZTQ5MzZiODZlODAyZjhlMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzQ1NzliOTM0ZjBlNDE3ZWVlNzA3YTVhYWY4YjMzZjg1OGMwMGUyMWFjMzdiNjJjZTQ5MzZiODZlODAyZjhlMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDZjNzAyOGFmNjFlNjU4N2UyOGRiZmU5MmU3ODI1ZGM0MGMzY2E5MjVjYzJlMWM5MmU2OTQzYzJlNzMzODNmMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYmFhMDFlNTliNTBjNDhkZmNiMWZlZGUyZjNlYjJjZGI5NDIyNTYyMTMwNWRmNGYzNjVlMGM2NmNkNWY3NDU1NyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_abfc6ad78cae442d98ebb80f557e4823",
+      "statement": "talhelper gencommand kubeconfig with --force flag exports the admin kubeconfig to ./kubeconfig, enabling Kubernetes API access for Phase 2 apps bootstrap.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/bootstrap/Taskfile.yaml#L15-L15",
+          "version": "repo-lines-v1:sha256:b083054b29f33f5b93b6a8af920b788f52a761f64e5ba82f7cb02e32c7e4dbc6:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjA4MzA1NGIyOWYzM2Y1YjkzYjZhOGFmOTIwYjc4OGY1MmE3NjFmNjRlNWJhODJmN2NiMDJlMzJjN2U0ZGJjNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjA4MzA1NGIyOWYzM2Y1YjkzYjZhOGFmOTIwYjc4OGY1MmE3NjFmNjRlNWJhODJmN2NiMDJlMzJjN2U0ZGJjNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTU1NTU2MmNiODU1MDI5NTNlNTFmODIzZGFlMTRmOGYwZWY1ZDBmMjgwYmVhZDZiNDAwYjU0NTM1ZDU0MTM1ZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMmNkOTg5ZmYzM2E0ZThkZDgzMmM3MTY0MGQwNmRiZDNmNzJiZWVhNDQxMDk1Mjc0MmMwNzM3NDkyMzgwYmUzMyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_21c67348c8004d828c184cb2fe487c8a",
+      "statement": "The wait_for_nodes function handles Talos node state transitions, waiting for nodes to reach Ready=False state which Talos requires before resource application, or skipping if nodes are already Ready=True.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/bootstrap-apps.sh#L10-L24",
+          "version": "repo-lines-v1:sha256:1a8e0239c6026ab66a8bffe184c90608faa24d07759e6d4e9c8669a97bd557b8:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBlNTA0OWQ5ZmE0OGVjZDZjNjljOWIwZDkxMTlmN2VmYjk5ZjEyMzBkMzlkZTRhMzQ0MTJlYzQyZjkzMjFlNjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ4OWI4YmI2OTZiMThhMGU2NTQ1N2EyOGRmNDkyY2IxZGYwZDA2YjZmNGZiNWUzMDY3ZmM5ZjNjYTMzYTQxZTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYxN2JhY2ExNDM3MzdjNjczZmJkMDY1ODhhMzM3NjEwOTRhM2M5NzYwMDEzMmM0ZTMwODM1Yjg4OGZhYzdiYmYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ed90fa8f70ec456aa299e1f985325736",
+      "statement": "The apply_namespaces function creates required namespaces by scanning kubernetes/apps/ directory and applying each namespace with kubectl create using --dry-run=client and --server-side flags.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/bootstrap-apps.sh#L27-L54",
+          "version": "repo-lines-v1:sha256:53654f9d05256c2d7532e11eb5251cfb16a64b7439feed9d8677d3b3f8af2b98:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMxMjM4MDRmNTk3YmU5ZTdhZDAzY2Y2YmRkNTFjNGM3ODAzYjNjN2YxNTI3NmM3ZGM5ODZhNGE2ZjkxNTFkMjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU0YmQwNGI0NWQ4ZmIyMWQyYzE5YWUyMmZlNWRmYTAzYjg2MzE5YWNlYzYzNDI0OTZmZDFjYWJhNzYxOTQwOWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjRlZGUzM2E4MDI1MzQzMDY1Yjc0NzUzMWJjMzk4MzY0YmY4MzdlOWRlYWE4OThlNzg4M2Q4YjU2YWFmYmE4NTgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_2a0395940f3848d68b0993590e1fbf31",
+      "statement": "The apply_sops_secrets function deploys three encrypted secrets required by Helm releases: github-deploy-key.sops.yaml for Git authentication, cluster-secrets.sops.yaml for cluster-wide configuration, and sops-age.sops.yaml containing the age decryption key for Flux.",
+      "evidence": [
+        {
+          "resource": "repo://.sops.yaml#L6-L9",
+          "version": "repo-lines-v1:sha256:41fb193544f4b6df061f97157f1d4b12e808bc37a2a0bf4fc6c9d9d36b2bbb6d:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmVjMWQ4Mzg0MzliNDYyMTU2OGJkNjMyYzA1NWY0YmQ2MTZmYmYwMTBhMTc2MjFkYzM0MTMzNzE4ZTg2YWQxMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDYwMWFkNjVkNmRjOWZmZDIxNWZiM2ZkZTkxZWFkZDlmN2IzOGUyMjJjNGU5NDc3MTFkMzk5YzQyN2MwMWQ5OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTQzYWE3ZTc4NTU4ZjZiMTAyZjJmNmRjMTk4ODI1MDA2ZTE0ZTA2YThkZGIwZTE4YzBlYjBkYzQ0ODJjMzExMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTJmZDhkNDQwOGQ0NDg5NTFkMzFmOTBhNDQwNGI3N2YzODI3ZDZkM2IwZjZkOWY4YzRhZmEzOTg4ZTBhMjJmZCJ9"
+        },
+        {
+          "resource": "repo://scripts/bootstrap-apps.sh#L57-L85",
+          "version": "repo-lines-v1:sha256:8f59b3064b8cac21918a59060f96636874e37359df2f0e4ba1ade95f5f706f69:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY0OThiODk0YzQ3NzQyYmM3MTc1MDQ1ZTk1MWY0NmQyMDc4NTVkMDNlZDZhNTJkMGZiMDEzM2MzMGFiOTgwMjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQwYmU3NDllNjExMWJjN2IwNjRiMDY1MGNlZDIzYjYxODg5ZDIzZjE1ZWI3MDViYjlhYzdlZDVlNTMzNWQ0YTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI1ZmUxMzM4YmI5YTIwMDA4ODZlY2ViYjg5NThhMjI1MzcwZTgyNTAwNzhlMmEzMDhkN2Q0NjYwYzQ1ZTdlN2IifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_3bd5b2ab2efd413692ead630c8eb72bc",
+      "statement": "SOPS secrets applied during bootstrap use sops exec-file to decrypt in-memory and pipe to kubectl apply with --server-side, with decryption using the age recipient age1shkd7fsr66cnpkutpmpf7ffylcc2x4c9tlsdkapv6nmu5ceu0dzqdjtqc5.",
+      "evidence": [
+        {
+          "resource": "repo://.sops.yaml#L6-L9",
+          "version": "repo-lines-v1:sha256:41fb193544f4b6df061f97157f1d4b12e808bc37a2a0bf4fc6c9d9d36b2bbb6d:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmVjMWQ4Mzg0MzliNDYyMTU2OGJkNjMyYzA1NWY0YmQ2MTZmYmYwMTBhMTc2MjFkYzM0MTMzNzE4ZTg2YWQxMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDYwMWFkNjVkNmRjOWZmZDIxNWZiM2ZkZTkxZWFkZDlmN2IzOGUyMjJjNGU5NDc3MTFkMzk5YzQyN2MwMWQ5OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTQzYWE3ZTc4NTU4ZjZiMTAyZjJmNmRjMTk4ODI1MDA2ZTE0ZTA2YThkZGIwZTE4YzBlYjBkYzQ0ODJjMzExMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTJmZDhkNDQwOGQ0NDg5NTFkMzFmOTBhNDQwNGI3N2YzODI3ZDZkM2IwZjZkOWY4YzRhZmEzOTg4ZTBhMjJmZCJ9"
+        },
+        {
+          "resource": "repo://scripts/bootstrap-apps.sh#L73-L84",
+          "version": "repo-lines-v1:sha256:af81648c3b2bc2de152d18157f9d52e2272d5c16cdf58e29e70078d1eea4d76d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRkM2JkNGQ0MTgzYzMyNTRiMjczNzJlYTUyNzE5NzZjYzg2OGQwZDNkZGQ2NWRhZjMyYmMzNTc2YzFiY2RhMmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ3YzA3ZDViNjk2NWFiNWNlOTMxMjI5ZGVjNDA0ZmExMmMwZDljMDQxN2Y3NmNmZmEzZmIxOTc0MDVlOTc5MjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE0YjA5ZmQ2ZmMwNmFkZDZkOTY3NjUxODcxM2Q3NTYzNWE1ODgwNDA1OTdmMzk3N2M5M2IwZTlhMzJiNzNlZjciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhhZWFkOTQ4M2I2MjQ5YzgwNDc0NDZiMzQ0Y2FlODhhYTIyNDZmNzU3NTg4ZjJiNGY3MzM1YzE2M2MxNjkyYWQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_3a9be7730387407eb58c776b4cef2e26",
+      "statement": "The apply_crds function installs two CRD sets required by Helm charts: External DNS v0.21.0 standard CRDs and Gateway API v1.6.1 experimental CRDs. Both are also managed by Flux but duplicated for bootstrap safety.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/bootstrap-apps.sh#L88-L118",
+          "version": "repo-lines-v1:sha256:8e0b7e48efcc0566c66eb4019b9d07bae929a1184035de10614ab5f8ec9e3b20:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY2M2YyNzhkYjQ4YWFiOTQzZjQ3ZTMxZmYzMmEzOTY3MDRiNDc5MTY1N2M0MzgwOGVlMGM3MmYyZmExNWU5MmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhhZWFkOTQ4M2I2MjQ5YzgwNDc0NDZiMzQ0Y2FlODhhYTIyNDZmNzU3NTg4ZjJiNGY3MzM1YzE2M2MxNjkyYWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMzNTk0ZDBhY2RhOTVjNGNjZjA3YmM5MzNiOWU1MTI3YmIxYTYyMTZhMDdkNTUyMjJmZDk4MzYzOGJjOWNkNDcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b372cde832a34abba56c97f0a7cc80d3",
+      "statement": "Helmfile deploys releases in dependency order: Cilium (CNI) first, then CoreDNS (depends on Cilium), then cert-manager (depends on CoreDNS), then flux-operator (depends on cert-manager), and finally flux-instance (depends on flux-operator).",
+      "evidence": [
+        {
+          "resource": "repo://bootstrap/helmfile.yaml#L14-L52",
+          "version": "repo-lines-v1:sha256:8ed7e8e3fe8b1e0f0bd52f9de372dfeaceddb966f93568d84cc9fe0660e2ff7e:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1YTA1OTNjNDU2NDAyZmE2YTYwYWUwZjk4YmMyMjZkMzk4NDZjZmJiODgwYWNkMGM3Zjc4YWZiZTk1ZTUzMDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4NDQxMDY3MGJjNTUxNjEyNDRkZTdlZTRjMDM5YTEzMDUzYzZiN2M5ZTRkZTZiMzY4YzE3MzYzZDcyMjVlY2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjliN2YwYjcwMDgzOGMzOGRiYjE3ZmQxNjdkNGIyMmJmNGQ2NTg2MGNiODI2MWI3OTU1Zjc5ZGM3OTAyYzEzZmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_413923e9682c40dcbd3013a6d4a993a1",
+      "statement": "Helmfile uses cleanupOnFail: true, wait: true, and waitForJobs: true settings to ensure safe deployments with rollback on failure and full readiness before proceeding.",
+      "evidence": [
+        {
+          "resource": "repo://bootstrap/helmfile.yaml#L4-L7",
+          "version": "repo-lines-v1:sha256:fee454abfac4ee4f78a0878c19bdd6e58bd1239127092da32b67dbdd1ae5383e:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMmMwMTllMGZhODYyZGI0NDdkMTg2YmMwMzYzYTYyYjMyZDVjOTNmNzJmZDQ1NTY0YzliMWYyNjc4OGZlN2JmNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWFmM2RjYjZhYTFhZDM3YjFhZTEzNzk5MzVjNmUyYTQ3YjFkZTgwZGMxMTliNzg2OWI2NWM4Yjk4MzE1YTU5ZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiM2NkNmQ2ZGE0Mzk5ODUxYzA2NDY1MTcxOTVhYzg2YjFlNzM5YTY0MDdiYTIwOTBmNzVmYjY0ZDE5ZDc2MzQ0ZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzdiOGI4YjZmZjI1ODQwM2M3Yjg3YWU4MmYxMTRkNDEzZTkwNmFjYTYxMDA5YjZhMjA5YmIzMGQ1OTk1ODhjYSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_9acd43d15210432fadac96054e71b506",
+      "statement": "Once flux-instance is deployed by Helmfile, Flux controllers begin reconciling cluster state from the Git repository starting at kubernetes/flux/cluster/ks.yaml, transitioning the cluster to GitOps-managed state.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/flux-system/flux-instance/app/helm/values.yaml#L15-L19",
+          "version": "repo-lines-v1:sha256:e2bf530dcdece63c5b52dace356d6d6bb032b2ca81f21f93201b0c5bddfef0a0:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTE4ZWViZDJiYjlhMTA5ZDVhNjgzNDU3OGY3MWY4Yzg1ZmUzOTZhYTg5NWZkM2JiOTU0NTVkMjIxYjE0ZWM0MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzJjMjdmYmI3ZDI2OWI5NGIzOWY4NDFjMjAwYmM3YWYzYzA0NWEyZmYzYWFjMjM1MmJhNmM3NWE2M2MzMmVmMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDBlMGMzZTNiOTAyNDY3ZTI5YmY3NDc5NTFjMmRhNDk3OTMwMDI4NGUxMmI1YzU3MDNkNmYzNjBlZTJhZjI4YyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzM4MzMyMzkwZmQwODU4Y2VlMTBjMmNhOTU2MjU5N2E1OTU5YTRmNTc5NTQwYjBlNGNkYjcxNzA5Y2RhMjBkZiJ9"
+        },
+        {
+          "resource": "repo://kubernetes/flux/cluster/ks.yaml",
+          "version": "repo-file-v1:sha256:34d6970a4822f2b762ed2b48b96225a7d9a1bb7f3c4007fed459656c84134c45"
+        }
+      ]
+    },
+    {
+      "id": "claim_f2b907d0e9a54ffd874db34e89d0a2b3",
+      "statement": "Flux reconciliation follows a dependency order: cluster-meta deploys sources and enables SOPS decryption, gateway-api-crds and external-dns-crds install required CRDs, then cluster-apps deploys all applications from kubernetes/apps.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/flux/cluster/ks.yaml#L5-L94",
+          "version": "repo-lines-v1:sha256:e430ce621f22af1644b81ab374f9e67deaeed3c14cbfb21c4f3345000692e466:eyJzZWxlY3RlZExpbmVDb3VudCI6OTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNhNmY0ZGRhM2VhZWMwMzBmNTUyODI4MWFlYjI1OGRmYzRiOTAyMDhlYjllNWRiZDkxZGJlY2EzMWRiZDFhNTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyY2ZmNWZmYmE1MGFjMzgxNmFmZjljODViNmI3YTQ4NWU3ZTJhNzM0NjI1ZjM5NGMwNDlkNGI5NmQ1N2E4YzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBmNmY4ZWQ1MTRjMzVmYzRlOTI0ODE2NTk1ZGM4OTFlZjRlNDVlNTRiNzc4YjliYWI2MDUyNTMwZWI1NzNlZmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_22c310e9ab51433ebf442a5df478e7be",
+      "statement": "Bootstrap requires environment variables KUBECONFIG, SOPS_AGE_KEY_FILE, and TALOSCONFIG to be set, along with CLI tools talhelper, talosctl, kubectl, helmfile, sops, age, and yq installed.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/bootstrap/Taskfile.yaml#L16-L20",
+          "version": "repo-lines-v1:sha256:e44ae3ed5800a38a7f14b7f122b8a045b508c02240651e7f3d211f8622d68175:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNGJkMzRmZDEwNTU5MmFkMjUyNGNiN2I5ZGM1YTk4NzIyNjdmNzY3OTU0ZmY0ZDE3ZTkxYmQ1MjI5N2VlNzNkNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiM2NjYzE2NzEzMDQ3YTkyNWY4NTg2ODY2Y2IzMzQ2YzNjNzQzN2U0MmIwZThjZGRmNTllYWQ0NGI5M2ZmNzYyOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTM5Y2Y2YWUxZGQxOWNlNWQ2MTIwZDFhMjVlZWE3ZGI0ZjlhNThkNjIzNDc3YTEyNTI5MDYzYmRmMWFiY2ZhNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiM2QzMzU2MDNkOWUwNWFmMDI0MjhmZGJmYWM0NzQyOGZlM2U3YWM2YzA5YjMzMzdiZTc3ZjZkMTRlODc1M2UwZSJ9"
+        },
+        {
+          "resource": "repo://Taskfile.yaml#L16-L19",
+          "version": "repo-lines-v1:sha256:1b77a471a1efac641fdd4077f315e1af5afb41665d718d3ab315da86e4100d89:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTBhNTk0ZjM0YjdmMGVhNTczZGE3ODcwM2UyNzQ5MzBkYjcxOGM5NDJjYWYzYzA0MjUxNzU1ZjYyM2M2MGQ1YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGEwYTlmMjVkY2UxZjUzYTVlOWNjODVkMWVlMDdlOTI4ZjkxOWFkZGM4ZmQ2NDVkN2E3NjI5YTQ5NGFkYjY0NCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMGI5N2MzYTFlY2IyNmM5MzAxZWFiMjZhOTdiNmZlZTQxNTg0ZmYyYWJjOTA1MWVkYmFjZjM5MTA5NmY0MGVhYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzQ3ZDA1YWU3Zjc4OTI4OTBjYTI1NGI2YTliMTMwZTA0NjVlNDllYzVlMDIxYzY3MzZjODA2MTlkYzg2MjUyOSJ9"
+        },
+        {
+          "resource": "repo://scripts/bootstrap-apps.sh#L138-L139",
+          "version": "repo-lines-v1:sha256:a27606ddf6338342e270fd3139121710eabe11f5d4c9ce0de3c9c09433aa26d0:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjNjYWQxNGEwMjVjNDc0YzE3MDhjNWZhZGUzZGZhOWI4ZmNmZjkxYjJhMTdkNzQ3NjAyMWE4NjA3NzYyYzYwZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMmFmNzdjODJjZmNiN2NjNDIxMjk2NjIwOTY4YWRlZDAyMjk4YTIwNTk0Y2Y2MWE4ZTc2YjlkMzg0N2UxYjVhYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzRmZmEzYWY1YWVmODA4YjRhMDA5ZmI0ZTJjYjQzYmNmZmY5NWEyZGJkZDJhZDM4MThiM2FhOGQyYjdiOWViMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZGYyOGYyMzM2M2M5MDUzNzgyOTVjOWU4MThlOGU4YTc0NmYwZDgzNmNkNzVmNzY1NjdhOTNiOGI0ZTRiNWY2OSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_1c74ef2d06064e10a45b1fb01be8aadb",
+      "statement": "The talos/talconfig.yaml file defines cluster topology including endpoint VIP 192.168.50.10, pod and service networks, CNI set to none for Cilium, and node specifications with secure-boot, static IPs, and custom kernel modules.",
+      "evidence": [
+        {
+          "resource": "repo://talos/talconfig.yaml#L3-L84",
+          "version": "repo-lines-v1:sha256:4ce2230e0313494963524497bc85da5041925fcf328ec033d1481660501f7135:eyJzZWxlY3RlZExpbmVDb3VudCI6ODIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNmZThiYjU0MzIwN2M5YmM2NGZjMDVkYWVlZTM3OThlOTIwYTI1NzMzNDVhYTU5ZmM1NjM1MzkxNmE0MTAxM2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM3MmQyMWI0YTU2MmE4ZDY5MWJhNWE1Y2RlYjIyNTk1ZmRiZDlkZWUxNTkyMmI3MDQwOGIwMTAxNDU2MDg2NDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoyLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVlOWJjYzJmMTMyMjg0ZmQxYjkwNTJlYzcwZTBkMjg2ZTVkMDVmYzcyMTZiZjdkMDMxMDY3YmU5MGZjZWQ4NGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_88b36ea9ea84442f8e26f9416ba76ea2",
+      "statement": "Successful bootstrap completion is indicated by all nodes showing Ready=True status, Flux controllers running in flux-system namespace, all Kustomizations ready with latest revision, and applications from kubernetes/apps deployed.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/bootstrap-apps.sh#L148-L148",
+          "version": "repo-lines-v1:sha256:bda81f031a8a31d22a15f6ed76057ca2f574d6416713ad9082ba77e6cca1edfd:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYmRhODFmMDMxYThhMzFkMjJhMTVmNmVkNzYwNTdjYTJmNTc0ZDY0MTY3MTNhZDkwODJiYTc3ZTZjY2ExZWRmZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYmRhODFmMDMxYThhMzFkMjJhMTVmNmVkNzYwNTdjYTJmNTc0ZDY0MTY3MTNhZDkwODJiYTc3ZTZjY2ExZWRmZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWY5YmJhMzU1YTg1NzJlNzlhZGI2MjZmMTE0NGUyZjA5Yjk4Y2E1NmQwMDA4YjE0NjQzYjcwMTdjNTAyNzQ1ZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjE5ZDgwZjRkNjQ5OGQwNWUwZmUwNGI0ZmUxMmM0NGVlNTU4MDVlMTgzNjI1ZjI5MWU2MmI0NmM0N2EyODBlNCJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-08-31T23:16:37.333Z"
+  }
+}

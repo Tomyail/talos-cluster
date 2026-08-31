@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:a183c166f6b9cb7b50717afb27f302352f2d36a5e466b6780d8d3b44c9ed3ced",
+  "claims": [
+    {
+      "id": "claim_96fa0ccab23d45baa2132e2b29c4d029",
+      "statement": "Storage components deploy in strict dependency order: snapshot-controller first (provides VolumeSnapshot API/CRDs), TopoLVM second (depends on snapshot-controller), local-path-provisioner and NFS CSI independently, then VolSync (depends on TopoLVM storage classes and CSI driver)",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/kustomization.yaml",
+          "version": "repo-file-v1:sha256:e46a24b0ed45feb970a628ca5917362415dff3ecd1e15beac3a4c4029d501549"
+        },
+        {
+          "resource": "repo://kubernetes/apps/storage/topolvm/ks.yaml",
+          "version": "repo-file-v1:sha256:0a948f18263a27ca682f29f251187c7f7fa6bb51b2aa08be369dbb0b602ae25e"
+        },
+        {
+          "resource": "repo://kubernetes/apps/storage/volsync/ks.yaml",
+          "version": "repo-file-v1:sha256:ab523a3a7dbdd1e556cea45e3dc396ba3a5971766bbe7e3e6906483454136974"
+        }
+      ]
+    },
+    {
+      "id": "claim_8f323a8e5f4c4178bd05006556f571a3",
+      "statement": "TopoLVM serves as the default storage provisioner using LVM thin provisioning with embedded lvmd daemon on each node, configured for single-node clusters (replicaCount: 1, affinity disabled, Recreate update strategy)",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/topolvm/app/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:9f811b657624fc8aac94483d88e1cce9076ccffc040ff11dc0645f912b65783c"
+        }
+      ]
+    },
+    {
+      "id": "claim_dc47e4bc1fb845d89ad6701cfa033c9d",
+      "statement": "TopoLVM device class 'thin' uses volume group 'lvm_vg' and thin pool 'lvm_thin' with 10 GB spare capacity and 10.0 overprovision ratio, allocating physical storage on-demand",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/topolvm/app/helmrelease.yaml#L29-L37",
+          "version": "repo-lines-v1:sha256:125f52bcbd8466e75571f1e0b0c17fb2330e71f3bb253d4bb318cd0149632278:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDY3MzViYTkwYzA0OGNhZjNjZmJhNjgyNTU2ODcwOTY4MzlhMDUyNzE4ZDExYWYyNTIwMmVhYzEwOWQ3ZjljYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGVmOGJhMDQ2YzQ2NGM1OGUwOGExZmIwYjRkZTMzZDMzYzZmMDkxMGNjZDE5NmQyNmNkMDg3NDE2ODcwYTAwYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzQyY2EwMDljNjUxZWIyZmI5NGFkZTMwYzEwYmUwODE3ZTkyZGNhMGJiOGRjZTE5ZWIxOGExYjY2OGVmMmYzYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiY2M2MzFiZmFmZDdjNDZlYTM1NjI0OTYwNWRmZWQ4Y2RmODhhMzc2NGJmYTdiMzQ4ZGVjNzczNzlkZTg1ZGFiNiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_45cfb3dcf9274ec7a9ca759932805c3f",
+      "statement": "LVM setup requires manual formatting before TopoLVM can provision volumes: pvcreate on /dev/nvme0n1, vgcreate lvm_vg, lvcreate thin pool lvm_thin with 100%FREE, as documented in lvm-format-manual.yaml",
+      "evidence": [
+        {
+          "resource": "repo://lvm-format-manual.yaml",
+          "version": "repo-file-v1:sha256:1ef90b64c092bc471e86f997137b0cc8ef881a2326119952d276f99e2fdf30b2"
+        }
+      ]
+    },
+    {
+      "id": "claim_3badc7d0ded14e448b14369e12a747e3",
+      "statement": "TopoLVM storage class 'topolvm-thin-provisioner' is the default class with XFS filesystem, Immediate binding, volume expansion enabled, and topolvm.io/device-class=thin parameter",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/topolvm/app/helmrelease.yaml#L38-L46",
+          "version": "repo-lines-v1:sha256:152d9a7c5d5461af80596f699db747576caed9bbeb8e4c0dd9dc939e8f84435a:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjRjZDI1OWJhZmIwZjIzOGZmNTEyMWU4NjM2ZGQwOGExNDgyODU1NWI3MmM3ZTNiYzczZDI3YzFlMmU3YjMyYyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYWZjZTZmOTZlMTE4MWIyMGU5OWRhMzk1M2NhMTE5YmI5NWFkN2M3MDE3Zjc5ZTc1Yzk4ZDQ1NWI4ODA1ZTUwMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjFmYWE2OGJmOGRjZDA5ZTgwYTA3ZGFiYTY3MWU4MjVjMjdmMzg4OTE2MjQ2YWI1NDlmN2EzMmE5NzRkNGY4NyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNWJmNzMwZDZhNzFhZGY2Y2NhZWFlNTliMTM2ZjUzYjliZmI5ZGEwM2Q4NTMzOWQzNjNjYWU3ZWFjYzc1MjQ1NyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_13312514444945e3b76c5d089fef5af1",
+      "statement": "Volume snapshot support is provided by snapshot-controller (v5.2.0) with default snapshot class 'topolvm-thin-provisioner' using driver 'topolvm.io' and Delete deletion policy",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/snapshot-controller/app/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:1a140678067238b56eb4e3fde1975b13ed5f155c212aa5f22ec643b3a8ffd8b5"
+        },
+        {
+          "resource": "repo://kubernetes/apps/storage/topolvm/app/snapshot.yaml",
+          "version": "repo-file-v1:sha256:c3f5242e4d5f428154a86ce8db9e8385c0a6ec12d4d75675b6f7750c1de5361a"
+        }
+      ]
+    },
+    {
+      "id": "claim_d5fa4e52a45048fa89f1c69ca9b38be1",
+      "statement": "VolSync uses ReplicationSource for scheduled backups (every 6 hours default) and ReplicationDestination for restores, both using Restic format with retention policies (24 hourly, 7 daily, 5 weekly)",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/volsync/templates/replicationdestination.tmpl.yaml",
+          "version": "repo-file-v1:sha256:26cba1ddf0c7c99f4b9ab552867703f0cf5aef4693a6330fac4a6526296cffa2"
+        },
+        {
+          "resource": "repo://kubernetes/apps/storage/nextcloud/app/volsync-nfs.yaml#L34-L58",
+          "version": "repo-lines-v1:sha256:95bc946b6a3b3208c224d094ae673c95027708031a1f997bc44d7aeec9ed3be9:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJmMDVhOGY5MWJjZmQzMTE4YmYzZDY2ZmU1NjQ4NjZlM2QzMTA0OGVlMGRmOGU3OTkwMjIxYWYzMzU4ODNmMTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1NjVhZmExNzZhODlhOWVhZjQ2MzI5NGNkMDg2YTVlZmUxZjM5MWQ4Njc4NDVhZTI4MDlhMmQxZmEzMmYwMTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjlkOWE3NjE0YTg4YjQ0ZjU0NGNmMTI4MDIxMmVkNjg3MzAwYzgyMTM1MjZmNzFhMDIyMjg2YTZkOWQ5NDlmZjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4f4f135a9b5e490c98b14faa35ef64fb",
+      "statement": "VolSync backups are stored in MinIO S3 at http://192.168.50.220:9010 under path s3://volsync/dev/${APP}, with credentials managed via External Secrets Operator from Bitwarden",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/nextcloud/app/volsync-nfs.yaml#L16-L17",
+          "version": "repo-lines-v1:sha256:2c077fefffd655b3db0cd7d5db533e3a7c499398b62df41745c82e7e58284a9e:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGE5MThmZDVkZTM1NGRmZDhkZDA5YjQzMWExZGYzYzFmODRlZGIxN2QyOGE4MjQ5NWFmMGVkMTQ2MzEwMTE3ZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTQyOTEyYjE3Zjk1OTMwYzc2OGVjNTQzNTI0NWIxZTJiNTJkNGM3OGM4NjlmYzViZmZlYTEzZDdlNjFkODk2OCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZmZlNTRmZTU1ODJhZjU2MThkMDFmNmZhZTkwMWVkOGJiYjk4OTg3NDMwMzJiYWE4ZTFlMGQ0OGFlMDE2OTkxOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDM4NjdkN2M3ZWFiMzNjZjRiYTA0ODI2MjZlMzgzODM5OTE5MjBiNzUwOTY5ZTA3MzQ0ZGViY2IxZjdiOGFjMSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_44f4b30b36e94befb81f262a10fc0bde",
+      "statement": "VolSync backup operations use topolvm-thin-provisioner for primary storage and local-path for cache storage during Restic backup/restore operations",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/nextcloud/app/volsync-nfs.yaml#L45-L46",
+          "version": "repo-lines-v1:sha256:8471e59cb21f09cebf5592487fc7aced3b97f19e12538ef04ec0ff88bc38e95b:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYWMxNTNjMTk1OTkzNWM5MDhiNmNlNDIzZGRmNDE2MGVjOTM2NjRhYTNjYzBlYWY2NWYxNWJkNGY1Y2VkOTFkMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMTIyZjFhYWFlM2EwNDAxZmQ1MzM5Y2JlNGVjYmYyMDY4ZWNmNGYyNjNjYWNhYTg4M2YwZjQ2MGVmYjRiYTc0MiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTQ0YjIwZjcyMjMwYzk4ZTNhMmI3OTE0MjNkOTcxZDYxNjJmNDQ3YzU0MjU3OGI2MjU3MjI1YTM0YmE4OTI3NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDUzY2Y5YTlkMDFkZWM5ZDhlNjdiNjYyYmY3MDY2ZTgwNTAzMzFjNWFhMWE0ZGQ1NjgxNGNkMTA5ZTcyZDIwZSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/storage/nextcloud/app/volsync-nfs.yaml#L54-L54",
+          "version": "repo-lines-v1:sha256:ea924a4d36dbda0219c08984ebeaa87e98610663552d0b5ee6ad59cbfe2c3a1e:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWE5MjRhNGQzNmRiZGEwMjE5YzA4OTg0ZWJlYWE4N2U5ODYxMDY2MzU1MmQwYjVlZTZhZDU5Y2JmZTJjM2ExZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZWE5MjRhNGQzNmRiZGEwMjE5YzA4OTg0ZWJlYWE4N2U5ODYxMDY2MzU1MmQwYjVlZTZhZDU5Y2JmZTJjM2ExZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjVlMTE2MjU0NDE4ZmM0YzFiODE5ZGM3YTdkZjFlNjAyZjIxMTkxYzU5NDY5ZmEwN2QzMDNlOWViMWEwNWFjNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMjExZmIzZGUyOGEwMmI1MGEyNjUyOTk4ZGI4NGQyMzIyNmQ3ZDI2YzRjOTY0ZmE4OWFhMWJiMjhkYTc3ZDM4NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_97817be1e0ab4949997c94b873935ee3",
+      "statement": "VolSync snapshot cleanup CronJob runs weekly (Sunday 2 AM) deleting VolumeSnapshots older than 7 days with name pattern 'volsync-volsync-dst-' to prevent unbounded storage consumption",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/volsync/app/snapshot-cleanup-cronjob.yaml#L9-L57",
+          "version": "repo-lines-v1:sha256:709f3417d115fb2d7d874d24e83859586eb578e75c8eb0a26309ff3b4a60df5b:eyJzZWxlY3RlZExpbmVDb3VudCI6NDksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdkNWJlNjQ4ODBhYjhkNjAzMWE5YTg0NDQxNzAwMjRkMjUyMmYyZDcxNTA4MTU5MzY2MGE0YWE4NDBhYzMwYmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODNjMmFjMGE4MTM3ZGY1MTBmMWI3NDVmMDEyMDFiZjQ4Y2JiNmU5ZmFmYTcxNDlhMzNmZDczNjg1MDQ3YWMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg4NzRiY2UyMzIxNmIwNWY5OTU1Njk2NmI1NDUxYzZmYTcyOWJmYTQ0Y2E3YzBlMzQzYTAyMTcxYjAxZjdlZmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUwMGZiMjk5NDY3ZjM2MzZmMGU3NWNmZjI1MGI4NzAwOGQ0NGNmZjMzYzk5NzJiNThiNDFhMGNjNTI3YTk5ZjAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c711b818e5b04c25aa8ba52cc06b15f2",
+      "statement": "Taskfile helpers provide volsync:snapshot (manual backup), volsync:restore (automated suspend/wipe/restore/resume workflow), volsync:list (snapshot listing), and volsync:unlock (repository unlock)",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/volsync/Taskfile.yaml#L51-L100",
+          "version": "repo-lines-v1:sha256:07ab1a26b6778bdc9ca5e320ee66d8eee767ddd3e52e5da70ae1a1344e276763:eyJzZWxlY3RlZExpbmVDb3VudCI6NTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3ZTQ3NDY4MDg4NDE0M2E0NWY2ZWFiOWZiZjcxMWJlMjc1MmMwYjQyZjczYzU5MDg4MjZhZjkzZjllMjFmNmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQxMzUyMzFkMzBmMzM2OGYwZmZiNGIxYWRmYWY2MGRhODZkNDY3ODZmMGI2MjFmYjliYWE4MDhmYTlhNTI3ZWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiY2Y4NDg1MWJhNDM1Y2M0NTM1YjdhYzRmZDY1ZDVjOTkyYzQyNDViNGU0MjUyNzI4OWJmNzdkNjk3NTFhOTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjEzMmJlYzFlMDg0OTVlNWY3Y2I4ZTg5M2RkMzNjOTE3MjJjNjk2MzhiNjAwM2E5Y2MwYTU2ZGYxZTZlMmQzNDkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_2696277a004b4b86906db470fd917ec8",
+      "statement": "NFS CSI driver (v4.13.4) provides network-attached storage with ReadWriteMany access mode, configured with 1 controller replica and external snapshotter disabled",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/csi-driver-nfs/app/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:5736079736ef7d6ac701fb2b0d94076c6fcf9a745eef5c00f8a89a9e1c013b80"
+        }
+      ]
+    },
+    {
+      "id": "claim_869fdc77813a4ce18f2dd5766c65418d",
+      "statement": "Local-path-provisioner (v0.0.37) provides host-local storage at /var/mnt/local-path-provisioner for cache, temporary storage, and small volumes",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/local-path-provisioner/app/helmrelease.yaml#L23-L26",
+          "version": "repo-lines-v1:sha256:0a87c2e7387ccf0af6d2c17ed61ce8aee71ab407ccebda6760fd9d041ca7f8ed:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzY4Nzc4Mjg3MDI3OTg4ZjFmN2Q4NDhhZjkxNTZmNDg4MGRkM2QyMzAxNDc0MGEwY2U0NzBjMjY2M2E4NzcwOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTdlZmQ2OWY5ZWZmYzMzMjkwYzA2NGRkYmYzZTkyOWY1ODEzMGUwZDQ5MWU3ZmI3MzE4ZDMwY2Y0MTE4OGNlYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTM1ZDg3NzExNDIwOTBkZDdmNzIyZTg0MTZjZjZkOTk4MWMxZDY2YjhhZDU1YmNlZDc0Zjg1YWFkYTE1ZjE4MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-08-31T23:16:37.333Z"
+  }
+}

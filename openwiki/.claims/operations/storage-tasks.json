@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:80cd044d61492df77858060e7f689dc73c7662e2133391aa8acd70bb8a4b9258",
+  "claims": [
+    {
+      "id": "claim_01d43442d21549de8342cb5b00865c82",
+      "statement": "The cluster uses LVM thin provisioning with a volume group (lvm_vg) and thin pool (lvm_thin) configured on /dev/nvme0n1. The thin pool uses 100% of available space with an overprovisioning ratio of 10.0, allowing provisioning up to 10x physical capacity. The setup requires manual formatting documented in lvm-format-manual.yaml before TopoLVM can provision volumes.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/topolvm/app/helmrelease.yaml#L29-L37",
+          "version": "repo-lines-v1:sha256:125f52bcbd8466e75571f1e0b0c17fb2330e71f3bb253d4bb318cd0149632278:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDY3MzViYTkwYzA0OGNhZjNjZmJhNjgyNTU2ODcwOTY4MzlhMDUyNzE4ZDExYWYyNTIwMmVhYzEwOWQ3ZjljYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGVmOGJhMDQ2YzQ2NGM1OGUwOGExZmIwYjRkZTMzZDMzYzZmMDkxMGNjZDE5NmQyNmNkMDg3NDE2ODcwYTAwYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzQyY2EwMDljNjUxZWIyZmI5NGFkZTMwYzEwYmUwODE3ZTkyZGNhMGJiOGRjZTE5ZWIxOGExYjY2OGVmMmYzYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiY2M2MzFiZmFmZDdjNDZlYTM1NjI0OTYwNWRmZWQ4Y2RmODhhMzc2NGJmYTdiMzQ4ZGVjNzczNzlkZTg1ZGFiNiJ9"
+        },
+        {
+          "resource": "repo://lvm-format-manual.yaml",
+          "version": "repo-file-v1:sha256:1ef90b64c092bc471e86f997137b0cc8ef881a2326119952d276f99e2fdf30b2"
+        }
+      ]
+    },
+    {
+      "id": "claim_41bfa264d740432d9ce3ad9e60dd05bf",
+      "statement": "TopoLVM uses a single device class named 'thin' that references the lvm_vg volume group and lvm_thin thin pool, with 10 GB spare capacity reserved for metadata and operations. This device class is configured as the default for volume provisioning.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/topolvm/app/helmrelease.yaml#L29-L37",
+          "version": "repo-lines-v1:sha256:125f52bcbd8466e75571f1e0b0c17fb2330e71f3bb253d4bb318cd0149632278:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDY3MzViYTkwYzA0OGNhZjNjZmJhNjgyNTU2ODcwOTY4MzlhMDUyNzE4ZDExYWYyNTIwMmVhYzEwOWQ3ZjljYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGVmOGJhMDQ2YzQ2NGM1OGUwOGExZmIwYjRkZTMzZDMzYzZmMDkxMGNjZDE5NmQyNmNkMDg3NDE2ODcwYTAwYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzQyY2EwMDljNjUxZWIyZmI5NGFkZTMwYzEwYmUwODE3ZTkyZGNhMGJiOGRjZTE5ZWIxOGExYjY2OGVmMmYzYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiY2M2MzFiZmFmZDdjNDZlYTM1NjI0OTYwNWRmZWQ4Y2RmODhhMzc2NGJmYTdiMzQ4ZGVjNzczNzlkZTg1ZGFiNiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_f05388f725c046a89fae12a0350a8f7f",
+      "statement": "The topolvm-thin-provisioner storage class is the cluster's default storage class, providing XFS filesystem with Immediate volume binding mode, volume expansion enabled, and targeting the 'thin' device class via the topolvm.io/device-class parameter.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/topolvm/app/helmrelease.yaml#L38-L46",
+          "version": "repo-lines-v1:sha256:152d9a7c5d5461af80596f699db747576caed9bbeb8e4c0dd9dc939e8f84435a:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjRjZDI1OWJhZmIwZjIzOGZmNTEyMWU4NjM2ZGQwOGExNDgyODU1NWI3MmM3ZTNiYzczZDI3YzFlMmU3YjMyYyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYWZjZTZmOTZlMTE4MWIyMGU5OWRhMzk1M2NhMTE5YmI5NWFkN2M3MDE3Zjc5ZTc1Yzk4ZDQ1NWI4ODA1ZTUwMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjFmYWE2OGJmOGRjZDA5ZTgwYTA3ZGFiYTY3MWU4MjVjMjdmMzg4OTE2MjQ2YWI1NDlmN2EzMmE5NzRkNGY4NyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNWJmNzMwZDZhNzFhZGY2Y2NhZWFlNTliMTM2ZjUzYjliZmI5ZGEwM2Q4NTMzOWQzNjNjYWU3ZWFjYzc1MjQ1NyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_e060eccf8f6e49ad8f6d099a0f023828",
+      "statement": "The local-path provisioner provides host-path storage from /var/mnt/local-path-provisioner on each node, suitable for temporary storage, caching layers, and VolSync backup cache where volume expansion and CSI snapshots are not required.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/local-path-provisioner/app/helmrelease.yaml#L23-L26",
+          "version": "repo-lines-v1:sha256:0a87c2e7387ccf0af6d2c17ed61ce8aee71ab407ccebda6760fd9d041ca7f8ed:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzY4Nzc4Mjg3MDI3OTg4ZjFmN2Q4NDhhZjkxNTZmNDg4MGRkM2QyMzAxNDc0MGEwY2U0NzBjMjY2M2E4NzcwOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTdlZmQ2OWY5ZWZmYzMzMjkwYzA2NGRkYmYzZTkyOWY1ODEzMGUwZDQ5MWU3ZmI3MzE4ZDMwY2Y0MTE4OGNlYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTM1ZDg3NzExNDIwOTBkZDdmNzIyZTg0MTZjZjZkOTk4MWMxZDY2YjhhZDU1YmNlZDc0Zjg1YWFkYTE1ZjE4MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_3b16779e427d4660a5259a6e47f63edf",
+      "statement": "The cluster deploys a VolumeSnapshotClass named 'topolvm-thin-provisioner' using the topolvm.io CSI driver with Delete deletion policy. It is configured as the default snapshot class and is managed through the snapshot-controller Helm chart (version 5.2.0).",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/snapshot-controller/app/helmrelease.yaml#L5-L16",
+          "version": "repo-lines-v1:sha256:64a469871aee821a148a8ce06250fae33e128514c9ef684ac20551002ba34275:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNhNmY0ZGRhM2VhZWMwMzBmNTUyODI4MWFlYjI1OGRmYzRiOTAyMDhlYjllNWRiZDkxZGJlY2EzMWRiZDFhNTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBjM2Y2OWM2YTc1NWU1YjJhY2Q0MDE1ZDhjNGRhZmEyM2VlN2ExNGYzOWFmNjkzZWNmODkzYzQwOTMyNTMzOGIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIwNDM4MTY5MDk3MGNhYWUzYTJmMzBjMjJmOWY1ZDZmZWVkMmY1NzJlZjYwMGY4MmE4NDg1YWQzZTUwNmE5YmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZjYjBhMjJjZGJkZWY1Nzk3NmI2ZTVmOTFlMmFjNmMwZGQ5ZTA2NjljN2VjMjQ0ZTE4MGM2ZmRkNmY2ZGM5NGUifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/storage/topolvm/app/snapshot.yaml",
+          "version": "repo-file-v1:sha256:c3f5242e4d5f428154a86ce8db9e8385c0a6ec12d4d75675b6f7750c1de5361a"
+        }
+      ]
+    },
+    {
+      "id": "claim_22b9208d80494d89a21266774aa9bde8",
+      "statement": "The snapshot-controller deploys first in the storage component chain to provide the VolumeSnapshot API and CRDs. TopoLVM depends on snapshot-controller for CSI snapshot support, enabling instant point-in-time volume copies for backup and cloning operations.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/kustomization.yaml#L12-L15",
+          "version": "repo-lines-v1:sha256:327a71b554602bf6f21df62a914c78fbffbad98de9bbdfa5b0004dc3e2635616:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDhkN2JkZDA3NWIxYmE2NWQxMWRmODAzMzg5NTQxZTIzMDI4ODMwYWM4YjUyMTZlZDkxYjg2NDRmZmJmMTBkZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDZmZGYxYmRkM2ZlODlkNjcwZDQ4N2Q2MWNjNDU2OTk2N2JiYmJmNWFjNjE5MTlmYTY0YTM1NDQ4MWNmMmQ3NSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDFjODU4ODdmMjE2NjZhMzkxMjAzN2JmOWQwMWJkYTZmNDQ2YjA4NzllNjI1MzQyZWQwNjg1MmM2MDkzY2VjZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjIsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMWQ5NGRjNTBiM2JlZDljZDhlMTJkMmY5Yjk5NTc4MGMzNWI5YTVkNWEzYWI0OTY0YzRhMTM3OWFjOTIyNDdhNiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_3a8a750c36054f0087db2d937534ed56",
+      "statement": "VolSync depends on TopoLVM storage classes and CSI driver availability. The volsync Kustomization explicitly depends on the topolvm Kustomization to ensure storage provisioning is available before backup or restore operations begin.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/volsync/ks.yaml#L14-L16",
+          "version": "repo-lines-v1:sha256:64cc4e7d041194edfe9d736eb43e6af3d46d32dd25db576efe37b825c9a62214:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTYwYzNiZDdiYzU5ZmVjOWU0ZGVkMzVkN2NjZjcwMGEzODVhY2U1ODYzNGZhNjBkM2IyMmZmMjY4YzAxN2ViZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzQ1OTdmODNhNWQ5OWFhYzllNTJjYTE3YTk4MjZhNDkyYWRlMmJlOWQ1M2FmMDMxNTAwYmNmY2UyY2UzYjlmNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjcyNWY4YTk0MDk1MzcxMjQwOGMxNmUwZGU5ZmY4YjM3M2FjYmEwN2I4NzMwNDhlMjhmNTdjMjIzMjIzYjhlZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzU2ZGJiMjFiMjExOTIzYmNhY2I2MWYxOTM4YzE3NGJlMjhiMDBmMzAyZDM1MGY4ZjEyYjA4NzcwNWIyNzk4NiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_bb0248bb14304acfb4a930132923097a",
+      "statement": "TopoLVM is configured for single-node cluster compatibility with replicaCount: 1, affinity disabled (empty string), and Recreate update strategy. This prevents upgrade failures where anti-affinity rules would block the second replica from scheduling in single-node environments.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/topolvm/README.md#L13-L16",
+          "version": "repo-lines-v1:sha256:4df294aa0cc7c05465a76003b4399e34aa46d8d3481ae182a121db2689656dc1:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTRkN2ZjZDM1MjYwZjQ5YmMwZTgyYjI0YWZiY2ZhMDc5ZmE4YzJlMmY5MGM0MDIxOWQ3MzZjMDIxMWQyNDIwYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjUyYWYwNDM3NWEzM2QxMTlkNjlmNzRlMTc1YzJkM2I4YjQ4MzQ5NzM4YTNhMjliZWI5OTdhZTdjOGY2NmI2MCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDNlOGNiZjYzOTllY2RlNzhjZmZmNDM4ZDdiM2E5ZjI4MTRiMTY1MmU4ZGI2YjQwNTRkYzE4NjQyMzQ4MWYxYyJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/storage/topolvm/app/helmrelease.yaml#L51-L54",
+          "version": "repo-lines-v1:sha256:c7b0b55b7b99f6b9bed9d423e95e6479e74766c4bdef52fd9305e0988154b6bd:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGNiZjg2OTlkYWRhZjE3NGQ3ODlkOTU2OGNlNmNhNDIxMWQ1OTc3NDM5ZDNmMjViOGU4NmFhZGNjM2Q1M2JjMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYzc1NjEwNGFiMzhmODMyNjk4ZjhmZmQ1Zjc4Nzc4NDJhNzVlMDIxNzVkNjE2ZWE2MTBiZDY0NGNhODgyNjE5YyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDJhODg3ZTM4YTk2MzEzZGM2OGUxNjdiZjNmYzE4OTIxM2M2MGJjM2FjNTUxYTI2MzVhMTQ4MmRkMjc2YjcwNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNWViOTM2MWMzNjM0ZWY3ZWI0ZjljNzAxNGMxOGNmYzllMDQ0MDc5ZTkzOGVmNDhhY2YwOTgxMmEwMTYzZjc4YyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_e0d5408933ce440b8d1a1f55238b7378",
+      "statement": "PVC provisioning failures require checking storage class availability, TopoLVM node capacity, and CSI driver readiness. Common issues include incorrect storage class names, insufficient thin pool capacity, and pending CSI driver pods.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/topolvm/app/helmrelease.yaml#L51-L54",
+          "version": "repo-lines-v1:sha256:c7b0b55b7b99f6b9bed9d423e95e6479e74766c4bdef52fd9305e0988154b6bd:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGNiZjg2OTlkYWRhZjE3NGQ3ODlkOTU2OGNlNmNhNDIxMWQ1OTc3NDM5ZDNmMjViOGU4NmFhZGNjM2Q1M2JjMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYzc1NjEwNGFiMzhmODMyNjk4ZjhmZmQ1Zjc4Nzc4NDJhNzVlMDIxNzVkNjE2ZWE2MTBiZDY0NGNhODgyNjE5YyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDJhODg3ZTM4YTk2MzEzZGM2OGUxNjdiZjNmYzE4OTIxM2M2MGJjM2FjNTUxYTI2MzVhMTQ4MmRkMjc2YjcwNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNWViOTM2MWMzNjM0ZWY3ZWI0ZjljNzAxNGMxOGNmYzllMDQ0MDc5ZTkzOGVmNDhhY2YwOTgxMmEwMTYzZjc4YyJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-08-31T23:16:37.333Z"
+  }
+}

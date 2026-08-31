@@ -1,0 +1,162 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:2c384d0c65439b42cd9b8f8f8ed7c479e8b6d6f2e3d4cb9a6bbbaf17d5c66b23",
+  "claims": [
+    {
+      "id": "claim_d05bde63be0e48cca828a500a8054af5",
+      "statement": "ImageUpdateAutomation uses the Setters strategy to update image tags in manifests by replacing {\"$imagepolicy\": \"NAMESPACE:APP:tag\"} markers with the latest selected tag from ImagePolicy resources.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/epub-translator/app/helmrelease.yaml#L28-L28",
+          "version": "repo-lines-v1:sha256:2faf0979f2eff93ce75394a76e3440caf5883a52cce68426cff79c6d5530a719:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMmZhZjA5NzlmMmVmZjkzY2U3NTM5NGE3NmUzNDQwY2FmNTg4M2E1MmNjZTY4NDI2Y2ZmNzljNmQ1NTMwYTcxOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMmZhZjA5NzlmMmVmZjkzY2U3NTM5NGE3NmUzNDQwY2FmNTg4M2E1MmNjZTY4NDI2Y2ZmNzljNmQ1NTMwYTcxOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDQ4NTlmOGU1Yzg2OWMwMmVhYmM2MDQyMzMwNzlkNWU1MjRmNmZmYWEyMDRlY2RmMDNiMWZjOWUyMGRkYjQ2NCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiM2UxMzZkMmIzZmJhMzg4NGVhMzIwYTJkY2ZjNTM4NDllMjI2MGU3OWEwMWU5YjcwMWQyNTEwYTYyNzliZWY3OSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/fava/app/helmrelease.yaml#L28-L28",
+          "version": "repo-lines-v1:sha256:cac4d6f24dc1719881106ede3659b83364e8b3e987c0a5539525015e62f16375:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2FjNGQ2ZjI0ZGMxNzE5ODgxMTA2ZWRlMzY1OWI4MzM2NGU4YjNlOTg3YzBhNTUzOTUyNTAxNWU2MmYxNjM3NSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiY2FjNGQ2ZjI0ZGMxNzE5ODgxMTA2ZWRlMzY1OWI4MzM2NGU4YjNlOTg3YzBhNTUzOTUyNTAxNWU2MmYxNjM3NSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDIzYjRhMjllYjI5NTdkZWI5ODRmM2E5OTM5YjI4YTY0NThmNmMyNTk5MTRkYWYyNWY3YzlhOTEyZTRjMTkyNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzI3OGY1N2YzYzQ4MDU5ZDYxY2M2YzE0ZjQ3ZTM5MzVjM2M4MTRiNTQ4Njg5NDY0M2UxYWRkNDZhNWI2NTViNiJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/flux-system/image-automation/automation.yaml#L9-L11",
+          "version": "repo-lines-v1:sha256:cbbfc46305f559466bd484d1ef3925df103a27b98e680a8aca86e607765f4375:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzljZWFmOWQ1YWYwMDcwNTA5NjI3YzBkOWExZjY3NGJjNDAwZjE3ZmJmY2QwMjI1OTgzMjJhMjhhYWI4NmQ3OSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTI1YWM5OWJlNDhiYmQxM2NjNmM1MmMwZWY1YjFmODk1ZmM2Yzc1MTU1NTNjMTk4ZWRhM2M4OGQzZjE0NDQ5OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDM0N2E1NzdlYmE4ZDkwZjBlM2Y3YTM1Njg5ZThiMjM2NzFkYTc4MzMwODEwOTU4OWMwNThjNDcxY2JlMTA2OSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODI1ZWQ5ZTcwYTRjYmQ3OWNiOWVmOWE5ZWFmNGRlZTdkMzkwZDU0OTkzN2JlNDc3ZmM2NjUwMDg3NmJiNDQxMCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_d63d6426aa804c0b835c2dbd7cb4cbc8",
+      "statement": "ImageUpdateAutomation discovers ImagePolicy resources using the label selector image-automation: enabled, which is applied to all ImagePolicy instances created by the image-automation component.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/flux-system/image-automation/automation.yaml#L26-L28",
+          "version": "repo-lines-v1:sha256:623694312881f6892468f2471005a72c863ddb1cc47124eeb0199c8135411320:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODMxZjU1NDc5YTA1NTQzNDU0NzI3YmI2YTcxM2Y5YmUyZmU4MzQyYmQyODZlOGIwNDcyYjcyMmE5NjczMWYxNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTE5YjVkM2E2NzM5NzIyZmViMzMwM2Q5YzUwYTI0ODI2MGQ3YzVkYjg3Yjk1ZWI0ZDQxZGNhMDYwNDQ4YzE2NSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGM4YWIwYTQ2ODcxMzFkMGE4Y2NiNmY3OWUyNDFjNmJlN2MxYWI1YjYzYzVlNGNiZjg4ZGQwNjcyYTZhZmQ5NyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/components/image-automation/imagepolicy.yaml#L7-L8",
+          "version": "repo-lines-v1:sha256:36c334ea9fe35ab1cdd6ea61ab3cd1c7bdbe86c6a64ad53bea1503381a015e24:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOWNmODNhZTk4NDk1OGM1NjFhYzk2NGMwNDc0MTIwNTRkOThiODhmZWI0YWE1NTgwZjA2Nzk4NmNiODcyYWNhMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYmNkN2UzMGE5OTJlZDZlNzY1NTAzNjc0MWRmMDM4MDg2ZWFhY2NkYTg4MjY4MDE2NWQwNTE0MzU4NTE2NDYwYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOGFmMWVkZjc1NWEzNzFmMGQ1ZDYwNTA3M2NmMDBkYzY1YzkxMjlkN2RhODAwOGE5OWY5Yjc4ODQyZWJmMmEyNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjAxOTI5YjI2MDlhZTE3MzdkMmE5Y2UzY2EyNDc4OWI5NjYyNTdkNDFlY2RkNjY3Y2ZkNGJmM2YxYWFkMzRkYyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_56a97c95d9d342a689a6c28cd12f53dd",
+      "statement": "flux-bot creates automated Git commits for image tag updates and pushes them directly to the main branch using the configured GitRepository source.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/flux-system/image-automation/automation.yaml#L14-L25",
+          "version": "repo-lines-v1:sha256:0c30a3f1694607ec2bfafd1c6326eebe734e42aaca06dae8eab2bb51a6f45688:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc2YzljYzYwMjY3N2YyMzk4MTJkNmQ5OGMwNGI3ZDgyMWJiMTQxMDQ0NDg1NmE2ZjEyNjYwYTE4ZWQzMGE5MGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUyZWE0YjUyODRiNzA1YjBiOTc4NTFhODcxODExMTIzNWIyOWY0YzhkZDlkOTZlYWJlYzVmMjAwYzIyMzEwYmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE1M2MwZjBjMzczNTQ0MzQ5ZWU4MWY2MjdiNmU0NmFmNDhhZDY5ZDg4NmM4ZjhhNTFkMTMwN2IwZTFmNjIzM2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjYyMzY5NDMxMjg4MWY2ODkyNDY4ZjI0NzEwMDVhNzJjODYzZGRiMWNjNDcxMjRlZWIwMTk5YzgxMzU0MTEzMjAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e1de4f8984b84285977dacb86cd3ebcb",
+      "statement": "ImageRepository resources scan container registries every 1 minute to detect new image tags, using authentication credentials stored in a Kubernetes pull secret created by ExternalSecret.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/image-automation/imagerepository.yaml#L8-L11",
+          "version": "repo-lines-v1:sha256:19c10475bc12dcf6dfb0205aeafb48eaf886c38f75853dba184bfd0d01697e6e:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWUxZDEzOWNlOGM2NTQ0OGYzY2Y5ZGNkYTFkOTA4MjA3NjRjZDk1Y2MwMDY1YjkxYWU5NWZjMDRkODAwYjQ3YSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODI0Yzk5ZjJiMmFiOGU1MWZmMmQyMDgwY2M0ZGM4YTYwZmExYTBhNDI2NTFkMGQzOWZlMDgzZWI0Yjk0MmZiMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNWM2ZGJlNjQ5OTdkNTIzYWJkMDIwOWYwMzk3NjY4YjdjNGYyMDNjYmZlOTUxOTA1Zjc1YmZjY2NiMGU4OTBlNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/components/image-automation/registry-externalsecret.yaml#L12-L17",
+          "version": "repo-lines-v1:sha256:2d7405ae02967fdc12f19dc9ed89d4494bac60071c8e2997de77573016579c29:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODI0Yzk5ZjJiMmFiOGU1MWZmMmQyMDgwY2M0ZGM4YTYwZmExYTBhNDI2NTFkMGQzOWZlMDgzZWI0Yjk0MmZiMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzk0Y2MwZmQ1MDIxNmIxZDY5MmVmMDkwNzc4MmNmZjRlYmM1MjI2NDc4NDE2YzJhNjUzOWI2N2MzZjEyYTQyOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTg4MzgxZDgwZmM0NzRjOTUyMmVlYTU0MjRhYzk5ZmI1YmMwOTBmN2JkYzE4N2NhNTE4YjE5YWM5MjhkNTcyYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjlhNzllZWIzZTYwZGY0NzEwNzA3ZDVlMTgyMGFmMTYwOWNmNWZlMzE4NjJhNWM1NjAwYWYwYzQ3MmQ2M2QyMSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_60b0c63bca1a4004a3bd0f1f1f16fb66",
+      "statement": "ImagePolicy uses a numerical policy in ascending order with a tag filter pattern that matches CI/CD generated tags containing timestamps, selecting the newest build based on extracted timestamp values.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/image-automation/imagepolicy.yaml#L9-L16",
+          "version": "repo-lines-v1:sha256:7e14a183b997778ce3ff37c2b759409172a29e1494dd2c57711cd5312371c9fe:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWU5MWU1MWNlNTM4ZWYxMjBlZTIwY2JkZjk0MTU4YmFjZTFjYzExNzkwNmY4NjRmZWQyZDk0ZTM3MTEwY2IyNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzMyN2U1ZjFjZmViNDc5YzJkODlmZDZhY2MzMTExOGRhZjI3NzkyYTJjOTNkMGE3MzFlZjIyYjYwYWJiZDFmYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzEyNTY5NDAzODk0YmRiM2IwOGExYTQ5YzBkY2M4ODRlMzc4YWExNDkwOTc3NTA1NTc3YWFiNWQ5Nzc1YWU4YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTI3ZGFjNTBhZmRmM2NiYjM0ZDI0YzU5MWM3MjQwNDZlMDE5ZTg1YjVjNGVkMmJlY2I1OTgyNjA4MzBhZWZkOCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_b435952e83174572992ddca37a79a0bb",
+      "statement": "Applications can override the default ImagePolicy using Kustomize patches to support alternative tag formats such as pure SHA tags with alphabetical sorting.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/omnifocus-sync-server/app/kustomization.yaml#L9-L24",
+          "version": "repo-lines-v1:sha256:9365eae0695dc0b326075d85a465fb8e3bba4e408de4e1c0c794f31c36f59747:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ5N2ZjZjlkM2U0ZWJlNGZiYWIxYTc1MWYwOTVlMTdkZjRjMjBjYmYyMDQ1YWIyMGUxMWE0MmJiMjNjNzNhNTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVjYmFjYzVlYjZiNTVkM2QyZmIxYjk5MmMwYjM2MzdmMWQ3OTEyZjNkYTY3ZGY2YTYxM2E4MGEzZmNmOTg4YjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJkYjY2NWQ4YTBlZTcyYTM2MmIyOTM4MzRmOGY3OTMzZTFiYTFjOTBkY2Q0NTEyNWFjYjc2ZjM4MTRiZTQzNGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7063b856d6294624ae52c6f68b953a8f",
+      "statement": "The image-automation component provides ExternalSecret, ImageRepository, and ImagePolicy resources that are instantiated per application using Kustomize variable substitution in the app's postBuild configuration.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/epub-translator/ks.yaml#L12-L41",
+          "version": "repo-lines-v1:sha256:875ba6d16ac8fd2b682e6e8b0096bd45be31a50adea1c1519bbd59bede89ab3f:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVkM2E1ZDYxNWQ4YzhjYWZlZDM4MmU2ZmMxODVmNDU5NzAyYWE4NjhjZTc1MjRmZDI2NmYzZmI2ZDYwYzA2NzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlhYWIxOWIzZWVkNzVmYjQ3NDA0N2VjMWUxYWQ4ZDRjZDNkNzlhOWFhZTFmYWQyZjNhOWFjZTczMjQxMTgwMDYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYwYmVkZjViYmRjMDhmNDkyNzZiN2ViYzY4ZGVlZDA5ZmYwZDJjODc5MDA3MDA5NDM1ZjNiOTY0NzY0ZjU0ZGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/fava/ks.yaml#L12-L35",
+          "version": "repo-lines-v1:sha256:15096af50858e71b83e0f4f995fb281adea435299ea1f8019974ef2ef2646906:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVkM2E1ZDYxNWQ4YzhjYWZlZDM4MmU2ZmMxODVmNDU5NzAyYWE4NjhjZTc1MjRmZDI2NmYzZmI2ZDYwYzA2NzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlhYWIxOWIzZWVkNzVmYjQ3NDA0N2VjMWUxYWQ4ZDRjZDNkNzlhOWFhZTFmYWQyZjNhOWFjZTczMjQxMTgwMDYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYwYmVkZjViYmRjMDhmNDkyNzZiN2ViYzY4ZGVlZDA5ZmYwZDJjODc5MDA3MDA5NDM1ZjNiOTY0NzY0ZjU0ZGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY1YzI3YzJkZDI3ZWY0ZWQxMjBmOWJhN2EwZjBmNjkzMDU0OTFmYWI3NjA4M2RkZmY4NDNmN2UxOTI2ZDJkMWUifQ"
+        },
+        {
+          "resource": "repo://kubernetes/components/image-automation/kustomization.yaml#L4-L7",
+          "version": "repo-lines-v1:sha256:4103ef8a43c16cbade2f22cce17af8883a42935f7b4d16cc704eaed649a74d64:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzY2NDg5ZGJjOGUxYWM0MTBlODAwZTVmMTc0ZTU5M2IwOWFlYTNjOWM1OTA3ZjAxMzdkZjdjODIwYWU0NmFhYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTFjODEwMzM5Mzg3MGNhMTZkMGM0MTVhNmE3MGU1MzBjYzk5M2MwOGM2MzQxNzAzNmUwODczNTlmODYzNGVhOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTlkYzhiZTg5MDdjZTZkOGRmMGI4NjUyMTAwNWJjYWYyMDRiMjZjY2Y3M2NjMmNhNDRhZjQzNTYxZTAzODMyYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_02ffe510feee4351b0ea05e1066b5328",
+      "statement": "Flux Image Automation and Renovate operate as complementary dependency management systems, with Renovate handling broad dependency tracking via pull requests and Flux handling continuous image promotion via direct commits.",
+      "evidence": [
+        {
+          "resource": "repo://.renovaterc.json5#L14-L18",
+          "version": "repo-lines-v1:sha256:95c39242e6e99b92519f9ed027013db6cfad733162fbeb0c31d7891538383c74:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2MyNGQyOGNmOThlZmNlZGMzN2M2ZTlmNzRkZmE4ZTliYjcyZGU4ZGRmNDk4NTFjNjY2ZGUxMzkyZjc4NmY3ZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGQ1Y2QyZmI0ZjNkZjg4NDUxNTI1NWIzOTUyM2YyZjhiNTQ3MmJlZWE5ZjU2NmZmY2EyMDRkYjgwMjU2MTA0MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMGNiNGY5NGQ0MGY4NmViNGFjOTlkMzc2NjVlY2RkNmU2MDM0MWQ2YzcxMmFmMmQwZTExZjBlYWIzODU1ZTYxZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzA2YmVkYWIzNjcxYWYyYzFmOWI4NDlkMTFjYWIwYmU4MDlkMDZlNTc2NTE1YzA4MWZhMTNkYWQ1NjQ0YzFhZSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/flux-system/image-automation/automation.yaml#L8-L8",
+          "version": "repo-lines-v1:sha256:7ff97d43fccc12b57073cf43fb44d817db4eaa4d8d2d79b788313d8d927ec2e6:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiN2ZmOTdkNDNmY2NjMTJiNTcwNzNjZjQzZmI0NGQ4MTdkYjRlYWE0ZDhkMmQ3OWI3ODgzMTNkOGQ5MjdlYzJlNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiN2ZmOTdkNDNmY2NjMTJiNTcwNzNjZjQzZmI0NGQ4MTdkYjRlYWE0ZDhkMmQ3OWI3ODgzMTNkOGQ5MjdlYzJlNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMmViYTM3ZGUyN2IwM2JlYWExNmU4MDlhMGZlZTQwMDU2MGZjNDI2N2MxMzBhODMyNGNhODFlOTU5ZDM2ZmYwMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiY2JiZmM0NjMwNWY1NTk0NjZiZDQ4NGQxZWYzOTI1ZGYxMDNhMjdiOThlNjgwYThhY2E4NmU2MDc3NjVmNDM3NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_f6a5d4cc0e394eeda2ae319b40463b99",
+      "statement": "Image Automation requires the image-reflector-controller and image-automation-controller Flux components to be installed for reconciling ImageRepository, ImagePolicy, and ImageUpdateAutomation resources.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/flux-system/flux-instance/app/helm/values.yaml#L13-L14",
+          "version": "repo-lines-v1:sha256:97d17d909d2a1f2a7bcc30a161ecc971b0e89eaf5e7d6c5a5d52ac3e0f779464:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYmQ0MDJlZjAyNWY4OTRmOTQ3N2U2MmMxNTFmYmJlNDhkMmY4N2M3OTE5MDZmZDg0NDlhNGMyNDMwMTFlNTZjNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTcxZmVmMTI2YjU4ZDM0YTQ1YzA5NjA2ODE3MDAxOTQyYzNmNTNiYTNjZTY2YThkNDI5MWRhNTg1MmMyNGExMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYWViYWY5YmY3MWI1MTg0YjYzOWFhMTRjM2JiODNiZmY0OTc5NjIyYWYyZGE0YTE0ZTYyMTRmMzEzNzYxNjUwOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzM0ZTZlZGZiMTFkNDgyNTAwYTNmYWY4OGJhODY3ZGQ3NzI4N2NiYjAyZWUwMGFhZGE2ZmQ5NTdiZDZjMDhmYSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_c0eb63bbca664e328246fa1ac299be47",
+      "statement": "ImageUpdateAutomation runs on a 5-minute interval and is scoped to the ./kubernetes/apps/default path to update only default namespace applications.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/flux-system/image-automation/automation.yaml#L8-L11",
+          "version": "repo-lines-v1:sha256:7e11e9a9bc04b22a3eb4f6ed91d303703f1ca3f90b5bc1a905de6cad027b519f:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiN2ZmOTdkNDNmY2NjMTJiNTcwNzNjZjQzZmI0NGQ4MTdkYjRlYWE0ZDhkMmQ3OWI3ODgzMTNkOGQ5MjdlYzJlNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTI1YWM5OWJlNDhiYmQxM2NjNmM1MmMwZWY1YjFmODk1ZmM2Yzc1MTU1NTNjMTk4ZWRhM2M4OGQzZjE0NDQ5OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMmViYTM3ZGUyN2IwM2JlYWExNmU4MDlhMGZlZTQwMDU2MGZjNDI2N2MxMzBhODMyNGNhODFlOTU5ZDM2ZmYwMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODI1ZWQ5ZTcwYTRjYmQ3OWNiOWVmOWE5ZWFmNGRlZTdkMzkwZDU0OTkzN2JlNDc3ZmM2NjUwMDg3NmJiNDQxMCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_e74449e3fc9b454b921ec2c5b2cb35ec",
+      "statement": "The image-automation component creates an ExternalSecret that retrieves registry credentials from Bitwarden and constructs a dockerconfigjson Kubernetes secret for image pulls.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/image-automation/registry-externalsecret.yaml#L7-L26",
+          "version": "repo-lines-v1:sha256:9e76bdb5a63a53e02b3bf252bfb0056c5d49300d2377c5b1e2541c5f8c3180cd:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVlOTFlNTFjZTUzOGVmMTIwZWUyMGNiZGY5NDE1OGJhY2UxY2MxMTc5MDZmODY0ZmVkMmQ5NGUzNzExMGNiMjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNiYmYzOWYwZTkwNzFkOGEwZjQyZjNlMzc0OTdhOTRhMDExNGU2NmYyNmFmYjcyN2VmNDFhMDkxZWE3Yzg1YjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYzMzcwY2QxMGFmMDdjMWI0OTUxN2EwNWViMGUwNTBiZWVkMGQ0ODZjYjI2MDIxZDViYzU3M2RhOTZhZTI2ODIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_94f3f69776ec45c4b78e40c3101ab6d9",
+      "statement": "Applications include the image-automation component in their Kustomization and provide required variables (APP, NAMESPACE, REGISTRY_URL, REGISTRY_HOST, BW_ID) via postBuild substitution.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/fava/ks.yaml#L12-L35",
+          "version": "repo-lines-v1:sha256:15096af50858e71b83e0f4f995fb281adea435299ea1f8019974ef2ef2646906:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVkM2E1ZDYxNWQ4YzhjYWZlZDM4MmU2ZmMxODVmNDU5NzAyYWE4NjhjZTc1MjRmZDI2NmYzZmI2ZDYwYzA2NzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlhYWIxOWIzZWVkNzVmYjQ3NDA0N2VjMWUxYWQ4ZDRjZDNkNzlhOWFhZTFmYWQyZjNhOWFjZTczMjQxMTgwMDYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYwYmVkZjViYmRjMDhmNDkyNzZiN2ViYzY4ZGVlZDA5ZmYwZDJjODc5MDA3MDA5NDM1ZjNiOTY0NzY0ZjU0ZGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY1YzI3YzJkZDI3ZWY0ZWQxMjBmOWJhN2EwZjBmNjkzMDU0OTFmYWI3NjA4M2RkZmY4NDNmN2UxOTI2ZDJkMWUifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/growth-tracker/ks.yaml#L13-L39",
+          "version": "repo-lines-v1:sha256:9cba192463d6d0c2242234473b57a805f6c12e90f7b6b722856f34a01152c000:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVkM2E1ZDYxNWQ4YzhjYWZlZDM4MmU2ZmMxODVmNDU5NzAyYWE4NjhjZTc1MjRmZDI2NmYzZmI2ZDYwYzA2NzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlhYWIxOWIzZWVkNzVmYjQ3NDA0N2VjMWUxYWQ4ZDRjZDNkNzlhOWFhZTFmYWQyZjNhOWFjZTczMjQxMTgwMDYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYwYmVkZjViYmRjMDhmNDkyNzZiN2ViYzY4ZGVlZDA5ZmYwZDJjODc5MDA3MDA5NDM1ZjNiOTY0NzY0ZjU0ZGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-08-31T23:16:37.333Z"
+  }
+}

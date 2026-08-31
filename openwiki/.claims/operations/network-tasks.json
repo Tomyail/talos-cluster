@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:203ff2e3a2455088f6ef5e80660f5bd35ec5de782557a599c7b3a60eefe973d2",
+  "claims": [
+    {
+      "id": "claim_edf5d23102cc44b19fd40b4c8b6f8e8f",
+      "statement": "Cilium cluster status can be verified using kubectl to check pod health (kubectl get pods -n kube-system -l k8s-app=cilium), cilium CLI (cilium status), and pod logs for troubleshooting connectivity issues.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/cilium/app/helm/values.yaml",
+          "version": "repo-file-v1:sha256:a5d44cfd8523a63bed8cf76f09c859c2a9a91a46e254c263386774dccf811abf"
+        }
+      ]
+    },
+    {
+      "id": "claim_d7c54e8ad25a491e9ef644b896b74a92",
+      "statement": "Cilium allocates pod CIDRs from 10.42.0.0/16 as configured in ipv4NativeRoutingCIDR, and this can be verified with kubectl get nodes -o custom_columns to ensure proper IPAM mode.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/cilium/app/helm/values.yaml#L33-L33",
+          "version": "repo-lines-v1:sha256:581be253d7ede9105e328741b32b02c0cdb38df5427e2a59d6bae2667b798c1d:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTgxYmUyNTNkN2VkZTkxMDVlMzI4NzQxYjMyYjAyYzBjZGIzOGRmNTQyN2UyYTU5ZDZiYWUyNjY3Yjc5OGMxZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTgxYmUyNTNkN2VkZTkxMDVlMzI4NzQxYjMyYjAyYzBjZGIzOGRmNTQyN2UyYTU5ZDZiYWUyNjY3Yjc5OGMxZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzhhMzFjMzU4NGEzZGUwNzIzMTY3NWU3OGJmZmFkZjY4Yjc1YzNhZjYyYjU1MTcyYTg3NzVjM2IyODhkMDc0NiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzEzZTE1YmEwZTI0ZDliMGM5ZWQ4ZWRmYjFhYzE0YjdhYWEyYTEyZGZhN2Y5MzM1MWFmYTAwMzkxOTRiNzI5YyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_7d0a298fd3bc446ab05c872d722dfb63",
+      "statement": "Cilium Gateway API provides external (192.168.50.13) and internal (192.168.50.12) gateways for HTTPRoute-based ingress, with status checked via kubectl get gateway -A and kubectl describe gateway commands.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/cilium/gateway/external.yaml#L12-L13",
+          "version": "repo-lines-v1:sha256:82cca9b169b96df1c2db2f3d1359ee1ecaa949782a65209fd0c9797f1cda3ebc:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYWEyZDNjYmU5NDFhZjQ2NGMwNzExNTZiNTBmNTBhY2U3Njc4YjZmMDZmMGRhMmRjNGM5MDM2NWIyMjM1YTQ5YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTQyMjVhYTNkZDc1ODlkMGNmNDMwYmRmMjlmZDE5Nzg5ZDM0ZDYyZmU4ZGI5ZjhiYzY0NzMzMDQyNGEyNmVhYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzJhZjcyMTEyYjc1ODBlZmRjNDg5N2ZiYTQxYTg2NWFjZmFhZmIyODVkYmM0MWJlYzcyYjdhNGEwZDlhZTYzZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDkxNDcyZmMwMjk4ZjBlZGUxNmIzZTgzZDcyMDJmZDJmMDQwYzM1OTQ2YWVkMDZiMTNlYmVhNzE5NzBlZjgxNCJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/kube-system/cilium/gateway/internal.yaml#L12-L13",
+          "version": "repo-lines-v1:sha256:d034d4a423e7a5359595226a7c8a0a9548208c71473ce816ebfe5f95f3592f61:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYWEyZDNjYmU5NDFhZjQ2NGMwNzExNTZiNTBmNTBhY2U3Njc4YjZmMDZmMGRhMmRjNGM5MDM2NWIyMjM1YTQ5YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGY0Nzk3NWM2NjE2YTNmYjM0YTMxZjBlYjFhMjFlNDRmOGVlMmExMDE5NDcxYWU2NWNmZTg1NDIxYjYxNTliZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzJhZjcyMTEyYjc1ODBlZmRjNDg5N2ZiYTQxYTg2NWFjZmFhZmIyODVkYmM0MWJlYzcyYjdhNGEwZDlhZTYzZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMGMzMTE0NmJmZjc4OGNmNjYzNGFkYzQzYjMyOGJiNzZmY2Y0ODBiZTY2OTA0NTRkMjVlYWMwM2EyNjU4MGU4ZiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_eeaf7c0f2b064855a34335b8f93f78ca",
+      "statement": "Cilium LoadBalancer IP pool uses 192.168.50.0/24 block with L2 announcements enabled, managed via CiliumLoadBalancerIPPool and CiliumL2AnnouncementPolicy CRDs for bare-metal LoadBalancer functionality.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/cilium/app/networks.yaml#L14-L25",
+          "version": "repo-lines-v1:sha256:9cbbd879615d2bf16f49a92f98f72aceb44875e05509cca67c7c9d5c24b2a670:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUxOGFlNWQ4ODAwNjMwNmJkNzZhOWU3OTM4YjkzZGYzNWU4OTkyNzg4NGE4M2FkNGJjN2QzMGZhZTU1ODE1ZWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2NzUwZDVmZTEzMDI3NDA4YTdlMTYyMDA2NmM1NDk4MmI1NzRkNjhlMzUxZmVjZmYwMmIzMDBiNDA5OTM5MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIxYzE3ZTg2MDA2MGJlOTRlMTFjM2U1MTA3ZGM5MjkyMmUwY2ZiMTc5MTFlMGI1MGJlNTc0OGYxYjM2NTEyOWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/kube-system/cilium/app/networks.yaml#L8-L10",
+          "version": "repo-lines-v1:sha256:ab9c289e6fb8d54b2a6a8e0683ac23a32e94d17ce3bd91936cba7c5dd843d1f8:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTY0ZmUxOTdjNzZjYTRiMTBmYTk4MDY1OWZkYTNmMGJiZmQzYWU5Zjk5ODA1YzhhMDU3NDg4MmFlYTc1NGEyZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTk2OGU3OWFiOTYzNmUzODM2NjgyNzQ4MTVhMzU4M2I2MjZmZTBiODlmNWRhZDJkOGY1ZmQwOTFiNjU2ODE2OCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYWJjMTUxZGQ5ODYxMzQ0MTk5ZmJmODE2NmVmZmE3YWI1YzNlMGRlZjE3ODgxNjgxNzllYzA1YzNiMGYwMTE2OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjFjMTdlODYwMDYwYmU5NGUxMWMzZTUxMDdkYzkyOTIyZTBjZmIxNzkxMWUwYjUwYmU1NzQ4ZjFiMzY1MTI5YSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_11df6f40c91543c2b4b5fa1078e6b3b4",
+      "statement": "Cloudflare Tunnel (cloudflared) authenticates using TUNNEL_TOKEN from cloudflare-tunnel-secret, routes traffic to Cilium external gateway via HTTP/2, and exposes metrics on port 8080 with liveness/readiness probes on /ready endpoint.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/helmrelease.yaml#L28-L39",
+          "version": "repo-lines-v1:sha256:3ccc5e1cd4e79e510a8b8056c4f0dbf7526dd7ff4ca5cc679761d283c0e7302b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEwMWM2M2I1MTNlZTE0ODcwZTczYzNiMjQyOGRlOWY4ODRmMTk4ZTZhYTY2MjFhZmE1MjdlY2ExMmFmZjIzNmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2NDc0ZDFiNzA3YTNhMmZlNzQ4YjJhNDM2MDZlMTViMTM4YWI4NTMxMjVhYmU4YWRjZTk2OTlkZTliYWRkMGYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY4OTI5Zjk5MDMzMzg5OGRjNzFmZTMyYjczYTA3YzA2YThhYzk1MWRhYWU4ZmE4ZjJiZGI0MjkwOGE4ZGQ0ZDgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRlYTJkNzQyZDhjZTc1Y2Q2NjJlNmM3MzdhNTc0YWRkNTQ4NjM3ZDM1MTJlZTEyZmVjNWUwOTRkZjMyYjVmN2EifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/resources/config.yaml#L5-L9",
+          "version": "repo-lines-v1:sha256:62c90a149ec0f6f73c11ecf984cb790829ae3e95224e66cfc5b32350a40c44b4:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTEzOTIyNDI3NjcxYTY0MjA5YzA3ZTRlOWU4Njg4ODc3YjUyMmIxNDBkNGMyNDI4MTkyMDhkNDIxNWZmYWJjMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYzU1NDhhMWEzM2U4MjdiM2ZjNmE5OGI3MjAwMjU5MWEwZDliNjIyNTFhNmEwODY4Y2QzMDU1NDkwNDRhNjYxMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjM0ODg5M2E3MWJhNWY5ZTY4NTY0ODdiNWI0ZDk0MWFlNmE3NDNhYzI3NDRjMDU3YTkzYTNjZTE0NWJkMDZkMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzE3Yzc4ZmE3NTM5MDllMmQwMjQ2ZGUyNGIxMDBhYjk3OWQyMTljOTIwOWI4NTkxM2EyYzIwYzNjMThjNWIzYyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_d2c04b45ed01477685691f3efa2bfb44",
+      "statement": "Cloudflare Tunnel endpoint is registered as a CNAME DNS record (external.SECRET_DOMAIN) pointing to the Cloudflare Tunnel unique ID via DNSEndpoint CRD for ingress traffic routing.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/dnsendpoint.yaml#L9-L11",
+          "version": "repo-lines-v1:sha256:1a0b36670cf86fcf78daeaab0d100528833dca7ce4831ef09c9de6298ad9453c:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOGYyYTVhNWFhNmFlMDMwNGFmNDFlZTJhNTY4MmY0NzllMDcxYzAzNGU1Zjk2Zjg3ZjNjZDVmODRjMmQ3MjIzNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzdjY2U3MjA5NDFkMTMwMDIyYjc4YmViODRjMGQ5MGU2MzQ3OGU5ZWEyNjM1MWEzM2Y2YTM0MmMyMjUzZTcxMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMGZhMTVlNzRjMzU3ZmFlNjZiYzJkODlhNGQ2ZTBlZGFmYjFiYTg1NmIzNTUyYjUyYTFhNTZiNTg3YjM3OTkzNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_a4176e6f7f2743379c62304befeb7315",
+      "statement": "k8s-gateway provides internal DNS resolution at 192.168.50.11 with 1-second TTL, watching HTTPRoute and Service resources to generate DNS records under SECRET_DOMAIN for cluster-internal service discovery.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/k8s-gateway/app/helmrelease.yaml#L35-L43",
+          "version": "repo-lines-v1:sha256:ed8acfb836d2f56a10273f2f79228403cc59fd51d847991b1f723d5731665e7f:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZGNjMzY3Y2Q2YzM3Y2VlNGJiZDBiZjY2MTE2OTA4YWE1MWNjYzQ3MzFlNzgzYTNhZjgxMzI1ZDI4YTM3MjQyYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiN2I1ZDlmYjdlOGFiYThjZWMxNGM3OWQyMzc1MDVmYzQ1OTU1N2E5ZjQwOWIxZDEwNGRlMzU5NzM0NWI0MDMyMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDczMmY2MDVhMmI1Y2VjZjRhMjgwOTZjNzc1ZGE5MDEyMTQ4NTFjM2ExZTQwNGUxYzkyNWFmY2RhZThhYmVkNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_af8582b67f5a43c7a2cffdda0be6f49d",
+      "statement": "AdGuard DNS integration synchronizes internal service DNS records to AdGuard Home at 192.168.50.1:3000 using webhook provider (external-dns-provider-adguard), with credentials retrieved from Bitwarden adguard-home entry via ExternalSecret.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/adguard-dns/app/externalsecret.yaml#L21-L26",
+          "version": "repo-lines-v1:sha256:2ff9f213b5d1e0b579e97dafee61d2785b4564e74c043366ecc95c3784961c54:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTgzNDQ3NWViYTU3NzI0NGE1ODllYjBlNjY4YmZlOGUyNTNjNjA5Mjg1OWQyMmQ3NmE3YjE1ZWZjNzA4NjYyOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiM2IzM2MzYTdhOTJmODBkZThhOGMwNDI4NTFhYTY2YTE3YmQzMjVlYmE1YTc1Yjc2ODhlYWVjYWU3NTRkOTEwMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTU4NDZhNTNiMmUwMGIwOGNhZjIyYjlmYjVlN2RjZGVmZmZhMzYxNDE5MjViMWMwYTE5ZTQxODhiNDJiOWQzYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/adguard-dns/app/helmrelease.yaml#L35-L45",
+          "version": "repo-lines-v1:sha256:e191051701c31b5f8e8c5f28697711e6c572dd55d1fc0453593061a45bac513f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkxMGU2OGQzMDMzMDg5ZmFjYzU4MzVlNTA4YmNmMTYzZWEyNmFjYWMxYTg5ZTllMWI2YWFkZjQzZTJkNjFkODUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdlNjA3NmMxOThlMzQ0OWM5NTZmMjQzOWRkNGZjODY5ZWVhMTU4YzYyZmZmZjMzMDQ4MGJiNTkzMmMyNmQxMGYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNmNjIzMTg4ZjgzYzZiYjZiY2Y0YjVjN2JmNWMxYTljYjFiMmE1OWI0MzBiYWViYzlkZmZlNTVjODk5ODQ0MDciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjEwMGViYmNmNzc5NTZlNjI4OTNjMzc1OTY5NWYxMzEzNDU0NTkyM2Q5ZDdjM2IwNWY1MDY1ZWE2OGQ0NWJkNTkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_bc8ea1c3ca6545358e4346ee98131c21",
+      "statement": "AdGuard Home provides DNS-level filtering and security at the network edge, configured via web interface at http://192.168.50.1:3000 with blocklists for ads, trackers, and malicious domains.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/adguard-dns/app/helmrelease.yaml#L44-L45",
+          "version": "repo-lines-v1:sha256:8ddae932bd34b365a4af072255cabb0d7a31c0499a5ced0e3579081bfde9407c:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOGNhZThmYjU3NzI4ZGFkZmJlNmVhYWE5ZjAyZWZmYThjMmUyMjU3MmYzN2U2NTAwYWUwY2RhOTEyYWZiZGZkYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiN2U2MDc2YzE5OGUzNDQ5Yzk1NmYyNDM5ZGQ0ZmM4NjllZWExNThjNjJmZmZmMzMwNDgwYmI1OTMyYzI2ZDEwZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTA0YzU2MzQ3MWY1ZThjMzAwZjg5YTFhMTIwMzk5ZTcyMjRhN2U3ZGQ3MGFlNjQ3ODg2YmIyOTdmOGMzYjRlMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTAwZWJiY2Y3Nzk1NmU2Mjg5M2MzNzU5Njk1ZjEzMTM0NTQ1OTIzZDlkN2MzYjA1ZjUwNjVlYTY4ZDQ1YmQ1OSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_03fb763adca8438f847fe9eb56b6f162",
+      "statement": "Tailscale operator authenticates using OAuth 2.0 credentials (client_id and client_secret) stored in Bitwarden tailscale_k8s_oauth entry and synchronized to tailscale-secret via ExternalSecret operator.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/tailscale/app/helmrelease.yaml#L27-L35",
+          "version": "repo-lines-v1:sha256:1a34a9c9a82e5cfc9123ff764151c35cb843b44adc014388a00390e9bf819667:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOGZjNWE0OGNhNWYzMzI0ZTdhMGE1ZGZmNzUxNmQ1N2QxYmVhNWE5ZWEwNTExMjA0NzRlM2E0MThjNzgzZmFmOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjA0MTA2Njk2OWJjYjE0ODdmMmMxMTg4MGZiYjJkOTU2YjlhOGVmNTQwMzIyZmE1NGQxYjlmZTg2MTA3ZTRmYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjViOWM4YTVjOTQyMTY4NTBlNDNkM2U1MGM3NjZlYmRlY2UyZTIyNTJlMDljNmRkNGNiZTZhNzc4N2E1YmMzNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_df89ad40a053492a9e571cb1ce5a84d4",
+      "statement": "Tailscale API Server Proxy is enabled with mode 'true', allowing remote kubectl access through Tailscale network for secure cluster administration without additional VPN configuration.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/tailscale/app/helmrelease.yaml#L25-L26",
+          "version": "repo-lines-v1:sha256:d0645d99eac1f99046f0abd908bee977b2b83c71dd6d434bb16c461627b73a5c:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYWY3NmI0YTdjZWFmYmNiNzkxNDBmYTMxZWM1OGVlMTM0YjYyM2JkMTY5MGI5ZGU5ZWEzYjU2NDQyOTlmOGVjNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzVkZGIyYWJmMjFjYzMwOTYxOTE2ZDBkNGM0NWRmODk4ZGZjMmQ5NzBiZGZmN2RjM2Y0MjZjODljMWRlZDU4MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYWNiZGZjYzNmOGY1Y2FhYTE1ZDViMjM3NzIzZTA2ZmNhYmFjODJkYWIyNTBmZTM2ZmM0YTc0ODYzYjQ2MDJiNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzlhOTczZGU4MWFiZjM3MmI4ZmIyNWM1ZTcyZDM5MTJiYThkOWVjNzEyNmY5NjQxNzYzZGRlODU3MWY0YmQ1MyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_a9bbac3eb0804e4a9fcd78fda8ce156a",
+      "statement": "Tailscale egress proxy enables cluster workloads to access services in remote clusters via ExternalName services annotated with tailscale.com/tailnet-ip, routing traffic through the Tailscale mesh network.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/tailscale/app/egress-proxy.yaml#L4-L11",
+          "version": "repo-lines-v1:sha256:749d326d88121424f65a49c8df75bf15f07c613acf09eb56d74ef3dd6d573f3a:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2E2ZjRkZGEzZWFlYzAzMGY1NTI4MjgxYWViMjU4ZGZjNGI5MDIwOGViOWU1ZGJkOTFkYmVjYTMxZGJkMWE1OCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjUyZDcxMTEwM2Q1MGE0Mzc4MzBjNmZiY2QwNGZiNGJhYjQ5YTBmODJmNmQyNmQxYzc5MWM2ZTg0ODhkZDA5MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDJjNWIyZDA1OWE1ODBjMzFlODkzOGU4NGFmZmMzNGMxMGQyNGIwN2ViNDlkNGJlYmY4MWM1ZGYzNmE0ODUyYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzZhZDE0MmQ3MDkyMTNlMWFjMGVlZWI2YzBmZDE3YTQyN2QyOTJmNDJlOGQyMTBhNjkyN2NhYjYzNzgzMjZmMiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_f2093b4648f44a3080ab488e8967a1cf",
+      "statement": "All network services expose Prometheus metrics via ServiceMonitor integration: Cilium (cilium-metrics service), Cloudflare Tunnel (port 8080), k8s-gateway, AdGuard DNS webhook (port 8080), and Tailscale operator, enabling comprehensive observability.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/adguard-dns/app/helmrelease.yaml#L71-L75",
+          "version": "repo-lines-v1:sha256:e664dd0418a137da0dbca143927727af68728befcdb47fb5164d6cc7dc239114:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjdhOTFjOTc2YTJlZmI1Nzk0MWQyNTI2MjE5NzZjZDRiNjZmYzQ4YzgxMzZhZDYwOWRkZTE1ZDFiNjBlODA4MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiM2EyMjIxNTdhMTIyZDJhMjRlZGE2NDI2MGQwNjBhZWNmODMxZmI1MTQ2NzgxODZmMTM5ZTMzNDJjMDQwOTM5YyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiN2U0OTM5ZjIzZTVlNDgxMWZjOWI5ZDY3NzI4ODA4MjQ4MDVhODM4YTBkOTc1ODY4NzAxYzEyY2FiMmNlOWU1YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTM3ZjJmNzRiY2U5OGI3YzE0NTJiZmI3ODA3NmZlODFiMzZkZWMxYzViYzBiMmQ3N2RmZDVlY2VmMDVhMTBhZiJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/helmrelease.yaml#L72-L76",
+          "version": "repo-lines-v1:sha256:ca2ce677ebbcb62773d87f5cd22f64ed5660fc241dc883074fa91417193c5743:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjdhOTFjOTc2YTJlZmI1Nzk0MWQyNTI2MjE5NzZjZDRiNjZmYzQ4YzgxMzZhZDYwOWRkZTE1ZDFiNjBlODA4MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMmJlN2M2YWY3MzBjY2YxYmNjMjgzZjFiZDAyMWZjNTNjMTdjZDM2NTM0NjYyZTRmODVjZTc5NDRiZDc1MTViOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjNiN2EwOWEyNjliZGUxNDU4ZWFkZGMxMjY5YTczY2VhMTIwNTYxZGYyYmEzZmQwZDY0YTNjMWVlYTk2OGRmNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTM4YWY5YjFjNDMzMjFmOTAyNWVjMzRkZmQwNjI2YjdlNzI3YmQ5YzIyMzMwNjU5NTUzMDhmMTAwYTA1MTEwOSJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-08-31T23:16:37.333Z"
+  }
+}

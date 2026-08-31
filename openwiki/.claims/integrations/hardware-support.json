@@ -1,0 +1,122 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:1ea3f6561eee5b36f9ac4ab61b06a99a0e6e83f6933cbd530aa74544969d01ad",
+  "claims": [
+    {
+      "id": "claim_92c47721f8cf41218bf310315692f6df",
+      "statement": "Intel GPU support requires the i915 kernel module and supporting Direct Rendering Manager (DRM) modules (drm, drm_kms_helper) to be loaded on Talos nodes for GPU compute workloads.",
+      "evidence": [
+        {
+          "resource": "repo://talos/talconfig.yaml#L35-L40",
+          "version": "repo-lines-v1:sha256:66f3be51e7d7aca12327ddb12e9b78edbbd9ec76ae21f916395cab2898961864:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODI3Mjk3MzY5MjMyYmZmYWM1YjUxMmU5OWE1NThmOTZlNmIxYjU3NDQyYTEyZjU2MTJlYWRlODg4ZDNkZWZhOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYWEzMGJjZDVmNGZmNzhlMzI3ZDFkNGUwZThlNmNkZjkzNDMxNjJjYWQ5M2E2ZTg3NTM0Y2E4YmFiZGE0NjExMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODQ1NTgzZmY2ZDZkNTIwMThlNGRmNTk2MWI0ZDJkNzU2MjkyZjYxY2U4NDMyMjFkMGViNjk3OTE2YmUxNmU0NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYWExYWVjYjAzMzRlYTZlZTQ1NjRkMGM0MGJmNjE5ODE4NjI2NjQyMzM4Mzc2YWU1YmU2ZmQyNGEwZTVjODc1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_6afccc247e474aa4a47abd9770a77467",
+      "statement": "The siderolabs/i915 Talos system extension provides the i915 kernel module and firmware required for Intel GPU support, configured in the controlPlane schematic customization.",
+      "evidence": [
+        {
+          "resource": "repo://talos/talconfig.yaml#L78-L83",
+          "version": "repo-lines-v1:sha256:48e2a74c1e5baace04ec8559ef21662c84ab72ff2792c4d51c1188352a569b80:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjk5YTFkMmM2NDFkMjhhYjAzZWY2ZjYxMTdhZmE1NTg4NDcxYWJhNWM4YzA4NGNiNWJmYzcxY2ZlYWUzYTJhZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYzFiYmQ0Y2M0ZTk5MDhmMzdlYzRjODc0OTNkNDdjMDRmMzc3MzY5MDYwZDRhM2VhNDg1NTU2MDI2MDlhZjI4YSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzM2ZWI0OTVlZjhmNGM0N2MyZTYwM2MwZmIzN2VkZTliYWQ5MDlhYzBlYzNkYThmNDFlZmVhNGE0MzI3MmU1YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzcyZDIxYjRhNTYyYThkNjkxYmE1YTVjZGViMjI1OTVmZGJkOWRlZTE1OTIyYjcwNDA4YjAxMDE0NTYwODY0MSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_98e4716b9b824c20a4882d57293c56e3",
+      "statement": "The Intel Device Plugins Operator manages GPU device plugins through Kubernetes custom resources, deployed via Flux in the kube-system namespace with GPU device support enabled.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/intel-device-plugin-operator/app/helmrelease.yaml#L19-L21",
+          "version": "repo-lines-v1:sha256:d853a72111bff404c6861620ab6d66caae4da44f03f2c7485c72b72fa9ec60b1:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2E2ZjRkZGEzZWFlYzAzMGY1NTI4MjgxYWViMjU4ZGZjNGI5MDIwOGViOWU1ZGJkOTFkYmVjYTMxZGJkMWE1OCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZWU5MWU1MWNlNTM4ZWYxMjBlZTIwY2JkZjk0MTU4YmFjZTFjYzExNzkwNmY4NjRmZWQyZDk0ZTM3MTEwY2IyNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjA0MzgxNjkwOTcwY2FhZTNhMmYzMGMyMmY5ZjVkNmZlZWQyZjU3MmVmNjAwZjgyYTg0ODVhZDNlNTA2YTliYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMjgzNWFmMTBmM2Q3NDQ5NGE2M2Q0MTZhN2FlNDEyMTU1MDQwYjQ5NjM3Njc3ODM1OGM2NDlkYWY0MWIzMmI4MCJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/kube-system/intel-device-plugin-operator/app/helmrelease.yaml#L36-L38",
+          "version": "repo-lines-v1:sha256:b61ae33aa65c6f20f7835a4beeafb8e58a632069bbed10e5344e84de78687e77:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2QyNjhjMTgzZDc3NjEyZWQzMjRiNzYxMDY5OTdhNzFlNTVkZDQzNzAxMjQwNzFlYTVmYmNlNDZjNjY0NjU3YSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDkwZDBiYzkyMDE3ZDgwYTVhMDZiNGE3ZmYwZjU1YmFiZDViYWQ4OWQwMTA3ZWZjZTM3YzJlNDM1NGUxOTVjNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjI1YWUyZWUyODFlMGVmYTg3ODFlMjA2OWE2Mzg1YjIyOGUwNWYxMGU3ZGEwYWJlZGI1NzM3ZDRlMDA5MzU4NiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_a619a29950354f3ca3411706e2ee5e22",
+      "statement": "The GPU device plugin is deployed as a GpuDevicePlugin custom resource named i915 with nodeFeatureRule enabled for automatic node labeling and sharedDevNum set to 99 for concurrent client access.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/intel-device-plugin-operator/gpu/helmrelease.yaml#L34-L36",
+          "version": "repo-lines-v1:sha256:37c3ba50ca2ca5e17a68933f3a49aa8db1ed77ae4907b25c5d07a4d129169bb4:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTJjN2VhNTg2ZjFiZThmNDQ1MWQxMDA1NzE2NGYzZDBjNTcxNDFjNjQzOWNiNzQ2MzBmYmQzMDlkY2FlNDJkMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODg4ZTYxNWEzMjU5MjJkY2EzNzhkMWNmOTgyYTVjNmI5YWQzMGE5NjQwOTAwZTFjOGMxY2IzOGE5ZDgwN2NmZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjI1YWUyZWUyODFlMGVmYTg3ODFlMjA2OWE2Mzg1YjIyOGUwNWYxMGU3ZGEwYWJlZGI1NzM3ZDRlMDA5MzU4NiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/kube-system/intel-device-plugin-operator/ks.yaml#L46-L48",
+          "version": "repo-lines-v1:sha256:4a1d65b590978abb2d8b6d81429113c1db960cb9dae2e7c2531d680002b8fa7b:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODIyY2FhYmQxZGNiMDM5Zjg0YjQxNzliM2M1N2FlMjhhZmNhMDMwMTkwZmZkM2U1YmM0NzA5NWI2Zjc2YTFlMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTg2MmUzNzM1MDQzMWNjNzQ4YTA2YWM3ODY4ZDg4NWI2MTM3YmUzYTEyN2Y0ZTNkYjIyMTdmODFiY2NjZTZmNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTA2OGZlZjZmMGQ1MzYwZTliNGQ5YTk5Mjk3YWY1YzYxNGJkYmIzMzQ1NmFiODliYzkyZDdlOTZhNjc5MzY3NCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2E2NzM2YzcxOTMzOWU1Yjk1MDc3ZGRkOWFjYTdkMjgzNTZkY2IxNWEyNDE2ZDUyYWU3ZjM5MWQyNzU4YjIxOSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_513afbe08ee348be92363374fadf36b2",
+      "statement": "The GPU device plugin deployment depends on the Intel Device Plugins Operator being installed first, ensuring the GpuDevicePlugin CRD is available before creating the i915 instance.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/intel-device-plugin-operator/ks.yaml#L38-L40",
+          "version": "repo-lines-v1:sha256:f14b3bc7b49eff00074fffb85f445a10379cf92b8773d585624b44522dd94018:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTYwYzNiZDdiYzU5ZmVjOWU0ZGVkMzVkN2NjZjcwMGEzODVhY2U1ODYzNGZhNjBkM2IyMmZmMjY4YzAxN2ViZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTYzNjUwYWUzODk5ODg4ZDQ2NzQ5NjBiOGRjYTc2ZDNhOWI5N2M1YmFjM2IwZDBlMWQ3ZDAxYTg4ZGRhMzM0MyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjBiZWRmNWJiZGMwOGY0OTI3NmI3ZWJjNjhkZWVkMDlmZjBkMmM4NzkwMDcwMDk0MzVmM2I5NjQ3NjRmNTRkYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMjY4ZTI0NWYxNzBhOTc3NzUyMmIzMTVmMzAyZGUxYWY4YjhiYjllMTUwYThjZTFiODI5MzNjNmNhZjAwYjgwYiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_d6519f6f77c74d84b4378592fcf11399",
+      "statement": "Node Feature Discovery (NFD) is deployed via Flux as a Helm release in the kube-system namespace, automatically detecting hardware features and labeling nodes for pod scheduling.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/node-feature-discovery/app/helmrelease.yaml#L19-L22",
+          "version": "repo-lines-v1:sha256:1f9cabbbc36b0890e193d9adc3907a90d261b321aa7044f0ce7fd43a8fbd491d:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDA1MjU0MTkwOGFkOTMzYzhlZmRkM2IxZWE3OTQ4ZTgwOWE2ZmFlMGM1YThjZjU3ODdiOGVjM2U1ZmI2NjdhMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZWU5MWU1MWNlNTM4ZWYxMjBlZTIwY2JkZjk0MTU4YmFjZTFjYzExNzkwNmY4NjRmZWQyZDk0ZTM3MTEwY2IyNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTAxYWZjNjY3ZTA3M2RlZjFiMjBjMWNhYWMyZjY2ZWFmNGJkOTc2MDM1MjY3Y2E0MmQ1ZmJjYWM0N2FmOTYyMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzI4MGIyYTM0ZjZkMzRjNDA2YmE5NjUyOTA5NmYyMTkxNjQzMGM2NGIyZmQ4ZTYwNmYzYjkzMDgzYWZhZTQ2MCJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/kube-system/node-feature-discovery/ks.yaml#L5-L8",
+          "version": "repo-lines-v1:sha256:ff99c619c7fd122018d84c2373496df8e453eb33bc265677922c732a33718c23:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2E2ZjRkZGEzZWFlYzAzMGY1NTI4MjgxYWViMjU4ZGZjNGI5MDIwOGViOWU1ZGJkOTFkYmVjYTMxZGJkMWE1OCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZWU5MWU1MWNlNTM4ZWYxMjBlZTIwY2JkZjk0MTU4YmFjZTFjYzExNzkwNmY4NjRmZWQyZDk0ZTM3MTEwY2IyNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYmU1YjQ0ZDRkOWJiYTRiYTI2MGQxZTVlYjI4MDU1OWFkZDQyYTc4OTBhZmVlZmI5MTgwOTkyZjUxNjNkNGE4ZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjBiZWRmNWJiZGMwOGY0OTI3NmI3ZWJjNjhkZWVkMDlmZjBkMmM4NzkwMDcwMDk0MzVmM2I5NjQ3NjRmNTRkYyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_6b0e3bfabf364ba7b2f02297b6e768ef",
+      "statement": "NFD Master is configured with resource limits of 512Mi memory and requests of 10m CPU and 128Mi memory for processing discovered features and applying node labels.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/node-feature-discovery/app/helmrelease.yaml#L36-L42",
+          "version": "repo-lines-v1:sha256:8ce1063a8fcb6dbfd0e833e6dfb2eac839060a758195d9a01e556a3cec2fd8f8:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTMyZjZlODlkYzU5NzU4MmY4ODAwNjk3ZDBjNTc0YmYzODIyMTgyNTFkMjIwNGIyNDU0YjBjOTYwODAwYmFjMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzMwMTM5YWY4ODRlZTZjNTVhOTBmNzgzOWRiOWNlNmFiOTAwZjUzNWI2ODU3MTJjNTMxODFiNGE5MzkzY2JmMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzFkZDMzZDBmMjdiN2QyNDUwYTRlMjg4ZTQ1OGUzNzNlNDNhYjFkMjNlMzkyMWYyMjQxY2FkZjgyY2IxZjMwOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_fb11f54e404344fdb6ea374eef24668f",
+      "statement": "Nodes with Intel GPU hardware are labeled with intel.feature.node.kubernetes.io/gpu: \"true\" through NFD, enabling GPU-aware pod scheduling via nodeSelector.",
+      "evidence": [
+        {
+          "resource": "repo://talos/talconfig.yaml#L32-L33",
+          "version": "repo-lines-v1:sha256:873868425bc8bb31c68e34eec4d8629fe87803e297f68056190afd051755f231:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTA2MjVhNTdiZTJjYTBlNjA3OTIxNmEyNDg5NjJjZDJiOWMwOGQyOTg3YWUzNGJkMmEwMWUxNWYxNmEzMWMwYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjVhZDIwZTZjNDlkYTlkMGEyZWRkNjNkMTkzOTI4ZGQwMDAyNGU2NjMzYmZjNTQwOWQ3ZTVhYjlkOGY5MDAwOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiY2QwZjBmMWQxZjQ0N2U2M2U4MGI5YzczNjUwNmVhODZkNTA4NzRlNzlhMDkwNjNmMWVhYjQxNDQ0MmY3ZGM2OSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODc5ODMxY2M5ODQ4M2JmMDc0YzIwOGQ0YTY3MzM2OWQ2NTRiMThmZmFiY2QyZGYwZGI0MDYzNDJhZDE1MWYyMSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_10096b52258346d1afe19f2376e4f46c",
+      "statement": "Flux monitors GPU device plugin health by checking that status.numberReady matches status.desiredNumberScheduled for the GpuDevicePlugin resource.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/intel-device-plugin-operator/ks.yaml#L49-L53",
+          "version": "repo-lines-v1:sha256:5f5f5904eac0197c954ea8b5e19b7b8a75802d7ce842a92f0b6a06beea3f68e2:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMWY0ZGZjYzJlMjk3ZDNhMWMzMzA4N2Y3NzZhODcyOTY2ZTdhZjg2ZTkwZjkzYThjMDIyNzI3ZTdhMGVkMTA2MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOGI2NWI2MDU1ZGViMjNlM2ZhYjIzNzJmZTVlYTQzMmJiYTg2MTMzYTMwODVkMDNlZTA1MDBiNmQ3NTRhN2EyMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNGExZDY1YjU5MDk3OGFiYjJkOGI2ZDgxNDI5MTEzYzFkYjk2MGNiOWRhZTJlN2MyNTMxZDY4MDAwMmI4ZmE3YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTIyMTJjZjNkNGZmYTg5ZWRhMWI5YmQ5MTk3NjM4NTc5ZjZiOTczZGM0OTI5NmZhODk5NTQ3MzZiYjBlMWVhNyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_e9068ca7050d4dfabc57f0e90f327caf",
+      "statement": "GPU workloads schedule on GPU-enabled nodes by combining the intel.feature.node.kubernetes.io/gpu nodeSelector with resource limits for gpu.intel.com/i915 devices.",
+      "evidence": [
+        {
+          "resource": "repo://talos/talconfig.yaml#L32-L33",
+          "version": "repo-lines-v1:sha256:873868425bc8bb31c68e34eec4d8629fe87803e297f68056190afd051755f231:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTA2MjVhNTdiZTJjYTBlNjA3OTIxNmEyNDg5NjJjZDJiOWMwOGQyOTg3YWUzNGJkMmEwMWUxNWYxNmEzMWMwYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjVhZDIwZTZjNDlkYTlkMGEyZWRkNjNkMTkzOTI4ZGQwMDAyNGU2NjMzYmZjNTQwOWQ3ZTVhYjlkOGY5MDAwOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiY2QwZjBmMWQxZjQ0N2U2M2U4MGI5YzczNjUwNmVhODZkNTA4NzRlNzlhMDkwNjNmMWVhYjQxNDQ0MmY3ZGM2OSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODc5ODMxY2M5ODQ4M2JmMDc0YzIwOGQ0YTY3MzM2OWQ2NTRiMThmZmFiY2QyZGYwZGI0MDYzNDJhZDE1MWYyMSJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-08-31T23:16:37.333Z"
+  }
+}

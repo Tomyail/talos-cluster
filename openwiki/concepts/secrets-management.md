@@ -5,10 +5,12 @@ description: Dual-layer secrets architecture combining SOPS + age for Git encryp
 tags: [secrets, sops, age, external-secrets, bitwarden, security, encryption]
 verified:
   - by: openwiki/0.4.3
-    at: 2026-08-30T21:57:36.532Z
+    at: 2026-08-31T23:16:37.333Z
 sources:
   - id: openwiki-source-240e6406ed4b6841961679cb
     resource: repo://.sops.yaml
+  - id: openwiki-source-a2371d6362e5db4bc834ad03
+    resource: repo://CLAUDE.md
   - id: openwiki-source-878c71c8660186a07262b148
     resource: repo://kubernetes/apps/database/cloudnative-pg/app/externalsecret.yaml
   - id: openwiki-source-5a01ad0b742c7605909d5ff3
@@ -39,7 +41,7 @@ sources:
     resource: repo://kubernetes/components/common/sops/kustomization.yaml
   - id: openwiki-source-244e2919bbe6d12c6c8c9757
     resource: repo://kubernetes/components/common/sops/sops-age.sops.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-29T02:22:11.234Z" }
+generated: { by: "openwiki/0.4.3", at: "2026-08-31T23:16:37.333Z" }
 ---
 
 # Secrets Management
@@ -110,13 +112,22 @@ The `mac_only_encrypted: true` configuration ensures that only fields matching `
 
 ### Key Management
 
-The age private key for SOPS decryption is stored as a Kubernetes secret named `sops-age`, which is itself SOPS-encrypted in Git.
+The age private key for SOPS decryption exists in two forms: a local file for editing secrets and a Kubernetes secret for cluster decryption.
 
-**sops-age Secret** (`kubernetes/components/common/sops/sops-age.sops.yaml#L1-L22`)
+**age.key File (Local-Only)**
+- Stored locally at `./age.key` in the repository root
+- **Never committed to Git** - excluded by `.gitignore`
+- Used by developers for encrypting/decrypting secrets during editing
+- Referenced via environment variable: `SOPS_AGE_KEY_FILE=./age.key`
+- Must be backed up independently and secured with appropriate file permissions (mode 0600)
+- Required for bootstrap operations and secret management workflows
+
+**sops-age Secret (Cluster)** (`kubernetes/components/common/sops/sops-age.sops.yaml#L1-L22`)
 - Contains `age.agekey` field with the private key
 - Encrypted in Git using the same age public key
 - Decrypted by Flux during reconciliation
 - Referenced by Kustomizations via `decryption.provider.sops` and `secretRef.name.sops-age`
+- Enables automatic decryption of SOPS files during Flux reconciliation
 
 **Flux Integration Example** (`kubernetes/apps/external-secrets/bitwarden-connect/ks.yaml#L15-L18`)
 ```yaml
@@ -347,6 +358,93 @@ External Secrets Operator continuously reconciles ExternalSecret resources at a 
 3. Updates target Kubernetes Secret
 4. Applications using the secret receive updated values (via mounted volumes or environment variables)
 5. Some applications require pod restart to pick up new values
+
+## Verification
+
+Verify encrypted secrets and decryption functionality before committing changes to Git.
+
+### SOPS File Verification
+
+**Verify Encryption Validity**
+```bash
+# Test decryption of a SOPS file (outputs decrypted YAML to stdout)
+sops --decrypt --encrypted-regex '^(data|stringData)$' path/to/file.sops.yaml
+
+# Verify Talos secrets (whole-file encryption)
+sops --decrypt talos/talsecret.sops.yaml
+
+# Verify Kubernetes secrets (field-level encryption)
+sops --decrypt kubernetes/components/common/sops/cluster-secrets.sops.yaml
+```
+
+**Check Encryption Rules**
+```bash
+# Verify which creation rule applies to a file
+sops --encrypt --dry-run path/to/file.sops.yaml
+
+# List encrypted fields in a SOPS file
+sops --decrypt path/to/file.sops.yaml | grep -E "^#?|^  [a-z]"
+```
+
+### Cluster Secret Verification
+
+**Verify sops-age Secret in Cluster**
+```bash
+# Check if the sops-age secret exists
+kubectl get secret sops-age -n flux-system
+
+# Verify the secret contains the age.agekey field
+kubectl get secret sops-age -n flux-system -o jsonpath='{.data\.age\.agekey}' | base64 -d
+```
+
+**Verify Flux Decryption**
+```bash
+# Check Flux Kustomization reconciliation status
+kubectl get kustomization -n flux-system
+
+# View decryption configuration for a Kustomization
+kubectl get kustomization bitwarden-connect -n external-secrets -o yaml | grep -A 3 "decryption:"
+```
+
+**Verify ExternalSecret Synchronization**
+```bash
+# List ExternalSecrets and their status
+kubectl get externalsecrets --all-namespaces
+
+# Check the synced Kubernetes Secret
+kubectl get secret <secret-name> -n <namespace> -o yaml
+
+# View ExternalSecret events for sync errors
+kubectl describe externalsecret <secret-name> -n <namespace>
+```
+
+**Test Bitwarden Connectivity**
+```bash
+# Check Bitwarden Connect pod status
+kubectl get pods -n external-secrets -l app.kubernetes.io/name=bitwarden-connect
+
+# View Bitwarden Connect logs for authentication issues
+kubectl logs -n external-secrets -l app.kubernetes.io/name=bitwarden-connect --tail=50
+```
+
+### Common Verification Issues
+
+**Decryption Failures**
+- Symptom: Flux reconciliation fails with "failed to decrypt" error
+- Check: Verify `sops-age` secret exists and contains valid private key
+- Check: Confirm age public key in `.sops.yaml` matches the private key
+- Fix: Re-create `sops-age` secret from local `age.key` file
+
+**ExternalSecret Sync Errors**
+- Symptom: ExternalSecret shows `SecretSynced=False` status
+- Check: Verify Bitwarden item ID and property path are correct
+- Check: Confirm Bitwarden Connect has valid authentication credentials
+- Fix: Update Bitwarden credentials in `kubernetes/apps/external-secrets/bitwarden-connect/app/secret.sops.yaml`
+
+**Encryption Rule Mismatches**
+- Symptom: SOPS file not encrypted according to expected pattern
+- Check: Confirm file path matches a creation rule in `.sops.yaml`
+- Fix: Move file to correct location or update `.sops.yaml` creation rules
 
 ## Secret Rotation Procedures
 

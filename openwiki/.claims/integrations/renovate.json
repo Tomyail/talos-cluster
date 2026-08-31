@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:3d4dafc81e238a5039ecf70a6ed322ae2b56ebd964dbb751688b6383a3d635ee",
+  "pageVersion": "sha256:5437f238871d99c2d64801ada939fa642f24c05eef56dde01827793f8c834cf5",
   "claims": [
     {
       "id": "claim_28ba8b626032486cb6cfda160b55c8a5",
@@ -80,8 +80,12 @@
     },
     {
       "id": "claim_b784926d631742f4acaf99c983e9b62e",
-      "statement": "GitHub Actions are configured for auto-merge on minor, patch, and digest updates with a 3-day minimum release age and test ignoring.",
+      "statement": "GitHub Actions are configured for auto-merge on minor, patch, and digest updates with a 3-day minimum release age and test ignoring, using ci as the semantic commit type.",
       "evidence": [
+        {
+          "resource": "repo://.renovaterc.json5#L117-L121",
+          "version": "repo-lines-v1:sha256:a9d80d471334794353e7557ccaa8248c8e4a5f5b5fceb0c34cfe95160e05e090:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2NhNjNlMGM2MTk5ZmZmNDQ0NzRmNTZjNDY4OTU1NjJmMDBmYjk0NDU5NzdkOTM3ZTNjY2NjYmVhYmVmMTcyNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWYwY2RiOTcyYTdiZmI3ZWQyNDZmOWZmNjcyMzg1ZTU1ZjQ5NjhmYzExMDQzZGM1YjY4NGQ1MWRmYTMxZGJjYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMWM3NWFjNzMxNmVlZDU4NjVlYTY4MWMzMjAzYTkxZTQwZGUwMWE5ZTQ4MWRjMzhmZjBjNGE1MDFhN2RmNGE3MiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTA4MDAwZjZmM2QxZWNlYmQxZmZhNTlhZGRhZWE2MGVkODNhYzljZTJmMzI4ZDVlNmMxNmUzZDI5OTQzYjUyOCJ9"
+        },
         {
           "resource": "repo://.renovaterc.json5#L69-L76",
           "version": "repo-lines-v1:sha256:cdb0009351e8e02e3f58bd4020c953f8c1a4e6c26a0bfd53f60471ad47ec5780:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWQyYmFiMGU3NjNkYTI4MTgwNmIxZGM5OTIzMzhmYjI2Mjk5MzUxN2RmNjU0NmZiYmVkNTI3M2Y2ZjM1NWQ2MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWYwY2RiOTcyYTdiZmI3ZWQyNDZmOWZmNjcyMzg1ZTU1ZjQ5NjhmYzExMDQzZGM1YjY4NGQ1MWRmYTMxZGJjYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzA1ZWRkMDBkYzU2ZWIyYmYwZjQ4YzFlZDk5OTg5Y2IwNDQ3ZTRjNDRhZDE3NzE2Mjg4OTkzYjQ2ZDlkMDdkMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOGM1MzBkOGZiMGRmMTgwN2IyNDk3MzY4MjZiY2M2MTY1NTJkM2UzODgyZGIyYjJlMDMxMzgwZWY3MWVhNTFiOSJ9"
@@ -114,7 +118,7 @@
     },
     {
       "id": "claim_ec8391b1ca064430a88f79247a0b4e23",
-      "statement": "Renovate applies semantic commit rules with feat for major/minor, fix for patch, and chore for digest updates, with datasource-specific scopes including container, helm, github-action, github-release, and mise.",
+      "statement": "Renovate applies semantic commit rules with feat for major/minor, fix for patch, chore for digest, ci for GitHub Actions, and datasource-specific scopes including container, helm, github-action, github-release, and mise.",
       "evidence": [
         {
           "resource": "repo://.renovaterc.json5#L86-L131",
@@ -154,11 +158,11 @@
     },
     {
       "id": "claim_88842ece993f444a8b9f7d4621921690",
-      "statement": "The image-automation component provides ExternalSecret for registry credentials, ImageRepository for scanning tags every minute, and ImagePolicy for selecting latest images, integrated via Kustomization components.",
+      "statement": "The image-automation component provides ExternalSecret for registry credentials, ImageRepository for scanning tags every minute, and ImagePolicy for selecting latest images with numerical sorting in ascending order, integrated via Kustomization components.",
       "evidence": [
         {
-          "resource": "repo://kubernetes/components/image-automation/README.md#L9-L20",
-          "version": "repo-lines-v1:sha256:dc14137dd9e74450cbf8b453efda0b4faeb4e1f0cc7adb61ca9266bac80a50cd:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1ZWNhMTkxOGEyOGMxNjNhNDg5MDdlZTcyYjQ3Y2RkZjRmZjk2YzBkYWExNWEyZjFhMzEzMmQzM2QwOWNjZTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3YzA2YzU2MWQ1YzMyNzM0MzY4NTI2OGE0NmIzMzkxZjM5OThlZWU4OTBkMmJlNTFmMGQyMWNjNGE1M2FlNmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZkNGE4OTBhNTAyMGQ4YTI0ODJmNzFiZThjYzZiYWI1ZGQ5ZmI0M2ZlNzU4ZDIwMDAzZGRlMDUxOGUzZmVhYzIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg0MDJlNzdmYmVjNmNhOWZjODE0Nzk4NTQ5YmE0MTBjOTM1ZTRmMDg4ZDI5ZDQzMzlkYTIxMDNiMDkxOTkyMmYifQ"
+          "resource": "repo://kubernetes/components/image-automation/README.md#L9-L27",
+          "version": "repo-lines-v1:sha256:6845e2a70b7ba00476e1c34b0438730657992bcc6045bee3db38fc0919738523:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1ZWNhMTkxOGEyOGMxNjNhNDg5MDdlZTcyYjQ3Y2RkZjRmZjk2YzBkYWExNWEyZjFhMzEzMmQzM2QwOWNjZTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZkNGE4OTBhNTAyMGQ4YTI0ODJmNzFiZThjYzZiYWI1ZGQ5ZmI0M2ZlNzU4ZDIwMDAzZGRlMDUxOGUzZmVhYzIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjlmMmI5NDUyNTFlZDZlNjU0YTAzMzczOGUzYTExOGE3YzEyMmNmOTYwMjhlZTAwZjVlZjY4ZDQ4MjdkODlkOTkifQ"
         },
         {
           "resource": "repo://kubernetes/components/image-automation/imagepolicy.yaml#L1-L17",
@@ -217,6 +221,6 @@
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-08-30T21:57:36.532Z"
+    "at": "2026-08-31T23:16:37.333Z"
   }
 }

@@ -1,0 +1,156 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:e2b2b63ea4ed875ee4ef1a61df677048f30cdc3dbced3eff77c132bcfc27d10c",
+  "claims": [
+    {
+      "id": "claim_9e04778f57aa427d852ffa0df21a8a9e",
+      "statement": "Grafana is the primary visualization interface for the observability stack, accessible at https://grafana-dev.${SECRET_DOMAIN} with anonymous Viewer access and admin credentials managed via ExternalSecret from Bitwarden.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/grafana/app/externalsecret.yaml",
+          "version": "repo-file-v1:sha256:2944c3347ecc6345722e04f2be95bc1a85ff017154aa21c0263426aace29af9c"
+        },
+        {
+          "resource": "repo://kubernetes/apps/observability/grafana/app/helmrelease.yaml#L36-L57",
+          "version": "repo-lines-v1:sha256:1054be6974a0c0ad36fdddb6b18e1631c94ac53fe427cf4fa954b34de3bf08f9:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE2OTU0ZTdjYTIyYmVkMzMxYmMyZWEwNWJjMDM5YzIyN2JjZDk2YmU5OTc0YjgyMzIwNjFhZWY2YTk0ODJlZWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVlZWQzMGI3ZmJhM2E3YWZmNjFmZWQ2OWY4NTFiODA5MDgzNWYyZDVhNDdhYzdkYjFhMTE1YzE1YjU2MzcwZmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU1NTgxODE2Y2MzOWJmMGU5MDY2Y2RlNTkzN2QyMTMxMzhhZTA0MDI5MjgxYmU5ZGE3OTkwMGFmOGY0YzQ5YjEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI0YmRjNzBiZGQ4NGM0MmY5ZmYwNjRkMGRmMzU3OTYwMWE2MzhhMWYxYjc2ZGFjZmVmODJkNTAwMjY4ODg5NzYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_bcc71d77da0b4b1081f11dabde506c49",
+      "statement": "Grafana pre-configures three datasources: Prometheus/Thanos (default) for metrics, Loki for logs, and Alertmanager for alert routing, with Thanos query frontend providing long-term metric access.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/grafana/app/helmrelease.yaml#L60-L92",
+          "version": "repo-lines-v1:sha256:0bc94c7a9163854973534adca7d9f3c2665dd932556fd75f809bcc98d170ca0b:eyJzZWxlY3RlZExpbmVDb3VudCI6MzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIwNzdmMGFmM2U2ODNjNjEwYTE3NDU0MWNjN2ZjMTBkYWYzOTdhMWViYjNkYzcxOWQ1MzRmMjk2NmI3ZjUxZDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ0Y2Y3MmUwYTdlZTljNGJhOWEwN2FiMzg4NGU3MjJlMDZiNWFhYWI2YjQ0M2FiMTYwNmJlMWFmNzQzZmFlODciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg3MGIzZmUzMmVmNTY3NGZkNmM3NzU4M2MyNDkxOTc5MWY2ZDgzOTFhZmZlYzRmZWY1Yjg3YjgyOWQ3ZGU4ODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJmNjRjNjlmOGU0MzczNTMyMTdmMGY4ZDk2YThlNmRhZjViYjU2OWRjZmYwMGY0NzZkOGJlNmNkMWI4YTM2OTEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_dcc41d51eaf949e3b3252bf93de3d907",
+      "statement": "Prometheus web UI is exposed at https://prometheus-dev.${SECRET_DOMAIN} via HTTPRoute with selective path forwarding for query APIs (/api/v1/query, /api/v1/label), remote write (/api/v1/write), and UI paths (/graph, /static, /).",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/kube-prometheus-stack/app/httproute-main.yaml",
+          "version": "repo-file-v1:sha256:b7a6e479a6a1002d91dbd657a220c9609cac5db997b556e3acf9c98ad6319645"
+        }
+      ]
+    },
+    {
+      "id": "claim_cde9a12fca2c47a48d21af818b12ca84",
+      "statement": "Prometheus uses ScrapeConfig CRDs to collect metrics from external infrastructure: smartctl-exporters for disk health (30m interval), node-exporter-raspberry-pi for system metrics (30s interval), and borgmatic-exporter for backup status (24h interval).",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/kube-prometheus-stack/app/scrapconfig.yaml",
+          "version": "repo-file-v1:sha256:1ce05f3028f2fe5f35dcdcc3f0300072a8dbf06afdb7e776d65465db37af2edd"
+        }
+      ]
+    },
+    {
+      "id": "claim_61ef65d9cfda478dafa9c83798fa5e89",
+      "statement": "Loki runs in SingleBinary mode with 7-day retention, filesystem storage on TopoLVM (8Gi), snappy chunk encoding, and simplified architecture (gateway/backend/read/write components disabled).",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/loki/app/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:aa394a05ca6bc5caff98864430799bf251b058cbac18038560c3eacd0a83cb3f"
+        }
+      ]
+    },
+    {
+      "id": "claim_013c8e0726084dde9e50e09ac4fa15b1",
+      "statement": "Promtail ships logs to Loki from Kubernetes pods, sending to http://loki-headless.observability.svc.cluster.local:3100/loki/api/v1/push with ServiceMonitor enabled for metrics collection.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/promtail/app/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:9c73693fb5ecc805314a6a29634c1269fc40db214209a0d5b0d7dfd21b4b482b"
+        }
+      ]
+    },
+    {
+      "id": "claim_fb96f05a631144f0a7f71e802fd7ee44",
+      "statement": "Gatus uses k8s-sidecar init container to dynamically discover ConfigMaps and Secrets labeled gatus.io/enabled across all namespaces, generating unique configuration files in /config directory with WATCH method for continuous updates.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/gatus/app/helmrelease.yaml#L24-L36",
+          "version": "repo-lines-v1:sha256:56c27a05b4047e055390a4911099b7b92976dcc618c7005ff65dede00703a0cc:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM3MTZhMWViNzYwYTJlNjI0YjI1NDE5OWQ5YWFhOGU4NGZlNGIxYTU5OTdjZTZlMjU2YjkzNjk2NGU0NWUwMGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUwMmRjYjRkZGY2Nzg0NDYxNmMyYTczZTQ3NTg4MWQyYjcxY2RlNTdlMzRhZmMzMDkwNWIwZmEyYTdmNTdkNGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjMyZWI3NjUzNzA1NzE4Y2VkOTdiMmE0MzhjZjk3NWFhMTYyMDEyYzhhNDk0ZjM2MTA1NDU5YTVlZTA5NTM0MDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNhYmIxYzRkMmMyZmJmM2YzNDlhNjc3M2JiMGFjMDQ4MzFmZTQwNjRlZTcyNzJhMzk4Njg1OGZhYzIyNTA2MGUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_180a4b781602425c9cb110740a74e234",
+      "statement": "Gatus endpoint checks are defined in ConfigMaps with gatus.io/enabled label, including default checks for ISP modems (ICMP), flux-webhook (HTTP 404), and example pattern showing TCP connectivity checks with alert integrations.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/database/cloudnative-pg/cluster/gatus.yaml",
+          "version": "repo-file-v1:sha256:8cd14fc6da4390283181e789e2f49785824de055d325198adf7452ea83d5f251"
+        },
+        {
+          "resource": "repo://kubernetes/apps/observability/gatus/app/resources/config.yaml",
+          "version": "repo-file-v1:sha256:87baa39adf9af6d209448f176fe5a0df40ca527d4106cdf592c3213526556d5a"
+        }
+      ]
+    },
+    {
+      "id": "claim_06bd26bca8284b34b730c48fb57849b3",
+      "statement": "Gatus status dashboard is accessible at https://status-dev.${SECRET_DOMAIN} displaying real-time endpoint health, response times, and historical check results with SQLite storage for persistence.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/gatus/app/helmrelease.yaml#L95-L100",
+          "version": "repo-lines-v1:sha256:7de1f79b2aa2042ff01e2a7d3913834b230c663cd152c5d3fe4d98a5bbf7b2c2:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTdiYmE1YmZkNDYxZTYyYTVjZmUzMTg3MmRmNTMxZjk0NGVjMWM2ZGQxODdlZmY4NmY2OTEwYTI1NWQ0Mzg2ZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzg5NjFjMDk5NmZmYjQ2NmRmNTNjMDYwMTg5ODZmMGYwZWIwYjA3ZWMyMjc2ZDdlN2NjOWQ2ODE5MzM2YWJmZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWYzZDZlOTZjMGNiNTJlZmM0ZTQ4N2RlYmU3ZDM1NDI0MzA4NTRjZmI4MzdmYWJiMzBmMTk0YzVkMjZmNDdkNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYmE4NzRjMzllNTg5ODIxNTUzNDcwYTM0NzgzMTA3NDAyYjI0ZmEyMzg2ZmU3ZjkzMjhlYTg5MzM4ZjNkMDVkNiJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/observability/gatus/app/resources/config.yaml#L4-L8",
+          "version": "repo-lines-v1:sha256:c4813f949b5074ce153607724d8b9df4acbe381ec134de72a56ae50680d073f0:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2Q3ZGZkODk4OGY5MTExYTE2MmM1ZmYwZjBhZTlkZTlkZGYyZmI4ZDNmNzk4ZjFlZWUzN2E3NTRkMTUzODRmZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiN2RlNTI1NzAyMDBlOTk1NGJjN2VmZjBiYWJkOTFiZWE2YzUxNTJjOTc5NzQxZGEzNTE4MjU1Nzg0YWZjM2FjOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTQ4MzVmMTgyNTk2OTA1ZGJjOGFjMTkxNTg2OTQ1NDBiZDdiMDA3ZWIxODIzM2NlM2UyNDMzOTNlZGZjZDg1NiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYWE2MmI0OTMzZWZhODg0ODU5M2M5ZjQ0NjQ1Y2JjODM5MmRkMjdjMWQ5NTFmM2UwMGUxMWQ1MTA0MDE0Y2ZlOSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_42e1423d1c0d4f618bc8ec21a6cfde3a",
+      "statement": "Alertmanager routes alerts to Pushover with 12-hour repeat interval, 1-minute group wait, and inhibition rules that suppress warning alerts when critical alerts fire for the same alertname and namespace.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/kube-prometheus-stack/app/alertmanagerconfig.yaml#L8-L42",
+          "version": "repo-lines-v1:sha256:6543bc8b3f5e30f3fa838f41c8e92aacd8ebc65d6d7a5ea4aa1428294894f7d1:eyJzZWxlY3RlZExpbmVDb3VudCI6MzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwZjY3YWI2YzE0NDRmODAxYzUzOTBjYzg1NzExYzEwMGJkNzQ5MmQ4NzNjYjAwZGY3OWViMWU4YTE2MWE3YTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg2NTE5OGEyYWE4ZDA2YTNhOTZiMjBlNWFkYmYzNzVmNzQzNjUxMTA0YzhjNDg4OTZjZmE2MWExMzgyZTkxYTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIyODljODQzMDNlMTc5NGJkZWRmMTMzZTEzMDkxN2YxYmE0NjdiMzI5ZWMzNTQ3ZDU4ODFhOGNkMjQ5YzI1M2UiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJiNDQyNWU0MjhkN2MzYTllNjQ2MzQzNTQ1NGQ4ODAxZjU2ZjZiMWZlYjgyNDRhMzNmZmMxMjlmN2Y2ZDI1ODcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4f25de5e9e2d4ab1b1214e09abfd3ac4",
+      "statement": "Pushover receiver sends alerts with HTML formatting, priority 1 for firing/0 for resolved, gamelan sound, and authentication credentials sourced from alertmanager-secret managed via ExternalSecret.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/kube-prometheus-stack/app/alertmanagerconfig.yaml#L43-L81",
+          "version": "repo-lines-v1:sha256:9e5c24fedb05a2aa960313d91721adf257f66cde0ce633a034b690aa009e63bd:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM5MzRjOThmMjVlNGUwNjk5NzQyZmEzYmE0ODVlMmYwYWJmODJkM2Y4MDAwYjhmZTE5YTBlN2M4NzA3ZTkwNGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdmODRhYTQ4ZTdlMWNiOWMzNzliMmI0Mjk4NzZkMTYxMDFkNWM0MjQyNTljNzk5NmViOWRmMmNkYTc1ZDAyMmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI5MzRmZTg2MjQzZDdmZDM4NzMzYTYxOWM4N2I5ZDliMjFkNWRjZDRlNzViNzM5OTE0ZGE4NjRlZThhYzQ0ZTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f600efb668e34900be13fc0c409d1962",
+      "statement": "Gatus alert rules fire when external endpoints fail (GatusEndpointDown) or guarded endpoints are publicly exposed (GatusEndpointExposed), with 5-minute for duration and critical severity routing through Alertmanager to Pushover.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/gatus/app/prometheusrule.yaml",
+          "version": "repo-file-v1:sha256:1b1443aa5b2e7c64ff6a03537798e586626b2e5f3c43d8fbec2744684781f082"
+        }
+      ]
+    },
+    {
+      "id": "claim_68bac69bbe20477884e39aea76fb447e",
+      "statement": "Observability components follow strict dependency chain: prometheus-operator-crds, then kube-prometheus-stack, then thanos, with grafana depending on both kube-prometheus-stack and thanos for datasource availability.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/grafana/ks.yaml#L15-L23",
+          "version": "repo-lines-v1:sha256:af5f1f77139741e86be0891628ce3cc47559e7008855080d675a72c65fcb7689:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTYwYzNiZDdiYzU5ZmVjOWU0ZGVkMzVkN2NjZjcwMGEzODVhY2U1ODYzNGZhNjBkM2IyMmZmMjY4YzAxN2ViZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzQ1OTdmODNhNWQ5OWFhYzllNTJjYTE3YTk4MjZhNDkyYWRlMmJlOWQ1M2FmMDMxNTAwYmNmY2UyY2UzYjlmNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMGFlNDIxMzZhZDA3MWZjYzVlMmRjNDc2ZDE3YzYzNTFhOWZkNWIxY2I2OWJhMGU2MWEwYTdiNzU4YzAyNTEyZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMGI3Y2ZlMzYxOTkwODg0NWZmMTQzMThkMDgxYWU3MzJmZGE2NmVkODdhMTE4YTM1Yzc2YjI4ZWM1NWQzNzQ3NiJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/observability/kube-prometheus-stack/ks.yaml#L13-L19",
+          "version": "repo-lines-v1:sha256:eab219617971d44f900025e04684a589da35a69c98901eea7491951ef933145a:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTYwYzNiZDdiYzU5ZmVjOWU0ZGVkMzVkN2NjZjcwMGEzODVhY2U1ODYzNGZhNjBkM2IyMmZmMjY4YzAxN2ViZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzQ1OTdmODNhNWQ5OWFhYzllNTJjYTE3YTk4MjZhNDkyYWRlMmJlOWQ1M2FmMDMxNTAwYmNmY2UyY2UzYjlmNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjBiZWRmNWJiZGMwOGY0OTI3NmI3ZWJjNjhkZWVkMDlmZjBkMmM4NzkwMDcwMDk0MzVmM2I5NjQ3NjRmNTRkYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTdkYzdmYjY5Y2I3OTEwN2RiMGQ2Zjg2MmVjODQ1YTM5NGM1MjZlN2VkMDY1ODczY2VlODNkZDRmNTM3MTc0MSJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-08-31T23:16:37.333Z"
+  }
+}

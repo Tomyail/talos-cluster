@@ -1,0 +1,176 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:7e82af26e62d816d032a63fba56bd99a31c98baf2589bb0da0a76d1a484e7184",
+  "claims": [
+    {
+      "id": "claim_358bd35e09a643b192fdc821844ca16c",
+      "statement": "The VolSync Taskfile at .taskfiles/volsync/Taskfile.yaml assumes standardized naming conventions: Fluxtomization, HelmRelease, PVC, and ReplicationSource share the same name, use Restic repositories, and each application has one PVC being replicated.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/volsync/Taskfile.yaml#L5-L8",
+          "version": "repo-lines-v1:sha256:64189d13fd4d375710b363d990fe1faafca3f97fc3d676ac3987f176ed261e70:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjFlY2UzYzYzODhiZGI0ODRhNGFiZjY2ZGQ3MDE2MjAwMTdmNDdkZWI5YzljMDRmNDVjOTMwMmI0Njg0NWZiNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTI2Y2NjMmE2YzVhN2Y2NzZjZDhkYTBhZjE2MzNhNGRjYWY2YzAxMmEyNmVmODY2YTg0M2VhZjJiMDU4ZTY1YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjkyOTZmNTA4ZTQ0YjE2MWJlMTY0MjkxZmM0ZGQwY2FiNGYyZGU2NmJhZDRmYjdjZGE3YTljZDFlOWZmZWFjNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDFlNTBkYjAyYTcyMDBhOWQzY2NhYjNjZTUzNWQyNGM5ZTQxMzI3MTliYjYzOGFlZDNlODM4YTA0ZWM5NTEzZCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_c193c7fb3c6342b5bf68c7b67dab45d3",
+      "statement": "The volsync:snapshot task triggers immediate backups by patching ReplicationSource spec.trigger.manual with a Unix timestamp, bypassing the scheduled interval and creating a volsync-src-<app> job that waits up to 120 minutes for completion.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/volsync/Taskfile.yaml#L51-L64",
+          "version": "repo-lines-v1:sha256:f2b409c9b3a966056cf81ffda46d1fa84e0dac6fa0864aadf96e29fd134d093e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3ZTQ3NDY4MDg4NDE0M2E0NWY2ZWFiOWZiZjcxMWJlMjc1MmMwYjQyZjczYzU5MDg4MjZhZjkzZjllMjFmNmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ1MTQxYzY3MjM1NThmYzdjZGQyYTllYjFlZWRiMmYzMWQ3YjY0MTcwN2U0ODk3ZGVmZDZmNTI3ZDdkOWE4ZTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiY2Y4NDg1MWJhNDM1Y2M0NTM1YjdhYzRmZDY1ZDVjOTkyYzQyNDViNGU0MjUyNzI4OWJmNzdkNjk3NTFhOTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA2ZTFhNDk4NjgwY2QwM2JhNzVhMzNhNzdkNjg4NDhjMjhkM2U3MzIwNGVlYWQ5Y2NkMTY3MTY1ZDFiMTY1MWYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_0556ecc4696645ff81698d75f1df1e0c",
+      "statement": "The volsync:list task creates a temporary Job using restic/restic:0.18.0 image that executes 'restic snapshots' command, waits 1 minute for completion, displays output, and automatically cleans up the job.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/volsync/Taskfile.yaml#L66-L87",
+          "version": "repo-lines-v1:sha256:ae5acc0ed7394aa134dc600e46afbbadf79378542411eb73d790c48aab4f8e33:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBiOTUyNmMzYmUyY2E0MTU2ZGYwMmI0ZmViZjI5Y2VjNGIyYmE1YmQyYWM2NmEwNjc1ZDU0N2RlZmE0MGM2ZWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNjM2IzMjNhNjVkODJkMjBkZmM4ZWZmYWQ5YzY1OTBhYjhkZjhiODQ3MzdlZmZkYmU1ZTNmMGE2NDNiMzAxNDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImEwM2IzYzRjM2FjMDdjYmJkODhjZTAyOGYzMTVkMTEwZDBlYTQwMmYxNjI3ZWIyOTJiMTY3ZWIxYjRiOWFhZTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkxYmZhYmE3Mzg0OTY3ZTUwOGFjN2E4OTVlNjlhZGVkM2NiMTI2MjVlNzg1Mjk5ODI2MmRjNTExNTc2MGE5OGMifQ"
+        },
+        {
+          "resource": "repo://.taskfiles/volsync/templates/list.tmpl.yaml",
+          "version": "repo-file-v1:sha256:38d1717fca6d9242cc23bb3aaf63547e97447feebf0f166a06947d850d280a7a"
+        }
+      ]
+    },
+    {
+      "id": "claim_b1ad74da57304f5ca1259362ecb1052a",
+      "statement": "The volsync:restore task orchestrates a four-phase workflow: suspend Flux reconciliation and scale down controller, wipe PVC data with a privileged job, restore data via ReplicationDestination with previous parameter, then resume Flux and scale up.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/volsync/Taskfile.yaml#L190-L231",
+          "version": "repo-lines-v1:sha256:5d06aee07e0543e75ab53f7af43052b5087072354f39f12b5d2ec1ae5ca16c9b:eyJzZWxlY3RlZExpbmVDb3VudCI6NDIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk0OWFhNWFlNDVjMjhlNWY4NGI2NzdhYTUxNjhlMGYyNGI4YTBiZDAzMjllZWQ2NzljMDMwNGMxMjJhYTJmMGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU2YjNkMjcwOGJiYWM3NDAwMTgyYjY0OTdiNTUzZDczZWQ0MzM0YTRjOTNiMjBkNGNiZWFmMDNjYThiNmRlZDYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJhNTA4NTY3ZjRlOWQyYjRlZTA0MjcxMzcyZDY1YTdhNjYxNDRhOTkwYTA4OTI3MDY0ZDc2ZjY3ZWU2N2E4NTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://.taskfiles/volsync/Taskfile.yaml#L92-L123",
+          "version": "repo-lines-v1:sha256:0e5f732c66936664e15a6262b7b9e4176f7b12c1e049f25d1c446c08ffd9c7e0:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEwMDQ4N2RmNGJiYWExMjNmNDIxYzAzYzMyZmViYWI0NjkxNDUyYTk1ZDAxYjFkYzllMmY1YThhMWE2YzRjOWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdhMWExMDQxYjNlZWQ0OGM2ZTJiMzRkNzQyMzU1MjM1MGM5YjFhYjlmNTdiYmQ1ZDE3NTI4NDY5NzAwMWYzZDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY3NzdjOWUyMGEyNzhiZTk2NzZlYzMyNGEyZDkyYzFjNGUwMWJmZWRhNjM0MDUxZGQ0MWUwYTVlZGU3N2UxNDcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_afdcc2e4a07e4ef2874a82f598c5f37e",
+      "statement": "The .wipe internal task creates a privileged Alpine job that mounts the PVC and executes 'find . -delete' to remove all data before restoration, ensuring no conflicts with existing data.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/volsync/Taskfile.yaml#L200-L210",
+          "version": "repo-lines-v1:sha256:f30866da49600f332b52bfa7492c072e4c1be4f0078c10eb3e51582ff5f12a92:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFlMzE0MjBiYmZlNjYwMTFjYTc1ZDYwMTQyNzM5ZWFiMmZkYWEzZGIzZjZkYzQ0NjYwMTA2YWI3ODg1ZWYxZDAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY0YzgxZjg1N2ExZjJlOGMxMTBjYTExYzNlMDY4MzVlNzk0ODQ5YzlkNmY2ZmU3NDNmNzQ3N2VhNmY4YjMzNDQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNiZmQxYzdlZTJkZDAzNzg5NmViZjgzMTM0NGUyM2RkOTdlOGEzN2ZmOTQ3NWFjMWM1ZjExY2VjOWFmMWJhNzgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg1MzQxMTNiMmIyMTYwYzQ2NGZmMjY4YWJjMTQyN2YxYWNiZjNmOWJkYjc2ZjY0YjJmODgxMzY3MjQ2MDRhNWQifQ"
+        },
+        {
+          "resource": "repo://.taskfiles/volsync/templates/wipe.tmpl.yaml",
+          "version": "repo-file-v1:sha256:bb0521f565850e1b6b9da2c51ffe2a6ef72a2248a8fed32db4a008cb5ef18884"
+        }
+      ]
+    },
+    {
+      "id": "claim_7792f441e2c94c6181625f50e4cbe856",
+      "statement": "The .restore internal task creates a ReplicationDestination with manual:restore-once trigger, uses the same Restic repository as source, specifies previous parameter for snapshot count, and waits for completion via wait-for-rd.sh before cleanup.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/volsync/Taskfile.yaml#L213-L221",
+          "version": "repo-lines-v1:sha256:18f4cb94562d223b2af352a193350be87032b20a10b9a8d42b37ed62776fe533:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjVlZGI5N2VmMTJjNDllNzgyMTM3MjkxZjkyZGU4MTU3NGVlNmRiYTg3NDc1MDk3NGFjOWRkNDQxNTU2ZjA4MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzI3Mjc5ZWZjMjhhNGUxODEzZjJiZjNkNzNlOGYxYmIwZmVlNzEyM2YwMDUyMmVjM2E1OTc2ZmVhOTRiZjYwOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiN2RiY2ZkNjMwYmNhZGMwOTM2ZjljMTQwMmI4NzUyNjA5YjJjMzgzMGU0MjA4YjcxMjIyZjdiMTQwMDM2YWU2OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMjJiZDZkYzM2ODhmYzAxZTQ5MjAwN2MwNmI5NTg4Y2Q3ZDJkOGRmMTBhNjg4ZGUyNzczNzYwNDU0YzNhOGI3YSJ9"
+        },
+        {
+          "resource": "repo://.taskfiles/volsync/templates/replicationdestination.tmpl.yaml",
+          "version": "repo-file-v1:sha256:26cba1ddf0c7c99f4b9ab552867703f0cf5aef4693a6330fac4a6526296cffa2"
+        }
+      ]
+    },
+    {
+      "id": "claim_89130ac63eb5476d869ec8f403cf5849",
+      "statement": "The wait-for-rd.sh script monitors ReplicationDestination status by polling latestMoverStatus.result for 'Successful' or 'Failed' states, defaults to 2-hour timeout with 15-second intervals, and dumps YAML and mover pod logs on failure.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/volsync/scripts/wait-for-rd.sh#L1-L78",
+          "version": "repo-lines-v1:sha256:5e1b2e2e769e64674fdcaa258c1544e96a7da0226a40eba26a65c763369f1e99:eyJzZWxlY3RlZExpbmVDb3VudCI6NzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFkOTVmYzA0YTgwYzk1MmY0OWNlNDE4ODYyN2M1M2IwZmJlOGM0NDA0MWI5NTJkNTkyYWNkMWRlOTk4NjE0NjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI4ZDNiOWU4ODBhNzc5NzU0OTNkYzdlMzU5MTQ0YzAyOTVhNGY2OTRjZmUwYWY0ZjkyOGMyMjMwN2JjNWMzMjAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e24237de8ffd4693bc99472d01390192",
+      "statement": "The volsync:state-suspend and volsync:state-resume tasks control VolSync operations at three levels: Flux Kustomization in flux-system, HelmRelease in volsync-system, and scaling volsync deployment replicas to 0 or 1.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/volsync/Taskfile.yaml#L26-L36",
+          "version": "repo-lines-v1:sha256:afe037225e0d336fda60ec46885caada6c1c2ca0f55da35981262443b5528b25:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFhMWQ5ZjA0NzBjYTQ3NzRkODJjNWZhNmU4MTBhZGFiZTNhMDYzOGE3ZTI0ZDM4NTc5MTE0M2VjMTkyOTg3OGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk1MDJhNDM4NjZjNjE0Y2ZiOTRlY2Y3N2ZhZjgwY2M4Y2I4MzYzMTRjYmM1ODFkMDhmYzAyNDIzMGU4YjcxMzkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ4ODE3NDEyN2ViZmVmZWExMmMzMTUzYzc1YjYzYmJjNmQyOTY3MWJiMWZhMDI5YWRhZDQ5NzJhMWYyNjkyYjciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI5MjFiMWIxOWZiNjNhOTQ4NzEzMmVkMjc1N2EzOTkzOGFjYTcxZDJmMTYwM2U0NDBhOTExYTYwYThiZWZkNjQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7cd8c8cbbfc74d56ad12b33b62da542c",
+      "statement": "The volsync:unlock task discovers all ReplicationSources across namespaces and patches each with spec.restic.unlock containing a Unix timestamp to clear stale Restic repository locks.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/volsync/Taskfile.yaml#L38-L49",
+          "version": "repo-lines-v1:sha256:b3ba6825ca967a4ce82a31a416fdbef9ec414bf497f140b9daba5fb18182859c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhiY2Y0OWI5OTFkNTEwYzI4MzQxNjljMWM2ZDQ5NDI0OWViNTUzNWRmZTdlMGE0ZTVmOGVhZTFhZTJkZDFiZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ1MTQxYzY3MjM1NThmYzdjZGQyYTllYjFlZWRiMmYzMWQ3YjY0MTcwN2U0ODk3ZGVmZDZmNTI3ZDdkOWE4ZTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE1NmU5YjhiNzMyOGE2YmY2OGFiZTM5OTk2MzU5NzRhZGY1YTBhYTQ0OTMzNWRiMDFhYjVjYjVjNGY5NmYwMDciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjljMDkwZGM0OGJiMDI4ZTI5ZDE1YzIyMzEzMTY5NjU4OTk4ODQxMTcwODdiNzZjNzVmNjk3ZjczNmQzMDYyZjMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c2840cb7d4c646999093bcef1c163198",
+      "statement": "The which-controller.sh script automatically detects whether an application uses a deployment or statefulset by checking for each resource type in the specified namespace, enabling the restore workflow to scale the correct controller.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/volsync/scripts/which-controller.sh",
+          "version": "repo-file-v1:sha256:e7e0092feda4cd68d13ab821e6b9ca6888ee3f7325d6661fbdf0ed55af19140d"
+        }
+      ]
+    },
+    {
+      "id": "claim_0e75c2d68d7c4101bf56bc632320b655",
+      "statement": "The ReplicationDestination template configures Restic restore with direct copyMethod, topolvm-thin-provisioner storage class, previous parameter for snapshot selection, and moverSecurityContext for file ownership.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/volsync/templates/replicationdestination.tmpl.yaml",
+          "version": "repo-file-v1:sha256:26cba1ddf0c7c99f4b9ab552867703f0cf5aef4693a6330fac4a6526296cffa2"
+        }
+      ]
+    },
+    {
+      "id": "claim_f683b6d0c911454381ac7376eeba7748",
+      "statement": "VolSync stores Restic backups in MinIO at s3:http://192.168.50.220:9010/volsync/dev/<app> using credentials from external secrets, with cache on local-path storage class and primary storage on topolvm-thin-provisioner.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/volsync/minio.yaml#L16-L19",
+          "version": "repo-lines-v1:sha256:54ced2fac22976d0258eb7194c957b1df8bcc5f925c0053e8db4b02a81c4d626:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYmNkMzk0MDVhN2JmZWY5ZGJhOWQyYTY1NWQwNzdhNDI5YzkxM2RjNjI4NGZkY2I2YzllZTZjMmJjY2JjZDI0ZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjUyOTk3NzAxYWFhYjUyMTZmMGU0MGUzMjQzMTkwMzA5YmRjNmFiNTM2YzQxZTNhODcyNDc1ODFjZWU4ZTYxNCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZmZlNTRmZTU1ODJhZjU2MThkMDFmNmZhZTkwMWVkOGJiYjk4OTg3NDMwMzJiYWE4ZTFlMGQ0OGFlMDE2OTkxOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzI5NzViMzgyNjMyYjgzYmVjNjMxNjFjOWI4NTVjYjVjOTc2OGEwMTlhN2QyYzliODI0NzYwNzM1Yjk3MGQzNiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_c681b4c09052435998379531267696ba",
+      "statement": "The volsync-snapshot-cleanup CronJob runs weekly at 2 AM Sunday to delete VolumeSnapshots older than 7 days, filtering for volsync destination snapshots and using a dedicated service account with RBAC permissions.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/volsync/app/snapshot-cleanup-cronjob.yaml",
+          "version": "repo-file-v1:sha256:d1197bdf2f747ebc5f44c586c6bf4528fb7539c706be3660750793cedafba647"
+        }
+      ]
+    },
+    {
+      "id": "claim_a2782c12de5347859ee3ac78acf56925",
+      "statement": "ReplicationSource resources configure Restic retention policies with retain.hourly, retain.daily, and retain.weekly parameters, and pruneIntervalDays controls automatic cleanup frequency.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/volsync/minio.yaml#L47-L58",
+          "version": "repo-lines-v1:sha256:d22a57c2572deb0b754a44376f14f4a3f29d07fb965adb868dd565d3463e4235:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ3NTRhNDQ4NTk3ZWFiNjQ3NTg2MjM0MTc4NTRjYWQ1N2ViM2YzNWE2NmMzNjllMDJmMzc2NDA4MDE5MWE2ZWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1NjVhZmExNzZhODlhOWVhZjQ2MzI5NGNkMDg2YTVlZmUxZjM5MWQ4Njc4NDVhZTI4MDlhMmQxZmEzMmYwMTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY2NmJmOTlkZGUyZDcyZjFmMTgzYzM5ZDFkOWJkZjg0OTAyZjI2YTVkNTBiNmEyMzMzNTFhZjg1YmQxYjQ2MzUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE4ODNmNGI5ODQxZmQ5YTYxNjlmNmE5Y2Q2MmZkOWUwZWZlNDE2YmRiNzRiMWM3NmJjMzZiZWM5ZTk0OGYzOTYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_3c48e1b7d75844c9a0f65a751300fd9e",
+      "statement": "The VolSync Kustomization depends on topolvm in the storage namespace, ensuring TopoLVM CSI driver and storage classes are available before VolSync backup operations begin.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/volsync/ks.yaml#L14-L16",
+          "version": "repo-lines-v1:sha256:64cc4e7d041194edfe9d736eb43e6af3d46d32dd25db576efe37b825c9a62214:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTYwYzNiZDdiYzU5ZmVjOWU0ZGVkMzVkN2NjZjcwMGEzODVhY2U1ODYzNGZhNjBkM2IyMmZmMjY4YzAxN2ViZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzQ1OTdmODNhNWQ5OWFhYzllNTJjYTE3YTk4MjZhNDkyYWRlMmJlOWQ1M2FmMDMxNTAwYmNmY2UyY2UzYjlmNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjcyNWY4YTk0MDk1MzcxMjQwOGMxNmUwZGU5ZmY4YjM3M2FjYmEwN2I4NzMwNDhlMjhmNTdjMjIzMjIzYjhlZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzU2ZGJiMjFiMjExOTIzYmNhY2I2MWYxOTM4YzE3NGJlMjhiMDBmMzAyZDM1MGY4ZjEyYjA4NzcwNWIyNzk4NiJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-08-31T23:16:37.333Z"
+  }
+}

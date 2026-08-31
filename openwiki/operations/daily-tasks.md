@@ -5,7 +5,7 @@ description: Quick reference for routine operational tasks including checking cl
 tags: [operations, runbook, maintenance, troubleshooting]
 verified:
   - by: openwiki/0.4.3
-    at: 2026-08-30T21:57:36.532Z
+    at: 2026-08-31T23:16:37.333Z
 sources:
   - id: openwiki-source-6d4b4e707b8d60b6ccfa3425
     resource: repo://.github/workflows/openwiki-update.yml
@@ -23,7 +23,7 @@ sources:
     resource: repo://.taskfiles/volsync/Taskfile.yaml
   - id: openwiki-source-b9ff7ee0aa4953cc601052a4
     resource: repo://Taskfile.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-30T21:57:36.532Z" }
+generated: { by: "openwiki/0.4.3", at: "2026-08-31T23:16:37.333Z" }
 ---
 
 # Daily Tasks Reference
@@ -206,15 +206,17 @@ View available snapshots for an application:
 task volsync:list APP=<app-name> NS=<namespace>
 ```
 
-This creates a temporary job that lists all snapshots in the Restic repository.
+This creates a temporary job that lists all snapshots in the Restic repository, waits for job completion, outputs the logs, and then deletes the job.
 
 ### Unlock Restic Repository
 
-If a Restic repository becomes locked (e.g., after a failed backup), unlock all repositories:
+If a Restic repository becomes locked (e.g., after a failed backup), unlock it from a local machine:
 
 ```bash
 task volsync:unlock-local APP=<app-name> NS=<namespace>
 ```
+
+This creates a job to unlock the Restic repository, waits for completion with a 5-minute timeout, displays logs using stern, and then deletes the job.
 
 ## Flux Operations
 
@@ -240,6 +242,34 @@ flux --namespace flux-system logs kustomization flux-system --tail 50
 flux --namespace <namespace> logs kustomization <name> --tail 50
 flux --namespace <namespace> logs helmrelease <name> --tail 50
 ```
+
+### Troubleshoot Kustomization Status
+
+Check detailed status of Kustomizations:
+
+```bash
+flux get kustomizations --all-namespaces
+flux describe kustomization <name> -n <namespace>
+```
+
+**Common issues:**
+- **Not Ready**: Check if all dependencies are satisfied
+- **Validation Failed**: Verify YAML syntax and Kubernetes API compatibility
+- **Decryption Failed**: Check SOPS configuration and age key
+
+### Troubleshoot HelmRelease Status
+
+Check detailed status of HelmReleases:
+
+```bash
+flux get helmreleases --all-namespaces
+flux describe helmrelease <name> -n <namespace>
+```
+
+**Common issues:**
+- **Reconciliation Failed**: Check Helm chart values and dependencies
+- **Chart Not Found**: Verify HelmRepository sources are configured
+- **Image Pull Errors**: Check registry credentials and image availability
 
 ### Reconcile Specific Resources
 
@@ -548,3 +578,91 @@ Review TopoLVM metrics:
 ```bash
 kubectl get topolvmnode -A
 ```
+
+## Bootstrap Process
+
+The cluster bootstrap consists of two phases:
+
+### Phase 1: Talos Bootstrap (`task bootstrap:talos`)
+
+Establishes the Kubernetes control plane:
+
+1. Generates encrypted secrets (`talsecret.sops.yaml`) if not present
+2. Runs `talhelper genconfig` to generate machine configurations
+3. Applies Talos configuration to nodes
+4. Bootstraps the Kubernetes cluster
+5. Generates kubeconfig
+
+### Phase 2: Apps Bootstrap (`task bootstrap:apps`)
+
+Installs essential infrastructure components:
+
+1. Creates namespaces
+2. Deploys SOPS secrets for decryption
+3. Installs CRDs
+4. Runs helmfile to install:
+   - Cilium (CNI)
+   - CoreDNS
+   - cert-manager
+   - flux-operator
+   - flux-instance
+
+After bootstrap completes, Flux takes over management of all applications declared in `kubernetes/apps/`.
+
+## SOPS Decryption Issues
+
+SOPS decrypts secrets using age encryption. Common issues:
+
+### Check SOPS Configuration
+
+```bash
+cat .sops.yaml
+```
+
+Verify the decryption rules match your file paths:
+- `talos/*.sops.yaml` — whole-file encryption
+- `(bootstrap|kubernetes)/*.sops.yaml` — only `data`/`stringData` fields encrypted
+
+### Verify Age Key
+
+```bash
+ls -la age.key
+```
+
+The `age.key` file must exist and be readable. Check mise environment:
+
+```bash
+mise exec -- env | grep SOPS_AGE_KEY_FILE
+```
+
+### Test Decryption
+
+```bash
+sops --decrypt kubernetes/components/common/sops/sops-age.sops.yaml
+```
+
+If decryption fails, verify:
+1. The `age.key` matches the encrypted files
+2. The file is not corrupted
+3. SOPS age plugin is installed
+
+### Flux Decryption Failures
+
+If Flux cannot decrypt secrets:
+
+1. Check Flux logs:
+   ```bash
+   flux --namespace flux-system logs kustomization flux-system --tail 100 | grep -i decrypt
+   ```
+
+2. Verify the sops-age secret exists:
+   ```bash
+   kubectl --namespace flux-system get secret sops-age
+   ```
+
+3. Check the secret contains the age key:
+   ```bash
+   kubectl --namespace flux-system get secret sops-age -o jsonpath='{.data.age\.key}' | base64 -d
+   ```
+
+The secret should match your local `age.key` file (or the key used during encryption).

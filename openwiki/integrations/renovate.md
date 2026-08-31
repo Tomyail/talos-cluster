@@ -1,6 +1,6 @@
 ---
 type: integration
-title: Renovate Integration
+title: Renovate Dependency Automation
 description: Automated dependency update bot for container images, Helm charts, OCI repositories, Kubernetes manifests, Talos/Kubernetes versions, and toolchain versions.
 tags: [renovate, dependencies, automation, flux, gitops]
 sources:
@@ -34,11 +34,11 @@ sources:
     resource: repo://talos/talenv.yaml
 verified:
   - by: openwiki/0.4.3
-    at: 2026-08-30T21:57:36.532Z
-generated: { by: "openwiki/0.4.3", at: "2026-08-30T21:57:36.532Z" }
+    at: 2026-08-31T23:16:37.333Z
+generated: { by: "openwiki/0.4.3", at: "2026-08-31T23:16:37.333Z" }
 ---
 
-# Renovate Integration
+# Renovate Dependency Automation
 
 Renovate provides automated dependency updates for the Talos cluster, handling container images, Helm charts, OCI repositories, Kubernetes manifests, Talos/Kubernetes versions, and development toolchains. The bot runs on a schedule and creates pull requests for dependency updates while supporting selective auto-merge policies.
 
@@ -109,36 +109,31 @@ The configuration extends these Renovate presets:
 - `:disableRateLimiting`: Removes API rate limits
 - `:semanticCommits`: Uses conventional commit format
 
-## Managed Dependency Types
+## Renovate Managers
+
+Renovate uses specialized managers to track different dependency types across the repository:
 
 ### Container Images
 
-Renovate tracks container images across multiple managers:
-
-**Flux Helm Releases** (`.renovaterc.json5#L16-L18`)
-- Manager: `flux`
+**Flux Helm Releases** (`flux` manager)
 - Pattern: `/(^|/)kubernetes/.+\.ya?ml(?:\.j2)?$/`
 - Updates images in HelmRelease resources
 
-**Kubernetes manifests** (`.renovaterc.json5#L25-L27`)
-- Manager: `kubernetes`
+**Kubernetes manifests** (`kubernetes` manager)
 - Pattern: `/(^|/)kubernetes/.+\.ya?ml(?:\.j2)?$/`
 - Updates images in Deployment, StatefulSet, DaemonSet resources
 
-**Helm values** (`.renovaterc.json5#L19-L21`)
-- Manager: `helm-values`
+**Helm values** (`helm-values` manager)
 - Pattern: `/(^|/)kubernetes/.+\.ya?ml(?:\.j2)?$/`
 - Updates image tags in Helm value files
 
-**Kustomize** (`.renovaterc.json5#L28-L30`)
-- Manager: `kustomize`
+**Kustomize** (`kustomize` manager)
 - Pattern: `/^kustomization\.ya?ml(?:\.j2)?$/`
 - Updates images referenced in Kustomization files
 
 ### Helm Charts and OCI Repositories
 
-**Helm repositories** (`.renovaterc.json5#L22-L24`)
-- Manager: `helmfile`
+**Helm repositories** (`helmfile` manager)
 - Pattern: `/(^|/)helmfile\.ya?ml(?:\.j2)?$/`
 - Updates Helm chart versions
 
@@ -150,11 +145,19 @@ HelmRepository sources in `kubernetes/flux/meta/repos/` define the chart reposit
 tag: v1.6.1
 ```
 
+```yaml
+# kubernetes/flux/meta/repos/external-dns-crds.yaml#L12
+# renovate: datasource=github-releases depName=kubernetes-sigs/external-dns
+tag: v0.21.0
+```
+
 OCI repositories are tracked through Flux OCIRepository resources, such as the app-template chart used by most applications.
 
-### Kubernetes Versions
+### Custom Datasource Annotations
 
-Kubernetes and Talos versions are tracked via custom datasource annotations in system upgrade manifests:
+Renovate uses a custom regex manager to process `# renovate:` annotations in `.env`, `.sh`, and `.ya?ml` files (`.renovaterc.json5#L206-L229`). This enables tracking dependencies that don't fit standard manager patterns.
+
+**Kubernetes and Talos versions** are tracked via these annotations in system upgrade manifests:
 
 **Kubernetes version** (`kubernetes/apps/kube-system/system-upgrade/upgrades/kubernetes.yaml#L9`)
 ```yaml
@@ -176,31 +179,24 @@ talosVersion: v1.12.7
 kubernetesVersion: v1.35.4
 ```
 
+The custom regex manager extracts four key fields from annotated comments:
+- `datasource`: The type of dependency source (docker, github-releases, helm)
+- `depName`: The dependency name/path
+- `registryUrl`: Optional repository URL for Helm charts
+- `currentValue`: The current version string
+
 ### GitHub Actions
 
 **GitHub Actions** are tracked through the `github-actions` manager:
-- Manager: `github-actions`
 - File patterns: `.github/workflows/*.yml`, `.github/workflows/*.yaml`
 - Auto-merge: Enabled for minor, patch, and digest updates
 - Minimum release age: 3 days
 - Commits pinned to digest references via `helpers:pinGitHubActionDigests` preset
-
-Example from `.github/workflows/flux-local.yaml`:
-```yaml
-- name: Checkout
-  uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-```
-
-### GitHub Releases
-
-**GitHub releases** are tracked through `# renovate:` annotations:
-- Flux distribution version (`kubernetes/apps/flux-system/flux-instance/app/helm/values.yaml#L4`)
-- CRD versions for external-dns and gateway-api
+- Semantic commit type: `ci`
 
 ### Toolchain Versions
 
-**mise tools** (`.renovaterc.json5#L78-L84`)
-- Manager: `mise`
+**mise tools** (`mise` manager)
 - Source: `.mise.toml`
 - Auto-merge: Enabled for minor and patch updates
 - Tracks: Python, aqua tools, Node.js, pipx versions
@@ -214,26 +210,6 @@ Example from `.mise.toml`:
 node = "latest"
 pipx = "latest"
 ```
-
-## Custom Managers
-
-Renovate uses a custom regex manager to process annotated dependencies in shell scripts, environment files, and YAML manifests (`.renovaterc.json5#L206-L229`):
-
-```regex
-datasource=(?<datasource>\S+) depName=(?<depName>\S+)( repository=(?<registryUrl>\S+))?\n.+(:\s|=)(&\S+\s)?(?<currentValue>\S+)
-```
-
-This pattern matches annotations like:
-```yaml
-# renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
-KUBERNETES_VERSION=v1.31.1
-```
-
-The custom manager extracts four key fields from annotated comments:
-- `datasource`: The type of dependency source (docker, github-releases, helm)
-- `depName`: The dependency name/path
-- `registryUrl`: Optional repository URL for Helm charts
-- `currentValue`: The current version string
 
 ## Package Grouping
 
@@ -256,6 +232,7 @@ Renovate applies semantic commit conventions based on update types (`.renovaterc
 | Minor | `feat` | `container`, `helm`, etc. | `feat(container): nginx 1.0.0 → 1.1.0` |
 | Patch | `fix` | `container`, `helm`, etc. | `fix(container): nginx 1.0.0 → 1.0.1` |
 | Digest | `chore` | `container`, `helm`, etc. | `chore(container): abc123 → def456` |
+| GitHub Actions | `ci` | `github-action` | `ci(github-action): checkout v4.2.2 → v4.3.0` |
 
 Datasource-specific scopes:
 - Docker images: `container`
@@ -295,11 +272,11 @@ Renovate selectively auto-merges updates based on risk assessment:
 **Application layer** (`.renovaterc.json5#L161-L204`)
 - Auto-merge: minor, patch, digest updates
 - Excludes core infrastructure components:
-  - Storage/database operators (topolvm, local-path-provisioner, csi-driver-nfs, volsync, cloudnative-pg)
-  - Networking/CNI/DNS (cilium, external-dns, tailscale-operator, cloudflared, gateway-api, coredns, spegel)
+  - Storage/database operators (topolvm, local-path-provisioner, csi-driver-nfs, volsync, snapshot-controller, cloudnative-pg, dragonflydb/operator)
+  - Networking/CNI/DNS/tunnel (cilium, external-dns, tailscale-operator, cloudflared, gateway-api, coredns, spegel)
   - Certificates/secrets (cert-manager, external-secrets, bitwarden-eso-provider)
-  - GitOps (flux-operator, flux-instance)
-  - Monitoring/observability (kube-prometheus-stack, prometheus-operator, thanos, loki)
+  - GitOps (flux-operator, flux-instance, controlplaneio-fluxcd)
+  - Monitoring/observability (kube-prometheus-stack, prometheus-operator, smartctl-exporter, thanos, loki, metrics-server, k8s-sidecar)
   - Cluster components (siderolabs/installer, siderolabs/kubelet)
   - Shared charts (app-template)
 
@@ -345,15 +322,15 @@ The controller:
 
 Applications using image automation include the `image-automation` component in their Kustomization (`kubernetes/components/image-automation/`):
 
-**Example usage** (`kubernetes/apps/default/fava/ks.yaml`):
+**Example usage** from component README:
 ```yaml
 components:
   - ../../../../components/image-automation
 postBuild:
   substitute:
-    APP: fava
+    APP: myapp
     NAMESPACE: default
-    REGISTRY_URL: gitea.tomyail.com/tomyail/beancount
+    REGISTRY_URL: gitea.tomyail.com/tomyail/myapp
     REGISTRY_HOST: gitea.tomyail.com
     BW_ID: d01d04c2-30c2-4afe-b19b-10dfaced8670
 ```
@@ -361,7 +338,7 @@ postBuild:
 The component provides:
 - **ExternalSecret**: Fetches registry credentials from Bitwarden
 - **ImageRepository**: Scans the registry for new image tags every minute
-- **ImagePolicy**: Selects the latest image based on policy rules
+- **ImagePolicy**: Selects the latest image based on policy rules with numerical sorting (ascending)
 
 **HelmRelease integration** (`kubernetes/apps/default/fava/app/helmrelease.yaml#L28`):
 ```yaml
@@ -393,3 +370,13 @@ patches:
 ### Namespace Configuration
 
 Flux repositories under the cluster-meta Kustomization must hardcode `flux-system` as their namespace to ensure Renovate can correctly locate and update them (`kubernetes/flux/cluster/ks.yaml#L21-L22`). Renovate searches in `flux-system` regardless of the manifest's specified namespace, so the targetNamespace must match this expectation.
+
+## Integration Summary
+
+Renovate and Flux provide complementary automation layers:
+
+- **Renovate**: Tracks version references in Git manifests and creates PRs for updates
+- **Flux ImageUpdateAutomation**: Automatically updates image tags based on registry scanning
+- **Flux reconciliation**: Applies manifest changes to the cluster
+
+This separation allows for flexible update policies—some dependencies can be auto-merged by Renovate, while image tags can be continuously updated by Flux based on registry availability.

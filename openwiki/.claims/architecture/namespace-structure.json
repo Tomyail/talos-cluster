@@ -1,0 +1,350 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:4099c26cbd3271f7e9e3eb377e804f659440366884131c921fef3405d52df4b2",
+  "claims": [
+    {
+      "id": "claim_01f7d801aaf14c35acc5001119c780a4",
+      "statement": "The kube-system namespace groups core cluster infrastructure including Cilium CNI, CoreDNS, node utilities, and system upgrade controllers under kubernetes/apps/kube-system/.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/kustomization.yaml",
+          "version": "repo-file-v1:sha256:1bfec7c10e99e1c6fc15d8eb3ed30b97520c517d27e8a3d83beea18885ab36fc"
+        }
+      ]
+    },
+    {
+      "id": "claim_6bce797305134264941f7e14a3d92b95",
+      "statement": "The network namespace contains networking services including Cloudflare DNS/tunnel, k8s-gateway, AdGuard DNS, SMTP relay, and Tailscale under kubernetes/apps/network/.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/kustomization.yaml",
+          "version": "repo-file-v1:sha256:047360d70b32ca409e054e30a135afbbd0e93eef3f44c37c4528a3199435c333"
+        }
+      ]
+    },
+    {
+      "id": "claim_3d505c53a6a144938443374203efd000",
+      "statement": "The storage namespace hosts storage infrastructure including TopoLVM, snapshot-controller, local-path-provisioner, VolSync, and CSI drivers under kubernetes/apps/storage/.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/kustomization.yaml",
+          "version": "repo-file-v1:sha256:e46a24b0ed45feb970a628ca5917362415dff3ecd1e15beac3a4c4029d501549"
+        }
+      ]
+    },
+    {
+      "id": "claim_5b2ddab30e4a4a1490383a80d9d4ca61",
+      "statement": "The database namespace contains database operators and instances including CloudNative-PG and Dragonfly under kubernetes/apps/database/.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/database/kustomization.yaml",
+          "version": "repo-file-v1:sha256:788941ecc8774f2e6d473403f08bacdd588cd521afddc711a875b9bc782c37f1"
+        }
+      ]
+    },
+    {
+      "id": "claim_1899f1b60e2a413e94223027b5e14926",
+      "statement": "The external-secrets namespace manages External Secrets Operator and secret synchronization including Bitwarden Connect under kubernetes/apps/external-secrets/.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/external-secrets/kustomization.yaml",
+          "version": "repo-file-v1:sha256:d2b3592aeb8a5588d0fa9df93335bf3923e090db145b6cadf29b34b985987356"
+        }
+      ]
+    },
+    {
+      "id": "claim_79e9493e3afe47539cc608ba79ac98df",
+      "statement": "The cert-manager namespace contains TLS certificate provisioning via cert-manager under kubernetes/apps/cert-manager/.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/cert-manager/kustomization.yaml",
+          "version": "repo-file-v1:sha256:24ad4d3d18ed82a0a24248eb39d84d1c9eb41ca35e865edfdc3e7bd62fde1399"
+        }
+      ]
+    },
+    {
+      "id": "claim_6492b960776147478ac36ecf8a164f5f",
+      "statement": "The observability namespace contains the monitoring stack including Prometheus, Grafana, Loki, and alerting tools under kubernetes/apps/observability/.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/kustomization.yaml",
+          "version": "repo-file-v1:sha256:7327e52b15578f1b15aa3bc933d03c91585b9fbe7f8e0d932df686baa01d827a"
+        }
+      ]
+    },
+    {
+      "id": "claim_8fb412288a99447f940add123352f710",
+      "statement": "The flux-system namespace contains Flux GitOps operator components including flux-instance, flux-operator, image-automation, and notification under kubernetes/apps/flux-system/.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/flux-system/kustomization.yaml",
+          "version": "repo-file-v1:sha256:cb5fb34a418a29e2c2f978c40ce958e1978515c230933fa83ead80caa111f019"
+        }
+      ]
+    },
+    {
+      "id": "claim_6b1b20ecd10341beb98ecc426c4a3c35",
+      "statement": "The default namespace hosts user-facing applications and services including media, home automation, and development tools under kubernetes/apps/default/.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/kustomization.yaml",
+          "version": "repo-file-v1:sha256:540735f8d31f4c0b14c141cb59bd450d92a07194ac9283a99b888e114dc9d4ad"
+        }
+      ]
+    },
+    {
+      "id": "claim_77ee8165741e40b29c8691a6ca930ff5",
+      "statement": "The external-server namespace contains external workloads and server applications under kubernetes/apps/external-server/.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/external-server/kustomization.yaml",
+          "version": "repo-file-v1:sha256:767f91f3b1ac104fbbe6f60af30c0bca5eb0da50a5aa56e73b07b54b3ff37e8e"
+        }
+      ]
+    },
+    {
+      "id": "claim_c834bcf2dcad44abb8f7521a182cafbf",
+      "statement": "The cluster-apps Kustomization in kubernetes/flux/cluster/ks.yaml reconciles all namespace-level Kustomizations under kubernetes/apps/ with path ./kubernetes/apps, SOPS decryption, and dependencies on cluster-meta, gateway-api-crds, and external-dns-crds.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/flux/cluster/ks.yaml#L67-L94",
+          "version": "repo-lines-v1:sha256:770f093d6961d35dfedb426cbb59a3af3bc40d309e875b34e97671876740afcc:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAzMTI1OGFlNDc5YzY5MTNjM2MxYjFmNzc0ZTc2NWEyYzA3NjVhNDQ4ZDk5M2I2ZmUzODIxZjUwM2VhNGM1ZDciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyY2ZmNWZmYmE1MGFjMzgxNmFmZjljODViNmI3YTQ4NWU3ZTJhNzM0NjI1ZjM5NGMwNDlkNGI5NmQ1N2E4YzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAzNDAwYWQ1ZGM2NGZiMjg4ZGNlYjhiNjViNDdjYmJkYTE0Nzc2OTQ5NTUxOTE3MTBjMTY0MGNjNDY4NjQ1MmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9d1fb6da8b094e81a622c28f49de3e1f",
+      "statement": "Each namespace follows a Kustomization pattern specifying the namespace name, including ../../components/common for shared resources, and listing application Flux Kustomizations (./<app>/ks.yaml) as resources.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/kustomization.yaml",
+          "version": "repo-file-v1:sha256:540735f8d31f4c0b14c141cb59bd450d92a07194ac9283a99b888e114dc9d4ad"
+        },
+        {
+          "resource": "repo://kubernetes/apps/kube-system/kustomization.yaml",
+          "version": "repo-file-v1:sha256:1bfec7c10e99e1c6fc15d8eb3ed30b97520c517d27e8a3d83beea18885ab36fc"
+        },
+        {
+          "resource": "repo://kubernetes/apps/storage/kustomization.yaml",
+          "version": "repo-file-v1:sha256:e46a24b0ed45feb970a628ca5917362415dff3ecd1e15beac3a4c4029d501549"
+        }
+      ]
+    },
+    {
+      "id": "claim_bc36754630b443cb99724ed84a54c829",
+      "statement": "The ../../components/common component injects shared resources into every namespace including namespace.yaml for namespace definitions with pod security labels, repos/ for HelmRepository and OCIRepository sources, and sops/ for SOPS decryption secrets.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/common/kustomization.yaml",
+          "version": "repo-file-v1:sha256:6a499644d69e7563a12512291f01942ccdc1ceff4e741dd26aa28a228117f9d2"
+        },
+        {
+          "resource": "repo://kubernetes/components/common/namespace.yaml",
+          "version": "repo-file-v1:sha256:cc90502c30a32ce402d07577c6d533123f6aa07629c5b37962e8f83c98b4ab5f"
+        },
+        {
+          "resource": "repo://kubernetes/components/common/repos/kustomization.yaml",
+          "version": "repo-file-v1:sha256:9d547b7855d2377defcba2b0d884a93e2a74c2dbd428a51df19261a7d8545eb1"
+        },
+        {
+          "resource": "repo://kubernetes/components/common/sops/kustomization.yaml",
+          "version": "repo-file-v1:sha256:d8ed27e133a7c7b3a4e77fc5e274182244e747a7c15a7f8a3d6532ccb14f629a"
+        }
+      ]
+    },
+    {
+      "id": "claim_9d4a3998bc8f47b786c989f56012b37c",
+      "statement": "Every application uses a Flux Kustomization (ks.yaml) with standard structure including metadata name/namespace, targetNamespace, commonMetadata labels, path to app directory, sourceRef to flux-system GitRepository, interval (1h), retryInterval (2m), timeout (5m), prune enabled, and wait enabled.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/database/cloudnative-pg/ks.yaml",
+          "version": "repo-file-v1:sha256:aa6f505e65ce130d253450a84932797a5ff6825e90db37b3ade45b9dd62b9efd"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/echo/ks.yaml",
+          "version": "repo-file-v1:sha256:4b8750662fe323f85ce69d34c6f409d902dd8a72dfb2f6cd64b45fb1340f1994"
+        },
+        {
+          "resource": "repo://kubernetes/apps/storage/topolvm/ks.yaml",
+          "version": "repo-file-v1:sha256:0a948f18263a27ca682f29f251187c7f7fa6bb51b2aa08be369dbb0b602ae25e"
+        }
+      ]
+    },
+    {
+      "id": "claim_9bca6572ef024562aad14a8f74deb90e",
+      "statement": "Applications declare dependencies via dependsOn in their Flux Kustomization to enforce ordering, such as prowlarr depending on topolvm, external-secrets, and cloudnative-pg-cluster.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/prowlarr/ks.yaml#L16-L22",
+          "version": "repo-lines-v1:sha256:e1a2bc089489f21daec5b13be7c0faa06484f30b487c8e43647034f66837ae11:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTYwYzNiZDdiYzU5ZmVjOWU0ZGVkMzVkN2NjZjcwMGEzODVhY2U1ODYzNGZhNjBkM2IyMmZmMjY4YzAxN2ViZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzY1ZDQwMmQyNWRkNTY1NTE5Zjg3ZGZiZTk2NDdlMGEzZTMzNmEwZGNjNzJlNWE1MDMwYjA5YzE3N2NlOTQxMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOGFhZjJiNmNhZDcwZThmZDIxN2UxM2ZjZTE2NmFjZTAzM2YyYWU2YTAwOTA4MzRmOGMxYjI5YWMwOTAyZGM2NyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjEyYzRiZjI5NTM4Y2IwMzY5NTdiZDVhYjA5ZjFlOGJiNTgwOTJjODI3YjViYTVhMGIyZDg1MDQ0NWIxOGU5YiJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/kube-system/cilium/ks.yaml#L46-L48",
+          "version": "repo-lines-v1:sha256:527fac7ada300cb727eed4ae277ecf01071a682ede223b7109ed6c602d25dbb4:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTYwYzNiZDdiYzU5ZmVjOWU0ZGVkMzVkN2NjZjcwMGEzODVhY2U1ODYzNGZhNjBkM2IyMmZmMjY4YzAxN2ViZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjljYTQ4N2JiOGUzYmFlMjdlZDMzNjM5ZmQ5ZWRlMjczNmM5MTA5OTQwZDMzZThmMDI0YTEzZWNjNDEyNzlhYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTAyYTZlODMwOGZiNjZmMmFmZDJmMTBlYzdkNDY3MDdkMDA1YjM3MGFkZmI1Y2Q3ODVkNTNlYThkNDYyM2NmMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTVmNjdmZTlkOTUyNTU3YjNmMzZhZTIyYWI4MDZmNjdhNTljNjIxZTYyMjRhZjBkYWZkMjM3ZjVlNTNhZjM3MyJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/observability/grafana/ks.yaml#L15-L19",
+          "version": "repo-lines-v1:sha256:a5e5b11390590e29d5bbb97eeb19afbc30f319287e5e837eec36b2563c199437:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTYwYzNiZDdiYzU5ZmVjOWU0ZGVkMzVkN2NjZjcwMGEzODVhY2U1ODYzNGZhNjBkM2IyMmZmMjY4YzAxN2ViZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGUzNzU5NmI4M2ZiYjg5MmFiOTUyOGVhMTAwMTI3N2FjN2QyNzU4MGM5NTVjMDk0MzVlYjBkMmNlMGUwZTFiYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMGFlNDIxMzZhZDA3MWZjYzVlMmRjNDc2ZDE3YzYzNTFhOWZkNWIxY2I2OWJhMGU2MWEwYTdiNzU4YzAyNTEyZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTVmNzI1OTI2YTI0MmNjMGU3ZmNjZDBiY2RlMmVjYTEwMmMyNTAzOTFjNWRmM2RhNmIxNmY4Y2RmMDgyM2I1YyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_332d16193ef64dd9990a4e23c45053ab",
+      "statement": "Applications requiring encrypted secrets include decryption configuration with provider sops and secretRef to sops-age in their Flux Kustomization.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/database/cloudnative-pg/ks.yaml#L26-L29",
+          "version": "repo-lines-v1:sha256:f000b31c3522bd306a024cee6cfaa7daf3e17c4cde85925ad1ade76d25df1976:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGFiNmUwZWUyMWNmZTcxYTkwNWE5OTkwNWM1ZGEzOTc2ZDA1YTk5MDBhMzVjMGFkMWIxMjc3Y2RjOWUxOWRlZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGUxNWFiOThmYjQ2MzhhOTc1MTM4OTdiMWNmOWZmYTlhZTJmNjVlNWZjYzY1ZTI0YTJhYWRiNGI5ZjQ0YjBlNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYWVmZWJkNTliNzIxMWFhOGRiOGEyMWQ0ZjI1YzU3MzI0ZDM5NDBjZGI5MDRmM2FkYmMxOTRjOWQ5ZGIzNTI0OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjU2YWJjZTYyNGU3ZDc3NzFiZjgyNTRkMWYwMTcxZWUxNjBjOTE3MTFiYmE3NWU0NjM5Njk3MDY3YTE5ZjIyOSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/echo/ks.yaml#L15-L18",
+          "version": "repo-lines-v1:sha256:f000b31c3522bd306a024cee6cfaa7daf3e17c4cde85925ad1ade76d25df1976:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGFiNmUwZWUyMWNmZTcxYTkwNWE5OTkwNWM1ZGEzOTc2ZDA1YTk5MDBhMzVjMGFkMWIxMjc3Y2RjOWUxOWRlZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGUxNWFiOThmYjQ2MzhhOTc1MTM4OTdiMWNmOWZmYTlhZTJmNjVlNWZjYzY1ZTI0YTJhYWRiNGI5ZjQ0YjBlNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjM3YWJiNjVjZmMzYmIwNjljZjRiYWFhZjcyYWNiZmM4ZGEwMmUyNWZhZjBhMTUyOWFlZmFkZGIyNjY2Y2QzZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTE3YzUyMzM1MjNkMGY2YTFiNGE4MTMzMzRlZDU0ZDNkZjgxMDRhN2Y1NTQ1MTZmNDMyNWM5ZmZlNGI5ZGRkNCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_830157ae371a44cba5b9758bdadbd277",
+      "statement": "Applications use postBuild substitution to inject variables from cluster-secrets Secret and custom substitutes like APP and VOLSYNC_CAPACITY.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/echo/ks.yaml#L21-L28",
+          "version": "repo-lines-v1:sha256:fead3905deff681e94c79ae55e8b425b6c172b85a930dca1a6e63b6fda65bce2:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDVmYjU2ZDNhNTI5OWEwMzRlNDAzYmQ0YzFhYWFkMmFkZWE4MmVlMWY2YjkwOTE4MzkxNWNlNWY1ZjA2MzRhZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiN2RmZmI3MGQwMTUxYzg2MjkzMjkzNTc0YjZmYTc1YmUyYWI1ZjAzN2IyMjFkNDA1ZWUxZDZlMjY1NjE4OGFiNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMmU5NzBhMzg1OGQ4NGZhYWE2M2IzODFiYTU3NzFhZTcyYWYwODdmODJlZmFjYzhmYzk1ZjFjMGI5N2ExZjMxMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzFiOWIxNTdlOTZlZWEyNzlhOWE4NzAyOTY1YWZmNThlZTE0MGE4OTZhMWFkZDQwNGM0MjFlN2Q4Y2E4YTM3ZCJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/prowlarr/ks.yaml#L37-L43",
+          "version": "repo-lines-v1:sha256:62fb5b8d84125ec2f0d14d77eafc03704b6138fa69f0dcfdb902ca9ea8e8139e:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDVmYjU2ZDNhNTI5OWEwMzRlNDAzYmQ0YzFhYWFkMmFkZWE4MmVlMWY2YjkwOTE4MzkxNWNlNWY1ZjA2MzRhZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMTY5OTc2NDA3MGNmNDJkN2JlM2FmOGU2MzlhOTk2MzVjYTkwZWI1ZmM1MDcwOTM0NTdlYzEzZWY0NGVhZWU1OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYWVmZWJkNTliNzIxMWFhOGRiOGEyMWQ0ZjI1YzU3MzI0ZDM5NDBjZGI5MDRmM2FkYmMxOTRjOWQ5ZGIzNTI0OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_9e88387fb15f49d5ae30006471e4f07e",
+      "statement": "Applications include reusable components via the components field in their Flux Kustomization, such as volsync-new and gatus/guarded components.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/prowlarr/ks.yaml#L13-L15",
+          "version": "repo-lines-v1:sha256:8aaf2b6cad70e8fd217e13fce166ace033f2ae6a0090834f8c1b29ac0902dc67:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWQzYTVkNjE1ZDhjOGNhZmVkMzgyZTZmYzE4NWY0NTk3MDJhYTg2OGNlNzUyNGZkMjY2ZjNmYjZkNjBjMDY3MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTRiNjI1OGQ0ZjAwN2M2OGExY2EwZDg2OGNmMTBmNmIyMGU3N2FlMThjYzBkNDg4ZjA5ZjUyOGZhMTFmMDhiZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjBiZWRmNWJiZGMwOGY0OTI3NmI3ZWJjNjhkZWVkMDlmZjBkMmM4NzkwMDcwMDk0MzVmM2I5NjQ3NjRmNTRkYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjRjYzRlN2QwNDExOTRlZGZlOWQ3MzZlYjQzZTZhZjNkNDZkMzJkZDI1ZGI1NzZlZmUzN2I4MjVjOWE2MjIxNCJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/observability/grafana/ks.yaml#L13-L14",
+          "version": "repo-lines-v1:sha256:d166561c86b4d726ccffbb9d010fea9c6cd8b40b01ec3206080e484644e8d0df:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWQzYTVkNjE1ZDhjOGNhZmVkMzgyZTZmYzE4NWY0NTk3MDJhYTg2OGNlNzUyNGZkMjY2ZjNmYjZkNjBjMDY3MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTRiNjI1OGQ0ZjAwN2M2OGExY2EwZDg2OGNmMTBmNmIyMGU3N2FlMThjYzBkNDg4ZjA5ZjUyOGZhMTFmMDhiZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjBiZWRmNWJiZGMwOGY0OTI3NmI3ZWJjNjhkZWVkMDlmZjBkMmM4NzkwMDcwMDk0MzVmM2I5NjQ3NjRmNTRkYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzA1ZWFkZjljNDNiYjhlY2VkOTI3NWFjN2M1MTU3MzJlODUzZTNlMTE3NTZlZTA3MGQ1ZTQxZTU2ZTFkOTRlYiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_751a695f02444024b86b168e88bf0237",
+      "statement": "Most applications use the bjw-s app-template Helm chart sourced via OCIRepository from oci://ghcr.io/bjw-s-labs/helm/app-template with tag 5.0.1, defined in kubernetes/components/common/repos/app-template/ocirepository.yaml.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/common/repos/app-template/ocirepository.yaml",
+          "version": "repo-file-v1:sha256:1de7ff03efc07f77a66364c1a51db82e0426d7cd1f6a59263e9a78cdcacd8a71"
+        },
+        {
+          "resource": "repo://kubernetes/components/common/repos/kustomization.yaml",
+          "version": "repo-file-v1:sha256:9d547b7855d2377defcba2b0d884a93e2a74c2dbd428a51df19261a7d8545eb1"
+        }
+      ]
+    },
+    {
+      "id": "claim_f0f73333fa1a498e9892c7483b27bf38",
+      "statement": "Applications reference the OCIRepository in their HelmRelease using chartRef.kind: OCIRepository and name: app-template, with values specifying controllers, containers, and service configuration using the app-template structure.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/echo/app/helmrelease.yaml#L8-L11",
+          "version": "repo-lines-v1:sha256:a223a36216db65388177aedfb429024f45bac593c62d8ba531cd1f69f0a582c5:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjFjYjU3ZTJjNzk4MGU5OTk4YzZlMWM1ZjJhNjNlMmJjOTY1Yjg2YzI2MmY0YWE2NjNlZjI1ZjZjYmE4YjZiMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjMwZmMxNGI1NmYyNzI3MTEwYWI1YjFjMmUxZjE4OTg3MTE4MWZiZGU5NjU3MTI0MjE1MGZlNTQ2OTAxYjZmZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjdjOTM2MmNiYjkyOGQwZmZlNzk5NzJjOTYzZjllNzIwYmVhOTVhNDUzMDU1NTE1MWU4Mjc5ZGEzOWQ1ZmNkYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOThiZWMxNTQxMDMyNTAzN2IzNGE2YWZkNzA3ZGQ4MDQxZDAzNzUxODdjZmM5MDFmNmE0ODVmZDk3NDhjNGRiYyJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/prowlarr/app/helmrelease.yaml#L8-L11",
+          "version": "repo-lines-v1:sha256:a223a36216db65388177aedfb429024f45bac593c62d8ba531cd1f69f0a582c5:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjFjYjU3ZTJjNzk4MGU5OTk4YzZlMWM1ZjJhNjNlMmJjOTY1Yjg2YzI2MmY0YWE2NjNlZjI1ZjZjYmE4YjZiMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjMwZmMxNGI1NmYyNzI3MTEwYWI1YjFjMmUxZjE4OTg3MTE4MWZiZGU5NjU3MTI0MjE1MGZlNTQ2OTAxYjZmZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGJjYmZkODRkNjVkNjY4MTYyYjkyY2MxZGI2N2YxMWY3MmRjNWQzMDE0NDVkY2NhODE5MGFjMTE3NzQxOTgwMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOWNmNDQ1NjkzNzkwMTJhNzM4ZjIyZmY4YmViMDJhMzVjNjgxY2M4M2YzNjY4ZGExNWExNGZmOTgyYWNhNTIxMiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_0caf6c714fde4b3f8ae034f51d0df9d5",
+      "statement": "Each application follows the directory structure of ks.yaml (Flux Kustomization) and app/ subdirectory containing kustomization.yaml and helmrelease.yaml, with some apps using additional subdirectories for multiple releases.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/echo/app/kustomization.yaml",
+          "version": "repo-file-v1:sha256:9a9a3ac6ef81653bf620382b5f957ec5c6a57af22f5d6716424209c591d41ea3"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/echo/ks.yaml#L20-L20",
+          "version": "repo-lines-v1:sha256:4ecd3a3a2a3217d4c1b16c70c7045d82009f7cd7562c6d85e8e34afe0956e28b:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNGVjZDNhM2EyYTMyMTdkNGMxYjE2YzcwYzcwNDVkODIwMDlmN2NkNzU2MmM2ZDg1ZThlMzRhZmUwOTU2ZTI4YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGVjZDNhM2EyYTMyMTdkNGMxYjE2YzcwYzcwNDVkODIwMDlmN2NkNzU2MmM2ZDg1ZThlMzRhZmUwOTU2ZTI4YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjg1ZWNkZjFmYzYyZDY4OTM1ZDk1MDQ4MjZlZDFkODJlYzgzMTIyZTljZGM5MzAyOGFlZWRmNjllYzYyMmIxNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjU2YWJjZTYyNGU3ZDc3NzFiZjgyNTRkMWYwMTcxZWUxNjBjOTE3MTFiYmE3NWU0NjM5Njk3MDY3YTE5ZjIyOSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/kube-system/cilium/ks.yaml#L17-L50",
+          "version": "repo-lines-v1:sha256:01dfa9bad36d0e540095941100fc0377f0ccfa3322eb1a857b95064453226411:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY0Zjc3OWM4OWUzNDkyMDJlNDVlMzA4MWIzMTQ5ZGEzMjE2NDA2OTY5NGNjMTA2N2Q5ZDA2MjRkNzcwM2FkZjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNmY2Y3NTY0NTc2NzE3MjU3ZGQ3YTZjNTU4MzBjYWJlY2Q2OGUxY2M5YjAzYTc3NTBkYjllNTEzZmM3NzBiNDkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY4NWVjZGYxZmM2MmQ2ODkzNWQ5NTA0ODI2ZWQxZDgyZWM4MzEyMmU5Y2RjOTMwMjhhZWVkZjY5ZWM2MjJiMTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY1NmFiY2U2MjRlN2Q3NzcxYmY4MjU0ZDFmMDE3MWVlMTYwYzkxNzExYmJhNzVlNDYzOTY5NzA2N2ExOWYyMjkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_bf5098f09f9244cd9063459d5a0f36ab",
+      "statement": "Shared functionality is provided through components in kubernetes/components/ including common (namespace, repos, sops), gatus (monitoring endpoints), volsync (backup configuration), and image-automation (automated updates).",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/gatus/external/kustomization.yaml",
+          "version": "repo-file-v1:sha256:9b7f737953cde50bbf2e4f24584464c00b3e6e6cf26cb16b7f07e599032be423"
+        },
+        {
+          "resource": "repo://kubernetes/components/volsync/kustomization.yaml",
+          "version": "repo-file-v1:sha256:4c2df018958ac36399edfa3f9447bad27dea5dd9b8506109b70f6b634eeaa88f"
+        }
+      ]
+    },
+    {
+      "id": "claim_6baa518f7ec94e6895651f0adc3d5ea7",
+      "statement": "Helm chart sources are defined in kubernetes/flux/meta/repos/ as HelmRepository resources with interval 1h, reconciled by the cluster-meta Kustomization, including bjw-s as an OCI repository.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/flux/cluster/ks.yaml#L5-L23",
+          "version": "repo-lines-v1:sha256:8f116d5eb31ff52f6b14fb4347c957570f995535022b94094a0c747bef4f0f05:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNhNmY0ZGRhM2VhZWMwMzBmNTUyODI4MWFlYjI1OGRmYzRiOTAyMDhlYjllNWRiZDkxZGJlY2EzMWRiZDFhNTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyY2ZmNWZmYmE1MGFjMzgxNmFmZjljODViNmI3YTQ4NWU3ZTJhNzM0NjI1ZjM5NGMwNDlkNGI5NmQ1N2E4YzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBmNmY4ZWQ1MTRjMzVmYzRlOTI0ODE2NTk1ZGM4OTFlZjRlNDVlNTRiNzc4YjliYWI2MDUyNTMwZWI1NzNlZmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ4NjllNzFiYzE5ZjhkNjJjYWQ0NzNjY2RiMDQ2ZDA3Yzk1YTM1YTlhMGJjNTQ5MDk5NDczYmEzNThmYTU3MTMifQ"
+        },
+        {
+          "resource": "repo://kubernetes/flux/meta/repos/bjw-s.yaml",
+          "version": "repo-file-v1:sha256:904cd39b7a317c1d51645f8beea687ff26c3b626fef9d85b1d2bbd52bf40fe65"
+        },
+        {
+          "resource": "repo://kubernetes/flux/meta/repos/kustomization.yaml",
+          "version": "repo-file-v1:sha256:fa10b5630965480f453261c86956a0d97171b2b134e7d859a4caa3c6fa46a277"
+        }
+      ]
+    },
+    {
+      "id": "claim_3e09bff5fe7e46e5a3bc19ea0daf9de8",
+      "statement": "Namespaces may include additional resources beyond applications in namespace.yaml such as AlertManager Provider and Alert configuration for HelmRelease failure notifications, with pod security labels and volsync annotations.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/database/namespace.yaml",
+          "version": "repo-file-v1:sha256:c304a3cee168645f08358193fc0ce9a34b17df275dc4f52f359bfc54751fa2ab"
+        },
+        {
+          "resource": "repo://kubernetes/apps/storage/namespace.yaml",
+          "version": "repo-file-v1:sha256:6da64a09b681c79f940bf9ae584185abd628e58ea8a8c32b1308648542e094b7"
+        }
+      ]
+    },
+    {
+      "id": "claim_be1ce63660044beda452eafcdd12fdfd",
+      "statement": "The cilium application defines its own HelmRepository in the app directory namespace as kube-system for Renovate lookups, sourcing from https://helm.cilium.io.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/cilium/app/helmrelease.yaml#L2-L10",
+          "version": "repo-lines-v1:sha256:f93d78c9009b1d427ea69bbd78d57d7efeb9034b3d51fc1c8958e7ed81bcf8d4:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNWE4NDgyZTcxNWYyZWRmYmE5NWE4NzdkYTdlOTFkZmY3OTE4OTMxYzM1MDVjMjY2MmNiZTBiZjg4MmQyM2ZkNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiY2E1YTJmZDYzMWFhN2Q4NGZjMDY0MmJjYTg1OGZlODkzYzJlYTQ4N2EyYjcwNDFkMjlkZDRiNWVkYzg0YmI0YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjEsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjUyZDcxMTEwM2Q1MGE0Mzc4MzBjNmZiY2QwNGZiNGJhYjQ5YTBmODJmNmQyNmQxYzc5MWM2ZTg0ODhkZDA5MCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjQ2NjczNDhiZGQwYTEwMDJiOGJjMDMxZTdlMGNlMTlkOWUxNDViN2IyMmEwY2U4NWI3OWUzMGJkMmYyOGY5OCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_1611cbc4158c42bcacd1a551a8704108",
+      "statement": "CloudNative-PG deployment uses two Flux Kustomizations: cloudnative-pg for the operator and cloudnative-pg-cluster for the cluster instance, with the cluster depending on the operator, topolvm storage, and external-secrets.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/database/cloudnative-pg/ks.yaml#L34-L68",
+          "version": "repo-lines-v1:sha256:7db70faf5ccc1a5c1c33d7ca2b0efd148640a333995f1245820d976a516cbc2b:eyJzZWxlY3RlZExpbmVDb3VudCI6MzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM0N2YxODRiYWI3NjU5YzY3Mjk0ZmM3YTAyNDlhNjJhYzIxZDJkYTBkYjFjMzE1MWE0Zjc1MDJmNDhkODMzZjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNhNGQ0YTdhOWM4M2NiNjdjY2Y0OGNiOTgxNWQxNjBkZWNmNDYxMmM1YTc1Y2RlOGQ1MWM1MDAwYmNmZjM2MTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-08-31T23:16:37.333Z"
+  }
+}
