@@ -4,8 +4,8 @@ title: Bitwarden Secrets Integration
 description: Runtime secret management using Bitwarden as the external secrets provider via External Secrets Operator, with cluster-wide secret stores and automated secret synchronization.
 tags: [secrets, external-secrets, bitwarden, security]
 verified:
-  - by: openwiki/0.4.3
-    at: 2026-08-30T21:57:36.532Z
+  - by: openwiki/0.5.0
+    at: 2026-09-01T21:54:26.927Z
 sources:
   - id: openwiki-source-41044dd9a7ebfa0249948610
     resource: repo://kubernetes/apps/default/growth-tracker/app/externalsecret.yaml
@@ -27,7 +27,7 @@ sources:
     resource: repo://kubernetes/apps/network/tailscale/ks.yaml
   - id: openwiki-source-d7ce147b373b74b80f0794fd
     resource: repo://kubernetes/flux/meta/repos/bitwarden-eso.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-29T02:22:11.234Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-01T21:54:26.927Z" }
 ---
 
 # Bitwarden Secrets Integration
@@ -190,14 +190,21 @@ Use the `bitwarden-fields` ClusterSecretStore for structured data stored in Bitw
 ExternalSecret resources can reference both ClusterSecretStore types in a single resource by using `sourceRef.storeRef` to override the default store for specific data entries.
 
 **Example - Growth Tracker** (`kubernetes/apps/default/growth-tracker/app/externalsecret.yaml#L1-L95`)
-- Uses `bitwarden-login` for database and service credentials (username/password)
-- Uses `bitwarden-fields` for App Store Connect credentials (custom fields)
+- Uses `bitwarden-login` as the default store for database and service credentials (username/password)
+- Uses `bitwarden-fields` for App Store Connect credentials (custom fields) via explicit `sourceRef.storeRef`
 - Combines multiple Bitwarden items into a single Kubernetes Secret
 - Demonstrates complex secret composition with template synthesis
 
 The growth-tracker example shows the key distinction between the two stores (`kubernetes/apps/default/growth-tracker/app/externalsecret.yaml#L60-L95`):
 - `bitwarden-login`: Uses JSONPath `login.<property>` to access username/password
 - `bitwarden-fields`: Uses JSONPath `fields[?(@.name=="<property>")].value` to access custom fields
+
+**Example - OpenClaw (Inverse Pattern)** (`kubernetes/apps/default/openclaw/app/externalsecret.yaml#L1-L74`)
+- Uses `bitwarden-fields` as the default store for API keys stored as custom fields
+- Uses `sourceRef.storeRef` to override to `bitwarden-login` for API keys stored as password properties
+- Demonstrates that either store can be the default, with overrides for specific keys
+
+This pattern is useful when most secrets are custom fields but some credentials are stored as login passwords.
 
 #### SMTP Relay Mixed Pattern
 
@@ -351,6 +358,14 @@ The Tailscale integration demonstrates OAuth client credential handling (`kubern
 - Uses `bitwarden-login` store with OAuth client ID as `username`
 - OAuth client secret stored as `password`
 - Template transforms into `client_id` and `client_secret` keys
+
+### Backup Credentials Pattern
+
+VolSync backup credentials demonstrate combining static repository configuration with dynamic secrets (`kubernetes/components/volsync/minio.yaml`):
+- Uses `bitwarden-login` store for MinIO S3 credentials
+- Template combines static S3 endpoint URL with dynamic credentials from Bitwarden
+- References two separate Bitwarden items: `volsync-minio-template` for RESTIC password and `cold-minio` for S3 access keys
+- Demonstrates how templates can mix hardcoded values with secret references
 
 ## Troubleshooting
 

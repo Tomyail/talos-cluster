@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:488bfc4eb3b74c7f000415202cbd1a60e86ec533e2653430d7d7ad750d992faf",
+  "pageVersion": "sha256:dce04bcca068cdda54681a3a825ea95cf105c7debb920458662fdeff31221ff2",
   "claims": [
     {
       "id": "claim_c368688dc28341c08125e3afd80d4101",
@@ -259,10 +259,20 @@
           "version": "repo-lines-v1:sha256:473a6ce1640788a06877deb10ea03abd5dc6c4e6460779648b374a98a2ec06e0:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTBlYTJlOWFlMWQyODE3ZDhkNDE0Y2EwZTQyMTNiZTUzMTYxYjMzM2ZmNGVjNzVkNDkzMTQwMGU1MDVhNTYyYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiN2U4NWIxZDM3YTlhMGVkMTdiM2FiZGQ2ZmFiM2YxZTFmNGNkNmJhYTRmYzVkNTIwM2FiMzY4M2VlNzAzNTFkYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYmYzOTc5MTBlNmYyNTNmOTMyMDRjNjhiMjAzOGYwYzdjNTcxMmU5ZWZiN2QyNDY5OTI3MDg1Yjk0NjZkOGI3ZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODY0MDdmOWQwMTE5MTg3NTc5MGI5NmFkZGY3MDBmMDQ3MDYzNWM3ZGU2MTViMmJhMDViYWRhMTA0YjU2ODg1MSJ9"
         }
       ]
+    },
+    {
+      "id": "claim_9f0448c2ba3845bfbfa2dfd39067e48c",
+      "statement": "The reset task prompts for confirmation before executing talhelper gencommand reset with flags to wipe STATE and EPHEMERAL system labels, reboot nodes, and destroy the cluster completely. This destructive operation requires cluster re-bootstrap and should only be used for complete teardown scenarios.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml#L60-L66",
+          "version": "repo-lines-v1:sha256:ea5c7acd6103a621dad1b3b7c305e16662777d9012a66a6a79cc3df39188b6c6:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjFjMjlkMWIyZDAzZjAzNjNhMTJmY2Y2OTMwN2M3MGU3ZTRlZjIxN2I5YjA4YTcxMjFkZjdmNDQ3MmY0YTE4NiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNmFjZDNkMzBjOTYyNmFmYTViYWU4YWUzOWU5MTNmOGY4YmU3YzhhNDgwYmYwNjM2ZmZhNmE4ZTBhODNmMjc3NSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYmMyMjc3NWMyZTVlZWIwMGY5YWI3MjJmMzk2NzRhNmRkMTU1M2FhMDg4NmZlYzlkMWI3NmRiNTc4YmU2YmI4MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.4.3",
-    "at": "2026-08-30T21:57:36.532Z"
+    "by": "openwiki/0.5.0",
+    "at": "2026-09-01T21:54:26.927Z"
   }
 }

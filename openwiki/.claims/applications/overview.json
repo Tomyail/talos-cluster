@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:8ea4936e6b91c659b24e217f339d87204165ea870cfc54ae0ac6ac09aa961693",
+  "pageVersion": "sha256:9f36932fd17a12617ce3c900e557db3d1bef1e8177a8d10f73b1e00d3f15146a",
   "claims": [
     {
       "id": "claim_1971274329bf4863857c0f694b7f0a92",
@@ -389,10 +389,20 @@
           "version": "repo-lines-v1:sha256:008f85def79db8342cdb585ca0dfa6e64293593f7966e583fa06113f53661dc2:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjllMjM2MjgzYjMzNjYwZmZlODhlMzViODc5ZDI3NDMyODIyNThhMTQ1ZWU1YmYxNTIxMDJiMWY3M2VhMjI2NGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRlZjhiYTA0NmM0NjRjNThlMDhhMWZiMGI0ZGUzM2QzM2M2ZjA5MTBjY2QxOTZkMjZjZDA4NzQxNjg3MGEwMGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUzNWQ4NzcxMTQyMDkwZGQ3ZjcyMmU4NDE2Y2Y2ZDk5ODFjMWQ2NmI4YWQ1NWJjZWQ3NGY4NWFhZGExNWYxODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNjNjMxYmZhZmQ3YzQ2ZWEzNTYyNDk2MDVkZmVkOGNkZjg4YTM3NjRiZmE3YjM0OGRlYzc3Mzc5ZGU4NWRhYjYifQ"
         }
       ]
+    },
+    {
+      "id": "claim_b2676264601d41e9826ea68941d3d823",
+      "statement": "The default namespace contains 39 personal applications, including Gitea, Jellyfin, growth-tracker, Paperless, Navidrome, n8n, Home Assistant, and various media management and automation tools.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/kustomization.yaml",
+          "version": "repo-file-v1:sha256:540735f8d31f4c0b14c141cb59bd450d92a07194ac9283a99b888e114dc9d4ad"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.4.3",
-    "at": "2026-08-30T21:57:36.532Z"
+    "by": "openwiki/0.5.0",
+    "at": "2026-09-01T21:54:26.927Z"
   }
 }

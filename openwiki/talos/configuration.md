@@ -4,8 +4,8 @@ title: Talos Configuration
 description: How Talos Linux is configured and managed in this cluster via talhelper, machine patches, node definitions, and version management.
 tags: [talos, configuration, talhelper, machine-config]
 verified:
-  - by: openwiki/0.4.3
-    at: 2026-08-30T21:57:36.532Z
+  - by: openwiki/0.5.0
+    at: 2026-09-01T21:54:26.927Z
 sources:
   - id: openwiki-source-4f5be6b4c7dcc699aca46164
     resource: repo://.taskfiles/talos/Taskfile.yaml
@@ -31,7 +31,7 @@ sources:
     resource: repo://talos/talconfig.yaml
   - id: openwiki-source-b65e4f1ccd91316116ad973a
     resource: repo://talos/talenv.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-30T21:57:36.532Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-01T21:54:26.927Z" }
 ---
 
 # Talos Configuration
@@ -461,6 +461,21 @@ This task:
 1. Reads `kubernetesVersion` from `talos/talenv.yaml`
 2. Executes `talhelper gencommand upgrade-k8s` with `--to` flag
 3. Upgrades Kubernetes across the cluster
+
+### reset Task
+
+```bash
+task talos:reset
+```
+
+This task:
+1. Prompts for confirmation before proceeding (destructive operation)
+2. Generates reset command via `talhelper gencommand reset`
+3. Wipes STATE and EPHEMERAL system labels (unless `CLI_FORCE=true`)
+4. Reboots nodes into maintenance mode
+5. Destroys the cluster and requires complete re-bootstrap
+
+**Warning**: This is an extremely destructive operation that will destroy your cluster and reset nodes back to maintenance mode. Use only for complete cluster teardown/recovery scenarios.
 
 ## Custom Factory Image
 

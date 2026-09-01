@@ -33,8 +33,8 @@ sources:
   - id: openwiki-source-b65e4f1ccd91316116ad973a
     resource: repo://talos/talenv.yaml
 verified:
-  - by: openwiki/0.4.3
-    at: 2026-08-31T23:16:37.333Z
+  - by: openwiki/0.5.0
+    at: 2026-09-01T21:54:26.927Z
 generated: { by: "openwiki/0.4.3", at: "2026-08-31T23:16:37.333Z" }
 ---
 

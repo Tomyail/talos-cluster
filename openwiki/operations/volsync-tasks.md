@@ -4,8 +4,8 @@ title: VolSync Backup and Restore
 description: Taskfile-based operations for VolSync manual snapshots, backup listing, PVC restoration from MinIO, restic repository maintenance, and suspend/resume workflows.
 tags: [volsync, backup, restore, restic, operations, minio, taskfile]
 verified:
-  - by: openwiki/0.4.3
-    at: 2026-08-31T23:16:37.333Z
+  - by: openwiki/0.5.0
+    at: 2026-09-01T21:54:26.927Z
 sources:
   - id: openwiki-source-667048e2381456fb8cb0e49b
     resource: repo://.taskfiles/volsync/scripts/wait-for-rd.sh

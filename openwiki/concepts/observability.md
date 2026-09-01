@@ -1,11 +1,11 @@
 ---
 type: architecture
 title: Observability Stack
-description: Comprehensive monitoring, logging, and alerting infrastructure using Prometheus, Grafana, Loki, Thanos, Gatus, and Uptime Kuma for complete system observability.
-tags: [observability, monitoring, logging, alerting, prometheus, grafana, loki, thanos]
+description: Comprehensive monitoring, logging, and alerting infrastructure using Prometheus, Grafana, Loki, Thanos, Gatus, Uptime Kuma, and Kromgo for complete system observability.
+tags: [observability, monitoring, logging, alerting, prometheus, grafana, loki, thanos, kromgo]
 verified:
-  - by: openwiki/0.4.3
-    at: 2026-08-31T23:16:37.333Z
+  - by: openwiki/0.5.0
+    at: 2026-09-01T21:54:26.927Z
 sources:
   - id: openwiki-source-713804fe0a8649683e2d52d6
     resource: repo://kubernetes/apps/observability/gatus/app/helmrelease.yaml
@@ -47,7 +47,7 @@ sources:
     resource: repo://kubernetes/apps/observability/thanos/ks.yaml
   - id: openwiki-source-51f0a212f7f39961fbc500fb
     resource: repo://kubernetes/apps/observability/uptime-kuma/ks.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-31T23:16:37.333Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-01T21:54:26.927Z" }
 ---
 
 The observability stack provides complete visibility into system health, performance, and availability through integrated metrics, logs, and uptime monitoring. It follows a layered architecture with clear dependency chains, long-term storage capabilities, and automated alert routing.
@@ -64,14 +64,17 @@ flowchart TD
     PROMTAIL[promtail]
     GATUS[gatus]
     UKUMA[uptime-kuma]
+    KROMGO[kromgo]
 
     CRDS -->|provides CRDs| KPS
     KPS -->|metrics to| THANOS
+    KPS -->|metrics to| KROMGO
     THANOS -->|query API| GRAFANA
     LOKI -->|logs to| GRAFANA
     PROMTAIL -->|ships logs| LOKI
     GATUS -->|health status| GRAFANA
     UKUMA -->|uptime dashboard| UKUMA
+    KROMGO -->|badges| KROMGO
 
     STORAGE[(object storage MinIO)]
     THANOS -->|long-term metrics| STORAGE
@@ -87,6 +90,7 @@ The observability components follow a strict installation order enforced by Flux
 2. **kube-prometheus-stack** - Deploys Prometheus Operator, Prometheus, Alertmanager, and default monitoring rules
 3. **thanos** - Provides long-term metrics storage and querying, depends on kube-prometheus-stack
 4. **grafana** - Visualization layer, depends on thanos and kube-prometheus-stack for datasources
+5. **kromgo** - Prometheus metrics badge service, depends on kube-prometheus-stack for metrics queries
 
 ### Core CRDs
 
@@ -122,6 +126,19 @@ Additional scrape targets are configured via `ScrapeConfig` CRDs for external an
 - **borgmatic-exporter**: Monitors backup status daily (24-hour intervals) from the backup host
 
 These configurations use static targets with relabeling to set appropriate job and instance labels.
+
+### SMART Device Monitoring
+
+The smartctl-exporter includes comprehensive PrometheusRule alerts for disk health:
+
+- **SmartDeviceHighTemperature**: Fires when drive temperature exceeds 65°C for 5 minutes
+- **SmartDeviceTestFailed**: Alerts when SMART tests fail
+- **SmartDeviceCriticalWarning**: Critical state detection
+- **SmartDeviceMediaErrors**: Media error detection
+- **SmartDeviceAvailableSpareUnderThreshold**: Spare capacity threshold warnings
+- **SmartDeviceInterfaceSlow**: Interface speed degradation detection
+
+These alerts provide early warning of storage device failures across external nodes.
 
 ### Kubelet and API Server Monitoring
 
@@ -262,6 +279,18 @@ Uptime Kuma provides user-friendly uptime monitoring with public status pages:
 - **Notifications**: Built-in notification channels for alert delivery
 
 Uptime Kuma complements Gatus by providing browser-based monitoring configuration and status visualization.
+
+### Kromgo
+
+Kromgo provides Prometheus metrics badges for quick cluster health visualization:
+
+- **Metrics Source**: Queries Prometheus directly at `prometheus-operated.observability.svc.cluster.local:9090`
+- **Badge Types**: Configurable metrics including cluster CPU, memory, network usage, pod counts, node counts, and power consumption
+- **Color Coding**: Threshold-based coloring (green/orange/red) for visual status indication
+- **HTTPRoute**: Exposed at `kromgo.{SECRET_DOMAIN}` via external gateway
+- **Configuration**: ConfigMap-based metric definitions with customizable queries, labels, and display options
+
+Kromgo exposes key cluster metrics as lightweight SVG badges suitable for embedding in dashboards, documentation, or status pages. Metrics include Talos version, Kubernetes version, cluster resource usage, pod counts, and active alerts.
 
 ## Storage and Persistence
 

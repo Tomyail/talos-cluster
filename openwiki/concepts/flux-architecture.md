@@ -4,8 +4,8 @@ title: Flux GitOps Architecture
 description: Comprehensive documentation of the Flux GitOps reconciliation hierarchy, Kustomization structure (cluster-meta → CRDs → cluster-apps), source management, Helm vs Kustomize resources, SOPS decryption integration, and the automated image update system.
 tags: [flux, gitops, kubernetes, reconciliation, kustomize, helm]
 verified:
-  - by: openwiki/0.4.3
-    at: 2026-08-30T21:57:36.532Z
+  - by: openwiki/0.5.0
+    at: 2026-09-01T21:54:26.927Z
 sources:
   - id: openwiki-source-1385f4adf262cc0ec92b6d45
     resource: repo://kubernetes/apps/default/echo/ks.yaml

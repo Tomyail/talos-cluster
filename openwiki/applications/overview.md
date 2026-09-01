@@ -4,8 +4,8 @@ title: Applications Overview
 description: How applications are structured and deployed in the cluster, including namespace layout, Flux Kustomizations, HelmRelease patterns, and reusable components.
 tags: [applications, flux, helm, namespaces, gitops]
 verified:
-  - by: openwiki/0.4.3
-    at: 2026-08-30T21:57:36.532Z
+  - by: openwiki/0.5.0
+    at: 2026-09-01T21:54:26.927Z
 sources:
   - id: openwiki-source-3575fddf30ac39cfa744fb2f
     resource: repo://kubernetes/apps/cert-manager/cert-manager/app/helmrelease.yaml
@@ -69,7 +69,7 @@ sources:
     resource: repo://kubernetes/components/common/kustomization.yaml
   - id: openwiki-source-0aa0479be229def909bbfa22
     resource: repo://kubernetes/components/common/repos/app-template/ocirepository.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-30T21:57:36.532Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-01T21:54:26.927Z" }
 ---
 
 # Applications Overview
@@ -90,7 +90,7 @@ Applications are grouped by namespace under `kubernetes/apps/`:
 - **`storage`** - Storage operators (TopoLVM, VolSync, snapshot-controller, local-path-provisioner, NFS CSI, Nextcloud)
 - **`database`** - Database operators (PostgreSQL via CloudNative-PG, Redis-compatible via Dragonfly, pgAdmin)
 - **`external-secrets`** - External Secrets Operator and Bitwarden integration
-- **`default`** - Personal applications (~35 apps, including Gitea, Jellyfin, growth-tracker, Paperless, Navidrome, n8n, Home Assistant)
+- **`default`** - Personal applications (39 apps, including Gitea, Jellyfin, growth-tracker, Paperless, Navidrome, n8n, Home Assistant)
 - **`external-server`** - Public-facing applications
 
 ### Namespace Kustomization Pattern
@@ -535,3 +535,5 @@ serviceMonitor:
 - **Daily Operations**: See [Daily Operations](/operations/daily-operations.md) for application management
 <!-- openwiki: broken internal link [/workflows/app-deployment.md] file "/workflows/app-deployment.md" does not exist. Fix the href or restore the target, then delete this comment. -->
 - **App Deployment**: See [App Deployment](/workflows/app-deployment.md) for deploying new applications
+<!-- openwiki: broken internal link [/architecture/namespace-structure.md] file "/architecture/namespace-structure.md" does not exist. Fix the href or restore the target, then delete this comment. -->
+- **Namespace Structure**: See [Namespace and Application Organization](/architecture/namespace-structure.md) for detailed namespace patterns

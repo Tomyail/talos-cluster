@@ -4,8 +4,8 @@ title: Flux Image Automation
 description: Automated container image tag updates for default namespace applications using Flux ImageRepository, ImagePolicy, and ImageUpdateAutomation with Setters strategy and flux-bot commits.
 tags: [flux, image-automation, gitops, containers, automation]
 verified:
-  - by: openwiki/0.4.3
-    at: 2026-08-31T23:16:37.333Z
+  - by: openwiki/0.5.0
+    at: 2026-09-01T21:54:26.927Z
 sources:
   - id: openwiki-source-aa55808be329b3f929ddf105
     resource: repo://.renovaterc.json5
@@ -33,7 +33,7 @@ sources:
     resource: repo://kubernetes/components/image-automation/kustomization.yaml
   - id: openwiki-source-3f02d6aaa16b90ed2eba88ec
     resource: repo://kubernetes/components/image-automation/registry-externalsecret.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-31T23:16:37.333Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-01T21:54:26.927Z" }
 ---
 
 # Flux Image Automation
@@ -42,27 +42,26 @@ Flux Image Automation provides automated container image tag updates for applica
 
 ## Architecture Overview
 
-<!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
-```text
+```mermaid
 flowchart TB
     subgraph Registry["Container Registry"]
-        REG[(gitea.tomyail.com<br/>Private Registry)]
+        REG["gitea.tomyail.com Private Registry"]
     end
 
     subgraph Flux["Flux Controllers"]
-        IRC[image-reflector-controller]
-        IAC[image-automation-controller]
+        IRC["image-reflector-controller"]
+        IAC["image-automation-controller"]
     end
 
     subgraph Resources["Kubernetes Resources"]
-        IR[ImageRepository<br/>1m scan interval]
-        IP[ImagePolicy<br/>image-automation: enabled]
-        IUA[ImageUpdateAutomation<br/>Setters strategy]
+        IR["ImageRepository 1m scan interval"]
+        IP["ImagePolicy image-automation enabled"]
+        IUA["ImageUpdateAutomation Setters strategy"]
     end
 
     subgraph Git["Git Repository"]
-        HR[HelmRelease values<br/>tag: {$imagepolicy}]
-        COMMIT[flux-bot commit<br/>auto-push to main]
+        HR["HelmRelease values tag marker"]
+        COMMIT["flux-bot commit auto-push to main"]
     end
 
     REG -->|scans tags| IR
@@ -87,7 +86,7 @@ flowchart TB
 
 The ImageRepository resource defines which container image repository to scan and how often to check for new tags.
 
-**Template** (`kubernetes/components/image-automation/imagerepository.yaml#L1-L11`)
+**Template** (`kubernetes/components/image-automation/imagerepository.yaml`)
 - **Interval**: 1 minute scan frequency
 - **Image**: Variable `REGISTRY_URL` (e.g., `gitea.tomyail.com/tomyail/beancount`)
 - **Secret reference**: Pull secret for private registry authentication
@@ -98,12 +97,12 @@ The ImageRepository is instantiated per application using Kustomize variable sub
 
 The ImagePolicy resource defines how to select the appropriate image tag from the available tags scanned by ImageRepository.
 
-**Template** (`kubernetes/components/image-automation/imagepolicy.yaml#L1-L17`)
+**Template** (`kubernetes/components/image-automation/imagepolicy.yaml`)
 - **Label selector**: `image-automation: enabled` (required for discovery)
 - **Policy type**: Numerical ordering in ascending direction
 - **Tag filter pattern**: `^.+-[a-f0-9]+-(?P<ts>[0-9]+)$` with timestamp extraction
 
-**Example override** (`kubernetes/apps/default/omnifocus-sync-server/app/kustomization.yaml#L9-L24`)
+**Example override** (`kubernetes/apps/default/omnifocus-sync-server/app/kustomization.yaml`)
 - Alternative alphabetical policy in descending order
 - Pattern: `^sha-[a-f0-9]+$` for pure SHA tags
 
@@ -113,7 +112,7 @@ The ImagePolicy evaluates tags against the filter pattern, extracts the timestam
 
 The ImageUpdateAutomation resource orchestrates the automated update process, discovering ImagePolicy resources and updating manifests with selected tags.
 
-**Configuration** (`kubernetes/apps/flux-system/image-automation/automation.yaml#L1-L28`)
+**Configuration** (`kubernetes/apps/flux-system/image-automation/automation.yaml`)
 - **Interval**: 5 minutes between automation runs
 - **Strategy**: Setters (replaces `{"$imagepolicy": ...}` markers)
 - **Update path**: `./kubernetes/apps/default`
@@ -133,7 +132,7 @@ The flux-bot identity handles all automated image updates:
 4. **Commit creation**: flux-bot creates a Git commit with the updated manifests
 5. **Push**: Changes are pushed directly to the main branch
 
-**Commit signature** (`kubernetes/apps/flux-system/image-automation/automation.yaml#L20-L23`)
+**Commit signature** (`kubernetes/apps/flux-system/image-automation/automation.yaml`)
 - Author name: `flux-bot`
 - Email: `flux-bot@users.noreply.github.com`
 
@@ -145,7 +144,7 @@ This workflow enables continuous deployment where new image builds trigger autom
 
 Applications opt into image automation by including the image-automation component:
 
-**Example** (`kubernetes/apps/default/fava/ks.yaml#L12-L14`)
+**Example** (`kubernetes/apps/default/fava/ks.yaml`)
 ```yaml
 components:
   - ../../../../components/image-automation
@@ -160,7 +159,7 @@ The component provides:
 
 Applications provide context via postBuild substitution:
 
-**Variables** (`kubernetes/apps/default/fava/ks.yaml#L31-L35`)
+**Variables** (`kubernetes/apps/default/fava/ks.yaml`)
 - `APP`: Application name (e.g., `fava`)
 - `NAMESPACE`: Target namespace (e.g., `default`)
 - `REGISTRY_URL`: Full image repository path
@@ -173,7 +172,7 @@ These variables instantiate the component templates with application-specific va
 
 HelmRelease values reference the ImagePolicy using the Setters syntax:
 
-**Example** (`kubernetes/apps/default/fava/app/helmrelease.yaml#L28`)
+**Example** (`kubernetes/apps/default/fava/app/helmrelease.yaml`)
 ```yaml
 tag: "main-786bccf17263-1785740665" # {"$imagepolicy": "default:fava:tag"}
 ```
@@ -184,7 +183,7 @@ The marker format is `{"$imagepolicy": "NAMESPACE:APP:tag"}`. When ImageUpdateAu
 
 The component creates an image pull secret that is referenced in the HelmRelease:
 
-**Example** (`kubernetes/apps/default/fava/app/helmrelease.yaml#L58`)
+**Example** (`kubernetes/apps/default/fava/app/helmrelease.yaml`)
 ```yaml
 imagePullSecrets:
   - name: fava-registry-secret
@@ -204,7 +203,7 @@ Flux Image Automation and Renovate operate as complementary dependency managemen
 | **Version selection** | Semantic versioning, group updates | Tag pattern matching and sorting |
 | **Primary use** | Infrastructure and application dependency updates | Application CI/CD image promotion |
 
-**Renovate** (`/.renovaterc.json5#L14-L18`) tracks version references across the repository and creates pull requests for updates, including container images. **Flux Image Automation** (`kubernetes/apps/flux-system/image-automation/automation.yaml#L8`) provides a separate mechanism specifically for automated image tag updates in the default namespace, complementing Renovate's broader dependency management.
+**Renovate** (`/.renovaterc.json5`) tracks version references across the repository and creates pull requests for updates, including container images. **Flux Image Automation** (`kubernetes/apps/flux-system/image-automation/automation.yaml`) provides a separate mechanism specifically for automated image tag updates in the default namespace, complementing Renovate's broader dependency management.
 
 This separation allows Renovate to handle infrastructure and version drift while Flux handles continuous image promotion for production applications.
 
@@ -212,7 +211,7 @@ This separation allows Renovate to handle infrastructure and version drift while
 
 Image Automation requires two Flux controllers to be installed:
 
-**Components** (`kubernetes/apps/flux-system/flux-instance/app/helm/values.yaml#L13-L14`)
+**Components** (`kubernetes/apps/flux-system/flux-instance/app/helm/values.yaml`)
 - `image-reflector-controller`: Reconciles ImageRepository and ImagePolicy resources
 - `image-automation-controller`: Reconciles ImageUpdateAutomation resources
 
@@ -222,11 +221,11 @@ These controllers are part of the Flux instance deployment and run continuously 
 
 ### Scan Frequency
 
-**ImageRepository** scans every 1 minute (`kubernetes/components/image-automation/imagerepository.yaml#L9`), providing near-real-time detection of new image builds. The ImagePolicy evaluates these tags on each reconciliation to determine the latest version.
+**ImageRepository** scans every 1 minute (`kubernetes/components/image-automation/imagerepository.yaml`), providing near-real-time detection of new image builds. The ImagePolicy evaluates these tags on each reconciliation to determine the latest version.
 
 ### Automation Interval
 
-**ImageUpdateAutomation** runs every 5 minutes (`kubernetes/apps/flux-system/image-automation/automation.yaml#L8`). During each run:
+**ImageUpdateAutomation** runs every 5 minutes (`kubernetes/apps/flux-system/image-automation/automation.yaml`). During each run:
 1. It queries all ImagePolicy resources matching the label selector
 2. Scans manifests in the configured path for policy markers
 3. Replaces markers with the current policy-selected tags
@@ -234,7 +233,7 @@ These controllers are part of the Flux instance deployment and run continuously 
 
 ### Update Path
 
-The automation is scoped to `./kubernetes/apps/default` (`kubernetes/apps/flux-system/image-automation/automation.yaml#L11`), limiting updates to default namespace applications. This prevents unintended modifications to cluster infrastructure or system components.
+The automation is scoped to `./kubernetes/apps/default` (`kubernetes/apps/flux-system/image-automation/automation.yaml`), limiting updates to default namespace applications. This prevents unintended modifications to cluster infrastructure or system components.
 
 ### Failure Handling
 

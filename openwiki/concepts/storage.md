@@ -1,11 +1,11 @@
 ---
-type: architecture
-title: Storage Architecture
-description: Comprehensive storage infrastructure for the Talos Kubernetes cluster including TopoLVM with LVM thin provisioning for primary workloads, VolSync for backup and replication, snapshot-controller for volume snapshots, NFS CSI for network-attached storage, and local-path-provisioner for host-local volumes.
-tags: [storage, topolvm, volsync, lvm, csi, backup, kubernetes]
+type: concept
+title: Storage Classes and Provisioning
+description: Available storage classes for Kubernetes workloads including TopoLVM thin provisioning, local-path host storage, and NFS network-attached storage with guidance on when to use each class and how PVC provisioning works.
+tags: [storage, storageclasses, pvc, provisioning, kubernetes, csi]
 verified:
-  - by: openwiki/0.4.3
-    at: 2026-08-30T21:57:36.532Z
+  - by: openwiki/0.5.0
+    at: 2026-09-01T21:54:26.927Z
 sources:
   - id: openwiki-source-ce5428b32557cc11ea784146
     resource: repo://kubernetes/apps/database/cloudnative-pg/cluster/cluster16.yaml
@@ -35,38 +35,280 @@ sources:
     resource: repo://kubernetes/flux/meta/repos/local-path-provisioner.yaml
   - id: openwiki-source-67d09412df5e9b5263585304
     resource: repo://lvm-format-manual.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-30T21:57:36.532Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-01T21:54:26.927Z" }
 ---
 
-# Storage Architecture
+# Storage Classes and Provisioning
 
-The cluster's storage layer provides multiple provisioning options optimized for different workload requirements: high-performance local block storage via TopoLVM with LVM thin provisioning, automated backup/replication via VolSync, volume snapshot capabilities, NFS for network-attached storage, and host-local provisioning for smaller workloads.
+The cluster provides three storage classes optimized for different workload requirements: **TopoLVM thin provisioning** for high-performance local block storage, **local-path** for lightweight host-local volumes, and **NFS** for network-attached shared storage. PersistentVolumeClaims (PVCs) are dynamically provisioned through CSI drivers integrated with the underlying storage infrastructure.
 
-## Storage Layer Overview
+## Storage Classes Overview
 
 ```mermaid
 flowchart TD
-    Workloads[Workloads] -->|PVC Requests| SC[StorageClasses]
+    PVC[PersistentVolumeClaim] -->|spec.storageClass| SC{StorageClass Selection}
     
-    SC -->|Default Class topolvm-thin-provisioner| TopoLVM[TopoLVM CSI]
+    SC -->|topolvm-thin-provisioner<br>Default Class| TopoLVM[TopoLVM CSI]
     SC -->|local-path| Local[Local Path Provisioner]
     SC -->|nfs| NFS[NFS CSI Driver]
     
-    TopoLVM --> LVMD[lvmd Daemon Embedded on Nodes]
-    LVMD --> LVM[LVM Volume Group lvm_vg]
-    LVM --> ThinPool[Thin Pool lvm_thin]
-    ThinPool --> Volumes[Thin Logical Volumes]
+    TopoLVM -->|CSI Provisioning| LVMD[Embedded lvmd Daemon]
+    LVMD -->|LVM Operations| VG[LVM Volume Group lvm_vg]
+    VG --> ThinPool[Thin Pool lvm_thin]
+    ThinPool -->|On-demand allocation| LVs[Logical Volumes]
     
-    Workloads -->|ReplicationSource/Destination| VolSync[VolSync]
-    VolSync -->|Restic Backup| MinIO[MinIO S3 192.168.50.220:9010]
-    VolSync -->|Snapshots| SnapCtrl[Snapshot Controller]
+    Local -->|Host Directories| HostPath[/var/mnt/local-path-provisioner]
     
-    TopoLVM -->|VolumeSnapshot| SnapCtrl
+    NFS -->|Network Mounts| NFSShare[NFS Shares]
+    
+    TopoLVM -.->|VolumeSnapshot| SnapCtrl[Snapshot Controller]
+    NFS -.->|VolumeSnapshot| SnapCtrl
 ```
 
-*Figure: Storage layer architecture showing provisioning flow from workloads through storage classes to underlying storage implementations, and VolSync backup integration with MinIO.*
+*Figure: Storage class provisioning flow showing how PVCs are fulfilled through different CSI drivers and storage backends.*
 
-## Component Deployment Order
+## Storage Class Selection
+
+| Storage Class | Type | Use Case | Access Mode | Features |
+|--------------|------|----------|-------------|----------|
+| `topolvm-thin-provisioner` | Local Block | Primary storage for databases, applications requiring high performance | ReadWriteOnce | Thin provisioning, snapshots, volume expansion, default class |
+| `local-path` | Host Local | Cache storage, temporary volumes, smaller workloads | ReadWriteOnce | Fast host-local access, no LVM overhead |
+| `nfs` | Network Attached | Shared storage, multi-pod concurrent access | ReadWriteMany | Network-attached, concurrent read/write access |
+
+## TopoLVM: Default Storage Class
+
+**`topolvm-thin-provisioner`** serves as the cluster's default storage class, providing high-performance local block storage through LVM thin provisioning. It combines the flexibility of Kubernetes CSI with the efficiency of LVM thin pools for optimal space utilization.
+
+### Capabilities and Configuration
+
+The default storage class provides:
+
+- **Filesystem**: XFS (high-performance, robust for databases and transactional workloads)
+- **Binding Mode**: Immediate (provisions volume before pod scheduling)
+- **Volume Expansion**: Enabled (allows PVC resize without pod restart)
+- **Default Class**: Yes (used when no storage class specified in PVC)
+- **Access Mode**: ReadWriteOnce (single pod read/write access)
+
+Example PVC specification:
+
+```yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: data-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: topolvm-thin-provisioner
+```
+
+### TopoLVM CSI Architecture
+
+TopoLVM operates with an embedded lvmd daemon running on each node, managed by the TopoLVM controller:
+
+- **Controller Deployment**: Single replica (`replicaCount: 1`) with Recreate update strategy
+- **Embedded lvmd**: Each node runs an embedded lvmd daemon (`lvmdEmbedded: true`) that manages LVM operations locally, eliminating the need for a separate daemonset
+- **CSI Driver**: TopoLVM CSI driver implements the Kubernetes CSI interface for volume provisioning
+- **Metrics**: Prometheus metrics enabled for monitoring volume operations and thin pool utilization
+
+### LVM Thin Provisioning
+
+TopoLVM uses a single device class configured for thin provisioning:
+
+| Property | Value | Description |
+|----------|-------|-------------|
+| Device Class Name | `thin` | Identifier for this storage tier |
+| Volume Group | `lvm_vg` | LVM volume group containing physical storage |
+| Thin Pool | `lvm_thin` | Logical volume acting as thin pool |
+| Spare Capacity | 10 GB | Reserved for metadata and LVM operations |
+| Overprovision Ratio | 10.0 | Allows provisioning up to 10x physical capacity |
+| Type | Thin | Allocates physical storage on-demand |
+
+The thin pool design enables efficient space utilization by allocating physical storage only as data is written. The overprovision ratio allows the cluster to provision more logical storage than physically available, suitable for workloads that don't use full capacity simultaneously.
+
+### Manual LVM Setup Requirement
+
+The LVM volume group and thin pool must be manually created before TopoLVM can provision volumes. The `lvm-format-manual.yaml` provides a privileged pod for disk initialization:
+
+```bash
+# Apply the privileged pod
+kubectl apply -f lvm-format-manual.yaml
+
+# Enter the pod
+kubectl exec -it lvm-format-manual -- sh
+
+# Install LVM tools
+apk add --no-cache lvm2 nvme-cli
+
+# Create physical volume, volume group, and thin pool
+pvcreate /dev/nvme0n1
+vgcreate lvm_vg /dev/nvme0n1
+vgchange -a y lvm_vg
+lvcreate --thinpool -l 100%FREE -n lvm_thin lvm_vg
+```
+
+This manual setup is required only once per cluster before deploying TopoLVM.
+
+### Single-Node Cluster Configuration
+
+The TopoLVM deployment is optimized for single-node clusters to prevent upgrade failures. Default TopoLVM chart settings include pod anti-affinity rules and `replicaCount: 2`, which causes rolling upgrades to fail in single-node environments when the new replica cannot schedule.
+
+The deployment prevents this through three configuration overrides:
+
+- **Replica Count**: 1 (prevents scheduling conflicts in single-node environments)
+- **Anti-Affinity**: Disabled (`affinity: ""`) - removes default pod anti-affinity rules
+- **Update Strategy**: Recreate (ensures old pod deleted before new pod created)
+
+This configuration prevents the common single-node issue where default anti-affinity rules prevent controller pod scheduling during upgrades.
+
+### Volume Snapshot Support
+
+TopoLVM integrates with the snapshot-controller for instant point-in-time volume snapshots:
+
+- **Snapshot Class**: `topolvm-thin-provisioner`
+- **Driver**: `topolvm.io`
+- **Deletion Policy**: Delete (snapshots deleted when VolumeSnapshot resource deleted)
+- **Default**: Yes (used when no snapshot class specified)
+
+Example VolumeSnapshot:
+
+```yaml
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshot
+metadata:
+  name: data-snapshot
+spec:
+  volumeSnapshotClassName: topolvm-thin-provisioner
+  source:
+    persistentVolumeClaimName: data-pvc
+```
+
+### Volume Expansion
+
+TopoLVM supports online volume expansion through the `allowVolumeExpansion: true` storage class setting. Workloads can resize their PVCs without pod restart:
+
+```bash
+kubectl patch pvc data-pvc -p '{"spec":{"resources":{"requests":{"storage":"20Gi"}}}}'
+```
+
+The CSI driver handles the filesystem expansion (XFS grow) online without interrupting running pods.
+
+## Local Path Provisioner
+
+**`local-path`** provides simple host-local storage for workloads that don't require the full capabilities of TopoLVM or need smaller volumes.
+
+### Configuration
+
+- **Version**: 0.0.37 from Containeroo charts
+- **Default Path**: `/var/mnt/local-path-provisioner`
+- **Chart Source**: `https://charts.containeroo.ch`
+
+The provisioner creates directories on the host node and mounts them directly into pods, providing fast local storage without LVM overhead.
+
+### Use Cases
+
+The local-path storage class is commonly used for:
+
+- **VolSync cache storage**: Temporary scratch space during backup/restore operations
+- **Temporary data processing**: Short-lived workloads with ephemeral data
+- **Smaller application volumes**: Workloads that don't require thin provisioning or snapshots
+- **Development/testing**: Non-critical workloads where simplicity is preferred
+
+Example PVC specification:
+
+```yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: cache-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: local-path
+```
+
+## NFS CSI Driver
+
+**`nfs`** provides network-attached storage capabilities for workloads requiring shared access to the same volume from multiple pods.
+
+### Configuration
+
+- **Version**: 4.13.4
+- **Replicas**: 1 controller (single-node compatible)
+- **External Snapshotter**: Disabled (snapshot-controller handles snapshots)
+- **Access Mode**: ReadWriteMany (concurrent read/write from multiple pods)
+
+The NFS driver enables provisioning of PVs backed by NFS shares, supporting multi-writer scenarios that local storage cannot handle.
+
+### Use Cases
+
+The NFS storage class is appropriate for:
+
+- **Shared application data**: Multiple pods needing concurrent access to the same files
+- **Media storage**: Images, videos, or other assets shared across services
+- **Configuration sharing**: Common configuration files or templates
+- **Document management**: Collaborative editing or file management systems
+
+## PVC Provisioning Flow
+
+When a workload creates a PVC, the provisioning follows this sequence:
+
+1. **PVC Creation**: User creates PVC with `storageClassName` field
+2. **StorageClass Lookup**: Kubernetes retrieves the StorageClass definition
+3. **CSI Provisioning**: The appropriate CSI driver receives a provisioning call
+4. **Volume Creation**: The CSI driver creates the underlying volume:
+   - **TopoLVM**: lvmd creates thin logical volume in `lvm_vg/lvm_thin`
+   - **local-path**: Provisioner creates directory in `/var/mnt/local-path-provisioner`
+   - **NFS**: CSI driver creates NFS share and mounts it
+5. **PV Binding**: PersistentVolume is automatically bound to the PVC
+6. **Pod Mount**: Pod receives volume mount and can access the storage
+
+### Default Storage Class Behavior
+
+When a PVC is created without specifying a storage class:
+
+```yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: auto-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  # storageClassName omitted - uses default
+```
+
+The cluster provisions the volume using `topolvm-thin-provisioner` (the default storage class). This behavior ensures workloads get high-performance thin-provisioned storage by default.
+
+### Storage Class Selection for Workloads
+
+Workloads should select storage classes based on their requirements:
+
+**For databases and stateful applications requiring high performance:**
+```yaml
+storageClassName: topolvm-thin-provisioner  # XFS, thin provisioning, snapshots
+```
+
+**For cache and temporary storage:**
+```yaml
+storageClassName: local-path  # Fast host-local, simpler than LVM
+```
+
+**For shared storage accessed by multiple pods:**
+```yaml
+storageClassName: nfs  # ReadWriteMany access
+```
+
+## Storage Component Deployment Order
 
 Storage components deploy in strict dependency order to ensure proper initialization:
 
@@ -77,385 +319,59 @@ Storage components deploy in strict dependency order to ensure proper initializa
 
 All components deploy to the `storage` namespace with standardized labels and resource management through Flux Kustomizations.
 
-## TopoLVM: Primary Block Storage
-
-TopoLVM serves as the cluster's default storage provisioner, providing high-performance local block storage through LVM thin provisioning. It combines the flexibility of Kubernetes CSI with the efficiency of LVM thin pools.
-
-### Architecture
-
-TopoLVM operates with an embedded lvmd daemon running on each node, managed by the TopoLVM controller:
-
-- **Controller Deployment**: Single replica (`replicaCount: 1`) with Recreate update strategy and anti-affinity disabled for single-node cluster compatibility
-- **Embedded lvmd**: Each node runs an embedded lvmd daemon (`lvmdEmbedded: true`) that manages LVM operations locally
-- **CSI Driver**: TopoLVM CSI driver implements the Kubernetes CSI interface for volume provisioning
-- **Metrics**: Prometheus metrics enabled for monitoring volume operations
-
-### Single-Node Cluster Configuration
-
-The TopoLVM deployment is optimized for single-node clusters to prevent upgrade failures. Default TopoLVM chart settings include pod anti-affinity rules and `replicaCount: 2`, which causes rolling upgrades to fail in single-node environments when the new replica cannot schedule.
-
-The deployment prevents this through three configuration overrides:
-
-- **Replica Count**: 1 (prevents scheduling conflicts)
-- **Anti-Affinity**: Disabled (`affinity: ""`)
-- **Update Strategy**: Recreate (ensures old pod deleted before new pod created)
-
-This configuration prevents the common single-node issue where default anti-affinity rules prevent controller pod scheduling during upgrades.
-
-### LVM Configuration
-
-The storage infrastructure relies on a manually configured LVM setup that must be completed before TopoLVM can provision volumes:
-
-```bash
-# Physical volume creation
-pvcreate /dev/nvme0n1
-
-# Volume group for TopoLVM
-vgcreate lvm_vg /dev/nvme0n1
-vgchange -a y lvm_vg
-
-# Thin pool using all available space
-lvcreate --thinpool -l 100%FREE -n lvm_thin lvm_vg
-```
-
-The manual LVM formatting process is documented in `lvm-format-manual.yaml`, which provides a privileged pod for disk initialization.
-
-### Device Class Configuration
-
-TopoLVM uses a single device class configured for thin provisioning:
-
-- **Device Class Name**: `thin`
-- **Volume Group**: `lvm_vg`
-- **Thin Pool**: `lvm_thin`
-- **Spare Capacity**: 10 GB reserved for metadata and operations
-- **Overprovision Ratio**: 10.0 (allows provisioning up to 10x physical capacity)
-- **Type**: Thin (allocates space on-demand)
-
-The thin pool design enables efficient space utilization by allocating physical storage only as data is written, while the overprovision ratio allows the cluster to provision more logical storage than physically available (suitable for workloads that don't use full capacity simultaneously).
-
-### Storage Class: topolvm-thin-provisioner
-
-The default storage class provides these capabilities:
-
-- **Filesystem**: XFS (high-performance, robust for databases)
-- **Binding Mode**: Immediate (provisions before pod scheduling)
-- **Volume Expansion**: Enabled (allows PVC resize without data loss)
-- **Default Class**: Yes (used when no storage class specified)
-- **Device Class**: `thin`
-
-Example usage from CloudNative-PG cluster:
-
-```yaml
-storage:
-  size: 10Gi
-  storageClass: topolvm-thin-provisioner
-```
-
-### Volume Snapshot Support
-
-TopoLVM integrates with the snapshot-controller for volume snapshots:
-
-- **Snapshot Class**: `topolvm-thin-provisioner`
-- **Driver**: `topolvm.io`
-- **Deletion Policy**: Delete (snapshots deleted when VolumeSnapshot resource deleted)
-- **Default**: Yes (used when no snapshot class specified)
-
-Snapshots enable instant point-in-time copies of volumes for backup or cloning operations.
-
-## VolSync: Backup and Replication
-
-VolSync provides asynchronous backup and replication capabilities for Kubernetes persistent volumes, supporting both scheduled backups and manual restore operations through Taskfile task helpers.
-
-### Architecture
-
-VolSync operates through two custom resources that define backup and restore operations:
-
-- **ReplicationSource**: Defines scheduled backup operations from a source PVC
-- **ReplicationDestination**: Defines restore operations to a destination PVC
-
-Both resources use the Restic format for efficient, deduplicated backups with support for retention policies.
-
-### Backup Configuration (ReplicationSource)
-
-Workloads define backup schedules through ReplicationSource resources:
-
-```yaml
-spec:
-  sourcePVC: "${APP}"
-  trigger:
-    schedule: "0 */6 * * *"  # Every 6 hours
-  restic:
-    copyMethod: Direct
-    storageClassName: topolvm-thin-provisioner
-    accessModes: [ReadWriteOnce]
-    pruneIntervalDays: 7
-    repository: "${APP}-volsync-secret"
-    cacheCapacity: 1Gi
-    cacheStorageClassName: local-path
-    retain:
-      hourly: 24
-      daily: 7
-      weekly: 5
-```
-
-Key configuration elements:
-
-- **Schedule**: Runs every 6 hours (configurable per application)
-- **Copy Method**: Direct (copies data directly without intermediate snapshot)
-- **Cache Storage**: Uses local-path provisioner for temporary scratch space
-- **Repository**: S3-compatible storage (MinIO) via external secret
-- **Retention**: Keeps 24 hourly, 7 daily, and 5 weekly backups
-
-### Restore Configuration (ReplicationDestination)
-
-Restore operations use ReplicationDestination for one-time or recurring restores:
-
-```yaml
-spec:
-  restic:
-    accessModes: [ReadWriteOnce]
-    cacheCapacity: 1Gi
-    cacheStorageClassName: local-path
-    capacity: 1Gi
-    cleanupCachePVC: true
-    cleanupTempPVC: true
-    enableFileDeletion: true
-    copyMethod: Snapshot
-    moverSecurityContext:
-      runAsUser: 1000
-      runAsGroup: 1000
-      fsGroup: 1000
-    repository: "${APP}-volsync-secret"
-    storageClassName: topolvm-thin-provisioner
-    volumeSnapshotClassName: topolvm-thin-provisioner
-  trigger:
-    manual: restore-once
-```
-
-The restore configuration includes automatic cleanup of cache and temporary PVCs after completion, preventing resource leaks.
-
-### Storage Backend
-
-VolSync backups are stored in MinIO S3-compatible storage:
-
-- **Endpoint**: `http://192.168.50.220:9010`
-- **Path**: `s3://volsync/dev/${APP}`
-- **Compression**: bzip2 (for data and WAL in database backups)
-- **Credentials**: Managed via External Secrets Operator from Bitwarden
-
-The MinIO storage provides durable, scalable backup storage accessible from any cluster for disaster recovery scenarios.
-
-### Taskfile Helpers
-
-VolSync provides Taskfile helpers in `.taskfiles/volsync/Taskfile.yaml` for common backup/restore operations:
-
-#### Manual Backup
-
-```bash
-task volsync:snapshot NS=default APP=myapp
-```
-
-Triggers an immediate on-demand backup by patching the ReplicationSource with a manual trigger timestamp.
-
-#### Restore Workflow
-
-```bash
-task volsync:restore NS=default APP=myapp previous=2
-```
-
-The restore task automates the complete restore sequence:
-
-1. **Suspend**: Suspends Flux Kustomization and HelmRelease, scales down application controller
-2. **Wipe**: Deletes all existing data from the PVC using a privileged Job
-3. **Restore**: Creates ReplicationDestination with specified `previous` snapshot count
-4. **Resume**: Resumes Flux resources and scales application back up
-
-#### Backup Listing
-
-```bash
-task volsync:list NS=default APP=myapp
-```
-
-Creates a temporary Job to list available snapshots in the Restic repository, displaying snapshot metadata.
-
-#### Unlock Repository
-
-```bash
-task volsync:unlock
-```
-
-Unlocks all Restic repositories across all namespaces by patching ReplicationSources with the current Unix timestamp as the unlock value.
-
-#### VolSync State Control
-
-```bash
-task volsync:state-suspend   # Suspend VolSync components
-task volsync:state-resume    # Resume VolSync components
-```
-
-Suspends or resumes the Flux Kustomization, HelmRelease, and VolSync deployment replicas for maintenance operations.
-
-### Snapshot Cleanup
-
-VolSync destination snapshots accumulate over time and require periodic cleanup. A CronJob runs weekly to delete snapshots older than 7 days:
-
-```yaml
-schedule: "0 2 * * 0"  # Sunday 2 AM
-THRESHOLD_DAYS: 7
-```
-
-The cleanup job identifies snapshots by name pattern (`volsync-volsync-dst-`) and deletes those exceeding the retention threshold, preventing unbounded storage consumption.
-
-### Dependencies
-
-VolSync depends on TopoLVM for primary storage:
-
-```yaml
-dependsOn:
-  - name: topolvm
-    namespace: storage
-```
-
-This ensures TopoLVM CSI and storage classes are available before VolSync attempts backup or restore operations.
-
-### Common VolSync Component Pattern
-
-Applications using VolSync follow a common component pattern visible in the cluster:
-
-1. **ExternalSecret**: Creates `${APP}-volsync-secret` from Bitwarden credentials
-2. **ReplicationSource**: Defines scheduled backup from `${APP}` PVC every 6 hours
-3. **ReplicationDestination**: Template for manual restore operations (created on-demand via Taskfile)
-
-The pattern standardizes backup configuration across applications while allowing per-app customization of security contexts, storage classes, and retention policies through template variables in `.taskfiles/volsync/templates/`.
-
-## Snapshot Controller
-
-The snapshot-controller provides Kubernetes volume snapshot functionality, enabling instant point-in-time copies of persistent volumes.
-
-### Capabilities
-
-- **Version**: 5.2.0 from Piraeus charts
-- **CRD Management**: CreateReplace strategy for CRD upgrades
-- **Default Snapshot Class**: `topolvm-thin-provisioner` marked as cluster default
-- **ServiceMonitor**: Prometheus metrics enabled for monitoring
-- **Webhook**: Disabled (validation webhook not required for this deployment)
-
-The snapshot-controller integrates with CSI drivers (TopoLVM, NFS) to create snapshots through the Kubernetes VolumeSnapshot API.
-
-## NFS CSI Driver
-
-The NFS CSI driver provides network-attached storage capabilities for workloads requiring shared access to the same volume from multiple pods.
-
-### Configuration
-
-- **Version**: 4.13.4
-- **Replicas**: 1 controller (single-node compatible)
-- **External Snapshotter**: Disabled (snapshot-controller handles snapshots)
-
-The NFS driver enables provisioning of PVs backed by NFS shares, supporting ReadWriteMany access modes for workloads that need concurrent read/write access from multiple pods.
-
-## Local Path Provisioner
-
-The local-path-provisioner provides simple host-local storage for workloads that don't require the full capabilities of TopoLVM or need smaller volumes.
-
-### Configuration
-
-- **Version**: 0.0.37
-- **Chart Source**: Containeroo charts
-- **Default Path**: `/var/mnt/local-path-provisioner`
-
-This provisioner creates directories on the host node and mounts them into pods, providing fast local storage without LVM overhead. It's commonly used for:
-
-- VolSync cache storage during backup/restore operations
-- Temporary scratch space for data processing
-- Smaller application data volumes that don't require thin provisioning
-
-## Storage Class Selection
-
-Workloads choose the appropriate storage class based on their requirements:
-
-| Storage Class | Use Case | Access Mode | Features |
-|--------------|----------|-------------|----------|
-| `topolvm-thin-provisioner` | Primary storage for databases, applications | ReadWriteOnce | Thin provisioning, snapshots, expansion |
-| `local-path` | Cache, temporary storage, small volumes | ReadWriteOnce | Fast host-local, no snapshots |
-| `nfs` | Shared storage, multi-writer workloads | ReadWriteMany | Network-attached, concurrent access |
-
 ## Operational Considerations
 
-### LVM Management
+### Monitoring Storage Capacity
 
-The LVM volume group and thin pool must be manually created before TopoLVM can provision volumes. The `lvm-format-manual.yaml` provides a privileged pod for executing LVM commands:
+Monitor these metrics to ensure storage health:
 
-```bash
-# Enter the privileged pod
-kubectl exec -it lvm-format-manual -- sh
+- **TopoLVM thin pool utilization**: Available space in `lvm_thin` pool
+- **TopoLVM volume provisioning**: Rate of PVC creation and sizing
+- **Local-path usage**: Host disk consumption at `/var/mnt/local-path-provisioner`
+- **NFS share capacity**: Network storage availability
 
-# Install LVM tools
-apk add --no-cache lvm2 nvme-cli
+### Troubleshooting Provisioning Failures
 
-# Format and setup LVM
-pvcreate /dev/nvme0n1
-vgcreate lvm_vg /dev/nvme0n1
-lvcreate --thinpool -l 100%FREE -n lvm_thin lvm_vg
-```
+**PVC stuck in Pending state:**
+- Verify the storage class exists: `kubectl get storageclass`
+- Check CSI driver pods are running: `kubectl -n storage get pods`
+- For TopoLVM, verify LVM is configured: `kubectl -n storage logs -l app.kubernetes.io/name=topolvm`
+- Ensure sufficient capacity exists in the underlying storage
 
-### Volume Expansion
-
-TopoLVM supports online volume expansion through the `allowVolumeExpansion: true` storage class setting. Workloads can resize their PVCs without pod restart:
-
-```bash
-kubectl patch pvc my-pvc -p '{"spec":{"resources":{"requests":{"storage":"20Gi"}}}}'
-```
-
-### Backup Verification
-
-VolSync backups should be verified periodically by:
-
-1. Checking ReplicationSource status for successful backups
-2. Confirming objects exist in MinIO storage
-3. Testing restore procedure through ReplicationDestination
-4. Validating restored data integrity
-
-Use the Taskfile helpers for backup listing and restore testing:
-
-```bash
-task volsync:list NS=default APP=myapp
-task volsync:restore NS=default APP=myapp-test previous=1
-```
-
-### Monitoring
-
-Storage components expose Prometheus metrics:
-
-- **TopoLVM**: Volume provisioning, thin pool utilization
-- **VolSync**: Backup/restore operations, transfer sizes
-- **Snapshot Controller**: Snapshot creation/deletion rates
-
-These metrics enable monitoring storage health, capacity planning, and backup reliability.
-
-### Troubleshooting TopoLVM Single-Node Issues
-
-In single-node clusters, TopoLVM upgrades may fail due to pod anti-affinity rules preventing new controller pods from scheduling. Symptoms include:
-
-- Controller pod stuck in `Pending` state with `node(s) didn't satisfy existing pods anti-affinity rules`
+**TopoLVM single-node upgrade issues:**
+In single-node clusters, TopoLVM upgrades may fail with:
+- Controller pod stuck in `Pending` state
+- Error: `node(s) didn't satisfy existing pods anti-affinity rules`
 - HelmRelease timeout with `context deadline exceeded`
-- Kustomization stuck in `Stalled` state
 
-The current deployment prevents this by:
-- Setting `replicaCount: 1` to prevent multi-replica scheduling conflicts
-- Disabling anti-affinity with `affinity: ""`
-- Using `Recreate` update strategy to force old pod deletion before new pod creation
-
-If issues persist, manually delete pending pods or stale ReplicaSets:
+The current deployment prevents this with `replicaCount: 1`, disabled anti-affinity, and Recreate strategy. If issues persist, manually delete pending pods:
 
 ```bash
 kubectl -n storage delete pod topolvm-controller-xxxxxxxx
 kubectl -n storage scale rs topolvm-controller-xxxxxxxx --replicas=0
-```
-
-Then reconcile the Flux resources:
-
-```bash
 flux reconcile kustomization topolvm -n storage --with-source
 flux reconcile helmrelease topolvm -n storage
 ```
+
+### Volume Expansion Best Practices
+
+When expanding volumes:
+1. Verify the storage class supports expansion (`allowVolumeExpansion: true`)
+2. Check available capacity in the underlying storage (LVM thin pool, host disk, NFS share)
+3. Patch the PVC with new size: `kubectl patch pvc <name> -p '{"spec":{"resources":{"requests":{"storage":"<new-size>"}}}}'`
+4. Verify the resize completed: `kubectl get pvc <name>` - check `status.capacity`
+5. For filesystems requiring online growth (XFS), the CSI driver handles this automatically
+
+### Snapshot Management
+
+Volume snapshots created through the TopoLVM snapshot class should be managed to prevent unbounded storage consumption:
+
+- **Review snapshots regularly**: `kubectl get volumesnapshots -A`
+- **Delete outdated snapshots**: `kubectl delete volumesnapshot <name> -n <namespace>`
+- **VolSync cleanup**: The cluster includes a CronJob that runs weekly (Sunday 2 AM) to delete VolSync destination snapshots older than 7 days
+- **Consider retention policies**: Implement automated cleanup for application-specific snapshots
+
+## Related Documentation
+
+- **Storage Architecture**: Detailed component relationships and integration patterns
+- **VolSync Backup/Restore**: Automated backup and disaster recovery procedures

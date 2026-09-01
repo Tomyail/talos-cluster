@@ -18,8 +18,8 @@ sources:
     resource: repo://kubernetes/flux/cluster/ks.yaml
 generated: { by: "openwiki/0.4.3", at: "2026-08-29T21:52:21.026Z" }
 verified:
-  - by: openwiki/0.4.3
-    at: 2026-08-30T21:57:36.532Z
+  - by: openwiki/0.5.0
+    at: 2026-09-01T21:54:26.927Z
 ---
 
 # Troubleshooting Guide

@@ -4,8 +4,8 @@ title: Talos Operations
 description: Talos-specific operational tasks including config generation, node upgrades, Kubernetes upgrades, cluster reset, and node configuration updates using talhelper.
 tags: [talos, operations, upgrade, config, talhelper, maintenance]
 verified:
-  - by: openwiki/0.4.3
-    at: 2026-08-31T23:16:37.333Z
+  - by: openwiki/0.5.0
+    at: 2026-09-01T21:54:26.927Z
 sources:
   - id: openwiki-source-4f5be6b4c7dcc699aca46164
     resource: repo://.taskfiles/talos/Taskfile.yaml
@@ -13,7 +13,7 @@ sources:
     resource: repo://talos/talconfig.yaml
   - id: openwiki-source-b65e4f1ccd91316116ad973a
     resource: repo://talos/talenv.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-31T23:16:37.333Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-01T21:54:26.927Z" }
 ---
 
 # Talos Operations
@@ -24,21 +24,22 @@ Talos Linux cluster operations are managed through talhelper-based tasks defined
 
 The Talos task file provides five primary operations:
 
-<!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
-```text
+```mermaid
 flowchart TD
-    A[Talos Operations] --> B[generate-config<br/>Regenerate machine configs]
-    A --> C[apply-node<br/>Apply config to single node]
-    A --> D[upgrade-node<br/>Upgrade Talos OS]
-    A --> E[upgrade-k8s<br/>Upgrade Kubernetes]
-    A --> F[reset<br/>Destroy cluster]
+    A["Talos Operations"] --> B["generate-config: Regenerate machine configs"]
+    A --> C["apply-node: Apply config to single node"]
+    A --> D["upgrade-node: Upgrade Talos OS"]
+    A --> E["upgrade-k8s: Upgrade Kubernetes"]
+    A --> F["reset: Destroy cluster"]
     
-    B --> B1[talhelper genconfig]
-    C --> C1[talhelper gencommand apply]
-    D --> D1[talhelper gencommand upgrade]
-    E --> E1[talhelper gencommand upgrade-k8s]
-    F --> F1[talhelper gencommand reset]
+    B --> B1["talhelper genconfig"]
+    C --> C1["talhelper gencommand apply"]
+    D --> D1["talhelper gencommand upgrade"]
+    E --> E1["talhelper gencommand upgrade-k8s"]
+    F --> F1["talhelper gencommand reset"]
 ```
+
+*Figure: Talos operational tasks and their corresponding talhelper commands*
 
 All tasks execute within the `{{.TALOS_DIR}}` directory (`talos/`) and require specific preconditions to ensure safe operations.
 

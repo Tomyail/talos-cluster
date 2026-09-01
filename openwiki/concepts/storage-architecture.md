@@ -4,8 +4,8 @@ title: Storage Architecture
 description: Multi-provider storage system for the Talos Kubernetes cluster including TopoLVM for block storage, local-path-provisioner for host mounts, NFS CSI driver, and VolSync for backups.
 tags: [storage, topolvm, volsync, lvm, nfs, csi, backup, kubernetes]
 verified:
-  - by: openwiki/0.4.3
-    at: 2026-08-31T23:16:37.333Z
+  - by: openwiki/0.5.0
+    at: 2026-09-01T21:54:26.927Z
 sources:
   - id: openwiki-source-ab04cad2d509128f85736a9f
     resource: repo://.taskfiles/volsync/Taskfile.yaml

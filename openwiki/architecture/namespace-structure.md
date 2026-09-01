@@ -4,8 +4,8 @@ title: Namespace and Application Organization
 description: Organizational structure for Kubernetes applications by namespace/domain under kubernetes/apps/, the Flux reconciliation hierarchy, app-template OCI repository pattern, and the kustomization.yaml pattern including components/common for shared resources.
 tags: [namespace, organization, kubernetes, flux, kustomize, app-template, oci]
 verified:
-  - by: openwiki/0.4.3
-    at: 2026-08-31T23:16:37.333Z
+  - by: openwiki/0.5.0
+    at: 2026-09-01T21:54:26.927Z
 sources:
   - id: openwiki-source-54887d3506bd4aec59c1b5dd
     resource: repo://kubernetes/apps/cert-manager/kustomization.yaml
@@ -71,7 +71,7 @@ sources:
     resource: repo://kubernetes/flux/meta/repos/bjw-s.yaml
   - id: openwiki-source-12a44dba301e86ea2cf62628
     resource: repo://kubernetes/flux/meta/repos/kustomization.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-31T23:16:37.333Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-01T21:54:26.927Z" }
 ---
 
 # Namespace and Application Organization
@@ -82,29 +82,28 @@ Applications are organized into domain-specific namespaces under `kubernetes/app
 
 The cluster uses the following namespace strategy to segregate workloads by domain:
 
-<!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
-```text
+```mermaid
 flowchart LR
     subgraph Infra["Infrastructure Layer"]
-        KS[kube-system<br/>CNI, DNS, node utilities]
-        NET[network<br/>DNS, tunnel, gateway]
-        CERT[cert-manager<br/>TLS certificates]
+        KS["kube-system"]
+        NET["network"]
+        CERT["cert-manager"]
     end
     
     subgraph Data["Data Layer"]
-        STG[storage<br/>Provisioners, backup]
-        DB[database<br/>PostgreSQL operators]
-        ES[external-secrets<br/>Secret sync]
+        STG["storage"]
+        DB["database"]
+        ES["external-secrets"]
     end
     
     subgraph Ops["Operations Layer"]
-        OBS[observability<br/>Metrics, logs, monitoring]
-        FLX[flux-system<br/>GitOps operator]
+        OBS["observability"]
+        FLX["flux-system"]
     end
     
     subgraph Apps["Application Layer"]
-        DFLT[default<br/>User applications]
-        EXTS[external-server<br/>External workloads]
+        DFLT["default"]
+        EXTS["external-server"]
     end
 ```
 
@@ -129,23 +128,30 @@ Each namespace groups related functionality and enforces appropriate pod securit
 
 The `cluster-apps` Kustomization in `kubernetes/flux/cluster/ks.yaml` reconciles all namespace-level Kustomizations under `kubernetes/apps/`, creating a hierarchical deployment pattern:
 
-<!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
-```text
+```mermaid
 flowchart TD
-    A[cluster-apps<br/>kubernetes/flux/cluster/ks.yaml] --> B[kube-system/ks.yaml]
-    A --> C[network/ks.yaml]
-    A --> D[storage/ks.yaml]
-    A --> E[database/ks.yaml]
-    A --> F[external-secrets/ks.yaml]
-    A --> G[cert-manager/ks.yaml]
-    A --> H[observability/ks.yaml]
-    A --> I[flux-system/ks.yaml]
-    A --> J[default/ks.yaml]
-    A --> K[external-server/ks.yaml]
+    A["cluster-apps"]
+    B["kube-system"]
+    C["network"]
+    D["storage"]
+    E["database"]
+    F["external-secrets"]
+    G["cert-manager"]
+    H["observability"]
+    I["flux-system"]
+    J["default"]
+    K["external-server"]
     
-    B --> B1[cilium/ks.yaml<br/>coredns/ks.yaml<br/>metrics-server/ks.yaml<br/>reloader/ks.yaml<br/>...]
-    C --> C1[cloudflare-tunnel/ks.yaml<br/>cloudflare-dns/ks.yaml<br/>k8s-gateway/ks.yaml<br/>...]
-    D --> D1[snapshot-controller/ks.yaml<br/>topolvm/ks.yaml<br/>volsync/ks.yaml<br/>...]
+    A --> B
+    A --> C
+    A --> D
+    A --> E
+    A --> F
+    A --> G
+    A --> H
+    A --> I
+    A --> J
+    A --> K
 ```
 
 *Figure: Flux reconciliation flow from cluster-apps through namespace-level Kustomizations to individual applications*

@@ -4,8 +4,8 @@ title: Storage Operations
 description: LVM thin pool management, storage class usage, snapshot creation, and PVC provisioning troubleshooting for the cluster storage layer.
 tags: [storage, lvm, topolvm, snapshot, pvc, troubleshooting, operations]
 verified:
-  - by: openwiki/0.4.3
-    at: 2026-08-31T23:16:37.333Z
+  - by: openwiki/0.5.0
+    at: 2026-09-01T21:54:26.927Z
 sources:
   - id: openwiki-source-f4981326e8ef2c12ac7b791b
     resource: repo://kubernetes/apps/storage/kustomization.yaml

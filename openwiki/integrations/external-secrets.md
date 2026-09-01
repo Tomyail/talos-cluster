@@ -4,8 +4,8 @@ title: External Secrets Integration
 description: External Secrets Operator deployment and configuration for pulling external secrets from Bitwarden into Kubernetes, including operator setup, CRD installation, secret synchronization patterns, and troubleshooting.
 tags: [secrets, external-secrets, eso, bitwarden, security, integration]
 verified:
-  - by: openwiki/0.4.3
-    at: 2026-08-31T23:16:37.333Z
+  - by: openwiki/0.5.0
+    at: 2026-09-01T21:54:26.927Z
 sources:
   - id: openwiki-source-5a01ad0b742c7605909d5ff3
     resource: repo://kubernetes/apps/default/gitea/app/externalsecret.yaml

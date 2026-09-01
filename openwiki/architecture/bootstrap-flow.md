@@ -3,9 +3,6 @@ type: architecture
 title: Bootstrap Flow
 description: Complete cluster initialization process from bare metal to GitOps-managed state, including two-phase bootstrap (Talos OS setup via talhelper, then app installation via helmfile), SOPS secrets and CRD prerequisites, and Flux handoff.
 tags: [bootstrap, talos, flux, gitops, helmfile, sops, cluster-initialization]
-verified:
-  - by: openwiki/0.4.3
-    at: 2026-08-31T23:16:37.333Z
 sources:
   - id: openwiki-source-240e6406ed4b6841961679cb
     resource: repo://.sops.yaml
@@ -23,43 +20,45 @@ sources:
     resource: repo://talos/talconfig.yaml
   - id: openwiki-source-b9ff7ee0aa4953cc601052a4
     resource: repo://Taskfile.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-31T23:16:37.333Z" }
+verified:
+  - by: openwiki/0.5.0
+    at: 2026-09-01T21:54:26.927Z
+generated: { by: "openwiki/0.5.0", at: "2026-09-01T21:54:26.927Z" }
 ---
 
 # Bootstrap Flow
 
-The cluster bootstrap process transforms bare-metal hardware into a fully operational GitOps-managed Kubernetes cluster through a two-phase approach. Phase 1 establishes the Talos Linux control plane using talhelper, while Phase 2 installs critical infrastructure components via Helmfile before Flux assumes continuous reconciliation responsibility.
+The cluster bootstrap process transforms bare-metal hardware into a fully operational GitOps-managed Kubernetes cluster through a three-phase approach. Phase 1 establishes the Talos Linux control plane using talhelper, Phase 2 installs critical infrastructure components via Helmfile, and Phase 3 hands off continuous reconciliation to Flux.
 
 ## Bootstrap Overview
 
-<!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
-```text
+```mermaid
 flowchart TD
-    subgraph Phase1["Phase 1: Talos OS Bootstrap"]
-        A[talhelper gensecrete<br/>Generate encrypted secrets] --> B[talhelper genconfig<br/>Generate machine configs]
-        B --> C[talhelper apply<br/>Apply configs to nodes]
-        C --> D[talhelper bootstrap<br/>Bootstrap etcd and control plane]
-        D --> E[talhelper kubeconfig<br/>Export admin kubeconfig]
+    subgraph P1["Phase 1: Talos OS Bootstrap"]
+        A["talhelper gensecrete - Generate encrypted secrets"] --> B["talhelper genconfig - Generate machine configs"]
+        B --> C["talhelper apply - Apply configs to nodes"]
+        C --> D["talhelper bootstrap - Bootstrap etcd and control plane"]
+        D --> E["talhelper kubeconfig - Export admin kubeconfig"]
     end
     
-    subgraph Phase2["Phase 2: Apps Bootstrap"]
-        E --> F[wait_for_nodes<br/>Wait for node Ready=False state]
-        F --> G[apply_namespaces<br/>Create target namespaces]
-        G --> H[apply_sops_secrets<br/>Deploy encrypted secrets]
-        H --> I[apply_crds<br/>Install required CRDs]
-        I --> J[helmfile sync<br/>Deploy Helm releases]
+    subgraph P2["Phase 2: Apps Bootstrap"]
+        E --> F["wait_for_nodes - Wait for node Ready state"]
+        F --> G["apply_namespaces - Create target namespaces"]
+        G --> H["apply_sops_secrets - Deploy encrypted secrets"]
+        H --> I["apply_crds - Install required CRDs"]
+        I --> J["helmfile sync - Deploy Helm releases"]
     end
     
-    subgraph Phase3["Phase 3: Flux Handoff"]
-        J --> K[flux-instance controllers<br/>Start reconciliation]
-        K --> L[cluster-meta Kustomization<br/>Deploy sources and decryption]
-        L --> M[CRD Kustomizations<br/>gateway-api, external-dns]
-        M --> N[cluster-apps Kustomization<br/>Deploy all applications]
+    subgraph P3["Phase 3: Flux Handoff"]
+        J --> K["flux-instance controllers start reconciliation"]
+        K --> L["cluster-meta Kustomization deploys sources"]
+        L --> M["CRD Kustomizations install gateway and DNS"]
+        M --> N["cluster-apps Kustomization deploys applications"]
     end
     
-    style Phase1 fill:#e3f2fd
-    style Phase2 fill:#fff3e0
-    style Phase3 fill:#e8f5e9
+    style P1 fill:#e3f2fd
+    style P2 fill:#fff3e0
+    style P3 fill:#e8f5e9
 ```
 
 *Figure: Complete bootstrap sequence showing the three phases from Talos initialization through Flux-controlled GitOps*
@@ -190,13 +189,13 @@ The `sync_helm_releases` function (`scripts/bootstrap-apps.sh#L121-L135`) uses H
 **Helmfile Configuration** (`bootstrap/helmfile.yaml`)
 
 **Release Order** (with dependency graph):
-<!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
-```text
+
+```mermaid
 flowchart TD
-    A[cilium<br/>kube-system] --> B[coredns<br/>kube-system]
-    B --> C[cert-manager<br/>cert-manager]
-    C --> D[flux-operator<br/>flux-system]
-    D --> E[flux-instance<br/>flux-system]
+    A["cilium - kube-system"] --> B["coredns - kube-system"]
+    B --> C["cert-manager - cert-manager"]
+    C --> D["flux-operator - flux-system"]
+    D --> E["flux-instance - flux-system"]
 ```
 
 **Release Details** (`bootstrap/helmfile.yaml#L14-L52`):
@@ -292,16 +291,15 @@ Flux begins reconciliation from `kubernetes/flux/cluster/ks.yaml`, which defines
 
 The Flux reconciliation order ensures correct dependency satisfaction:
 
-<!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
-```text
+```mermaid
 flowchart TD
-    A[flux-instance<br/>Deployed by Helmfile] --> B[GitRepository<br/>Sync talos-cluster repo]
-    B --> C[cluster-meta Kustomization<br/>Deploy sources]
-    C --> D[gateway-api-crds Kustomization<br/>Install Gateway API CRDs]
-    C --> E[external-dns-crds Kustomization<br/>Install External DNS CRDs]
-    D --> F[cluster-apps Kustomization<br/>Deploy all apps]
+    A["flux-instance deployed by Helmfile"] --> B["GitRepository syncs talos-cluster repo"]
+    B --> C["cluster-meta Kustomization deploys sources"]
+    C --> D["gateway-api-crds Kustomization installs Gateway API"]
+    C --> E["external-dns-crds Kustomization installs DNS CRDs"]
+    D --> F["cluster-apps Kustomization deploys all apps"]
     E --> F
-    F --> G[30+ Applications<br/>Reconciled by Flux]
+    F --> G["Applications reconciled by Flux"]
 ```
 
 *Figure: Flux reconciliation flow showing how bootstrap handoff transitions to GitOps control*
@@ -373,9 +371,6 @@ Bootstrap failures can occur at several points:
 
 ## Related Documentation
 
-<!-- openwiki: broken internal link [/concepts/flux-architecture.md] file "/concepts/flux-architecture.md" does not exist. Fix the href or restore the target, then delete this comment. -->
-- [Flux GitOps Architecture](/concepts/flux-architecture.md) - Detailed Flux reconciliation and Kustomization structure
-<!-- openwiki: broken internal link [/concepts/secrets-management.md] file "/concepts/secrets-management.md" does not exist. Fix the href or restore the target, then delete this comment. -->
-- [Secrets Management](/concepts/secrets-management.md) - SOPS + age encryption and External Secrets Operator
-<!-- openwiki: broken internal link [/quickstart.md] file "/quickstart.md" does not exist. Fix the href or restore the target, then delete this comment. -->
-- [Quick Start Guide](/quickstart.md) - Repository overview and initial setup
+- [Flux GitOps Architecture](/openwiki/concepts/flux-architecture.md) - Detailed Flux reconciliation and Kustomization structure
+- [Cluster Bootstrap Workflow](/openwiki/workflows/bootstrap.md) - Step-by-step bootstrap execution guide
+- [Quick Start Guide](/openwiki/quickstart.md) - Repository overview and initial setup

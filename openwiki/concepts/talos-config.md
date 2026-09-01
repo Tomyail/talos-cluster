@@ -4,8 +4,8 @@ title: Talos Configuration Management
 description: Talos Linux configuration structure using talhelper for node definitions, patch system, and machine config generation with version tracking via Renovate.
 tags: [talos, talhelper, configuration, patches, machine-config, kernel-modules, networking]
 verified:
-  - by: openwiki/0.4.3
-    at: 2026-08-31T23:16:37.333Z
+  - by: openwiki/0.5.0
+    at: 2026-09-01T21:54:26.927Z
 sources:
   - id: openwiki-source-aa55808be329b3f929ddf105
     resource: repo://.renovaterc.json5
@@ -27,7 +27,7 @@ sources:
     resource: repo://talos/talconfig.yaml
   - id: openwiki-source-b65e4f1ccd91316116ad973a
     resource: repo://talos/talenv.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-31T23:16:37.333Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-01T21:54:26.927Z" }
 ---
 
 # Talos Configuration Management
@@ -45,17 +45,17 @@ The Talos configuration is managed through three primary files:
 <!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
 ```text
 flowchart LR
-    A[talenv.yaml<br/>Version Variables] --> B[talconfig.yaml<br/>Cluster Definition]
-    C[talconfig.yaml<br/>Patches Section] --> D[Global Patches<br/>global/*.yaml]
-    C --> E[Controller Patches<br/>controller/*.yaml]
-    C --> F[Worker Patches<br/>worker/*.yaml]
-    C --> G[Node Patches<br/>${hostname}/*.yaml]
-    B --> H[talhelper genconfig<br/>Generate Machine Configs]
+    A["talenv.yaml<br/>Version Variables"] --> B["talconfig.yaml<br/>Cluster Definition"]
+    C["talconfig.yaml<br/>Patches Section"] --> D["Global Patches<br/>global/*.yaml"]
+    C --> E["Controller Patches<br/>controller/*.yaml"]
+    C --> F["Worker Patches<br/>worker/*.yaml"]
+    C --> G["Node Patches<br/>hostname/*.yaml"]
+    B --> H["talhelper genconfig<br/>Generate Machine Configs"]
     D --> H
     E --> H
     F --> H
     G --> H
-    H --> I[clusterconfig/<br/>Node-specific YAML]
+    H --> I["clusterconfig/<br/>Node-specific YAML"]
 ```
 
 *Figure: Talos configuration flow from source definitions through talhelper to generated machine configurations*
@@ -194,6 +194,7 @@ kubernetesVersion: v1.35.4
 - **Schedule**: Runs weekly ("every weekend")
 - **Docker Datasource**: Tracks `ghcr.io/siderolabs/installer` and `ghcr.io/siderolabs/kubelet`
 - **Semantic Commits**: Generates structured commit messages for version changes
+- **Custom Managers**: Regex-based parsing extracts versions from YAML files with renovate comments
 
 ## Patch System
 
@@ -293,6 +294,49 @@ machine:
 - **Group 44**: Video group (GID 44) ownership
 - **Permissions 0660**: Read/write for owner and group
 
+**Containerd Configuration** (`talos/patches/global/machine-files.yaml`):
+
+```yaml
+machine:
+  files:
+    - op: create
+      path: /etc/cri/conf.d/20-customization.part
+      permissions: 0o644
+      content: |-
+        [plugins."io.containerd.cri.v1.images"]
+          discard_unpacked_layers = false
+```
+
+**Containerd Optimization**: Prevents discarding unpacked layers for efficient image storage
+
+**Time Synchronization** (`talos/patches/global/machine-time.yaml`):
+
+```yaml
+machine:
+  time:
+    disabled: false
+    servers:
+      - 162.159.200.1
+      - 162.159.200.123
+```
+
+**NTP Servers**: Uses Cloudflare time servers for accurate clock synchronization
+
+**API Access Configuration** (`talos/patches/global/machine-api-access.yaml`):
+
+```yaml
+machine:
+  features:
+    kubernetesTalosAPIAccess:
+      enabled: true
+      allowedRoles:
+        - os:admin
+      allowedKubernetesNamespaces:
+        - kube-system
+```
+
+**Talos API Access**: Enables Kubernetes-based access to Talos API from privileged namespaces
+
 ### Controller Patches
 
 Controller-specific patches configure cluster components running on control-plane nodes.
@@ -358,14 +402,14 @@ The `talhelper genconfig` workflow transforms configuration into machine configs
 <!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
 ```text
 flowchart TD
-    A[1. Load talenv.yaml<br/>Resolve version variables] --> B[2. Load talconfig.yaml<br/>Parse cluster definition]
-    B --> C[3. Load patches<br/>Read global, controller, worker, node-specific]
-    C --> D[4. Merge patches<br/>Apply hierarchical overrides]
-    D --> E[5. Generate machine configs<br/>Create per-node YAML]
-    E --> F[6. Output clusterconfig/<br/>Write machine-<hostname>.yaml]
+    A["1. Load talenv.yaml<br/>Resolve version variables"] --> B["2. Load talconfig.yaml<br/>Parse cluster definition"]
+    B --> C["3. Load patches<br/>Read global, controller, worker, node-specific"]
+    C --> D["4. Merge patches<br/>Apply hierarchical overrides"]
+    D --> E["5. Generate machine configs<br/>Create per-node YAML"]
+    E --> F["6. Output clusterconfig/<br/>Write machine-hostname.yaml"]
 ```
 
-**Execution** (`.taskfiles/bootstrap/Taskfile.yaml#L12`):
+**Execution** (`.taskfiles/talos/Taskfile.yaml#L7-L10`):
 
 ```bash
 talhelper genconfig
@@ -420,6 +464,33 @@ When modifying Talos configuration:
 
 **Validation**: talhelper validates configuration before generation, catching syntax errors and invalid values.
 
+### Node Operations
+
+The Talos taskfile provides operations for individual node management:
+
+**Apply Configuration** (`.taskfiles/talos/Taskfile.yaml#L17-L29`):
+
+```bash
+task talos:apply-node IP=192.168.50.145 MODE=auto
+```
+
+**Upgrade Talos** (`.taskfiles/talos/Taskfile.yaml#L31-L46`):
+
+```bash
+task talos:upgrade-node IP=192.168.50.145
+```
+
+The upgrade command extracts node-specific image URLs and Talos versions from `talconfig.yaml` and `talenv.yaml` using `yq`.
+
+**Upgrade Kubernetes** (`.taskfiles/talos/Taskfile.yaml#L48-L58`):
+
+```bash
+task talos:upgrade-k8s
+```
+
+Coordinates Kubernetes version upgrades across the cluster using the version from `talenv.yaml`.
+
 ## Related Pages
 
-- **Bootstrap Flow** (`/openwiki/architecture/bootstrap-flow.md`) - Complete cluster initialization process including Talos configuration application
+- **Cluster Architecture** (`/openwiki/concepts/cluster-architecture.md`) - Overall cluster design and component relationships
+- **Talos Tasks** (`/openwiki/operations/talos-tasks.md`) - Operational procedures for Talos cluster management

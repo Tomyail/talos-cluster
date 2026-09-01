@@ -4,8 +4,8 @@ title: Storage & Backup Overview
 description: How the cluster manages persistent storage and data backup with TopoLVM, VolSync, snapshots, and related operators.
 tags: [storage, backup, volsync, topolvm, pvc]
 verified:
-  - by: openwiki/0.4.3
-    at: 2026-08-30T21:57:36.532Z
+  - by: openwiki/0.5.0
+    at: 2026-09-01T21:54:26.927Z
 sources:
   - id: openwiki-source-9eb40fd76830d0fb035978cc
     resource: repo://.taskfiles/volsync/scripts/which-controller.sh
@@ -39,7 +39,7 @@ sources:
     resource: repo://kubernetes/components/volsync/minio.yaml
   - id: openwiki-source-67d09412df5e9b5263585304
     resource: repo://lvm-format-manual.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-30T21:57:36.532Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-01T21:54:26.927Z" }
 ---
 
 # Storage & Backup Overview
@@ -342,7 +342,11 @@ This patches the ReplicationSource with a manual trigger timestamp and waits for
 task volsync:list APP=my-app NS=default
 ```
 
-This creates a temporary Job that runs Restic to list snapshots in MinIO and displays the output.
+This creates a temporary Job that runs Restic to list snapshots in MinIO and displays the output. The task:
+- Creates a Job with TTL of 3600 seconds (1 hour)
+- Uses the `restic/restic:0.18.0` image with `snapshots` command
+- Loads credentials from `{app}-volsync-secret`
+- Waits for job completion, displays logs, then deletes the job
 
 **Restore from snapshot**:
 ```bash
@@ -360,6 +364,14 @@ The restore process automatically:
 - Detects whether the app uses a Deployment or StatefulSet
 - Extracts PVC name, UID/GID from ReplicationSource
 - Uses the last X snapshots (default: 2)
+
+**Restore monitoring** via wait-for-rd.sh:
+- Polls ReplicationDestination status every 15 seconds
+- Default timeout: 7200 seconds (2 hours)
+- Monitors `latestMoverStatus.result` for success/failure
+- Checks `Synchronizing` condition for active progress
+- Dumps YAML and mover pod logs on timeout or failure
+- Provides detailed debugging information for troubleshooting
 
 **Unlock Restic repository** (if locked):
 ```bash
@@ -403,9 +415,10 @@ spec:
 ```
 
 **SnapshotClasses**:
-- `topolvm-snapshot` - For TopoLVM PVCs (default)
+- `topolvm-thin-provisioner` - For TopoLVM PVCs (default class)
 - Driver: `topolvm.io`
 - DeletionPolicy: Delete
+- Marked as default snapshot class via annotation
 
 **Configuration**:
 - Located in `kubernetes/apps/storage/snapshot-controller/`
@@ -609,3 +622,44 @@ kubectl -n storage scale rs topolvm-controller-xxxxxxxx --replicas=0
 - Check network latency between cluster and NFS server
 - Verify NFS server performance
 - Consider using TopoLVM for better performance
+
+## VolSync Monitoring and Maintenance
+
+### Prometheus Alerts
+
+VolSync includes PrometheusRule monitoring with the following alerts:
+
+**VolSyncComponentAbsent** (Critical):
+- Triggers when VolSync metrics disappear from Prometheus target discovery
+- Duration: 15 minutes
+- Indicates VolSync controller or metrics service is down
+
+**VolSyncVolumeOutOfSync** (Critical):
+- Triggers when a volume is out of sync for 15 minutes
+- Indicates backup or replication failure
+- Check ReplicationSource/ReplicationDestination status
+
+### Snapshot Cleanup
+
+A CronJob automatically cleans up VolSync destination snapshots to prevent resource exhaustion:
+
+**Schedule**: Weekly at 2 AM Sunday (`0 2 * * 0`)
+
+**Cleanup Criteria**:
+- Deletes VolumeSnapshots older than 7 days (configurable via `THRESHOLD_DAYS` env var)
+- Targets snapshots matching `volsync-volsync-dst-` pattern
+- Runs with `Forbid` concurrency policy
+- Retains 3 successful and 3 failed job history for audit
+
+**RBAC**:
+- ServiceAccount: `volsync-snapshot-cleanup`
+- ClusterRole permissions: get, list, watch, delete on `volumesnapshots`
+
+**Manual cleanup** if needed:
+```bash
+# List old snapshots
+kubectl get volumesnapshots -A | grep volsync-volsync-dst-
+
+# Delete specific snapshot
+kubectl delete volumesnapshot -n <namespace> <snapshot-name>
+```

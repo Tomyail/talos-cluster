@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:7ab22c23c0b414c88c714f17d76f9fa5a62bec0111cbf36d02c70653e3833b6e",
+  "pageVersion": "sha256:ce4d71b0b417356d7c084e2e40db3e31ab2619384ee870dfe34ba41aec2ab8f7",
   "claims": [
     {
       "id": "claim_5f6684ab4b77427c8d6232feda00ab34",
@@ -183,10 +183,34 @@
           "version": "repo-lines-v1:sha256:984d0110f3af1e4cb61d32d61243cc4f27e1334f24875b5a199ff47878e91428:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjUyZDcxMTEwM2Q1MGE0Mzc4MzBjNmZiY2QwNGZiNGJhYjQ5YTBmODJmNmQyNmQxYzc5MWM2ZTg0ODhkZDA5MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTJkMTBiYzMxYTQ4NTNkOWNhZGI4ZjRkMjNhN2ZiYWRjYThmYjA1YThlOGRkNGJkMmNiODdhZmU3ODM5ODM4NyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
         }
       ]
+    },
+    {
+      "id": "claim_f9fc2f9eed6d4e5b80a1c137c1d6911b",
+      "statement": "Services can be exposed to the Tailscale network using the tailscale.com/expose: 'true' annotation, which creates Tailscale LoadBalancer services for secure external access, used by applications like Echo and Nextcloud for high-bandwidth transfers and private access.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/echo/app/helmrelease.yaml#L66-L68",
+          "version": "repo-lines-v1:sha256:0819cb9ff3d5202c10665207f1d73605a869111ac7433c6a63ae3414896bfd7d:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjg0MmI2YTZiYmZjN2RiMDNiOTcxOTZjZDNhNzdmOTEwYWQyNDQwMmI1OTY1OWRmZGFkOTIwZWQzZTNlZTVlZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOGRhNDE4ZTc1ODJlNWVjMGJmYjViNDFiZmEzMTk2NGUwNzk2YTg2ZTY5YjMzMzZkYmQyYzZlZWNmYTczNjk4ZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGU3ZDlhNTE3ZmU5MTA2ZTVhMDg2OTQyZTNlYTU1ZmJkZTkwZmMwNDE4ZjY2MjFmNzMxYzliYjg1ZDJjNzJmMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMjNiN2EwOWEyNjliZGUxNDU4ZWFkZGMxMjY5YTczY2VhMTIwNTYxZGYyYmEzZmQwZDY0YTNjMWVlYTk2OGRmNSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/storage/nextcloud/app/helmrelease.yaml#L100-L101",
+          "version": "repo-lines-v1:sha256:44517bcb41538d5e798c1b9a00c2b5bc2099d85f58fa101075645ffa097c1a15:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTdjM2IwMWRjMGI1ZTFlMzEwNzcxNTcwZGIwZWE4ZjRmNDkzZDQ5ZmQ5ZTg0OTliNzMwZTczZGJlNGNmZDBlOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDUyYjBhZDQ4OWM4MmM0OTYyYTUyNGJkZmU4MDc4NzBmMGZmOWIzZWM4NjVhMGU2MjQzZjc0OGRjMzlhNmE5ZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZWJkZDgzMmMwYzNlOGZlZDg4ZTJhOWJhMGEzZjhkNmVhYzE4OTc2YzAxZTVhY2E5ZDQ0ODFlYjZiNDZjZjY5NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYWQyNmRlZmZiNjliNDhlYjE1OWFjNzE1YjcyNTU0NDk3NzNlYTU1OTg5Mjc4MmE4MDdiYjIxYWRjYmI4MjI2MCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_ddc861830caa42ee9dd196344bdd19c3",
+      "statement": "Gatus monitoring for Tailscale is implemented as a reusable component that generates ConfigMaps with gatus.io/enabled labels, allowing applications to include Tailscale health checks by referencing the external-tailscale component.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/gatus/external-tailscale/kustomization.yaml#L1-L13",
+          "version": "repo-lines-v1:sha256:3c71e5751c15f46c935ace9c034cf91531792f68118db6b6e924a0ae8c69de7f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY5MTM5MDIwNTQ1NjVmNjMyYTA3ZjhmMTRiYzQ2NzBkM2FmMDBhZDY5OWY1NjAzNWIyNDllNzViMjBlNGM2NGIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.4.3",
-    "at": "2026-08-30T21:57:36.532Z"
+    "by": "openwiki/0.5.0",
+    "at": "2026-09-01T21:54:26.927Z"
   }
 }

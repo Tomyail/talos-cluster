@@ -4,8 +4,8 @@ title: Upgrade Workflow
 description: Complete upgrade process for Talos OS, Kubernetes, and cluster applications with proper ordering, rollback procedures, and verification steps.
 tags: [upgrade, talos, kubernetes, workflow, maintenance, tuppr, talhelper]
 verified:
-  - by: openwiki/0.4.3
-    at: 2026-08-31T23:16:37.333Z
+  - by: openwiki/0.5.0
+    at: 2026-09-01T21:54:26.927Z
 sources:
   - id: openwiki-source-aa55808be329b3f929ddf105
     resource: repo://.renovaterc.json5
@@ -21,7 +21,7 @@ sources:
     resource: repo://kubernetes/apps/kube-system/system-upgrade/upgrades/talos.yaml
   - id: openwiki-source-b65e4f1ccd91316116ad973a
     resource: repo://talos/talenv.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-31T23:16:37.333Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-01T21:54:26.927Z" }
 ---
 
 # Upgrade Workflow
@@ -35,12 +35,12 @@ The upgrade sequence is designed to maintain cluster health and minimize downtim
 <!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
 ```text
 flowchart LR
-    A[Upgrade Start] --> B[Talos Node 1<br/>Control Plane]
-    B --> C[Talos Node 2<br/>Control Plane]
-    C --> D[Talos Node 3<br/>Control Plane]
-    D --> E[Remaining Talos Nodes<br/>Workers]
-    E --> F[Kubernetes Upgrade<br/>Cluster-wide]
-    F --> G[Application Upgrades<br/>Flux Reconciliation]
+    A[Upgrade Start] --> B["Talos Node 1<br/>Control Plane"]
+    B --> C["Talos Node 2<br/>Control Plane"]
+    C --> D["Talos Node 3<br/>Control Plane"]
+    D --> E["Remaining Talos Nodes<br/>Workers"]
+    E --> F["Kubernetes Upgrade<br/>Cluster-wide"]
+    F --> G["Application Upgrades<br/>Flux Reconciliation"]
     G --> H[Verify Cluster Health]
     
     style B fill:#f9f,stroke:#333,stroke-width:2px
@@ -48,6 +48,8 @@ flowchart LR
     style D fill:#f9f,stroke:#333,stroke-width:2px
     style F fill:#ff9,stroke:#333,stroke-width:2px
 ```
+
+*Figure: Complete upgrade workflow showing sequential node upgrades followed by cluster-wide Kubernetes upgrade and application updates*
 
 **Critical ordering rules:**
 
@@ -78,16 +80,18 @@ task talos:upgrade-node IP=192.168.50.145
 <!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
 ```text
 flowchart TD
-    A[Start upgrade-node] --> B[Get Talos image URL<br/>from talconfig.yaml]
-    B --> C[Get Talos version<br/>from talenv.yaml]
-    C --> D[Generate talhelper<br/>upgrade command]
-    D --> E[Execute talosctl upgrade<br/>with --image and --timeout=10m]
-    E --> F[Drain node if worker]
-    F --> G[Apply new Talos image]
-    G --> H[Reboot node]
-    H --> I[Uncordon node]
-    I --> J[Verify upgrade success]
+    A["Start upgrade-node"] --> B["Get Talos image URL<br/>from talconfig.yaml"]
+    B --> C["Get Talos version<br/>from talenv.yaml"]
+    C --> D["Generate talhelper<br/>upgrade command"]
+    D --> E["Execute talosctl upgrade<br/>with --image and --timeout=10m"]
+    E --> F["Drain node if worker"]
+    F --> G["Apply new Talos image"]
+    G --> H["Reboot node"]
+    H --> I["Uncordon node"]
+    I --> J["Verify upgrade success"]
 ```
+
+*Figure: Talos node upgrade process using talhelper task*
 
 **Task details:**
 - Retrieves node-specific Talos image URL from `talconfig.yaml` via `yq`
@@ -115,18 +119,20 @@ The cluster uses tuppr (system-upgrade-controller) for automated Talos node upgr
 <!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
 ```text
 flowchart TD
-    A[Flux Kustomization] --> B[tuppr<br/>Controller Deployment]
-    A --> C[tuppr-upgrades<br/>Upgrade CRs]
+    A["Flux Kustomization"] --> B["tuppr<br/>Controller Deployment"]
+    A --> C["tuppr-upgrades<br/>Upgrade CRs"]
     
-    B --> D[OCIRepository<br/>tuppr Helm Chart]
-    B --> E[HelmRelease<br/>tuppr Controller]
+    B --> D["OCIRepository<br/>tuppr Helm Chart"]
+    B --> E["HelmRelease<br/>tuppr Controller"]
     
-    C --> F[TalosUpgrade CR<br/>talos.yaml]
-    C --> G[KubernetesUpgrade CR<br/>kubernetes.yaml]
+    C --> F["TalosUpgrade CR<br/>talos.yaml"]
+    C --> G["KubernetesUpgrade CR<br/>kubernetes.yaml"]
     
     style B fill:#bbf,stroke:#333,stroke-width:2px
     style C fill:#bfb,stroke:#333,stroke-width:2px
 ```
+
+*Figure: tuppr deployment architecture showing controller and upgrade CRs*
 
 **TalosUpgrade CR** (`kubernetes/apps/kube-system/system-upgrade/upgrades/talos.yaml`):
 
@@ -175,13 +181,15 @@ task talos:upgrade-k8s
 <!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
 ```text
 flowchart TD
-    A[Start upgrade-k8s] --> B[Get Kubernetes version<br/>from talenv.yaml]
-    B --> C[Generate talhelper<br/>upgrade-k8s command]
-    C --> D[Execute talosctl upgrade-k8s<br/>with --to flag]
-    D --> E[Upgrade control plane]
-    E --> F[Upgrade worker nodes]
-    F --> G[Verify cluster health]
+    A["Start upgrade-k8s"] --> B["Get Kubernetes version<br/>from talenv.yaml"]
+    B --> C["Generate talhelper<br/>upgrade-k8s command"]
+    C --> D["Execute talosctl upgrade-k8s<br/>with --to flag"]
+    D --> E["Upgrade control plane"]
+    E --> F["Upgrade worker nodes"]
+    F --> G["Verify cluster health"]
 ```
+
+*Figure: Kubernetes upgrade process using talhelper task*
 
 **Task details:**
 - Retrieves target Kubernetes version from `talenv.yaml`
@@ -226,22 +234,24 @@ Application upgrades are automated through Flux HelmRelease reconciliation. Afte
 <!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
 ```text
 flowchart TD
-    A[Flux GitRepository<br/>Sync] --> B[HelmRelease<br/>Reconciliation]
-    B --> C[Check Chart Version]
-    C --> D{Version Changed?}
-    D -->|Yes| E[Plan Upgrade]
-    D -->|No| F[Skip]
-    E --> G[Pre-upgrade Hooks]
-    G --> H[Upgrade Helm Release]
-    H --> I[Post-upgrade Hooks]
-    I --> J[Verify Health]
-    J --> K{Healthy?}
-    K -->|Yes| L[Complete]
-    K -->|No| M[Rollback]
+    A["Flux GitRepository<br/>Sync"] --> B["HelmRelease<br/>Reconciliation"]
+    B --> C["Check Chart Version"]
+    C --> D{"Version Changed?"}
+    D -->|Yes| E["Plan Upgrade"]
+    D -->|No| F["Skip"]
+    E --> G["Pre-upgrade Hooks"]
+    G --> H["Upgrade Helm Release"]
+    H --> I["Post-upgrade Hooks"]
+    I --> J["Verify Health"]
+    J --> K{"Healthy?"}
+    K -->|Yes| L["Complete"]
+    K -->|No| M["Rollback"]
     
     style M fill:#f99,stroke:#333,stroke-width:2px
     style L fill:#9f9,stroke:#333,stroke-width:2px
 ```
+
+*Figure: Flux HelmRelease reconciliation and upgrade flow*
 
 **Rollback behavior:**
 - Most applications use `rollback` remediation strategy
@@ -376,21 +386,21 @@ A complete upgrade workflow from Talos v1.12.7 to v1.13.0 and Kubernetes v1.35.4
 <!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
 ```text
 flowchart TD
-    A[Start Upgrade] --> B[Update talenv.yaml<br/>New versions]
-    B --> C[Run task talos:generate-config]
-    C --> D[Upgrade Talos Node 1<br/>Control Plane]
-    D --> E[Verify Node 1 Ready]
-    E --> F[Upgrade Talos Node 2<br/>Control Plane]
-    F --> G[Verify Node 2 Ready]
-    G --> H[Upgrade Talos Node 3<br/>Control Plane]
-    H --> I[Verify Node 3 Ready]
-    I --> J[Upgrade Remaining<br/>Talos Nodes]
-    J --> K[Verify All Nodes<br/>Same Talos Version]
-    K --> L[Run task talos:upgrade-k8s]
-    L --> M[Verify Kubernetes<br/>Upgrade Complete]
-    M --> N[Monitor Application<br/>Upgrades via Flux]
-    N --> O[Verify All Apps<br/>Healthy]
-    O --> P[Upgrade Complete]
+    A["Start Upgrade"] --> B["Update talenv.yaml<br/>New versions"]
+    B --> C["Run task talos:generate-config"]
+    C --> D["Upgrade Talos Node 1<br/>Control Plane"]
+    D --> E["Verify Node 1 Ready"]
+    E --> F["Upgrade Talos Node 2<br/>Control Plane"]
+    F --> G["Verify Node 2 Ready"]
+    G --> H["Upgrade Talos Node 3<br/>Control Plane"]
+    H --> I["Verify Node 3 Ready"]
+    I --> J["Upgrade Remaining<br/>Talos Nodes"]
+    J --> K["Verify All Nodes<br/>Same Talos Version"]
+    K --> L["Run task talos:upgrade-k8s"]
+    L --> M["Verify Kubernetes<br/>Upgrade Complete"]
+    M --> N["Monitor Application<br/>Upgrades via Flux"]
+    N --> O["Verify All Apps<br/>Healthy"]
+    O --> P["Upgrade Complete"]
     
     style D fill:#f9f,stroke:#333,stroke-width:2px
     style F fill:#f9f,stroke:#333,stroke-width:2px
@@ -399,20 +409,11 @@ flowchart TD
     style N fill:#9f9,stroke:#333,stroke-width:2px
 ```
 
-**Step-by-step:**
+*Figure: Complete upgrade workflow example with verification steps*
 
-1. Update `talos/talenv.yaml` with new versions
-2. Run `task talos:generate-config` to regenerate machine configs
-3. Commit and push changes
-4. Upgrade Talos nodes one-by-one using `task talos:upgrade-node IP=<ip>`
-5. Wait for each node to fully recover before proceeding
-6. After all Talos nodes are upgraded, run `task talos:upgrade-k8s`
-7. Monitor Kubernetes upgrade progress
-8. Verify all nodes are Ready and running new versions
-9. Monitor Flux reconciliation for application upgrades
-10. Verify all applications are healthy
-
-**Estimated downtime:**
-- Talos node upgrade: ~5-10 minutes per node (one node at a time)
-- Kubernetes upgrade: ~10-15 minutes cluster-wide
-- Application upgrades: varies by application, typically rolling with no downtime
+**Key principles:**
+- Maintain control plane quorum throughout Talos upgrades
+- Verify each node fully recovers before proceeding
+- Complete all Talos upgrades before Kubernetes upgrade
+- Monitor application upgrades automatically via Flux
+- Verify cluster health at each stage

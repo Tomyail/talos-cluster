@@ -4,8 +4,8 @@ title: Secrets Management
 description: Dual-layer secrets architecture combining SOPS + age for Git encryption and External Secrets Operator with Bitwarden for runtime secret injection, including encryption rules, secret flows, and rotation procedures.
 tags: [secrets, sops, age, external-secrets, bitwarden, security, encryption]
 verified:
-  - by: openwiki/0.4.3
-    at: 2026-08-31T23:16:37.333Z
+  - by: openwiki/0.5.0
+    at: 2026-09-01T21:54:26.927Z
 sources:
   - id: openwiki-source-240e6406ed4b6841961679cb
     resource: repo://.sops.yaml

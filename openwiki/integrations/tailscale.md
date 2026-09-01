@@ -4,6 +4,8 @@ title: Tailscale Integration
 description: Mesh VPN networking using Tailscale operator for secure cluster access, OAuth-based authentication, API server proxy, and egress proxy configuration for multi-cluster service routing.
 tags: [networking, tailscale, vpn, oauth, operator, mesh-networking, egress-proxy]
 sources:
+  - id: openwiki-source-b39dd7458c333c8d2cd9b103
+    resource: repo://kubernetes/apps/default/echo/app/helmrelease.yaml
   - id: openwiki-source-d568e7b5376ab5b1f66e0d17
     resource: repo://kubernetes/apps/network/tailscale/app/egress-proxy.yaml
   - id: openwiki-source-726538cf24db8abb5c138a51
@@ -14,14 +16,18 @@ sources:
     resource: repo://kubernetes/apps/network/tailscale/app/kustomization.yaml
   - id: openwiki-source-7bbbd5bb6a47194673e6139c
     resource: repo://kubernetes/apps/network/tailscale/ks.yaml
+  - id: openwiki-source-a309085d2d19b248d53f42ee
+    resource: repo://kubernetes/apps/storage/nextcloud/app/helmrelease.yaml
   - id: openwiki-source-368438c04d5ff133eb1dfb71
     resource: repo://kubernetes/components/gatus/external-tailscale/config.yaml
+  - id: openwiki-source-494628119bcd3d9b3e7eb3b4
+    resource: repo://kubernetes/components/gatus/external-tailscale/kustomization.yaml
   - id: openwiki-source-d787b4e38b39b0dac177c42f
     resource: repo://kubernetes/flux/meta/repos/tailscale.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-28T03:38:47.877Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-01T21:54:26.927Z" }
 verified:
-  - by: openwiki/0.4.3
-    at: 2026-08-30T21:57:36.532Z
+  - by: openwiki/0.5.0
+    at: 2026-09-01T21:54:26.927Z
 ---
 
 # Tailscale Integration
@@ -47,6 +53,7 @@ flowchart TB
         APIServer[Kubernetes API Server]
         APIServerProxy[API Server Proxy]
         EgressProxy[Egress Proxy Services]
+        ExposedServices[Services with tailscale.com/expose]
         Pods[Cluster Pods/Services]
     end
     
@@ -72,6 +79,9 @@ flowchart TB
     TSOperator --> EgressProxy
     EgressProxy -->|Routes via Tailnet IPs| RemoteSvc
     RemoteSvc --> RemoteIP
+    
+    TSOperator --> ExposedServices
+    ExposedServices --> Pods
     
     TSOperator --> PodAccess[Direct Pod/Service Access]
     PodAccess --> Pods
@@ -104,6 +114,11 @@ The Kustomization (ks.yaml) declares dependencies on:
 - **Bitwarden Connect**: Required for OAuth credentials retrieval
 - **SOPS Decryption**: Uses `sops-age` secret for decrypting encrypted secrets
 - **Cluster Secrets**: Substitutes `${SECRET_DOMAIN}` and other environment variables
+
+The app-level Kustomization (kustomization.yaml) assembles three resources:
+- HelmRelease for operator deployment
+- ExternalSecret for OAuth credentials
+- Egress proxy service configuration
 
 ## OAuth Authentication
 
@@ -151,6 +166,26 @@ Users with Tailscale authentication can access the cluster API server remotely:
 3. Traffic flows: Client → Tailscale Network → API Server Proxy → Kubernetes API Server
 
 This eliminates the need to expose the Kubernetes API server publicly or manage complex firewall rules for administrative access.
+
+## Service Exposure Pattern
+
+Services can be exposed directly to the Tailscale network using the `tailscale.com/expose: "true"` annotation, which creates Tailscale LoadBalancer services for secure external access.
+
+### Exposure Annotation
+
+Services annotated with `tailscale.com/expose: "true"` are automatically exposed to the tailnet:
+
+**Example Applications** (echo/helmrelease.yaml#L67-L68, nextcloud/helmrelease.yaml#L100-L101)
+- **Echo**: Test service exposed for debugging and network testing
+- **Nextcloud**: File storage service exposed via Tailscale as an alternative to Cloudflare Tunnel for large file transfers
+
+### Use Cases
+
+The exposure pattern is particularly useful for:
+- Services that require high-bandwidth transfers (Cloudflare Tunnel has 100MB size limits)
+- Development and testing services that need external access
+- Services that should be accessible only within the private tailnet
+- Temporary access for troubleshooting without public exposure
 
 ## Egress Proxy Configuration
 
@@ -235,6 +270,9 @@ The Tailscale integration includes health monitoring via Gatus:
 - Check interval: 1 minute
 - Expected status: 200 (configurable via `${GATUS_STATUS}`)
 
+**Component Pattern** (external-tailscale/kustomization.yaml)
+The Gatus configuration is implemented as a reusable component that generates ConfigMaps with the `gatus.io/enabled: "true"` label, allowing any application to include Tailscale health checks by referencing the component.
+
 ### Updates
 
 The HelmRelease uses Flux CD's built-in update mechanisms:
@@ -317,6 +355,7 @@ The Tailscale integration is part of the cluster's broader network architecture:
 **Ingress Coordination**
 - Cloudflare Tunnel handles public ingress to the cluster
 - Tailscale API server proxy handles administrative access
-- The two ingress paths serve different purposes and do not interfere
+- Services with `tailscale.com/expose` provide alternative private ingress
+- The different ingress paths serve complementary purposes and do not interfere
 
 For more details on the overall network architecture, see the [Network Architecture](/openwiki/concepts/networking.md) concept page.

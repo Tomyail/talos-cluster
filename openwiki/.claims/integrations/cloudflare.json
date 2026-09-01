@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:5c8678e86f5c71565b0a06f270bc0737d731774051096502d92a12f30a48c9a3",
+  "pageVersion": "sha256:790c7da104d6e5c14ffa826fb0084776071a6cbb06c40ccf27beb524cc86b6b6",
   "claims": [
     {
       "id": "claim_cced16d6ffcc403f88c2e2b84e04310f",
@@ -227,10 +227,34 @@
           "version": "repo-lines-v1:sha256:b13e92f98506b7fa476223062e4ce6c34a4b81ccc6da0d478f78bee1a45c0d29:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjEzZTkyZjk4NTA2YjdmYTQ3NjIyMzA2MmU0Y2U2YzM0YTRiODFjY2M2ZGEwZDQ3OGY3OGJlZTFhNDVjMGQyOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjEzZTkyZjk4NTA2YjdmYTQ3NjIyMzA2MmU0Y2U2YzM0YTRiODFjY2M2ZGEwZDQ3OGY3OGJlZTFhNDVjMGQyOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMWQ5NDU0OWJlYTc0Yjc5YjFlZmRhMjAwYjcyMDU3MDI5NTU1YTc3NzhhZGNkNTIxZmJlNjcxMzgyNDg1YTAzZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMWVhNzAyYzhiODU4YzU4ODA5M2Q3OGQ3NGE4YTI3MzE3MjM3M2NiNTk0MDU2YzdhNzcyYWUzYjBkMjExZDdmMCJ9"
         }
       ]
+    },
+    {
+      "id": "claim_d3df474f43684c59b212177ac5e1c11e",
+      "statement": "The Cilium external Gateway provides HTTPRoute-based routing for cluster services, configured with address 192.168.50.13, HTTP and HTTPS listeners for *.${SECRET_DOMAIN}, and TLS certificate reference for HTTPS termination.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/cilium/gateway/external.yaml",
+          "version": "repo-file-v1:sha256:426b7b64b1da0b8b74c808898ac65e0bd8012c6c6112cb542a5ede5991937bbb"
+        }
+      ]
+    },
+    {
+      "id": "claim_54694eb0a3a247c5a8e351262cfe86bd",
+      "statement": "The Cilium external Gateway automatically syncs DNS records via external-dns annotations, creating A/AAAA records for external.${SECRET_DOMAIN} pointing to the gateway address.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/cilium/gateway/external.yaml#L8-L16",
+          "version": "repo-lines-v1:sha256:b14a69d22eb1d718711b81d13f30eee113349514e945215a70db9c1c16e125f3:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzU0ZmNjNmRlMmVhMjE1ZjZmNzBjMTFkODNjYjhiNGE1Mzg3YWQ0MDZmNzVkYTFjNjhjOTM4NzE0YWEwYTFkMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMTI0ZDJmMTc4MTgxNzVhZTgxYTQyMzdlNDg4YmNjYTVlYzM5NDQyNWVkZDI1MmIxYTYwOTMwNTliOGQ1ZDM2ZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDk5ODM2YjQ5OTAwZTgwNWFlMGJjM2YyODljMGM0MmQwYjNhZjYxMjUyOGVmYjE3YmZjNjUwMWYwOTViYzUzNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMGMzMTE0NmJmZjc4OGNmNjYzNGFkYzQzYjMyOGJiNzZmY2Y0ODBiZTY2OTA0NTRkMjVlYWMwM2EyNjU4MGU4ZiJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-dns/app/helmrelease.yaml#L42-L42",
+          "version": "repo-lines-v1:sha256:bddb2232d63fbd9c48e9ca29d25a77dd5ba39f1e51a0e971db5911e14912c8b6:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYmRkYjIyMzJkNjNmYmQ5YzQ4ZTljYTI5ZDI1YTc3ZGQ1YmEzOWYxZTUxYTBlOTcxZGI1OTExZTE0OTEyYzhiNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYmRkYjIyMzJkNjNmYmQ5YzQ4ZTljYTI5ZDI1YTc3ZGQ1YmEzOWYxZTUxYTBlOTcxZGI1OTExZTE0OTEyYzhiNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODM0ZDRhYjgyOWViZjlkZDgxYjFiNGUzYWY5MjZhZWExZWRiZWFhNjBiOTcxMDM3ZmUyNWU0Mjk5MDg0MjVjZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDMyODUxNzQ5ZGI0ZjcwZTkwNDZhNTg2MTE3ZDAwNDAyNTYwODU1M2VmZThjZDZkZGY4N2Y0MzgwNWFjZGQzMiJ9"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.4.3",
-    "at": "2026-08-30T21:57:36.532Z"
+    "by": "openwiki/0.5.0",
+    "at": "2026-09-01T21:54:26.927Z"
   }
 }

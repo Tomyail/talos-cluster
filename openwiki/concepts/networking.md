@@ -4,8 +4,8 @@ title: Networking Architecture
 description: Layered networking stack comprising Cilium CNI with L2 announcements and Gateway API, Cloudflare Tunnel for secure ingress, Cloudflare DNS and AdGuard DNS integration for external DNS management, k8s-gateway for internal DNS, and Tailscale for VPN and mesh networking.
 tags: [networking, cilium, cloudflare, dns, gateway, tailscale, vpn, ingress]
 verified:
-  - by: openwiki/0.4.3
-    at: 2026-08-31T23:16:37.333Z
+  - by: openwiki/0.5.0
+    at: 2026-09-01T21:54:26.927Z
 sources:
   - id: openwiki-source-514428fb63f74f5cc6fe8c1d
     resource: repo://kubernetes/apps/default/qbittorrent/app/egress-gateway-policy.yaml

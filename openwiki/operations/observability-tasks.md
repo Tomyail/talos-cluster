@@ -1,10 +1,11 @@
 ---
 type: "Reference"
 title: "Observability tasks"
-openwiki_generated: true
+description: "Monitoring and alerting operations: Prometheus queries, Grafana dashboards, log analysis"
+tags: [operations, observability, monitoring, prometheus, grafana, loki, gatus]
 verified:
-  - by: openwiki/0.4.3
-    at: 2026-08-31T23:16:37.333Z
+  - by: openwiki/0.5.0
+    at: 2026-09-01T21:54:26.927Z
 sources:
   - id: openwiki-source-d2d02a4d61439e92fb56846a
     resource: repo://kubernetes/apps/database/cloudnative-pg/cluster/gatus.yaml
@@ -32,9 +33,8 @@ sources:
     resource: repo://kubernetes/apps/observability/loki/app/helmrelease.yaml
   - id: openwiki-source-2823e4e5c3c464dedc647934
     resource: repo://kubernetes/apps/observability/promtail/app/helmrelease.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-31T23:16:37.333Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-01T21:54:26.927Z" }
 ---
-
 
 The observability stack operations center on accessing visualization interfaces, querying metrics and logs, configuring uptime checks, and managing alert routing. This guide covers the practical tasks for operating the integrated Prometheus, Grafana, Loki, and Gatus monitoring infrastructure.
 

@@ -4,8 +4,8 @@ title: Network Operations
 description: Operational procedures for troubleshooting and configuring Cilium CNI connectivity, Cloudflare Tunnel ingress, k8s-gateway DNS resolution, AdGuard DNS filtering, and Tailscale mesh networking services.
 tags: [networking, operations, cilium, cloudflare, dns, tailscale, troubleshooting, configuration]
 verified:
-  - by: openwiki/0.4.3
-    at: 2026-08-31T23:16:37.333Z
+  - by: openwiki/0.5.0
+    at: 2026-09-01T21:54:26.927Z
 sources:
   - id: openwiki-source-d9f5f9eb0be17b72994fcd3e
     resource: repo://kubernetes/apps/kube-system/cilium/app/helm/values.yaml

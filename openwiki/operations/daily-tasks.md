@@ -4,8 +4,8 @@ title: Daily Tasks Reference
 description: Quick reference for routine operational tasks including checking cluster status, reconciling Flux resources, applying Talos configs, managing nodes, working with VolSync backups, and accessing logs.
 tags: [operations, runbook, maintenance, troubleshooting]
 verified:
-  - by: openwiki/0.4.3
-    at: 2026-08-31T23:16:37.333Z
+  - by: openwiki/0.5.0
+    at: 2026-09-01T21:54:26.927Z
 sources:
   - id: openwiki-source-6d4b4e707b8d60b6ccfa3425
     resource: repo://.github/workflows/openwiki-update.yml

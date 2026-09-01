@@ -4,6 +4,8 @@ title: Cloudflare Integration
 description: Cloudflare services integration providing secure ingress through Cloudflare Tunnel and automated DNS management via external-dns with DNSEndpoint resources for Kubernetes service discovery.
 tags: [cloudflare, tunnel, dns, external-dns, ingress, networking]
 sources:
+  - id: openwiki-source-406c92f3368aa84a28fbd72b
+    resource: repo://kubernetes/apps/kube-system/cilium/gateway/external.yaml
   - id: openwiki-source-fbe6d672adfac057cabd78a2
     resource: repo://kubernetes/apps/network/cloudflare-dns/app/helmrelease.yaml
   - id: openwiki-source-eff5aacfec724ad36af18616
@@ -18,10 +20,10 @@ sources:
     resource: repo://kubernetes/apps/network/cloudflare-tunnel/app/resources/config.yaml
   - id: openwiki-source-9ee916fcf53ea3aeec3babe0
     resource: repo://kubernetes/apps/network/cloudflare-tunnel/app/secret.sops.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-29T21:52:21.026Z" }
 verified:
-  - by: openwiki/0.4.3
-    at: 2026-08-30T21:57:36.532Z
+  - by: openwiki/0.5.0
+    at: 2026-09-01T21:54:26.927Z
+generated: { by: "openwiki/0.5.0", at: "2026-09-01T21:54:26.927Z" }
 ---
 
 # Cloudflare Integration
@@ -57,7 +59,7 @@ flowchart TD
 
 ### Cloudflare Tunnel (cloudflared)
 
-Cloudflare Tunnel provides secure inbound connectivity to the cluster without exposing ports to the internet. The tunnel runs as a DaemonSet using `cloudflared` containers that establish outbound connections to Cloudflare's edge network.
+Cloudflare Tunnel provides secure inbound connectivity to the cluster without exposing ports to the internet. The tunnel runs as a Deployment using `cloudflared` containers that establish outbound connections to Cloudflare's edge network.
 
 **Deployment:** `kubernetes/apps/network/cloudflare-tunnel/app/helmrelease.yaml`
 
@@ -168,6 +170,21 @@ This DNSEndpoint creates a CNAME record pointing the external domain to the Clou
 - **A:** IPv4 address records
 - **AAAA:** IPv6 address records
 - **TXT:** Verification and metadata records
+
+### Cilium External Gateway
+
+The Cloudflare Tunnel terminates at the Cilium external Gateway, which provides HTTPRoute-based routing to cluster services.
+
+**Gateway Configuration:** `kubernetes/apps/kube-system/cilium/gateway/external.yaml`
+
+**Gateway Details:**
+- **Name:** `external`
+- **Address:** `192.168.50.13` (LoadBalancer IP from L2 announcement pool)
+- **Listeners:** HTTP (port 80) and HTTPS (port 443) for `*.${SECRET_DOMAIN}`
+- **Route Namespaces:** HTTP routes accepted from all namespaces, HTTPS routes from all namespaces
+- **TLS Certificate:** References `${SECRET_DOMAIN/./-}-production-tls` Secret for HTTPS termination
+
+The Gateway automatically syncs DNS records via external-dns annotations, creating A/AAAA records for `external.${SECRET_DOMAIN}` pointing to the gateway address.
 
 ## Request Flow
 

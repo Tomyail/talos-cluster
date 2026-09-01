@@ -1,18 +1,16 @@
 ---
 type: concept
-title: Flux GitOps Architecture
-description: Three-tier Flux reconciliation hierarchy from cluster-meta through cluster-apps to namespace-level Kustomizations, including SOPS decryption, postBuild substitution, and dependency ordering via dependsOn.
-tags: [flux, gitops, kustomization, reconciliation, sops, dependencies]
+title: Flux GitOps Workflow
+description: Day-to-day GitOps workflow including making application changes, the reconciliation loop, automated dependency updates via Renovate, and dependency ordering through dependsOn.
+tags: [flux, gitops, workflow, reconciliation, renovate, dependencies]
 verified:
-  - by: openwiki/0.4.3
-    at: 2026-08-31T23:16:37.333Z
+  - by: openwiki/0.5.0
+    at: 2026-09-01T21:54:26.927Z
 sources:
   - id: openwiki-source-240e6406ed4b6841961679cb
     resource: repo://.sops.yaml
   - id: openwiki-source-559185c7613d95e269ebce5b
     resource: repo://kubernetes/apps/cert-manager/cert-manager/ks.yaml
-  - id: openwiki-source-54887d3506bd4aec59c1b5dd
-    resource: repo://kubernetes/apps/cert-manager/kustomization.yaml
   - id: openwiki-source-d6f15e9bcc98024fdcda7d87
     resource: repo://kubernetes/apps/kube-system/cilium/ks.yaml
   - id: openwiki-source-47282df10449a6bce110950c
@@ -21,349 +19,103 @@ sources:
     resource: repo://kubernetes/components/common/sops/sops-age.sops.yaml
   - id: openwiki-source-0696023deccf378a358f7526
     resource: repo://kubernetes/flux/cluster/ks.yaml
-  - id: openwiki-source-fa7f31fb6ce67b322c8fb954
-    resource: repo://kubernetes/flux/meta/kustomization.yaml
-  - id: openwiki-source-f18a66278555579001f4dec6
-    resource: repo://kubernetes/flux/meta/repos/bitnami.yaml
-  - id: openwiki-source-77a1886377e2049c2c5b7b3a
-    resource: repo://kubernetes/flux/meta/repos/external-dns.yaml
-  - id: openwiki-source-2b0d1261d82082fced240caa
-    resource: repo://kubernetes/flux/meta/repos/gateway-api.yaml
-  - id: openwiki-source-12a44dba301e86ea2cf62628
-    resource: repo://kubernetes/flux/meta/repos/kustomization.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-31T23:16:37.333Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-01T21:54:26.927Z" }
 ---
 
-# Flux GitOps Architecture
+# Flux GitOps Workflow
 
-The Flux GitOps architecture implements a three-tier reconciliation hierarchy that manages cluster infrastructure sources, application namespaces, and individual workloads. This design enables ordered deployment, secret decryption, and environment-specific configuration across the entire cluster.
+The Flux GitOps workflow defines how cluster configuration changes move from development to production. This document explains the day-to-day workflow for making changes, how reconciliation works, automated dependency management via Renovate, and how Flux ensures correct deployment ordering through dependencies.
 
-## Reconciliation Hierarchy
+## Workflow Overview
 
-<!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
-```text
-flowchart TD
-    subgraph Tier1["Tier 1: Cluster Sources"]
-        A[cluster-meta<br/>kubernetes/flux/cluster/ks.yaml]
-        B[HelmRepository sources]
-        C[GitRepository sources]
-        D[sops-age secret]
-    end
+```mermaid
+flowchart LR
+    A["Developer makes change"] --> B["Commit to Git"]
+    B --> C["Push to main branch"]
+    C --> D["Flux detects change"]
+    D --> E["Reconciliation starts"]
+    E --> F["cluster-meta reconciles"]
+    F --> G["CRD Kustomizations reconcile"]
+    G --> H["cluster-apps reconciles"]
+    H --> I["Namespace Kustomizations reconcile"]
+    I --> J["Application Kustomizations reconcile"]
+    J --> K["Resources applied to cluster"]
+    K --> L["Health checks pass"]
+    L --> M["Kustomization ready"]
     
-    subgraph Tier2["Tier 2: CRD Prerequisites"]
-        E[gateway-api-crds]
-        F[external-dns-crds]
-    end
+    N["Renovate scans dependencies"] --> O["Creates PR with updates"]
+    O --> P["Merge after approval"]
+    P --> B
     
-    subgraph Tier3["Tier 3: Applications"]
-        G[cluster-apps<br/>kubernetes/flux/cluster/ks.yaml]
-        H[kube-system/ks.yaml]
-        I[network/ks.yaml]
-        J[storage/ks.yaml]
-        K[database/ks.yaml]
-        L[cert-manager/ks.yaml]
-        M[observability/ks.yaml]
-        N[default/ks.yaml]
-    end
-    
-    subgraph Tier4["Tier 4: App Kustomizations"]
-        O[cilium/ks.yaml]
-        P[coredns/ks.yaml]
-        Q[cloudflare-tunnel/ks.yaml]
-        R[external-dns/ks.yaml]
-    end
-    
-    A --> B
-    A --> C
-    A --> D
-    A --> E
-    A --> F
-    A --> G
-    E --> G
-    F --> G
-    G --> H
-    G --> I
-    G --> J
-    G --> K
-    G --> L
-    G --> M
-    G --> N
-    H --> O
-    H --> P
-    I --> Q
-    I --> R
-    
-    style Tier1 fill:#e3f2fd
-    style Tier2 fill:#fff3e0
-    style Tier3 fill:#e8f5e9
-    style Tier4 fill:#fce4ec
+    Q["ImageUpdateAutomation runs"] --> R["Scans container registry"]
+    R --> S["Updates image tags in Git"]
+    S --> B
 ```
 
-*Figure: Four-tier Flux reconciliation hierarchy showing dependency flow from cluster sources through namespace Kustomizations to individual applications*
+*Figure: Flux GitOps workflow showing manual changes, automated Renovate updates, and image automation flowing through reconciliation*
 
-## Tier 1: Cluster Meta (Sources)
+## Making Application Changes
 
-The `cluster-meta` Kustomization deploys all source definitions and decryption infrastructure required by applications.
+### Change Flow
 
-**Kustomization Definition** (`kubernetes/flux/cluster/ks.yaml#L1-L24`)
-- **name**: `cluster-meta`
-- **namespace**: `flux-system`
-- **path**: `./kubernetes/flux/meta`
-- **decryption**: SOPS provider with `sops-age` secret
-- **interval**: 1 hour
-- **wait**: true (ensures sources are ready before proceeding)
+When you modify application configuration in the `kubernetes/apps/` directory, the following sequence occurs:
 
-### Source Resources
+1. **Commit and Push**: Changes are committed to Git and pushed to the main branch
+2. **Flux Detection**: The Flux GitRepository source (defined during bootstrap) detects the new commit via its polling interval
+3. **Reconciliation Trigger**: Flux evaluates which Kustomizations are affected by the commit
+4. **Dependency Chain**: Changes flow through the dependency hierarchy, respecting `dependsOn` constraints
+5. **Application**: Resources are applied to the cluster, health checks run, and the Kustomization marks ready
 
-The cluster-meta tier includes HelmRepository and GitRepository sources defined in `kubernetes/flux/meta/repos/`:
+### Manual Change Example
 
-**HelmRepository Examples**:
-- **bitnami** (`kubernetes/flux/meta/repos/bitnami.yaml#L1-L11`) - OCI chart repository at `registry-1.docker.io/bitnamicharts`
-- **external-dns** (`kubernetes/flux/meta/repos/external-dns.yaml#L1-L10`) - HTTPS repository at `https://kubernetes-sigs.github.io/external-dns`
-- **bitwarden-eso-provider** (`kubernetes/flux/meta/repos/bitwarden-eso.yaml#L1-L12`) - Raw GitHub pages repository for Bitwarden External Secrets Operator
+To update an application's Helm values:
 
-**GitRepository Example**:
-- **gateway-api** (`kubernetes/flux/meta/repos/gateway-api.yaml#L1-L18`) - Kubernetes Gateway API CRDs from GitHub, tag v1.6.1, experimental CRD directory only
+```bash
+# Edit the values file
+vim kubernetes/apps/default/myapp/app/helm/values.yaml
 
-All sources are deployed to the `flux-system` namespace with hardcoded namespace references to support Renovate lookups (noted in `kubernetes/flux/cluster/ks.yaml#L21`).
-
-## Tier 2: CRD Prerequisites
-
-Before applications can deploy, Custom Resource Definitions must be installed. These are managed as separate Kustomizations that depend on cluster-meta.
-
-### Gateway API CRDs
-
-**Kustomization** (`kubernetes/flux/cluster/ks.yaml#L25-L44`)
-- **name**: `gateway-api-crds`
-- **sourceRef**: GitRepository `gateway-api` (from cluster-meta)
-- **path**: `./config/crd/experimental`
-- **dependsOn**: `cluster-meta`
-- **timeout**: 5 minutes (CRD installation can be slow)
-
-### External DNS CRDs
-
-**Kustomization** (`kubernetes/flux/cluster/ks.yaml#L46-L65`)
-- **name**: `external-dns-crds`
-- **sourceRef**: GitRepository `external-dns-crds` (from cluster-meta)
-- **path**: `./config/crd/standard`
-- **dependsOn**: `cluster-meta`
-- **timeout**: 5 minutes
-
-These CRD Kustomizations ensure that custom resources are available before applications attempt to use them.
-
-## Tier 3: Cluster Apps (Namespaces)
-
-The `cluster-apps` Kustomization reconciles all namespace-level Kustomizations under `kubernetes/apps/`.
-
-**Kustomization Definition** (`kubernetes/flux/cluster/ks.yaml#L67-L94`)
-- **name**: `cluster-apps`
-- **path**: `./kubernetes/apps`
-- **decryption**: SOPS provider with `sops-age` secret
-- **dependsOn**: 
-  - `cluster-meta`
-  - `gateway-api-crds`
-  - `external-dns-crds`
-- **interval**: 1 hour
-- **timeout**: 5 minutes
-- **wait**: true
-
-### Namespace Structure
-
-Each namespace directory under `kubernetes/apps/` contains a `kustomization.yaml` that references application Kustomizations:
-
-**Example Pattern** (`kubernetes/apps/cert-manager/kustomization.yaml#L1-L9`)
-```yaml
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-namespace: cert-manager
-components:
-  - ../../components/common
-resources:
-  - ./cert-manager/ks.yaml
+# Commit and push
+git add kubernetes/apps/default/myapp/app/helm/values.yaml
+git commit -m "feat(myapp): increase replica count"
+git push
 ```
 
-**Common Components**:
-- `../../components/common` injects shared resources including namespace definitions, HelmRepository sources, and SOPS secrets
+Flux automatically detects the push and begins reconciliation within its configured interval.
 
-The cluster-apps Kustomization scans all namespace directories and creates child Kustomizations for each application.
+## Reconciliation Loop
 
-## Tier 4: Application Kustomizations
+### Reconciliation Intervals
 
-Individual applications are defined as Flux Kustomizations with standardized configuration.
+Each Kustomization defines how frequently it checks for changes:
 
-### Application Kustomization Pattern
-
-**Example: Cilium** (`kubernetes/apps/kube-system/cilium/ks.yaml#L1-L31`)
-```yaml
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: &app cilium
-  namespace: &namespace kube-system
-spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age
-  interval: 1h
-  path: ./kubernetes/apps/kube-system/cilium/app
-  postBuild:
-    substituteFrom:
-      - name: cluster-secrets
-        kind: Secret
-  prune: true
-  retryInterval: 2m
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-    namespace: flux-system
-  targetNamespace: *namespace
-  timeout: 5m
-  wait: true
-```
-
-### Key Configuration Elements
-
-**Common Metadata** (`kubernetes/apps/kube-system/cilium/ks.yaml#L9-L11`)
-- Adds `app.kubernetes.io/name` label to all resources for consistent identification
-
-**Decryption** (`kubernetes/apps/kube-system/cilium/ks.yaml#L12-L15`)
-- SOPS provider references `sops-age` secret for in-cluster decryption of encrypted manifests
-
-**postBuild Substitution** (`kubernetes/apps/kube-system/cilium/ks.yaml#L18-L21`)
-- Injects cluster-wide configuration from `cluster-secrets` Secret into manifests after Kustomize builds
-
-**Prune** (`kubernetes/apps/kube-system/cilium/ks.yaml#L22`)
-- Enabled garbage collection removes resources when deleted from Git
-
-**Wait** (`kubernetes/apps/kube-system/cilium/ks.yaml#L30`)
-- Ensures resources are healthy before marking the Kustomization ready
-
-## Dependency Ordering
-
-Flux uses the `dependsOn` field to create installation order across Kustomizations.
-
-### Namespace-Level Dependencies
-
-**Example: Cilium Gateway** (`kubernetes/apps/kube-system/cilium/ks.yaml#L46-L48`)
-```yaml
-dependsOn:
-  - name: cert-manager
-    namespace: cert-manager
-```
-
-This ensures cert-manager is available before Cilium Gateway (which uses cert-manager for TLS certificate management).
-
-### Cluster-Level Dependencies
-
-The `cluster-apps` Kustomization depends on CRD installation completing (`kubernetes/flux/cluster/ks.yaml#L78-L84`):
-```yaml
-dependsOn:
-  - name: cluster-meta
-    namespace: flux-system
-  - name: gateway-api-crds
-    namespace: flux-system
-  - name: external-dns-crds
-    namespace: flux-system
-```
-
-This dependency chain ensures:
-1. Sources and decryption infrastructure are ready (cluster-meta)
-2. CRDs are installed (gateway-api-crds, external-dns-crds)
-3. Applications can deploy successfully (cluster-apps)
-
-## SOPS Decryption
-
-Flux decrypts SOPS-encrypted secrets in-cluster using the `sops-age` Secret.
-
-### sops-age Secret
-
-**Secret Definition** (`kubernetes/components/common/sops/sops-age.sops.yaml#L1-L22`)
-- **name**: `sops-age`
-- **field**: `age.agekey` contains the age private key
-- **encryption**: Encrypted in Git using the cluster's age public key
-- **decryption**: Flux decrypts this secret during cluster-meta reconciliation
-
-### Decryption Flow
-
-1. **Bootstrap**: `sops-age.sops.yaml` is decrypted and applied during `task bootstrap:apps` (`scripts/bootstrap-apps.sh#L60-L64`)
-2. **Runtime**: Flux Kustomizations reference the decrypted secret via `decryption.provider.sops` and `secretRef.name.sops-age`
-3. **Manifest Decryption**: When reconciling, Flux decrypts any `*.sops.yaml` files in the Kustomization path using the age key
-
-**Example Usage** (`kubernetes/apps/kube-system/cilium/ks.yaml#L12-L15`):
-```yaml
-decryption:
-  provider: sops
-  secretRef:
-    name: sops-age
-```
-
-### Encryption Rules
-
-SOPS configuration (`.sops.yaml#L6-L9`) defines encryption for Kubernetes secrets:
-- **Pattern**: `(bootstrap|kubernetes)/.*\.sops\.ya?ml`
-- **Fields**: Only `data` and `stringData` are encrypted (`encrypted_regex`)
-- **Recipient**: `age1shkd7fsr66cnpkutpmpf7ffylcc2x4c9tlsdkapv6nmu5ceu0dzqdjtqc5`
-- **mac_only_encrypted**: Preserves YAML structure for Git readability
-
-## postBuild Variable Substitution
-
-The `postBuild.substituteFrom` mechanism injects cluster-wide configuration into application manifests without requiring per-application secrets.
-
-### cluster-secrets Secret
-
-**Secret Definition** (`kubernetes/components/common/sops/cluster-secrets.sops.yaml#L1-L23`)
-- **name**: `cluster-secrets`
-- **fields**: Environment values like `SECRET_DOMAIN`, `TIMEZONE`
-- **encryption**: SOPS-encrypted `stringData` fields
-- **usage**: Referenced by application Kustomizations for substitution
-
-### Substitution Pattern
-
-**Example** (`kubernetes/apps/kube-system/cilium/ks.yaml#L18-L21`):
-```yaml
-postBuild:
-  substituteFrom:
-    - name: cluster-secrets
-      kind: Secret
-```
-
-During reconciliation:
-1. Flux reads the `cluster-secrets` Secret
-2. Replaces variables in manifests (e.g., `${SECRET_DOMAIN}`)
-3. Applies substituted manifests to the cluster
-
-This pattern enables environment-specific configuration without duplicating secrets across applications.
-
-## Reconciliation Behavior
-
-Each Kustomization tier has defined reconciliation intervals and retry behavior.
-
-### Standard Configuration
-
-**interval**: 1 hour
+**Standard Interval**: 1 hour (`kubernetes/flux/cluster/ks.yaml#L13`, `kubernetes/apps/default/paperless/ks.yaml#L36`)
 - Cluster-meta, cluster-apps, and most applications reconcile hourly
+- On-demand reconciliation occurs immediately when Git changes are detected
 
-**retryInterval**: 2 minutes
-- Failed reconciliations retry every 2 minutes
+**Retry Interval**: 2 minutes (`kubernetes/flux/cluster/ks.yaml#L16`, `kubernetes/apps/default/paperless/ks.yaml#L37`)
+- Failed reconciliations retry every 2 minutes with exponential backoff
 
-**timeout**: 5 minutes
-- Most applications timeout after 5 minutes
+**Timeout**: 5 minutes (`kubernetes/flux/cluster/ks.yaml#L93`, `kubernetes/apps/default/paperless/ks.yaml#L38`)
+- Reconciliation operations timeout after 5 minutes
+- CRD installations use extended timeouts (5 minutes) to accommodate slow API server operations
 
-**wait**: true
-- Kustomizations wait for resources to be healthy before marking ready
+### Health Assurance
 
-**prune**: true
-- Resources deleted from Git are garbage collected from the cluster
+Flux waits for resources to become healthy before marking Kustomizations ready:
 
-### Health Checks
+**Wait Behavior** (`kubernetes/flux/cluster/ks.yaml#L23`, `kubernetes/apps/default/paperless/ks.yaml#L35`)
+- `wait: true` ensures Flux waits for all resources to be ready
+- Only applies to resources created by the Kustomization
+- Prevents cascading failures from incomplete deployments
 
-Some applications define explicit health checks beyond waiting for resource readiness:
+**Prune Behavior** (`kubernetes/flux/cluster/ks.yaml#L15`, `kubernetes/apps/default/paperless/ks.yaml#L34`)
+- `prune: true` enables garbage collection
+- Resources deleted from Git are removed from the cluster
+- Applies only to resources managed by the Kustomization
 
-**Example: cert-manager** (`kubernetes/apps/cert-manager/cert-manager/ks.yaml#L16-L28`)
+**Explicit Health Checks** (`kubernetes/apps/cert-manager/cert-manager/ks.yaml#L16-L28`)
+Complex applications may define explicit health checks:
+
 ```yaml
 healthChecks:
   - apiVersion: helm.toolkit.fluxcd.io/v2
@@ -380,10 +132,257 @@ healthCheckExprs:
     current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')
 ```
 
-This ensures the ClusterIssuer is ready before marking the Kustomization healthy.
+This ensures not only that resources exist, but that they're actually ready to serve traffic.
+
+## Automated Dependency Updates
+
+### Renovate Integration
+
+Renovate automatically updates dependencies across the cluster configuration. It scans the repository for:
+
+- **Container images** in Helm values and YAML files (`.renovaterc.json5#L25-L27`)
+- **Helm charts** referenced in HelmRepository and HelmRelease resources (`.renovaterc.json5#L19-L21`)
+- **Kubernetes manifests** with inline image references (`.renovaterc.json5#L25-L27`)
+- **GitHub Actions** in workflow files (`.renovaterc.json5#L70-L76`)
+- **Custom annotations** in any YAML file (`.renovaterc.json5#L206-L228`)
+
+**Schedule**: Runs every weekend (`.renovaterc.json5#L14`)
+
+**Exclusions**: Core infrastructure components are excluded from auto-merge to prevent destabilizing the cluster (`.renovaterc.json5#L163-L199`)
+
+### Auto-Merge Rules
+
+Certain updates are automatically merged after a stabilization period:
+
+**GitHub Actions** (`.renovaterc.json5#L69-L76`)
+- Minor, patch, and digest updates auto-merge after 3 days
+- Tests are ignored for GitHub Actions updates
+
+**Mise Tools** (`.renovaterc.json5#L77-L84`)
+- Minor and patch updates auto-merge
+- Tests are ignored
+
+**Application Updates** (`.renovaterc.json5#L161-L204`)
+- Non-major updates auto-merge for most applications
+- Core infrastructure (Cilium, cert-manager, storage, databases) requires manual approval
+
+### Semantic Commit Convention
+
+Renovate uses semantic commits to indicate update severity (`.renovaterc.json5#L86-L131`):
+
+- **Major updates**: `feat(helm)!: cert-manager (v1.12.0 → v2.0.0)`
+- **Minor updates**: `feat(helm): cert-manager (v1.12.0 → v1.13.0)`
+- **Patch updates**: `fix(container): redis (7.0.0 → 7.0.1)`
+- **Digest updates**: `chore(container): redis (abc123 → def456)`
+
+Labels are applied automatically for filtering:
+- `type/major`, `type/minor`, `type/patch` for update severity
+- `renovate/container`, `renovate/helm`, `renovate/github-action` for dependency type
+
+### Image Automation
+
+Flux provides built-in image update automation that scans container registries and updates image tags in Git:
+
+**ImageUpdateAutomation** (`kubernetes/apps/flux-system/image-automation/automation.yaml#L1-L28`)
+- Scans registries every 5 minutes
+- Uses the Setters strategy to update image tags in `./kubernetes/apps/default`
+- Commits changes as `flux-bot`
+- Updates only resources with ImagePolicies labeled `image-automation: enabled`
+
+This works alongside Renovate: Renovate updates chart versions and pinned images, while ImageUpdateAutomation handles automated image tag policies.
+
+## Dependency Management
+
+### Dependency Ordering
+
+Flux uses the `dependsOn` field to enforce correct deployment order across Kustomizations.
+
+### Cluster-Level Dependencies
+
+The `cluster-apps` Kustomization depends on infrastructure prerequisites (`kubernetes/flux/cluster/ks.yaml#L78-L84`):
+
+```yaml
+dependsOn:
+  - name: cluster-meta
+    namespace: flux-system
+  - name: gateway-api-crds
+    namespace: flux-system
+  - name: external-dns-crds
+    namespace: flux-system
+```
+
+This ensures:
+1. Sources and decryption infrastructure are ready (cluster-meta)
+2. CRDs are installed before applications use them (gateway-api-crds, external-dns-crds)
+3. Application reconciliation only begins after prerequisites are satisfied
+
+### Application-Level Dependencies
+
+Individual applications declare dependencies on other namespaces or applications.
+
+**Example: Paperless** (`kubernetes/apps/default/paperless/ks.yaml#L16-L24`)
+
+```yaml
+dependsOn:
+  - name: topolvm
+    namespace: storage
+  - name: external-secrets
+    namespace: external-secrets
+  - name: cloudnative-pg-cluster
+    namespace: database
+  - name: dragonfly-cluster
+    namespace: database
+```
+
+This dependency chain ensures:
+- Storage provisioner (topolvm) is available before creating PVCs
+- External Secrets Operator can create secrets before application starts
+- Databases are ready before application attempts connections
+
+**Example: Cilium Gateway** (`kubernetes/apps/kube-system/cilium/ks.yaml#L46-L48`)
+
+```yaml
+dependsOn:
+  - name: cert-manager
+    namespace: cert-manager
+```
+
+Cilium Gateway depends on cert-manager for TLS certificate management.
+
+### Dependency Resolution
+
+Flux evaluates dependencies in the following order:
+
+1. **Namespace Resolution**: All Kustomizations in the same namespace are considered
+2. **Cross-Namespace Dependencies**: Kustomizations can depend on resources in other namespaces by specifying the namespace field
+3. **Transitive Dependencies**: Flux automatically handles transitive dependencies through the dependency graph
+4. **Parallel Execution**: Kustomizations without dependencies on each other run in parallel
+5. **Failed Dependencies**: If a dependency fails to become ready, dependent Kustomizations wait indefinitely
+
+### Debugging Dependency Issues
+
+When a Kustomization is stuck waiting for dependencies:
+
+1. Check the dependency Kustomization's status: `kubectl get kustomization <dependency-name> -n <namespace> -o yaml`
+2. Inspect the dependent Kustomization's conditions: `kubectl get kustomization <app-name> -n <namespace> -o yaml`
+3. Look for `DependenciesNotReady` conditions in the status
+4. Verify all dependencies are reporting `Ready: true` in their status
+
+## Reconciliation Behavior
+
+### Common Metadata
+
+All application Kustomizations apply common labels for consistent resource identification (`kubernetes/apps/kube-system/cilium/ks.yaml#L9-L11`):
+
+```yaml
+commonMetadata:
+  labels:
+    app.kubernetes.io/name: cilium
+```
+
+This labels all resources managed by the Kustomization, making it easy to query and filter.
+
+### Secret Decryption
+
+Flux decrypts SOPS-encrypted secrets in-cluster during reconciliation (`kubernetes/apps/default/paperless/ks.yaml#L25-L28`):
+
+```yaml
+decryption:
+  provider: sops
+  secretRef:
+    name: sops-age
+```
+
+The decryption process:
+1. Flux reads the `sops-age` Secret from the cluster (deployed during bootstrap)
+2. Uses the age private key to decrypt any `*.sops.yaml` files in the Kustomization path
+3. Applies the decrypted manifests to the cluster
+
+### Variable Substitution
+
+The `postBuild.substituteFrom` mechanism injects cluster-wide configuration (`kubernetes/apps/default/paperless/ks.yaml#L39-L42`):
+
+```yaml
+postBuild:
+  substituteFrom:
+    - name: cluster-secrets
+      kind: Secret
+```
+
+During reconciliation:
+1. Flux reads the `cluster-secrets` Secret from the cluster
+2. Replaces variables like `${SECRET_DOMAIN}` and `${TIMEZONE}` in manifests
+3. Applies the substituted manifests to the cluster
+
+This enables environment-specific configuration without duplicating secrets across applications.
+
+### Additional Substitutions
+
+Applications can define additional substitutions for app-specific values (`kubernetes/apps/default/paperless/ks.yaml#L43-L44`):
+
+```yaml
+postBuild:
+  substitute:
+    APP: paperless
+    VOLSYNC_CAPACITY: 5Gi
+```
+
+These variables are replaced alongside cluster-secrets during the postBuild phase.
+
+## Troubleshooting
+
+### Common Issues
+
+**Kustomization Not Reconciling**
+
+Check the GitRepository source is syncing:
+```bash
+kubectl get gitrepository flux-system -n flux-system
+```
+
+Look for `Ready: True` in conditions.
+
+**Dependency Stuck Waiting**
+
+Check the dependency Kustomization status:
+```bash
+kubectl get kustomization <dependency-name> -n <namespace>
+```
+
+Look for `DependenciesNotReady` or failed conditions.
+
+**Secret Decryption Failure**
+
+Verify the sops-age secret exists and is valid:
+```bash
+kubectl get secret sops-age -n flux-system
+```
+
+Check that the age key in the secret matches the recipient in `.sops.yaml`.
+
+**Health Check Timeout**
+
+For complex applications with slow startup (like databases), consider:
+- Increasing the `timeout` value
+- Adding explicit `healthChecks` for critical resources
+- Checking application logs for startup issues
+
+### Monitoring Reconciliation
+
+Watch reconciliation in real-time:
+```bash
+# Watch all Kustomizations
+kubectl get kustomizations -A -w
+
+# Watch specific namespace
+kubectl get kustomizations -n flux-system -w
+
+# Check reconciliation events
+kubectl get events -n <namespace> --field-selector reason=ReconciliationFailed
+```
 
 ## Related Pages
 
-- [Bootstrap Flow](/openwiki/architecture/bootstrap-flow.md) - Initial cluster setup and Flux handoff
-- [Namespace and Application Organization](/openwiki/architecture/namespace-structure.md) - Application structure under `kubernetes/apps/`
+- [Flux GitOps Architecture](/openwiki/concepts/flux-architecture.md) - Detailed reconciliation hierarchy and Kustomization structure
+- [Application Deployment Workflow](/openwiki/workflows/app-deployment.md) - Application deployment patterns and app-template usage
 - [Secrets Management](/openwiki/concepts/secrets-management.md) - SOPS encryption and External Secrets Operator integration

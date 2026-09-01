@@ -4,8 +4,8 @@ title: Hardware and GPU Support
 description: Intel GPU device plugin setup, node feature discovery for hardware labeling, kernel module configuration, and troubleshooting GPU device scheduling on Talos nodes.
 tags: [gpu, intel, node-feature-discovery, device-plugins, kernel-modules, hardware, i915, talos]
 verified:
-  - by: openwiki/0.4.3
-    at: 2026-08-31T23:16:37.333Z
+  - by: openwiki/0.5.0
+    at: 2026-09-01T21:54:26.927Z
 sources:
   - id: openwiki-source-10a427d1c9a038382e77db80
     resource: repo://kubernetes/apps/kube-system/intel-device-plugin-operator/app/helmrelease.yaml
@@ -19,7 +19,7 @@ sources:
     resource: repo://kubernetes/apps/kube-system/node-feature-discovery/ks.yaml
   - id: openwiki-source-1fd71dc29915917549048436
     resource: repo://talos/talconfig.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-31T23:16:37.333Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-01T21:54:26.927Z" }
 ---
 
 # Hardware and GPU Support
@@ -28,20 +28,19 @@ The cluster supports specialized hardware through Intel GPU device plugins, Node
 
 ## Architecture Overview
 
-<!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
-```text
+```mermaid
 flowchart TB
-    A[Talos Node<br/>Intel GPU Hardware] --> B[i915 Kernel Module]
-    B --> C[GPU Device Files<br/>/dev/dri/renderD*]
-    C --> D[Intel Device Plugin Operator]
-    D --> E[GpuDevicePlugin CRD<br/>i915 instance]
-    E --> F[Kubelet Device Manager]
+    A["Talos Node - Intel GPU Hardware"] --> B["i915 Kernel Module"]
+    B --> C["GPU Device Files - /dev/dri/renderD*"]
+    C --> D["Intel Device Plugin Operator"]
+    D --> E["GpuDevicePlugin CRD - i915 instance"]
+    E --> F["Kubelet Device Manager"]
     
-    A --> G[Node Feature Discovery<br/>NFD Daemon]
-    G --> H[NFD Master]
-    H --> I[Node Labels<br/>intel.feature.node.kubernetes.io/gpu]
+    A --> G["Node Feature Discovery - NFD Daemon"]
+    G --> H["NFD Master"]
+    H --> I["Node Labels - intel.feature.node.kubernetes.io/gpu"]
     
-    F --> J[Pod Scheduling<br/>nodeSelector & limits]
+    F --> J["Pod Scheduling - nodeSelector and limits"]
     I --> J
 ```
 
@@ -167,7 +166,7 @@ The label `intel.feature.node.kubernetes.io/gpu: "true"` is applied to nodes wit
 
 ## Pod Scheduling with GPUs
 
-Workflows requiring GPU acceleration use node selectors and resource limits to schedule on GPU-enabled nodes:
+Workloads requiring GPU acceleration use node selectors and resource limits to schedule on GPU-enabled nodes:
 
 ```yaml
 apiVersion: v1
@@ -190,6 +189,17 @@ spec:
 2. **Resource Limit**: Requests GPU device through the device plugin registered with Kubelet
 3. **Device Allocation**: Kubelet assigns GPU device access to the pod container
 
+## Example Workloads
+
+Several applications in the cluster utilize Intel GPU acceleration:
+
+- **Jellyfin**: Media transcoding with hardware acceleration (`kubernetes/apps/default/jellyfin/app/helmrelease.yaml#L60`)
+- **Webtop**: Desktop environment with GPU-accelerated graphics (`kubernetes/apps/default/webtop/app/helmrelease.yaml#L41`)
+- **Paper**: Document processing with GPU support (`kubernetes/apps/default/paper/app/helmrelease.yaml#L59`)
+- **Playwright**: Browser automation with GPU acceleration (`kubernetes/apps/default/playwright/app/helmrelease.yaml#L41`)
+
+These workloads specify `gpu.intel.com/i915: 1` in their resource limits and rely on the GPU node label for scheduling.
+
 ## Troubleshooting
 
 ### Verifying GPU Availability
@@ -201,7 +211,7 @@ kubectl get gpus deviceplugin.intel.com i915 -n kube-system
 kubectl describe node <node-name> | grep -i gpu
 ```
 
-**Health Checks** (`kubernetes/apps/kube-system/intel-device-plugin-operator/ks.yaml#L46-L53`):
+**Health Checks** (`kubernetes/apps/kube-system/intel-device-plugin-operator/ks.yaml#L49-L53`):
 
 Flux monitors the `GpuDevicePlugin` status, checking that `status.numberReady` matches `status.desiredNumberScheduled`.
 

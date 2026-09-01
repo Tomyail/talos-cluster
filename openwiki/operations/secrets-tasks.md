@@ -4,8 +4,8 @@ title: Secrets Operations
 description: Operational procedures for managing encrypted secrets including SOPS editing workflows, age key rotation, cluster-secrets variable substitution, and Flux decryption troubleshooting.
 tags: [secrets, sops, age, operations, encryption, troubleshooting]
 verified:
-  - by: openwiki/0.4.3
-    at: 2026-08-31T23:16:37.333Z
+  - by: openwiki/0.5.0
+    at: 2026-09-01T21:54:26.927Z
 sources:
   - id: openwiki-source-240e6406ed4b6841961679cb
     resource: repo://.sops.yaml
@@ -29,7 +29,7 @@ sources:
     resource: repo://scripts/bootstrap-apps.sh
   - id: openwiki-source-8ebb66a039d2620270b0a36c
     resource: repo://talos/talsecret.sops.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-31T23:16:37.333Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-01T21:54:26.927Z" }
 ---
 
 # Secrets Operations
@@ -138,13 +138,12 @@ stringData:
 
 ### Variable Substitution Flow
 
-<!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
-```text
+```mermaid
 flowchart LR
-    A["cluster-secrets.sops.yaml<br/>Git encrypted"] --> B["Flux Kustomization<br/>decryption"]
-    B --> C["cluster-secrets Secret<br/>Kubernetes decrypted"]
-    C --> D["postBuild.substituteFrom<br/>Kustomization resources"]
-    D --> E["Application manifests<br/>with substituted values"]
+    A["cluster-secrets.sops.yaml in Git"] --> B["Flux Kustomization decryption"]
+    B --> C["cluster-secrets Secret in Kubernetes"]
+    C --> D["postBuild.substituteFrom in Kustomization"]
+    D --> E["Application manifests with substituted values"]
 ```
 
 *Figure: cluster-secrets variable substitution flow from Git to application manifests*
@@ -206,16 +205,16 @@ Age key rotation requires updating `.sops.yaml` and re-encrypting all SOPS files
 
 ### Rotation Procedure
 
-<!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
-```text
+```mermaid
 flowchart TD
-    A["Generate new age keypair<br/>age-keygen -o age-new.txt"] --> B["Backup current age.key"]
-    B --> C["Update .sops.yaml<br/>replace recipient"]
-    C --> D["Re-encrypt all SOPS files<br/>iterate *.sops.yaml"]
-    D --> E["Update sops-age secret<br/>encrypt new private key"]
-    E --> F["Update local age.key<br/>replace with new key"]
-    F --> G["Commit and push<br/>Flux reconciles"]
-    G --> H["Verify decryption<br/>test with sops --decrypt"]
+    A["Generate new age keypair with age-keygen"] --> B["Backup current age.key"]
+    B --> C["Update .sops.yaml with new recipient"]
+    C --> D["Re-encrypt all SOPS files"]
+    D --> E["Update sops-age secret with new key"]
+    E --> F["Update local age.key"]
+    F --> G["Commit and push changes"]
+    G --> H["Verify Flux reconciliation"]
+    H --> I["Verify decryption with sops --decrypt"]
 ```
 
 *Figure: Age key rotation workflow from key generation through verification*

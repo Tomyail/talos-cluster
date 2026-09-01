@@ -1,117 +1,7 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:b2f32216c0f6d99f91b82f1418b67be5882adde900afbedfa000cbd1e2fa7c2c",
+  "pageVersion": "sha256:6cad75fbd172df667e0fa5987f31119bcc90c531a38612bc7c7d0d740838cbd6",
   "claims": [
-    {
-      "id": "claim_b4514b2489904810aaf304a3b3c32637",
-      "statement": "The Flux GitOps architecture implements a four-tier reconciliation hierarchy: cluster-meta (sources and decryption infrastructure), CRD prerequisites (gateway-api, external-dns), cluster-apps (namespace-level Kustomizations), and application Kustomizations (individual workloads).",
-      "evidence": [
-        {
-          "resource": "repo://kubernetes/flux/cluster/ks.yaml#L1-L94",
-          "version": "repo-lines-v1:sha256:34d6970a4822f2b762ed2b48b96225a7d9a1bb7f3c4007fed459656c84134c45:eyJzZWxlY3RlZExpbmVDb3VudCI6OTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyY2ZmNWZmYmE1MGFjMzgxNmFmZjljODViNmI3YTQ4NWU3ZTJhNzM0NjI1ZjM5NGMwNDlkNGI5NmQ1N2E4YzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
-        },
-        {
-          "resource": "repo://kubernetes/flux/meta/kustomization.yaml#L1-L6",
-          "version": "repo-lines-v1:sha256:dfc36ecb856d9e1178dbc631f9f8b099fb22a8987582fd1ce787a9c970b6cf64:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjUyZDcxMTEwM2Q1MGE0Mzc4MzBjNmZiY2QwNGZiNGJhYjQ5YTBmODJmNmQyNmQxYzc5MWM2ZTg0ODhkZDA5MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjU4Y2IzM2UxZDNkMzcwNmQ1ZDNlNTUwMmRlZTE5MTRhYWEwMTFlNjdhY2Y0NmE0ZjkxNGNjMTkzNzQyYTA3NCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
-        },
-        {
-          "resource": "repo://kubernetes/flux/meta/repos/kustomization.yaml#L1-L45",
-          "version": "repo-lines-v1:sha256:fa10b5630965480f453261c86956a0d97171b2b134e7d859a4caa3c6fa46a277:eyJzZWxlY3RlZExpbmVDb3VudCI6NDUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBiMjBmMGQ5ZjI0NGUyNjFmMDIwNzc3OTAyOTYzNzNiOWFkZjEwYzA4ZjA2ZGEzYTMzNzFmNjM5MTNmMDE1YmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
-        }
-      ]
-    },
-    {
-      "id": "claim_cfcccb9f21b1421992337e2d0f7c6f90",
-      "statement": "The cluster-meta Kustomization deploys HelmRepository and GitRepository sources from kubernetes/flux/meta/repos/, including OCI registries like bitnami and HTTPS repositories like external-dns, with SOPS decryption enabled via the sops-age secret.",
-      "evidence": [
-        {
-          "resource": "repo://kubernetes/flux/cluster/ks.yaml#L1-L24",
-          "version": "repo-lines-v1:sha256:97fbd025854f48f2df8bb4319dd3ea048fefb7ef3ae9eed1f76462812f613960:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBmNmY4ZWQ1MTRjMzVmYzRlOTI0ODE2NTk1ZGM4OTFlZjRlNDVlNTRiNzc4YjliYWI2MDUyNTMwZWI1NzNlZmQifQ"
-        },
-        {
-          "resource": "repo://kubernetes/flux/meta/repos/bitnami.yaml#L1-L11",
-          "version": "repo-lines-v1:sha256:368634f59ac8d703156b7557a32703f54f03584ec2955b4919194f8ec6098e2a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY5MGYyNDVkMGUxNWEzZTAyMTgxMDlkZGY4MTdmYjM2ZmVlMWE2MTIwNzRhN2UyMGEzNjgwMDVkZjQ1MWIyNTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
-        },
-        {
-          "resource": "repo://kubernetes/flux/meta/repos/external-dns.yaml#L1-L10",
-          "version": "repo-lines-v1:sha256:56b40c73503a779dea5228e98f524dffdc4cba4b6f7895bffad63f18c28b850e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA3NzQ2Y2E3ODdiNWE4YTY5Yjc2MzFhNjg0ZTczZWU4NWVlYjVkNTcwNWExMzFjNWVlMjQwMTU4MjM1OTZkNmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
-        },
-        {
-          "resource": "repo://kubernetes/flux/meta/repos/gateway-api.yaml#L1-L18",
-          "version": "repo-lines-v1:sha256:5809686808eb5fc466e1d4f1705d5d317a5548ad70013398bc067e3543854e36:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEzZjI3YjMwOWQ4NWQzYmQzNWExNjhhY2NjZmZiNWNmNzY1NDkxNDc5NzE1MTVkM2M5NTE1OGJlMWIwMGVmMTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
-        }
-      ]
-    },
-    {
-      "id": "claim_b0391a0195ae497e9f6a1e22fcec13e7",
-      "statement": "CRD prerequisite Kustomizations (gateway-api-crds, external-dns-crds) depend on cluster-meta via dependsOn fields, ensuring sources are available before CRD installation begins.",
-      "evidence": [
-        {
-          "resource": "repo://kubernetes/flux/cluster/ks.yaml#L25-L65",
-          "version": "repo-lines-v1:sha256:30ad5261b8b78bae51eaa8d2dc6d92f34501bfa6a88c834d28b8000ff49bc43d:eyJzZWxlY3RlZExpbmVDb3VudCI6NDEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAzMTI1OGFlNDc5YzY5MTNjM2MxYjFmNzc0ZTc2NWEyYzA3NjVhNDQ4ZDk5M2I2ZmUzODIxZjUwM2VhNGM1ZDciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyY2ZmNWZmYmE1MGFjMzgxNmFmZjljODViNmI3YTQ4NWU3ZTJhNzM0NjI1ZjM5NGMwNDlkNGI5NmQ1N2E4YzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFiNjFiMjIxZjQ3YjliMjQ2MDMzNTVkODQ3MjFmZThkMmFhOTVlMjUzYjI4MmJlNmNjNGJlZTZkZDU3NmZiMDciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ4NjllNzFiYzE5ZjhkNjJjYWQ0NzNjY2RiMDQ2ZDA3Yzk1YTM1YTlhMGJjNTQ5MDk5NDczYmEzNThmYTU3MTMifQ"
-        }
-      ]
-    },
-    {
-      "id": "claim_eec2edbeca6849a7a1a5a255486e1dc1",
-      "statement": "The cluster-apps Kustomization depends on cluster-meta, gateway-api-crds, and external-dns-crds, creating a dependency chain that ensures CRDs are installed before application reconciliation begins.",
-      "evidence": [
-        {
-          "resource": "repo://kubernetes/flux/cluster/ks.yaml#L67-L94",
-          "version": "repo-lines-v1:sha256:770f093d6961d35dfedb426cbb59a3af3bc40d309e875b34e97671876740afcc:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAzMTI1OGFlNDc5YzY5MTNjM2MxYjFmNzc0ZTc2NWEyYzA3NjVhNDQ4ZDk5M2I2ZmUzODIxZjUwM2VhNGM1ZDciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyY2ZmNWZmYmE1MGFjMzgxNmFmZjljODViNmI3YTQ4NWU3ZTJhNzM0NjI1ZjM5NGMwNDlkNGI5NmQ1N2E4YzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAzNDAwYWQ1ZGM2NGZiMjg4ZGNlYjhiNjViNDdjYmJkYTE0Nzc2OTQ5NTUxOTE3MTBjMTY0MGNjNDY4NjQ1MmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
-        }
-      ]
-    },
-    {
-      "id": "claim_f7ee38195f5f49098425f72a22452953",
-      "statement": "The cluster-apps Kustomization reconciles all namespace-level Kustomizations under kubernetes/apps/ by scanning the directory tree and creating child Kustomizations for each application.",
-      "evidence": [
-        {
-          "resource": "repo://kubernetes/apps/cert-manager/kustomization.yaml#L1-L9",
-          "version": "repo-lines-v1:sha256:24ad4d3d18ed82a0a24248eb39d84d1c9eb41ca35e865edfdc3e7bd62fde1399:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjUyZDcxMTEwM2Q1MGE0Mzc4MzBjNmZiY2QwNGZiNGJhYjQ5YTBmODJmNmQyNmQxYzc5MWM2ZTg0ODhkZDA5MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGUyNmQyMTc5YjQwODJiN2E5OWQ5N2ZhMTExM2NlMGRhMDZlNWVhY2YwZTY3OGJkNWM5ZWZhZDlkZWZiODFhNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
-        },
-        {
-          "resource": "repo://kubernetes/flux/cluster/ks.yaml#L67-L94",
-          "version": "repo-lines-v1:sha256:770f093d6961d35dfedb426cbb59a3af3bc40d309e875b34e97671876740afcc:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAzMTI1OGFlNDc5YzY5MTNjM2MxYjFmNzc0ZTc2NWEyYzA3NjVhNDQ4ZDk5M2I2ZmUzODIxZjUwM2VhNGM1ZDciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyY2ZmNWZmYmE1MGFjMzgxNmFmZjljODViNmI3YTQ4NWU3ZTJhNzM0NjI1ZjM5NGMwNDlkNGI5NmQ1N2E4YzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAzNDAwYWQ1ZGM2NGZiMjg4ZGNlYjhiNjViNDdjYmJkYTE0Nzc2OTQ5NTUxOTE3MTBjMTY0MGNjNDY4NjQ1MmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
-        }
-      ]
-    },
-    {
-      "id": "claim_5c46687f304045b989ff75fad46fa484",
-      "statement": "Flux decrypts SOPS-encrypted manifests in-cluster using the sops-age Secret, which contains the age.agekey field and is itself SOPS-encrypted in Git. Kustomizations enable decryption via provider: sops and secretRef.name: sops-age.",
-      "evidence": [
-        {
-          "resource": "repo://.sops.yaml#L6-L9",
-          "version": "repo-lines-v1:sha256:41fb193544f4b6df061f97157f1d4b12e808bc37a2a0bf4fc6c9d9d36b2bbb6d:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmVjMWQ4Mzg0MzliNDYyMTU2OGJkNjMyYzA1NWY0YmQ2MTZmYmYwMTBhMTc2MjFkYzM0MTMzNzE4ZTg2YWQxMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDYwMWFkNjVkNmRjOWZmZDIxNWZiM2ZkZTkxZWFkZDlmN2IzOGUyMjJjNGU5NDc3MTFkMzk5YzQyN2MwMWQ5OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTQzYWE3ZTc4NTU4ZjZiMTAyZjJmNmRjMTk4ODI1MDA2ZTE0ZTA2YThkZGIwZTE4YzBlYjBkYzQ0ODJjMzExMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTJmZDhkNDQwOGQ0NDg5NTFkMzFmOTBhNDQwNGI3N2YzODI3ZDZkM2IwZjZkOWY4YzRhZmEzOTg4ZTBhMjJmZCJ9"
-        },
-        {
-          "resource": "repo://kubernetes/apps/kube-system/cilium/ks.yaml#L12-L15",
-          "version": "repo-lines-v1:sha256:f000b31c3522bd306a024cee6cfaa7daf3e17c4cde85925ad1ade76d25df1976:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGFiNmUwZWUyMWNmZTcxYTkwNWE5OTkwNWM1ZGEzOTc2ZDA1YTk5MDBhMzVjMGFkMWIxMjc3Y2RjOWUxOWRlZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGUxNWFiOThmYjQ2MzhhOTc1MTM4OTdiMWNmOWZmYTlhZTJmNjVlNWZjYzY1ZTI0YTJhYWRiNGI5ZjQ0YjBlNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjBiZWRmNWJiZGMwOGY0OTI3NmI3ZWJjNjhkZWVkMDlmZjBkMmM4NzkwMDcwMDk0MzVmM2I5NjQ3NjRmNTRkYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjE0ZTIwZGQyNTkzMzZjM2ZiYmMwMTA1OGVlZTk1YzQyM2FmZTBmYjJkNzk3NzY4ZjA0MDk1M2Q0MzQ4N2QwYSJ9"
-        },
-        {
-          "resource": "repo://kubernetes/components/common/sops/sops-age.sops.yaml#L1-L22",
-          "version": "repo-lines-v1:sha256:460502c42357328e1dc73840775c0f7d8abde567a3698d25317caa26ffb40f10:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc3NmFlMTQyNDI4ZTc1NGI2N2Q3ZDZlM2RmZGJlMWI0NDhmMGJhYzM1NWQ4ZmEyNGVjOTQ3MWUyMWQ5MGI0MzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA4MmUwMTFhY2Q3ZTQ0ZjVmMTM0NjRmNWIzNGUzMDVjZmY3NWNmMDU5MjZiNjUxODg2YmYzNjMzMGY2ZGUxZTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
-        }
-      ]
-    },
-    {
-      "id": "claim_55997818385a4cefa17c102f8241e166",
-      "statement": "Application Kustomizations use postBuild.substituteFrom to inject cluster-wide configuration from the cluster-secrets Secret into manifests during reconciliation. The cluster-secrets Secret contains SOPS-encrypted environment values like SECRET_DOMAIN and TIMEZONE.",
-      "evidence": [
-        {
-          "resource": "repo://kubernetes/apps/cert-manager/cert-manager/ks.yaml#L31-L34",
-          "version": "repo-lines-v1:sha256:03cad758170fdd550435e761dfd8a0fdf5938667ffa7b2413adb2ec47727420f:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDVmYjU2ZDNhNTI5OWEwMzRlNDAzYmQ0YzFhYWFkMmFkZWE4MmVlMWY2YjkwOTE4MzkxNWNlNWY1ZjA2MzRhZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzQ3ZjE4NGJhYjc2NTljNjcyOTRmYzdhMDI0OWE2MmFjMjFkMmRhMGRiMWMzMTUxYTRmNzUwMmY0OGQ4MzNmOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODJiNjg3NzdhOTMzZWIxYjg5Zjg4N2I3NThlOTUzZTc0N2JkMGQwMDUyZTU3YWZmYjFkYTUyOTg4NTc4OTg0YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzFiOWIxNTdlOTZlZWEyNzlhOWE4NzAyOTY1YWZmNThlZTE0MGE4OTZhMWFkZDQwNGM0MjFlN2Q4Y2E4YTM3ZCJ9"
-        },
-        {
-          "resource": "repo://kubernetes/apps/kube-system/cilium/ks.yaml#L18-L21",
-          "version": "repo-lines-v1:sha256:03cad758170fdd550435e761dfd8a0fdf5938667ffa7b2413adb2ec47727420f:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDVmYjU2ZDNhNTI5OWEwMzRlNDAzYmQ0YzFhYWFkMmFkZWE4MmVlMWY2YjkwOTE4MzkxNWNlNWY1ZjA2MzRhZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzQ3ZjE4NGJhYjc2NTljNjcyOTRmYzdhMDI0OWE2MmFjMjFkMmRhMGRiMWMzMTUxYTRmNzUwMmY0OGQ4MzNmOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjZiZWY5ZTVlODQwNWVjM2Q1M2RhMTY1ZmQ5YWUyMWZhZDBkZmVkNGE5NWM4ZjBkYTI5ZTM0MDQ1NDgzYThjNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzFiOWIxNTdlOTZlZWEyNzlhOWE4NzAyOTY1YWZmNThlZTE0MGE4OTZhMWFkZDQwNGM0MjFlN2Q4Y2E4YTM3ZCJ9"
-        },
-        {
-          "resource": "repo://kubernetes/components/common/sops/cluster-secrets.sops.yaml#L1-L23",
-          "version": "repo-lines-v1:sha256:997e16c33fef587b4a95c73cc6d3fa5b0c7342a14afe9f646a2a23f9b62fb1c0:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc3NmFlMTQyNDI4ZTc1NGI2N2Q3ZDZlM2RmZGJlMWI0NDhmMGJhYzM1NWQ4ZmEyNGVjOTQ3MWUyMWQ5MGI0MzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU1NDVlNTc0ODI3ZGNkYTQwNDI0YjEzYTc3OGIyNTJlMDVhNzkzYzFkZmIyN2Q4YTk2YTNhNDM5ZDVhZTQ5NTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
-        }
-      ]
-    },
     {
       "id": "claim_80eba6a89bc94d76bb86d6fa3c395c3a",
       "statement": "Flux uses the dependsOn field to create installation order across Kustomizations, such as cilium-gateway depending on cert-manager, and cluster-apps depending on CRD Kustomizations.",
@@ -159,16 +49,6 @@
       ]
     },
     {
-      "id": "claim_59cc84a4e36e444ea638b4b171c1519a",
-      "statement": "Namespace-level kustomization.yaml files inject ../../components/common to provide shared resources including namespace definitions, HelmRepository sources, and SOPS secrets to all applications in the namespace.",
-      "evidence": [
-        {
-          "resource": "repo://kubernetes/apps/cert-manager/kustomization.yaml#L1-L9",
-          "version": "repo-lines-v1:sha256:24ad4d3d18ed82a0a24248eb39d84d1c9eb41ca35e865edfdc3e7bd62fde1399:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjUyZDcxMTEwM2Q1MGE0Mzc4MzBjNmZiY2QwNGZiNGJhYjQ5YTBmODJmNmQyNmQxYzc5MWM2ZTg0ODhkZDA5MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGUyNmQyMTc5YjQwODJiN2E5OWQ5N2ZhMTExM2NlMGRhMDZlNWVhY2YwZTY3OGJkNWM5ZWZhZDlkZWZiODFhNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
-        }
-      ]
-    },
-    {
       "id": "claim_a847cff47e00431286a48f946d59d133",
       "statement": "Flux Kustomizations use standard reconciliation intervals of 1 hour with 2-minute retry intervals, 5-minute timeouts, and wait enabled to ensure resources are healthy before marking ready.",
       "evidence": [
@@ -181,20 +61,10 @@
           "version": "repo-lines-v1:sha256:a8782109d29205420a8abfe3c5b5febe3ecca1227bc72c48ece4a8d29a72d5d5:eyJzZWxlY3RlZExpbmVDb3VudCI6ODEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYxY2I1N2UyYzc5ODBlOTk5OGM2ZTFjNWYyYTYzZTJiYzk2NWI4NmMyNjJmNGFhNjYzZWYyNWY2Y2JhOGI2YjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRjMzUxN2U4MTNiM2EzMmI5NjU2MWI5ZTU0YjQyMjMyODQ2MGE4YjQ5NTFkMWI0NDJhMGI1NDA5ZTBmMjgyZTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImEwMmE2ZTgzMDhmYjY2ZjJhZmQyZjEwZWM3ZDQ2NzA3ZDAwNWIzNzBhZGZiNWNkNzg1ZDUzZWE4ZDQ2MjNjZjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEyY2ZmNWZmYmE1MGFjMzgxNmFmZjljODViNmI3YTQ4NWU3ZTJhNzM0NjI1ZjM5NGMwNDlkNGI5NmQ1N2E4YzAifQ"
         }
       ]
-    },
-    {
-      "id": "claim_386bab13667b4e8eb482dd75c6fba27f",
-      "statement": "Complex applications like cert-manager define explicit healthChecks and healthCheckExprs to ensure ClusterIssuers and other dependent resources are ready before marking the Kustomization healthy.",
-      "evidence": [
-        {
-          "resource": "repo://kubernetes/apps/cert-manager/cert-manager/ks.yaml#L16-L28",
-          "version": "repo-lines-v1:sha256:66a83eb1fa96f6bf5c2ef56961818484874bb2b945c8e80134877a0c1177bf16:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRmYzcwMjQ1OGNmZWNmMmZhOWI5YzkyYjdkZDY1YjRkMzI5Mjc5OTcwMzQ2ZGE4ZGU0OWVmOTA0OGMzNDU0ZGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFkMzAwY2M5Yjg1ZjQyOTYxMmY3ZmE3NGY1OGQxMThiYmZmNDZlZWJmYzg3OGMzNTY5ODA1NGJmNTBjMWFiNzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImEwMmE2ZTgzMDhmYjY2ZjJhZmQyZjEwZWM3ZDQ2NzA3ZDAwNWIzNzBhZGZiNWNkNzg1ZDUzZWE4ZDQ2MjNjZjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJhNDM1NzcyYjZiY2RhNmRjNTVhZDFjOTkxNDJkYzBkZjVhMzU1MGNjNzdiMmRhMzQ3OTVlMzY0OTRjM2UzMTIifQ"
-        }
-      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.4.3",
-    "at": "2026-08-31T23:16:37.333Z"
+    "by": "openwiki/0.5.0",
+    "at": "2026-09-01T21:54:26.927Z"
   }
 }

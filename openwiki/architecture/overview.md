@@ -4,8 +4,8 @@ title: Architecture Overview
 description: Cluster architecture, GitOps patterns, and how major Talos, Flux, networking, and storage components interact.
 tags: [architecture, talos, flux, networking, gitops]
 verified:
-  - by: openwiki/0.4.3
-    at: 2026-08-30T21:57:36.532Z
+  - by: openwiki/0.5.0
+    at: 2026-09-01T21:54:26.927Z
 sources:
   - id: openwiki-source-360da09d9920a02e1e719d90
     resource: repo://bootstrap/helmfile.yaml
@@ -49,7 +49,7 @@ sources:
     resource: repo://README.md
   - id: openwiki-source-1fd71dc29915917549048436
     resource: repo://talos/talconfig.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-30T21:57:36.532Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-01T21:54:26.927Z" }
 ---
 
 # Architecture Overview
@@ -94,18 +94,20 @@ flowchart TB
     Apps --> Observability
 ```
 
+*Figure: Four-layer architecture showing infrastructure foundation, platform services, GitOps management, and application services.*
+
 ## Cluster Foundation
 
 ### Talos Linux
 
 The cluster runs on Talos Linux, an immutable OS designed for Kubernetes:
 
-- **Secure boot**: Enabled on all nodes via custom factory image (`talosImageURL` in `talos/talconfig.yaml`)
-- **Node configuration**: Managed through `talhelper` which generates machine configs
-- **Control plane**: Single-node control plane (master0-nuc at 192.168.50.145) with VIP at 192.168.50.10
+- **Secure boot**: Enabled on all nodes via custom factory image
+- **Node configuration**: Managed through talhelper which generates machine configs
+- **Control plane**: Single-node control plane (master0-nuc12 at 192.168.50.145) with VIP at 192.168.50.10
 - **Disk management**: Uses install disk selectors (≤256GB SSD) and custom volume provisioning
-- **Kernel modules**: Preloads `dm_thin_pool`, `dm_mod`, `i915` (Intel GPU), `drm`, `drm_kms_helper`
-- **System extensions**: Includes `i915`, `intel-ucode`, `thunderbolt` extensions
+- **Kernel modules**: Preloads dm_thin_pool, dm_mod, i915 (Intel GPU), drm, drm_kms_helper
+- **System extensions**: Includes i915, intel-ucode, thunderbolt extensions
 
 ### Platform Components
 
@@ -123,25 +125,24 @@ The cluster runs on Talos Linux, an immutable OS designed for Kubernetes:
 
 **TopoLVM**:
 - CSI provisioner for dynamic LVM volume management
-- Uses `lvm_vg` volume group with thin provisioning
-- Storage class `topolvm-thin-provisioner` (default, XFS)
+- Uses lvm_vg volume group with thin provisioning
+- Storage class topolvm-thin-provisioner (default, XFS)
 - Embedded lvmd daemon on storage nodes
 - Overprovision ratio: 10.0
 
 ## Networking Stack
 
-<!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
-```text
+```mermaid
 flowchart TB
     External[External Traffic]
     
     subgraph Ingress["Ingress Layer"]
         CFTunnel[Cloudflare Tunnel]
-        Gateway[k8s-gateway<br/>192.168.50.11]
+        Gateway[k8s-gateway LB 192.168.50.11]
     end
     
     subgraph CNI["CNI Layer"]
-        CiliumNB[Cilium CNI<br/>BGP/LB]
+        CiliumNB[Cilium CNI BGP and LB]
     end
     
     subgraph DNS["DNS Layer"]
@@ -162,6 +163,8 @@ flowchart TB
     Tailscale --> Pods
 ```
 
+*Figure: Network traffic flow from external sources through ingress and CNI layers to application pods.*
+
 **Key components**:
 - **Cilium**: Replaces default kube-proxy, provides BGP, network policies, and load balancing
 - **Cloudflare Tunnel**: Exposes selected services publicly without open ports
@@ -169,30 +172,29 @@ flowchart TB
 - **AdGuard DNS**: Local DNS resolver with ad blocking
 - **Tailscale**: VPN for secure remote access to cluster services
 
-### Storage Architecture
+## Storage Architecture
 
-<!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
-```text
+```mermaid
 flowchart TB
-    Apps[Applications<br/>PVCs]
+    Apps[Applications with PVCs]
     
     subgraph Provisioners["Storage Provisioners"]
-        TopoLVMSC[TopoLVM CSI<br/>LVM thin volumes]
-        NFSCSI[NFS CSI<br/>External NFS]
-        LocalPath[local-path<br/>hostPath]
+        TopoLVMSC[TopoLVM CSI LVM thin volumes]
+        NFSCSI[NFS CSI External NFS]
+        LocalPath[local-path hostPath]
     end
     
-    subgraph Backup["Backup & Replication"]
-        VolSync[VolSync<br/>Rclone/Restic]
+    subgraph Backup["Backup and Replication"]
+        VolSync[VolSync Rclone and Restic]
     end
     
     subgraph StorageTargets["Storage Targets"]
-        MinIO[MinIO<br/>Local backups]
-        B2[Backblaze B2<br/>Cloud backups]
+        MinIO[MinIO Local backups]
+        B2[Backblaze B2 Cloud backups]
     end
     
     subgraph Snapshots["Snapshots"]
-        SnapshotCtrl[snapshot-controller<br/>CSI snapshots]
+        SnapshotCtrl[snapshot-controller CSI snapshots]
     end
     
     Apps --> TopoLVMSC
@@ -204,12 +206,14 @@ flowchart TB
     VolSync --> B2
 ```
 
+*Figure: Storage provisioning, backup, and snapshot flow from applications to storage targets.*
+
 **Storage provisioners**:
-- **TopoLVM**: Dynamic LVM volumes on `/dev/disk/by-id` with thin provisioning
+- **TopoLVM**: Dynamic LVM volumes on /dev/disk/by-id with thin provisioning
 - **NFS CSI**: NFS shares from external server
 - **local-path**: hostPath for small/ephemeral data
 
-**Backup & replication**:
+**Backup and replication**:
 - **VolSync**: ReplicationDestination/Source with MinIO and B2 targets
 - **snapshot-controller**: CSI volume snapshots
 
@@ -217,26 +221,25 @@ flowchart TB
 
 ### Flux Reconciliation Flow
 
-<!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
-```text
+```mermaid
 flowchart TD
-    GitRepo[Git Repository<br/>tomyail/talos-cluster]
+    GitRepo[Git Repository tomyail talos-cluster]
     
     subgraph FluxSource["Flux Source"]
-        GitRes[GitRepository<br/>flux-system]
+        GitRes[GitRepository flux-system]
         OCIRepos[OCIRepositories]
         HelmRepos[HelmRepositories]
     end
     
     subgraph FluxKustomizations["Flux Kustomizations"]
-        Meta[cluster-meta<br/>./kubernetes/flux/meta]
-        Apps[cluster-apps<br/>./kubernetes/apps]
-        CRDs[gateway-api-crds<br/>external-dns-crds]
+        Meta[cluster-meta kubernetes flux meta]
+        Apps[cluster-apps kubernetes apps]
+        CRDs[gateway-api-crds external-dns-crds]
         Namespaces[Namespace Kustomizations]
     end
     
     subgraph Resources["Kubernetes Resources"]
-        HelmReleases[HelmReleases<br/>app-template pattern]
+        HelmReleases[HelmReleases app-template pattern]
         Objects[Kubernetes Objects]
     end
     
@@ -251,10 +254,12 @@ flowchart TD
     HelmReleases --> Objects
 ```
 
+*Figure: Flux reconciliation hierarchy from Git repository through Kustomizations to deployed resources.*
+
 ### Bootstrap vs GitOps Management
 
 **Bootstrap phase** (one-time cluster initialization):
-- Installed via `helmfile` from `bootstrap/helmfile.yaml`
+- Installed via helmfile from bootstrap/helmfile.yaml
 - Components: Cilium, CoreDNS, cert-manager, flux-operator, flux-instance
 - Purpose: Establish GitOps foundation before Flux takes over
 
@@ -265,13 +270,13 @@ flowchart TD
 
 ### Kustomization Structure
 
-**Root-level Kustomizations** (`kubernetes/flux/cluster/ks.yaml`):
-1. **cluster-meta**: Installs OCI/Helm repositories from `kubernetes/flux/meta/`
+**Root-level Kustomizations** (kubernetes/flux/cluster/ks.yaml):
+1. **cluster-meta**: Installs OCI/Helm repositories from kubernetes/flux/meta/
    - SOPS decryption enabled
    - Dependency for all other Kustomizations
 2. **gateway-api-crds**: Gateway API CRDs from external OCI repository
 3. **external-dns-crds**: External DNS CRDs from external OCI repository
-4. **cluster-apps**: All namespace-level Kustomizations from `kubernetes/apps/`
+4. **cluster-apps**: All namespace-level Kustomizations from kubernetes/apps/
    - Depends on cluster-meta, gateway-api-crds, external-dns-crds
    - SOPS decryption enabled
    - Prunes resources on removal
@@ -307,27 +312,27 @@ spec:
     # App-specific values
 ```
 
-All apps share the same `app-template` chart defined in `kubernetes/components/common/repos/app-template/`.
+All apps share the same app-template chart defined in kubernetes/components/common/repos/app-template/.
 
 ### Reusable Components
 
-Located in `kubernetes/components/`:
+Located in kubernetes/components/:
 
-**`common/`** - Included in every namespace:
+**common/** - Included in every namespace:
 - Namespace definition
 - SOPS age secret (for Flux decryption)
 - OCIRepository for app-template
 
-**`gatus/`** - Monitoring components:
-- `external` - External endpoint monitoring
-- `external-tailscale` - Tailscale endpoint checks
-- `guarded` - Internal service health checks
+**gatus/** - Monitoring components:
+- external - External endpoint monitoring
+- external-tailscale - Tailscale endpoint checks
+- guarded - Internal service health checks
 
-**`volsync-new/`** - VolSync backup templates:
+**volsync-new/** - VolSync backup templates:
 - ReplicationDestination/Source with MinIO target
 - Configurable capacity and retention
 
-**`image-automation/`** - Flux image automation:
+**image-automation/** - Flux image automation:
 - ImageRepository (OCI registries)
 - ImagePolicy (semver filtering)
 - ImageUpdateAutomation (auto-update HelmReleases)
@@ -336,19 +341,18 @@ Located in `kubernetes/components/`:
 
 ### SOPS + age
 
-<!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
-```text
+```mermaid
 flowchart LR
-    Local[Local Developer<br/>age.key]
+    Local[Local Developer age.key]
     GitRepo[Git Repository]
     
     subgraph Encrypted["Encrypted in Git"]
-        TalosSecrets[talos/*.sops.yaml<br/>Whole-file]
-        AppSecrets[kubernetes/**/*.sops.yaml<br/>data/stringData only]
+        TalosSecrets[talos sops.yaml Whole-file]
+        AppSecrets[kubernetes sops.yaml data only]
     end
     
     subgraph Cluster["Cluster Secrets"]
-        FluxSecret[flux-system/sops-age<br/>Flux decryption key]
+        FluxSecret[flux-system sops-age Flux decryption key]
         AppK8sSecrets[Decrypted Kubernetes Secrets]
     end
     
@@ -357,21 +361,22 @@ flowchart LR
     FluxSecret -->|Decrypt| AppK8sSecrets
 ```
 
+*Figure: SOPS encryption flow from local development through Git to cluster decryption.*
+
 **Key locations**:
-- `age.key` - Local-only decryption key (never committed)
-- `flux-system/sops-age` Secret - Flux decryption key in cluster
-- `.sops.yaml` - Encryption rules and recipient age public key
+- age.key - Local-only decryption key (never committed)
+- flux-system/sops-age Secret - Flux decryption key in cluster
+- .sops.yaml - Encryption rules and recipient age public key
 
 ### External Secrets Operator
 
 Bitwarden Connect integration:
-<!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
-```text
+```mermaid
 flowchart LR
     BW[Bitwarden Vault]
     
     subgraph ESO["External Secrets Operator"]
-        Provider[Bitwarden Provider<br/>bitwarden-cli]
+        Provider[Bitwarden Provider bitwarden-cli]
     end
     
     subgraph K8s["Kubernetes Resources"]
@@ -383,6 +388,8 @@ flowchart LR
     Provider --> ExternalSecret
     ExternalSecret --> K8sSecret
 ```
+
+*Figure: External Secrets Operator integration with Bitwarden Vault.*
 
 **Pattern**:
 ```yaml
@@ -406,12 +413,11 @@ spec:
 
 ### Monitoring Pipeline
 
-<!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
-```text
+```mermaid
 flowchart LR
     subgraph Sources["Metrics Sources"]
         Pods[Application Pods]
-        Nodes[Nodes<br/>smartctl-exporter]
+        Nodes[Nodes smartctl-exporter]
         K8sAPI[Kubernetes API]
         Kubelet[Kubelet]
     end
@@ -421,7 +427,7 @@ flowchart LR
     end
     
     subgraph Storage["Long-term Storage"]
-        Thanos[Thanos<br/>Deduplication]
+        Thanos[Thanos Deduplication]
     end
     
     subgraph Visualization["Visualization"]
@@ -437,6 +443,8 @@ flowchart LR
     KPS --> Grafana
 ```
 
+*Figure: Metrics flow from cluster components through Prometheus to long-term storage and visualization.*
+
 **Components**:
 - **Prometheus Operator**: Scrapes metrics from pods/nodes
 - **Thanos**: Long-term storage, deduplication, query federation
@@ -446,29 +454,30 @@ flowchart LR
 
 ### Logging Pipeline
 
-<!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
-```text
+```mermaid
 flowchart LR
     subgraph Sources["Log Sources"]
         Journals[Node Journals]
     end
     
     subgraph Collection["Collection"]
-        Promtail[Promtail<br/>On each node]
+        Promtail[Promtail On each node]
     end
     
     subgraph Aggregation["Aggregation"]
-        Loki[Loki<br/>Log aggregation]
+        Loki[Loki Log aggregation]
     end
     
-    subgraph Query["Query & Visualize"]
-        GrafanaLogs[Grafana<br/>Log queries]
+    subgraph Query["Query and Visualize"]
+        GrafanaLogs[Grafana Log queries]
     end
     
     Journals --> Promtail
     Promtail --> Loki
     Loki --> GrafanaLogs
 ```
+
+*Figure: Log collection flow from node journals through Promtail to Loki and Grafana.*
 
 **Components**:
 - **Promtail**: Reads journal logs on each node
@@ -479,23 +488,22 @@ flowchart LR
 
 - **Gatus**: Active endpoint monitoring with alerts (external, tailscale, guarded endpoints)
 - **Uptime Kuma**: Status page for external monitoring
-- **Kubernetes endpoint**: [status-dev.tomyail.com](https://status-dev.tomyail.com)
+- **Kubernetes endpoint**: status-dev.tomyail.com
 
-## Ingress & Routing
+## Ingress and Routing
 
 ### Gateway API Hierarchy
 
-<!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
-```text
+```mermaid
 flowchart TB
-    subgraph Gateway["Gateway - kube-system"]
-        Internal[internal listener<br/>192.168.50.12]
-        External[external listener<br/>Cloudflare Tunnel]
+    subgraph Gateway["Gateway in kube-system"]
+        Internal[internal listener 192.168.50.12]
+        External[external listener Cloudflare Tunnel]
     end
     
     subgraph Routes["HTTPRoutes"]
-        InternalRoutes[Internal Routes<br/>*.tomyail.com]
-        PublicRoutes[Public Routes<br/>*.tomyail.com]
+        InternalRoutes[Internal Routes tomyail.com]
+        PublicRoutes[Public Routes tomyail.com]
     end
     
     subgraph Backends["Backends"]
@@ -507,6 +515,8 @@ flowchart TB
     InternalRoutes --> Services
     PublicRoutes --> Services
 ```
+
+*Figure: Gateway API routing hierarchy from listeners through HTTPRoutes to backend services.*
 
 **Route configuration pattern**:
 ```yaml
@@ -538,10 +548,10 @@ spec:
 
 Auto-updates tracked dependencies:
 
-- **Container images**: From `image:` tags in YAML
+- **Container images**: From image tags in YAML
 - **Helm charts**: From OCI repositories
-- **GitHub releases**: Tracked via `# renovate: datasource=github-tags`
-- **mise tools**: From `.mise.toml`
+- **GitHub releases**: Tracked via renovate datasource tags
+- **mise tools**: From .mise.toml
 - **GitHub Actions**: From workflow files
 
 **Schedule**: Runs every weekend
