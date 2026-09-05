@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:840c23b953a6b6663a0ca1f24666b05de2d5669aa923044c64ae0d5067761426",
+  "pageVersion": "sha256:22daf5a45c6af0e9e24687fdc0e2fba2c2e33b95ea58406d5d0b00cfeff8334f",
   "claims": [
     {
       "id": "claim_fdb31951fbef449e8d6a7379d6290774",
@@ -32,7 +32,7 @@
     },
     {
       "id": "claim_dedbf40cfa454fbfbb4ee73b110ad22f",
-      "statement": "The tuppr automation system is deployed via Flux Kustomization in `kubernetes/apps/kube-system/system-upgrade/ks.yaml`, which deploys the tuppr controller HelmRelease and a separate Kustomization for upgrade CRs. The controller is sourced from an OCIRepository pointing to `ghcr.io/home-operations/charts/tuppr` and manages upgrade lifecycle through TalosUpgrade and KubernetesUpgrade custom resources.",
+      "statement": "The tuppr automation system is deployed via Flux Kustomization in `kubernetes/apps/kube-system/system-upgrade/ks.yaml`, which deploys the tuppr controller HelmRelease and a separate dependent Kustomization (`tuppr-upgrades`) for upgrade CRs. The controller HelmRelease is sourced from an OCIRepository named `tuppr` that pins chart tag `0.5.3` from `oci://ghcr.io/home-operations/charts/tuppr`, reconciles every 1h, and selects only the Helm chart tarball layer (`application/vnd.cncf.helm.chart.content.v1.tar+gzip` with `operation: copy`); the controller manages upgrade lifecycle through TalosUpgrade and KubernetesUpgrade custom resources.",
       "evidence": [
         {
           "resource": "repo://kubernetes/apps/kube-system/system-upgrade/ks.yaml",
@@ -44,7 +44,7 @@
         },
         {
           "resource": "repo://kubernetes/apps/kube-system/system-upgrade/tuppr/ocirepository.yaml",
-          "version": "repo-file-v1:sha256:9f5aa2ecc342d41c3e7ab5b0fec6fa8bafd9e3337d7a3868f6f1ad3894e955e6"
+          "version": "repo-file-v1:sha256:db28097ab0c923b0644936faf847317425152d42e26ca6085954138d50277a86"
         }
       ]
     },
@@ -150,7 +150,7 @@
     }
   ],
   "verification": {
-    "by": "openwiki/0.4.3",
-    "at": "2026-08-30T21:57:36.532Z"
+    "by": "openwiki/0.5.0",
+    "at": "2026-09-05T09:07:37.163Z"
   }
 }

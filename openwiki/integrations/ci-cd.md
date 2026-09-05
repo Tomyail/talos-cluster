@@ -18,8 +18,8 @@ sources:
     resource: repo://.github/workflows/openwiki-update.yml
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-01T21:54:26.927Z
-generated: { by: "openwiki/0.4.3", at: "2026-08-30T21:57:36.532Z" }
+    at: 2026-09-05T09:07:37.163Z
+generated: { by: "openwiki/0.5.0", at: "2026-09-05T09:07:37.163Z" }
 ---
 
 # CI/CD Integration
@@ -101,8 +101,9 @@ The **test** job validates Kubernetes manifests using flux-local:
   - `--enable-helm`: Validates Helm releases including chart rendering
   - `--all-namespaces`: Checks manifests across all namespaces
   - `--path /github/workspace/kubernetes/flux/cluster`: Targets the Flux cluster configuration directory
+  - `--sources flux-system`: Limits processing to the `flux-system` source
   - `-v`: Enables verbose output for debugging
-- **Container**: Uses `ghcr.io/allenporter/flux-local:v7.5.4` Docker image for consistent runtime environment
+- **Container**: Uses `ghcr.io/allenporter/flux-local:v8.4.0` Docker image for consistent runtime environment
 - **Purpose**: Catches syntax errors, invalid manifests, and Helm chart rendering failures before merge
 
 #### diff Jobs
@@ -287,6 +288,7 @@ The **update** job:
    - Stages changes: `git add openwiki AGENTS.md CLAUDE.md`
    - Checks for changes: `git diff --staged --quiet`
    - Only commits and pushes if actual changes exist to avoid empty commits
+   - Rebases onto `origin/main` (`git pull --rebase origin main`) before pushing to handle commits landed since checkout
    - Commit message: `"docs: update OpenWiki"`
 
 ### Integration with Documentation

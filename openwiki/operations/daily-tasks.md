@@ -3,9 +3,6 @@ type: Operations runbook
 title: Daily Tasks Reference
 description: Quick reference for routine operational tasks including checking cluster status, reconciling Flux resources, applying Talos configs, managing nodes, working with VolSync backups, and accessing logs.
 tags: [operations, runbook, maintenance, troubleshooting]
-verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-01T21:54:26.927Z
 sources:
   - id: openwiki-source-6d4b4e707b8d60b6ccfa3425
     resource: repo://.github/workflows/openwiki-update.yml
@@ -23,7 +20,10 @@ sources:
     resource: repo://.taskfiles/volsync/Taskfile.yaml
   - id: openwiki-source-b9ff7ee0aa4953cc601052a4
     resource: repo://Taskfile.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-31T23:16:37.333Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-05T09:07:37.163Z" }
+verified:
+  - by: openwiki/0.5.0
+    at: 2026-09-05T09:07:37.163Z
 ---
 
 # Daily Tasks Reference
@@ -362,10 +362,12 @@ kubectl --namespace observability port-forward svc/prometheus-operated 9090:9090
 
 The repository uses an automated GitHub Actions workflow to keep documentation current:
 
-- **Schedule**: Runs daily at 19:30 UTC (cron: `30 19 * * *`)
+- **Schedule**: Runs daily at 19:30 UTC (cron: `30 19 * * *`; deliberately offset from other 03:00 UTC Beijing-time schedules)
 - **Trigger**: Also available via manual `workflow_dispatch`
-- **Provider**: Anthropic-compatible API with `glm-4.7` model
-- **Behavior**: Commits and pushes documentation changes directly to the default branch
+- **Tooling**: Node.js 22; installs `openwiki` globally via npm
+- **Command**: `openwiki code --update --print`
+- **Model**: Anthropic-compatible API (`OPENWIKI_PROVIDER=anthropic`) with `OPENWIKI_MODEL_ID=glm-4.7`, pointed at `ANTHROPIC_BASE_URL=https://open.bigmodel.cn/api/anthropic` and authenticated with the `ANTHROPIC_API_KEY` repository secret
+- **Behavior**: Commits changes to `openwiki/`, `AGENTS.md`, and `CLAUDE.md` as `github-actions[bot]` with message `docs: update OpenWiki`, then rebases on `origin/main` and pushes. If there are no staged changes, the commit step is skipped. Requires `contents: write` permission.
 
 To run manually:
 1. Navigate to Actions → OpenWiki Update

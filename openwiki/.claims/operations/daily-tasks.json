@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:fbbbb136281cbd2ac8c24d7f9d4110b64dfee9421d9d556da89e16e8e673ca24",
+  "pageVersion": "sha256:d94dcf5bee9aab276911156d7b564e1bf8597b2fe2d7e1b7bdba782f42e69219",
   "claims": [
     {
       "id": "claim_a9e22a8d78bf49e0a4db24ac73411ff3",
@@ -118,11 +118,11 @@
     },
     {
       "id": "claim_cf84d1c162c24864814b8fb039b032ca",
-      "statement": "The OpenWiki documentation update workflow runs daily at 19:30 UTC via GitHub Actions, using the Anthropic-compatible API with glm-4.7 model to update documentation, and can also be triggered manually via workflow_dispatch.",
+      "statement": "The OpenWiki documentation update workflow runs daily at 19:30 UTC via GitHub Actions cron and can be triggered manually via workflow_dispatch; it installs openwiki via npm on Node.js 22 and runs `openwiki code --update --print` using an Anthropic-compatible provider (glm-4.7 via https://open.bigmodel.cn/api/anthropic) with the ANTHROPIC_API_KEY secret, then commits any changes to openwiki/, AGENTS.md, and CLAUDE.md as github-actions[bot] (message \"docs: update OpenWiki\"), rebasing on origin/main and pushing, and skips the commit when nothing changed.",
       "evidence": [
         {
-          "resource": "repo://.github/workflows/openwiki-update.yml#L1-L47",
-          "version": "repo-lines-v1:sha256:cbdc6eafa20cb69d2e9851a0df2b26115478efc20d31755b6a56e33dcb25b6fb:eyJzZWxlY3RlZExpbmVDb3VudCI6NDcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA2MDI3ODdhZjZkY2MwODM0ZGUxMjFjYmIxY2I5NWY5NDU5YjcyMWVhYjAzNDlmMTA1MDFiOTk2YzFjNzdmZmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJmNTU5NzljZTczMDIwMzNlNmIyZmQ3ZDg4ZjUzN2EzYjhlMDkxZWEzMDVjODExZmZhMTI3NGJmNTc2NGVhNWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://.github/workflows/openwiki-update.yml#L1-L48",
+          "version": "repo-lines-v1:sha256:400ef013715a954a9b0169ec9585289e9c71ebe1369b52c79257ca9d8adab819:eyJzZWxlY3RlZExpbmVDb3VudCI6NDgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA2MDI3ODdhZjZkY2MwODM0ZGUxMjFjYmIxY2I5NWY5NDU5YjcyMWVhYjAzNDlmMTA1MDFiOTk2YzFjNzdmZmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJmNTU5NzljZTczMDIwMzNlNmIyZmQ3ZDg4ZjUzN2EzYjhlMDkxZWEzMDVjODExZmZhMTI3NGJmNTc2NGVhNWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -159,6 +159,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-01T21:54:26.927Z"
+    "at": "2026-09-05T09:07:37.163Z"
   }
 }

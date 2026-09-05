@@ -8,6 +8,12 @@ sources:
     resource: repo://.github/workflows/flux-local.yaml
   - id: openwiki-source-240e6406ed4b6841961679cb
     resource: repo://.sops.yaml
+  - id: openwiki-source-4f5be6b4c7dcc699aca46164
+    resource: repo://.taskfiles/talos/Taskfile.yaml
+  - id: openwiki-source-c11ca658ed53520e32ea3a00
+    resource: repo://kubernetes/apps/kube-system/system-upgrade/ks.yaml
+  - id: openwiki-source-ededdde4ddcb07a3ee796444
+    resource: repo://kubernetes/apps/kube-system/system-upgrade/upgrades/talos.yaml
   - id: openwiki-source-9baccf3ae41f07f1fd5a1914
     resource: repo://kubernetes/apps/storage/topolvm/app/helmrelease.yaml
   - id: openwiki-source-9a91d01bb54fc0b7d652e6d3
@@ -16,10 +22,10 @@ sources:
     resource: repo://kubernetes/components/common/sops/sops-age.sops.yaml
   - id: openwiki-source-0696023deccf378a358f7526
     resource: repo://kubernetes/flux/cluster/ks.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-29T21:52:21.026Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-05T09:07:37.163Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-01T21:54:26.927Z
+    at: 2026-09-05T09:07:37.163Z
 ---
 
 # Troubleshooting Guide
@@ -75,6 +81,50 @@ If you encounter this issue:
 
 **Prevention:**
 Always set `replicaCount: 1`, disable affinity (`affinity: ""`), and use `Recreate` update strategy for any stateful controllers in single-node clusters. This prevents scheduling conflicts during upgrades.
+
+## Flux-Local CI Failures on Pull Requests
+
+The `Flux Local` GitHub Actions workflow (`.github/workflows/flux-local.yaml`) validates every PR that touches `kubernetes/**` before merge. It gates all validation behind a `pre-job` changed-files check (`.github/workflows/flux-local.yaml#L14-L28`): if no files under `kubernetes/` changed, the `test` and `diff` jobs are skipped entirely.
+
+### Problem: flux-local test Fails on a PR
+
+**Symptoms:**
+- The `Flux Local Test` job fails on your PR
+- Output shows YAML syntax errors, missing required Helm values, or Helm chart rendering failures
+
+**What the job does:**
+The `test` job runs `flux-local test --enable-helm --all-namespaces --sources flux-system --path /github/workspace/kubernetes/flux/cluster -v` in the `ghcr.io/allenporter/flux-local:v8.4.0` container (`.github/workflows/flux-local.yaml#L29-L41`). It builds the full Flux tree (`kustomizations`, `helmreleases`, `gitrepositories`) and applies them against test fixtures, catching YAML syntax errors, invalid manifests, dependency issues, and Helm chart rendering failures before anything reaches the cluster.
+
+**Solutions by failure type:**
+
+1. **YAML syntax / schema errors**
+   - Run locally before pushing: `flux-local test --path ./kubernetes/flux/cluster`
+   - Fix indentation, missing `---` separators, or invalid fields flagged by the output
+
+2. **Helm chart rendering failures**
+   - The job runs with `--enable-helm`, so charts are actually rendered; broken values files or unavailable chart versions fail here
+   - Check the HelmRelease values against the chart's upstream values schema
+   - Verify chart/repository URLs referenced by `OCIRepository`/`HelmRepository` sources are reachable and versioned correctly
+
+3. **Kustomization dependency errors**
+   - flux-local resolves `dependsOn` chains; a Kustomization referencing a missing path or a dependency that cannot build fails the test
+   - Compare with the existing `kubernetes/flux/cluster/ks.yaml` dependency graph
+
+### Problem: Flux Local Diff Job Fails or Posts Unexpected Diffs
+
+**What the job does:**
+The `diff` job (matrix over `helmrelease` and `kustomization`) checks out both the PR branch and the default branch, then runs `flux-local diff` between them with `--strip-attrs "helm.sh/chart,checksum/config,app.kubernetes.io/version,chart"` to suppress noise, and posts the resulting patch as a PR comment (`.github/workflows/flux-local.yaml#L43-L108`).
+
+**Common issues:**
+- **Diff comment missing**: the comment is only added when the computed diff is non-empty; `continue-on-error: true` on the comment step means a failed comment does not fail the job
+- **Unexpected resource churn in the diff**: fields like `checksum/config` and chart labels are stripped, but other auto-generated fields may still appear; if real spec changes you did not intend show up, review the rendered Helm values
+- **Diff job fails**: usually means flux-local could not build one of the two trees (e.g., an invalid manifest on either branch) — fix the `test` job failure first
+
+### Workflow Gate Behavior
+
+- The `flux-local-status` summary job fails only if `test` or `diff` actually failed; skipped jobs (no `kubernetes/**` changes) do not block merge (`.github/workflows/flux-local.yaml#L110-L122`)
+- Concurrency is configured with `cancel-in-progress: true`, so a new push to the same PR cancels the previous run — a "cancelled" status is normal, not a failure
+- Prevention: run `flux-local test` locally before pushing to catch rendering errors early
 
 ## Flux Reconciliation Failures
 

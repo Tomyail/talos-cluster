@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:b7f463b61b6d32380001731fe48fedd9a32863bbf5c0d6d7e94a1e92eeea840e",
+  "pageVersion": "sha256:503fc65c8c1d3fd697c96ac0ed0e6b7544b8080f164c16e2767bd1d557861668",
   "claims": [
     {
       "id": "claim_ff13b80cb8eb45d8b3df24bbc5cfa6f3",
@@ -76,11 +76,11 @@
     },
     {
       "id": "claim_b7cf052bc42640beabcd912c7b688048",
-      "statement": "Flux-local CI workflow validates Kubernetes manifests before merge using flux-local test, catching syntax errors, invalid manifests, and Helm chart rendering failures.",
+      "statement": "Flux-local CI validates Kubernetes manifests before merge: the test job runs `flux-local test --enable-helm --all-namespaces --sources flux-system --path /github/workspace/kubernetes/flux/cluster -v` (v8.4.0 image), catching syntax errors, invalid manifests, and Helm chart rendering failures.",
       "evidence": [
         {
           "resource": "repo://.github/workflows/flux-local.yaml#L29-L41",
-          "version": "repo-lines-v1:sha256:f2c1ba05186614de351385f3c261f9f1c6cbbb4287ded87054a279d13c7ba72b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMDA1Nzc3NzZjNjY4YjcwMWQ3MTY1YTk3MmNiYWJiNmVkZWQxMjhiYjg1ZmE3MGMzMjYwYjU4ZTBlOWIwNDQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJmYzhmZGE0MjFkY2FmZmNmY2NhNDZiYjA0Y2EzMDg4NzNmY2U2OGRlY2JmMmZkZmQ2NWY2NmVkZWQyYjlkNjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBmYTJmMDk2YjRlZjg1Zjc1ODc0MjUzNTM4NzU2ZTJlNjQ5NTdiOTY5NzQ5MjViMGVmNmM2NjllNmVmOGE4ZWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJkM2Y5NzI5NWViNGJhMGI4OGU0ZjczNDAzZDVhNDZjMDVmYTU3MTQwZjgyMzExZjdlYjQxMjYzMDhhYWZkZjcifQ"
+          "version": "repo-lines-v1:sha256:7cae70af74794fcc9fe0b5ae3e85ad53e6981368ad62d71aba1f80603cd628ee:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMDA1Nzc3NzZjNjY4YjcwMWQ3MTY1YTk3MmNiYWJiNmVkZWQxMjhiYjg1ZmE3MGMzMjYwYjU4ZTBlOWIwNDQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZiZWQzMDVhZjkxYjg4Nzg5NGI5MWMwMGNhNWNiOGRmOTI2OTQ3ZmU2ZjNhZDNiMjdkN2U5YjNlMjFlNjNmOWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBmYTJmMDk2YjRlZjg1Zjc1ODc0MjUzNTM4NzU2ZTJlNjQ5NTdiOTY5NzQ5MjViMGVmNmM2NjllNmVmOGE4ZWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJkM2Y5NzI5NWViNGJhMGI4OGU0ZjczNDAzZDVhNDZjMDVmYTU3MTQwZjgyMzExZjdlYjQxMjYzMDhhYWZkZjcifQ"
         },
         {
           "resource": "repo://.github/workflows/flux-local.yaml#L82-L90",
@@ -97,10 +97,68 @@
           "version": "repo-lines-v1:sha256:897adbacd81959f6b03363917da2df25701f41d3eef2a2ad846afb7e143ea07b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFlMzE3OTc1YmRhZjUzYTkwOTNkNzIxNDBmZGNlNGMwMDM0MjI3ZjFiM2JlNWM0MjJmOTE4MWFmMTgyMmY5YjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVhZDZhMzRkNTNlMzA2M2ZiOTY3OGE2NjliOGQ1MTA4MTczN2ZmZjNiNTUxMzI4OWYzNWE3NDhmMTJhMWE5NTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI1ZjgzYjk5ZDEzNDM3YmMyYTcyYjI1ZmE4OGIyZDE4MGUwMjUyYmYxMzc2OTVjYzY5ZTNmMzg3Y2VhYzRhNjYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQzM2Q4ZmVhZGJjYTFiNGEzNmZiZjJjYWViYWQ4YTFlMDFiYzk3MjY3ZjRhZDkwYzQzZmUzMTQ3ODZiOWFlM2YifQ"
         }
       ]
+    },
+    {
+      "id": "claim_188cccd90c90437d9c76b91b5d823e49",
+      "statement": "All flux-local CI validation is gated by a pre-job changed-files check on `kubernetes/**`: when no Kubernetes files changed in a PR, the test and diff jobs are skipped, and the final flux-local-status job passes on skipped jobs, so only real failures block merge.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/flux-local.yaml#L14-L33",
+          "version": "repo-lines-v1:sha256:66cb60500102eb82bd1424dc25d08d83b7ccec9961a9ea3ae846f738cc3a07cb:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJkMGJjZmMyYWI4MDdkZGQ3Zjk1OTBmMmI1ZWM0NTdjMTBkMTk3NjFmY2Q4ZmRhMTVlY2U2ZTY4OGI4Y2QzYmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJjNjcyMjgyZWRhZGYyZDRjZTZkMjM1YjczMTAyZjE5Nzg3YTczZWEyMDRlNmJlNzc1ODk3YmRlNDdmZTkyYWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ5YzFiNDdlNTc0MmE4Y2MwNjEwZmVlY2JlZjkwYzFmNjBiN2YzYmM4NzQ4YWZiMzNkNjI0ODlkNDEzYzI4ZWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg3YzA5NWQ4NTFlZTk0ODhhNThhM2VmNjg5MTFiOWZiYzBjNmZjMTgyYTFlODNkOTQ2YzFkOTJlOWQyMTViZmMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_76aa41f5d14641fb9c531bfc37f49af9",
+      "statement": "The flux-local diff job runs a matrix over helmrelease and kustomization resources, diffs the PR branch against the default branch with noise-stripping attributes (helm.sh/chart, checksum/config, app.kubernetes.io/version, chart), and posts the resulting patch as a PR comment; the comment step has continue-on-error so a failed comment does not fail the job.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/flux-local.yaml#L43-L108",
+          "version": "repo-lines-v1:sha256:026f732d4e902e00fd49197a0a9b2dd654ade61033768d77608b7eade7dd2430:eyJzZWxlY3RlZExpbmVDb3VudCI6NjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUzYzMwNTU5ZDM5MGZlNDZmMGFkNDk4ZDk2Y2I1ZTEzNjk2Mzg1ZDBhNDE1NzRlNDYxN2MwOGE4YjlkMjUzMTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc1ZWZmOThjODJiNjI2Y2JlOTZmN2M3MmEyNTlmMDBkYjMwNzhiNTU0ZmQ4N2M3YjM2M2VhNzMyZDQ5MTkwZjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRkYjExOWVhYThhYzM5NGU4NmM5ODIyZTRlMDcxMDIwY2IxNTMyZTQwOGNkMzNmMmU0NjBhYTU1OTgzOGE3OWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjliMThkZWU4ZjBiNjBmNmNmMDg3MDM4OThhYzVhZWU4MDAzYjMxYzFkZTcxNGNkNGIxZGI2ZmM2ZDNiNGU4Y2EifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_dc794add0497416e88b08b040fbbebae",
+      "statement": "Single-node Talos upgrades are performed via `task talos:upgrade-node IP=<node-ip>`, which resolves the image URL and Talos version from talconfig/talenv via talhelper and runs `talhelper gencommand upgrade`.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml#L31-L46",
+          "version": "repo-lines-v1:sha256:c7745ffcaf01e49647d3d0c759433bd1c878042e171a2003f9f5ef415c355991:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcyMTc2ZGE5ZmU1N2MzMDM4YzQ5MGNmM2ZkODFlZWU1OTA1NDE0YzYzYzVhY2RhZmE0ZTdjMjExMjk0YjNmNWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlhNjI2MWZlNzI4NDUwMWRiYzY0ODNkOTEyZWFjZGQyMzNiZjkwMmIyNGY1OWU0ZmRjYTFlZTVmMWQ2MmFhMWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJjMjI3NzVjMmU1ZWViMDBmOWFiNzIyZjM5Njc0YTZkZDE1NTNhYTA4ODZmZWM5ZDFiNzZkYjU3OGJlNmJiODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgyMjNlZDA2NGU4NDJmYWNiOThmMGI2ZGViYmE1MWQzODg4MjQ0ZjM0NTVjMTIzZjRiMzRiMDU3OGU3ZDAyZWEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ca5f486565a04ae0befec1a1443a0079",
+      "statement": "SOPS encryption rules encrypt whole `talos/*.sops.yaml` files and only `data`/`stringData` keys for `(bootstrap|kubernetes)/*.sops.yaml` files, both with mac_only_encrypted; Flux Kustomizations decrypt using the sops provider with the `sops-age` secret in flux-system.",
+      "evidence": [
+        {
+          "resource": "repo://.sops.yaml#L3-L9",
+          "version": "repo-lines-v1:sha256:f2ee459446bc1fb3d03ccb166ff4f00035979234cf12f34baa203aa2b0ef8d96:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNWE1YmE1NjE5NjczYjM5OTY2ZGM2NjU0NGQzMDg2MWU5N2EzOWFjNTA1ZmY4NWNjNDQ4ZWU1ZGI0MTA0ZDdkOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDYwMWFkNjVkNmRjOWZmZDIxNWZiM2ZkZTkxZWFkZDlmN2IzOGUyMjJjNGU5NDc3MTFkMzk5YzQyN2MwMWQ5OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjIsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDExNzBlZjQwYWI0MTM5NzY5NTFhNWMwZGYwYWRmYTAyMjgyM2QzZTU3YzUwYzk4Y2E2YjZmYjM4ZGY2NjUyMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTJmZDhkNDQwOGQ0NDg5NTFkMzFmOTBhNDQwNGI3N2YzODI3ZDZkM2IwZjZkOWY4YzRhZmEzOTg4ZTBhMjJmZCJ9"
+        },
+        {
+          "resource": "repo://kubernetes/flux/cluster/ks.yaml#L9-L12",
+          "version": "repo-lines-v1:sha256:f000b31c3522bd306a024cee6cfaa7daf3e17c4cde85925ad1ade76d25df1976:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGFiNmUwZWUyMWNmZTcxYTkwNWE5OTkwNWM1ZGEzOTc2ZDA1YTk5MDBhMzVjMGFkMWIxMjc3Y2RjOWUxOWRlZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGUxNWFiOThmYjQ2MzhhOTc1MTM4OTdiMWNmOWZmYTlhZTJmNjVlNWZjYzY1ZTI0YTJhYWRiNGI5ZjQ0YjBlNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjNmYzJmYmI4MWVjM2Q2M2VhN2VjMTQ1ZjE0NGEzNDViNzVlZDI5YjFkZjIxMzMwZDcyMjQ2NmQ3ZmU2NTJlNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTg4YzNhZDUzMDMyNGZkZmNjMjY0Mjk0MmU5MTFiYWNhYTI1MjNhNzI5ZDc4ZjA2NTI3NTQzY2Y2YjQ1ZDA4MSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_0c54c76c766042a89096a631c8959a53",
+      "statement": "Automated Talos and Kubernetes upgrades run via tuppr (system-upgrade controller) with TalosUpgrade/KubernetesUpgrade resources under kubernetes/apps/kube-system/system-upgrade, monitored by Prometheus rules alerting on failed upgrade phases.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/system-upgrade/ks.yaml",
+          "version": "repo-file-v1:sha256:210affeb141759c85a0be91f6a06746ed7a302f9ffb1f142832dab69bd1f0f79"
+        },
+        {
+          "resource": "repo://kubernetes/apps/kube-system/system-upgrade/upgrades/talos.yaml",
+          "version": "repo-file-v1:sha256:f041519d65e43b5cfa242a7a506f5d21aaf537a2514cc8f8e6a966267f533e60"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-01T21:54:26.927Z"
+    "at": "2026-09-05T09:07:37.163Z"
   }
 }
