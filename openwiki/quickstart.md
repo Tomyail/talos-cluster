@@ -29,6 +29,9 @@ sources:
   - id: openwiki-source-b9ff7ee0aa4953cc601052a4
     resource: repo://Taskfile.yaml
 generated: { by: "openwiki/0.4.3", at: "2026-08-31T23:16:37.333Z" }
+verified:
+  - by: openwiki/0.4.3
+    at: 2026-08-31T23:16:37.333Z
 ---
 
 # Quick Start Guide
