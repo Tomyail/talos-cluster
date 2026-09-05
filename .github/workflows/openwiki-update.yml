@@ -43,5 +43,6 @@ jobs:
             echo "No OpenWiki changes to commit"
           else
             git commit -m "docs: update OpenWiki"
+            git pull --rebase origin main
             git push
           fi
