@@ -5,7 +5,7 @@ description: How applications are structured and deployed in the cluster, includ
 tags: [applications, flux, helm, namespaces, gitops]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-01T21:54:26.927Z
+    at: 2026-09-05T21:29:46.144Z
 sources:
   - id: openwiki-source-3575fddf30ac39cfa744fb2f
     resource: repo://kubernetes/apps/cert-manager/cert-manager/app/helmrelease.yaml
@@ -37,6 +37,8 @@ sources:
     resource: repo://kubernetes/apps/default/kustomization.yaml
   - id: openwiki-source-0c521bf9d00ed413e75ea3ac
     resource: repo://kubernetes/apps/default/paperless/app/helmrelease.yaml
+  - id: openwiki-source-f31f428b8ccd8db4e5705f34
+    resource: repo://kubernetes/apps/default/paperless/ks.yaml
   - id: openwiki-source-e77c6b8832294602885266c1
     resource: repo://kubernetes/apps/external-secrets/external-secrets/app/helmrelease.yaml
   - id: openwiki-source-ad95146e587c2b5efe4f98d1
@@ -69,7 +71,7 @@ sources:
     resource: repo://kubernetes/components/common/kustomization.yaml
   - id: openwiki-source-0aa0479be229def909bbfa22
     resource: repo://kubernetes/components/common/repos/app-template/ocirepository.yaml
-generated: { by: "openwiki/0.5.0", at: "2026-09-01T21:54:26.927Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-05T21:29:46.144Z" }
 ---
 
 # Applications Overview
@@ -114,6 +116,23 @@ resources:
 - Includes all app directories as Flux Kustomizations (`./app/ks.yaml`)
 - Includes `common` component (namespace, repos, SOPS decryption)
 - Flux reconciles this as one Kustomization per namespace
+
+### postBuild Substitutes
+
+Per-app Flux Kustomizations use `postBuild.substitute` / `substituteFrom` to inject values into manifests:
+
+```yaml
+postBuild:
+  substituteFrom:
+    - name: cluster-secrets
+      kind: Secret
+  substitute:
+    APP: *app
+    VOLSYNC_CAPACITY: 5Gi
+```
+
+- `cluster-secrets` (Secret) provides cluster-wide values such as `${SECRET_DOMAIN}`
+- Per-app substitutes commonly set `APP` (app name) and `VOLSYNC_CAPACITY` (size for the VolSync-managed PVC)
 
 ### Application Directory Structure
 
@@ -449,12 +468,14 @@ spec:
 **Location**: `kubernetes/apps/default/paperless/`
 
 **Key features**:
-- Uses app-template
+- Uses app-template (chartRef: `OCIRepository/app-template`)
 - Dragonfly for Redis backend (task queue, caching)
 - PostgreSQL database via CloudNative-PG
 - OCR with Chinese and English language support
-- ExternalSecret for credentials
-- Gateway API route to internal gateway
+- ExternalSecret (`paperless-secret`) injected via `envFrom`
+- Gateway API route to internal gateway (`parentRef` to `internal/https` in `kube-system`)
+- VolSync and Gatus components attached in `ks.yaml`
+- `dependsOn` TopoLVM, External Secrets, CloudNative-PG cluster, and Dragonfly cluster
 
 ## Common Patterns
 

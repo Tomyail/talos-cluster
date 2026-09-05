@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:9f36932fd17a12617ce3c900e557db3d1bef1e8177a8d10f73b1e00d3f15146a",
+  "pageVersion": "sha256:e95c1577ae6d62e0a5c12a731ec997fd21600a577c0c3e47433ebb7a53439e23",
   "claims": [
     {
       "id": "claim_1971274329bf4863857c0f694b7f0a92",
@@ -94,7 +94,7 @@
         },
         {
           "resource": "repo://kubernetes/apps/default/paperless/app/helmrelease.yaml",
-          "version": "repo-file-v1:sha256:fbb57a02f4e306ff2b83c7a98638f3fe90f2c84211fc5d3dd24656a15f7980e1"
+          "version": "repo-file-v1:sha256:5f66cf8207d85a61f22958558970a873744fb4b3433f3a4ccc7066bfe6a981d8"
         },
         {
           "resource": "repo://kubernetes/components/common/repos/app-template/ocirepository.yaml",
@@ -116,7 +116,7 @@
         },
         {
           "resource": "repo://kubernetes/apps/default/paperless/app/helmrelease.yaml",
-          "version": "repo-file-v1:sha256:fbb57a02f4e306ff2b83c7a98638f3fe90f2c84211fc5d3dd24656a15f7980e1"
+          "version": "repo-file-v1:sha256:5f66cf8207d85a61f22958558970a873744fb4b3433f3a4ccc7066bfe6a981d8"
         }
       ]
     },
@@ -399,10 +399,48 @@
           "version": "repo-file-v1:sha256:540735f8d31f4c0b14c141cb59bd450d92a07194ac9283a99b888e114dc9d4ad"
         }
       ]
+    },
+    {
+      "id": "claim_c4019121be6546cb983faacdadf40292",
+      "statement": "The default namespace currently contains 31 applications, aggregated by kubernetes/apps/default/kustomization.yaml, which includes ../../components/common and one ks.yaml per app.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/kustomization.yaml",
+          "version": "repo-file-v1:sha256:540735f8d31f4c0b14c141cb59bd450d92a07194ac9283a99b888e114dc9d4ad"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/paperless/ks.yaml",
+          "version": "repo-file-v1:sha256:58ed6d9c2d7c3d75f06836f67f7957d56f47762bcfe1a8a282b817a9072d9d8f"
+        }
+      ]
+    },
+    {
+      "id": "claim_5e003238e96e4a47a9485e3a27564401",
+      "statement": "Per-app Flux Kustomizations attach reusable kustomize components and inject values via postBuild substitutes: paperless includes the components/volsync and components/gatus/guarded components, decrypts with the sops-age key, and sets substituteFrom cluster-secrets plus substitute values APP and VOLSYNC_CAPACITY (5Gi).",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/paperless/ks.yaml#L13-L44",
+          "version": "repo-lines-v1:sha256:701e3974d163f4ad8c189ce96b5975fa662d96140719a8f58342799559a3c5cc:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVkM2E1ZDYxNWQ4YzhjYWZlZDM4MmU2ZmMxODVmNDU5NzAyYWE4NjhjZTc1MjRmZDI2NmYzZmI2ZDYwYzA2NzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE0MDYxNGFjMmM1NzJiNTVlOWJiY2NmODVhODhmYzhiN2Y1YjUxNDA2YjNiODRjYzdkMzVmNDZmMzQ2ZTAxZmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYwYmVkZjViYmRjMDhmNDkyNzZiN2ViYzY4ZGVlZDA5ZmYwZDJjODc5MDA3MDA5NDM1ZjNiOTY0NzY0ZjU0ZGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI2OTRlOGY0NTM4NWM1ODIzYjI4MTI4NTRhNzg3ODE1ZmEzNmEyOGNmZjdjNTFlYzFhMjA0MmJkZWQ2NWE4NTgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ef2c52c0d4b54a38b12fde5f76e128ef",
+      "statement": "Paperless uses Dragonfly as its Redis backend, consumes credentials from the paperless-secret ExternalSecret via envFrom, and exposes itself through a Gateway API HTTPRoute parented to the internal gateway (kube-system, https section).",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/paperless/app/helmrelease.yaml#L48-L53",
+          "version": "repo-lines-v1:sha256:25fc14b731000d756511ac511763ecba65460dbf31c4a9db11ef28f347ad9db7:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODEzNThhNmVkMWQ5NmY0OTBhYWE4ZTNhYzJkZjljYmExZjI5MjM4OTVhZTVhZDNmOTlkNTljYzNmMzI0NWFhZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjcwN2MwZmMyOTVlYWJiMmI0OTllZGQ1MjI2NTc0YjY3YzcxMjRkOGY0Mjk0Zjg3MDE2ZTBlODI1ODBmY2QxNCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTcyYjE2ZjJlZmIzZDAwMjU2ZDljNDEwNDRkMzI5N2JhYzdkMDQ2YzQ0ZTNjYjg5ODk1ZTU5NjZkZjI5MTM4OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTUzNTEyYmNkOWE4N2FjYTlkNGU1YTM2NzcxMWYxNzkxZjM5ZDEyM2MyMjU3NzM0ZWJkMTE2ZmNkNjE4ZjQ4ZCJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/paperless/app/helmrelease.yaml#L66-L77",
+          "version": "repo-lines-v1:sha256:73dfeaa51b064b736a4371f94d5aa96f28a2d3706041ed159d7c94e09084cab9:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE3YmJhNWJmZDQ2MWU2MmE1Y2ZlMzE4NzJkZjUzMWY5NDRlYzFjNmRkMTg3ZWZmODZmNjkxMGEyNTVkNDM4NmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVhNzZlYzA3ZWVjMTFkMjdiOTUwMzkxMmMyZmFiNjlmZDgzMTBmODBhN2NmYWVlYzA2NjlhN2EyMmNiOGZmOWEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE0NjA3MDczOWUzN2ZmOWJiNjJjOTNjN2M1M2JiZDdhODBiOTNlNzE3ZTkzZGZkZjIxMjM4ZTk0ODkwZTBmNzgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU1N2JhOGUyMmMxMmViZTdmYWIzN2UwMGI0ZTEyN2FmMjAzYTc1YzEwZmMzNjIwYTc5MGY0YzU0YWU1MzNjYTkifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-01T21:54:26.927Z"
+    "at": "2026-09-05T21:29:46.144Z"
   }
 }
