@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:b2020870f79a1557657aa4eedb609acb865ccecd2c97536765b4ac99e647df7c",
+  "pageVersion": "sha256:b8806e86fa57435c4a31e9a3cf2bd616a6665c047f28e955dce2e378cddd987f",
   "claims": [
     {
       "id": "claim_28ba8b626032486cb6cfda160b55c8a5",
@@ -94,11 +94,11 @@
     },
     {
       "id": "claim_27bbd42c27414fd89888c309dba7ef1a",
-      "statement": "mise toolchain updates from .mise.toml are auto-merged for minor and patch versions with test ignoring.",
+      "statement": "mise toolchain updates from the .mise.toml [tools] block are auto-merged for minor and patch versions with test ignoring.",
       "evidence": [
         {
-          "resource": "repo://.mise.toml#L7-L27",
-          "version": "repo-lines-v1:sha256:565be13367755b72823b1bc5d4b3578e901575e4036d5cf45711e05c4636f365:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE4MjZiZWEwNWZlNTBhNzNhNjQ1ZDhmYjEyZGMyODJmMjUzNjM0NDMyNjZkOTAxNzM3MmVhZjg4NDU5NDYzNDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImExMzJiZTlmM2NjMTcwZDEyNjFmZWFmOTIyN2RkZTI2ZmRiNzJhYzMxYjg2ZDQzZmY2ZmYyMTdjZjUwNzM2YTYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc1MDg0MzNmMTUzOWVkODEwOTlhNDhlNjIwMDVhMGE4ZGMyNGUwNDFhMDVlZmMxYjFiNGRiMzQ5ZmZkMTgzMTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRlMmZjMWNmZmMyMTMwOTk5YTk4NDcyYzQ1MzkxZmIwMWZiNzkwNDk5ZDIwZjk3NzllMTYyOTk0MDI4M2ViYzgifQ"
+          "resource": "repo://.mise.toml#L7-L28",
+          "version": "repo-lines-v1:sha256:c8667316ea3c3606661267c7ab373caa25519a10998a356be6422e1e4d00d7b6:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE4MjZiZWEwNWZlNTBhNzNhNjQ1ZDhmYjEyZGMyODJmMjUzNjM0NDMyNjZkOTAxNzM3MmVhZjg4NDU5NDYzNDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRlMmZjMWNmZmMyMTMwOTk5YTk4NDcyYzQ1MzkxZmIwMWZiNzkwNDk5ZDIwZjk3NzllMTYyOTk0MDI4M2ViYzgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc1MDg0MzNmMTUzOWVkODEwOTlhNDhlNjIwMDVhMGE4ZGMyNGUwNDFhMDVlZmMxYjFiNGRiMzQ5ZmZkMTgzMTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
           "resource": "repo://.renovaterc.json5#L77-L84",
@@ -221,6 +221,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-01T21:54:26.927Z"
+    "at": "2026-09-06T21:32:38.385Z"
   }
 }

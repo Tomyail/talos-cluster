@@ -3,9 +3,6 @@ type: workflow
 title: Application Deployment Workflow
 description: Explains how to deploy and manage applications through Flux, including the app-template pattern from bjw-s, namespace organization, Kustomization structure, HelmRelease configuration, ExternalSecret integration, and common components for monitoring and backup.
 tags: [flux, deployment, apps, kubernetes, gitops, components, dependencies]
-verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-01T21:54:26.927Z
 sources:
   - id: openwiki-source-951c2cc0849ba28408b9b784
     resource: repo://kubernetes/apps/database/cloudnative-pg/ks.yaml
@@ -49,7 +46,10 @@ sources:
     resource: repo://kubernetes/components/volsync-new/minio.yaml
   - id: openwiki-source-0696023deccf378a358f7526
     resource: repo://kubernetes/flux/cluster/ks.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-30T21:57:36.532Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-06T21:32:38.385Z" }
+verified:
+  - by: openwiki/0.5.0
+    at: 2026-09-06T21:32:38.385Z
 ---
 
 # Application Deployment Workflow
@@ -244,8 +244,9 @@ VolSync provides automated backup and replication for application data.
 **Usage**
 ```yaml
 components:
-  - ../../../../components/volsync-new
+  - ../../../../components/volsync
 ```
+(Apps in this repo reference `components/volsync`; `components/volsync-new` is an alternative variant of the same pattern.)
 
 ### Gatus Component
 

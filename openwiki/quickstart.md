@@ -28,10 +28,10 @@ sources:
     resource: repo://talos/talenv.yaml
   - id: openwiki-source-b9ff7ee0aa4953cc601052a4
     resource: repo://Taskfile.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-31T23:16:37.333Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-06T21:32:38.385Z" }
 verified:
-  - by: openwiki/0.4.3
-    at: 2026-08-31T23:16:37.333Z
+  - by: openwiki/0.5.0
+    at: 2026-09-06T21:32:38.385Z
 ---
 
 # Quick Start Guide
@@ -101,7 +101,7 @@ mise trust
 mise install
 ```
 
-This installs and configures the required tools: `task`, `talhelper`, `talosctl`, `kubectl`, `flux`, `helmfile`, `sops`, `age`, `yq`, `kubeconform`, `cilium-cli`, `cloudflared`, `cue`, `helm`, `jq`, `kustomize`, `python`, `makejinja`, `node`, and `pipx`.
+This installs and configures the required tools: `task`, `talhelper`, `talosctl`, `kubectl`, `flux`, `helmfile`, `sops`, `age`, `yq`, `kubeconform`, `cilium-cli`, `cloudflared`, `cue`, `helm`, `jq`, `kustomize`, `gh`, `python`, `makejinja`, `node`, and `pipx`. Tool versions are pinned in `.mise.toml`; Renovate keeps them updated.
 
 ### Environment Variables
 
@@ -126,6 +126,8 @@ task bootstrap:talos          # Full Talos cluster bootstrap
 task bootstrap:apps           # Bootstrap apps (namespaces, secrets, CRDs, Helm releases)
 ```
 
+See [**Cluster & OS Upgrade Workflow**](./workflows/upgrade.md) for upgrade ordering and the automated tuppr upgrade controller.
+
 ### Initial Cluster Bootstrap
 
 For new cluster installations, the bootstrap process is split into two phases:
@@ -136,7 +138,7 @@ For new cluster installations, the bootstrap process is split into two phases:
 
 After bootstrap, Flux takes over and manages all applications under `kubernetes/apps/`.
 
-See [**Bootstrap Flow**](./architecture/bootstrap-flow.md) for detailed prerequisites, step-by-step instructions, and verification procedures.
+See [**Bootstrap Workflow**](./workflows/bootstrap.md) for detailed prerequisites, step-by-step instructions, and verification procedures.
 
 ## Repository Structure
 
@@ -175,41 +177,20 @@ Applications are organized by namespace under `kubernetes/apps/`, with each name
 - **`external-secrets`**: External Secrets Operator and Bitwarden integration
 - **`external-server`**: External-facing applications behind Cloudflare Tunnel
 
-See [**Namespace and Application Organization**](./architecture/namespace-structure.md) for details on namespace organization and the Flux reconciliation hierarchy.
+See [**Architecture Overview**](./architecture/overview.md) for details on namespace organization and the Flux reconciliation hierarchy.
 
 ## Documentation Map
 
-### Architecture
+The wiki is organized into five domains. Start here, then follow the links for depth:
 
-- **[Bootstrap Flow](./architecture/bootstrap-flow.md)** - Complete cluster initialization process from bare metal to GitOps-managed state
-- **[Namespace and Application Organization](./architecture/namespace-structure.md)** - How applications are organized by namespace under kubernetes/apps and the Flux reconciliation hierarchy
-
-### Concepts
-
-- **[Flux GitOps Architecture](./concepts/flux-gitops.md)** - Flux reconciliation flow from cluster/ks.yaml through cluster-apps to namespace-level Kustomizations
-- **[Networking Architecture](./concepts/networking.md)** - Cluster networking stack: Cilium CNI, Cloudflare Tunnel ingress, Tailscale VPN, k8s-gateway DNS, and AdGuard DNS
-- **[Observability Stack](./concepts/observability.md)** - Monitoring, logging, and alerting systems: Prometheus, Grafana, Loki, Thanos, Gatus, Uptime Kuma
-- **[Secrets Management with SOPS](./concepts/secrets-management.md)** - SOPS + age encryption strategy and how Flux decrypts secrets in the cluster
-- **[Storage Architecture](./concepts/storage-architecture.md)** - Multi-provider storage system: TopoLVM for block storage, local-path-provisioner for host mounts, NFS CSI, and VolSync for backups
-- **[Talos Configuration Management](./concepts/talos-config.md)** - Talos Linux configuration structure via talhelper, including nodes, patches, and machine configs
-
-### Integrations
-
-- **[External Secrets Integration](./integrations/external-secrets.md)** - External Secrets Operator integration with Bitwarden Connect for pulling external secrets into the cluster
-- **[Hardware and GPU Support](./integrations/hardware-support.md)** - Intel GPU support, kernel modules, and node feature discovery for specialized hardware
-- **[Flux Image Automation](./integrations/image-automation.md)** - Flux image update automation system for default namespace applications using ImageRepository and ImagePolicy
-- **[Renovate Dependency Automation](./integrations/renovate.md)** - How Renovate handles automated updates for container images, Helm charts, Talos/Kubernetes versions, and tools
-
-### Operations
-
-- **[Daily Operations](./operations/daily-tasks.md)** - Common operational tasks: Flux reconciliation, log viewing, debugging app issues, and routine maintenance
-- **[Network Operations](./operations/network-tasks.md)** - Network troubleshooting and configuration for Cilium, Cloudflare Tunnel, Tailscale, and DNS services
-- **[Observability Operations](./operations/observability-tasks.md)** - Monitoring stack operations: accessing Grafana dashboards, querying Prometheus, checking Loki logs, and using Gatus
-- **[Secrets Operations](./operations/secrets-tasks.md)** - Secret management workflows: editing encrypted secrets, rotating age keys, and verifying SOPS decryption
-- **[Storage Operations](./operations/storage-tasks.md)** - Storage management tasks: LVM maintenance, snapshot creation, storage class usage, and troubleshooting
-- **[Talos Operations](./operations/talos-tasks.md)** - Talos-specific operations: config generation, node upgrades, Kubernetes upgrades, and cluster reset
-- **[Upgrade Workflow](./operations/upgrade-workflow.md)** - Complete upgrade process for Talos OS, Kubernetes, and cluster applications with proper ordering
-- **[VolSync Backup and Restore](./operations/volsync-tasks.md)** - VolSync operations for manual snapshots, listing backups, and restoring PVCs from MinIO
+| Domain | Page | What it covers |
+| --- | --- | --- |
+| **Architecture** | [Overview](./architecture/overview.md) | Cluster layers, namespace organization, and the Flux reconciliation hierarchy |
+| **Workflows** | [Bootstrap](./workflows/bootstrap.md) | Full cluster initialization from bare metal to GitOps-managed state |
+| **Workflows** | [App Deployment](./workflows/app-deployment.md) | Standard app layout and Flux reconciliation path: `ks.yaml` → `helmrelease.yaml` → secrets, storage, routing, monitoring |
+| **Workflows** | [Cluster & OS Upgrade](./workflows/upgrade.md) | Manual Talos/Kubernetes upgrade tasks plus the tuppr automated upgrade controller |
+| **Operations** | [Daily Operations](./operations/daily-operations.md) | Routine tasks: Flux reconciliation, log viewing, debugging, and maintenance |
+| **Integrations** | [Renovate](./integrations/renovate.md) | Automated dependency updates: container images, Helm charts, Talos/Kubernetes versions, and mise toolchain |
 
 ## Key Architectural Patterns
 
@@ -222,7 +203,7 @@ Flux watches the Git repository and reconciles the cluster in two stages:
 
 Each namespace under `kubernetes/apps/` has its own Kustomization that Flux reconciles with SOPS decryption enabled.
 
-See [**Flux GitOps Architecture**](./concepts/flux-gitops.md) for the complete reconciliation hierarchy and dependency ordering.
+See [**Flux GitOps Architecture**](./architecture/overview.md) for the complete reconciliation hierarchy and dependency ordering.
 
 ### Application Pattern
 
@@ -255,7 +236,7 @@ Two-layer encryption approach:
 
 Flux decrypts SOPS secrets using the `sops-age` Secret in `flux-system`. The local `age.key` file is required for editing secrets but never committed.
 
-See [**Secrets Management with SOPS**](./concepts/secrets-management.md) for the complete architecture and workflows.
+See [**App Deployment Workflow**](./workflows/app-deployment.md) for how secrets are wired into applications.
 
 ### Dependency Automation
 

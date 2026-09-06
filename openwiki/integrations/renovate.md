@@ -34,8 +34,8 @@ sources:
     resource: repo://talos/talenv.yaml
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-01T21:54:26.927Z
-generated: { by: "openwiki/0.4.3", at: "2026-08-31T23:16:37.333Z" }
+    at: 2026-09-06T21:32:38.385Z
+generated: { by: "openwiki/0.5.0", at: "2026-09-06T21:32:38.385Z" }
 ---
 
 # Renovate Dependency Automation
@@ -197,11 +197,11 @@ The custom regex manager extracts four key fields from annotated comments:
 ### Toolchain Versions
 
 **mise tools** (`mise` manager)
-- Source: `.mise.toml`
+- Source: `.mise.toml` `[tools]` block (`.mise.toml#L7-L28`)
 - Auto-merge: Enabled for minor and patch updates
 - Tracks: Python, aqua tools, Node.js, pipx versions
 
-Example from `.mise.toml`:
+Example from the `.mise.toml` `[tools]` block:
 ```toml
 [tools]
 "python" = "3.14.7"
@@ -210,6 +210,8 @@ Example from `.mise.toml`:
 node = "latest"
 pipx = "latest"
 ```
+
+All pinned tool versions that the `mise` manager updates live in this `[tools]` block, including aqua-proxied CLIs (talhelper, cilium-cli, flux2, helm, helmfile, kustomize, kubectl, talos, yq, kubeconform, etc.), pipx-installed tools, and Python.
 
 ## Package Grouping
 

@@ -18,14 +18,16 @@ sources:
     resource: repo://kubernetes/apps/kube-system/system-upgrade/upgrades/kubernetes.yaml
   - id: openwiki-source-74686dd015ff8c01d48e930e
     resource: repo://kubernetes/apps/kube-system/system-upgrade/upgrades/kustomization.yaml
+  - id: openwiki-source-a8f67d22e07f96ebe155eba3
+    resource: repo://kubernetes/apps/kube-system/system-upgrade/upgrades/prometheusrule.yaml
   - id: openwiki-source-ededdde4ddcb07a3ee796444
     resource: repo://kubernetes/apps/kube-system/system-upgrade/upgrades/talos.yaml
   - id: openwiki-source-b65e4f1ccd91316116ad973a
     resource: repo://talos/talenv.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-30T21:57:36.532Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-06T21:32:38.385Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-05T09:07:37.163Z
+    at: 2026-09-06T21:32:38.385Z
 ---
 
 # Cluster Upgrade Workflow
@@ -57,6 +59,34 @@ flowchart TD
 - **Application Upgrades**: Automated via Flux HelmRelease reconciliation
 
 Version pins are maintained in `talos/talenv.yaml` and `talos/talconfig.yaml` with Renovate annotations for automated dependency tracking.
+
+### End-to-End Automated Upgrade Flow
+
+The automated path ties Renovate, the talenv/tuppr CR version pins, tuppr's plan-and-execute loop, and Prometheus alerting together:
+
+```mermaid
+flowchart TD
+    A["Renovate detects new Talos / Kubernetes version"] --> B["PR bumps version pins"]
+    B --> C["talos/talenv.yaml"]
+    B --> D["upgrades/talos.yaml TalosUpgrade CR"]
+    B --> E["upgrades/kubernetes.yaml KubernetesUpgrade CR"]
+    C --> F["Flux reconciles tuppr-upgrades Kustomization"]
+    D --> F
+    E --> F
+    F --> G["tuppr controller plans upgrade"]
+    G --> H["Node-by-node rollout: drain, upgrade, reboot, health check"]
+    H --> I{"All nodes upgraded?"}
+    I -- yes --> J["Phase: Completed"]
+    I -- no --> H
+    H --> K["Prometheus metrics tuppr_*"]
+    K --> L["PrometheusRule alerts"]
+    H -- "node failure" --> M["Phase: Failed"]
+    M --> L
+```
+
+*Figure: Renovate-driven version bump through tuppr planning, node-by-node upgrade, and PrometheusRule alerting on failure or stall.*
+
+The manual path bypasses tuppr entirely: a Renovate-merged `talenv.yaml` bump is consumed directly by `task talos:upgrade-node` / `task talos:upgrade-k8s`, which read the versions via `yq` at execution time.
 
 ## Talhelper-Based Manual Upgrades
 
@@ -176,8 +206,8 @@ flowchart TD
 ```
 
 **Components:**
-- **HelmRelease** (`kubernetes/apps/kube-system/system-upgrade/tuppr/helmrelease.yaml`): Deploys tuppr controller from OCI chart
-- **OCIRepository** (`kubernetes/apps/kube-system/system-upgrade/tuppr/ocirepository.yaml`): Fetches tuppr chart from `ghcr.io/home-operations/charts/tuppr`
+- **OCIRepository** (`kubernetes/apps/kube-system/system-upgrade/tuppr/ocirepository.yaml`): Fetches the tuppr chart from `oci://ghcr.io/home-operations/charts/tuppr`, pinned to tag `0.5.4`, reconciling every 1h, with `layerSelector` copying only the Helm chart tarball layer (`application/vnd.cncf.helm.chart.content.v1.tar+gzip`)
+- **HelmRelease** (`kubernetes/apps/kube-system/system-upgrade/tuppr/helmrelease.yaml`): Deploys the tuppr controller via `chartRef` pointing at the `tuppr` OCIRepository, reconciling every 30m with `replicaCount: 1` and a Prometheus `serviceMonitor` enabled
 - **Custom Resources**: `TalosUpgrade` and `KubernetesUpgrade` CRs define upgrade specifications
 - **PrometheusRule**: Monitors upgrade progress and fires alerts on failures
 
@@ -506,8 +536,5 @@ Renovate automatically tracks Talos and Kubernetes versions via `# renovate:` an
 
 ## Related Documentation
 
-- **Cluster Architecture**: `/openwiki/concepts/cluster-architecture.md` - Overall cluster design and upgrade strategy
-- **Daily Operations**: `/openwiki/operations/daily-operations.md` - Routine upgrade tasks using talhelper
-- **Talos Configuration**: `/openwiki/talos/configuration.md` - Talos upgrade workflow details
-- **Troubleshooting**: `/openwiki/operations/troubleshooting.md` - Upgrade failure recovery procedures
-- **Renovate Integration**: `/openwiki/integrations/renovate.md` - Automated dependency tracking for upgrade versions
+- **Talos Configuration**: `/openwiki/concepts/talos-config.md` - Talos configuration and version management
+- **Talos Tasks**: `/openwiki/operations/talos-tasks.md` - Manual talhelper task details

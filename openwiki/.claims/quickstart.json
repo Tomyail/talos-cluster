@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:ae03405f0dbc4a2c582adac2537ebd7eb1ecf9f82dc9cabe0de9601ed9626a9a",
+  "pageVersion": "sha256:85cdf247f5a3fc72b8097b2d64d62bf30eb3a72e85299abf4a8507112c5684c2",
   "claims": [
     {
       "id": "claim_7007b04a9365408685923e5725757fbe",
@@ -18,11 +18,11 @@
     },
     {
       "id": "claim_1ddb6f00c491410583e5bbc5e7148cd2",
-      "statement": "The repository uses mise for toolchain management, installing task, talhelper, talosctl, kubectl, flux, helmfile, sops, age, yq, kubeconform, cilium-cli, cloudflared, cue, helm, jq, kustomize, python, makejinja, node, and pipx, while automatically setting essential environment variables (KUBECONFIG, TALOSCONFIG, SOPS_AGE_KEY_FILE).",
+      "statement": "The repository uses mise for toolchain management, installing task, talhelper, talosctl, kubectl, flux, helmfile, sops, age, yq, kubeconform, cilium-cli, cloudflared, cue, helm, jq, kustomize, gh, python, makejinja, node, and pipx at versions pinned in .mise.toml, while automatically setting essential environment variables (KUBECONFIG, TALOSCONFIG, SOPS_AGE_KEY_FILE).",
       "evidence": [
         {
           "resource": "repo://.mise.toml",
-          "version": "repo-file-v1:sha256:b3260a3ed5674fa9008920df471767ab594aa0cdd40dfc0c464d1607991a26ed"
+          "version": "repo-file-v1:sha256:c638edc05590d382090568c5ee51d4ed8d4d36975583b583ca7e0ffa865308fe"
         },
         {
           "resource": "repo://README.md#L59-L87",
@@ -154,7 +154,7 @@
     }
   ],
   "verification": {
-    "by": "openwiki/0.4.3",
-    "at": "2026-08-31T23:16:37.333Z"
+    "by": "openwiki/0.5.0",
+    "at": "2026-09-06T21:32:38.385Z"
   }
 }

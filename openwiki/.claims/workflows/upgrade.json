@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:22daf5a45c6af0e9e24687fdc0e2fba2c2e33b95ea58406d5d0b00cfeff8334f",
+  "pageVersion": "sha256:c44b672c4bf72b507427fc04bba3c04f96a6b8c4e786e3aded8126a85516c5f0",
   "claims": [
     {
       "id": "claim_fdb31951fbef449e8d6a7379d6290774",
@@ -32,7 +32,7 @@
     },
     {
       "id": "claim_dedbf40cfa454fbfbb4ee73b110ad22f",
-      "statement": "The tuppr automation system is deployed via Flux Kustomization in `kubernetes/apps/kube-system/system-upgrade/ks.yaml`, which deploys the tuppr controller HelmRelease and a separate dependent Kustomization (`tuppr-upgrades`) for upgrade CRs. The controller HelmRelease is sourced from an OCIRepository named `tuppr` that pins chart tag `0.5.3` from `oci://ghcr.io/home-operations/charts/tuppr`, reconciles every 1h, and selects only the Helm chart tarball layer (`application/vnd.cncf.helm.chart.content.v1.tar+gzip` with `operation: copy`); the controller manages upgrade lifecycle through TalosUpgrade and KubernetesUpgrade custom resources.",
+      "statement": "The tuppr automation system is deployed via Flux Kustomization in `kubernetes/apps/kube-system/system-upgrade/ks.yaml`, which deploys the tuppr controller HelmRelease and a separate dependent Kustomization (`tuppr-upgrades`) for upgrade CRs. The controller HelmRelease is sourced via `chartRef` from an OCIRepository named `tuppr` that pins chart tag `0.5.4` from `oci://ghcr.io/home-operations/charts/tuppr` (reconciling every 1h) and selects only the Helm chart tarball layer (`application/vnd.cncf.helm.chart.content.v1.tar+gzip` with `operation: copy`); the HelmRelease reconciles every 30m with one replica and a Prometheus serviceMonitor enabled. The controller manages upgrade lifecycle through TalosUpgrade and KubernetesUpgrade custom resources.",
       "evidence": [
         {
           "resource": "repo://kubernetes/apps/kube-system/system-upgrade/ks.yaml",
@@ -44,7 +44,7 @@
         },
         {
           "resource": "repo://kubernetes/apps/kube-system/system-upgrade/tuppr/ocirepository.yaml",
-          "version": "repo-file-v1:sha256:db28097ab0c923b0644936faf847317425152d42e26ca6085954138d50277a86"
+          "version": "repo-file-v1:sha256:21fd181ba3f881986d87def010be520c30e89683bedc29d6498c90d9885d4bee"
         }
       ]
     },
@@ -147,10 +147,70 @@
           "version": "repo-file-v1:sha256:b47199cfaa6aba2a557cdf219a421683fdbc50b1a5565edb050d794d42195f09"
         }
       ]
+    },
+    {
+      "id": "claim_f99b892fecbc44ee995d7d491cd0a0ac",
+      "statement": "Tuppr upgrade health is monitored by two PrometheusRules: `tuppr/prometheusrule.yaml` fires critical alerts `TalosUpgradeNodeFailed` (failed nodes > 0 for 1m), `TalosUpgradeFailed`/`KubernetesUpgradeFailed` (phase=Failed for 1m), warning `TalosUpgradeStuck` (transient phases > 1h), `KubernetesUpgradeStuck` (> 45m), and `UpgradeJobRunningTooLong` (active job > 1h); `upgrades/prometheusrule.yaml` adds `TupprUpgradeFailed`, `TupprUpgradeStuck`, and `TupprHealthCheckFailures`.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/system-upgrade/tuppr/prometheusrule.yaml",
+          "version": "repo-file-v1:sha256:453ebc0149ab296d57e50c123e5782ef5d42ee259cd7da64a7c38a64222a88fd"
+        },
+        {
+          "resource": "repo://kubernetes/apps/kube-system/system-upgrade/upgrades/prometheusrule.yaml",
+          "version": "repo-file-v1:sha256:b77a87a9ebe3d3253dd017353e1c755c36cd462d2283f22e6b87205d0cdb45dc"
+        }
+      ]
+    },
+    {
+      "id": "claim_117d311605ce41199f1c3ed0681a1565",
+      "statement": "The `tuppr-upgrades` Flux Kustomization depends on the `tuppr` controller Kustomization (dependsOn in ks.yaml) and applies the TalosUpgrade/KubernetesUpgrade CRs from `kubernetes/apps/kube-system/system-upgrade/upgrades`, so upgrade CRs are only applied after the controller is ready.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/system-upgrade/ks.yaml",
+          "version": "repo-file-v1:sha256:210affeb141759c85a0be91f6a06746ed7a302f9ffb1f142832dab69bd1f0f79"
+        },
+        {
+          "resource": "repo://kubernetes/apps/kube-system/system-upgrade/upgrades/kustomization.yaml",
+          "version": "repo-file-v1:sha256:b47199cfaa6aba2a557cdf219a421683fdbc50b1a5565edb050d794d42195f09"
+        }
+      ]
+    },
+    {
+      "id": "claim_17f33916021041a89bacedef1def3696",
+      "statement": "Version pins live in two Renovate-tracked locations that must stay in sync: `talos/talenv.yaml` (talosVersion v1.12.7, kubernetesVersion v1.35.4) feeds the manual talhelper tasks via `yq`, while the tuppr CRs `upgrades/talos.yaml` and `upgrades/kubernetes.yaml` pin the same versions for automated upgrades via `# renovate:` annotations on ghcr.io/siderolabs/installer and ghcr.io/siderolabs/kubelet.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml",
+          "version": "repo-file-v1:sha256:c225f89537001da000f854eaa234bf1973988aa49e84e216fb7284dcbcd786bd"
+        },
+        {
+          "resource": "repo://kubernetes/apps/kube-system/system-upgrade/upgrades/kubernetes.yaml",
+          "version": "repo-file-v1:sha256:be50b9911d94a2b8e4c3b8b47c3f730630ef79612220c90423ef7566be7fcd14"
+        },
+        {
+          "resource": "repo://kubernetes/apps/kube-system/system-upgrade/upgrades/talos.yaml",
+          "version": "repo-file-v1:sha256:f041519d65e43b5cfa242a7a506f5d21aaf537a2514cc8f8e6a966267f533e60"
+        },
+        {
+          "resource": "repo://talos/talenv.yaml",
+          "version": "repo-file-v1:sha256:4ae26d952e597f70c4bbe7665882b09fe952fe44746284b6ff794e03502b0c1d"
+        }
+      ]
+    },
+    {
+      "id": "claim_1c77b56b02aa4728a2fff2760151ee09",
+      "statement": "The TalosUpgrade CR `talos` sets `policy.rebootMode: powercycle`, so automated Talos node upgrades reboot via hard power cycle rather than a graceful reboot.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/system-upgrade/upgrades/talos.yaml",
+          "version": "repo-file-v1:sha256:f041519d65e43b5cfa242a7a506f5d21aaf537a2514cc8f8e6a966267f533e60"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-05T09:07:37.163Z"
+    "at": "2026-09-06T21:32:38.385Z"
   }
 }
