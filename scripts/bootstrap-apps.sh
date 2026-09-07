@@ -99,7 +99,7 @@ function apply_crds() {
         # Kept here for cluster bootstrap: cilium (installed by helmfile) has
         # gatewayAPI.enabled=true and needs these CRDs to exist before it starts.
         # renovate: datasource=github-releases depName=kubernetes-sigs/gateway-api
-        https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.6.1/experimental-install.yaml
+        https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.6.2/experimental-install.yaml
         # Prometheus Operator CRDs are managed by Flux HelmRelease
         # in kubernetes/apps/observability/prometheus-operator/crds/
     )
