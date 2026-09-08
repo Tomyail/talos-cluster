@@ -18,7 +18,7 @@ sources:
     resource: repo://.github/workflows/openwiki-update.yml
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-05T09:07:37.163Z
+    at: 2026-09-08T21:57:36.335Z
 generated: { by: "openwiki/0.5.0", at: "2026-09-05T09:07:37.163Z" }
 ---
 

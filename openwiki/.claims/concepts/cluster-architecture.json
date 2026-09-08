@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:50f99d25e1888e7051fde1de31bd22c0dbfebdca719aa31b0df8d53e5bf404f4",
+  "pageVersion": "sha256:ddab77300748ddd302d6bb481cf24ade80e0b89285b097960467cce0ae37ec83",
   "claims": [
     {
       "id": "claim_2f8b2d0f8ee7497eb3ab28202bcff633",
@@ -401,10 +401,144 @@
           "version": "repo-file-v1:sha256:bdcfe917f81144bb95c0a5a91b2742dbe89ea58be4040e8a0ed7d6de37250752"
         }
       ]
+    },
+    {
+      "id": "claim_49b5fb1c16c141458c898b32ca4de14c",
+      "statement": "Talos machine configs are generated, not hand-written: talenv.yaml pins talosVersion v1.12.7 and kubernetesVersion v1.35.4 (Renovate-annotated) which are substituted into talconfig.yaml placeholders, and `talhelper genconfig` renders per-node machine configs into the gitignored talos/clusterconfig/.",
+      "evidence": [
+        {
+          "resource": "repo://talos/talconfig.yaml#L5-L6",
+          "version": "repo-lines-v1:sha256:3e2e28f7c7aa8d216a760287963dee3cfef8151f90933134d54acdfbaf2be6fa:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTVlZWM1N2QwZDY0Zjc2ZGM2YTRkYTM5MzYxM2NmM2YzMDM5MjJmZDQ3OTU3ZTU1MDM4ZmUwZjFhOTFkNDVmMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMmFkNWVkNDEzY2I4YzVlZGI4NjQ0MWVhMjYxOTlmNTRiMGE1MDFjMDViOGY3ODljNzQ1NTE2YTYwOGNkNTcyOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMGJhNDMyYTBhYWY3YjZlYzMxNGE4ZDI5MWExOWZkZDFiNzlhMmJlYzI2ODRjZjEzNTI3ZjEwZGVkZDc3OWQ0NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOWQxN2U4NzZjOGIxNTI0NDBkNzlmMzE1MzY1ZTY2YmIwZWUzM2M3MDQyN2I3M2I3NGE0ZDdiZDQzNDFiZDNhMSJ9"
+        },
+        {
+          "resource": "repo://talos/talenv.yaml",
+          "version": "repo-file-v1:sha256:4ae26d952e597f70c4bbe7665882b09fe952fe44746284b6ff794e03502b0c1d"
+        }
+      ]
+    },
+    {
+      "id": "claim_0ca12f3fb9d64105872dfa9db706b39c",
+      "statement": "The bootstrap task generates Talos cluster secrets with `talhelper gensecret`, pipes them through `sops --encrypt` into talos/talsecret.sops.yaml, and skips regeneration when that file already exists; all talhelper task entrypoints (generate-config, apply-node, upgrade-node, upgrade-k8s, reset) are `talhelper gencommand` wrappers keeping talconfig.yaml the single source of truth.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/bootstrap/Taskfile.yaml#L11-L11",
+          "version": "repo-lines-v1:sha256:fd794754de8f2e278f5e512300668cf11cc05683f6c95d456010efb8fc9dba45:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZmQ3OTQ3NTRkZThmMmUyNzhmNWU1MTIzMDA2NjhjZjExY2MwNTY4M2Y2Yzk1ZDQ1NjAxMGVmYjhmYzlkYmE0NSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZmQ3OTQ3NTRkZThmMmUyNzhmNWU1MTIzMDA2NjhjZjExY2MwNTY4M2Y2Yzk1ZDQ1NjAxMGVmYjhmYzlkYmE0NSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjZkMGU5ZDg2ZDY2MzE5NzQ0MDY4Y2NmOGQ5ZWQwNGI1ZDkwZTMxOTViMTliYjI2ZTcxMzg5NTY4M2Q4YjhmZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTU1NTU2MmNiODU1MDI5NTNlNTFmODIzZGFlMTRmOGYwZWY1ZDBmMjgwYmVhZDZiNDAwYjU0NTM1ZDU0MTM1ZSJ9"
+        },
+        {
+          "resource": "repo://talos/patches/README.md",
+          "version": "repo-file-v1:sha256:3d67190a6f3d6f90506fbe4926357a32e5665005ac6932da7e9c231715db08ed"
+        }
+      ]
+    },
+    {
+      "id": "claim_e0edab8876b54197bf10c1fd8ecb9a0c",
+      "statement": "The cluster is a single control-plane node, master0-nuc12 (192.168.50.145), an Intel NUC12 with Secure Boot, installed from a pinned factory.talos.dev secureboot image with system extensions i915/intel-ucode/thunderbolt, GPU node label intel.feature.node.kubernetes.io/gpu, dm_thin_pool and i915/drm kernel modules, a static IP selected by NIC MAC 48:21:0b:58:14:f9, and Talos VIP 192.168.50.10 anchoring the Kubernetes API endpoint https://192.168.50.10:6443.",
+      "evidence": [
+        {
+          "resource": "repo://talos/talconfig.yaml#L21-L50",
+          "version": "repo-lines-v1:sha256:f678eea767bc88e17e96f6b0015879dde04226bb8d1e7690783caeb3300e6f9e:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBjODdjYmY0NmNlYmQ4NTZjMGI5OTc2NzExYWJlYTdmYzI4MTU2MzA4YzcxZTMwYTlhMzgwYjNlOWQzODEzZmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjljMTc5MWM5YTBlYWYyOWIwYzJiZmE0ZWExOTE0OGYxNGVmN2IyY2EzNjAyODcyNjM2MmQwMjI4NzMwOTE1YmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE4ZTVhYjcwYzU0NWE4Mzc2ZWQ3Mzg2NzBiM2E5MzlkOTA5NmJmMjNlYzdkOWIzZDk4YjVlNzAxMmJlN2ZlNmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJlNWM3MjZmOTI2N2JhZWYyOTYxMjljNWE0Zjg3YzAyMmI4NzhhOWM2MWVkNjI2ZDgyYWFkOWZjNTliMWJhM2EifQ"
+        },
+        {
+          "resource": "repo://talos/talconfig.yaml#L78-L84",
+          "version": "repo-lines-v1:sha256:788be131890418556fdcb261fb3775aa50b0dfefb678238501d02c39959e528d:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjk5YTFkMmM2NDFkMjhhYjAzZWY2ZjYxMTdhZmE1NTg4NDcxYWJhNWM4YzA4NGNiNWJmYzcxY2ZlYWUzYTJhZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzcyZDIxYjRhNTYyYThkNjkxYmE1YTVjZGViMjI1OTVmZGJkOWRlZTE1OTIyYjcwNDA4YjAxMDE0NTYwODY0MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzM2ZWI0OTVlZjhmNGM0N2MyZTYwM2MwZmIzN2VkZTliYWQ5MDlhYzBlYzNkYThmNDFlZmVhNGE0MzI3MmU1YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_556ccbae38704813ace624ee195194f3",
+      "statement": "An inline manifest in talconfig.yaml provisions a UserVolumeConfig named local-path-provisioner (min 2GB, grow-enabled, on the system disk) which, together with the kubelet patch bind-mounting /var/mnt/local-path-provisioner, provides the host storage backing local-path-provisioner.",
+      "evidence": [
+        {
+          "resource": "repo://talos/patches/global/machine-kubelet.yaml",
+          "version": "repo-file-v1:sha256:20b3813061f5092a3bf7c1b1f2e52e65dd833283ac29d755b3e11987498fffc8"
+        },
+        {
+          "resource": "repo://talos/talconfig.yaml#L53-L63",
+          "version": "repo-lines-v1:sha256:08115f75ece7ad13199de1b2ebe7a0529765e85d3f13aabc0fe5b794ad3faf61:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUwNWY4MDczYWRkZmVmN2Y2NDUzY2I4MDMzYTVkNGRkNzRkYjFiNjhmMzI4ZGM0ZDEzYTNiZDUxOGZhZGUwMzUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjljYjFkNzc5Y2U5ZGU5NjFhNWYwOWRhYjU4M2Q2OTE4OTNmNmIyOTdlNDUyMDMzMjNhYTFjZDFlZmQyZjZjYjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUxNTg3ZDVjMzk2YmExOWU5OGYyMTM5N2FhOWVmYTJjZWVjNTNjMjcxZDk5Yjk2NGJjZjg1MWQ4NjVjNjZhODMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA5M2RkZjI1MzNiNmE1ZjNjYTQ4M2YyMTM5MDA3ZTNkNDFlN2QyMTFiM2M3Yzg0MTc4YzM3NTcyN2Q0M2JmNTYifQ"
+        },
+        {
+          "resource": "repo://talos/uservolume.yaml",
+          "version": "repo-file-v1:sha256:192ff310b7ba19ee90b910e3334e02e55747e1c6f1d29d6ee37aed2bce187d5e"
+        }
+      ]
+    },
+    {
+      "id": "claim_8a4136d1d50a4dc4bb68e7a376f18bd9",
+      "statement": "talos/patches/ holds strategic-merge patches merged by talhelper: global/ applies to all nodes (containerd discard_unpacked_layers, kubelet nodeIP/mounts, DNS, sysctls for inotify/QUIC/user-namespaces, Cloudflare NTP, a udev rule giving group 44 access to renderD* for GPU workloads, and kubernetesTalosAPIAccess for os:admin from kube-system); controller/cluster.yaml alone shapes the control plane.",
+      "evidence": [
+        {
+          "resource": "repo://talos/patches/global/machine-api-access.yaml",
+          "version": "repo-file-v1:sha256:86c2098b4ae130a0f106602bc08d5ed721f74e12fe87a5ce8f7648e13d909300"
+        },
+        {
+          "resource": "repo://talos/patches/global/machine-sysctls.yaml",
+          "version": "repo-file-v1:sha256:284c1785b5b4579df114f05793c5ea36138f6ea2a3e9d4bfbba1488f1c72a6e1"
+        },
+        {
+          "resource": "repo://talos/patches/global/machine-udev.yaml",
+          "version": "repo-file-v1:sha256:7e154d158f2c4d2f42dae8791664103b6c15e6a4fed0d72b3f05d848a69d341d"
+        }
+      ]
+    },
+    {
+      "id": "claim_984fd8ddf93d44efbe1a697856a1672d",
+      "statement": "The controller cluster patch disables kube-proxy (replaced by Cilium eBPF) and built-in CoreDNS (installed via helmfile at bootstrap), enables aggregator routing, exposes controller-manager/scheduler on 0.0.0.0 for metrics, exposes etcd metrics on :2381 with advertisement restricted to 192.168.50.0/24, and allows scheduling workloads on the control plane.",
+      "evidence": [
+        {
+          "resource": "repo://talos/patches/controller/cluster.yaml",
+          "version": "repo-file-v1:sha256:b84f1bd6fa79f59238e74442f063dd9f363671d200064815ecfd618c261d47d3"
+        }
+      ]
+    },
+    {
+      "id": "claim_aff26925effd4121b10cb1b17d9dc3c0",
+      "statement": ".sops.yaml encrypts talos/*.sops.yaml whole-file with mac_only_encrypted, while bootstrap/ and kubernetes/ *.sops.yaml files encrypt only data/stringData keys; both rules target age key age1shkd7fsr66cnpkutpmpf7ffylcc2x4c9tlsdkapv6nmu5ceu0dzqdjtqc5.",
+      "evidence": [
+        {
+          "resource": "repo://.sops.yaml",
+          "version": "repo-file-v1:sha256:9b05505c0ce2a16b8eff84c79d5255fdc5f48d7eb6b14e26901d6bf40f348a89"
+        },
+        {
+          "resource": "repo://README.md#L181-L194",
+          "version": "repo-lines-v1:sha256:05be11b2a7c20f2bca5cf2af6628eff0329dbc11e45e8b4aaa472bbcdbb043c3:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNlNDNhOTEwOTk2YTI2NTRjNmUyNmM1ZjQzODliNTAwMzVlNzJjMWM1MWNhNGE5MTE3NjJlYjNkYzkyNjE2MzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk4ZGY0MTM5MTM4ZjNhMWM2OGZmMWI4MTcwYTFmY2ZiNTRmZDlkMWU4NDI2MTBjOWFjYzUwMzc5NTc1NTQwMDQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY2ZjU3MzFmOTcxZWM2Yjc4ZDFlYTY1MzY2M2JmZTU1NTQzNDE3ZWQzZmRhMjYwN2MyYmUwYTkzZDQ0YzFlYjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBlNDRiMjg3OWQ1NDAyMzE4MjkwMjg0MDhjMTlkZWRmYmRhYTY2NDJhM2Y4ZTM2MTZlNzIyZDhjZTgxZGRmN2MifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_585bf3776f9244859529bc96eef48a75",
+      "statement": "The SOPS age private key lives unencrypted at age.key in the repo root (exported as SOPS_AGE_KEY_FILE by mise and required as a bootstrap precondition); app bootstrap then decrypts and applies kubernetes/components/common/sops/sops-age.sops.yaml as the in-cluster sops-age secret so Flux can decrypt SOPS manifests thereafter.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/bootstrap/Taskfile.yaml#L16-L20",
+          "version": "repo-lines-v1:sha256:e44ae3ed5800a38a7f14b7f122b8a045b508c02240651e7f3d211f8622d68175:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNGJkMzRmZDEwNTU5MmFkMjUyNGNiN2I5ZGM1YTk4NzIyNjdmNzY3OTU0ZmY0ZDE3ZTkxYmQ1MjI5N2VlNzNkNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiM2NjYzE2NzEzMDQ3YTkyNWY4NTg2ODY2Y2IzMzQ2YzNjNzQzN2U0MmIwZThjZGRmNTllYWQ0NGI5M2ZmNzYyOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTM5Y2Y2YWUxZGQxOWNlNWQ2MTIwZDFhMjVlZWE3ZGI0ZjlhNThkNjIzNDc3YTEyNTI5MDYzYmRmMWFiY2ZhNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiM2QzMzU2MDNkOWUwNWFmMDI0MjhmZGJmYWM0NzQyOGZlM2U3YWM2YzA5YjMzMzdiZTc3ZjZkMTRlODc1M2UwZSJ9"
+        },
+        {
+          "resource": "repo://README.md#L82-L87",
+          "version": "repo-lines-v1:sha256:4545bd3994a631986513b63aabe3693916d8c108d0d42dbb01bd6b8d69f5d39a:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZGI3M2Q4YzMzZTgyNzY0NzA4Yzg2OGVjODhkZWMxN2E2YjhjMGNiYjhiY2I4YzExYjFhNWExZjJkNGIwZTY2MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDgzNTY5MjU4NTQ5OGRhZWI2MmU2NWI0NWYzYWY5ZTgyMTJiZWVlMDc3YzJmNGIyNzIwYmU1MTE4YjhhYTI1MyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDEyN2QwZmMxY2JiZmNmMzQwMmEwODg1YTY4YjJiMWEyOGNjYzdhMmVjYTFiMjA4YjYxOTYzZWYyNmQ1MDNmMiJ9"
+        },
+        {
+          "resource": "repo://scripts/bootstrap-apps.sh#L56-L85",
+          "version": "repo-lines-v1:sha256:1325b3d67f3937d9b3a837bb8da376bc7e1fe2aa16cf46be755a91656b350b6d:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYyM2E2OTU3OTEzMTZiOTRlNjkxNWMwYjc0NzYyYjExZWZmYmFkZWZlN2IyNjgxNzNhMjBmNzc4YzA3MzA1OGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNiODliYzg3NjY4MWY5MzllMjQ1NTZmN2FjZGI0MmRiOTA0YmRiNWYyNjE3NzMzNWY0NDA5MjQ2ZWU1NjgxOTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI1ZmUxMzM4YmI5YTIwMDA4ODZlY2ViYjg5NThhMjI1MzcwZTgyNTAwNzhlMmEzMDhkN2Q0NjYwYzQ1ZTdlN2IifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c0b2a6adcc774a8287582902dd0ac128",
+      "statement": "In-cluster upgrades are driven by the tuppr controller via TalosUpgrade CRDs (talos pinned to v1.12.7, rebootMode powercycle, with Prometheus alerts on failed phases), while manual task talos:upgrade-node / upgrade-k8s draw versions from the same talconfig.yaml/talenv.yaml sources of truth.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml#L31-L58",
+          "version": "repo-lines-v1:sha256:267a2e1d3c62adf33264ff5ff9fb740b9bd6894bb8f0708ab17fa5b8d5b20468:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcyMTc2ZGE5ZmU1N2MzMDM4YzQ5MGNmM2ZkODFlZWU1OTA1NDE0YzYzYzVhY2RhZmE0ZTdjMjExMjk0YjNmNWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2MGRjZjk2Mjk1YzVkNThhNjk3NjU1MjRjMzc5YTgwOWUxNzRhNzVlZGM1YzdlYTUwMmI4MzFkOGI4MmFiNmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJjMjI3NzVjMmU1ZWViMDBmOWFiNzIyZjM5Njc0YTZkZDE1NTNhYTA4ODZmZWM5ZDFiNzZkYjU3OGJlNmJiODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdlOWVjZjQ3MzhmZTc2ZWE5N2MzYmYwZmIwNzNmZTkxODQwZThlNTBlYzVjOTdjOGQzZWZiNWU3YWI5YmRkNmQifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/kube-system/system-upgrade/upgrades/talos.yaml",
+          "version": "repo-file-v1:sha256:f041519d65e43b5cfa242a7a506f5d21aaf537a2514cc8f8e6a966267f533e60"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-01T21:54:26.927Z"
+    "at": "2026-09-08T21:57:36.335Z"
   }
 }

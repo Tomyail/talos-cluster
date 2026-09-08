@@ -5,8 +5,10 @@ description: External Secrets Operator deployment and configuration for pulling 
 tags: [secrets, external-secrets, eso, bitwarden, security, integration]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-01T21:54:26.927Z
+    at: 2026-09-08T21:57:36.335Z
 sources:
+  - id: openwiki-source-878c71c8660186a07262b148
+    resource: repo://kubernetes/apps/database/cloudnative-pg/app/externalsecret.yaml
   - id: openwiki-source-5a01ad0b742c7605909d5ff3
     resource: repo://kubernetes/apps/default/gitea/app/externalsecret.yaml
   - id: openwiki-source-41044dd9a7ebfa0249948610
@@ -27,15 +29,21 @@ sources:
     resource: repo://kubernetes/apps/network/adguard-dns/ks.yaml
   - id: openwiki-source-d8c4e370c14d2ec1e343aa98
     resource: repo://kubernetes/apps/network/smtp-relay/app/externalsecret.yaml
+  - id: openwiki-source-807732a5fef8941218129aea
+    resource: repo://kubernetes/apps/network/smtp-relay/ks.yaml
   - id: openwiki-source-726538cf24db8abb5c138a51
     resource: repo://kubernetes/apps/network/tailscale/app/externalsecret.yaml
   - id: openwiki-source-d4d025f39bde91bcff75daaa
     resource: repo://kubernetes/apps/network/tailscale/app/helmrelease.yaml
   - id: openwiki-source-7bbbd5bb6a47194673e6139c
     resource: repo://kubernetes/apps/network/tailscale/ks.yaml
+  - id: openwiki-source-69cc6af1b9164ded19497ccb
+    resource: repo://kubernetes/apps/observability/grafana/app/externalsecret.yaml
+  - id: openwiki-source-e77f449e947f9b25cfc86044
+    resource: repo://kubernetes/components/volsync/minio.yaml
   - id: openwiki-source-d7ce147b373b74b80f0794fd
     resource: repo://kubernetes/flux/meta/repos/bitwarden-eso.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-31T23:16:37.333Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-08T21:57:36.335Z" }
 ---
 
 # External Secrets Integration
@@ -165,7 +173,7 @@ postBuild:
 
 ## ClusterSecretStore Resources
 
-The Bitwarden provider creates two cluster-wide SecretStore instances that enable ExternalSecret resources to pull secrets from Bitwarden:
+The Bitwarden provider chart (`bitwarden-eso-provider`, installed with `installCRDs: true`) provisions two cluster-wide SecretStore instances — their manifests are shipped by the chart and are not stored in this repository, but ExternalSecrets throughout `kubernetes/apps` reference them by name:
 
 ### bitwarden-login ClusterSecretStore
 

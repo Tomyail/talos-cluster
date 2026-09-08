@@ -5,14 +5,18 @@ description: Layered networking stack comprising Cilium CNI with L2 announcement
 tags: [networking, cilium, cloudflare, dns, gateway, tailscale, vpn, ingress]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-01T21:54:26.927Z
+    at: 2026-09-08T21:57:36.335Z
 sources:
   - id: openwiki-source-514428fb63f74f5cc6fe8c1d
     resource: repo://kubernetes/apps/default/qbittorrent/app/egress-gateway-policy.yaml
   - id: openwiki-source-d9f5f9eb0be17b72994fcd3e
     resource: repo://kubernetes/apps/kube-system/cilium/app/helm/values.yaml
+  - id: openwiki-source-ad95146e587c2b5efe4f98d1
+    resource: repo://kubernetes/apps/kube-system/cilium/app/helmrelease.yaml
   - id: openwiki-source-0fea713b3cc38997c9682b8e
     resource: repo://kubernetes/apps/kube-system/cilium/app/networks.yaml
+  - id: openwiki-source-5950bf3e4e1eb12f562a4f61
+    resource: repo://kubernetes/apps/kube-system/cilium/gateway/certificate.yaml
   - id: openwiki-source-406c92f3368aa84a28fbd72b
     resource: repo://kubernetes/apps/kube-system/cilium/gateway/external.yaml
   - id: openwiki-source-367dcc8235c3b0a144a93539
@@ -35,7 +39,7 @@ sources:
     resource: repo://kubernetes/apps/network/tailscale/app/egress-proxy.yaml
   - id: openwiki-source-d4d025f39bde91bcff75daaa
     resource: repo://kubernetes/apps/network/tailscale/app/helmrelease.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-30T21:57:36.532Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-08T21:57:36.335Z" }
 ---
 
 # Networking Architecture
@@ -105,6 +109,7 @@ Cilium serves as the cluster's Container Network Interface, providing eBPF-based
 Cilium operates with the following foundational settings:
 
 - **IPAM Mode**: Kubernetes-native IP address management
+- **Release**: Flux `HelmRelease` from `https://helm.cilium.io`, chart `cilium` version `1.20.0`, with install/upgrade remediation and rolling pod rollouts
 - **Routing Mode**: Native routing with IPv4 native routing CIDR set to `10.42.0.0/16`
 - **Kube-proxy Replacement**: Fully enabled, replacing kube-proxy with eBPF-based service forwarding
 - **Socket LB**: Host namespace only for optimal performance
@@ -130,15 +135,16 @@ Cilium implements the Kubernetes Gateway API specification with two gateway inst
 - Public-facing services accessible via Cloudflare Tunnel
 - HTTP (port 80) and HTTPS (port 443) listeners
 - Wildcard hostname matching for `*.SECRET_DOMAIN`
-- TLS termination using cluster wildcard certificate
+- TLS termination using a cert-manager wildcard certificate (`letsencrypt-production` ClusterIssuer, DNS names `${SECRET_DOMAIN}` and `*.${SECRET_DOMAIN}`) stored in the secret `${SECRET_DOMAIN/./-}-production-tls`
 - Route namespace policy: Same namespace for HTTP, all namespaces for HTTPS
+- Annotation `external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"` so external-dns points the wildcard apex at the gateway address
 
 **Internal Gateway** (`192.168.50.12`):
 - Cluster-internal services for local network access
 - HTTP (port 80) and HTTPS (port 443) listeners
 - Wildcard hostname matching for `*.SECRET_DOMAIN`
-- TLS termination using cluster wildcard certificate
-- Route namespace policy: Same namespace for HTTP, all namespaces for HTTPS
+- Same cert-manager wildcard certificate and listener/allowedRoutes policy as the external gateway
+- Annotation `external-dns.alpha.kubernetes.io/hostname: "internal.${SECRET_DOMAIN}"` (used by the AdGuard DNS external-dns instance, which targets `--gateway-name=internal`)
 
 Both gateways leverage Cilium's eBPF data plane for high-performance HTTPRoute routing to backend pods.
 
@@ -164,7 +170,8 @@ Cloudflare Tunnel (cloudflared) provides secure inbound access without opening e
 - **Ingress Rules**: Routes `SECRET_DOMAIN` and `*.SECRET_DOMAIN` to the external Cilium Gateway service (`cilium-gateway-external.kube-system.svc.cluster.local`)
 - **DNS Registration**: Tunnel endpoint registered as CNAME record `external.SECRET_DOMAIN` pointing to Cloudflare Tunnel unique ID
 - **Origin Server Name**: Configured as `external.SECRET_DOMAIN`
-- **Metrics**: Exposed on port 8080 with ServiceMonitor integration
+- **Metrics**: Exposed on port 8080 (`TUNNEL_METRICS`) with ServiceMonitor integration; liveness/readiness probes hit `/ready` on the same port
+- **Hardening**: Runs as non-root (UID 65534) with read-only root filesystem and all capabilities dropped
 
 **Traffic Flow**:
 1. External users resolve `*.SECRET_DOMAIN` to Cloudflare endpoints
@@ -302,4 +309,6 @@ This integration enables secure, private connectivity to cluster resources from 
 - **DNS Propagation**: k8s-gateway TTL of 1 second enables rapid updates but may increase DNS query load
 - **Tunnel Configuration**: Cloudflare Tunnel credentials stored in `cloudflare-tunnel-secret`; rotation requires secret update
 - **Egress IP**: Ensure designated egress IPs (`192.168.50.10`) are not assigned to other services
+- **Multus Compatibility**: Cilium CNI exclusive mode disabled for potential Multus pairing
+gned to other services
 - **Multus Compatibility**: Cilium CNI exclusive mode disabled for potential Multus pairing

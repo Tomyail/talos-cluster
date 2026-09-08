@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:61ef56b2727c8fd9c44f23d723e00019b22821393a7e02346b66e4061fa99362",
+  "pageVersion": "sha256:63725ee8e6d58d1b0759d78c00b6b9e3b3c19c89427a24742856d6c5aa63d0fd",
   "claims": [
     {
       "id": "claim_0e4b64aa301a4c2dac2447bb89e242db",
@@ -195,10 +195,84 @@
           "version": "repo-file-v1:sha256:cb73c1131dfb173d74fdba526d3cc90af9d8a0c6cdee54badc6b3e5672b29ef2"
         }
       ]
+    },
+    {
+      "id": "claim_63473dc18d484e529e7066ded79b6d1e",
+      "statement": "Cilium is deployed by Flux as a HelmRelease from https://helm.cilium.io using chart version 1.20.0, with install retries -1, upgrade cleanupOnFail with 3 retries, and values supplied from the `cilium-values` ConfigMap.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/cilium/app/helmrelease.yaml#L14-L36",
+          "version": "repo-lines-v1:sha256:901286a923a17558897a94d730bf6cbd5c68af01e04d94a1803f4007f1619dc0:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAwNTI1NDE5MDhhZDkzM2M4ZWZkZDNiMWVhNzk0OGU4MDlhNmZhZTBjNWE4Y2Y1Nzg3YjhlYzNlNWZiNjY3YTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg4YzM5NDc3ZGIwNDQ1YTcyOWE2YThhOWExMzA4ZjFjODUyMjdlMzAyNmM3ZDI5YTAyMzc1NDAxMjdkZWQ5MjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY0NjY3MzQ4YmRkMGExMDAyYjhiYzAzMWU3ZTBjZTE5ZDllMTQ1YjdiMjJhMGNlODViNzllMzBiZDJmMjhmOTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_00c3a25aa2f74d09ab9376f243789802",
+      "statement": "Cilium's data plane runs with endpoint routes enabled, local redirect policy enabled, and Hubble disabled; observability comes from Prometheus ServiceMonitors on both Cilium agents and the Cilium operator (plus Grafana dashboards), and pods roll out via rollOutCiliumPods/envoy.rollOutPods.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/cilium/app/helm/values.yaml#L20-L58",
+          "version": "repo-lines-v1:sha256:d6a89f6952747c2f6b5fb454b8858a82a2b6bde30f50a87766f261f4d574d61b:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ2ZjlkZDEzOGNmYzI3ODUwMTYwNjdjZTU1MWE2NTkyZmVkNGI1N2M4MmVhYWUwMDE0MmI4YjAxYjcyY2E2YmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYxNDM0MjQ4NThjZDQ0YjUwNTA2N2QwNzRiZTdhYjAzNGE5ZGRmOWMyMDY2YjE3MGUyOTAyN2VkMjg1NGRjOGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFmZWY3MTA3NGU0ZWRlNTRjM2FjYzYwNTkxODdlODYzNmQ0ZDc5OTU1NjE3ZGNlYzUwYmJjYWM4NDA2MTViZDMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYwYWY5ZTdkODg0ZWE4YTcwM2QyNTkxYjhiZGNjMWYyZjUyYjRlNDJhOGE0ZTBmODBiNTg4Y2NjYjFjYWNhYzIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_1530e9b4b6b54ceb89c58cffb3d11af1",
+      "statement": "Both Cilium Gateways (external and internal) terminate TLS using a single cert-manager wildcard Certificate issued by the letsencrypt-production ClusterIssuer for ${SECRET_DOMAIN} and *.${SECRET_DOMAIN}, stored in the secret `${SECRET_DOMAIN/./-}-production-tls` referenced by the HTTPS listeners.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/cilium/gateway/certificate.yaml#L5-L13",
+          "version": "repo-lines-v1:sha256:527de8239d119d0313b225ec2de2b8f488f0b951413aae6b631ec371cae06aec:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2E2ZjRkZGEzZWFlYzAzMGY1NTI4MjgxYWViMjU4ZGZjNGI5MDIwOGViOWU1ZGJkOTFkYmVjYTMxZGJkMWE1OCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZGU0NzYxNTJkMDM1MzI2NjE5ZDU3YjVjMTUwM2ViZGNkYmUzMGY1OWEwZmY4Yjc5MTcyYzlkYTY3ZmE3NDQwOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTJhNTFiNjIzNDJmZGIzMDI1ODY3ZThiMTJjM2NkZTAwZDk1ZjE4ZDkxYTNkYjQxZmVmZDk1MmEyMGMxNGM5ZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/kube-system/cilium/gateway/external.yaml#L30-L35",
+          "version": "repo-lines-v1:sha256:3875ecc51ccd15c9dccd4ffa5d3d5af99a3bc049180753ec6e8f9b093721e252:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2RlY2YzNzAzMjY1Zjc3YWZkNDc0MGU0YTFlOWFmYmFhMGEyMDdlMjY4ODNkZWZmMGY4NDg0NzRiYzFmOWI1MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMTFlOTdhZWQwZTViNzVmNzg4NDI4NDljOWQ3NWIyOTI4MGUzMDdlYTM1ZDUxNTM3OTVkZWNlNDYwYzIwOTFmYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDEyNmJkM2QyMjNiNGQ1ODI3N2E3NjY0M2RkN2IwODM1YTE1YmU4MDAyZDYzMjEyODJjZjMxMTI5NzE5NGZjNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/kube-system/cilium/gateway/internal.yaml#L27-L31",
+          "version": "repo-lines-v1:sha256:1d0ad78c0eea6a132072f0313314a669f67f724267861f3b4af8e87ee0bc2ed2:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2RlY2YzNzAzMjY1Zjc3YWZkNDc0MGU0YTFlOWFmYmFhMGEyMDdlMjY4ODNkZWZmMGY4NDg0NzRiYzFmOWI1MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjE1MWNkYmEzOWQxYzEzNjFhZWFhZGU1ZTM4YzIxZmZhYmQ5MDY3N2MzYjVhZGUzMDg3N2FlZjQyNjI0NmQ4YyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDEyNmJkM2QyMjNiNGQ1ODI3N2E3NjY0M2RkN2IwODM1YTE1YmU4MDAyZDYzMjEyODJjZjMxMTI5NzE5NGZjNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTFlOTdhZWQwZTViNzVmNzg4NDI4NDljOWQ3NWIyOTI4MGUzMDdlYTM1ZDUxNTM3OTVkZWNlNDYwYzIwOTFmYyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_f9a785106625494f8c8adeb93b01772a",
+      "statement": "The external Gateway advertises `external.${SECRET_DOMAIN}` via external-dns annotations (target + infrastructure hostname), while the internal Gateway advertises `internal.${SECRET_DOMAIN}`; the AdGuard DNS external-dns instance targets the internal gateway specifically via `--gateway-name=internal`, and the Cloudflare external-dns instance via `--gateway-name=external`.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/cilium/gateway/external.yaml#L7-L16",
+          "version": "repo-lines-v1:sha256:74a0e82c9053e778e24b62f29fcaa9202efd98b1fa770d766a1f28818f3ac4e1:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhZDIwMWZiMmQ2NzQzNmMxMDE0NmRhNmIwYjNiMmVlNDdhM2U0MWQwNmJlMjIzNzI4YjU1YjA4ZjhjYjYyNzAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEyNGQyZjE3ODE4MTc1YWU4MWE0MjM3ZTQ4OGJjY2E1ZWMzOTQ0MjVlZGQyNTJiMWE2MDkzMDU5YjhkNWQzNmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImMwNDZhNzUzMmNhNjdiYmU1OWJhNDE3NjAwZmIxY2NhZGYwN2Y2MTJkZTAyYTBhNjRlODAxOTBhMzJmNmY2ZjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBjMzExNDZiZmY3ODhjZjY2MzRhZGM0M2IzMjhiYjc2ZmNmNDgwYmU2NjkwNDU0ZDI1ZWFjMDNhMjY1ODBlOGYifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/kube-system/cilium/gateway/internal.yaml#L7-L8",
+          "version": "repo-lines-v1:sha256:7a075de51aeab2df322bfbacdfc37e01b88500d3b6efb53cfd7e839fb0ff7161:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2FkMjAxZmIyZDY3NDM2YzEwMTQ2ZGE2YjBiM2IyZWU0N2EzZTQxZDA2YmUyMjM3MjhiNTViMDhmOGNiNjI3MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTA0NjA4MDYyOTkzNDRjMzJhNWY4Y2FmZjc3MzQ3OTI2OGY3YmRiZGFmNTc0MTY3ODJjNzg1ODIzZDRkN2E1ZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjYwMzRhOGJlMDhhZDc0MzRjMjgwY2Q5MTIyYWJmNWZhOTczMzIzMTc0OWU4MmUxMTdiMzI2M2RiZjJkNGZjZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzJhZjcyMTEyYjc1ODBlZmRjNDg5N2ZiYTQxYTg2NWFjZmFhZmIyODVkYmM0MWJlYzcyYjdhNGEwZDlhZTYzZiJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/adguard-dns/app/helmrelease.yaml#L79-L80",
+          "version": "repo-lines-v1:sha256:96e600e0013d4e2a4ac37042a0dde60024587e1d084a724c301fd3b9dad1ec99:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZmMwMWUxZTYzNGRjNGI5NTRkMWMzNzhkOTZmNzU2MGMyMWMwY2ZmN2Q5MjU4ZDg4MTI0NzYwNWEzZDliN2MxYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZGI0Y2U0M2JhZjQ1NDAxZjg2NDNiMjI3OTY2NzRmMzZhNWQyMTA1NzQ1YmViYTczMWQ1NTE1NTU4NTAxNWRhZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTM3ZjJmNzRiY2U5OGI3YzE0NTJiZmI3ODA3NmZlODFiMzZkZWMxYzViYzBiMmQ3N2RmZDVlY2VmMDVhMTBhZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-dns/app/helmrelease.yaml#L39-L39",
+          "version": "repo-lines-v1:sha256:21e29a837e611cebaf169129fdf441eac81d8d1d7d138921234f676e9e4f4613:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMjFlMjlhODM3ZTYxMWNlYmFmMTY5MTI5ZmRmNDQxZWFjODFkOGQxZDdkMTM4OTIxMjM0ZjY3NmU5ZTRmNDYxMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjFlMjlhODM3ZTYxMWNlYmFmMTY5MTI5ZmRmNDQxZWFjODFkOGQxZDdkMTM4OTIxMjM0ZjY3NmU5ZTRmNDYxMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNWIxZGJiMzViZTEyYjliODhiNmI5OGFlNTkwMzczZDI3NTViYmMzMTk4YTVlZWY4ZjM5MTVlZTRiYzJkNmJlNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTBjMjVhMjI5YTMyMzg4ZDdiN2RhNDZkODRiYjRiZmY0YzRmNDczZGU2NjlhM2UwYjJmMjJiMzQ1ZGUwYzIzMyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_1be75070964f4544b16bc2c541527468",
+      "statement": "cloudflared runs as non-root (UID/GID 65534) with a read-only root filesystem and all capabilities dropped, exposes metrics on 0.0.0.0:8080 with a ServiceMonitor, and uses HTTP GET /ready probes on port 8080 for both liveness and readiness.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/helmrelease.yaml#L32-L66",
+          "version": "repo-lines-v1:sha256:1cef8ccf3977df2142793be96d1b29e959273ad8500c518b651e1e37d4efdf45:eyJzZWxlY3RlZExpbmVDb3VudCI6MzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkzOTYzOWE2YjI4OGUwYmFiZmI4MjdkMzFmMWQzNDhmMzdhNzEwMmQ1OTFiM2VlZTQxZjkxZTExY2NhZjhmYmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA5Nzk1Y2QxYjNiOWFhYTdjNGRiMjk1Y2YxN2VkODE1MTJlZjgzNzYwZDY5ZTUxNTBlZGI1NDk4OGQ3ZmZhNjYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY3ZjkzYzFjZTZhYTY4ZTFjZmJhY2FhNmZlYTY1YWVmNTVhMjJmZDkyZGM5MDFiZDRhMTI4ZWEyYTk2NGU0NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEzOGIwOGQ2MjMxNDMyMDQ0ZGY2YWNmNmQ2OWIwOTBiYTEzNTc5OThjMWQ5NTY1ZjMzMThkY2E3MGZhMTU2Y2IifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/helmrelease.yaml#L72-L75",
+          "version": "repo-lines-v1:sha256:f02a18b97b0fd50e909381d28adb3fc7cc689048e62aedaaa88084de00fb0acd:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjdhOTFjOTc2YTJlZmI1Nzk0MWQyNTI2MjE5NzZjZDRiNjZmYzQ4YzgxMzZhZDYwOWRkZTE1ZDFiNjBlODA4MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDU4NDVlYTYxNTZjYzMwYzViZDM1Njg0Mjc4ZTJiMzc0OWZlZGFjNDA1MjFjMzA5NjhjNDFhMDkzMWJmMDhkZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjNiN2EwOWEyNjliZGUxNDU4ZWFkZGMxMjY5YTczY2VhMTIwNTYxZGYyYmEzZmQwZDY0YTNjMWVlYTk2OGRmNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDQ0ZWRhNDQxZjBkNzg4MzdjNWQxNWNlZTFmMDQwYjkzZTBjNWE4YTZmODM2MmMwZDczYTJiOGQ3ZGIxNDhkZiJ9"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-01T21:54:26.927Z"
+    "at": "2026-09-08T21:57:36.335Z"
   }
 }

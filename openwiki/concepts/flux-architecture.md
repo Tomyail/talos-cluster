@@ -5,7 +5,7 @@ description: Comprehensive documentation of the Flux GitOps reconciliation hiera
 tags: [flux, gitops, kubernetes, reconciliation, kustomize, helm]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-01T21:54:26.927Z
+    at: 2026-09-08T21:57:36.335Z
 sources:
   - id: openwiki-source-1385f4adf262cc0ec92b6d45
     resource: repo://kubernetes/apps/default/echo/ks.yaml

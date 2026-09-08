@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:7f8d6d4f75cda742441831b6044a4504a883c0bab74e33d6f13c33dfce22b8fa",
+  "pageVersion": "sha256:21190bcff24fa003cb5cb2903fb7e00d14f30114ed72306da22e24a57b2d8d1d",
   "claims": [
     {
       "id": "claim_568d0013139d486d968deda03423763a",
@@ -289,10 +289,52 @@
           "version": "repo-lines-v1:sha256:b3adb023db98fd9bdbdbf2931406ff425918a47a2d9cb9859031bcff975aeffb:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2MxMTE1ZDAxMWE3YjVlYzA4OWM2YTVkMDM1MWNhZGIwYzZhODM0ZDI0NDI0OTVmODJhM2UyNjEzNjUzN2JmZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGMyYzI2ZTU2ZGQyMTBjMjllYTg1YWM3NTBlMWJjYjgzN2Y3ODIxMWFmMDE3YzM2MWMyOTBjOGUyNjliMTllMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDdlMTQ2NTllODM0YjI5ZjNkZmQ5ODlhNTU1N2QxNmE0MDRlNDhjZjA3OGQ1MGQ2ZmIxNGI0MDc5NDc0OTFlNSJ9"
         }
       ]
+    },
+    {
+      "id": "claim_58861cd19a624145a01cfb8d1862fc3d",
+      "statement": "Every Kubernetes namespace is provisioned by a single kustomization root at kubernetes/apps/<namespace>/kustomization.yaml that sets namespace: <name> and includes the shared ../../components/common component (namespace, SOPS age secret, app-template OCIRepository).",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/database/kustomization.yaml",
+          "version": "repo-file-v1:sha256:788941ecc8774f2e6d473403f08bacdd588cd521afddc711a875b9bc782c37f1"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/kustomization.yaml",
+          "version": "repo-file-v1:sha256:047360d70b32ca409e054e30a135afbbd0e93eef3f44c37c4528a3199435c333"
+        }
+      ]
+    },
+    {
+      "id": "claim_b11c01d92de14157bbd544291fe06054",
+      "statement": "Cross-namespace ordering is enforced with explicit Flux dependsOn entries: the cloudnative-pg operator Kustomization depends on the external-secrets Kustomization in the external-secrets namespace, and cloudnative-pg-cluster depends on both cloudnative-pg (same namespace) and topolvm in the storage namespace.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/database/cloudnative-pg/ks.yaml#L13-L15",
+          "version": "repo-lines-v1:sha256:b34e612a3f654f986192567bb4a0b37338c33cb29bd434d1b71474764ef8e0cd:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTYwYzNiZDdiYzU5ZmVjOWU0ZGVkMzVkN2NjZjcwMGEzODVhY2U1ODYzNGZhNjBkM2IyMmZmMjY4YzAxN2ViZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYmY5ODk5M2QyZTQ4YWE2MTY4NTMwNzlkNTgzOWU0NGVlYmNjYmJlMWVlYzhkZWI4MWM3ZDRiZmFiMDVhZTljNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjBiZWRmNWJiZGMwOGY0OTI3NmI3ZWJjNjhkZWVkMDlmZjBkMmM4NzkwMDcwMDk0MzVmM2I5NjQ3NjRmNTRkYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTgyZjZhODMwYmNhNGM3YmE1ZjIxMGI4OWEwZjIwODJlZjg3OTY4ZDEzNDhkNmNhZTI1OGY4MWY3ZjVhYmJkYyJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/database/cloudnative-pg/ks.yaml#L46-L51",
+          "version": "repo-lines-v1:sha256:afb6269112f83f4bc27e16af3262390c026986689536e6795d2b3d5f2d9bd14f:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTYwYzNiZDdiYzU5ZmVjOWU0ZGVkMzVkN2NjZjcwMGEzODVhY2U1ODYzNGZhNjBkM2IyMmZmMjY4YzAxN2ViZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYzU2NzlmMTdmMzI0NmQwOGJjOGNmNmMxMjIwMzkyYzFhZWViNWMxODA0ZjYzNmY2ZDQzMzE3MWY3MDE3ZTg5YyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjBiZWRmNWJiZGMwOGY0OTI3NmI3ZWJjNjhkZWVkMDlmZjBkMmM4NzkwMDcwMDk0MzVmM2I5NjQ3NjRmNTRkYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzU2ZGJiMjFiMjExOTIzYmNhY2I2MWYxOTM4YzE3NGJlMjhiMDBmMzAyZDM1MGY4ZjEyYjA4NzcwNWIyNzk4NiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_a74ad094500d4a97a8c3aa67748b8485",
+      "statement": "App-level Flux Kustomizations set wait: true so dependents reconcile only after dependencies are healthy, making storage (topolvm) and secrets (external-secrets) layers hard prerequisites for stateful applications.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/database/cloudnative-pg/ks.yaml",
+          "version": "repo-file-v1:sha256:aa6f505e65ce130d253450a84932797a5ff6825e90db37b3ade45b9dd62b9efd"
+        },
+        {
+          "resource": "repo://kubernetes/flux/cluster/ks.yaml",
+          "version": "repo-file-v1:sha256:34d6970a4822f2b762ed2b48b96225a7d9a1bb7f3c4007fed459656c84134c45"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-01T21:54:26.927Z"
+    "at": "2026-09-08T21:57:36.335Z"
   }
 }

@@ -1,17 +1,23 @@
 ---
 type: architecture
-title: Cluster Architecture Overview
-description: High-level architecture of the Talos Linux Kubernetes cluster including control plane, networking stack with Cilium and Cloudflare Tunnel, storage layers with TopoLVM and VolSync, observability with Prometheus/Grafana/Loki, and security via SOPS and External Secrets.
+title: Cluster & Talos Architecture
+description: Talos Linux node roles and hardware inventory, the talhelper configuration pipeline (talconfig.yaml, talenv.yaml, machine patches), and how Talos machine config relates to the Kubernetes control plane, workloads, and SOPS+age secret encryption.
 tags: [talos, kubernetes, architecture, cilium, storage, networking, observability, flux]
 sources:
   - id: openwiki-source-240e6406ed4b6841961679cb
     resource: repo://.sops.yaml
+  - id: openwiki-source-f04021c19122a44288e9cea0
+    resource: repo://.taskfiles/bootstrap/Taskfile.yaml
+  - id: openwiki-source-4f5be6b4c7dcc699aca46164
+    resource: repo://.taskfiles/talos/Taskfile.yaml
   - id: openwiki-source-360da09d9920a02e1e719d90
     resource: repo://bootstrap/helmfile.yaml
   - id: openwiki-source-d3d80f124bb7f98ce2094ebc
     resource: repo://kubernetes/apps/default/calibre-web-automated/app/volsync-nfs.yaml
   - id: openwiki-source-d9f5f9eb0be17b72994fcd3e
     resource: repo://kubernetes/apps/kube-system/cilium/app/helm/values.yaml
+  - id: openwiki-source-ededdde4ddcb07a3ee796444
+    resource: repo://kubernetes/apps/kube-system/system-upgrade/upgrades/talos.yaml
   - id: openwiki-source-6462236f173fe5751314fd3e
     resource: repo://kubernetes/apps/network/adguard-dns/app/helmrelease.yaml
   - id: openwiki-source-f340d1876ec8cdef13a12327
@@ -52,48 +58,143 @@ sources:
     resource: repo://scripts/bootstrap-apps.sh
   - id: openwiki-source-d2a09e6daa777d44de395a25
     resource: repo://talos/patches/controller/cluster.yaml
+  - id: openwiki-source-739e9bf5fe7006e5917e0e76
+    resource: repo://talos/patches/global/machine-api-access.yaml
+  - id: openwiki-source-3e196790f656e0269a8c26fb
+    resource: repo://talos/patches/global/machine-kubelet.yaml
+  - id: openwiki-source-3d83fad84bedab7bcf047491
+    resource: repo://talos/patches/global/machine-sysctls.yaml
+  - id: openwiki-source-456ed6bb68f86e098d0036e2
+    resource: repo://talos/patches/global/machine-udev.yaml
+  - id: openwiki-source-fa722a4fd56cf74de886d778
+    resource: repo://talos/patches/README.md
   - id: openwiki-source-1fd71dc29915917549048436
     resource: repo://talos/talconfig.yaml
   - id: openwiki-source-b65e4f1ccd91316116ad973a
     resource: repo://talos/talenv.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-28T03:38:47.877Z" }
+  - id: openwiki-source-4d7c266d0d7adae77539048e
+    resource: repo://talos/uservolume.yaml
+generated: { by: "openwiki/0.5.0", at: "2026-09-08T21:57:36.335Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-01T21:54:26.927Z
+    at: 2026-09-08T21:57:36.335Z
 ---
 
-# Cluster Architecture Overview
+# Cluster & Talos Architecture
 
-This document describes the overall architecture of the Talos Linux Kubernetes cluster, including the control plane setup, networking stack, storage layers, observability infrastructure, and security mechanisms.
+This document describes the cluster's Talos Linux layer — node roles, hardware inventory, the talhelper configuration pipeline, and Talos machine patches — and how that layer underpins the Kubernetes control plane, networking stack, storage layers, observability infrastructure, and security mechanisms.
 
-## Control Plane Architecture
+## Talos Layer
 
-The cluster runs a **single-node control plane** with a Virtual IP (VIP) for high availability within the control plane itself. This design is suitable for homelab environments where a single control plane node provides sufficient availability.
+The cluster runs on Talos Linux, an immutable, API-driven OS with no shell or package manager. The entire Talos layer is declaratively managed in `talos/` via [talhelper](https://github.com/budimanjojo/talhelper), and the generated machine configs drive the Kubernetes control plane.
 
-### Control Plane Configuration
+### Configuration Pipeline
 
-- **Control Plane Node**: `master0-nuc12` (192.168.50.145)
-- **Virtual IP (VIP)**: 192.168.50.10
-- **API Endpoint**: https://192.168.50.10:6443
-- **Secure Boot**: Enabled on all nodes
-- **Scheduling**: Control plane nodes allow workload scheduling (`allowSchedulingOnControlPlanes: true`)
+Talos configs are not hand-written. The flow is:
 
-The VIP is managed by Talos and ensures that the Kubernetes API server remains accessible at the fixed IP address regardless of the underlying node's physical address.
+<!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
+```text
+flowchart LR
+    Env[talenv.yaml<br/>talos/k8s versions] --> TC[talconfig.yaml<br/>nodes + patches]
+    TC -->|talhelper genconfig| CC[clusterconfig/<br/>machine configs, gitignored]
+    TC -->|talhelper gensecret| TS[talsecret.sops.yaml<br/>SOPS-encrypted cluster secrets]
+    CC -->|talhelper gencommand apply| Nodes[Talos Nodes]
+    TS --> Nodes
+```
 
-### Kubernetes Components
+- **`talos/talenv.yaml`**: pins `talosVersion: v1.12.7` and `kubernetesVersion: v1.35.4`, both with Renovate annotations for automated dependency tracking. These values are substituted into the `${talosVersion}` / `${kubernetesVersion}` placeholders in `talconfig.yaml`.
+- **`talos/talconfig.yaml`**: the talhelper master config — cluster name, API endpoint, cert SANs, pod/service CIDRs, node inventory, and patch references.
+- **`talhelper gensecret`** creates the cluster PKI/secrets; on first run the bootstrap task pipes it through `sops --encrypt` to produce `talos/talsecret.sops.yaml`. Regeneration is skipped if that file already exists.
+- **`talhelper genconfig`** renders per-node machine configs into `talos/clusterconfig/`, which is gitignored — generated configs are disposable, the source of truth is `talconfig.yaml` plus patches.
+- **`talos/clusterconfig/talosconfig`** is exported as `TALOSCONFIG` by `mise` for `talosctl` access.
 
-The cluster uses Kubernetes v1.35.4 with several built-in components customized or disabled:
+All `talhelper` task entry points (`talos:generate-config`, `talos:apply-node`, `talos:upgrade-node`, `talos:upgrade-k8s`, `talos:reset`) are thin wrappers around `talhelper gencommand ...`, so `talconfig.yaml` remains the single source of truth for node targeting and image URLs.
 
-- **CoreDNS**: Disabled (replaced by custom CoreDNS installation)
-- **kube-proxy**: Disabled (replaced by Cilium's kube-proxy replacement)
-- **etcd**: Advertised on 192.168.50.0/24 subnet with metrics enabled
-- **API Server**: Aggregator routing enabled for service mesh integration
-- **Controller Manager & Scheduler**: Bound to 0.0.0.0 for monitoring
+### Hardware Inventory & Node Roles
+
+The cluster is a **single control-plane node** with workload scheduling enabled on the control plane — a homelab-oriented design. The node inventory in `talconfig.yaml`:
+
+- **`master0-nuc12`** (192.168.50.145) — the only node, `controlPlane: true`
+- **Hardware**: Intel NUC12 with integrated Intel GPU; labeled `intel.feature.node.kubernetes.io/gpu: "true"` so GPU workloads can be scheduled via node-feature-discovery
+- **Install disk**: selected by `size: "<= 256GB"`, `type: ssd`
+- **Secure Boot**: enabled (`machineSpec.secureboot: true`); the node installs from a pinned `factory.talos.dev/installer-secureboot/...` image
+- **System extensions**: `siderolabs/i915` (Intel GPU), `siderolabs/intel-ucode` (CPU microcode), `siderolabs/thunderbolt`
+- **Kernel modules**: `dm_thin_pool` and `dm_mod` (TopoLVM thin provisioning), `i915`/`drm`/`drm_kms_helper` (GPU)
+- **Networking**: static address `192.168.50.145/24` selected by NIC MAC `48:21:0b:58:14:f9`, default route via 192.168.50.1, MTU 1500
+- **VIP**: `192.168.50.10` announced via Talos VIP on the node's interface — the Kubernetes API endpoint `https://192.168.50.10:6443` stays fixed even though a single node currently holds it; adding further control-plane nodes to `talconfig.yaml` would give them the same VIP for failover
+- **User volume**: an inline manifest provisions a `UserVolumeConfig` named `local-path-provisioner` (min 2GB, grow-enabled, on the system disk) as host storage for local-path-provisioner, bind-mounted into the kubelet via the kubelet patch
+
+### Machine Patches
+
+`talos/patches/` holds Kustomize-style strategic-merge patches that talhelper merges into the final machine configs. Per the directory README, `global/` applies to both controller and worker configs, `controller/` to control-plane nodes, and `worker/` / `${node-hostname}/` directories are optional and absent here.
+
+**Global patches** (all nodes):
+
+| Patch | Purpose |
+|---|---|
+| `machine-files.yaml` | Creates `/etc/cri/conf.d/20-customization.part` to keep containerd `discard_unpacked_layers = false` (image caching) |
+| `machine-kubelet.yaml` | Parallel image pulls; node IP restricted to 192.168.50.0/24; bind-mounts `/var/mnt/local-path-provisioner` (`rshared`, rw) |
+| `machine-network.yaml` | Disables search domain; nameservers 1.1.1.1 / 1.0.0.1 |
+| `machine-sysctls.yaml` | Inotify limits (Watchdog), `rmem_max`/`wmem_max` 7.5MB (cloudflared QUIC), user namespaces for rootless Docker (gitea runner) |
+| `machine-time.yaml` | NTP via Cloudflare time servers 162.159.200.1 / 162.159.200.123 |
+| `machine-udev.yaml` | DRM rule granting the video group (GID 44) `0660` access to `renderD*` for containerized GPU workloads |
+| `machine-api-access.yaml` | Enables Kubernetes-to-Talos API access for `os:admin` from the `kube-system` namespace (used by the in-cluster Talos upgrade controller) |
+
+**Controller patch** (`patches/controller/cluster.yaml`) shapes the Kubernetes control plane:
+
+```yaml
+cluster:
+  allowSchedulingOnControlPlanes: true
+  apiServer:
+    extraArgs:
+      enable-aggregator-routing: true
+  controllerManager:
+    extraArgs:
+      bind-address: 0.0.0.0
+  coreDNS:
+    disabled: true
+  etcd:
+    extraArgs:
+      listen-metrics-urls: http://0.0.0.0:2381
+    advertisedSubnets:
+      - 192.168.50.0/24
+  proxy:
+    disabled: true
+  scheduler:
+    extraArgs:
+      bind-address: 0.0.0.0
+```
+
+Key consequences for the Kubernetes layer:
+
+- **kube-proxy disabled** — Cilium's eBPF kube-proxy replacement handles service forwarding (see [Networking](/openwiki/concepts/networking.md))
+- **Built-in CoreDNS disabled** — CoreDNS is installed as a Helm release during app bootstrap instead
+- **etcd metrics on :2381** — scraped by Prometheus; etcd advertises only on the 192.168.50.0/24 LAN subnet
+- **Aggregator routing enabled** — required by Cilium's Gateway API / service-mesh style integrations
+- **controller-manager and scheduler bound to 0.0.0.0** — their metrics ports become scrapeable
+- **`allowSchedulingOnControlPlanes: true`** — the single node runs all workloads
+
+### SOPS Encryption & the age Key
+
+Talos secrets are encrypted at rest in git via SOPS+age, governed by `.sops.yaml`:
+
+- **`talos/*.sops.yaml`** (i.e. `talsecret.sops.yaml`): **whole-file encryption**, with `mac_only_encrypted: true`
+- **`bootstrap/` and `kubernetes/` `*.sops.yaml`**: only `data`/`stringData` keys are encrypted, leaving metadata readable by Flux
+- Both rules target the age public key `age1shkd7fsr66cnpkutpmpf7ffylcc2x4c9tlsdkapv6nmu5ceu0dzqdjtqc5`
+
+The **private age key lives unencrypted at `age.key` in the repo root** (never committed); `mise` exports `SOPS_AGE_KEY_FILE=./age.key` so all `sops` operations and the bootstrap preconditions can find it. The bootstrap task requires `.sops.yaml`, `age.key`, and `talconfig.yaml` to exist before running. During app bootstrap, the decrypted `sops-age` Kubernetes secret (from `kubernetes/components/common/sops/sops-age.sops.yaml`) is applied to the cluster so Flux can decrypt SOPS-encrypted manifests thereafter — this is the handoff point where the local age key's authority moves in-cluster.
 
 ### Cluster Network CIDRs
 
 - **Pod Network**: 10.42.0.0/16
 - **Service Network**: 10.43.0.0/16
+
+### Lifecycle & Failure Semantics
+
+- **Bootstrap ordering**: `task bootstrap:talos` generates/reuses `talsecret.sops.yaml` → `talhelper genconfig` → `gencommand apply --insecure` → `bootstrap` (retried until etcd forms) → `kubeconfig` export. It is idempotent: existing secrets are reused, not regenerated.
+- **Config changes**: edit `talconfig.yaml`/patches, then `task talos:apply-node IP=<node-ip>` (mode `auto` by default) re-renders and applies the machine config; `talos:reset` wipes STATE/EPHEMERAL partitions and returns nodes to maintenance mode.
+- **In-cluster upgrades**: the `tuppr` controller (in `kube-system/system-upgrade`) reconciles `TalosUpgrade` CRDs; the `talos` resource pins Talos `v1.12.7` (Renovate-tracked) and uses `rebootMode: powercycle`, driving node-by-node Talos and Kubernetes upgrades automatically. Prometheus rules alert on failed/stacked upgrade phases.
+- **Manual upgrades**: `task talos:upgrade-node IP=<ip>` upgrades Talos from the node's `talosImageURL` at the `talenv.yaml` version; `task talos:upgrade-k8s` upgrades Kubernetes to the `talenv.yaml` version. Manual and automated paths draw versions from the same source of truth.
 
 ## Networking Stack
 
@@ -445,11 +546,9 @@ The cluster follows a three-phase bootstrap:
 
 ## Upgrade Strategy
 
-The cluster supports rolling upgrades at multiple layers:
+Upgrades operate at multiple layers, all versioned from declarative sources:
 
-- **Talos Upgrades**: Per-node via `task talos:upgrade-node IP=<ip>`
-- **Kubernetes Upgrades**: Cluster-wide via `task talos:upgrade-k8s` (edits `talenv.yaml`)
-- **Application Upgrades**: Automated via Flux HelmRelease reconciliation
-- **System Upgrades**: Talos system-upgrade-controller for coordinated node upgrades
-
-Version pins are maintained in `talenv.yaml` with Renovate annotations for automated dependency tracking.
+- **Talos Upgrades**: automated in-cluster by the tuppr `TalosUpgrade` CRD (`kube-system/system-upgrade`), or per-node manually via `task talos:upgrade-node IP=<ip>` which reads the image URL from `talconfig.yaml`
+- **Kubernetes Upgrades**: `task talos:upgrade-k8s` upgrades to the version pinned in `talenv.yaml`
+- **Application Upgrades**: automated via Flux HelmRelease reconciliation
+- **Dependency Tracking**: Renovate annotations on version pins in `talenv.yaml`, `talconfig.yaml` (via image references), and Helm releases keep versions current and reviewed through pull requests

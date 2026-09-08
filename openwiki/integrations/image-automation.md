@@ -5,7 +5,7 @@ description: Automated container image tag updates for default namespace applica
 tags: [flux, image-automation, gitops, containers, automation]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-01T21:54:26.927Z
+    at: 2026-09-08T21:57:36.335Z
 sources:
   - id: openwiki-source-aa55808be329b3f929ddf105
     resource: repo://.renovaterc.json5

@@ -1,9 +1,11 @@
 ---
 type: Operations runbook
 title: Daily Operations
-description: Common operational tasks for the Talos cluster including Flux reconciliation, Talos configuration application, node operations, VolSync backup procedures, and monitoring access.
-tags: [operations, runbook, flux, talos, volsync, monitoring, maintenance]
+description: Consolidated operations runbook for the Talos cluster covering Flux reconciliation, Talos node operations, VolSync backup/restore, networking (Cilium, Cloudflare Tunnel, DNS, Tailscale), SOPS/age secrets, storage (TopoLVM, snapshots), and observability access.
+tags: [operations, runbook, flux, talos, volsync, networking, secrets, storage, monitoring, maintenance]
 sources:
+  - id: openwiki-source-240e6406ed4b6841961679cb
+    resource: repo://.sops.yaml
   - id: openwiki-source-4f5be6b4c7dcc699aca46164
     resource: repo://.taskfiles/talos/Taskfile.yaml
   - id: openwiki-source-667048e2381456fb8cb0e49b
@@ -18,16 +20,26 @@ sources:
     resource: repo://.taskfiles/volsync/templates/replicationdestination.tmpl.yaml
   - id: openwiki-source-14ff6f4c89c89fa371282549
     resource: repo://.taskfiles/volsync/templates/wipe.tmpl.yaml
+  - id: openwiki-source-0fea713b3cc38997c9682b8e
+    resource: repo://kubernetes/apps/kube-system/cilium/app/networks.yaml
+  - id: openwiki-source-406c92f3368aa84a28fbd72b
+    resource: repo://kubernetes/apps/kube-system/cilium/gateway/external.yaml
+  - id: openwiki-source-de69c17387d286bdb57630c8
+    resource: repo://kubernetes/apps/network/cloudflare-tunnel/app/dnsendpoint.yaml
   - id: openwiki-source-3bb8db68d9e76fc96ebaa8a0
     resource: repo://kubernetes/apps/observability/kustomization.yaml
+  - id: openwiki-source-9baccf3ae41f07f1fd5a1914
+    resource: repo://kubernetes/apps/storage/topolvm/app/helmrelease.yaml
+  - id: openwiki-source-027a84f036951766a791c0e5
+    resource: repo://kubernetes/apps/storage/topolvm/app/snapshot.yaml
   - id: openwiki-source-23775c3de52f3ab95a13cb8b
     resource: repo://README.md
   - id: openwiki-source-b9ff7ee0aa4953cc601052a4
     resource: repo://Taskfile.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-29T21:52:21.026Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-08T21:57:36.335Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-01T21:54:26.927Z
+    at: 2026-09-08T21:57:36.335Z
 ---
 
 # Daily Operations
@@ -342,9 +354,154 @@ kubectl top nodes
 kubectl describe node <node-name>
 ```
 
+## Networking
+
+The network stack is Cilium (CNI + Gateway API + LB-IPAM), Cloudflare Tunnel for public ingress, k8s-gateway/AdGuard/CoreDNS for DNS, and Tailscale for mesh access. Apps live under `kubernetes/apps/network/` and Cilium under `kubernetes/apps/kube-system/cilium/`.
+
+### Cilium Status and Connectivity
+
+```bash
+kubectl get pods -n kube-system -l k8s-app=cilium
+cilium status
+kubectl logs -n kube-system -l k8s-app=cilium --tail=50 --follow
+kubectl run debug --image=busybox --rm -it --restart=Never -- nslookup kubernetes.default.svc.cluster.local
+```
+
+LoadBalancer IPs come from a `CiliumLoadBalancerIPPool` covering `192.168.50.0/24` (first/last IPs excluded) with an L2 announcement policy. The Cilium Gateways use fixed addresses: `external` at `192.168.50.13` and `internal` at `192.168.50.12`.
+
+```bash
+kubectl get gateway -A
+kubectl get httproute -A
+kubectl get ciliumloadbalancerippool -n kube-system
+kubectl get ciliuml2announcementpolicy -n kube-system
+```
+
+### Cloudflare Tunnel
+
+cloudflared provides public ingress without open ports. Configuration is mounted from the `cloudflare-tunnel-configmap` ConfigMap; the tunnel authenticates with `TUNNEL_TOKEN` from `cloudflare-tunnel-secret`. Public DNS is registered via a `DNSEndpoint` that CNAMEs `external.${SECRET_DOMAIN}` to `<tunnel-id>.cfargotunnel.com`.
+
+```bash
+kubectl get pods -n network -l app.kubernetes.io/name=cloudflare-tunnel
+kubectl logs -n network -l app.kubernetes.io/name=cloudflare-tunnel --tail=100 --follow
+kubectl get configmap cloudflare-tunnel-configmap -n network -o jsonpath='{.data.config\.yaml}'
+kubectl get dnsendpoint cloudflare-tunnel -n network -o yaml
+```
+
+To rotate tunnel credentials, create a new tunnel in Cloudflare, update `TUNNEL_TOKEN` in the app's `secret.sops.yaml`, and let Flux reconcile.
+
+### DNS
+
+- **k8s-gateway** (`192.168.50.11`) resolves `${SECRET_DOMAIN}` records for HTTPRoutes/Services with a 1-second TTL.
+- **AdGuard Home** (`192.168.50.1:3000`) filters DNS for the local network; the `adguard-dns` app syncs records to it using Bitwarden credentials via ExternalSecret.
+- **CoreDNS** (`10.43.0.10`) handles standard `cluster.local` discovery.
+
+```bash
+kubectl logs -n network -l app.kubernetes.io/name=k8s-gateway --tail=100 --follow
+kubectl run debug --image=busybox --rm -it --restart=Never -- nslookup app.${SECRET_DOMAIN}. 192.168.50.11
+kubectl get externalsecret adguard-dns-secret -n network
+kubectl get pods -n kube-system -l k8s-app=kube-dns
+```
+
+### Tailscale
+
+The Tailscale operator authenticates with OAuth credentials from Bitwarden (`tailscale-secret`) and can proxy the Kubernetes API for remote `kubectl` access. Remote cluster services are exposed through `ExternalName` services annotated with `tailscale.com/tailnet-ip`.
+
+```bash
+kubectl get pods -n network -l app.kubernetes.io/name=tailscale
+kubectl logs -n network deployment/tailscale-operator --tail=100 --follow
+kubectl get externalsecret tailscale-secret -n network
+```
+
+## Secrets
+
+Secret management is SOPS + age for Git-encrypted files, with External Secrets / Bitwarden for in-cluster distribution.
+
+### Editing Encrypted Files
+
+`sops <file>` decrypts on open and re-encrypts on save using `.sops.yaml` rules:
+
+- `talos/.*\.sops\.ya?ml`: whole-file encryption (`mac_only_encrypted: true`)
+- `(bootstrap|kubernetes)/.*\.sops\.ya?ml`: field-level encryption of `data`/`stringData` only
+
+```bash
+sops kubernetes/components/common/sops/cluster-secrets.sops.yaml
+sops talos/talsecret.sops.yaml
+grep -c "ENC\[AES256_GCM" <file>   # verify still encrypted
+```
+
+All rules use the same age recipient; decryption requires `age.key` (set via `SOPS_AGE_KEY_FILE`).
+
+### cluster-secrets Variable Substitution
+
+`cluster-secrets` (containing `SECRET_DOMAIN`, `TIMEZONE`, etc.) is decrypted by Flux and consumed by Kustomizations via `postBuild.substituteFrom`, so `${SECRET_DOMAIN}` placeholders in manifests are replaced at render time. To add a variable: `sops` the cluster-secrets file, add the key, commit, and run `task reconcile`.
+
+### Age Key Rotation (manual)
+
+1. `age-keygen -o age-new.txt`
+2. Back up the current `age.key`
+3. Replace the recipient in both creation rules in `.sops.yaml`
+4. Re-encrypt every `*.sops.yaml` file (`sops --encrypt --encrypted-regex '^(data|stringData)$' <file>` for kubernetes/bootstrap files)
+5. Update `kubernetes/components/common/sops/sops-age.sops.yaml` with the new private key and the local `age.key`
+6. Verify with `sops --decrypt` on several files, commit, and confirm Flux reconciles (`kubectl get secret sops-age -n flux-system`)
+
+There is no automated rotation; keep old and new keys until verification is complete.
+
+## Storage
+
+Storage is TopoLVM (LVM thin provisioning on local NVMe) as the default class, with `local-path` for scratch/cache, snapshot-controller for CSI snapshots, NFS CSI, and VolSync for backups.
+
+### LVM Thin Pool
+
+Layers: physical volume `/dev/nvme0n1` → volume group `lvm_vg` → thin pool `lvm_thin` (100%FREE). TopoLVM's device class `thin` sets `spare-gb: 10` and an overprovision-ratio of 10.0, so PVCs can be scheduled up to 10x physical capacity. Monitor with `sudo lvs lvm_vg/lvm_thin`; keep Data% below ~80%. For a new node/disk, the `lvm-format-manual.yaml` pod runs `pvcreate`/`vgcreate lvm_vg`/`lvcreate --thinpool -l 100%FREE -n lvm_thin lvm_vg`.
+
+### Storage Classes
+
+| | `topolvm-thin-provisioner` (default) | `local-path` |
+|---|---|---|
+| Type | Block on NVMe, XFS | Host path `/var/mnt/local-path-provisioner` |
+| Expansion | Yes (online) | No |
+| CSI snapshots | Yes | No |
+| Binding | Immediate | WaitForFirstConsumer |
+| Use | Databases, production data | Cache (e.g. VolSync restic cache), scratch |
+
+### Volume Snapshots
+
+The default `VolumeSnapshotClass` is `topolvm-thin-provisioner` (driver `topolvm.io`, `deletionPolicy: Delete`). Create a `VolumeSnapshot` referencing a PVC, or restore by creating a PVC with `dataSource.kind: VolumeSnapshot`. Snapshots stay on the same storage system — they complement but do not replace VolSync for off-cluster backup.
+
+### PVC Troubleshooting
+
+```bash
+kubectl describe pvc <name> -n <namespace>
+kubectl get sc
+kubectl get topolvmnode -A
+kubectl get pods -n storage -l app.kubernetes.io/name=topolvm
+```
+
+Common causes: wrong storage class name, `InsufficientCapacity` (thin pool full), or TopoLVM controller/lvmd pods not ready. Note the TopoLVM HelmRelease pins `controller.replicaCount: 1` with `Recreate` strategy for single-node compatibility; if an upgrade leaves `topolvm-controller` Pending on anti-affinity, delete the pending pod and run `flux reconcile helmrelease topolvm -n storage`.
+
 ## Monitoring and Observability
 
 The cluster runs comprehensive observability tools in the `observability` namespace.
+
+### Grafana
+
+Grafana is exposed at `https://grafana-dev.${SECRET_DOMAIN}` with anonymous Viewer access; admin credentials come from the `grafana-admin-secret` ExternalSecret (Bitwarden). Datasources are pre-provisioned and recreated on every deploy:
+
+- **Prometheus (Thanos)**: `http://thanos-query-frontend.observability.svc.cluster.local:9090` (default)
+- **Loki**: `http://loki-headless.observability.svc.cluster.local:3100` (max 250 lines/query)
+- **Alertmanager**: `http://alertmanager-operated.observability.svc.cluster.local:9093`
+
+### Loki / LogQL
+
+Loki runs in SingleBinary mode with a 7-day retention on an 8Gi TopoLVM volume; Promtail ships pod logs to it. Query via Grafana Explore, e.g. `{namespace="my-namespace", app="my-app"} |= "search term"`.
+
+### Gatus
+
+Gatus health checks are discovered automatically: a k8s-sidecar watches all namespaces for ConfigMaps/Secrets labeled `gatus.io/enabled: "true"` and loads their `config.yaml` into `/config`. Add a check by creating such a ConfigMap (HTTP/HTTPS, `tcp://`, or `icmp://` endpoints). The status page is at `https://status-dev.${SECRET_DOMAIN}`.
+
+### Alerting
+
+Alertmanager routes alerts to Pushover (credentials from `alertmanager-secret` via ExternalSecret). Default receiver groups by `alertname`/`job` (group wait 1m, interval 10m, repeat 12h); critical alerts fire immediately, and critical inhibits warning for the same alertname/namespace. Gatus endpoint failures (external group down 5m) raise critical `GatusEndpointDown` alerts through the same pipeline. Custom rules are added as `PrometheusRule` CRDs.
 
 ### Available Tools
 

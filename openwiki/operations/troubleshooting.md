@@ -1,8 +1,8 @@
 ---
 type: operations
 title: Troubleshooting Guide
-description: Common issues and solutions for the Talos Kubernetes cluster, including TopoLVM single-node upgrade problems, Flux reconciliation failures, secret decryption issues, and single-node architecture constraints.
-tags: [troubleshooting, operations, flux, topolvm, secrets, single-node, sops]
+description: Symptom-driven playbook for the Talos Kubernetes cluster covering stuck kustomizations, failed HelmReleases, Talos upgrade failures, VolSync backup errors, networking issues, and SOPS secret decryption problems, with diagnostic commands and fixes.
+tags: [troubleshooting, operations, flux, topolvm, volsync, networking, secrets, single-node, sops, tuppr]
 sources:
   - id: openwiki-source-6378149bc01898a8718f6f2d
     resource: repo://.github/workflows/flux-local.yaml
@@ -10,10 +10,16 @@ sources:
     resource: repo://.sops.yaml
   - id: openwiki-source-4f5be6b4c7dcc699aca46164
     resource: repo://.taskfiles/talos/Taskfile.yaml
+  - id: openwiki-source-d3d80f124bb7f98ce2094ebc
+    resource: repo://kubernetes/apps/default/calibre-web-automated/app/volsync-nfs.yaml
+  - id: openwiki-source-514428fb63f74f5cc6fe8c1d
+    resource: repo://kubernetes/apps/default/qbittorrent/app/egress-gateway-policy.yaml
   - id: openwiki-source-c11ca658ed53520e32ea3a00
     resource: repo://kubernetes/apps/kube-system/system-upgrade/ks.yaml
   - id: openwiki-source-ededdde4ddcb07a3ee796444
     resource: repo://kubernetes/apps/kube-system/system-upgrade/upgrades/talos.yaml
+  - id: openwiki-source-2f52aa47c6ce5a20f6ed3a8d
+    resource: repo://kubernetes/apps/storage/nextcloud/app/volsync-nfs.yaml
   - id: openwiki-source-9baccf3ae41f07f1fd5a1914
     resource: repo://kubernetes/apps/storage/topolvm/app/helmrelease.yaml
   - id: openwiki-source-9a91d01bb54fc0b7d652e6d3
@@ -22,10 +28,10 @@ sources:
     resource: repo://kubernetes/components/common/sops/sops-age.sops.yaml
   - id: openwiki-source-0696023deccf378a358f7526
     resource: repo://kubernetes/flux/cluster/ks.yaml
-generated: { by: "openwiki/0.5.0", at: "2026-09-05T09:07:37.163Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-08T21:57:36.335Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-05T09:07:37.163Z
+    at: 2026-09-08T21:57:36.335Z
 ---
 
 # Troubleshooting Guide
@@ -81,6 +87,32 @@ If you encounter this issue:
 
 **Prevention:**
 Always set `replicaCount: 1`, disable affinity (`affinity: ""`), and use `Recreate` update strategy for any stateful controllers in single-node clusters. This prevents scheduling conflicts during upgrades.
+
+## Talos Upgrade Failures
+
+The cluster automates Talos upgrades via **tuppr** (`TalosUpgrade` CRD, `kube-system`). The `talos` TalosUpgrade resource pins the target image version (e.g. `v1.12.7` from `ghcr.io/siderolabs/installer`, Renovate-managed) and uses `policy.rebootMode: powercycle` (`kubernetes/apps/kube-system/system-upgrade/upgrades/talos.yaml#L8-L12`). It is deployed by the `tuppr-upgrades` Kustomization, which depends on the `tuppr` controller Kustomization (`kubernetes/apps/kube-system/system-upgrade/ks.yaml#L23-L45`).
+
+### Problem: TalosUpgrade Stuck or Rebooting Unexpectedly
+
+**Symptoms:**
+- `kubectl -n kube-system get talosupgrade` shows a stuck or in-progress upgrade
+- The node powercycles during reconciliation
+
+**Diagnosis and fixes:**
+
+1. **Check the upgrade resource status**:
+   ```bash
+   kubectl -n kube-system get talosupgrade talos -o yaml
+   kubectl -n kube-system logs deploy/tuppr --tail=50
+   ```
+2. **`powercycle` reboot mode**: because `rebootMode: powercycle` is set, tuppr powercycles the node rather than doing a graceful reboot — on a single-node cluster this means the API server is down for the duration. Plan maintenance windows accordingly.
+3. **Manual fallback**: if tuppr cannot complete the upgrade, run it manually:
+   ```bash
+   task talos:apply-node IP=<node-ip>
+   task talos:upgrade-node IP=<node-ip>
+   ```
+   The `upgrade-node` task resolves the image URL from `talos/talconfig.yaml` and the version from `talenv.yaml`, with a 10m timeout, and preconditions on `talosctl` connectivity (`.taskfiles/talos/Taskfile.yaml#L31-L46`).
+4. **Kubernetes upgrades** are separate: `task talos:upgrade-k8s` reads `.kubernetesVersion` from `talenv.yaml` (`.taskfiles/talos/Taskfile.yaml#L48-L58`).
 
 ## Flux-Local CI Failures on Pull Requests
 
@@ -289,8 +321,8 @@ The cluster runs a **single-node control plane** with specific operational const
 
 5. **Upgrade Coordination Required**
    - **Constraint**: Cannot perform rolling upgrades across control plane nodes
-   - **Impact**: Talos upgrades require node downtime
-   - **Procedure**: Use `task talos:upgrade-node IP=<node-ip>` for single-node upgrades
+   - **Impact**: Talos upgrades require node downtime (tuppr's `powercycle` mode makes this explicit)
+   - **Procedure**: tuppr automates upgrades; `task talos:upgrade-node IP=<node-ip>` is the manual fallback
 
 ### Operational Implications
 
@@ -298,6 +330,73 @@ The cluster runs a **single-node control plane** with specific operational const
 - Plan for brief API server unavailability during Talos upgrades
 - Schedule upgrades during low-traffic periods
 - Ensure critical applications have VolSync backups before upgrades
+
+## Storage & Backup Failures
+
+Application data is backed up with **VolSync** restic-based `ReplicationSource` resources that push to a MinIO S3 endpoint over HTTP (e.g. `s3:http://192.168.50.220:9010/volsync/...`), scheduled every 6 hours, with retention tiers and a 7-day prune interval (`kubernetes/apps/storage/nextcloud/app/volsync-nfs.yaml#L34-L58`). The same pattern is used for `calibre-web-automated` (`kubernetes/apps/default/calibre-web-automated/app/volsync-nfs.yaml`).
+
+### Problem: VolSync Backup Failing
+
+**Symptoms:**
+- `ReplicationSource` status shows failed synchronizations
+- Mover pods restart or error
+
+**Troubleshooting steps:**
+
+1. **Check sync status and history**:
+   ```bash
+   kubectl get replicationsource -A
+   kubectl describe replicationsource -n <namespace> <name>
+   ```
+2. **Read mover pod logs**:
+   ```bash
+   kubectl -n <namespace> logs -l app.kubernetes.io/name=volsync --tail=100
+   ```
+3. **Verify the repository secret exists and is populated** — it is created by an ExternalSecret (store `bitwarden-login`) that templates `RESTIC_REPOSITORY`, `RESTIC_PASSWORD`, and Minio `AWS_ACCESS_KEY_ID`/`AWS_SECRET_ACCESS_KEY` from Bitwarden entries (`volsync-minio-template`, `cold-minio`) (`kubernetes/apps/storage/nextcloud/app/volsync-nfs.yaml#L3-L32`):
+   ```bash
+   kubectl -n <namespace> get secret <name>-volsync-secret -o yaml
+   kubectl -n <namespace> get externalsecret
+   ```
+   If it is missing or empty, the root cause is usually an external-secrets sync failure (see the External Secrets section above), not VolSync itself.
+4. **Verify MinIO reachability** from the cluster (`curl http://192.168.50.220:9010`) and that the bucket path exists.
+
+**Common causes:**
+- Restic password or MinIO credentials rotated in Bitwarden but the ExternalSecret target secret not yet refreshed
+- MinIO endpoint unreachable or credentials denied
+- Cache PVC (`cacheStorageClassName: local-path`) capacity exhausted — increase `cacheCapacity`
+- A stale mover pod holding the source PVC; delete the mover pod and let VolSync retry
+
+### Problem: PVC Pending / Volume Provisioning Failure
+
+TopoLVM provides the default storage class `topolvm-thin-provisioner` (XFS, `Immediate` binding, expansion allowed, LVM thin pool `thin`) with `lvmdEmbedded: true` in the node (`kubernetes/apps/storage/topolvm/app/helmrelease.yaml#L38-L48`). If a PVC stays `Pending`:
+
+1. `kubectl describe pvc <name>` — check for provisioning events
+2. Confirm `topolvm-node` and `lvmd` are healthy on the (single) node: `kubectl -n storage get pods -l app.kubernetes.io/name=topolvm`
+3. Check thin pool free space on the node (`sudo lvs`) — an exhausted thin pool fails provisioning until pruned
+
+## Networking Issues
+
+Networking is Cilium-based with Gateway API support. The cluster's Kustomization graph pins CRD delivery: `gateway-api-crds` (experimental CRDs) and `external-dns-crds` are built from dedicated GitRepository sources and must be Ready before `cluster-apps` reconciles (`kubernetes/flux/cluster/ks.yaml#L25-L94`). If `cluster-apps` shows a dependency error, check these two CRD Kustomizations first.
+
+**Diagnostic sequence:**
+
+```bash
+# 1. Flux-level health
+flux get kustomizations --all-namespaces | grep -E 'gateway-api|external-dns|cluster-apps'
+
+# 2. Gateway / HTTPRoute status
+kubectl get gateways,httproutes -A
+kubectl -n <namespace> describe httproute <name>
+
+# 3. Cilium health
+kubectl -n kube-system get pods -l k8s-app=cilium
+cilium status --wait=false
+```
+
+**Common issues:**
+- **CRDs missing for a new Gateway API feature**: the cluster uses experimental Gateway API CRDs from `./config/crd/experimental`; a standard-channel-only feature fails validation until the CRD Kustomization is updated
+- **ExternalDNS not publishing records**: check its dependency on `external-dns-crds` and its provider credentials
+- **Egress gateway loops**: the qbittorrent egress gateway policy explicitly excludes the API VIP `192.168.50.10/32` to avoid self-loops through the egress IP (`kubernetes/apps/default/qbittorrent/app/egress-gateway-policy.yaml#L23-L31`) — new egress policies for services reaching the API or cluster-internal endpoints need similar exclusions
 - Test controller upgrades in non-production environments first
 
 **When deploying new applications:**

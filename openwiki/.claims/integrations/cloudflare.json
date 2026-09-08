@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:790c7da104d6e5c14ffa826fb0084776071a6cbb06c40ccf27beb524cc86b6b6",
+  "pageVersion": "sha256:188b5e83361ce22bfcd896a6c1fed154efc35bfd3f48ea399db33e80a962fc9a",
   "claims": [
     {
       "id": "claim_cced16d6ffcc403f88c2e2b84e04310f",
@@ -251,10 +251,110 @@
           "version": "repo-lines-v1:sha256:bddb2232d63fbd9c48e9ca29d25a77dd5ba39f1e51a0e971db5911e14912c8b6:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYmRkYjIyMzJkNjNmYmQ5YzQ4ZTljYTI5ZDI1YTc3ZGQ1YmEzOWYxZTUxYTBlOTcxZGI1OTExZTE0OTEyYzhiNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYmRkYjIyMzJkNjNmYmQ5YzQ4ZTljYTI5ZDI1YTc3ZGQ1YmEzOWYxZTUxYTBlOTcxZGI1OTExZTE0OTEyYzhiNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODM0ZDRhYjgyOWViZjlkZDgxYjFiNGUzYWY5MjZhZWExZWRiZWFhNjBiOTcxMDM3ZmUyNWU0Mjk5MDg0MjVjZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDMyODUxNzQ5ZGI0ZjcwZTkwNDZhNTg2MTE3ZDAwNDAyNTYwODU1M2VmZThjZDZkZGY4N2Y0MzgwNWFjZGQzMiJ9"
         }
       ]
+    },
+    {
+      "id": "claim_36f8b54b212d4a569c8774282130c02b",
+      "statement": "Cloudflare Tunnel runs as a Deployment of cloudflared (image cloudflare/cloudflared:2026.7.3) via the app-template OCI chart, executing `tunnel run` with TUNNEL_TOKEN from a SOPS-encrypted secret, HTTP/2 transport, non-root (65534) read-only security context, /ready probes and Prometheus metrics on port 8080.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:681928113c7202eae41132fbcfd5899f7ef3f74361cddfc095480831fffd974a"
+        }
+      ]
+    },
+    {
+      "id": "claim_463d216bc8214d799f2a781468e5236b",
+      "statement": "The cloudflared ingress config routes ${SECRET_DOMAIN} and *.${SECRET_DOMAIN} to https://cilium-gateway-external.kube-system.svc.cluster.local with originServerName external.${SECRET_DOMAIN}, defaulting unmatched requests to HTTP 404; the config is mounted read-only at /etc/cloudflared/config.yaml from a kustomize configMapGenerator.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/kustomization.yaml",
+          "version": "repo-file-v1:sha256:b1b7998d6083da087b96a5bfc1ec0c4b281d362e773baebdde334bbcf87120ef"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/resources/config.yaml",
+          "version": "repo-file-v1:sha256:287eba7b9f28c6d2e689abaae48a392a04d709dfb54b40c1d845a835354cb1d5"
+        }
+      ]
+    },
+    {
+      "id": "claim_c2a0fb8e375d4d9fb41a3b2302b578e8",
+      "statement": "A DNSEndpoint resource pins external.${SECRET_DOMAIN} as a CNAME to <tunnel-id>.cfargotunnel.com, steering public DNS into the Cloudflare Tunnel.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/dnsendpoint.yaml",
+          "version": "repo-file-v1:sha256:429a185741c44e4e8deac791cb3b3dab3de808b51c08e8e70ef33937197e07cc"
+        }
+      ]
+    },
+    {
+      "id": "claim_a227a770d945493ca63bc543f0958a88",
+      "statement": "external-dns (cloudflare-dns HelmRelease, chart 1.21.1) uses the Cloudflare provider with CF_API_TOKEN from cloudflare-dns-secret, sync policy, domain filter ${SECRET_DOMAIN}, sources crd + gateway-httproute with --gateway-name=external, --cloudflare-proxied, txtOwnerId default / txtPrefix k8s., triggerLoopOnEvent, and a Prometheus serviceMonitor.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-dns/app/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:db9f7548213f47ddddf4be41dd25be4548c2a2465dac6a317f9183b5f56cd8fa"
+        }
+      ]
+    },
+    {
+      "id": "claim_8927d9ce52fe44d4a07c5e5e02bedb67",
+      "statement": "The Cilium `external` Gateway terminates TLS for *.${SECRET_DOMAIN} using the ${SECRET_DOMAIN/./-}-production-tls Secret, allows HTTPRoutes from all namespaces on HTTPS, and its external-dns hostname/target annotations feed the gateway-httproute DNS source.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/cilium/gateway/external.yaml",
+          "version": "repo-file-v1:sha256:426b7b64b1da0b8b74c808898ac65e0bd8012c6c6112cb542a5ede5991937bbb"
+        }
+      ]
+    },
+    {
+      "id": "claim_39d906dfaa074076b45b355c19479d8c",
+      "statement": "Wildcard certificates for ${SECRET_DOMAIN} and *.${SECRET_DOMAIN} are issued by cert-manager via the letsencrypt-production ClusterIssuer using Cloudflare DNS-01 challenges (apiTokenSecretRef cert-manager-secret, dnsZones ${SECRET_DOMAIN}); the certificate backs TLS on both external and internal gateways.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/cert-manager/cert-manager/app/clusterissuer.yaml",
+          "version": "repo-file-v1:sha256:f89564a8177c0130b681ad4f2856e5609c3f1ee6d6f27471c4fd0dc3d957c590"
+        },
+        {
+          "resource": "repo://kubernetes/apps/kube-system/cilium/gateway/certificate.yaml",
+          "version": "repo-file-v1:sha256:81ed1c256d3c96057c086484e65b797ccfa988c3f724bbf33c06b82f937eae8b"
+        }
+      ]
+    },
+    {
+      "id": "claim_3c8bd9d367964690922a5446b5560a75",
+      "statement": "Both cloudflare-tunnel and cloudflare-dns are Flux Kustomizations in the network namespace with 1h interval, prune/wait, SOPS decryption via sops-age, and ${SECRET_DOMAIN} injected postBuild from the cluster-secrets Secret.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-dns/ks.yaml",
+          "version": "repo-file-v1:sha256:dcb360d8029c869468b63dd037f9e66ecbbbbc56991df650b2e59ea1f30f7329"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/ks.yaml",
+          "version": "repo-file-v1:sha256:8017af640a033ee36496673af353cc8b5ce04113c1f301be0a51ffe1919ee349"
+        }
+      ]
+    },
+    {
+      "id": "claim_17ec7147b9d44d5fa4b7212bcca6fbf8",
+      "statement": "Cloudflare credentials (TUNNEL_TOKEN, CF_API_TOKEN) are stored only as SOPS-encrypted Secrets in Git; the tunnel and external-dns deployments use Reloader annotations to restart on secret change.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-dns/app/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:db9f7548213f47ddddf4be41dd25be4548c2a2465dac6a317f9183b5f56cd8fa"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:681928113c7202eae41132fbcfd5899f7ef3f74361cddfc095480831fffd974a"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/secret.sops.yaml",
+          "version": "repo-file-v1:sha256:8d3d45cf5c94550fb24dc24dba1a64fa621966f35c1f993a277386177c1c2cf0"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-01T21:54:26.927Z"
+    "at": "2026-09-08T21:57:36.335Z"
   }
 }

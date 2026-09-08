@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:200e6b46b01cbfd620ad9714cdf866e95c7f308e9fdc776015d7bbe94642c82d",
+  "claims": [
+    {
+      "id": "claim_8ac105d25dbd4612b11232201fa7237c",
+      "statement": "The flux-local GitHub workflow gates PRs to main with a pre-job that filters changed files to kubernetes/**, and a test job running `flux-local test --enable-helm --all-namespaces --sources flux-system` over kubernetes/flux/cluster in the allenporter flux-local v8.4.0 container; both validation jobs are skipped when no kubernetes/ files changed.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/flux-local.yaml#L13-L41",
+          "version": "repo-lines-v1:sha256:3fd7951c388dfd91ff3d02bd3aa60a1d46ac4ad2e8b16ebe2a2b96d2ba87220f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU5ZDgwMTU0ZWQ0MmZjNWM3NzliMTMzMTU3OGI1OGI4OWM4MDFlYWNlNzRmMjRjZDQ4ZWI0YTIzNTc5NDBhOTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZiZWQzMDVhZjkxYjg4Nzg5NGI5MWMwMGNhNWNiOGRmOTI2OTQ3ZmU2ZjNhZDNiMjdkN2U5YjNlMjFlNjNmOWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFhZjY3ZTNmMDVjNjg1MjJmNjc3NmM4M2E4OWNmODcyOTZkOTJhOTFkNTkwMDE4OTY2ZWM3N2IzZDE0ODZmYzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJkM2Y5NzI5NWViNGJhMGI4OGU0ZjczNDAzZDVhNDZjMDVmYTU3MTQwZjgyMzExZjdlYjQxMjYzMDhhYWZkZjcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_54f8509236ac4137b66a8d4814e8a5f0",
+      "statement": "The flux-local diff job runs in a matrix over helmrelease and kustomization resources, checks out both the PR branch and the default branch, strips volatile Helm attributes, and posts the rendered manifest diff as a PR comment; a final flux-local-status job fails if test or diff failed.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/flux-local.yaml#L43-L122",
+          "version": "repo-lines-v1:sha256:9450ab3a8429399679ef1efcdd3903b31177ec567ed89be59889b24fdaa2328c:eyJzZWxlY3RlZExpbmVDb3VudCI6ODAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUzYzMwNTU5ZDM5MGZlNDZmMGFkNDk4ZDk2Y2I1ZTEzNjk2Mzg1ZDBhNDE1NzRlNDYxN2MwOGE4YjlkMjUzMTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVkMzlmNjU0ZWY2NzkyMjEyNzRkODIwYmZiMjdjZmVkZjIwMjVkZGY4ZDM0NTIwYThhYjYzNjRhODU3MjMyZWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRkYjExOWVhYThhYzM5NGU4NmM5ODIyZTRlMDcxMDIwY2IxNTMyZTQwOGNkMzNmMmU0NjBhYTU1OTgzOGE3OWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_6b990e5ee2694d75a0a2980742f6c943",
+      "statement": "Root Taskfile tasks act as validation gates: every mutating task declares preconditions asserting required files (talconfig.yaml, .sops.yaml, age.key, kubeconfig/talosconfig), required binaries, and — for talos apply/upgrade tasks — live connectivity via `talosctl get machineconfig` and `talosctl config info` before mutating the cluster.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/bootstrap/Taskfile.yaml#L7-L31",
+          "version": "repo-lines-v1:sha256:4b2ea54d34b62184bd25d7f147cf6d8153652193416df230a71297488e508c54:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZiOGU3MDRjNjBkYTQyMjIzODFlZWM4OWFlNDRiYzIyNTZmOTE5NTY5NTQ4MmFiOWE2MzEwMmY3NDI0NDA0OWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI4NzMzYzI3MTA5ZjJkNjkyNjQ1MGI4Mzc4N2UzNjQwMTVlNDhiOTNlMDc1YjkzMzBhZThlNmI5YTk0NTg3ZDYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIxZDEyYjU2YzEwYjdmYjYyYzhmMDQxYjM3ZTE4Y2Y4ZjI3YzU3OGEwZDI3YWI3ZThkZDg4ZGJkYzlkZjRiMWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml#L17-L46",
+          "version": "repo-lines-v1:sha256:b055fa4a90189a0adbe36eb246a44464c850cec3538dedc7b2fff25e64c7cf9e:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwOGI1ZWI4N2M5MGVmYjA0NWM2Y2E5NmViMmVkMDU0ODk3MjdmMWJhMjIyMTgxNDUxM2MwOGVhOGFjYTQ2ZTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlhNjI2MWZlNzI4NDUwMWRiYzY0ODNkOTEyZWFjZGQyMzNiZjkwMmIyNGY1OWU0ZmRjYTFlZTVmMWQ2MmFhMWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg4NDI4M2IzNzhmNWIwYjU5MjU3MDQzOThlM2JkMDA4Mjg3YTFmYmNhZTU2NTQ3NDg0MWMzNDk4ZmE3OTgzMzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgyMjNlZDA2NGU4NDJmYWNiOThmMGI2ZGViYmE1MWQzODg4MjQ0ZjM0NTVjMTIzZjRiMzRiMDU3OGU3ZDAyZWEifQ"
+        },
+        {
+          "resource": "repo://Taskfile.yaml#L8-L35",
+          "version": "repo-lines-v1:sha256:79d681dbe0bed9dd3253605420a4610ce7f9b80993d587bd1ff05fc45c32d584:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE4ZDE1MmMzYzUyYjFmNDQzOWQyNjZhZjFiZDY5ODZlMDU1YWIxYjVmNmM2MDMxZmIyMmFhYTc3ZWI0MDRiYzEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY0ODg2Mzc0MzNlZjAxNDgzN2FhY2JkZmUzYzFjMmFlYTJiMjY2YTU0Y2Y0ZGYzM2ZkNDk0Mjg0OWFlYTM2NjkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZlMWZmOGE3ZDAwZGYzY2NkMjY4YzFkOTBkZjc3NWE5OWQzMGRmZWUxOWJlOWQyN2UwYzQ1ZWQ0NDI4MTI3NjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_28382f5392c94d28bfd2146c91151a1d",
+      "statement": "The bootstrap script uses dry-run/diff validation patterns: namespaces are rendered with `kubectl create --dry-run=client --output=yaml` piped to server-side apply, and SOPS secrets are only applied when `sops exec-file ... kubectl diff` shows the decrypted output differs from the cluster.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/bootstrap-apps.sh#L27-L85",
+          "version": "repo-lines-v1:sha256:d817b82704be30ecf7389e623ef7321deb5e0465ec1feacbe8bf9581c41025ec:eyJzZWxlY3RlZExpbmVDb3VudCI6NTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMxMjM4MDRmNTk3YmU5ZTdhZDAzY2Y2YmRkNTFjNGM3ODAzYjNjN2YxNTI3NmM3ZGM5ODZhNGE2ZjkxNTFkMjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU0YmQwNGI0NWQ4ZmIyMWQyYzE5YWUyMmZlNWRmYTAzYjg2MzE5YWNlYzYzNDI0OTZmZDFjYWJhNzYxOTQwOWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI1ZmUxMzM4YmI5YTIwMDA4ODZlY2ViYjg5NThhMjI1MzcwZTgyNTAwNzhlMmEzMDhkN2Q0NjYwYzQ1ZTdlN2IifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_76ae62929046465b9143ba906d5aa08c",
+      "statement": "All root Kustomizations in kubernetes/flux/cluster/ks.yaml use wait: true, timeout 5m, retryInterval 2m, and dependsOn ordering, so failed changes surface as non-ready Kustomizations that block dependents; `task reconcile` forces immediate pull of the latest git revision via `flux reconcile kustomization flux-system --with-source`.",
+      "evidence": [
+        {
+          "resource": "repo://Taskfile.yaml#L30-L35",
+          "version": "repo-lines-v1:sha256:2d7afb436ef2bf4a0fd148c2805957c35d446a460ca2d84fcbf88bb511ba7c0f:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzlmZmE1YWUzNzQ3OGVlOTE2MDczYjA2OGU2NjdiOWMwODg5OThkYzY4YTZlZDI4MjJhZmNhNzExNzU4YTMyYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjQ4ODYzNzQzM2VmMDE0ODM3YWFjYmRmZTNjMWMyYWVhMmIyNjZhNTRjZjRkZjMzZmQ0OTQyODQ5YWVhMzY2OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWZlZGUyOTQyYTEwYjhkMzc2NDg4MWYwYzdhMzQ0YmM3ZGYxY2YwYWEzODhhOGFmMWQ3ZjcwODY4MDg2Yzc5ZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/flux/cluster/ks.yaml",
+          "version": "repo-file-v1:sha256:34d6970a4822f2b762ed2b48b96225a7d9a1bb7f3c4007fed459656c84134c45"
+        }
+      ]
+    },
+    {
+      "id": "claim_01163d862b274ec99e23d445c72d7530",
+      "statement": "VolSync tasks verify their outcome by watching jobs: volsync:snapshot patches the ReplicationSource for a manual trigger and waits for job/volsync-src-<app> to complete (120m timeout); the tasks assume Kustomization/HelmRelease/PVC/ReplicationSource share the app name and one replicated PVC per app.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/volsync/Taskfile.yaml#L1-L9",
+          "version": "repo-lines-v1:sha256:fe18f0adf9964b9beed2063bc04260898d2e1498dd40030a1f4820025005d421:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjUyZDcxMTEwM2Q1MGE0Mzc4MzBjNmZiY2QwNGZiNGJhYjQ5YTBmODJmNmQyNmQxYzc5MWM2ZTg0ODhkZDA5MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTg0ZDY1ZWYxZDRiNzFiYjNiYWEzZDQ1NzExYzQxYjM5YjA0OWNiMzFlNGQxNDZiNTg1NTMzMWZmMTU2MzE1ZiJ9"
+        },
+        {
+          "resource": "repo://.taskfiles/volsync/Taskfile.yaml#L51-L64",
+          "version": "repo-lines-v1:sha256:f2b409c9b3a966056cf81ffda46d1fa84e0dac6fa0864aadf96e29fd134d093e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3ZTQ3NDY4MDg4NDE0M2E0NWY2ZWFiOWZiZjcxMWJlMjc1MmMwYjQyZjczYzU5MDg4MjZhZjkzZjllMjFmNmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ1MTQxYzY3MjM1NThmYzdjZGQyYTllYjFlZWRiMmYzMWQ3YjY0MTcwN2U0ODk3ZGVmZDZmNTI3ZDdkOWE4ZTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiY2Y4NDg1MWJhNDM1Y2M0NTM1YjdhYzRmZDY1ZDVjOTkyYzQyNDViNGU0MjUyNzI4OWJmNzdkNjk3NTFhOTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA2ZTFhNDk4NjgwY2QwM2JhNzVhMzNhNzdkNjg4NDhjMjhkM2U3MzIwNGVlYWQ5Y2NkMTY3MTY1ZDFiMTY1MWYifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.0",
+    "at": "2026-09-08T21:57:36.335Z"
+  }
+}

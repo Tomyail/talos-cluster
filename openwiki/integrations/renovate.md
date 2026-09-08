@@ -34,7 +34,7 @@ sources:
     resource: repo://talos/talenv.yaml
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-06T21:32:38.385Z
+    at: 2026-09-08T21:57:36.335Z
 generated: { by: "openwiki/0.5.0", at: "2026-09-06T21:32:38.385Z" }
 ---
 

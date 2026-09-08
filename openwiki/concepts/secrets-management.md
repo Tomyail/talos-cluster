@@ -5,7 +5,7 @@ description: Dual-layer secrets architecture combining SOPS + age for Git encryp
 tags: [secrets, sops, age, external-secrets, bitwarden, security, encryption]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-01T21:54:26.927Z
+    at: 2026-09-08T21:57:36.335Z
 sources:
   - id: openwiki-source-240e6406ed4b6841961679cb
     resource: repo://.sops.yaml
@@ -41,7 +41,11 @@ sources:
     resource: repo://kubernetes/components/common/sops/kustomization.yaml
   - id: openwiki-source-244e2919bbe6d12c6c8c9757
     resource: repo://kubernetes/components/common/sops/sops-age.sops.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-31T23:16:37.333Z" }
+  - id: openwiki-source-0696023deccf378a358f7526
+    resource: repo://kubernetes/flux/cluster/ks.yaml
+  - id: openwiki-source-6f1d2c8de9160e178167b990
+    resource: repo://scripts/bootstrap-apps.sh
+generated: { by: "openwiki/0.5.0", at: "2026-09-08T21:57:36.335Z" }
 ---
 
 # Secrets Management
@@ -174,8 +178,10 @@ External Secrets Operator pulls secrets from Bitwarden and injects them as Kuber
 
 ### Bitwarden Connect Deployment
 
+The `bitwarden-connect` Flux Kustomization deploys the Bitwarden provider as a HelmRelease named `bitwarden-cli`:
+
 **HelmRelease** (`kubernetes/apps/external-secrets/bitwarden-connect/app/helmrelease.yaml#L1-L59`)
-- Chart: `bitwarden-eso-provider` version 1.2.0
+- HelmRelease name: `bitwarden-cli`; chart: `bitwarden-eso-provider` version 1.2.0
 - Source: `bitwarden-eso-provider` HelmRepository
 - Health checks: Configured with extended liveness probe (300s period, 30 failure threshold, 15s timeout)
 - CRD installation: Enabled (`installCRDs: true`)
@@ -344,7 +350,7 @@ spec:
 
 ### Runtime Synchronization
 
-External Secrets Operator continuously reconciles ExternalSecret resources at a configurable interval (default 1 hour per HelmRelease configuration). Changes to secrets in Bitwarden are not immediately reflected in the cluster until the next reconciliation cycle.
+External Secrets Operator reconciles ExternalSecret resources on its default refresh interval; the 1h `interval` on the HelmReleases governs Flux reconciliation of the charts themselves, not secret refresh. Changes to secrets in Bitwarden are not immediately reflected in the cluster until the next ExternalSecret refresh.
 
 **Sync Process**:
 1. Polls Bitwarden for changes at configured interval
@@ -516,8 +522,8 @@ Application secrets (database passwords, API keys, etc.) stored in Bitwarden can
 - External Secrets Operator logs errors for missing Bitwarden items or properties
 
 **Secret Sync Latency**:
-- External Secrets Operator default interval is 1 hour
-- Critical secrets may require manual sync trigger or reduced interval
+- External Secrets Operator uses its default refresh interval; the 1h HelmRelease interval applies to Flux chart reconciliation, not secret refresh
+- Critical secrets may require manual sync trigger or a `refreshInterval` override per ExternalSecret
 - Changes in Bitwarden not immediately reflected in cluster
 
 **Backup and Recovery**:
@@ -540,6 +546,34 @@ Application secrets (database passwords, API keys, etc.) stored in Bitwarden can
 
 **Disaster Recovery**:
 - Store age private key backup in secure, offline location
+- Document Bitwarden master password in secure password manager
+- Maintain Bitwarden backup/export for critical secrets
+- Test restoration process periodically
+, offline location
+- Document Bitwarden master password in secure password manager
+- Maintain Bitwarden backup/export for critical secrets
+- Test restoration process periodically
+t sync results but are not source of truth
+
+### Operational Considerations
+
+**Encryption Rules and Invariants**:
+- All `*.sops.yaml` files must match a creation rule in `.sops.yaml`
+- Talos secrets encrypt entire file; Kubernetes secrets encrypt only `data`/`stringData`
+- `mac_only_encrypted: true` ensures only specified fields are encrypted
+- Age recipient is hardcoded to a single public key
+
+**Secret Validation**:
+- Test SOPS encryption/decryption before committing: `sops --decrypt --encrypted-regex '^(data|stringData)$' file.sops.yaml`
+- Verify ExternalSecret resources reference valid Bitwarden items and properties
+- Check External Secrets Operator logs for sync errors after creating new ExternalSecrets
+
+**Disaster Recovery**:
+- Store age private key backup in secure, offline location
+- Document Bitwarden master password in secure password manager
+- Maintain Bitwarden backup/export for critical secrets
+- Test restoration process periodically
+, offline location
 - Document Bitwarden master password in secure password manager
 - Maintain Bitwarden backup/export for critical secrets
 - Test restoration process periodically

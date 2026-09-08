@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:ecdbc4f7bbc905db9e0120dcd1245e1fdbfe5e196173a9f376d074960c0d345f",
+  "pageVersion": "sha256:bdc7bceacdbc51af5cd59704f22441e4e9ff6b8472431c0a1af7d26dd6b06216",
   "claims": [
     {
       "id": "claim_4127cd77fcc84ba480c92c5910361a25",
@@ -183,10 +183,76 @@
           "version": "repo-lines-v1:sha256:15f5337b1cdd98f6dfaeda142f88bb61b969e16a39b78db755f50a8306ed73ed:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZmQ3OTQ3NTRkZThmMmUyNzhmNWU1MTIzMDA2NjhjZjExY2MwNTY4M2Y2Yzk1ZDQ1NjAxMGVmYjhmYzlkYmE0NSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjA4MzA1NGIyOWYzM2Y1YjkzYjZhOGFmOTIwYjc4OGY1MmE3NjFmNjRlNWJhODJmN2NiMDJlMzJjN2U0ZGJjNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjZkMGU5ZDg2ZDY2MzE5NzQ0MDY4Y2NmOGQ5ZWQwNGI1ZDkwZTMxOTViMTliYjI2ZTcxMzg5NTY4M2Q4YjhmZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMmNkOTg5ZmYzM2E0ZThkZDgzMmM3MTY0MGQwNmRiZDNmNzJiZWVhNDQxMDk1Mjc0MmMwNzM3NDkyMzgwYmUzMyJ9"
         }
       ]
+    },
+    {
+      "id": "claim_027b548a05d74f6f9e07ad909256ea08",
+      "statement": "`talhelper genconfig` writes per-node machine configs named `<clusterName>-<hostname>.yaml` (e.g. `kubernetes-master0-nuc12.yaml`) plus a `talosconfig` client config into `talos/clusterconfig/`, and that directory's `.gitignore` excludes both generated artifacts from git.",
+      "evidence": [
+        {
+          "resource": "repo://talos/clusterconfig/.gitignore",
+          "version": "repo-file-v1:sha256:32df7ae8de1d53c340bdf141bb54cce6ea5c63897d7f2e0df3e227511fcb1e8a"
+        }
+      ]
+    },
+    {
+      "id": "claim_d2a6b65c808a483c8f9fd2235a8c5845",
+      "statement": "`task talos:upgrade-node IP=<ip>` resolves the node's `talosImageURL` from `talconfig.yaml` (selected by `ipAddress` via `yq`) and `talosVersion` from `talenv.yaml`, then runs `talhelper gencommand upgrade` with `--timeout=10m`; the node runs SecureBoot, so its image URL is a `factory.talos.dev/installer-secureboot/<schematic-id>` image.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml#L31-L46",
+          "version": "repo-lines-v1:sha256:c7745ffcaf01e49647d3d0c759433bd1c878042e171a2003f9f5ef415c355991:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcyMTc2ZGE5ZmU1N2MzMDM4YzQ5MGNmM2ZkODFlZWU1OTA1NDE0YzYzYzVhY2RhZmE0ZTdjMjExMjk0YjNmNWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlhNjI2MWZlNzI4NDUwMWRiYzY0ODNkOTEyZWFjZGQyMzNiZjkwMmIyNGY1OWU0ZmRjYTFlZTVmMWQ2MmFhMWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJjMjI3NzVjMmU1ZWViMDBmOWFiNzIyZjM5Njc0YTZkZDE1NTNhYTA4ODZmZWM5ZDFiNzZkYjU3OGJlNmJiODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgyMjNlZDA2NGU4NDJmYWNiOThmMGI2ZGViYmE1MWQzODg4MjQ0ZjM0NTVjMTIzZjRiMzRiMDU3OGU3ZDAyZWEifQ"
+        },
+        {
+          "resource": "repo://talos/talconfig.yaml#L27-L29",
+          "version": "repo-lines-v1:sha256:05f12ac028003fa6139f8430aa3ed9004def2059bdb7a393fec52ea5b7c050ce:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTBmNDYwYmUxYTY1ODk2N2E1MzVjNTFlNDg1MDUzOWM0ZjBmYWQzYTM2ZGNjNDZlMTRlM2MxZGFkYTQyZjk5MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTA3M2ZjMWRmNmQ1MmYwY2Y0NzM0OGY3Y2U4NTI4OTI5NTBiYmI2YWM5MzRkNDAyMzBiOTZiNTE3YzA5YmJmOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTc0Yjg5M2E0ZjIxZTE4YmFlYTY0NzUyODQ5MDgxZWEyM2UxOTllNmYyMWJiMWM2OWRlODNjMzAzNDdhZjI3NCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzYyYzIwYWNhMDUyZGE3ZmY5OWJlMDlmODM2MzExNThjNmVkNjA2OGY5OWU0MDk2NDQzMjgxMDdjOTRiZDkwYSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_12dfbee3f90740a8933994a402f83e66",
+      "statement": "`task talos:reset` resets nodes to maintenance mode via `talhelper gencommand reset` with `--graceful=false --wait=false`, wiping the `STATE` and `EPHEMERAL` system partitions unless `CLI_FORCE` is true, and is guarded by an interactive confirmation prompt.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml#L60-L66",
+          "version": "repo-lines-v1:sha256:ea5c7acd6103a621dad1b3b7c305e16662777d9012a66a6a79cc3df39188b6c6:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjFjMjlkMWIyZDAzZjAzNjNhMTJmY2Y2OTMwN2M3MGU3ZTRlZjIxN2I5YjA4YTcxMjFkZjdmNDQ3MmY0YTE4NiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNmFjZDNkMzBjOTYyNmFmYTViYWU4YWUzOWU5MTNmOGY4YmU3YzhhNDgwYmYwNjM2ZmZhNmE4ZTBhODNmMjc3NSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYmMyMjc3NWMyZTVlZWIwMGY5YWI3MjJmMzk2NzRhNmRkMTU1M2FhMDg4NmZlYzlkMWI3NmRiNTc4YmU2YmI4MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_de3c3b7ecf8a484f9bfbd3f55e7e488f",
+      "statement": "`talhelper genconfig` and the bootstrap flow require `.sops.yaml` and the SOPS age key file to be present; `.sops.yaml` matches `talos/.*\\.sops\\.ya?ml` with `mac_only_encrypted: true` and encrypts `talsecret.sops.yaml` to a single age recipient, and bootstrap creates that file only if absent via `talhelper gensecret | sops --encrypt`.",
+      "evidence": [
+        {
+          "resource": "repo://.sops.yaml#L2-L5",
+          "version": "repo-lines-v1:sha256:35da9b7e7dacce209c9b8550cc207df50d6026c5d352798e1ce62e1df55fbaa3:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzNkODUzYmNlZGZhOTBlZGIxMTZhZGJmOWY2YTdmMzQ3NzAzMTY0ZjBlMWRiMTU3ZTY3YmY3M2QwZjQ1YTJkMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDYwMWFkNjVkNmRjOWZmZDIxNWZiM2ZkZTkxZWFkZDlmN2IzOGUyMjJjNGU5NDc3MTFkMzk5YzQyN2MwMWQ5OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjEsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjUyZDcxMTEwM2Q1MGE0Mzc4MzBjNmZiY2QwNGZiNGJhYjQ5YTBmODJmNmQyNmQxYzc5MWM2ZTg0ODhkZDA5MCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDk1N2U0YjRhMDM3MGUwMjNlOTc3ZjZiZGQyMDk4NzEwMzk1NjIzNWI3MzBlNmJiZTFmM2Y2OTcyMDAwYzU0MCJ9"
+        },
+        {
+          "resource": "repo://.taskfiles/bootstrap/Taskfile.yaml#L7-L20",
+          "version": "repo-lines-v1:sha256:6008dcb5ad581f2fafbe2c9a2423d08581d59466042235a2bf00506b0645466b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZiOGU3MDRjNjBkYTQyMjIzODFlZWM4OWFlNDRiYzIyNTZmOTE5NTY5NTQ4MmFiOWE2MzEwMmY3NDI0NDA0OWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNjY2MxNjcxMzA0N2E5MjVmODU4Njg2NmNiMzM0NmMzYzc0MzdlNDJiMGU4Y2RkZjU5ZWFkNDRiOTNmZjc2MjkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIxZDEyYjU2YzEwYjdmYjYyYzhmMDQxYjM3ZTE4Y2Y4ZjI3YzU3OGEwZDI3YWI3ZThkZDg4ZGJkYzlkZjRiMWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNkMzM1NjAzZDllMDVhZjAyNDI4ZmRiZmFjNDc0MjhmZTNlN2FjNmMwOWIzMzM3YmU3N2Y2ZDE0ZTg3NTNlMGUifQ"
+        },
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml#L7-L15",
+          "version": "repo-lines-v1:sha256:5db79c470b1c68418177ca82986169ee2ae71e736ae8d5d8740dafbe2ab9dd75:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZmYzOTIzZmQ0MDVkMjQwM2UyZmJkYjMzODc4MmI0MTEwNDJmYWYyYzY0MDc4ZDZjNTQ2Yzg0YjFhZDdhNzgxMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNmFjZDNkMzBjOTYyNmFmYTViYWU4YWUzOWU5MTNmOGY4YmU3YzhhNDgwYmYwNjM2ZmZhNmE4ZTBhODNmMjc3NSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjFkMTJiNTZjMTBiN2ZiNjJjOGYwNDFiMzdlMThjZjhmMjdjNTc4YTBkMjdhYjdlOGRkODhkYmRjOWRmNGIxZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzUzNjllYjE0MGJkMzM3ODgwZTY0OWQyZDk4NzhlZjY1ZDM4OGRlYmQzZjkzOWQxODY1MzRhZWE3OTE3ZGI1YSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_35e1a579873f4acf9040142f8ec4dbb5",
+      "statement": "The Talos taskfile gates apply, upgrade, and upgrade-k8s tasks on preconditions — target node reachable (`talosctl get machineconfig`), valid `talosctl config info`, `TALOSCONFIG` present, and required tools (talhelper, talosctl, yq, kubectl) installed — and `apply-node` defaults to `--mode=auto`.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml#L17-L29",
+          "version": "repo-lines-v1:sha256:35ce0aa449263507466334f03fc68ca500a4142bce0b6b479f91f5e911098d74:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwOGI1ZWI4N2M5MGVmYjA0NWM2Y2E5NmViMmVkMDU0ODk3MjdmMWJhMjIyMTgxNDUxM2MwOGVhOGFjYTQ2ZTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2MGRjZjk2Mjk1YzVkNThhNjk3NjU1MjRjMzc5YTgwOWUxNzRhNzVlZGM1YzdlYTUwMmI4MzFkOGI4MmFiNmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg4NDI4M2IzNzhmNWIwYjU5MjU3MDQzOThlM2JkMDA4Mjg3YTFmYmNhZTU2NTQ3NDg0MWMzNDk4ZmE3OTgzMzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhjMWVlZGU5NTk4NzJmMzk2ZGQ0NDY3NTZkMDc2ODg1YmIyMGMwY2ZkYTc2ZjE2YjA2NGZlOGIyM2NhYTZlMDMifQ"
+        },
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml#L48-L58",
+          "version": "repo-lines-v1:sha256:1172dba8a5f5c572ea4428fc7814a5afe4ba06a270839de086f7fb4f0549a9ca:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQzYWZiZTlhYTEyMmU0N2ZiY2RkZmFlZWViYjQ3NjE0YzMyNTBlNzhmNzlhZDg5NzMyZDczMTY3ODg4MDYyODgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2MGRjZjk2Mjk1YzVkNThhNjk3NjU1MjRjMzc5YTgwOWUxNzRhNzVlZGM1YzdlYTUwMmI4MzFkOGI4MmFiNmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUwMGYyZTc4MmU2ZmRjZDY4ZTU2MDZmNWQ5MzJiYWQyNWRlY2JjNTRiODYzNTlkNjYxYmI4NDE0ZTc5Y2MxODkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdlOWVjZjQ3MzhmZTc2ZWE5N2MzYmYwZmIwNzNmZTkxODQwZThlNTBlYzVjOTdjOGQzZWZiNWU3YWI5YmRkNmQifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-01T21:54:26.927Z"
+    "at": "2026-09-08T21:57:36.335Z"
   }
 }

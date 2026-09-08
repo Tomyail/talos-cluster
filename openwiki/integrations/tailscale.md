@@ -6,6 +6,8 @@ tags: [networking, tailscale, vpn, oauth, operator, mesh-networking, egress-prox
 sources:
   - id: openwiki-source-b39dd7458c333c8d2cd9b103
     resource: repo://kubernetes/apps/default/echo/app/helmrelease.yaml
+  - id: openwiki-source-1385f4adf262cc0ec92b6d45
+    resource: repo://kubernetes/apps/default/echo/ks.yaml
   - id: openwiki-source-d568e7b5376ab5b1f66e0d17
     resource: repo://kubernetes/apps/network/tailscale/app/egress-proxy.yaml
   - id: openwiki-source-726538cf24db8abb5c138a51
@@ -24,10 +26,10 @@ sources:
     resource: repo://kubernetes/components/gatus/external-tailscale/kustomization.yaml
   - id: openwiki-source-d787b4e38b39b0dac177c42f
     resource: repo://kubernetes/flux/meta/repos/tailscale.yaml
-generated: { by: "openwiki/0.5.0", at: "2026-09-01T21:54:26.927Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-08T21:57:36.335Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-01T21:54:26.927Z
+    at: 2026-09-08T21:57:36.335Z
 ---
 
 # Tailscale Integration
@@ -257,6 +259,16 @@ This capability is particularly useful for:
 - Connecting monitoring tools to cluster services
 - Administering services without requiring VPN concentrators
 
+## ACL Expectations
+
+The tailnet's ACL policy (managed in the Tailscale admin console, not in this repository) must permit the following flows for the integration to work:
+
+- **API server proxy**: tailnet users must be allowed to reach the operator-provisioned API server proxy node for `kubectl` access; otherwise API server proxy connections are denied even though `apiServerProxyConfig.mode` is `'true'`.
+- **Exposed services**: tailnet devices must be allowed to reach the Tailscale LoadBalancer proxies created for services annotated `tailscale.com/expose: "true"` (echo, Nextcloud).
+- **Egress proxy**: the operator's egress proxies must be able to open outbound connections to tailnet targets such as the cluster B Mosquitto broker at `100.123.28.51`.
+
+Because ACLs live outside the cluster, changes there do not flow through Flux and must be applied in the Tailscale admin console; ACL misconfiguration is a common cause when the deployment is healthy but tailnet access fails.
+
 ## Operations and Management
 
 ### Monitoring
@@ -264,8 +276,8 @@ This capability is particularly useful for:
 The Tailscale integration includes health monitoring via Gatus:
 
 **Endpoint Configuration** (external-tailscale/config.yaml)
-- Monitors Tailscale connectivity via HTTPS endpoint
-- URL pattern: `https://${APP}.${SECRET_DOMAIN}/`
+- Monitors Tailscale-exposed services via HTTPS
+- URL pattern: `https://${GATUS_SUBDOMAIN_TAILSCALE:=${APP}}.${SECRET_DOMAIN}/` — applications may override the subdomain, e.g. the echo app sets `GATUS_SUBDOMAIN_TAILSCALE: echo-tailscale` (echo/ks.yaml#L28)
 - DNS resolver: `tcp://223.5.5.5:53` (external DNS for independence)
 - Check interval: 1 minute
 - Expected status: 200 (configurable via `${GATUS_STATUS}`)

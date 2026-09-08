@@ -5,10 +5,12 @@ description: Cluster architecture, GitOps patterns, and how major Talos, Flux, n
 tags: [architecture, talos, flux, networking, gitops]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-01T21:54:26.927Z
+    at: 2026-09-08T21:57:36.335Z
 sources:
   - id: openwiki-source-360da09d9920a02e1e719d90
     resource: repo://bootstrap/helmfile.yaml
+  - id: openwiki-source-951c2cc0849ba28408b9b784
+    resource: repo://kubernetes/apps/database/cloudnative-pg/ks.yaml
   - id: openwiki-source-ee06019c49401bb5e952b0ff
     resource: repo://kubernetes/apps/database/kustomization.yaml
   - id: openwiki-source-dbd8b5c09621dda4424792fd
@@ -49,7 +51,7 @@ sources:
     resource: repo://README.md
   - id: openwiki-source-1fd71dc29915917549048436
     resource: repo://talos/talconfig.yaml
-generated: { by: "openwiki/0.5.0", at: "2026-09-01T21:54:26.927Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-08T21:57:36.335Z" }
 ---
 
 # Architecture Overview
@@ -283,6 +285,12 @@ flowchart TD
 
 **Namespace-level Kustomizations**:
 Each namespace (kube-system, network, observability, storage, database, external-secrets, default, external-server) has its own Kustomization managing app-specific resources.
+
+### Namespace-per-App Layout and Cross-Namespace Ordering
+
+Every Kubernetes namespace is provisioned by a single kustomization root at `kubernetes/apps/<namespace>/kustomization.yaml`, which sets `namespace: <name>` and includes the shared `../../components/common` component (namespace definition, SOPS age secret, app-template OCIRepository). Each app under that namespace has its own `ks.yaml` declaring a Flux `Kustomization` with `targetNamespace` pinned to its namespace, so nothing is deployed outside its owning namespace.
+
+Because apps consume infrastructure from other namespaces, ordering is enforced with explicit `dependsOn` entries that can cross namespace boundaries. For example, the `cloudnative-pg` operator Kustomization depends on `external-secrets` (namespace `external-secrets`), and the `cloudnative-pg-cluster` Kustomization depends on both `cloudnative-pg` (same namespace) and `topolvm` (namespace `storage`). Each `Kustomization` also sets `wait: true`, so dependents only reconcile after their dependencies' resources are fully healthy — this makes the storage and secrets layers hard prerequisites for any stateful application.
 
 ### Application Resource Pattern
 

@@ -5,7 +5,7 @@ description: Runtime secret management using Bitwarden as the external secrets p
 tags: [secrets, external-secrets, bitwarden, security]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-01T21:54:26.927Z
+    at: 2026-09-08T21:57:36.335Z
 sources:
   - id: openwiki-source-41044dd9a7ebfa0249948610
     resource: repo://kubernetes/apps/default/growth-tracker/app/externalsecret.yaml
@@ -27,7 +27,7 @@ sources:
     resource: repo://kubernetes/apps/network/tailscale/ks.yaml
   - id: openwiki-source-d7ce147b373b74b80f0794fd
     resource: repo://kubernetes/flux/meta/repos/bitwarden-eso.yaml
-generated: { by: "openwiki/0.5.0", at: "2026-09-01T21:54:26.927Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-08T21:57:36.335Z" }
 ---
 
 # Bitwarden Secrets Integration
@@ -77,7 +77,7 @@ The Bitwarden ESO Provider is deployed via Helm in the `external-secrets` namesp
 
 **Chart Configuration** (`kubernetes/apps/external-secrets/bitwarden-connect/app/helmrelease.yaml#L4-L15`)
 - Chart: `bitwarden-eso-provider` version 1.2.0
-- Source: Custom Helm repository from `gh-pages` branch raw index
+- Source: HelmRepository `bitwarden-eso-provider` in `flux-system` pointing at the raw index of the `gh-pages` branch of `small-hack/bitwarden-eso-provider` (`kubernetes/flux/meta/repos/bitwarden-eso.yaml#L1-L12`). The upstream project is archived and its GitHub Pages site is offline (404), so the raw-branch index is used and chart tarballs are still pulled from the archived GitHub release; a possible follow-up is forking to a self-hosted registry.
 - Health checks: Extended liveness probe (300s period, 30 failure threshold, 15s timeout)
 - CRD installation: Enabled (`installCRDs: true`)
 - Service monitors: Enabled for provider, webhook, and cert controller (1m scrape intervals)

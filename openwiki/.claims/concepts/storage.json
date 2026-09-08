@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:61ba585d9061986c91d97d03ca24e1945d19b26a3c3ac1dad6b40279f5875ec0",
+  "pageVersion": "sha256:d26a7e3ce024bcb0de2f4e1f04de4d5b18410b60fee9d058f2287e0d95fc2a89",
   "claims": [
     {
       "id": "claim_5ab8c29c6d0d4c42addcf2ca1aa09c04",
@@ -172,19 +172,15 @@
     },
     {
       "id": "claim_e9f7743f05f94355a2060570963f1d14",
-      "statement": "Storage components deploy in dependency order: snapshot-controller first (provides VolumeSnapshot API), then TopoLVM (provides CSI and StorageClasses), then VolSync (depends on TopoLVM storage), with local-path-provisioner and NFS CSI deploying independently.",
+      "statement": "Storage components deploy in dependency order: snapshot-controller first (provides VolumeSnapshot API), then TopoLVM (provides CSI and StorageClasses), then VolSync (depends on TopoLVM storage), with local-path-provisioner and NFS CSI deploying independently and Nextcloud last, depending on csi-driver-nfs, topolvm, and external-secrets.",
       "evidence": [
         {
-          "resource": "repo://kubernetes/apps/storage/kustomization.yaml#L12-L16",
-          "version": "repo-lines-v1:sha256:c03f4ea2136081d3d67d2c9fe2eaa72a50e5c37898b133cf4705aa21ce213645:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDhkN2JkZDA3NWIxYmE2NWQxMWRmODAzMzg5NTQxZTIzMDI4ODMwYWM4YjUyMTZlZDkxYjg2NDRmZmJmMTBkZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzFkMjNlOWMyMzY4MmM1NzU4ODZlMDE5Mjg0MWZiMjMzYjI2MmFhNjgzZjQ3YTk1ZWQ1ZTM2YWRkNmMzM2NlYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDFjODU4ODdmMjE2NjZhMzkxMjAzN2JmOWQwMWJkYTZmNDQ2YjA4NzllNjI1MzQyZWQwNjg1MmM2MDkzY2VjZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzkxNGYyZGJlYjdkYTZkMTdiZTY0MWJjMTgxYzA5MjBlNWE0NjdmMTQ5MDU3MmY4OTFmMjVjZWExOTRmZGY2MCJ9"
+          "resource": "repo://kubernetes/apps/storage/kustomization.yaml#L12-L17",
+          "version": "repo-lines-v1:sha256:b9f545f559f64e6b1a57585e91a45539f6720ef6f980f4aa87ab98b02f93dd92:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDhkN2JkZDA3NWIxYmE2NWQxMWRmODAzMzg5NTQxZTIzMDI4ODMwYWM4YjUyMTZlZDkxYjg2NDRmZmJmMTBkZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzkxNGYyZGJlYjdkYTZkMTdiZTY0MWJjMTgxYzA5MjBlNWE0NjdmMTQ5MDU3MmY4OTFmMjVjZWExOTRmZGY2MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDFjODU4ODdmMjE2NjZhMzkxMjAzN2JmOWQwMWJkYTZmNDQ2YjA4NzllNjI1MzQyZWQwNjg1MmM2MDkzY2VjZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
         },
         {
-          "resource": "repo://kubernetes/apps/storage/topolvm/ks.yaml#L14-L16",
-          "version": "repo-lines-v1:sha256:be2c75a47ae17426aee123593229c0a78eded50b64a29feeeac5fbdd344333cb:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTYwYzNiZDdiYzU5ZmVjOWU0ZGVkMzVkN2NjZjcwMGEzODVhY2U1ODYzNGZhNjBkM2IyMmZmMjY4YzAxN2ViZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzQ1OTdmODNhNWQ5OWFhYzllNTJjYTE3YTk4MjZhNDkyYWRlMmJlOWQ1M2FmMDMxNTAwYmNmY2UyY2UzYjlmNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjgwMTE5MWJkNDg0OTMxMWY1ZDZmNWJhNGY3MWE3NjNiNjc1NTA1MzdjZGIzZmNmYTFiYjc3OGNiNGMzZDYxYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzU2ZGJiMjFiMjExOTIzYmNhY2I2MWYxOTM4YzE3NGJlMjhiMDBmMzAyZDM1MGY4ZjEyYjA4NzcwNWIyNzk4NiJ9"
-        },
-        {
-          "resource": "repo://kubernetes/apps/storage/volsync/ks.yaml#L14-L16",
-          "version": "repo-lines-v1:sha256:64cc4e7d041194edfe9d736eb43e6af3d46d32dd25db576efe37b825c9a62214:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTYwYzNiZDdiYzU5ZmVjOWU0ZGVkMzVkN2NjZjcwMGEzODVhY2U1ODYzNGZhNjBkM2IyMmZmMjY4YzAxN2ViZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzQ1OTdmODNhNWQ5OWFhYzllNTJjYTE3YTk4MjZhNDkyYWRlMmJlOWQ1M2FmMDMxNTAwYmNmY2UyY2UzYjlmNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjcyNWY4YTk0MDk1MzcxMjQwOGMxNmUwZGU5ZmY4YjM3M2FjYmEwN2I4NzMwNDhlMjhmNTdjMjIzMjIzYjhlZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzU2ZGJiMjFiMjExOTIzYmNhY2I2MWYxOTM4YzE3NGJlMjhiMDBmMzAyZDM1MGY4ZjEyYjA4NzcwNWIyNzk4NiJ9"
+          "resource": "repo://kubernetes/apps/storage/nextcloud/ks.yaml#L16-L23",
+          "version": "repo-lines-v1:sha256:6300a24b69cd2e4370039a52e26360639fe701016492381949b72e24253440c6:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTYwYzNiZDdiYzU5ZmVjOWU0ZGVkMzVkN2NjZjcwMGEzODVhY2U1ODYzNGZhNjBkM2IyMmZmMjY4YzAxN2ViZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGFiNmUwZWUyMWNmZTcxYTkwNWE5OTkwNWM1ZGEzOTc2ZDA1YTk5MDBhMzVjMGFkMWIxMjc3Y2RjOWUxOWRlZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNmExM2FiZGFmZTJmYjAxN2FhYTMwYTRmZmExOGUwY2ExYzdhYTg3NjBmNTY2ZTcxM2NmYmVjMjVlNTY0ODAzOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTAyYTZlODMwOGZiNjZmMmFmZDJmMTBlYzdkNDY3MDdkMDA1YjM3MGFkZmI1Y2Q3ODVkNTNlYThkNDYyM2NmMyJ9"
         }
       ]
     },
@@ -205,10 +201,56 @@
           "version": "repo-lines-v1:sha256:a253df1536b0a815db680885e68235536b1f49ffb7a4df2d397b343aafff0d89:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTI1M2RmMTUzNmIwYTgxNWRiNjgwODg1ZTY4MjM1NTM2YjFmNDlmZmI3YTRkZjJkMzk3YjM0M2FhZmZmMGQ4OSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTI1M2RmMTUzNmIwYTgxNWRiNjgwODg1ZTY4MjM1NTM2YjFmNDlmZmI3YTRkZjJkMzk3YjM0M2FhZmZmMGQ4OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWE0YzNiZDRkZTA0ZDc5MzExZWFiMmIyYWMwMWExNDhkMDdkYTZiY2MzOWE5ZWFjOTM0NTNkYjAzMjAyZTBhNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOGRkZjYyODVhY2QxOGZkYzQyN2RjOTVjYmM3ODM4Mzk3NTQ3YmI1NGE3N2U1OTQ0ZmNlZGNjMmI3MjcwZjk1OCJ9"
         }
       ]
+    },
+    {
+      "id": "claim_392472bcc4bf459bb42906bb16e25e21",
+      "statement": "VolSync (chart volsync 0.16.0 from backube, manageCRDs true) exposes metrics without auth and is monitored by critical PrometheusRule alerts VolSyncComponentAbsent (absent up{job=\"volsync-metrics\"} for 15m) and VolSyncVolumeOutOfSync (volsync_volume_out_of_sync == 1 for 15m).",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/volsync/app/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:5a2c230b999209d0d610f2ebb374d085fcb7f154533e72f3f27f6206993cab20"
+        },
+        {
+          "resource": "repo://kubernetes/apps/storage/volsync/app/prometheusrule.yaml",
+          "version": "repo-file-v1:sha256:dbe43ba41bb51452d53caed6c9aa8bac8115069a9f3e672b91649e397f3e2abf"
+        }
+      ]
+    },
+    {
+      "id": "claim_b040771348064dedb64ff0bc09f54566",
+      "statement": "The VolSync restore pattern materializes the latest restic snapshot into a new PVC via the manually triggered ReplicationDestination volsync-dst-${APP}, and applications adopt restored data through components/volsync/claim.yaml, whose PVC uses dataSourceRef kind ReplicationDestination name volsync-dst-${APP} on the topolvm-thin-provisioner class sized ${VOLSYNC_CAPACITY:-1Gi}.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/volsync/claim.yaml",
+          "version": "repo-file-v1:sha256:884ce121cda571f91734132bb4d973643f3dbd93b8b1ee9797c5a0715061161b"
+        },
+        {
+          "resource": "repo://kubernetes/components/volsync/minio.yaml#L61-L87",
+          "version": "repo-lines-v1:sha256:f12ecd3d6c7bf7d5552bb9af4c4fcde3840ca679732a4c45a4df66fbb7c17b2f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlhMDdjMjNiN2ZhZWY4NjVjZTVhN2U3ZDE0ZmZlYjNkMzRjNTBiNTdhNjRmMjI1MGE1NmZkZGFmOTE5N2IyYzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE1MWE4NjQyMGU4NDQwODVkZjVmNDc3ODE4ZTQwNzE2NDQwMDA4MjE3NDc1YTFkYTExNjdjZjFiZjc0NmFjMmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU2ZmQ3NmFhNjZkZDZlNmJlZDc3YmQ3YmU0NDNmMGU1ZjI4ZmRhYjE0ZTAxZTg4ZjRmMzBiMGQyMWQ3YmM1ODciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_42501d766e324351a59d920043f33742",
+      "statement": "Nextcloud is the reference VolSync consumer: its Flux Kustomization depends on csi-driver-nfs, topolvm, and external-secrets, sets VOLSYNC_CAPACITY 2Gi via the components/volsync component, and backs up the nextcloud-nfs PVC (100Gi, topolvm-thin-provisioner, 2Gi local-path cache) to s3:http://192.168.50.220:9010/volsync/dev/nextcloud-nfs.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/nextcloud/app/pvc.yaml",
+          "version": "repo-file-v1:sha256:14e63e6cd6d89b42e067ebfb7a86f0203b7c61fd291fac14c72b26493b616566"
+        },
+        {
+          "resource": "repo://kubernetes/apps/storage/nextcloud/app/volsync-nfs.yaml",
+          "version": "repo-file-v1:sha256:bdcfe917f81144bb95c0a5a91b2742dbe89ea58be4040e8a0ed7d6de37250752"
+        },
+        {
+          "resource": "repo://kubernetes/apps/storage/nextcloud/ks.yaml",
+          "version": "repo-file-v1:sha256:87a192ecc10dad464c294ca98fa1549e7e128fb0016ddd7e82efdd2c97c979d9"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-01T21:54:26.927Z"
+    "at": "2026-09-08T21:57:36.335Z"
   }
 }

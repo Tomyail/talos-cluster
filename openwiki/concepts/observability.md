@@ -5,7 +5,7 @@ description: Comprehensive monitoring, logging, and alerting infrastructure usin
 tags: [observability, monitoring, logging, alerting, prometheus, grafana, loki, thanos, kromgo]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-01T21:54:26.927Z
+    at: 2026-09-08T21:57:36.335Z
 sources:
   - id: openwiki-source-713804fe0a8649683e2d52d6
     resource: repo://kubernetes/apps/observability/gatus/app/helmrelease.yaml
@@ -19,6 +19,10 @@ sources:
     resource: repo://kubernetes/apps/observability/grafana/app/helmrelease.yaml
   - id: openwiki-source-9f2f8a056bc4576db95d46f4
     resource: repo://kubernetes/apps/observability/grafana/ks.yaml
+  - id: openwiki-source-d100d67c8be197e55c3b0c39
+    resource: repo://kubernetes/apps/observability/kromgo/app/helmrelease.yaml
+  - id: openwiki-source-821848b3016b6ffced350dc8
+    resource: repo://kubernetes/apps/observability/kromgo/app/resources/config.yaml
   - id: openwiki-source-cb93ddbc0f06cf7cb0d2c9b8
     resource: repo://kubernetes/apps/observability/kube-prometheus-stack/app/alertmanagerconfig.yaml
   - id: openwiki-source-6bd642d415538c966be4b40d
@@ -39,6 +43,8 @@ sources:
     resource: repo://kubernetes/apps/observability/promtail/app/helmrelease.yaml
   - id: openwiki-source-1fc6dffc81480572258ef063
     resource: repo://kubernetes/apps/observability/promtail/ks.yaml
+  - id: openwiki-source-1f7c9cfe347e39118ba89c7b
+    resource: repo://kubernetes/apps/observability/smartctl-exporter/app/prometheusrule.yaml
   - id: openwiki-source-afd191cdc8cb4bbb385789f6
     resource: repo://kubernetes/apps/observability/thanos/app/externalsecret.yaml
   - id: openwiki-source-aa9123d8a4e247b31b67007c
@@ -47,7 +53,11 @@ sources:
     resource: repo://kubernetes/apps/observability/thanos/ks.yaml
   - id: openwiki-source-51f0a212f7f39961fbc500fb
     resource: repo://kubernetes/apps/observability/uptime-kuma/ks.yaml
-generated: { by: "openwiki/0.5.0", at: "2026-09-01T21:54:26.927Z" }
+  - id: openwiki-source-19cc4d5883bfca3fab22bd67
+    resource: repo://kubernetes/components/gatus/external/config.yaml
+  - id: openwiki-source-a2a10e12c05dc77e43573bc3
+    resource: repo://kubernetes/components/gatus/guarded/config.yaml
+generated: { by: "openwiki/0.5.0", at: "2026-09-08T21:57:36.335Z" }
 ---
 
 The observability stack provides complete visibility into system health, performance, and availability through integrated metrics, logs, and uptime monitoring. It follows a layered architecture with clear dependency chains, long-term storage capabilities, and automated alert routing.
@@ -135,7 +145,7 @@ The smartctl-exporter includes comprehensive PrometheusRule alerts for disk heal
 - **SmartDeviceTestFailed**: Alerts when SMART tests fail
 - **SmartDeviceCriticalWarning**: Critical state detection
 - **SmartDeviceMediaErrors**: Media error detection
-- **SmartDeviceAvailableSpareUnderThreshold**: Spare capacity threshold warnings
+- **SmartDeviceAvailableSpareUnderThreadhold** (sic): Spare capacity threshold warnings
 - **SmartDeviceInterfaceSlow**: Interface speed degradation detection
 
 These alerts provide early warning of storage device failures across external nodes.
@@ -237,14 +247,17 @@ The integration uses ExternalSecret to retrieve Pushover API token and user key 
 
 Gatus provides automated endpoint health checking with Prometheus metrics:
 
-- **Endpoint Configuration**: Kubernetes ConfigMaps discovered by k8s-sidecar init container
-- **Health Checks**: HTTP/ICMP connectivity tests with configurable intervals and conditions
-- **Metrics Export**: Exposes `gatus_results_endpoint_success` metric for Prometheus scraping
-- **Status Page**: Public status dashboard at `status-dev.{SECRET_DOMAIN}`
+- **Endpoint Configuration**: Kubernetes ConfigMaps/Secrets labeled `gatus.io/enabled` discovered by a k8s-sidecar container (WATCH method) mounted at `/config`
+- **Health Checks**: HTTP and DNS-based connectivity tests with configurable intervals and conditions
+- **Metrics Export**: Exposes `gatus_results_endpoint_success` metric for Prometheus scraping via ServiceMonitor
+- **Status Page**: Public status dashboard at `status-dev.{SECRET_DOMAIN}` via the external gateway
 
-Gatus configuration checks:
-- Local network infrastructure (ISP modems via ICMP)
-- External endpoints (flux webhook via HTTPS with external DNS resolver)
+Reusable endpoint groups live in `kubernetes/components/gatus/*` and are attached per-app through Kustomization components:
+
+- **external** group: HTTPS check of `https://${APP}.${SECRET_DOMAIN}/` at 1-minute intervals, resolved through an external DNS resolver (`tcp://223.5.5.5:53`) so it validates public DNS/ingress rather than in-cluster state
+- **guarded** group: DNS A-record query for `${APP}.${SECRET_DOMAIN}` against 223.5.5.5 must return an empty body — i.e. the endpoint must NOT be publicly resolvable; a non-empty answer fails the check
+
+Apps opt in by adding the component (e.g. `components/gatus/external`) to their Kustomization, as Uptime Kuma and Grafana do.
 
 ### PrometheusRule Integration
 
@@ -300,9 +313,9 @@ All observability components use TopoLVM thin-provisioned storage for persistenc
 - **Loki**: 8Gi for log index and chunk storage
 - **Thanos Compactor**: 20Gi for compaction working set and downsampling
 - **Thanos Store Gateway**: 10Gi for object store cache
-- **Uptime Kuma**: PVC backed by VolSync for backup
+- **Uptime Kuma**: PVC (`uptime-kuma`) for configuration, with VolSync backup component attached via its Kustomization
 
-Gatus uses SQLite for health check result storage with caching enabled.
+Gatus persists its own state internally (SQLite by default); no explicit storage backend is configured in this repository.
 
 ## Security Configuration
 

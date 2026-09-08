@@ -22,8 +22,8 @@ sources:
     resource: repo://Taskfile.yaml
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-01T21:54:26.927Z
-generated: { by: "openwiki/0.5.0", at: "2026-09-01T21:54:26.927Z" }
+    at: 2026-09-08T21:57:36.335Z
+generated: { by: "openwiki/0.5.0", at: "2026-09-08T21:57:36.335Z" }
 ---
 
 # Bootstrap Flow
@@ -350,9 +350,24 @@ After completing both bootstrap phases, the cluster enters GitOps-managed state:
 - ImageUpdateAutomation handles image updates
 - Manual reconciliation available via `task reconcile`
 
-## Failure Recovery
+## Failure Points and Recovery
 
-Bootstrap failures can occur at several points:
+Bootstrap failures concentrate at three known hazards:
+
+**Age key mismatch** (`.taskfiles/bootstrap/Taskfile.yaml#L17-L18`, `scripts/bootstrap-apps.sh#L57-L85`)
+- Both phases require `SOPS_AGE_KEY_FILE` to hold the private key matching the recipient in `.sops.yaml` (`age1shkd7fsr66cnpkutpmpf7ffylcc2x4c9tlsdkapv6nmu5ceu0dzqdjtqc5`)
+- A mismatched or missing `age.key` makes `talhelper gensecret` encryption or `sops exec-file` decryption fail, aborting `task bootstrap:talos` preconditions or the SOPS-secret apply step
+- Flux later hits the same failure mode in-cluster: if the `sops-age` secret in `flux-system` does not decrypt, `cluster-meta` and `cluster-apps` Kustomizations fail their SOPS decryption
+
+**CNI not ready** (`talos/talconfig.yaml#L17-L19`, `scripts/bootstrap-apps.sh#L9-L24`, `bootstrap/helmfile.yaml#L14-L19`)
+- Talos's built-in CNI is disabled (`cniConfig: name: none`), so nodes stay `Ready=False` until Cilium is installed by Helmfile
+- `wait_for_nodes` exploits this deliberately: it blocks on all nodes reaching `Ready=False` (Talos's post-apply state) and skips only if they are already `Ready=True`
+- If the Cilium release fails (atomic rollback on failure), nodes never become `Ready=True` and all subsequent Helm releases that require pod networking deadlock
+
+**Dependency deadlock** (`bootstrap/helmfile.yaml`, `kubernetes/flux/cluster/ks.yaml`)
+- Helmfile releases form a strict chain: cilium → coredns → cert-manager → flux-operator → flux-instance; a failure in any link stalls everything after it
+- After handoff, `cluster-apps` depends on `cluster-meta`, `gateway-api-crds`, and `external-dns-crds`; if a CRD Kustomization fails, application reconciliation is blocked (5-minute timeout per Kustomization, 2-minute retry interval)
+- A self-inflicted deadlock is possible if a change removes CRDs (e.g. Gateway API) that already-deployed apps require — `prune: true` on the CRD Kustomizations will delete them
 
 **Talos Bootstrap Failures**
 - Node unreachable: Check network connectivity and IP configuration

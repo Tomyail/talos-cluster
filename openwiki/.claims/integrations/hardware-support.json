@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:4b0125463aa56f5c865b1f0da7083111e090cb7a87bc0dfcc2dd387770b31a13",
+  "pageVersion": "sha256:3fc1d21c9cc0bfe0aa2aebf6b1199f3be8088f105f259de164cd3ea9551e8b6e",
   "claims": [
     {
       "id": "claim_92c47721f8cf41218bf310315692f6df",
@@ -113,10 +113,126 @@
           "version": "repo-lines-v1:sha256:873868425bc8bb31c68e34eec4d8629fe87803e297f68056190afd051755f231:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTA2MjVhNTdiZTJjYTBlNjA3OTIxNmEyNDg5NjJjZDJiOWMwOGQyOTg3YWUzNGJkMmEwMWUxNWYxNmEzMWMwYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjVhZDIwZTZjNDlkYTlkMGEyZWRkNjNkMTkzOTI4ZGQwMDAyNGU2NjMzYmZjNTQwOWQ3ZTVhYjlkOGY5MDAwOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiY2QwZjBmMWQxZjQ0N2U2M2U4MGI5YzczNjUwNmVhODZkNTA4NzRlNzlhMDkwNjNmMWVhYjQxNDQ0MmY3ZGM2OSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODc5ODMxY2M5ODQ4M2JmMDc0YzIwOGQ0YTY3MzM2OWQ2NTRiMThmZmFiY2QyZGYwZGI0MDYzNDJhZDE1MWYyMSJ9"
         }
       ]
+    },
+    {
+      "id": "claim_c8e9c79700364a62acab5a28d6f96857",
+      "statement": "The cluster's only node is master0-nuc12 (192.168.50.145), a secure-boot control-plane node that is also the sole GPU-capable machine; it additionally uses siderolabs/intel-ucode and siderolabs/thunderbolt system extensions.",
+      "evidence": [
+        {
+          "resource": "repo://talos/talconfig.yaml#L21-L34",
+          "version": "repo-lines-v1:sha256:80cdc843515de321894e91429ab121ca690be9157af8ca5aff9d961eafeb53c1:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBjODdjYmY0NmNlYmQ4NTZjMGI5OTc2NzExYWJlYTdmYzI4MTU2MzA4YzcxZTMwYTlhMzgwYjNlOWQzODEzZmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE4ZTVhYjcwYzU0NWE4Mzc2ZWQ3Mzg2NzBiM2E5MzlkOTA5NmJmMjNlYzdkOWIzZDk4YjVlNzAxMmJlN2ZlNmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI0NWQwNDQ4ZTMxYjczMTUxNGM2MGZhYjdhZDhmYmNiYmYyN2FlM2RjMWU0YzA4NjBkMjM2NjUwMmFiYzlkMjYifQ"
+        },
+        {
+          "resource": "repo://talos/talconfig.yaml#L78-L84",
+          "version": "repo-lines-v1:sha256:788be131890418556fdcb261fb3775aa50b0dfefb678238501d02c39959e528d:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjk5YTFkMmM2NDFkMjhhYjAzZWY2ZjYxMTdhZmE1NTg4NDcxYWJhNWM4YzA4NGNiNWJmYzcxY2ZlYWUzYTJhZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzcyZDIxYjRhNTYyYThkNjkxYmE1YTVjZGViMjI1OTVmZGJkOWRlZTE1OTIyYjcwNDA4YjAxMDE0NTYwODY0MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzM2ZWI0OTVlZjhmNGM0N2MyZTYwM2MwZmIzN2VkZTliYWQ5MDlhYzBlYzNkYThmNDFlZmVhNGE0MzI3MmU1YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_5596852304904cd7b14934576d881253",
+      "statement": "A global Talos udev rule grants the video group (GID 44) 0660 access to all DRM render devices (/dev/dri/renderD*), and GPU-consuming pods access the device by running with supplementalGroups: [44].",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/jellyfin/app/helmrelease.yaml#L62-L69",
+          "version": "repo-lines-v1:sha256:8a144b3f7d2dffe2c9297412fcee7a933c0daaba9b0fc282d23d1fa10327b252:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzNlZmNhNjMzZjU1MzBlZThlNzBlOTBmYzgwYmQ3NDUyYjlmMTRjYTEyZmZhZGExZTc0OTI2MmE1ZWFjYTIxYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjQ0NGRlZmE1MzJkY2FkYzE2Y2Y3YWIxOTg4YmIyMjljMGEyYTBhNjllNjUwYzk1MzRlN2RiYjMxZGRiYjZiYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjJkMTc5YWRmMDhmNzZlMGExMzE4MWY5MjhmNjVkYTk4MjA2ZGNjMzc2ZmI5Yzc2YTViNDNiMzJhNmEzYjFjMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTk4Y2VjZjAzZjEyNTA5ZGI5MWYzM2U1ZTEyNTgwNDZmN2M0ODJjNjdmMzhjY2ZjZTZiODQ4ZTNlNWE3ZDI5MSJ9"
+        },
+        {
+          "resource": "repo://talos/patches/global/machine-udev.yaml#L4-L9",
+          "version": "repo-lines-v1:sha256:2061fd4740a53e6b0dce3ec3c4414d25a20233c2989503199016c4ed3bb19c64:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2ExYzQzMGM3N2IwZGY0NTg0ZDU1Yjc0ZTg1MzAyZTA1NjExZjg3MzU4YWQwMjRiOGMyYjMxZDVmMDI4YzNmYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTNjMjhlOTAzYTNhYWM0MWJkZWI2MjMzYjYwZDA0MTg4MzE0MzJmYjc3YTRkYzdkYTY0MTVjYzg0Y2JmOGVmMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNGRlNzViYWM3YzIzNWIyOTZiZDc1YzY2NDJlMDFjOTAzMDdmYWQ5MTdkNmZiNjNkZDc2NzMwZjllM2E2ZTRjNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTU4NDUyNjVmZTRmZDg0NjllY2RkYTc5M2Y1NThjM2FmYWRjYTJlNjgzZmYyYWUwMmIyYjUyNWNlMmU3MGQ2OSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_4ad1e77f5f914a5faa0d60bce5d078f5",
+      "statement": "The intel-device-plugin-gpu Flux Kustomization depends on the intel-device-plugin-operator Kustomization (ensuring CRDs exist) and health-checks GpuDevicePlugin/i915 directly, treating it healthy only when status.desiredNumberScheduled == status.numberReady, so an unready device plugin DaemonSet fails GitOps reconciliation.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/intel-device-plugin-operator/ks.yaml#L38-L53",
+          "version": "repo-lines-v1:sha256:c4fd9ca220a17bfd23b65678950457fca5d095a1b0b77c7d11254534f3b4ac39:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU2MGMzYmQ3YmM1OWZlYzllNGRlZDM1ZDdjY2Y3MDBhMzg1YWNlNTg2MzRmYTYwZDNiMjJmZjI2OGMwMTdlYmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhiNjViNjA1NWRlYjIzZTNmYWIyMzcyZmU1ZWE0MzJiYmE4NjEzM2EzMDg1ZDAzZWUwNTAwYjZkNzU0YTdhMjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYwYmVkZjViYmRjMDhmNDkyNzZiN2ViYzY4ZGVlZDA5ZmYwZDJjODc5MDA3MDA5NDM1ZjNiOTY0NzY0ZjU0ZGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEyMjEyY2YzZDRmZmE4OWVkYTFiOWJkOTE5NzYzODU3OWY2Yjk3M2RjNDkyOTZmYTg5OTU0NzM2YmIwZTFlYTcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_5d96db89f2c44628a3f58bf24d5b3444",
+      "statement": "The GPU node label intel.feature.node.kubernetes.io/gpu: \"true\" is applied statically via Talos nodeLabels, and NFD complements this because the GpuDevicePlugin sets nodeFeatureRule: true, creating a NodeFeatureRule that labels nodes by detected Intel GPU hardware.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/intel-device-plugin-operator/gpu/helmrelease.yaml#L33-L36",
+          "version": "repo-lines-v1:sha256:a8cf96d75f40081b8bc2aa999a9706d4c1ab6dc1f085746cccf2cfbf88372b99:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzZmMWM3MmI1OWFkZTUyNGMwMTM1YzdjZGIwZWIyNGFhZmJmMTRkYjE5ZjE3NjBmMTkzYjI3MDc3Yzk3ODQ2OSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODg4ZTYxNWEzMjU5MjJkY2EzNzhkMWNmOTgyYTVjNmI5YWQzMGE5NjQwOTAwZTFjOGMxY2IzOGE5ZDgwN2NmZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjE1YTRiM2UxMzdhNWE5ZGIwZGQwNWFkZjg4NzIxNzIwYmY4MzI2MDZjODYwMjQwNzhkOTliZmJhYTIyMTk4MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://talos/talconfig.yaml#L32-L33",
+          "version": "repo-lines-v1:sha256:873868425bc8bb31c68e34eec4d8629fe87803e297f68056190afd051755f231:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTA2MjVhNTdiZTJjYTBlNjA3OTIxNmEyNDg5NjJjZDJiOWMwOGQyOTg3YWUzNGJkMmEwMWUxNWYxNmEzMWMwYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjVhZDIwZTZjNDlkYTlkMGEyZWRkNjNkMTkzOTI4ZGQwMDAyNGU2NjMzYmZjNTQwOWQ3ZTVhYjlkOGY5MDAwOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiY2QwZjBmMWQxZjQ0N2U2M2U4MGI5YzczNjUwNmVhODZkNTA4NzRlNzlhMDkwNjNmMWVhYjQxNDQ0MmY3ZGM2OSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODc5ODMxY2M5ODQ4M2JmMDc0YzIwOGQ0YTY3MzM2OWQ2NTRiMThmZmFiY2QyZGYwZGI0MDYzNDJhZDE1MWYyMSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_1b78862cb2bd4479bccd5a2dbd70751e",
+      "statement": "The i915 device plugin instance is configured with sharedDevNum: 99, allowing up to 99 clients to share each physical Intel GPU device, and pods consume it via the resource limit gpu.intel.com/i915: 1.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/jellyfin/app/helmrelease.yaml#L55-L61",
+          "version": "repo-lines-v1:sha256:6e77a46fae1228bd8d0771df9e2a2ad017f0e7ed017d7345affc6d12c85ecf7b:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmVjZWVmMjVkNmZhNDk4ZmNmNjYyZGEzNTIxNTE1ODliZGFjNTk2NTI5ODFjNzJiNDQ0OGVmYTdiNmI3YThkOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZWE3YmE0MGQ0YWI2MGQ0YjYyOGFkYjQxNDY4M2QwMDZlOTZjNzIyM2Y5NWRlNzljMzQ3MDAxNDRkYjMxOGU4NCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzg4NDAwM2VlNjYwZjMwZDUzZjNmM2I1ODI1YmU5NmJhZGMzNTUyMzMyODAyMTAwYjZkN2MyZTAwZmJjY2VjOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZWZlOTEzZDc5NjAwYmY0ZjNhZDQ4ODQxMWIzNzMyZTcyZjkyMzlkNTZkOGQwZmUyNzE0ZWY5M2ExZDM3YWFjZSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/kube-system/intel-device-plugin-operator/gpu/helmrelease.yaml#L33-L36",
+          "version": "repo-lines-v1:sha256:a8cf96d75f40081b8bc2aa999a9706d4c1ab6dc1f085746cccf2cfbf88372b99:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzZmMWM3MmI1OWFkZTUyNGMwMTM1YzdjZGIwZWIyNGFhZmJmMTRkYjE5ZjE3NjBmMTkzYjI3MDc3Yzk3ODQ2OSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODg4ZTYxNWEzMjU5MjJkY2EzNzhkMWNmOTgyYTVjNmI5YWQzMGE5NjQwOTAwZTFjOGMxY2IzOGE5ZDgwN2NmZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjE1YTRiM2UxMzdhNWE5ZGIwZGQwNWFkZjg4NzIxNzIwYmY4MzI2MDZjODYwMjQwNzhkOTliZmJhYTIyMTk4MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_6230178227b146e8b94347a41e548e9c",
+      "statement": "The Talos node config loads i915, drm, and drm_kms_helper kernel modules for GPU support, plus dm_thin_pool and dm_mod for storage; the i915 module and firmware are provided by the siderolabs/i915 system extension baked into the control-plane installer schematic.",
+      "evidence": [
+        {
+          "resource": "repo://talos/talconfig.yaml#L35-L40",
+          "version": "repo-lines-v1:sha256:66f3be51e7d7aca12327ddb12e9b78edbbd9ec76ae21f916395cab2898961864:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODI3Mjk3MzY5MjMyYmZmYWM1YjUxMmU5OWE1NThmOTZlNmIxYjU3NDQyYTEyZjU2MTJlYWRlODg4ZDNkZWZhOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYWEzMGJjZDVmNGZmNzhlMzI3ZDFkNGUwZThlNmNkZjkzNDMxNjJjYWQ5M2E2ZTg3NTM0Y2E4YmFiZGE0NjExMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODQ1NTgzZmY2ZDZkNTIwMThlNGRmNTk2MWI0ZDJkNzU2MjkyZjYxY2U4NDMyMjFkMGViNjk3OTE2YmUxNmU0NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYWExYWVjYjAzMzRlYTZlZTQ1NjRkMGM0MGJmNjE5ODE4NjI2NjQyMzM4Mzc2YWU1YmU2ZmQyNGEwZTVjODc1NSJ9"
+        },
+        {
+          "resource": "repo://talos/talconfig.yaml#L78-L84",
+          "version": "repo-lines-v1:sha256:788be131890418556fdcb261fb3775aa50b0dfefb678238501d02c39959e528d:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjk5YTFkMmM2NDFkMjhhYjAzZWY2ZjYxMTdhZmE1NTg4NDcxYWJhNWM4YzA4NGNiNWJmYzcxY2ZlYWUzYTJhZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzcyZDIxYjRhNTYyYThkNjkxYmE1YTVjZGViMjI1OTVmZGJkOWRlZTE1OTIyYjcwNDA4YjAxMDE0NTYwODY0MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzM2ZWI0OTVlZjhmNGM0N2MyZTYwM2MwZmIzN2VkZTliYWQ5MDlhYzBlYzNkYThmNDFlZmVhNGE0MzI3MmU1YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_2b9557d479f74553a00919033b136ef1",
+      "statement": "The Intel Device Plugin Operator (chart 0.34.1) is deployed via Flux HelmRelease in kube-system with manager.devices.gpu: true, and NFD (chart 0.18.0) runs a lightweight master (512Mi limit, 10m CPU/128Mi requests) with a worker DaemonSet detecting per-node hardware features.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/intel-device-plugin-operator/app/helmrelease.yaml#L35-L38",
+          "version": "repo-lines-v1:sha256:0e701e9d8913e028c98106a7d648dad5ff32cd68f5ef40c6a767ac482e8f19bb:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzZmMWM3MmI1OWFkZTUyNGMwMTM1YzdjZGIwZWIyNGFhZmJmMTRkYjE5ZjE3NjBmMTkzYjI3MDc3Yzk3ODQ2OSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDkwZDBiYzkyMDE3ZDgwYTVhMDZiNGE3ZmYwZjU1YmFiZDViYWQ4OWQwMTA3ZWZjZTM3YzJlNDM1NGUxOTVjNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTQ2ZWE4Zjg0ZWE5MzdhNTI4Y2FmYTdlODQ5OGFkZDFjZDU5MjVjYjNkZWQ1ZWIxZTlkMTUwMWNiOTM1OGVkMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/kube-system/node-feature-discovery/app/helmrelease.yaml#L35-L42",
+          "version": "repo-lines-v1:sha256:2f4e9b5172cdeef813409714e2e7c61a6c28e24a20c2ce57571ab49f386eaa50:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzZmMWM3MmI1OWFkZTUyNGMwMTM1YzdjZGIwZWIyNGFhZmJmMTRkYjE5ZjE3NjBmMTkzYjI3MDc3Yzk3ODQ2OSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzMwMTM5YWY4ODRlZTZjNTVhOTBmNzgzOWRiOWNlNmFiOTAwZjUzNWI2ODU3MTJjNTMxODFiNGE5MzkzY2JmMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMGUxYTY3OWI0OGExMzEzMmE0ZDBlYWNmMGI5YzU5ODAxNThiMmQzMTAzM2Y4MDlmMTQ2MjQ0YzBiOTU2Mjc2MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_71754604d26d4a049714266e5f50517b",
+      "statement": "Jellyfin, Webtop, Paper, and Playwright each request gpu.intel.com/i915: 1, which combined with the cluster's single GPU-capable node effectively pins these workloads to master0-nuc12.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/jellyfin/app/helmrelease.yaml#L55-L61",
+          "version": "repo-lines-v1:sha256:6e77a46fae1228bd8d0771df9e2a2ad017f0e7ed017d7345affc6d12c85ecf7b:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmVjZWVmMjVkNmZhNDk4ZmNmNjYyZGEzNTIxNTE1ODliZGFjNTk2NTI5ODFjNzJiNDQ0OGVmYTdiNmI3YThkOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZWE3YmE0MGQ0YWI2MGQ0YjYyOGFkYjQxNDY4M2QwMDZlOTZjNzIyM2Y5NWRlNzljMzQ3MDAxNDRkYjMxOGU4NCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzg4NDAwM2VlNjYwZjMwZDUzZjNmM2I1ODI1YmU5NmJhZGMzNTUyMzMyODAyMTAwYjZkN2MyZTAwZmJjY2VjOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZWZlOTEzZDc5NjAwYmY0ZjNhZDQ4ODQxMWIzNzMyZTcyZjkyMzlkNTZkOGQwZmUyNzE0ZWY5M2ExZDM3YWFjZSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/paper/app/helmrelease.yaml#L59-L59",
+          "version": "repo-lines-v1:sha256:8076d310013ccfe8bde95e92f1a0c5e548591f358caa983ce0b5983417ff4ba4:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODA3NmQzMTAwMTNjY2ZlOGJkZTk1ZTkyZjFhMGM1ZTU0ODU5MWYzNThjYWE5ODNjZTBiNTk4MzQxN2ZmNGJhNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODA3NmQzMTAwMTNjY2ZlOGJkZTk1ZTkyZjFhMGM1ZTU0ODU5MWYzNThjYWE5ODNjZTBiNTk4MzQxN2ZmNGJhNCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDkwNjlmNzY3NDJlN2E3NjNlZjM4YzRlZjFmZGIyNTE3OGNiYmMyZDlhMjhlY2JmMmU3M2Q1MGI2NzVmMjlmOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZWQxZGViZTM1ZmE4OTZjZjk1ZGMzZWU0ZjNkYjdmMDgxN2IzYTUwOGFmNGY1YTU2MWJjZDY1ODlkZjA2ZTQxZCJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/playwright/app/helmrelease.yaml#L41-L41",
+          "version": "repo-lines-v1:sha256:8076d310013ccfe8bde95e92f1a0c5e548591f358caa983ce0b5983417ff4ba4:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODA3NmQzMTAwMTNjY2ZlOGJkZTk1ZTkyZjFhMGM1ZTU0ODU5MWYzNThjYWE5ODNjZTBiNTk4MzQxN2ZmNGJhNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODA3NmQzMTAwMTNjY2ZlOGJkZTk1ZTkyZjFhMGM1ZTU0ODU5MWYzNThjYWE5ODNjZTBiNTk4MzQxN2ZmNGJhNCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNGJkODk5ZWE3M2JhZmQyYWY5ZDk4OWVmMGE0NjQ3ZmJjY2RiN2RlOWQwZmU3ZjJhMTEwMmQ4NWYyY2U4ZDVmMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzEzMGFiMDY3ODIyMmNhNTkwOWM4NDQ0ZjViN2ZkNjYyOTVkYWJlYjRkNWQzYjk2YmFkYmU3ZjYxMDRiN2VjMyJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/webtop/app/helmrelease.yaml#L41-L41",
+          "version": "repo-lines-v1:sha256:8076d310013ccfe8bde95e92f1a0c5e548591f358caa983ce0b5983417ff4ba4:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODA3NmQzMTAwMTNjY2ZlOGJkZTk1ZTkyZjFhMGM1ZTU0ODU5MWYzNThjYWE5ODNjZTBiNTk4MzQxN2ZmNGJhNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODA3NmQzMTAwMTNjY2ZlOGJkZTk1ZTkyZjFhMGM1ZTU0ODU5MWYzNThjYWE5ODNjZTBiNTk4MzQxN2ZmNGJhNCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDRiNmY2ZmJlM2NmOGUyNDIwYzZjZWE5NTFmNDc3OWE2NGM1MTc0YTNmYjNhYmZjZjg4MGM2OGNmYTA1ZTNiNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNGRmMzNhNzg2MmQ1NmM0OTExMWQ0Nzg0MWVmOGM4ZTE3MDgxMWE3MDVkNWJhMzljOTAwMWUxOGY5MzViMWM3NyJ9"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-01T21:54:26.927Z"
+    "at": "2026-09-08T21:57:36.335Z"
   }
 }

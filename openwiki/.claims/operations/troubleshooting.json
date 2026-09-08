@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:503fc65c8c1d3fd697c96ac0ed0e6b7544b8080f164c16e2767bd1d557861668",
+  "pageVersion": "sha256:509d788bbaeea8fdf20399c5f8f1bfd2a12883776eb29d7d79e582aa671dc66b",
   "claims": [
     {
       "id": "claim_ff13b80cb8eb45d8b3df24bbc5cfa6f3",
@@ -155,10 +155,94 @@
           "version": "repo-file-v1:sha256:f041519d65e43b5cfa242a7a506f5d21aaf537a2514cc8f8e6a966267f533e60"
         }
       ]
+    },
+    {
+      "id": "claim_7538b064b2394ff7b45d5aec3f2ce099",
+      "statement": "Talos upgrades are automated by tuppr via a TalosUpgrade resource (kube-system) that pins the target Talos version (Renovate-tracked ghcr.io/siderolabs/installer image, e.g. v1.12.7) and uses policy.rebootMode: powercycle, so upgrades powercycle the single node and the API server is unavailable during them.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/system-upgrade/upgrades/talos.yaml#L8-L12",
+          "version": "repo-lines-v1:sha256:05b40101422d6f3f926c0cd9a9a9f350e3672f4a3bb7ea1832689f003e955612:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmI4ZTcwNGM2MGRhNDIyMjM4MWVlYzg5YWU0NGJjMjI1NmY5MTk1Njk1NDgyYWI5YTYzMTAyZjc0MjQ0MDQ5YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzQyZDZkZjI1ZDE4ZmU2Y2VkMDI4OGM3ODI3ZWM5MjBjYzBmOGQyZGVhNDE0NzA1ZGZkNDFhMDAzYWM0MjhlMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMmVkMTdmNTQxOTNkMGExMGI1MzY5ZDY5ZTY4NTkwMjUxODRlYWFhOTNlM2YwNjYzYmIyMzQ4Zjk2Yjk2Njc4NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_b430165782d943f3a7ba2cba1c3afa5e",
+      "statement": "The tuppr-upgrades Kustomization (path kubernetes/apps/kube-system/system-upgrade/upgrades) depends on the tuppr controller Kustomization, both in kube-system with 30m interval and 5m timeout.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/system-upgrade/ks.yaml#L5-L45",
+          "version": "repo-lines-v1:sha256:2d61ee314314bb48c068c4ee9c3acf4fe6220f7618c294455201b0a4a7b9d29b:eyJzZWxlY3RlZExpbmVDb3VudCI6NDEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNhNmY0ZGRhM2VhZWMwMzBmNTUyODI4MWFlYjI1OGRmYzRiOTAyMDhlYjllNWRiZDkxZGJlY2EzMWRiZDFhNTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ0ZTJmODg0YmM1MzQ0MDE0ZmQ1YjVmNjJhNjZkOTJlNmQ4ZTZjM2Y5M2I2MzA5ZGM2NmU4YTNmNjU1YzUzM2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBmNmY4ZWQ1MTRjMzVmYzRlOTI0ODE2NTk1ZGM4OTFlZjRlNDVlNTRiNzc4YjliYWI2MDUyNTMwZWI1NzNlZmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_49870cb6422c4b2ebd07aabc4fe4d526",
+      "statement": "The manual talos:upgrade-node task resolves the Talos image URL from talos/talconfig.yaml and version from talenv.yaml, runs talhelper gencommand upgrade with a 10m timeout, and preconditions on talosctl connectivity; upgrade-k8s similarly reads kubernetesVersion from talenv.yaml.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml#L31-L58",
+          "version": "repo-lines-v1:sha256:267a2e1d3c62adf33264ff5ff9fb740b9bd6894bb8f0708ab17fa5b8d5b20468:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcyMTc2ZGE5ZmU1N2MzMDM4YzQ5MGNmM2ZkODFlZWU1OTA1NDE0YzYzYzVhY2RhZmE0ZTdjMjExMjk0YjNmNWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2MGRjZjk2Mjk1YzVkNThhNjk3NjU1MjRjMzc5YTgwOWUxNzRhNzVlZGM1YzdlYTUwMmI4MzFkOGI4MmFiNmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJjMjI3NzVjMmU1ZWViMDBmOWFiNzIyZjM5Njc0YTZkZDE1NTNhYTA4ODZmZWM5ZDFiNzZkYjU3OGJlNmJiODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdlOWVjZjQ3MzhmZTc2ZWE5N2MzYmYwZmIwNzNmZTkxODQwZThlNTBlYzVjOTdjOGQzZWZiNWU3YWI5YmRkNmQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_07593d75fef64a4f8c3bbb9ff3a3605c",
+      "statement": "Application data is backed up with VolSync restic ReplicationSource resources pushing to a MinIO S3 endpoint (s3:http://192.168.50.220:9010/volsync/...), scheduled every 6 hours, with hourly/daily/weekly retention, a 7-day prune interval, and a 2Gi local-path mover cache; this pattern is used for nextcloud and calibre-web-automated.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/calibre-web-automated/app/volsync-nfs.yaml#L36-L36",
+          "version": "repo-lines-v1:sha256:c61400eff7b07c6e49495ae55428cda186fbe905fda2332b5dc7e451d4b412e2:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzYxNDAwZWZmN2IwN2M2ZTQ5NDk1YWU1NTQyOGNkYTE4NmZiZTkwNWZkYTIzMzJiNWRjN2U0NTFkNGI0MTJlMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYzYxNDAwZWZmN2IwN2M2ZTQ5NDk1YWU1NTQyOGNkYTE4NmZiZTkwNWZkYTIzMzJiNWRjN2U0NTFkNGI0MTJlMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDNmNzY5ZjM1ODFlNGVhMzBjOGQ3OWZiMjRiYTU0ZmNlNjkzMzU4MzQyMWU1MDA2ZjQ3Y2MwMWM2MGY1MmQ5YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTNlMDlkNGFiZDdhMDliZGJjY2Y1YjU1M2RmYTk0NzIwOGQyMzlkYTQ2NjEyZDAwYmZmNDNkZGU2NDJlNGYwNyJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/storage/nextcloud/app/volsync-nfs.yaml#L34-L58",
+          "version": "repo-lines-v1:sha256:95bc946b6a3b3208c224d094ae673c95027708031a1f997bc44d7aeec9ed3be9:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJmMDVhOGY5MWJjZmQzMTE4YmYzZDY2ZmU1NjQ4NjZlM2QzMTA0OGVlMGRmOGU3OTkwMjIxYWYzMzU4ODNmMTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1NjVhZmExNzZhODlhOWVhZjQ2MzI5NGNkMDg2YTVlZmUxZjM5MWQ4Njc4NDVhZTI4MDlhMmQxZmEzMmYwMTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjlkOWE3NjE0YTg4YjQ0ZjU0NGNmMTI4MDIxMmVkNjg3MzAwYzgyMTM1MjZmNzFhMDIyMjg2YTZkOWQ5NDlmZjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_75089d130e244e33ac8144108e280ae4",
+      "statement": "VolSync backup repository secrets are generated by ExternalSecrets from the bitwarden-login ClusterSecretStore, templating RESTIC_REPOSITORY, RESTIC_PASSWORD and MinIO AWS credentials from the volsync-minio-template and cold-minio Bitwarden entries — so missing/empty backup secrets usually indicate an external-secrets sync failure rather than a VolSync problem.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/nextcloud/app/volsync-nfs.yaml#L3-L32",
+          "version": "repo-lines-v1:sha256:a7b2abf16fe5fe5ed39ac3b85b42fa35d06f17e3aa191983730bb6e222d18a15:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVjYTlhZjRjMDU1ZTJiZjE5YzY0YWNmMjMyZWQzZDEzODc2NzY2Y2NjOTliNDQzMzc5N2Y3OWNkNjNhYmExZTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNiYmYzOWYwZTkwNzFkOGEwZjQyZjNlMzc0OTdhOTRhMDExNGU2NmYyNmFmYjcyN2VmNDFhMDkxZWE3Yzg1YjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoyLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU5NmM1YmZmZWIwNDU5OTEzMzZlZDI4MTc0YzVlNjUyNjBkZjAxOWJiYzgzYTc1MjM4MDRjYmViZGU3MTM2ZmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQzZjc2OWYzNTgxZTRlYTMwYzhkNzlmYjI0YmE1NGZjZTY5MzM1ODM0MjFlNTAwNmY0N2NjMDFjNjBmNTJkOWEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_6afcc18fe183478ba43eb419cc0fcafd",
+      "statement": "The cluster Kustomization graph requires the gateway-api-crds (experimental CRDs) and external-dns-crds Kustomizations — each built from its own GitRepository source — to be Ready before cluster-apps reconciles, so CRD-kustomization failures surface as cluster-apps dependency errors.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/flux/cluster/ks.yaml#L25-L94",
+          "version": "repo-lines-v1:sha256:369f36ae7b138540b6a59050e5c63e5e60658ea842e91f984d52020e7dc26242:eyJzZWxlY3RlZExpbmVDb3VudCI6NzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAzMTI1OGFlNDc5YzY5MTNjM2MxYjFmNzc0ZTc2NWEyYzA3NjVhNDQ4ZDk5M2I2ZmUzODIxZjUwM2VhNGM1ZDciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyY2ZmNWZmYmE1MGFjMzgxNmFmZjljODViNmI3YTQ4NWU3ZTJhNzM0NjI1ZjM5NGMwNDlkNGI5NmQ1N2E4YzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFiNjFiMjIxZjQ3YjliMjQ2MDMzNTVkODQ3MjFmZThkMmFhOTVlMjUzYjI4MmJlNmNjNGJlZTZkZDU3NmZiMDciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_793b86e2a246423b8209eec390e0388c",
+      "statement": "The qbittorrent egress gateway policy explicitly excludes the API VIP 192.168.50.10/32 to avoid egress self-loops; new egress policies reaching the API or internal endpoints need similar exclusions.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/qbittorrent/app/egress-gateway-policy.yaml#L23-L31",
+          "version": "repo-lines-v1:sha256:ed127d557aa64a75f1435874f31d2d9f830e1716102a2dce252c103439f22015:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMjhlMzFiN2NkOTg2ZmZkYmI2ZDUxZGE1ODk3NmE0MDZlYTdkNThmNjVmMjUyMmNiNjNiYWM0MmM2YzE3OGM1OSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZmEyYTZkMmQ4YWYzZDQ2MDRkMzJlZThhMDU5MTk4MjMwYjJlNWM0N2Y1NGEyMjU5MTZjNDIwNGM3MjI5MzY1ZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZWE5NDIxNzcwNTcwNzBhZTIyZTQ0NGJmNmE4ZjM5YmZhMThkMmZmNzIyNTg1NTU0ZDJjNGJmZTMyZTBiYjJlMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_7ae451eec9b641628342f2e4c6e26e3a",
+      "statement": "TopoLVM provides the default storage class topolvm-thin-provisioner (XFS, Immediate volume binding, expansion allowed, LVM thin pool 'thin') with lvmdEmbedded: true, so a Pending PVC usually means topolvm-node/lvmd unhealthy or thin pool exhaustion on the single node.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/topolvm/app/helmrelease.yaml#L38-L48",
+          "version": "repo-lines-v1:sha256:d759e359f0e450762d9a5daa7dadbbbbb2a4aa147592b02b537590c94c332675:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI0Y2QyNTliYWZiMGYyMzhmZjUxMjFlODYzNmRkMDhhMTQ4Mjg1NTViNzJjN2UzYmM3M2QyN2MxZTJlN2IzMmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyZTNkMWIwN2M4ZGExMTVmMjRiY2ZhYWE2Nzg1MzhiZDZhNjQxMjFkYjhkYWM0OWI4NzViYjRlYmY0OTZlYjkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIxZmFhNjhiZjhkY2QwOWU4MGEwN2RhYmE2NzFlODI1YzI3ZjM4ODkxNjI0NmFiNTQ5ZjdhMzJhOTc0ZDRmODciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZmN2VlNDE2M2UxMDI4YzdhZTVmOWRlYTNiOTI2ZDYxNDI0MmNkOTZiNWZmMTYyNmVjZDQxZjRlMDNkN2EyYjQifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-05T09:07:37.163Z"
+    "at": "2026-09-08T21:57:36.335Z"
   }
 }

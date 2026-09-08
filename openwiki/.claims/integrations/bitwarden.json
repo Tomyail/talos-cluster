@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:f4e4be3db151c580d752f8c67cad3b51a5b65419e9b52812568f4cca43873708",
+  "pageVersion": "sha256:e68bc2f11fbe0b66e2983057b7d91b348ea52116b097b2dbe4a247d3d2f34033",
   "claims": [
     {
       "id": "claim_4ed6aaea226943409690b5b4ed7088c4",
@@ -143,10 +143,38 @@
           "version": "repo-lines-v1:sha256:3c966025e814ddd991820cbfd88c22e54740726e5b24fcbc2e0fa0b474b2e52e:eyJzZWxlY3RlZExpbmVDb3VudCI6MzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNhNmY0ZGRhM2VhZWMwMzBmNTUyODI4MWFlYjI1OGRmYzRiOTAyMDhlYjllNWRiZDkxZGJlY2EzMWRiZDFhNTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ0ZmM4OWExYjBkM2M4YmIyOGY2YmQzMWRhMTFiZWE2Njg1MmVjNTc3MDAyMDg0ZTkzNjNmMDBlYWVlZTRjYzYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRlNTEwZjRkZmQ4YTNlOWVlZTcxYjk3NWVlZjY3NTRlODk2N2YzOTQwZmI0YWU4MDU1NWI3MTg0YmYxOTE5YWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY5ZTJiMDkyMzRmMTMwNmFkY2U1NWZiMWFjNzI5MTJmMGE3MThkZjEwZTU1NjM3ZjU3NjQ5YWE2NTc2YTkyZWYifQ"
         }
       ]
+    },
+    {
+      "id": "claim_e9068186053f438f9604d7737edcc5fb",
+      "statement": "The bitwarden-eso-provider chart comes from the HelmRepository `bitwarden-eso-provider` in `flux-system`, whose URL is the raw index of the `gh-pages` branch of `small-hack/bitwarden-eso-provider`; the upstream project is archived and its GitHub Pages site is offline, so chart tarballs still come from the archived GitHub release and forking to a self-hosted registry is noted as a possible follow-up.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/external-secrets/bitwarden-connect/app/helmrelease.yaml#L8-L15",
+          "version": "repo-lines-v1:sha256:67820f3360f0a9a377a34fa15e0631b2ec3b0ad26908f3c09e8a10490a335b67:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjBjY2VkNTZhNmQ2YTQyNDkyNjVkYzhhN2M3MGU0Y2MwZjczN2RkMmRiNWY4YjY0NzRhMWQwMTlkZjhjMmJkYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGMzZjY5YzZhNzU1ZTViMmFjZDQwMTVkOGM0ZGFmYTIzZWU3YTE0ZjM5YWY2OTNlY2Y4OTNjNDA5MzI1MzM4YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTczNzBhMTM3MGQxY2MwY2RmZmUwYjM4ZDg1MTVhM2FiNjAyYTlkYWI0NjU3M2JjNDU2OGNhYzMwMDBjZmI1MiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOWNmNDQ1NjkzNzkwMTJhNzM4ZjIyZmY4YmViMDJhMzVjNjgxY2M4M2YzNjY4ZGExNWExNGZmOTgyYWNhNTIxMiJ9"
+        },
+        {
+          "resource": "repo://kubernetes/flux/meta/repos/bitwarden-eso.yaml#L5-L12",
+          "version": "repo-lines-v1:sha256:5fb67987a863269410769072c01c9f4044228220242ffda04bde6251d025ee2c:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDBlZGIzMDMyNGYzYzVjZGQwYjMxNDIzMGRjZWQ2YzNlYTBhYjgzNmJkNGE1OGJkYmMyNDMxN2UwMGMxYzEyMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjUyODFjMDY2YmM0YzYyNmIyMTNkZWZhZWM0MDFmZGVkMjY3ZTc4ODc3NDkxNmM5MTczZjQwMWM0MjVlMzAwYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiM2MyOTJiMGJlYjQxMzUwOGVlZGZiOTFhM2QzMjJlZTJmZTY1NGVkZGI1NjQ1NDFlOGM2MTcwYzc3Mjc5ODgxYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_9cb44b6034b64362a35043147431ea11",
+      "statement": "The bitwarden-connect Flux Kustomization decrypts the SOPS-encrypted `bitwarden-cli` credentials Secret using the `sops-age` secret (provider: sops) and the HelmRelease remediates failed installs/upgrades with 3 retries and rollback-on-upgrade.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/external-secrets/bitwarden-connect/app/helmrelease.yaml#L16-L23",
+          "version": "repo-lines-v1:sha256:087769b158e5e886415322a887a83349578b9ba4fa41a647beafe070fe2065c7:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjM3ZWE4OTA4YjVjNjViMGFlZmUyODA1NDJmMjQwNTU2YzI4YjRjZjYzY2IyOGEwZmVhYzExZGJiMzMzMTM4NSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTVhMGZjY2FmZGU1N2IyZjZhYjU0ZDYzY2EzOGI1N2YzMDQ5NjRkMjY1MDAxNDVmODljZWZmYWU5MzA0YmFjMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMWU0MTA5OGU2ZmU0MWY4MGM1N2YwMDhkNDMzMDkzOWY4MzdmYWViMzFhODZkNThjYmVmM2Q2NjUxYmNmMDY2MCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTc3YzNmMWZlMjYzODk3ODNhYjNiZjM3NjQ5YjEyNmNjMjc3YjYyNGY5NGNlM2YxNTcyMTQwZmFmNDJkMThjNSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/external-secrets/bitwarden-connect/ks.yaml#L14-L30",
+          "version": "repo-lines-v1:sha256:e39a2150537fe0e1156b68600fdb08f7f69f7ea61871f167123a84f3d61984dc:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEwYzRjODg3MDkxZjBlZTIwODMzOGRlNTEwYzQ2ODdmNjVmYzJhYTk0N2Q0NGQxNWNhN2UzYmQ4MjVmMmFkODYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRjMzUxN2U4MTNiM2EzMmI5NjU2MWI5ZTU0YjQyMjMyODQ2MGE4YjQ5NTFkMWI0NDJhMGI1NDA5ZTBmMjgyZTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ4NjU3ZjBhOTkzMzc0MDE5OWJiMzA2NTBmNTUwYzUyMjU5ZWQ2M2U2M2IyODkzZDRhMmRhOWRmY2U1YWIwOTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-01T21:54:26.927Z"
+    "at": "2026-09-08T21:57:36.335Z"
   }
 }

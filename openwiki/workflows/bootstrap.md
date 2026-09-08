@@ -20,10 +20,10 @@ sources:
     resource: repo://talos/talconfig.yaml
   - id: openwiki-source-b65e4f1ccd91316116ad973a
     resource: repo://talos/talenv.yaml
-generated: { by: "openwiki/0.5.0", at: "2026-09-01T21:54:26.927Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-08T21:57:36.335Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-01T21:54:26.927Z
+    at: 2026-09-08T21:57:36.335Z
 ---
 
 # Cluster Bootstrap Workflow
@@ -355,6 +355,7 @@ The bootstrap workflow integrates with several operational procedures:
 - **Application Deployment** ([`/openwiki/workflows/app-deployment.md`](/openwiki/workflows/app-deployment.md)) - After bootstrap, all applications follow the Flux GitOps deployment pattern
 - **Bootstrap Flow Architecture** ([`/openwiki/architecture/bootstrap-flow.md`](/openwiki/architecture/bootstrap-flow.md)) - Detailed architectural view of the bootstrap process
 - **Cluster Architecture** ([`/openwiki/concepts/cluster-architecture.md`](/openwiki/concepts/cluster-architecture.md)) - Bootstrap establishes the foundational cluster architecture
+<!-- openwiki: broken internal link [/openwiki/talos/configuration.md] file "/openwiki/talos/configuration.md" does not exist. Fix the href or restore the target, then delete this comment. -->
 - **Talos Configuration** ([`/openwiki/talos/configuration.md`](/openwiki/talos/configuration.md)) - Detailed reference on talhelper, machine patches, and node definitions
 - **Quick Start** ([`/openwiki/quickstart.md`](/openwiki/quickstart.md)) - Entry point for bootstrap and daily operations
 

@@ -18,6 +18,8 @@ sources:
     resource: repo://kubernetes/apps/default/gitea/app/kustomization.yaml
   - id: openwiki-source-649e5ed74d5376f95cff2b2a
     resource: repo://kubernetes/apps/default/gitea/ks.yaml
+  - id: openwiki-source-83fcf5098607a9b2edbdd01e
+    resource: repo://kubernetes/apps/default/kustomization.yaml
   - id: openwiki-source-0c7ec057591fa8f2c504b0a2
     resource: repo://kubernetes/apps/flux-system/image-automation/automation.yaml
   - id: openwiki-source-957f2ea38d9542dde1d1609d
@@ -46,10 +48,10 @@ sources:
     resource: repo://kubernetes/components/volsync-new/minio.yaml
   - id: openwiki-source-0696023deccf378a358f7526
     resource: repo://kubernetes/flux/cluster/ks.yaml
-generated: { by: "openwiki/0.5.0", at: "2026-09-06T21:32:38.385Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-08T21:57:36.335Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-06T21:32:38.385Z
+    at: 2026-09-08T21:57:36.335Z
 ---
 
 # Application Deployment Workflow
@@ -159,7 +161,7 @@ The app-template chart is sourced via OCIRepository:
 
 ### HelmRelease Structure
 
-Applications reference app-template via `chartRef.kind: OCIRepository`:
+Applications reference app-template via `chartRef.kind: OCIRepository`. Helm values are inlined directly in the HelmRelease under `spec.values` — this repo does **not** use `spec.valuesFrom` or `spec.postRenderers`; configuration injection is done through PostBuild variable substitution at the Kustomization layer (e.g. `${SECRET_DOMAIN}`, `${TIMEZONE}`, `${APP}`) rather than Helm-level post-rendering. If a chart's values ever need restructuring that kustomize substitution cannot express, `postRenderers` (kustomize patches applied after Helm template rendering) is the extension point, but no app currently requires it.
 
 **Example: Atuin**
 ```yaml
@@ -173,6 +175,27 @@ spec:
     kind: OCIRepository
     name: app-template
 ```
+
+### Values Patterns: envFrom and YAML Anchors
+
+Database-backed apps follow a shared secret-injection pattern built on YAML anchors:
+
+```yaml
+controllers:
+  atuin:
+    initContainers:
+      init-db:                      # waits for Postgres and creates the DB/user
+        image:
+          repository: ghcr.io/home-operations/postgres-init
+        envFrom: &envFrom           # anchor defined on the init container
+          - secretRef:
+              name: atuin-secret    # materialized by an app-level ExternalSecret
+    containers:
+      app:
+        envFrom: *envFrom           # same secret injected into the main container
+```
+
+The `&envFrom` / `*envFrom` anchor pair guarantees the init container and the app container receive identical credentials, so a secret rotation is picked up by both. Pair this with the `reloader.stakater.com/auto: "true"` controller annotation so pods restart when the referenced Secret changes. Plain `env:` entries carry non-secret configuration and may interpolate PostBuild variables (`TZ: ${TIMEZONE}`).
 
 ### App-Template Values Schema
 
@@ -416,6 +439,37 @@ Applications integrate with the cluster's dual-layer secrets architecture.
 3. **Manual Cleanup**
    - VolSync ReplicationDestination may need manual deletion
    - PVCs may be retained based on reclaim policy
+
+## Template Walkthrough: Atuin
+
+A complete real app lives at `kubernetes/apps/default/atuin/`. Three files are involved:
+
+**1. `ks.yaml` — Flux Kustomization** (`kubernetes/apps/default/atuin/ks.yaml`)
+- `metadata.name: &app atuin` with `targetNamespace: default`; `commonMetadata` stamps `app.kubernetes.io/name: atuin` on every resource it applies.
+- Composes two components: `../../../../components/volsync` (PVC + backups) and `../../../../components/gatus/external` (uptime checks).
+- `dependsOn`: `topolvm` (storage), `external-secrets`, and `cloudnative-pg-cluster` (its Postgres database).
+- Decrypts SOPS-encrypted files with the `sops-age` secret; pulls from the `flux-system` GitRepository; `prune: true`, `wait: true`, `interval: 1h`, `retryInterval: 2m`, `timeout: 5m`.
+- `postBuild.substituteFrom` loads `cluster-secrets`; `postBuild.substitute` sets `APP: atuin` and `VOLSYNC_CAPACITY: 10Gi` for the components.
+
+**2. `app/kustomization.yaml`** — plain Kustomize manifest listing `./externalsecret.yaml` and `./helmrelease.yaml`.
+
+**3. `app/helmrelease.yaml`** — the workload itself, using app-template:
+- `chartRef: {kind: OCIRepository, name: app-template}` with `interval: 1h`, `timeout: 10m`.
+- Remediation: `install.remediation.retries: 3`; `upgrade.cleanupOnFail: true` with `strategy: rollback` and 3 retries.
+- Values: `init-db` init container (`ghcr.io/home-operations/postgres-init`) plus the `atuin` container, both sharing the `&envFrom` secret anchor; probes on `/healthz`; `serviceMonitor` scraping `/metrics` every minute; a `service` exposing `http` and `metrics` ports; and a Gateway API `route` attaching to the `internal` and `external` Gateways in `kube-system` with hostname `atuin.${SECRET_DOMAIN}`.
+- Persistence comes from the VolSync component's PVC, referenced via `existingClaim` in apps that need it; atuin's data lives in the database, so it relies on `atuin-secret` instead.
+
+To add a new app, copy this directory, rename `*app`/`*namespace` anchors, adjust dependencies and values, then register the app's `ks.yaml` in the namespace-level `kubernetes/apps/<namespace>/kustomization.yaml` resources list.
+
+## Verification After Reconcile
+
+After Flux reconciles an app change, verify in order (each step fails at the layer above if a dependency is broken):
+
+1. `flux get kustomizations -n flux-system` — `cluster-apps` and the app's Kustomization (e.g. `default/atuin`) should be `Ready: True`.
+2. `flux get kustomization <app> -n <namespace> --show-conditions` or `flux reconcile kustomization <app> -n <namespace> --with-source` — forces a re-reconcile and surfaces apply errors.
+3. `flux get helmrelease <app> -n <namespace>` — Helm controller state; a failed release shows remediation/rollback events under `flux get helmreleases -A --status-selector ready=false`.
+4. `kubectl get pods,secret,httproute,pvc -n <namespace> -l app.kubernetes.io/name=<app>` — workloads running, ExternalSecret-synced Secret populated, route accepted, PVC bound (components stamp this label via `commonMetadata`).
+5. Check Gatus endpoint status and Prometheus targets (`serviceMonitor`) for the app's metrics port.
 
 ## Best Practices
 

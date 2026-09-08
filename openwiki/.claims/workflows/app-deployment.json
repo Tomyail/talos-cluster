@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:f54917d1d7329256cf4548da51a6a4cd81da1473034bb731521fead0ad510360",
+  "pageVersion": "sha256:d24ff1c15fbfa52a73740c2685940c81c3b8095900edb3230b3c3f3436103c63",
   "claims": [
     {
       "id": "claim_57404914c2d54006847f1d8a72747f9d",
@@ -371,10 +371,84 @@
           "version": "repo-lines-v1:sha256:e1a2bc089489f21daec5b13be7c0faa06484f30b487c8e43647034f66837ae11:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTYwYzNiZDdiYzU5ZmVjOWU0ZGVkMzVkN2NjZjcwMGEzODVhY2U1ODYzNGZhNjBkM2IyMmZmMjY4YzAxN2ViZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzY1ZDQwMmQyNWRkNTY1NTE5Zjg3ZGZiZTk2NDdlMGEzZTMzNmEwZGNjNzJlNWE1MDMwYjA5YzE3N2NlOTQxMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWY0MDVjM2RmN2ViYTlkYmY5MGU1Mjk5M2QyYzQ5ZGM5OTM0YWMzNzMyY2Y5ODliYzg1NjdlZmY2NTEyMzBhZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjEyYzRiZjI5NTM4Y2IwMzY5NTdiZDVhYjA5ZjFlOGJiNTgwOTJjODI3YjViYTVhMGIyZDg1MDQ0NWIxOGU5YiJ9"
         }
       ]
+    },
+    {
+      "id": "claim_a684183d500a4c128dfee1526b347696",
+      "statement": "Helm values are inlined directly under HelmRelease `spec.values`; this repository does not use `spec.valuesFrom` or `spec.postRenderers` anywhere. Configuration injection (domains, timezone, app name) happens at the Kustomization layer via `postBuild.substitute` / `substituteFrom` variable substitution rather than Helm-level post-rendering.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/atuin/app/helmrelease.yaml#L7-L20",
+          "version": "repo-lines-v1:sha256:0bf61f93605084f2033316d7096432186526db0bcc6409cb938fff253f5ec01a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVlOTFlNTFjZTUzOGVmMTIwZWUyMGNiZGY5NDE1OGJhY2UxY2MxMTc5MDZmODY0ZmVkMmQ5NGUzNzExMGNiMjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE1YTBmY2NhZmRlNTdiMmY2YWI1NGQ2M2NhMzhiNTdmMzA0OTY0ZDI2NTAwMTQ1Zjg5Y2VmZmFlOTMwNGJhYzIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhiOGU4N2E5NGE3MGU3MjgyM2FhMWM5YzNhZjIwZDk1MzMxYjE4MjFkOWQxOTFiNjY2Y2E5Nzg3Mjk0MWRlMTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhlODI5MTM4NmJiZjkxYmFmMmU0NmExNDZjMzNjZjIzZDVhZmI2ZmQ2MmI3M2E5OWEzN2U5Y2ViNTNjMGM0MzMifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/atuin/ks.yaml#L37-L43",
+          "version": "repo-lines-v1:sha256:965526fb65e5bf2981bc3744d194af136aa369796817e130d95ff554a62697f7:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDVmYjU2ZDNhNTI5OWEwMzRlNDAzYmQ0YzFhYWFkMmFkZWE4MmVlMWY2YjkwOTE4MzkxNWNlNWY1ZjA2MzRhZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTc4YTJlMTVlOGNlYmNmZTZiMzVlOTI4MzU1Y2RmNGIzZDRjZGQyMmZjYjBiNDcwMWYwNzk1MWFkMTMwNmVmYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYWVmZWJkNTliNzIxMWFhOGRiOGEyMWQ0ZjI1YzU3MzI0ZDM5NDBjZGI5MDRmM2FkYmMxOTRjOWQ5ZGIzNTI0OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_9b5501860b984671859f587bec0cceab",
+      "statement": "Database-backed apps use a YAML anchor (`&envFrom`) on the `init-db` init container (ghcr.io/home-operations/postgres-init) and reference it (`*envFrom`) on the main container so both receive identical credentials from the app's ExternalSecret-synced Secret; the `reloader.stakater.com/auto: \"true\"` controller annotation restarts pods when that Secret changes.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/atuin/app/helmrelease.yaml#L22-L48",
+          "version": "repo-lines-v1:sha256:36d1df50e8f1206835a4c2dec433629b3b573bd5c4cce267e1f8f2a39d85bb32:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVmN2MyMDAxMzkyNmZiZDBhYWJhZTAzZGNjMTA3NTA5NDFhNjYyMjZhM2QzY2NhMWYwOGNkYjNiMTg3NGYwZmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQwMTZmZDk1MjczMGYyZmZiNWJhYTc1ZDEyNmVhNzViNmRlNWY3NzM5ZWE5NzZhOWZiZjNlYmExMjA5ZDg4NTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE1MjZmNTIzMzk0OTU3ZDM0OWZlOTZiOTIzZWUzY2MwZGIxOTM5NTAyNWVhNjNjZWFjNTZlMzQ5NjQ3ZGRkNDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJkYjdjNDk2NTE5ZjAyMzA3OTI1NmY3ZGRkYmViMjIwMTY1MzIzODM4MTI2MDNjMjMyODQ0MjJmNmUyY2NhMDAifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/app/helmrelease.yaml#L20-L50",
+          "version": "repo-lines-v1:sha256:262b890f9d2213a26563709655d02d69d3d3ebf7d95bf57b5f7db9642dbb6aca:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVmN2MyMDAxMzkyNmZiZDBhYWJhZTAzZGNjMTA3NTA5NDFhNjYyMjZhM2QzY2NhMWYwOGNkYjNiMTg3NGYwZmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQwMTZmZDk1MjczMGYyZmZiNWJhYTc1ZDEyNmVhNzViNmRlNWY3NzM5ZWE5NzZhOWZiZjNlYmExMjA5ZDg4NTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE1MjZmNTIzMzk0OTU3ZDM0OWZlOTZiOTIzZWUzY2MwZGIxOTM5NTAyNWVhNjNjZWFjNTZlMzQ5NjQ3ZGRkNDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNhYmIxYzRkMmMyZmJmM2YzNDlhNjc3M2JiMGFjMDQ4MzFmZTQwNjRlZTcyNzJhMzk4Njg1OGZhYzIyNTA2MGUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_5d4e03252ddc44729ffcfd8c6be0ce49",
+      "statement": "The atuin app (`kubernetes/apps/default/atuin/`) is a canonical three-file template: a Flux Kustomization (`ks.yaml`) composing the `volsync` and `gatus/external` components with `dependsOn` on topolvm, external-secrets, and cloudnative-pg-cluster, SOPS decryption, and `postBuild.substitute` of APP/VOLSYNC_CAPACITY; a plain `app/kustomization.yaml` listing `externalsecret.yaml` and `helmrelease.yaml`; and an app-template HelmRelease.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/atuin/app/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:d0ccc95d40cd2640fcbb25c32cf4cb95425cf2614481204493ec35e4be49e4a3"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/atuin/app/kustomization.yaml",
+          "version": "repo-file-v1:sha256:7fb81e2819c847ffa4c3d6c478619ebdf9f0839d7021d753632fd9eac35bc9cd"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/atuin/ks.yaml",
+          "version": "repo-file-v1:sha256:13db17aad6f9538bb2093438c3117b8d2aa08051bdea364433fa887be1759c99"
+        }
+      ]
+    },
+    {
+      "id": "claim_54c952fa496f4ac696ca6e18fd78e834",
+      "statement": "App HelmReleases configure self-remediation: install retries 3 times, and upgrades run with `cleanupOnFail: true` and a rollback strategy with 3 retries.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/atuin/app/helmrelease.yaml#L12-L20",
+          "version": "repo-lines-v1:sha256:4868659eb6e39e49ab654235fa121ada251ebacebfa21ffc6ed972cd288e0234:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMjg3OWFmODQ5NzMzYWM0ZWY1Mjg1MmI2ODFjZGQ5NjljYWJlYmNmYWNiMzc0MWEyZTJiNmQwNDk1MzZlOTg5MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTVhMGZjY2FmZGU1N2IyZjZhYjU0ZDYzY2EzOGI1N2YzMDQ5NjRkMjY1MDAxNDVmODljZWZmYWU5MzA0YmFjMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzdiZmY1MDY2YjE2OGU0YzljYzhjYmVkNmJlNDE3MWUzZGZjZDA1MGJkYjQ5MzI0ZTIzNDdlMmZjNzlkZTgyMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOGU4MjkxMzg2YmJmOTFiYWYyZTQ2YTE0NmMzM2NmMjNkNWFmYjZmZDYyYjczYTk5YTM3ZTljZWI1M2MwYzQzMyJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/app/helmrelease.yaml#L11-L18",
+          "version": "repo-lines-v1:sha256:087769b158e5e886415322a887a83349578b9ba4fa41a647beafe070fe2065c7:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjM3ZWE4OTA4YjVjNjViMGFlZmUyODA1NDJmMjQwNTU2YzI4YjRjZjYzY2IyOGEwZmVhYzExZGJiMzMzMTM4NSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTVhMGZjY2FmZGU1N2IyZjZhYjU0ZDYzY2EzOGI1N2YzMDQ5NjRkMjY1MDAxNDVmODljZWZmYWU5MzA0YmFjMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzdiZmY1MDY2YjE2OGU0YzljYzhjYmVkNmJlNDE3MWUzZGZjZDA1MGJkYjQ5MzI0ZTIzNDdlMmZjNzlkZTgyMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjFhZWMyN2NlYWQxMzFlYzc1YWI2MTRmYzIxYWY2ODE2Zjg5MzUwMGQzYWQ3NDAzY2I5MjhiMmQwMTM3MTJjMCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_268b1d0e44b74273afc1887464d45398",
+      "statement": "Each namespace directory (e.g. `kubernetes/apps/default/kustomization.yaml`) is a Kustomize manifest that sets the namespace, includes the shared `../../components/common` component, and lists every app's `ks.yaml` as a resource; the cluster-apps Flux Kustomization reconciles these namespace manifests from `./kubernetes/apps`.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/kustomization.yaml",
+          "version": "repo-file-v1:sha256:540735f8d31f4c0b14c141cb59bd450d92a07194ac9283a99b888e114dc9d4ad"
+        },
+        {
+          "resource": "repo://kubernetes/flux/cluster/ks.yaml#L71-L94",
+          "version": "repo-lines-v1:sha256:6c04577f69a578909261c2a9df3e95f699f986c756029395117404d7706b6f26:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUxNjM1MTMxYjQ1NjJhODc1MTY4Y2E3MzFhYjY1NDIyZmNiM2IyY2U4MDQ1M2E4ODQxYWU3NmM4NjE3OThjNGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyY2ZmNWZmYmE1MGFjMzgxNmFmZjljODViNmI3YTQ4NWU3ZTJhNzM0NjI1ZjM5NGMwNDlkNGI5NmQ1N2E4YzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgzMjBjMjdjOTc3MzU1N2IwOTNlMmZkYmQ1NTIxNWRhZDZmODQ1YjFjMzg5NmE3MzYzYjRlYjZiNmQ1ZjEwMGIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-06T21:32:38.385Z"
+    "at": "2026-09-08T21:57:36.335Z"
   }
 }

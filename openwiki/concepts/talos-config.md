@@ -5,12 +5,18 @@ description: Talos Linux configuration structure using talhelper for node defini
 tags: [talos, talhelper, configuration, patches, machine-config, kernel-modules, networking]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-01T21:54:26.927Z
+    at: 2026-09-08T21:57:36.335Z
 sources:
   - id: openwiki-source-aa55808be329b3f929ddf105
     resource: repo://.renovaterc.json5
+  - id: openwiki-source-240e6406ed4b6841961679cb
+    resource: repo://.sops.yaml
   - id: openwiki-source-f04021c19122a44288e9cea0
     resource: repo://.taskfiles/bootstrap/Taskfile.yaml
+  - id: openwiki-source-4f5be6b4c7dcc699aca46164
+    resource: repo://.taskfiles/talos/Taskfile.yaml
+  - id: openwiki-source-31a570d1ad51b4e45ea181ab
+    resource: repo://talos/clusterconfig/.gitignore
   - id: openwiki-source-d2a09e6daa777d44de395a25
     resource: repo://talos/patches/controller/cluster.yaml
   - id: openwiki-source-3e196790f656e0269a8c26fb
@@ -27,7 +33,7 @@ sources:
     resource: repo://talos/talconfig.yaml
   - id: openwiki-source-b65e4f1ccd91316116ad973a
     resource: repo://talos/talenv.yaml
-generated: { by: "openwiki/0.5.0", at: "2026-09-01T21:54:26.927Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-08T21:57:36.335Z" }
 ---
 
 # Talos Configuration Management
@@ -42,20 +48,19 @@ The Talos configuration is managed through three primary files:
 - **`talenv.yaml`** - Version variables managed by Renovate
 - **`talsecret.sops.yaml`** - Encrypted cluster secrets (generated, not edited manually)
 
-<!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
-```text
+```mermaid
 flowchart LR
-    A["talenv.yaml<br/>Version Variables"] --> B["talconfig.yaml<br/>Cluster Definition"]
-    C["talconfig.yaml<br/>Patches Section"] --> D["Global Patches<br/>global/*.yaml"]
-    C --> E["Controller Patches<br/>controller/*.yaml"]
-    C --> F["Worker Patches<br/>worker/*.yaml"]
-    C --> G["Node Patches<br/>hostname/*.yaml"]
-    B --> H["talhelper genconfig<br/>Generate Machine Configs"]
+    A["talenv.yaml - Version Variables"] --> B["talconfig.yaml - Cluster Definition"]
+    C["talconfig.yaml - Patches Section"] --> D["Global Patches - global dir"]
+    C --> E["Controller Patches - controller dir"]
+    C --> F["Worker Patches - worker dir"]
+    C --> G["Node Patches - hostname dir"]
+    B --> H["talhelper genconfig"]
     D --> H
     E --> H
     F --> H
     G --> H
-    H --> I["clusterconfig/<br/>Node-specific YAML"]
+    H --> I["clusterconfig - Node-specific YAML"]
 ```
 
 *Figure: Talos configuration flow from source definitions through talhelper to generated machine configurations*
@@ -399,14 +404,13 @@ The `talhelper genconfig` workflow transforms configuration into machine configs
 
 ### Workflow Steps
 
-<!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
-```text
+```mermaid
 flowchart TD
-    A["1. Load talenv.yaml<br/>Resolve version variables"] --> B["2. Load talconfig.yaml<br/>Parse cluster definition"]
-    B --> C["3. Load patches<br/>Read global, controller, worker, node-specific"]
-    C --> D["4. Merge patches<br/>Apply hierarchical overrides"]
-    D --> E["5. Generate machine configs<br/>Create per-node YAML"]
-    E --> F["6. Output clusterconfig/<br/>Write machine-hostname.yaml"]
+    A["1. Load talenv.yaml - resolve version variables"] --> B["2. Load talconfig.yaml - parse cluster definition"]
+    B --> C["3. Load patches - global, controller, worker, node-specific"]
+    C --> D["4. Merge patches - apply hierarchical overrides"]
+    D --> E["5. Generate machine configs - create per-node YAML"]
+    E --> F["6. Output clusterconfig - write per-node machine config"]
 ```
 
 **Execution** (`.taskfiles/talos/Taskfile.yaml#L7-L10`):
@@ -417,9 +421,9 @@ talhelper genconfig
 
 **Output Directory**: `talos/clusterconfig/`
 
-- **Machine Configs**: `machine-<hostname>.yaml` for each node
-- **Secrets Config**: `talsecret.sops.yaml` (generated once, reused)
-- **Git Ignore**: Cluster configs ignored by git (generated artifacts)
+- **Machine Configs**: `<clusterName>-<hostname>.yaml` for each node (e.g. `kubernetes-master0-nuc12.yaml`), plus a `talosconfig` client config
+- **Secrets Config**: `talsecret.sops.yaml` lives in `talos/` (generated once, reused); genconfig requires the SOPS age key and `.sops.yaml` to be present
+- **Git Ignore**: `talos/clusterconfig/.gitignore` excludes the generated machine config and `talosconfig` from git
 
 ### Patch Merge Order
 
@@ -480,7 +484,9 @@ task talos:apply-node IP=192.168.50.145 MODE=auto
 task talos:upgrade-node IP=192.168.50.145
 ```
 
-The upgrade command extracts node-specific image URLs and Talos versions from `talconfig.yaml` and `talenv.yaml` using `yq`.
+The upgrade command extracts the node's `talosImageURL` (selected by `ipAddress` via `yq`) and the `talosVersion` from `talenv.yaml`, then runs `talhelper gencommand upgrade` with a `--timeout=10m`. Because the node uses SecureBoot, the image URL is a `factory.talos.dev/installer-secureboot/<schematic-id>` image, and the `reset` task can wipe `STATE` and `EPHEMERAL` partitions back to maintenance mode (guarded by a confirmation prompt).
+
+See `/openwiki/workflows/upgrade.md` for the full upgrade procedure.
 
 **Upgrade Kubernetes** (`.taskfiles/talos/Taskfile.yaml#L48-L58`):
 

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:c44b672c4bf72b507427fc04bba3c04f96a6b8c4e786e3aded8126a85516c5f0",
+  "pageVersion": "sha256:5c15ab2736b213a0d0140389c08ecdee0ec1373ce36f7e2c710e07e1df57e95e",
   "claims": [
     {
       "id": "claim_fdb31951fbef449e8d6a7379d6290774",
@@ -207,10 +207,62 @@
           "version": "repo-file-v1:sha256:f041519d65e43b5cfa242a7a506f5d21aaf537a2514cc8f8e6a966267f533e60"
         }
       ]
+    },
+    {
+      "id": "claim_9b206710e92147b48d9c82892414996d",
+      "statement": "Renovate is configured in .renovaterc.json5 to run every weekend with a dependency dashboard, rate limiting disabled, semantic-commit conventions (feat! for major, feat for minor, fix for patch, with currentVersion → newVersion in the message), branch auto-merge for GitHub Actions (minor/patch/digest with 3-day release age) and Mise tool updates, and ignorePaths covering **/*.sops.* so encrypted secret files are never modified.",
+      "evidence": [
+        {
+          "resource": "repo://.renovaterc.json5#L1-L30",
+          "version": "repo-lines-v1:sha256:f03aba33416f83ce226c494891a72802c6011506a786dc524b5988e530a1f18d:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE2ZmIwOGZkYTFhY2I5NTdiNjExNmJkMzc4MTFhMWZlNDFhMDE2MTFjMDYzMWVkYmY3ODZkNjg4OWEyN2E1NWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkNWNkMmZiNGYzZGY4ODQ1MTUyNTViMzk1MjNmMmY4YjU0NzJiZWVhOWY1NjZmZmNhMjA0ZGI4MDI1NjEwNDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZjY2YxMTg1NDljNzE0NmQyMjViZjI1NTM1NDk0YjAyMmEwZTM1ZGJkMDJmMTdhYzAwNmVhNWM0ZDUwODZjZjAifQ"
+        },
+        {
+          "resource": "repo://.renovaterc.json5#L77-L100",
+          "version": "repo-lines-v1:sha256:6234681d33670c7667729dbaab35a0efdf9993585024ede30a780b57fa771e27:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5Y2E4OTFiZmY3YWMxZjdjZWFhZTQwZWYwNTEwNjZiZTllZmU0N2I0ZTQyODFlODZjMzE5YmUyYzU1ZWJjZTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY1YzE3ZGYyNWYxMjBjYzc2NTA5OTlhN2I0NGIxNzUzNzY2MTE4ODk3MDk4NjJmNzYyZmRlODU4OTM4MzBhOWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjYxZDNjYWQ0YmIzMzE0NGNmN2QwYzMwNzNmNTk1MDM3ZTBjMzg4ZjZjOTRiMGUyNjc0NDQyY2JhOWQyNGM2YzgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e3e0cb03b4e244998a849726adbdbd1c",
+      "statement": "Pull requests touching kubernetes/** are validated by the flux-local GitHub Actions workflow, which runs flux-local test with Helm enabled on the flux-system source and posts a flux-local diff comment for helmrelease and kustomization changes before merge.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/flux-local.yaml#L29-L80",
+          "version": "repo-lines-v1:sha256:790cfd4d9e410122d2730794e56ab3c81ce0f08b67e283a3bd78ef60698cb9a0:eyJzZWxlY3RlZExpbmVDb3VudCI6NTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMDA1Nzc3NzZjNjY4YjcwMWQ3MTY1YTk3MmNiYWJiNmVkZWQxMjhiYjg1ZmE3MGMzMjYwYjU4ZTBlOWIwNDQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJlNDVhYjM1YzUwZmQ1Zjc3M2RmMmE2MzgzNzMyMDM3YTRmMjA2Yjc0OWIwYzI4ODQ4Y2U2YTUzYjJlYzZhMmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBmYTJmMDk2YjRlZjg1Zjc1ODc0MjUzNTM4NzU2ZTJlNjQ5NTdiOTY5NzQ5MjViMGVmNmM2NjllNmVmOGE4ZWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE2MzM1Y2Q3MzFiZTBjYTU5MjU0ZWM4NTA1NDYzNDdiZmI1ZjhkZGIyMzM5YzNhYTI2Y2MwMWUzYTIyZTA3ZDUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b38d9f1ec63049adba850d179f475c81",
+      "statement": "Talos and Kubernetes versions are pinned once in talos/talenv.yaml (with Renovate annotations) and interpolated into talos/talconfig.yaml via ${talosVersion}/${kubernetesVersion} placeholders; both the manual task tasks (which yq the talenv values at execution time) and talhelper config generation consume this single source of truth.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml#L31-L58",
+          "version": "repo-lines-v1:sha256:267a2e1d3c62adf33264ff5ff9fb740b9bd6894bb8f0708ab17fa5b8d5b20468:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcyMTc2ZGE5ZmU1N2MzMDM4YzQ5MGNmM2ZkODFlZWU1OTA1NDE0YzYzYzVhY2RhZmE0ZTdjMjExMjk0YjNmNWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2MGRjZjk2Mjk1YzVkNThhNjk3NjU1MjRjMzc5YTgwOWUxNzRhNzVlZGM1YzdlYTUwMmI4MzFkOGI4MmFiNmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJjMjI3NzVjMmU1ZWViMDBmOWFiNzIyZjM5Njc0YTZkZDE1NTNhYTA4ODZmZWM5ZDFiNzZkYjU3OGJlNmJiODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdlOWVjZjQ3MzhmZTc2ZWE5N2MzYmYwZmIwNzNmZTkxODQwZThlNTBlYzVjOTdjOGQzZWZiNWU3YWI5YmRkNmQifQ"
+        },
+        {
+          "resource": "repo://talos/talconfig.yaml#L5-L6",
+          "version": "repo-lines-v1:sha256:3e2e28f7c7aa8d216a760287963dee3cfef8151f90933134d54acdfbaf2be6fa:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTVlZWM1N2QwZDY0Zjc2ZGM2YTRkYTM5MzYxM2NmM2YzMDM5MjJmZDQ3OTU3ZTU1MDM4ZmUwZjFhOTFkNDVmMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMmFkNWVkNDEzY2I4YzVlZGI4NjQ0MWVhMjYxOTlmNTRiMGE1MDFjMDViOGY3ODljNzQ1NTE2YTYwOGNkNTcyOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMGJhNDMyYTBhYWY3YjZlYzMxNGE4ZDI5MWExOWZkZDFiNzlhMmJlYzI2ODRjZjEzNTI3ZjEwZGVkZDc3OWQ0NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOWQxN2U4NzZjOGIxNTI0NDBkNzlmMzE1MzY1ZTY2YmIwZWUzM2M3MDQyN2I3M2I3NGE0ZDdiZDQzNDFiZDNhMSJ9"
+        },
+        {
+          "resource": "repo://talos/talenv.yaml",
+          "version": "repo-file-v1:sha256:4ae26d952e597f70c4bbe7665882b09fe952fe44746284b6ff794e03502b0c1d"
+        }
+      ]
+    },
+    {
+      "id": "claim_cb9a5c73bb9a4264b7d108d3263d1620",
+      "statement": "The cluster is a single-node control plane (master0-nuc12) with a VIP at 192.168.50.10 and Secure Boot enabled; its talosImageURL is a factory.talos.dev/installer-secureboot schematic, so Talos upgrades must continue using the Secure Boot installer image.",
+      "evidence": [
+        {
+          "resource": "repo://talos/talconfig.yaml#L21-L52",
+          "version": "repo-lines-v1:sha256:4110cf2e81034e522dcc0a7b95170685b127ad02820639984de3908c1a2573a5:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBjODdjYmY0NmNlYmQ4NTZjMGI5OTc2NzExYWJlYTdmYzI4MTU2MzA4YzcxZTMwYTlhMzgwYjNlOWQzODEzZmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEyNTg3NzIwMWJlYzQ3MTUwODg1ZmIzMjUzYmI3NjE2NTMyNWFjNmI0NGI4ZjViMjA2ZTNkYzY2YmYzNTczYWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE4ZTVhYjcwYzU0NWE4Mzc2ZWQ3Mzg2NzBiM2E5MzlkOTA5NmJmMjNlYzdkOWIzZDk4YjVlNzAxMmJlN2ZlNmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIyZWQ5OTQwZTg2ZDhhZDViZjZhZjRiNzJjMzU2OGU1MjUxNWU0N2UyYjJlMGE1NTI3MTIyMDFlNjZjOWQxN2IifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-06T21:32:38.385Z"
+    "at": "2026-09-08T21:57:36.335Z"
   }
 }

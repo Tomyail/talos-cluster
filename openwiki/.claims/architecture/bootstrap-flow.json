@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:e6d8158a8ad6d3300624263a1648e991ba24d5946a30f0af36605120977e49d5",
+  "pageVersion": "sha256:9a1dd0f2cc17d0da7fa01754c6b206f56f96fbe1071c07ec2c210fa5c07d42dc",
   "claims": [
     {
       "id": "claim_30f820b5ccba4c9a9c4aad7234c3dfc2",
@@ -213,10 +213,64 @@
           "version": "repo-lines-v1:sha256:bda81f031a8a31d22a15f6ed76057ca2f574d6416713ad9082ba77e6cca1edfd:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYmRhODFmMDMxYThhMzFkMjJhMTVmNmVkNzYwNTdjYTJmNTc0ZDY0MTY3MTNhZDkwODJiYTc3ZTZjY2ExZWRmZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYmRhODFmMDMxYThhMzFkMjJhMTVmNmVkNzYwNTdjYTJmNTc0ZDY0MTY3MTNhZDkwODJiYTc3ZTZjY2ExZWRmZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWY5YmJhMzU1YTg1NzJlNzlhZGI2MjZmMTE0NGUyZjA5Yjk4Y2E1NmQwMDA4YjE0NjQzYjcwMTdjNTAyNzQ1ZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjE5ZDgwZjRkNjQ5OGQwNWUwZmUwNGI0ZmUxMmM0NGVlNTU4MDVlMTgzNjI1ZjI5MWU2MmI0NmM0N2EyODBlNCJ9"
         }
       ]
+    },
+    {
+      "id": "claim_26e652e2472c4b5fbadf74bb58579687",
+      "statement": "Because Talos's built-in CNI is disabled in favor of Cilium, nodes remain Ready=False until bootstrap-apps.sh installs Cilium via Helmfile; wait_for_nodes deliberately waits for the Ready=False state and a Cilium failure (atomic rollback) leaves the cluster unable to progress to Ready=True.",
+      "evidence": [
+        {
+          "resource": "repo://bootstrap/helmfile.yaml#L14-L19",
+          "version": "repo-lines-v1:sha256:382b76c3846ced267ba0496de8bd54b47d27dae021f295dc47c77fc179973115:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODVhMDU5M2M0NTY0MDJmYTZhNjBhZTBmOThiYzIyNmQzOTg0NmNmYmI4ODBhY2QwYzdmNzhhZmJlOTVlNTMwMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTMyNTg5MzVmOTU1MDM4YjU1ZDc2NWZmNGFhNTc4MjM0ZWZlODdmN2QyNzhlYzEyODVlMWY4Njk4NTEzNGIwZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWI3ZjBiNzAwODM4YzM4ZGJiMTdmZDE2N2Q0YjIyYmY0ZDY1ODYwY2I4MjYxYjc5NTVmNzlkYzc5MDJjMTNmZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTEzOGEzZGY2MjA0MmQ4OGRkNzEyNTIyYjkwN2E5ZGNkNGRmNjBlNGI0NmFkNmQ3MDQ3NDBlMTNjZTdkMDcwOSJ9"
+        },
+        {
+          "resource": "repo://scripts/bootstrap-apps.sh#L9-L24",
+          "version": "repo-lines-v1:sha256:5d2ab35cc3e3c7cae060abc2e8c00aed56becbacabad04db5f8c662dab26584c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNmNWFhMDViMjIxNDdhNGMzYmEwODE0NjU0MGRhNzBlYzM0ODUzMzM5NDAwNjQ4MTc2ZGEwYjBkODA4OTI5ZDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc2ODc1MTBiNTA3MjhmNzczMDEzNDFkMzU1YmMyYmQ5OThhODE5ZjI4ZjE4MTYxOGNkMmQ2NmJlZWU0MGZjMjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYxN2JhY2ExNDM3MzdjNjczZmJkMDY1ODhhMzM3NjEwOTRhM2M5NzYwMDEzMmM0ZTMwODM1Yjg4OGZhYzdiYmYifQ"
+        },
+        {
+          "resource": "repo://talos/talconfig.yaml#L17-L19",
+          "version": "repo-lines-v1:sha256:3bfc3f472ae13d3cb7300041bca1ddb97f125a12959972fa488a42b60b9090df:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYThkNzkwZTFiYjhmOTM0NWQ4MDhhMzQyYjUwMmQzYzlhYTNiN2Y5NzhiYzg1YmZkYjFjY2Q0ZWVhODk4MjNjYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjMxMjAwYmMyZDU1NzMzZGRkNmE0YjI5ZTNmMWY4MDk2YjljNDlmYjQxNmZmMDg2YTZkN2Q2Zjc3ZTkzZjA5OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiY2NhYWFkZGMyNGMwMTg3ZjdhYTk5M2JhYzNjMGRlNTY2MDY3OTk4MmY2ZWZiNjIwZTgwNjA2NzEyMzJjOWI1MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiM2Q3OWQxMWI1MWEyZGNkNDljOWY5MWZmZjJhOTA1MGY0YTFkMDMwNjA4ODRhY2JjZjc2ZmZlNTk4ZDVhNmI3NyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_f24d6a04ea85495ca9ff037a4dc7bc2b",
+      "statement": "Bootstrap ordering forms two dependency chains whose breakage deadlocks the rest: the Helmfile release chain cilium → coredns → cert-manager → flux-operator → flux-instance, and the Flux Kustomization chain cluster-meta → gateway-api-crds/external-dns-crds → cluster-apps (with prune enabled on CRD Kustomizations).",
+      "evidence": [
+        {
+          "resource": "repo://bootstrap/helmfile.yaml",
+          "version": "repo-file-v1:sha256:79387e3a12f1408ab259b0a4198d1f8c5fcdd17632b5f1f7877a21b56d2a7847"
+        },
+        {
+          "resource": "repo://kubernetes/flux/cluster/ks.yaml#L70-L94",
+          "version": "repo-lines-v1:sha256:87b51bb086d57c6802c1a128b32e90c426a5954cb7b506de7d26e0be18d57ea4:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNhNmY0ZGRhM2VhZWMwMzBmNTUyODI4MWFlYjI1OGRmYzRiOTAyMDhlYjllNWRiZDkxZGJlY2EzMWRiZDFhNTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyY2ZmNWZmYmE1MGFjMzgxNmFmZjljODViNmI3YTQ4NWU3ZTJhNzM0NjI1ZjM5NGMwNDlkNGI5NmQ1N2E4YzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBmNmY4ZWQ1MTRjMzVmYzRlOTI0ODE2NTk1ZGM4OTFlZjRlNDVlNTRiNzc4YjliYWI2MDUyNTMwZWI1NzNlZmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c729ee3a809044ada0b63b098a6df1d7",
+      "statement": "An age key mismatch between SOPS_AGE_KEY_FILE (age.key) and the recipient configured in .sops.yaml fails SOPS encryption/decryption during both bootstrap phases, and the same mismatch in-cluster breaks SOPS decryption of the cluster-meta and cluster-apps Kustomizations.",
+      "evidence": [
+        {
+          "resource": "repo://.sops.yaml",
+          "version": "repo-file-v1:sha256:9b05505c0ce2a16b8eff84c79d5255fdc5f48d7eb6b14e26901d6bf40f348a89"
+        },
+        {
+          "resource": "repo://.taskfiles/bootstrap/Taskfile.yaml#L16-L20",
+          "version": "repo-lines-v1:sha256:e44ae3ed5800a38a7f14b7f122b8a045b508c02240651e7f3d211f8622d68175:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNGJkMzRmZDEwNTU5MmFkMjUyNGNiN2I5ZGM1YTk4NzIyNjdmNzY3OTU0ZmY0ZDE3ZTkxYmQ1MjI5N2VlNzNkNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiM2NjYzE2NzEzMDQ3YTkyNWY4NTg2ODY2Y2IzMzQ2YzNjNzQzN2U0MmIwZThjZGRmNTllYWQ0NGI5M2ZmNzYyOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTM5Y2Y2YWUxZGQxOWNlNWQ2MTIwZDFhMjVlZWE3ZGI0ZjlhNThkNjIzNDc3YTEyNTI5MDYzYmRmMWFiY2ZhNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiM2QzMzU2MDNkOWUwNWFmMDI0MjhmZGJmYWM0NzQyOGZlM2U3YWM2YzA5YjMzMzdiZTc3ZjZkMTRlODc1M2UwZSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/flux/cluster/ks.yaml#L9-L12",
+          "version": "repo-lines-v1:sha256:f000b31c3522bd306a024cee6cfaa7daf3e17c4cde85925ad1ade76d25df1976:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGFiNmUwZWUyMWNmZTcxYTkwNWE5OTkwNWM1ZGEzOTc2ZDA1YTk5MDBhMzVjMGFkMWIxMjc3Y2RjOWUxOWRlZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGUxNWFiOThmYjQ2MzhhOTc1MTM4OTdiMWNmOWZmYTlhZTJmNjVlNWZjYzY1ZTI0YTJhYWRiNGI5ZjQ0YjBlNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjNmYzJmYmI4MWVjM2Q2M2VhN2VjMTQ1ZjE0NGEzNDViNzVlZDI5YjFkZjIxMzMwZDcyMjQ2NmQ3ZmU2NTJlNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTg4YzNhZDUzMDMyNGZkZmNjMjY0Mjk0MmU5MTFiYWNhYTI1MjNhNzI5ZDc4ZjA2NTI3NTQzY2Y2YjQ1ZDA4MSJ9"
+        },
+        {
+          "resource": "repo://scripts/bootstrap-apps.sh#L57-L85",
+          "version": "repo-lines-v1:sha256:8f59b3064b8cac21918a59060f96636874e37359df2f0e4ba1ade95f5f706f69:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY0OThiODk0YzQ3NzQyYmM3MTc1MDQ1ZTk1MWY0NmQyMDc4NTVkMDNlZDZhNTJkMGZiMDEzM2MzMGFiOTgwMjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQwYmU3NDllNjExMWJjN2IwNjRiMDY1MGNlZDIzYjYxODg5ZDIzZjE1ZWI3MDViYjlhYzdlZDVlNTMzNWQ0YTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI1ZmUxMzM4YmI5YTIwMDA4ODZlY2ViYjg5NThhMjI1MzcwZTgyNTAwNzhlMmEzMDhkN2Q0NjYwYzQ1ZTdlN2IifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-01T21:54:26.927Z"
+    "at": "2026-09-08T21:57:36.335Z"
   }
 }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:c1a988ebc66fb1979f30a1c73e0c5baac953b9946d9cefd072b9fa6fe3e447aa",
+  "pageVersion": "sha256:d829b0966f9fa13a931edad5e35d8bc9d747c928770bb38e646217e6dca15a35",
   "claims": [
     {
       "id": "claim_1a31fe92977747538ba1d8d106ab1493",
@@ -237,10 +237,70 @@
           "version": "repo-file-v1:sha256:7327e52b15578f1b15aa3bc933d03c91585b9fbe7f8e0d932df686baa01d827a"
         }
       ]
+    },
+    {
+      "id": "claim_82efa745b6d749e088de63783c955f37",
+      "statement": "Cilium LoadBalancer service IPs are allocated from a CiliumLoadBalancerIPPool covering 192.168.50.0/24 (first/last IPs excluded) and announced via a CiliumL2AnnouncementPolicy.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/cilium/app/networks.yaml#L4-L25",
+          "version": "repo-lines-v1:sha256:6358c4bdb0425d6c37b836c3ad7e1f246b9675ae740a39e15d4a120b48f244e6:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhNDQ4MzE0NzRkMmM5M2MxNWFmNzNjZTI5OTgxZDJjOGRmZGQ2NTAxNDE0MjlhYzI5NDdlMjJhOWFmMTE4YWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2NzUwZDVmZTEzMDI3NDA4YTdlMTYyMDA2NmM1NDk4MmI1NzRkNjhlMzUxZmVjZmYwMmIzMDBiNDA5OTM5MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjcxMDIyOTU4NzMzYjc3NDQ3M2NkNWJjMjYwNGY1ZmZhNGQxNTY5NmUzODEzYjZkMWYyMzNlZDExOTJmMzlhZTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7d4be65dbcc14464bb91fad986149112",
+      "statement": "The Cilium Gateway `external` is pinned to the fixed IP 192.168.50.13, and the Cilium Gateway `internal` to 192.168.50.12.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/cilium/gateway/external.yaml#L10-L13",
+          "version": "repo-lines-v1:sha256:6cda4e7bfc1aff1f72bb794880985eb84d0efa8704c2c2b633df340d0cca3e97:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDUzZTEyNTk1N2NmNWUxOGY4ZGMyMzM0N2QzNTY0ZTAwMGViNTA1ZDNkOTQwNmFkYWE2NDhiMzIwYTRiODZlOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTQyMjVhYTNkZDc1ODlkMGNmNDMwYmRmMjlmZDE5Nzg5ZDM0ZDYyZmU4ZGI5ZjhiYzY0NzMzMDQyNGEyNmVhYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjQ0ZDBhOTc3ZGZlNTExNDlmZWU1MTA3YTVhNTBkYjY5NWI5MDQyNGRjN2QzNGQ0MWFlMjZhZWUyZTAwOTY5NiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDkxNDcyZmMwMjk4ZjBlZGUxNmIzZTgzZDcyMDJmZDJmMDQwYzM1OTQ2YWVkMDZiMTNlYmVhNzE5NzBlZjgxNCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_e01fbba423f14677981b0b30685ae37c",
+      "statement": "Public ingress through Cloudflare Tunnel is registered via a DNSEndpoint that CNAMEs external.${SECRET_DOMAIN} to the tunnel's .cfargotunnel.com hostname, while cloudflared itself authenticates with TUNNEL_TOKEN from the cloudflare-tunnel-secret.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/dnsendpoint.yaml#L8-L11",
+          "version": "repo-lines-v1:sha256:2174ffe2c86997f09600e577c59a8c56016e36de24fd50adc4a916d233c1cfe7:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOGMxNGQyMjBlMDk2NjBlNDJkYjFmZmNlN2E0NTIwYmM4NWZmMjUwNjk4NTc3YzlkNzVlY2I2YmI2NzgwZjQ5ZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzdjY2U3MjA5NDFkMTMwMDIyYjc4YmViODRjMGQ5MGU2MzQ3OGU5ZWEyNjM1MWEzM2Y2YTM0MmMyMjUzZTcxMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzlhZmQxZjEzNjBkMGM4NjljN2ZiOGJjY2NhYTAwNGI1NzAxYTNlOTJhMDJhMDNhMDU4M2VhMmMwYTM2MGI5YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_9044197b227a43a4808099cdb3e796cb",
+      "statement": "SOPS creation rules encrypt talos/*.sops.yaml files whole-file (mac_only_encrypted) and bootstrap/kubernetes *.sops.yaml files with field-level encryption of data/stringData only, both to the same age recipient; operators decrypt with the local age.key (SOPS_AGE_KEY_FILE).",
+      "evidence": [
+        {
+          "resource": "repo://.sops.yaml#L2-L9",
+          "version": "repo-lines-v1:sha256:a72739e985f90110ea26d10cfc8678b107aba99f7969153054238b16be5f8eb5:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzNkODUzYmNlZGZhOTBlZGIxMTZhZGJmOWY2YTdmMzQ3NzAzMTY0ZjBlMWRiMTU3ZTY3YmY3M2QwZjQ1YTJkMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDYwMWFkNjVkNmRjOWZmZDIxNWZiM2ZkZTkxZWFkZDlmN2IzOGUyMjJjNGU5NDc3MTFkMzk5YzQyN2MwMWQ5OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjEsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjUyZDcxMTEwM2Q1MGE0Mzc4MzBjNmZiY2QwNGZiNGJhYjQ5YTBmODJmNmQyNmQxYzc5MWM2ZTg0ODhkZDA5MCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTJmZDhkNDQwOGQ0NDg5NTFkMzFmOTBhNDQwNGI3N2YzODI3ZDZkM2IwZjZkOWY4YzRhZmEzOTg4ZTBhMjJmZCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_671cb6c96d1547f09e2fcdf42db1de86",
+      "statement": "TopoLVM provisions from the LVM thin pool lvm_thin in volume group lvm_vg with an overprovision-ratio of 10.0, allowing PVC scheduling up to 10x physical capacity.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/topolvm/app/helmrelease.yaml#L31-L37",
+          "version": "repo-lines-v1:sha256:9c29d481e13c887570b63c69f8e3c27fe403ed2e11faba812015c07fc7811375:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWUwNjFkZWM1NDAxMDQzNzMzZThjODAyZWFlZWQ4ZGNjNDQzODgyZGY0ZWJhMThhMjVhY2Q0YzNlZDk1ZGNkYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGVmOGJhMDQ2YzQ2NGM1OGUwOGExZmIwYjRkZTMzZDMzYzZmMDkxMGNjZDE5NmQyNmNkMDg3NDE2ODcwYTAwYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDQ0NTk5OTNlYjU0NGQ0M2ZhZjcwMTIxMmI1OGYyNTc3YzNkNmFlNDhkNjY1YWYzYjBlMTY0OTliMGMwNjdkNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiY2M2MzFiZmFmZDdjNDZlYTM1NjI0OTYwNWRmZWQ4Y2RmODhhMzc2NGJmYTdiMzQ4ZGVjNzczNzlkZTg1ZGFiNiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_e5a41a48fc5a4df6ba38a786f18765b7",
+      "statement": "The default VolumeSnapshotClass for CSI snapshots is topolvm-thin-provisioner.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/topolvm/app/snapshot.yaml#L5-L9",
+          "version": "repo-lines-v1:sha256:e567d77812d4af99f3b9f56008902da336aa6ace6701731542edb349a73b24dd:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGY4NGM1OTg2NDc1OTQwZjM5ODlhMmFkYzgwZWZjMjQyMjcwYjQyNWY4MzcyOWMwNWQ2Yjk4Zjc3ODc3ZGFiZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjI0MGVjZjY2NzFlYTZkZmI0NmYyMDgwYzE2ZDQzYjIwMGZjMDAzODcxODM2MGM1ODVhOTY0ZDFjMzc4MzFlZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGIzNDc4ODVhNWU5YTAxYTU0MWM1ZjMzYTU5M2I2ZmNjOTJjZWMwNjY4OTNhNzcyYWQ4ZmI3NGFhZjhhN2FjMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-01T21:54:26.927Z"
+    "at": "2026-09-08T21:57:36.335Z"
   }
 }

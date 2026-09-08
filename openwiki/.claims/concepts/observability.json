@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:d85d4bd8770c25d5648a2c95dee7f1e3c388760e34b17b3fce72a7f88b4d4623",
+  "pageVersion": "sha256:5cbb931629a007a834b2abaf420ab0578ae3a34da073c0d6c338bff3968a74f4",
   "claims": [
     {
       "id": "claim_5ae66d25e4cc42ec9bb35d381c27e614",
@@ -389,10 +389,108 @@
           "version": "repo-lines-v1:sha256:a2cff5ffba50ac3816aff9c85b6b7a485e7e2a734625f394c049d4b96d57a8c0:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTJjZmY1ZmZiYTUwYWMzODE2YWZmOWM4NWI2YjdhNDg1ZTdlMmE3MzQ2MjVmMzk0YzA0OWQ0Yjk2ZDU3YThjMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTJjZmY1ZmZiYTUwYWMzODE2YWZmOWM4NWI2YjdhNDg1ZTdlMmE3MzQ2MjVmMzk0YzA0OWQ0Yjk2ZDU3YThjMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzM1ZTkzNzQwMjRiNTg2ODk3NzYzODcxNmU4NmEwOTQ0MDk4MzYwNjFhN2I2Y2RlZDU1NWIwN2NlOTQ0ZThmYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYWVmZWJkNTliNzIxMWFhOGRiOGEyMWQ0ZjI1YzU3MzI0ZDM5NDBjZGI5MDRmM2FkYmMxOTRjOWQ5ZGIzNTI0OCJ9"
         }
       ]
+    },
+    {
+      "id": "claim_eae39a9b292943ef8af75b9e2f60745c",
+      "statement": "Gatus endpoint checks are defined by reusable Kustomization components: the 'external' group probes https://${APP}.${SECRET_DOMAIN}/ at 1m intervals via external DNS resolver tcp://223.5.5.5:53 (validating public DNS/ingress), while the 'guarded' group performs a DNS A-record query for ${APP}.${SECRET_DOMAIN} that must return an empty body, failing when the endpoint becomes publicly resolvable.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/gatus/external/config.yaml",
+          "version": "repo-file-v1:sha256:04e8bf8712a614a2c0c16e250c3ffdf2625c8ae6e110e81e5dd0f28eeb6f0e02"
+        },
+        {
+          "resource": "repo://kubernetes/components/gatus/guarded/config.yaml",
+          "version": "repo-file-v1:sha256:ff22db22cb7f4c8272e17065435b5e0bfe64a44ffd7e43368c58107393d34864"
+        }
+      ]
+    },
+    {
+      "id": "claim_29b14a289f85483f8d0744ecf3eeecdc",
+      "statement": "Alertmanager routing groups alerts by alertname and job with a 10-minute group interval and 12-hour repeat interval; only severity=critical alerts reach the Pushover receiver, and InfoInhibitor alerts are routed to a null receiver.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/kube-prometheus-stack/app/alertmanagerconfig.yaml#L8-L42",
+          "version": "repo-lines-v1:sha256:6543bc8b3f5e30f3fa838f41c8e92aacd8ebc65d6d7a5ea4aa1428294894f7d1:eyJzZWxlY3RlZExpbmVDb3VudCI6MzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwZjY3YWI2YzE0NDRmODAxYzUzOTBjYzg1NzExYzEwMGJkNzQ5MmQ4NzNjYjAwZGY3OWViMWU4YTE2MWE3YTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg2NTE5OGEyYWE4ZDA2YTNhOTZiMjBlNWFkYmYzNzVmNzQzNjUxMTA0YzhjNDg4OTZjZmE2MWExMzgyZTkxYTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIyODljODQzMDNlMTc5NGJkZWRmMTMzZTEzMDkxN2YxYmE0NjdiMzI5ZWMzNTQ3ZDU4ODFhOGNkMjQ5YzI1M2UiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJiNDQyNWU0MjhkN2MzYTllNjQ2MzQzNTQ1NGQ4ODAxZjU2ZjZiMWZlYjgyNDRhMzNmZmMxMjlmN2Y2ZDI1ODcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_327f79026f564c3ca56f0e2703bbe83f",
+      "statement": "Prometheus is configured with a 1-minute scrape interval, 6-day/10GB local retention, WAL compression, the remote-write-receiver feature, and admin API enabled.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/kube-prometheus-stack/app/helmrelease.yaml#L112-L129",
+          "version": "repo-lines-v1:sha256:623562414ab78d7a954b67faa592f7366d149597602fcad31bafafdd19faca04:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRhYzRkY2NlMWM5Nzk5YmNiNzliNjVkZDkxYjgyYjg2ZGE5ZTFjZWY4NTBhNGMwZjkyMzg1Y2U1NmY2Yjg1NTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJlMjQ1ZTQwZDE5YWMwYzYwMzQyZTY4OWY5OWFiMDc0NmI2ZDkwNTk2ODg3ZjgzNDllYWY1Mjg1OTZiMjhiZDAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUwMjkzODJmNmQ3YmE2OGYzNWM4ZTVmZGRiN2ExYmQyOThmM2EwNmM3ZTA4ZDkxNDBmNGMwODEyM2Y4MWFhMjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ0NTdkMTVkMzlkMTc2MDc4YTE2YzdlODYxMzBhNDBkYzFmZWVjOGMyNWJlNDIxZDJlMDcwOTIyNzhiMjM0YzAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_2400cc8b13db475b814f7cf4865fd59b",
+      "statement": "Thanos Ruler evaluates a PrometheusWatcher rule that fires a critical PrometheusDown alert (absent up{job=\"kube-prometheus-stack-prometheus\"} for 5m) and sends notifications to alertmanager-operated.observability.svc.cluster.local:9093.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/thanos/app/helmrelease.yaml#L98-L114",
+          "version": "repo-lines-v1:sha256:135b12d52c8819dc537accf836c697cd0dbda8db3b773283045d23eae0d4bf1b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQzZDVhNjg2YmI5Y2RjNzZjZjIxNGFhMmRiOTBhNGYzMTFjZmVmZGVlNTE4ZTk0MmIxZjQ0OTBlNTA5OGRmZGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA1NjAwMTliZTMxNGJjYjJlMzAyNDMxOGY4YTRlNjBiM2YyZTUyMDc1ZDE0M2ZlNjRiZjQ1MmMxOGM3MGVhMmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJmMjJmYjU2MTFkMzQ5YjIxYTE1MjYwMmU5OWE0MGQyN2QzNDMxMjdiNDM2MDQzYWE4Y2E0ZGNhYWI3OGRjYjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk5ZjNiOWQ2YzlmYjhkZmU4ODBiM2U4YTc1NjcxNDZlYTg5ZDg2MDFkNDdkMDhmZWRjOGViMTE5NTkwNWQ5M2MifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_1b3bc6e0b88646d49fb46e9d4b4b6b8d",
+      "statement": "Kromgo queries Prometheus directly at prometheus-operated.observability.svc.cluster.local:9090 and renders ConfigMap-defined metrics (Talos/Kubernetes version, cluster CPU/memory/network usage, pod/node counts, power consumption, active alerts) as SVG badges with threshold-based green/orange/red coloring.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/kromgo/app/helmrelease.yaml#L32-L33",
+          "version": "repo-lines-v1:sha256:5a616ceeb3a6e4cccedf3431cb52a0fb5fc06282b08b67bc6a397b4fe6836300:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMWNmMzQ3MDhmM2ZmM2ZkYTNkNDk2MzZlNjg3Zjk0ODU5NjZmYThlMThkMGU4NDE1ZDlkOWZlMDc0NWFlZmM0MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWM4YTk4YzE5MTQ0MDgxYjM1YTkzM2EyNzExYTRiYjgwOTEzODIyMTBlMWI1MTE0MWE4NTMxNmIwOGVlODIwMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNmJhZDViMGY3N2M2Nzg5YjA4M2U0ZWEyOGE4ZWE1ZjUxMWRmNzdlNjlkN2ZiMTVjZTg5Njg3NDU5ODE2YTM5YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNmNkYjUyZWM4NWQ5ZDQ5MTE4MTg0M2JhMTBiMTA5OTMxZTYyZjQ1NGJmNjI1OGJlNjdlMDk0MDQ3OTg1NzIzOCJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/observability/kromgo/app/resources/config.yaml",
+          "version": "repo-file-v1:sha256:78416b2f5dc7c21d09370941062560f428514116b7281c3845c71c663194bf56"
+        }
+      ]
+    },
+    {
+      "id": "claim_8558bf846d634a459f103bf42228695e",
+      "statement": "smartctl-exporter ships a PrometheusRule with six critical disk-health alerts (high temperature >65°C for 5m, failed SMART test, critical warning, media errors, available spare under threshold, degraded interface speed), all holding for 5 minutes.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/smartctl-exporter/app/prometheusrule.yaml",
+          "version": "repo-file-v1:sha256:41f7c63e60fb0b9a8a1b72699e8052e06d303c1d6ab1f4c8888674b90424de8e"
+        }
+      ]
+    },
+    {
+      "id": "claim_c289a145c3334c938d9e478d13f0bdce",
+      "statement": "Loki uses snappy chunk encoding with a 24-hour TSDB index period under schema v13 on filesystem object storage.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/loki/app/helmrelease.yaml#L44-L56",
+          "version": "repo-lines-v1:sha256:e0f4c9c4730fcbfbda7c0398db13db17b8b406e43eab33d3df711f8e5b1212f1:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliMjFjNGFiOTFlNDg3MmVlMmUzZjI0NmZhMzRjZjdkNmFjYzM0MzhhODBmZjcxM2ZkYzQ5OTE2NDIzM2FkYjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM2MjYyOTY4Y2Y1M2NkMDc0MzdlZmY3ZWY2YmJmMjQ4YzYyN2U2MzA1ZWI0NDM3ZDU1YWEwZWZiYmU4YmQzZTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ1ZjQxNmQ5ZjhkMGE5ZWM0MjkwNWJkNmFkNmJlOWUyNWRmMDU1ZmFlNjdlZWQ5YzEzOTgxYWUwOTIyMTU4OGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMyMjRhMWQxZTYzOGYwODkwNTM0ZWYzMGIwNjEwNmM3ZjE3MjdhMmIxM2I1ZGRiNTgxZTczNTVlOTdiN2IyNzcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_47d319f14ea14a07aedb73ebc1fd2179",
+      "statement": "The kube-prometheus-stack disables its bundled Grafana but force-deploys its dashboards, and adds custom critical PrometheusRules for Dockerhub rate-limit risk and OOMKilled containers.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/kube-prometheus-stack/app/helmrelease.yaml#L175-L198",
+          "version": "repo-lines-v1:sha256:0916f0e5cc76c27df714cc35c9469c3494ad32e1c758d48d8b2cfcbff8351269:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYwODMxNzhjODliOTVkZGVmNTM5NjViNWJmNGZlYTQ0MzBhNDVhNjZjN2MwYjc3YWJhNjZhMWQwZTEwYTg3MTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA1NjAwMTliZTMxNGJjYjJlMzAyNDMxOGY4YTRlNjBiM2YyZTUyMDc1ZDE0M2ZlNjRiZjQ1MmMxOGM3MGVhMmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk3NzYxNTU3ZTNiOGNjNzA0Zjg1NDNlMDUwNzEyYmY3MjAxNTQwMGZmNDdlMGNjM2VhOTk0M2VkOWVhZThiM2MiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_64fcee1154804f7497127ed096decb29",
+      "statement": "Promtail exposes its own metrics through an enabled ServiceMonitor for scraping by Prometheus.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/promtail/app/helmrelease.yaml#L38-L39",
+          "version": "repo-lines-v1:sha256:efb660df2bcebf449e546691d9b9ffbec34ca2792e7e4c67286bb62d040b452c:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjdhOTFjOTc2YTJlZmI1Nzk0MWQyNTI2MjE5NzZjZDRiNjZmYzQ4YzgxMzZhZDYwOWRkZTE1ZDFiNjBlODA4MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDU0OTk0ZGEzNDFmMTQ3YzE1ZTk2Yzc2OTkxODY5ZWU2ZWY1NmMzNGZlNmUxNjM1MzkwYzViZDVkNjUyYTY1NSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiY2M5OWFlNzdkYmNlMzBkMTYyZmE1N2NjYmIxMGNkOWUzZjJlZjU0ZjgwNTAxMGY2YWRlNmI3MjFmNzk0ODU2NyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-01T21:54:26.927Z"
+    "at": "2026-09-08T21:57:36.335Z"
   }
 }

@@ -4,6 +4,10 @@ title: Cluster Upgrade Workflow
 description: Upgrade processes for Talos OS, Kubernetes, and applications including talhelper-based upgrade tasks, tuppr automation system, and manual upgrade procedures.
 tags: [upgrade, talos, kubernetes, talhelper, tuppr, workflow, maintenance]
 sources:
+  - id: openwiki-source-6378149bc01898a8718f6f2d
+    resource: repo://.github/workflows/flux-local.yaml
+  - id: openwiki-source-aa55808be329b3f929ddf105
+    resource: repo://.renovaterc.json5
   - id: openwiki-source-4f5be6b4c7dcc699aca46164
     resource: repo://.taskfiles/talos/Taskfile.yaml
   - id: openwiki-source-c11ca658ed53520e32ea3a00
@@ -22,12 +26,14 @@ sources:
     resource: repo://kubernetes/apps/kube-system/system-upgrade/upgrades/prometheusrule.yaml
   - id: openwiki-source-ededdde4ddcb07a3ee796444
     resource: repo://kubernetes/apps/kube-system/system-upgrade/upgrades/talos.yaml
+  - id: openwiki-source-1fd71dc29915917549048436
+    resource: repo://talos/talconfig.yaml
   - id: openwiki-source-b65e4f1ccd91316116ad973a
     resource: repo://talos/talenv.yaml
-generated: { by: "openwiki/0.5.0", at: "2026-09-06T21:32:38.385Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-08T21:57:36.335Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-06T21:32:38.385Z
+    at: 2026-09-08T21:57:36.335Z
 ---
 
 # Cluster Upgrade Workflow
@@ -409,10 +415,11 @@ flux resume helmrelease <name> -n <namespace>
 
 ### Single-Node Architecture Constraints
 
-The cluster's single-node control plane architecture imposes specific constraints on upgrades:
+The cluster's single-node architecture (`talos/talconfig.yaml` defines one control-plane node, `master0-nuc12`, with a VIP at `192.168.50.10` and Secure Boot enabled) imposes specific constraints on upgrades:
 
 - **API server availability**: Control plane is unavailable during Talos upgrades
 - **No rolling upgrades across control plane nodes**: Only one control plane node exists
+- **Secure Boot image**: The node's `talosImageURL` is a `factory.talos.dev/installer-secureboot/...` image; upgrades must keep using the Secure Boot installer schematic
 - **Downtime planning**: Schedule upgrades during low-traffic periods
 
 **Mitigation strategies:**
@@ -524,7 +531,15 @@ kubernetesVersion: v1.35.4
 
 ### Renovate Integration
 
-Renovate automatically tracks Talos and Kubernetes versions via `# renovate:` annotations and creates PRs for updates. This ensures the cluster stays current with security patches and bug fixes.
+Renovate automatically tracks Talos and Kubernetes versions via `# renovate: datasource=docker depName=ghcr.io/siderolabs/installer` / `depName=ghcr.io/siderolabs/kubelet` annotations and opens PRs for updates. Its behavior is configured in `.renovaterc.json5`:
+
+- **Schedule**: updates run `"every weekend"`; rate limiting is disabled and a dependency dashboard issue tracks pending updates
+- **Ignore paths**: `**/*.sops.*` files are never touched (protecting encrypted secrets such as `talos/talsecret.sops.yaml`)
+- **Semantic commits**: major updates produce `feat(...)!:` commits, minor `feat`, patch `fix`, with `currentVersion → newVersion` in the commit message
+- **Auto-merge**: GitHub Actions and Mise tool updates auto-merge by branch for minor/patch/digest (Actions require 3-day release age); most other updates require review
+- **Manager patterns**: flux/helm-values/kubernetes/kustomize managers scan `kubernetes/**/*.yaml` files
+
+**PR validation** (`.github/workflows/flux-local.yaml`): pull requests touching `kubernetes/**` are validated with `flux-local test --enable-helm` and receive an automated `flux-local diff` comment for helmrelease/kustomization changes, so version-bump PRs are rendered and diffed before merge.
 
 **Update workflow:**
 1. Renovate detects new version
