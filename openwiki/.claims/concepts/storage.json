@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:d26a7e3ce024bcb0de2f4e1f04de4d5b18410b60fee9d058f2287e0d95fc2a89",
+  "pageVersion": "sha256:298e7ffe60600b3ebbb71065599d62ca1bd5222b19b12eb08f83038c11730fd3",
   "claims": [
     {
       "id": "claim_5ab8c29c6d0d4c42addcf2ca1aa09c04",
@@ -158,15 +158,15 @@
     },
     {
       "id": "claim_1c66d496455d40da811bbfb5ed3586d9",
-      "statement": "Local path provisioner deploys with version 0.0.37 from Containeroo charts, using /var/mnt/local-path-provisioner as the default host path for non-listed nodes.",
+      "statement": "Local path provisioner deploys via Flux HelmRelease with chart version 0.0.38 from the Containeroo charts repository (https://charts.containeroo.ch), using /var/mnt/local-path-provisioner as the default host path for non-listed nodes.",
       "evidence": [
         {
           "resource": "repo://kubernetes/apps/storage/local-path-provisioner/app/helmrelease.yaml#L1-L27",
-          "version": "repo-lines-v1:sha256:66a15ebef60a9bb9669cfec227bf49996845dd86d0b65bb84782f1f67f77d9a4:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3MDhhNGU1NWM5ODUzODY2NGU5MzNjNjI5MTA5ZjQ4NGE0Njg1ZGUzNDc5NjhjZGY0MzVmODQ5NDhiNTQ1NTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "version": "repo-lines-v1:sha256:7cabdf897b07c9ad453ed0cf206fa5e3cacfe06131b86ac83d6f34d4e45fc718:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3MDhhNGU1NWM5ODUzODY2NGU5MzNjNjI5MTA5ZjQ4NGE0Njg1ZGUzNDc5NjhjZGY0MzVmODQ5NDhiNTQ1NTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
-          "resource": "repo://kubernetes/flux/meta/repos/local-path-provisioner.yaml",
-          "version": "repo-file-v1:sha256:d66ae8663a8d5d1a274cb8e475d8b71d9337c8166b2ec1b19e740f8790e88495"
+          "resource": "repo://kubernetes/flux/meta/repos/local-path-provisioner.yaml#L1-L9",
+          "version": "repo-lines-v1:sha256:d66ae8663a8d5d1a274cb8e475d8b71d9337c8166b2ec1b19e740f8790e88495:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjUyZDcxMTEwM2Q1MGE0Mzc4MzBjNmZiY2QwNGZiNGJhYjQ5YTBmODJmNmQyNmQxYzc5MWM2ZTg0ODhkZDA5MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzFjZjExZTc3NGI1OTg2NWQ4MGQxMTU0NTI1OWVkNGY0OTMxODhjZmEyYWQwY2M0NWNlZTEyMjdhOWNmMTk0NyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
         }
       ]
     },
@@ -247,10 +247,20 @@
           "version": "repo-file-v1:sha256:87a192ecc10dad464c294ca98fa1549e7e128fb0016ddd7e82efdd2c97c979d9"
         }
       ]
+    },
+    {
+      "id": "claim_ceefd2c0d33148a8bb946c3557216b51",
+      "statement": "LVM setup for TopoLVM is performed manually via a privileged alpine pod (lvm-format-manual) that mounts host /var and /dev, sleeps for an operator to exec in, and whose documented commands install lvm2/nvme-cli and create PV on /dev/nvme0n1, VG lvm_vg, and thin pool lvm_thin at 100%FREE.",
+      "evidence": [
+        {
+          "resource": "repo://lvm-format-manual.yaml#L1-L44",
+          "version": "repo-lines-v1:sha256:91a6c934e3519921442f8f246abd5c16243f4a7c59fb4dcf7a2b3c036fc25cd1:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc3NmFlMTQyNDI4ZTc1NGI2N2Q3ZDZlM2RmZGJlMWI0NDhmMGJhYzM1NWQ4ZmEyNGVjOTQ3MWUyMWQ5MGI0MzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg4MDQ5ZWQ1YTA4MDVkOGZhYTE4ZmI5NmU2ZTcyZDBlNzQ0ZDFjOTBmM2FkNTE0NTQwZTU0ZmM4OGI0MzJiN2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIifQ"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.0",
-    "at": "2026-09-08T21:57:36.335Z"
+    "by": "openwiki/0.5.1",
+    "at": "2026-09-12T21:32:37.847Z"
   }
 }

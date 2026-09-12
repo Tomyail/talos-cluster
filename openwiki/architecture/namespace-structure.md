@@ -3,9 +3,6 @@ type: architecture
 title: Namespace and Application Organization
 description: Organizational structure for Kubernetes applications by namespace/domain under kubernetes/apps/, the Flux reconciliation hierarchy, app-template OCI repository pattern, and the kustomization.yaml pattern including components/common for shared resources.
 tags: [namespace, organization, kubernetes, flux, kustomize, app-template, oci]
-verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-01T21:54:26.927Z
 sources:
   - id: openwiki-source-54887d3506bd4aec59c1b5dd
     resource: repo://kubernetes/apps/cert-manager/kustomization.yaml
@@ -71,7 +68,10 @@ sources:
     resource: repo://kubernetes/flux/meta/repos/bjw-s.yaml
   - id: openwiki-source-12a44dba301e86ea2cf62628
     resource: repo://kubernetes/flux/meta/repos/kustomization.yaml
-generated: { by: "openwiki/0.5.0", at: "2026-09-01T21:54:26.927Z" }
+generated: { by: "openwiki/0.5.1", at: "2026-09-12T21:32:37.847Z" }
+verified:
+  - by: openwiki/0.5.1
+    at: 2026-09-12T21:32:37.847Z
 ---
 
 # Namespace and Application Organization
@@ -296,10 +296,15 @@ metadata:
   name: app-template
 spec:
   interval: 1h
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy
   url: oci://ghcr.io/bjw-s-labs/helm/app-template
   ref:
-    tag: 5.0.1
+    tag: 5.1.0
 ```
+
+The `layerSelector` copies only the OCI image layer containing the Helm chart tarball (`application/vnd.cncf.helm.chart.content.v1.tar+gzip`), so the reconciled artifact is the chart itself rather than a multi-layer image. Pinning the chart version via `ref.tag` means every app-template-consuming HelmRelease upgrades in lockstep when this single file changes.
 
 ### HelmRelease Pattern
 

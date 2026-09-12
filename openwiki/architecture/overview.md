@@ -3,9 +3,6 @@ type: Architecture overview
 title: Architecture Overview
 description: Cluster architecture, GitOps patterns, and how major Talos, Flux, networking, and storage components interact.
 tags: [architecture, talos, flux, networking, gitops]
-verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-08T21:57:36.335Z
 sources:
   - id: openwiki-source-360da09d9920a02e1e719d90
     resource: repo://bootstrap/helmfile.yaml
@@ -19,6 +16,8 @@ sources:
     resource: repo://kubernetes/apps/default/kustomization.yaml
   - id: openwiki-source-da20571b2248768af750fcba
     resource: repo://kubernetes/apps/external-secrets/bitwarden-connect/app/helmrelease.yaml
+  - id: openwiki-source-d9f5f9eb0be17b72994fcd3e
+    resource: repo://kubernetes/apps/kube-system/cilium/app/helm/values.yaml
   - id: openwiki-source-ad95146e587c2b5efe4f98d1
     resource: repo://kubernetes/apps/kube-system/cilium/app/helmrelease.yaml
   - id: openwiki-source-473a10228ca4b1e96867e493
@@ -51,7 +50,10 @@ sources:
     resource: repo://README.md
   - id: openwiki-source-1fd71dc29915917549048436
     resource: repo://talos/talconfig.yaml
-generated: { by: "openwiki/0.5.0", at: "2026-09-08T21:57:36.335Z" }
+generated: { by: "openwiki/0.5.1", at: "2026-09-12T21:32:37.847Z" }
+verified:
+  - by: openwiki/0.5.1
+    at: 2026-09-12T21:32:37.847Z
 ---
 
 # Architecture Overview
@@ -144,7 +146,7 @@ flowchart TB
     end
     
     subgraph CNI["CNI Layer"]
-        CiliumNB[Cilium CNI BGP and LB]
+        CiliumNB[Cilium CNI eBPF LB and policies]
     end
     
     subgraph DNS["DNS Layer"]
@@ -570,11 +572,13 @@ Auto-updates tracked dependencies:
 
 1. **Talos over standard Linux**: Immutable OS reduces configuration drift and attack surface
 2. **Flux over Helm directly**: GitOps provides change history and rollback capability
-3. **Cilium over default CNI**: Advanced networking features (BGP, L7 awareness)
+3. **Cilium over default CNI**: Advanced networking features (eBPF kube-proxy replacement, L2 load balancing, L7 awareness)
 4. **SOPS + age over SealedSecrets**: Git-friendly secrets with simple key management
 5. **TopoLVM over hostPath/emptyDir**: Dynamic volume management with LVM flexibility
 6. **VolSync over Velero**: Application-level backup with remote sync support
 7. **Gateway API over Ingress**: Modern routing standard with better CRD support
 8. **OCIRepository over GitRepository for charts**: Immutable chart storage with better caching
 9. **Bootstrap then GitOps**: Helmfile establishes foundation, Flux maintains state
+10. **Bitwarden for external secrets**: Centralized secret management with self-hosting option
+e
 10. **Bitwarden for external secrets**: Centralized secret management with self-hosting option

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:3e991f0b5bf9bbe8026eb0a146da00055316d028e65f5bff90e24537123f2418",
+  "pageVersion": "sha256:c80a5084840524c3be1cfdf124ce593296ebdd3900551bce865799d0aa48589c",
   "claims": [
     {
       "id": "claim_7007b04a9365408685923e5725757fbe",
@@ -18,15 +18,11 @@
     },
     {
       "id": "claim_1ddb6f00c491410583e5bbc5e7148cd2",
-      "statement": "The repository uses mise for toolchain management, installing task, talhelper, talosctl, kubectl, flux, helmfile, sops, age, yq, kubeconform, cilium-cli, cloudflared, cue, helm, jq, kustomize, gh, python, makejinja, node, and pipx at versions pinned in .mise.toml, while automatically setting essential environment variables (KUBECONFIG, TALOSCONFIG, SOPS_AGE_KEY_FILE).",
+      "statement": "The repository uses mise for toolchain management, installing task, talhelper, talosctl, kubectl, flux, helmfile, sops, age, yq, kubeconform, cilium-cli, cloudflared, cue, helm, jq, kustomize, gh, python, makejinja, node, and pipx at versions pinned in .mise.toml (e.g. talhelper 3.1.17, talos 1.13.9, kubectl 1.33.1, flux2 2.9.5, python 3.14.7), while automatically setting KUBECONFIG, TALOSCONFIG, and SOPS_AGE_KEY_FILE.",
       "evidence": [
         {
           "resource": "repo://.mise.toml",
-          "version": "repo-file-v1:sha256:c638edc05590d382090568c5ee51d4ed8d4d36975583b583ca7e0ffa865308fe"
-        },
-        {
-          "resource": "repo://README.md#L59-L87",
-          "version": "repo-lines-v1:sha256:60c5bb21210d9e2801dcb019d5f447a329f223508ce52566fff0f5fdea9747f0:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhMTllOWFmNzliOTIzYWFmNTU4ZDZjNTk2OTVmOGJkMWVlMWQwMmZmMzAyMzQ2OTUwMDU0OWNkMDIzZGJkYWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg3MTVmNDQ5OWZkYmVhZDUyYWU0MmRkODBmOWJmMTQ2OWJjYWZhOTdiMzQ5OTA1ZGY0YzA1NWY5MDY0ZGVhZmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQxMjdkMGZjMWNiYmZjZjM0MDJhMDg4NWE2OGIyYjFhMjhjY2M3YTJlY2ExYjIwOGI2MTk2M2VmMjZkNTAzZjIifQ"
+          "version": "repo-file-v1:sha256:057a35e057863fe94232413c1324120e2847b421605cd04d76b709a7fdecdfc5"
         }
       ]
     },
@@ -59,24 +55,6 @@
         {
           "resource": "repo://README.md#L40-L57",
           "version": "repo-lines-v1:sha256:6b7a361fb893b437d7bef0ef477fc66679222735a35a88e2a5f38053ac767dda:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdjYWViOTcyY2EwYWNjMTA2YTUzMzNlMzhlNzVlMjg4ZmQxODcwOGE1N2QzZGRhMjM5MWEzOGVhMmNjMGY0Y2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3YzA2YzU2MWQ1YzMyNzM0MzY4NTI2OGE0NmIzMzkxZjM5OThlZWU4OTBkMmJlNTFmMGQyMWNjNGE1M2FlNmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZhYzFiZGEwNjJkMGIwYjRhZWYxYzA1Nzc4ZTc3ZTNlYTVhZGZkYjc2YTkyYmIzOGE2MzkxOGNiOWEwY2VhN2MiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM2MTliMTcyMGVjZjQ1ZTJkOGM1NzE2MDQ1N2FhM2YwMjgyYjE0OWRiZTIxMmJkZTA3NmZkYWE1MGQxMDI2NjcifQ"
-        }
-      ]
-    },
-    {
-      "id": "claim_204861d4639b4f489c2e847e242aa907",
-      "statement": "The cluster bootstrap process is split into two phases: bootstrap:talos (generates or reuses talsecret.sops.yaml, runs talhelper genconfig, applies machine configs to nodes, bootstraps Talos control plane, exports kubeconfig) followed by bootstrap:apps (installs Cilium, CoreDNS, cert-manager, and Flux via bootstrap-apps.sh script), after which Flux takes over management of kubernetes/apps/.",
-      "evidence": [
-        {
-          "resource": "repo://.taskfiles/bootstrap/Taskfile.yaml#L7-L31",
-          "version": "repo-lines-v1:sha256:4b2ea54d34b62184bd25d7f147cf6d8153652193416df230a71297488e508c54:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZiOGU3MDRjNjBkYTQyMjIzODFlZWM4OWFlNDRiYzIyNTZmOTE5NTY5NTQ4MmFiOWE2MzEwMmY3NDI0NDA0OWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI4NzMzYzI3MTA5ZjJkNjkyNjQ1MGI4Mzc4N2UzNjQwMTVlNDhiOTNlMDc1YjkzMzBhZThlNmI5YTk0NTg3ZDYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIxZDEyYjU2YzEwYjdmYjYyYzhmMDQxYjM3ZTE4Y2Y4ZjI3YzU3OGEwZDI3YWI3ZThkZDg4ZGJkYzlkZjRiMWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
-        },
-        {
-          "resource": "repo://README.md#L89-L147",
-          "version": "repo-lines-v1:sha256:ef4e1388e1a5a4ab8f45474642a3875162805f3513c3054b94b2abef2cc539e7:eyJzZWxlY3RlZExpbmVDb3VudCI6NTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRlZDNhNGQ1ZGRmZjc2ZmViZWUxMmViZTQwYzYwMGEzOWYwZWRkYjYzOGRhYWI3ZTM2YTMxZDNkOGE3ZmJhODAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE2OGMxZGM1ODc5NzJlM2Y1NzQxNDdmMzRhNjE3N2FkNjEwODI2NjdhOWMyOTYwYzEwYzI2ZGNhODQyNWVmYTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQzMTVlYTllNWJmNDIyY2U0MjQzMWI4YmE1MzM4MWE0MzkwOWMwYjcxZDE2NDRiYjc3NWVkNzcxNGRjZTc5NWMifQ"
-        },
-        {
-          "resource": "repo://scripts/bootstrap-apps.sh",
-          "version": "repo-file-v1:sha256:d6be6964a73238e0828b2336ca8095a4a0de975009e5c422f31493d6a60e302b"
         }
       ]
     },
@@ -220,7 +198,7 @@
       "evidence": [
         {
           "resource": "repo://.mise.toml",
-          "version": "repo-file-v1:sha256:c638edc05590d382090568c5ee51d4ed8d4d36975583b583ca7e0ffa865308fe"
+          "version": "repo-file-v1:sha256:057a35e057863fe94232413c1324120e2847b421605cd04d76b709a7fdecdfc5"
         },
         {
           "resource": "repo://talos/talenv.yaml#L1-L4",
@@ -238,13 +216,13 @@
         },
         {
           "resource": "repo://scripts/bootstrap-apps.sh",
-          "version": "repo-file-v1:sha256:d6be6964a73238e0828b2336ca8095a4a0de975009e5c422f31493d6a60e302b"
+          "version": "repo-file-v1:sha256:eebd93a11ab8005e82532e3ff1c92e12e4bfcadfa59000036daa9463adfae378"
         }
       ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.0",
-    "at": "2026-09-08T21:57:36.335Z"
+    "by": "openwiki/0.5.1",
+    "at": "2026-09-12T21:32:37.847Z"
   }
 }

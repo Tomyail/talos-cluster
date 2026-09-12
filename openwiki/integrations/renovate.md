@@ -32,10 +32,10 @@ sources:
     resource: repo://kubernetes/flux/meta/repos/gateway-api.yaml
   - id: openwiki-source-b65e4f1ccd91316116ad973a
     resource: repo://talos/talenv.yaml
+generated: { by: "openwiki/0.5.1", at: "2026-09-12T21:32:37.847Z" }
 verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-08T21:57:36.335Z
-generated: { by: "openwiki/0.5.0", at: "2026-09-06T21:32:38.385Z" }
+  - by: openwiki/0.5.1
+    at: 2026-09-12T21:32:37.847Z
 ---
 
 # Renovate Dependency Automation
@@ -137,7 +137,7 @@ Renovate uses specialized managers to track different dependency types across th
 - Pattern: `/(^|/)helmfile\.ya?ml(?:\.j2)?$/`
 - Updates Helm chart versions
 
-HelmRepository sources in `kubernetes/flux/meta/repos/` define the chart repositories that Renovate monitors. Each repository uses Renovate annotations on version tags:
+The Flux sources in `kubernetes/flux/meta/repos/` define the upstream repositories that Renovate monitors. Each GitRepository pins a release tag via a Renovate annotation:
 
 ```yaml
 # kubernetes/flux/meta/repos/gateway-api.yaml#L12
@@ -206,7 +206,7 @@ Example from the `.mise.toml` `[tools]` block:
 [tools]
 "python" = "3.14.7"
 "aqua:budimanjojo/talhelper" = "3.1.17"
-"aqua:cilium/cilium-cli" = "0.20.0"
+"aqua:siderolabs/talos" = "1.13.9"
 node = "latest"
 pipx = "latest"
 ```

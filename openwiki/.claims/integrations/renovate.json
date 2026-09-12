@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:7998d5d38f85589930ff420786ad8a267449bcb637b0ce6fdbbd4f5a5ee90021",
+  "pageVersion": "sha256:efb615145cc521550cc0f3e676cf801334901c3e9b03787d2d2ec3f1b1e762ac",
   "claims": [
     {
       "id": "claim_28ba8b626032486cb6cfda160b55c8a5",
@@ -34,19 +34,15 @@
     },
     {
       "id": "claim_efc9d77862b14149883ce85429b6b98e",
-      "statement": "HelmRepository sources in kubernetes/flux/meta/repos/ use # renovate: annotations on version tags to enable chart version tracking, such as gateway-api and external-dns-crds GitRepositories.",
+      "statement": "Flux GitRepository sources in kubernetes/flux/meta/repos/ (gateway-api and external-dns-crds) pin their upstream release tags with `# renovate: datasource=github-releases` annotations so Renovate tracks and bumps them; currently gateway-api v1.6.2 (kubernetes-sigs/gateway-api) and external-dns v0.22.0 (kubernetes-sigs/external-dns).",
       "evidence": [
         {
-          "resource": "repo://.renovaterc.json5#L22-L24",
-          "version": "repo-lines-v1:sha256:c0fb769e04baee4318dcc9a9c5dbb2be970de4485da52b551ff901d5fa63b414:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDFmYTQ3NWIwZDViOWYwODhhMTJhYTliNGEyYmUyZTIwN2M2MmU3YTI4NDhhYTg1YjgyN2QzZGRiZThiMWRjOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGQ1Y2QyZmI0ZjNkZjg4NDUxNTI1NWIzOTUyM2YyZjhiNTQ3MmJlZWE5ZjU2NmZmY2EyMDRkYjgwMjU2MTA0MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzA2YmVkYWIzNjcxYWYyYzFmOWI4NDlkMTFjYWIwYmU4MDlkMDZlNTc2NTE1YzA4MWZhMTNkYWQ1NjQ0YzFhZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZWQ4ZDQ3NmRmM2I1NzEwZTc3NGI5ZGJhM2RjMzQ0MWViMmM5YzAzODBhYTk3ZmIzY2IwOTY3MWUzODdiOTAyMSJ9"
+          "resource": "repo://kubernetes/flux/meta/repos/external-dns-crds.yaml#L11-L13",
+          "version": "repo-lines-v1:sha256:16f7c7b924c00742d37b8c2501f1bbea90f4f6a2a128de435b3887986486a256:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGNkZWU4NzUwNDk5NDBjY2IzMzAzYjdjZGVhZmI0OGYwYjQxMjdmNDBiNDdlNjhkOWE2ZGFhN2U0OTVjYWNiNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjhiZGViZjM3YTViMzk3YjExNTkxMGFhMDk5NzQxZTAzMTY1NzdhOGI4OWYyNzVkMDQ1YWZjNTgyYjhiODJiYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNGQyNDUyODQyNmNkNzhkZjNiZmQ5ODdlZTBkZDQ0YTM3NGFkMmNiMDY4Yzk3YTQzM2M2NWMyM2RiODRkOWNhMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2YzN2I4MmQ5ZGJkOTk5MjA3ODIyNDI2MmMxYjQzYzEwNTkyNDdlNGFkOTJlZGRiNzdjMDExODYzNTU0MzNkYSJ9"
         },
         {
-          "resource": "repo://kubernetes/flux/meta/repos/external-dns-crds.yaml#L12-L13",
-          "version": "repo-lines-v1:sha256:9b93a658f2a9fdd914967ff8b2a0b48b87acb73812252c1381bbe7feaa52b001:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYmU2ODRjMGVjMzc0MzlmM2UxODFjOTM4NmMwMDI4Y2YzYmNjZjEzNGQzMDkzNTIyN2FiNDg1Zjc5OGNlNmI0ZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTRhZjZhZmYzNzI3ZDFiNTAwMTEwN2E3ZDllNWVlZTQ4Yjk4ZmEyOWMzYTVmMWI0OGExZDE0MzNkYmFmNjUzNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOGUwNjAyYzdiZjBiYzkxMDM3NDAwZmMyNjUxNzM0NGIwNGNkOTM1YTk3Y2FkOTk3YTliNzNhNzUwM2QwMDE2YyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2YzN2I4MmQ5ZGJkOTk5MjA3ODIyNDI2MmMxYjQzYzEwNTkyNDdlNGFkOTJlZGRiNzdjMDExODYzNTU0MzNkYSJ9"
-        },
-        {
-          "resource": "repo://kubernetes/flux/meta/repos/gateway-api.yaml#L12-L13",
-          "version": "repo-lines-v1:sha256:2a4cd2ed0c0da9562fbfdadc6b8544da3c60c88fdbf4a5e5533756368b84589d:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYWZhMzdlZDRmZGIzOTlmYTcyM2JiM2MwNjViMGUyMTkwNTc1OWNlZTY3YTI3M2YyNTRmNGE1NDI5MGRjZmI0MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZmFiNmM1Y2YzYTNhNzY1NWI3MDdkMzZjODY2MWEyMDM4YmNjZTNjNGMyMGE4ZmM3ZTZjMTA1YzljNDUzOWFlNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzQzNzMyNjkxY2Q3YzRhZDZkZjdiNzMxMWRiMDI1OGEyN2Q0ODMxNTQ4NDU4ZmQzYmU0ZGQ2OGRiNWViYTBmNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2YzN2I4MmQ5ZGJkOTk5MjA3ODIyNDI2MmMxYjQzYzEwNTkyNDdlNGFkOTJlZGRiNzdjMDExODYzNTU0MzNkYSJ9"
+          "resource": "repo://kubernetes/flux/meta/repos/gateway-api.yaml#L11-L13",
+          "version": "repo-lines-v1:sha256:1c4a8aa373394190a0d2c5dee7d38746007a964794f4af385a614226c1508fe5:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGNkZWU4NzUwNDk5NDBjY2IzMzAzYjdjZGVhZmI0OGYwYjQxMjdmNDBiNDdlNjhkOWE2ZGFhN2U0OTVjYWNiNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiY2FkZjlmMzZhNTNiOWU3MjI5ODU3MmI1MzkxYWNhMzBiMzVmYTVkZDM5NjMxNGY5OGM3MTA4ZDA2OWQwNmY3MyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjhlYzg2NGQzNzU3YzZmZWJjODNkZWM1NDliZDEzN2YyY2U5MGViMzE1NWQ5MmRmOTc1NmIxYzAwNTIzMzZmZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2YzN2I4MmQ5ZGJkOTk5MjA3ODIyNDI2MmMxYjQzYzEwNTkyNDdlNGFkOTJlZGRiNzdjMDExODYzNTU0MzNkYSJ9"
         }
       ]
     },
@@ -94,11 +90,11 @@
     },
     {
       "id": "claim_27bbd42c27414fd89888c309dba7ef1a",
-      "statement": "mise toolchain updates from the .mise.toml [tools] block are auto-merged for minor and patch versions with test ignoring.",
+      "statement": "mise toolchain versions pinned in the .mise.toml [tools] block (Python, aqua-proxied CLIs such as talhelper/talos/kubectl/helm/flux2, node, pipx) are managed by Renovate's mise manager and auto-merged for minor and patch updates with tests ignored.",
       "evidence": [
         {
           "resource": "repo://.mise.toml#L7-L28",
-          "version": "repo-lines-v1:sha256:c8667316ea3c3606661267c7ab373caa25519a10998a356be6422e1e4d00d7b6:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE4MjZiZWEwNWZlNTBhNzNhNjQ1ZDhmYjEyZGMyODJmMjUzNjM0NDMyNjZkOTAxNzM3MmVhZjg4NDU5NDYzNDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRlMmZjMWNmZmMyMTMwOTk5YTk4NDcyYzQ1MzkxZmIwMWZiNzkwNDk5ZDIwZjk3NzllMTYyOTk0MDI4M2ViYzgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc1MDg0MzNmMTUzOWVkODEwOTlhNDhlNjIwMDVhMGE4ZGMyNGUwNDFhMDVlZmMxYjFiNGRiMzQ5ZmZkMTgzMTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "version": "repo-lines-v1:sha256:93f93b68ca7628b4fe9b336b45c262ad65ba4cef114ffc8b7f49feb54cae6954:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE4MjZiZWEwNWZlNTBhNzNhNjQ1ZDhmYjEyZGMyODJmMjUzNjM0NDMyNjZkOTAxNzM3MmVhZjg4NDU5NDYzNDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRlMmZjMWNmZmMyMTMwOTk5YTk4NDcyYzQ1MzkxZmIwMWZiNzkwNDk5ZDIwZjk3NzllMTYyOTk0MDI4M2ViYzgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc1MDg0MzNmMTUzOWVkODEwOTlhNDhlNjIwMDVhMGE4ZGMyNGUwNDFhMDVlZmMxYjFiNGRiMzQ5ZmZkMTgzMTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
           "resource": "repo://.renovaterc.json5#L77-L84",
@@ -220,7 +216,7 @@
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.0",
-    "at": "2026-09-08T21:57:36.335Z"
+    "by": "openwiki/0.5.1",
+    "at": "2026-09-12T21:32:37.847Z"
   }
 }

@@ -3,9 +3,6 @@ type: architecture
 title: Observability Stack
 description: Comprehensive monitoring, logging, and alerting infrastructure using Prometheus, Grafana, Loki, Thanos, Gatus, Uptime Kuma, and Kromgo for complete system observability.
 tags: [observability, monitoring, logging, alerting, prometheus, grafana, loki, thanos, kromgo]
-verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-08T21:57:36.335Z
 sources:
   - id: openwiki-source-713804fe0a8649683e2d52d6
     resource: repo://kubernetes/apps/observability/gatus/app/helmrelease.yaml
@@ -57,7 +54,10 @@ sources:
     resource: repo://kubernetes/components/gatus/external/config.yaml
   - id: openwiki-source-a2a10e12c05dc77e43573bc3
     resource: repo://kubernetes/components/gatus/guarded/config.yaml
-generated: { by: "openwiki/0.5.0", at: "2026-09-08T21:57:36.335Z" }
+generated: { by: "openwiki/0.5.1", at: "2026-09-12T21:32:37.847Z" }
+verified:
+  - by: openwiki/0.5.1
+    at: 2026-09-12T21:32:37.847Z
 ---
 
 The observability stack provides complete visibility into system health, performance, and availability through integrated metrics, logs, and uptime monitoring. It follows a layered architecture with clear dependency chains, long-term storage capabilities, and automated alert routing.
@@ -104,7 +104,7 @@ The observability components follow a strict installation order enforced by Flux
 
 ### Core CRDs
 
-The `prometheus-operator-crds` kustomization installs the foundational CRDs at version 31.0.0. These custom resources define the monitoring behavior:
+The `prometheus-operator-crds` kustomization installs the foundational CRDs at version 31.0.1. These custom resources define the monitoring behavior:
 
 - **Prometheus**: Configured Prometheus instances with retention, scraping, and remote storage settings
 - **Alertmanager**: Alert routing and receiver configuration

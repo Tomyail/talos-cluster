@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:188b5e83361ce22bfcd896a6c1fed154efc35bfd3f48ea399db33e80a962fc9a",
+  "pageVersion": "sha256:61fc8e7beda9aab121030f9218301ac29acdac640ac71aee9c1159617a2bbd43",
   "claims": [
     {
       "id": "claim_cced16d6ffcc403f88c2e2b84e04310f",
@@ -8,17 +8,17 @@
       "evidence": [
         {
           "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/helmrelease.yaml",
-          "version": "repo-file-v1:sha256:681928113c7202eae41132fbcfd5899f7ef3f74361cddfc095480831fffd974a"
+          "version": "repo-file-v1:sha256:8791fdc4f64a33c70b9608ac91682a2b69d8adbe0d5e01b5e9b2034c10b2ea8c"
         }
       ]
     },
     {
       "id": "claim_e0f8aaa2879f4e1388b05ebe76366060",
-      "statement": "The tunnel uses cloudflare/cloudflared:2026.7.3 image with HTTP/2 transport protocol, origin HTTP/2 enabled, runs as non-root user 65534 with read-only root filesystem, and has 10m CPU request and 256Mi memory limit.",
+      "statement": "The tunnel uses cloudflare/cloudflared:2026.9.1 image with HTTP/2 transport protocol, origin HTTP/2 enabled, runs as non-root user 65534 with read-only root filesystem, and has 10m CPU request and 256Mi memory limit.",
       "evidence": [
         {
           "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/helmrelease.yaml#L27-L66",
-          "version": "repo-lines-v1:sha256:ba905282026cd21acf7687c9013010060b30689188dee81243e276fcf6d5500e:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRjZmRlOGMzNDBjMWJjOWI3ODIxNjgxOTEyMDdmM2M2ZTFlOGJjZjcwNjM4MzQ4Zjc5MTMyZjA2MzBjOTgyNzMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA5Nzk1Y2QxYjNiOWFhYTdjNGRiMjk1Y2YxN2VkODE1MTJlZjgzNzYwZDY5ZTUxNTBlZGI1NDk4OGQ3ZmZhNjYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVmMmY4YmViZDcxNWEwMDM0YzQ4OWM1YmQ4NGJhYjM0YjU1ZGVhYTNiMTEzODU4ZmRkZWFmZTJkZWY2MTdhMzEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEzOGIwOGQ2MjMxNDMyMDQ0ZGY2YWNmNmQ2OWIwOTBiYTEzNTc5OThjMWQ5NTY1ZjMzMThkY2E3MGZhMTU2Y2IifQ"
+          "version": "repo-lines-v1:sha256:759d150b79f7a63c988391cb78571bfdec75bad3eea8583d326fe9b18bcf897e:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRjZmRlOGMzNDBjMWJjOWI3ODIxNjgxOTEyMDdmM2M2ZTFlOGJjZjcwNjM4MzQ4Zjc5MTMyZjA2MzBjOTgyNzMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA5Nzk1Y2QxYjNiOWFhYTdjNGRiMjk1Y2YxN2VkODE1MTJlZjgzNzYwZDY5ZTUxNTBlZGI1NDk4OGQ3ZmZhNjYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVmMmY4YmViZDcxNWEwMDM0YzQ4OWM1YmQ4NGJhYjM0YjU1ZGVhYTNiMTEzODU4ZmRkZWFmZTJkZWY2MTdhMzEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEzOGIwOGQ2MjMxNDMyMDQ0ZGY2YWNmNmQ2OWIwOTBiYTEzNTc5OThjMWQ5NTY1ZjMzMThkY2E3MGZhMTU2Y2IifQ"
         }
       ]
     },
@@ -254,11 +254,11 @@
     },
     {
       "id": "claim_36f8b54b212d4a569c8774282130c02b",
-      "statement": "Cloudflare Tunnel runs as a Deployment of cloudflared (image cloudflare/cloudflared:2026.7.3) via the app-template OCI chart, executing `tunnel run` with TUNNEL_TOKEN from a SOPS-encrypted secret, HTTP/2 transport, non-root (65534) read-only security context, /ready probes and Prometheus metrics on port 8080.",
+      "statement": "Cloudflare Tunnel runs as a RollingUpdate Deployment of cloudflared (image cloudflare/cloudflared:2026.9.1) via the app-template OCI chart, executing `tunnel run` with TUNNEL_TOKEN from the cloudflare-tunnel-secret, HTTP/2 transport, non-root (65534) read-only security context, /ready probes and a Prometheus ServiceMonitor on port 8080, and mounting the configMap-rendered ingress config at /etc/cloudflared/config.yaml.",
       "evidence": [
         {
-          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/helmrelease.yaml",
-          "version": "repo-file-v1:sha256:681928113c7202eae41132fbcfd5899f7ef3f74361cddfc095480831fffd974a"
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/helmrelease.yaml#L19-L83",
+          "version": "repo-lines-v1:sha256:2d4b75c46ee4cf8e6eccdb5fc8c5dd15f3981f254cf5759b328f8038ec271f98:eyJzZWxlY3RlZExpbmVDb3VudCI6NjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2ZjFjNzJiNTlhZGU1MjRjMDEzNWM3Y2RiMGViMjRhYWZiZjE0ZGIxOWYxNzYwZjE5M2IyNzA3N2M5Nzg0NjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE3N2RhYWNhNTBkOTVjOTg4ZjA4ODVhNmFmM2ZmZGYzMzVlZjQ2NTExZDA4OGFmNTQzOTA0NGI4YzYwYzJkOTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYxNWE0YjNlMTM3YTVhOWRiMGRkMDVhZGY4ODcyMTcyMGJmODMyNjA2Yzg2MDI0MDc4ZDk5YmZiYWEyMjE5ODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -343,8 +343,8 @@
           "version": "repo-file-v1:sha256:db9f7548213f47ddddf4be41dd25be4548c2a2465dac6a317f9183b5f56cd8fa"
         },
         {
-          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/helmrelease.yaml",
-          "version": "repo-file-v1:sha256:681928113c7202eae41132fbcfd5899f7ef3f74361cddfc095480831fffd974a"
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/helmrelease.yaml#L23-L24",
+          "version": "repo-lines-v1:sha256:f1bd263f30cf855b5fdf6b57f349df8b5f9e22c86690a20a4a06dfa5137c1f5d:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODNlMzc1OTQ4MjMxZmMwMjQ4NDRlNTY1ZjgzNjk2NWNmNzUwZDYzNjdmZmQ0N2Q0MjM4YTFkZTk2ODE0YzhlMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYWU2N2Q5ZjE5MTgwMzk3YmI1NWY1NDQwMTFiMWQ5NjA5ZTZkNmI4YjRmYjQ5Yjc2YzczZDBkYzMyOTRiMTNkMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMmNlNGIwZmNhY2MyZTk5MTg1ZGI1ODdkOTM0MjMwNjE1ZGFiNmFjMzViZmQ4MDAyMjUzNGVkMjM0ZmUyNmE5NiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjg5MjlmOTkwMzMzODk4ZGM3MWZlMzJiNzNhMDdjMDZhOGFjOTUxZGFhZThmYThmMmJkYjQyOTA4YThkZDRkOCJ9"
         },
         {
           "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/secret.sops.yaml",
@@ -354,7 +354,7 @@
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.0",
-    "at": "2026-09-08T21:57:36.335Z"
+    "by": "openwiki/0.5.1",
+    "at": "2026-09-12T21:32:37.847Z"
   }
 }

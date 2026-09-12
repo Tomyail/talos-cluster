@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:0eff5c276cabd2357ebeb6d1b258e394a938f2e2cc66375d5df0ed00cef56a57",
+  "pageVersion": "sha256:d4495ce507cedd62ff9fcb710de3e0da406dfd5f1dbd6ed059dbc2a6f2fd00d1",
   "claims": [
     {
       "id": "claim_d11cc08ba8894ce49744eed253401d09",
@@ -162,21 +162,21 @@
     },
     {
       "id": "claim_d768599a76cf43b08f04ec834941199e",
-      "statement": "bootstrap-apps.sh installs External DNS CRDs (v0.21.0) and Gateway API CRDs (v1.6.1) before Helm releases, which are also managed by Flux but duplicated in bootstrap for safety to ensure Cilium (which requires Gateway API) can start successfully.",
+      "statement": "bootstrap-apps.sh installs External DNS CRDs (v0.22.0) and Gateway API CRDs (v1.6.2) before Helm releases; both are also managed by Flux but duplicated in bootstrap for safety so Cilium (which enables gatewayAPI and requires Gateway API CRDs) can start successfully.",
       "evidence": [
         {
-          "resource": "repo://scripts/bootstrap-apps.sh#L88-L118",
-          "version": "repo-lines-v1:sha256:8e0b7e48efcc0566c66eb4019b9d07bae929a1184035de10614ab5f8ec9e3b20:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY2M2YyNzhkYjQ4YWFiOTQzZjQ3ZTMxZmYzMmEzOTY3MDRiNDc5MTY1N2M0MzgwOGVlMGM3MmYyZmExNWU5MmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhhZWFkOTQ4M2I2MjQ5YzgwNDc0NDZiMzQ0Y2FlODhhYTIyNDZmNzU3NTg4ZjJiNGY3MzM1YzE2M2MxNjkyYWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMzNTk0ZDBhY2RhOTVjNGNjZjA3YmM5MzNiOWU1MTI3YmIxYTYyMTZhMDdkNTUyMjJmZDk4MzYzOGJjOWNkNDcifQ"
+          "resource": "repo://scripts/bootstrap-apps.sh#L87-L105",
+          "version": "repo-lines-v1:sha256:55970d26b40d7852e94094403503e801a6480392a97fc2bb3a594b198e9d285b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAzMGI3N2FjMTdhZjYwNmUwMjNhMzQ4YjA4NzdlMWNiNWFjZDg3NTg1MzM5Y2JlMWYxZjBkZjkyZDk1MDcyNGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwYzFmMTg4ZjE0MmVkN2E4MjQ2ODBiMjA3MTcyYzU1MTliYzYxNGE0OGZkYTdjZjE2N2VkYjhkZGY3OTk1NmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNiODliYzg3NjY4MWY5MzllMjQ1NTZmN2FjZGI0MmRiOTA0YmRiNWYyNjE3NzMzNWY0NDA5MjQ2ZWU1NjgxOTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY4OTQ3YTZhMTcxMjk5NmNkYzM5OWUwYjNjOTM5YmJmMzE0NDQyYzUzYjg2NjQ0Yjg0NWNhMmNmYTNkYTMxMTIifQ"
         }
       ]
     },
     {
       "id": "claim_05cb327c62914e45867bc0a2c39ee202",
-      "statement": "Bootstrap Helm releases form a dependency chain: Cilium (requires Gateway API CRDs) → CoreDNS (requires Cilium) → cert-manager (requires CoreDNS) → flux-operator (requires cert-manager) → flux-instance (requires flux-operator).",
+      "statement": "Bootstrap Helm releases (cilium 1.20.1, coredns 1.47.0, cert-manager v1.21.1, flux-operator 0.60.0, flux-instance 0.60.0) form a dependency chain via `needs`: Cilium (requires pre-applied Gateway API CRDs) → CoreDNS → cert-manager → flux-operator → flux-instance; all releases are atomic, waited on, and rollback on failure via helmDefaults.",
       "evidence": [
         {
-          "resource": "repo://bootstrap/helmfile.yaml#L14-L52",
-          "version": "repo-lines-v1:sha256:8ed7e8e3fe8b1e0f0bd52f9de372dfeaceddb966f93568d84cc9fe0660e2ff7e:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1YTA1OTNjNDU2NDAyZmE2YTYwYWUwZjk4YmMyMjZkMzk4NDZjZmJiODgwYWNkMGM3Zjc4YWZiZTk1ZTUzMDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4NDQxMDY3MGJjNTUxNjEyNDRkZTdlZTRjMDM5YTEzMDUzYzZiN2M5ZTRkZTZiMzY4YzE3MzYzZDcyMjVlY2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjliN2YwYjcwMDgzOGMzOGRiYjE3ZmQxNjdkNGIyMmJmNGQ2NTg2MGNiODI2MWI3OTU1Zjc5ZGM3OTAyYzEzZmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://bootstrap/helmfile.yaml#L13-L52",
+          "version": "repo-lines-v1:sha256:fb72506f6e1cb35e428431e231a771289e97f0bed6d09a0b582733a2685a6107:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkZTI0Nzc3YTlhNjAzZjFlZmY3ZTNjMmMzMTcxZTE2MjU5YjhhN2M5OTZkYTMxNDdhMjc5N2Y2ZjA3NTQ0MmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4NDQxMDY3MGJjNTUxNjEyNDRkZTdlZTRjMDM5YTEzMDUzYzZiN2M5ZTRkZTZiMzY4YzE3MzYzZDcyMjVlY2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZmNWY5NGUxMDY0NDU3ZjAwNWMzYzFmNzJkMzMzYTgxM2YwNzYzNTJjZjFiNzNiNTUzNWQ5NDFiNDFhNmQ1OTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -240,7 +240,7 @@
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.0",
-    "at": "2026-09-08T21:57:36.335Z"
+    "by": "openwiki/0.5.1",
+    "at": "2026-09-12T21:32:37.847Z"
   }
 }

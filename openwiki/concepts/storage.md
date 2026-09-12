@@ -3,9 +3,6 @@ type: concept
 title: Storage & Backup
 description: Storage classes and provisioning (TopoLVM thin provisioning, local-path host storage, NFS CSI) plus VolSync-based restic backup of PVCs to MinIO and the snapshot-restore disaster-recovery pattern.
 tags: [storage, storageclasses, pvc, provisioning, volsync, backup, disaster-recovery, kubernetes, csi]
-verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-08T21:57:36.335Z
 sources:
   - id: openwiki-source-ce5428b32557cc11ea784146
     resource: repo://kubernetes/apps/database/cloudnative-pg/cluster/cluster16.yaml
@@ -47,7 +44,10 @@ sources:
     resource: repo://kubernetes/flux/meta/repos/local-path-provisioner.yaml
   - id: openwiki-source-67d09412df5e9b5263585304
     resource: repo://lvm-format-manual.yaml
-generated: { by: "openwiki/0.5.0", at: "2026-09-08T21:57:36.335Z" }
+generated: { by: "openwiki/0.5.1", at: "2026-09-12T21:32:37.847Z" }
+verified:
+  - by: openwiki/0.5.1
+    at: 2026-09-12T21:32:37.847Z
 ---
 
 # Storage & Backup
@@ -152,15 +152,21 @@ kubectl apply -f lvm-format-manual.yaml
 # Enter the pod
 kubectl exec -it lvm-format-manual -- sh
 
-# Install LVM tools
-apk add --no-cache lvm2 nvme-cli
+# Install LVM tools (see commented commands at the bottom of the manifest)
+apk add --no-cache findutils nvme-cli lvm2;
+
+# Optionally reformat the NVMe device first
+nvme format --lbaf=0 /dev/disk/nvme0n1 --force;
+nvme format --block-size=4096 /dev/disk/nvme0n1 --force;
 
 # Create physical volume, volume group, and thin pool
-pvcreate /dev/nvme0n1
-vgcreate lvm_vg /dev/nvme0n1
-vgchange -a y lvm_vg
-lvcreate --thinpool -l 100%FREE -n lvm_thin lvm_vg
+pvcreate /dev/nvme0n1;
+vgcreate lvm_vg /dev/nvme0n1;
+vgchange -a ey lvm_vg;
+lvcreate --thinpool -l 100%FREE -n lvm_thin lvm_vg;
 ```
+
+The pod runs the `alpine` image as `privileged: true` with `restartPolicy: Never`, mounts the host's `/var` (at `/mnt/host_var`) and `/dev`, and just sleeps for an hour so an operator can exec in and run the commands above.
 
 This manual setup is required only once per cluster before deploying TopoLVM.
 

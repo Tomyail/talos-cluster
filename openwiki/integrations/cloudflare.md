@@ -28,10 +28,10 @@ sources:
     resource: repo://kubernetes/apps/network/cloudflare-tunnel/app/secret.sops.yaml
   - id: openwiki-source-a50b7595ce7b0d9f3df80bc7
     resource: repo://kubernetes/apps/network/cloudflare-tunnel/ks.yaml
+generated: { by: "openwiki/0.5.1", at: "2026-09-12T21:32:37.847Z" }
 verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-08T21:57:36.335Z
-generated: { by: "openwiki/0.5.0", at: "2026-09-08T21:57:36.335Z" }
+  - by: openwiki/0.5.1
+    at: 2026-09-12T21:32:37.847Z
 ---
 
 # Cloudflare Integration
@@ -78,7 +78,7 @@ Cloudflare Tunnel provides secure inbound connectivity to the cluster without ex
 **HelmRelease Pattern:** The tunnel deployment uses the `app-template` OCI chart pattern, providing a standardized Helm chart structure for application deployment. This pattern encapsulates common Kubernetes workload configurations including controllers, containers, pod options, services, and persistence in a reusable template.
 
 **Key Configuration:**
-- **Image:** `cloudflare/cloudflared:2026.7.3`
+- **Image:** `cloudflare/cloudflared:2026.9.1`
 - **Transport Protocol:** HTTP/2 for efficient multiplexing (`TUNNEL_TRANSPORT_PROTOCOL: http2`)
 - **Origin HTTP/2:** Enabled for improved performance (`TUNNEL_ORIGIN_ENABLE_HTTP2: true`)
 - **Security:** Runs as non-root user (65534) with read-only root filesystem

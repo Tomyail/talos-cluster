@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:9a1dd0f2cc17d0da7fa01754c6b206f56f96fbe1071c07ec2c210fa5c07d42dc",
+  "pageVersion": "sha256:85377fd8bb0809c6ec4a09af07e56075c7641eb011bd1d4c310adb60f67f3f9f",
   "claims": [
     {
       "id": "claim_30f820b5ccba4c9a9c4aad7234c3dfc2",
-      "statement": "The cluster bootstrap process uses a two-phase approach: Phase 1 establishes the Talos Linux control plane using talhelper, while Phase 2 installs critical infrastructure components via Helmfile before Flux assumes continuous reconciliation responsibility.",
+      "statement": "The cluster bootstrap uses a phased approach: `task bootstrap:talos` establishes the Talos Linux control plane via talhelper, `task bootstrap:apps` runs scripts/bootstrap-apps.sh to install critical infrastructure via Helmfile, after which the flux-instance release hands continuous reconciliation off to Flux.",
       "evidence": [
         {
           "resource": "repo://.taskfiles/bootstrap/Taskfile.yaml",
@@ -12,11 +12,11 @@
         },
         {
           "resource": "repo://bootstrap/helmfile.yaml",
-          "version": "repo-file-v1:sha256:79387e3a12f1408ab259b0a4198d1f8c5fcdd17632b5f1f7877a21b56d2a7847"
+          "version": "repo-file-v1:sha256:b76e95afa27926310da52e2c3293b948c6cd17d077f80c4c386f0de98e06eb5e"
         },
         {
           "resource": "repo://scripts/bootstrap-apps.sh",
-          "version": "repo-file-v1:sha256:d6be6964a73238e0828b2336ca8095a4a0de975009e5c422f31493d6a60e302b"
+          "version": "repo-file-v1:sha256:eebd93a11ab8005e82532e3ff1c92e12e4bfcadfa59000036daa9463adfae378"
         }
       ]
     },
@@ -124,21 +124,21 @@
     },
     {
       "id": "claim_3a9be7730387407eb58c776b4cef2e26",
-      "statement": "The apply_crds function installs two CRD sets required by Helm charts: External DNS v0.21.0 standard CRDs and Gateway API v1.6.1 experimental CRDs. Both are also managed by Flux but duplicated for bootstrap safety.",
+      "statement": "The apply_crds function installs two CRD sets required by Helm charts: External DNS v0.22.0 standard CRDs and Gateway API v1.6.2 experimental CRDs. Both are also managed by Flux (via GitRepository sources in kubernetes/flux/cluster/ks.yaml) but duplicated for bootstrap safety — notably because Cilium has gatewayAPI enabled and needs the Gateway API CRDs before it starts.",
       "evidence": [
         {
           "resource": "repo://scripts/bootstrap-apps.sh#L88-L118",
-          "version": "repo-lines-v1:sha256:8e0b7e48efcc0566c66eb4019b9d07bae929a1184035de10614ab5f8ec9e3b20:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY2M2YyNzhkYjQ4YWFiOTQzZjQ3ZTMxZmYzMmEzOTY3MDRiNDc5MTY1N2M0MzgwOGVlMGM3MmYyZmExNWU5MmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhhZWFkOTQ4M2I2MjQ5YzgwNDc0NDZiMzQ0Y2FlODhhYTIyNDZmNzU3NTg4ZjJiNGY3MzM1YzE2M2MxNjkyYWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMzNTk0ZDBhY2RhOTVjNGNjZjA3YmM5MzNiOWU1MTI3YmIxYTYyMTZhMDdkNTUyMjJmZDk4MzYzOGJjOWNkNDcifQ"
+          "version": "repo-lines-v1:sha256:a528ce525bb291f3b05f7b196f6299bba1818757e82f8ac9ce41febfd0c0402c:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY2M2YyNzhkYjQ4YWFiOTQzZjQ3ZTMxZmYzMmEzOTY3MDRiNDc5MTY1N2M0MzgwOGVlMGM3MmYyZmExNWU5MmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhhZWFkOTQ4M2I2MjQ5YzgwNDc0NDZiMzQ0Y2FlODhhYTIyNDZmNzU3NTg4ZjJiNGY3MzM1YzE2M2MxNjkyYWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMzNTk0ZDBhY2RhOTVjNGNjZjA3YmM5MzNiOWU1MTI3YmIxYTYyMTZhMDdkNTUyMjJmZDk4MzYzOGJjOWNkNDcifQ"
         }
       ]
     },
     {
       "id": "claim_b372cde832a34abba56c97f0a7cc80d3",
-      "statement": "Helmfile deploys releases in dependency order: Cilium (CNI) first, then CoreDNS (depends on Cilium), then cert-manager (depends on CoreDNS), then flux-operator (depends on cert-manager), and finally flux-instance (depends on flux-operator).",
+      "statement": "Helmfile deploys releases in dependency order: Cilium 1.20.1 (CNI) first, then CoreDNS 1.47.0 (needs cilium), then cert-manager v1.21.1 (needs coredns), then flux-operator 0.60.0 (needs cert-manager), and finally flux-instance 0.60.0 (needs flux-operator).",
       "evidence": [
         {
           "resource": "repo://bootstrap/helmfile.yaml#L14-L52",
-          "version": "repo-lines-v1:sha256:8ed7e8e3fe8b1e0f0bd52f9de372dfeaceddb966f93568d84cc9fe0660e2ff7e:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1YTA1OTNjNDU2NDAyZmE2YTYwYWUwZjk4YmMyMjZkMzk4NDZjZmJiODgwYWNkMGM3Zjc4YWZiZTk1ZTUzMDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4NDQxMDY3MGJjNTUxNjEyNDRkZTdlZTRjMDM5YTEzMDUzYzZiN2M5ZTRkZTZiMzY4YzE3MzYzZDcyMjVlY2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjliN2YwYjcwMDgzOGMzOGRiYjE3ZmQxNjdkNGIyMmJmNGQ2NTg2MGNiODI2MWI3OTU1Zjc5ZGM3OTAyYzEzZmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "version": "repo-lines-v1:sha256:d69f89eb7adfb93507a6d9455ab79a70bc0518b5c468c3bca24529619b0a40bb:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1YTA1OTNjNDU2NDAyZmE2YTYwYWUwZjk4YmMyMjZkMzk4NDZjZmJiODgwYWNkMGM3Zjc4YWZiZTk1ZTUzMDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4NDQxMDY3MGJjNTUxNjEyNDRkZTdlZTRjMDM5YTEzMDUzYzZiN2M5ZTRkZTZiMzY4YzE3MzYzZDcyMjVlY2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjliN2YwYjcwMDgzOGMzOGRiYjE3ZmQxNjdkNGIyMmJmNGQ2NTg2MGNiODI2MWI3OTU1Zjc5ZGM3OTAyYzEzZmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -220,7 +220,7 @@
       "evidence": [
         {
           "resource": "repo://bootstrap/helmfile.yaml#L14-L19",
-          "version": "repo-lines-v1:sha256:382b76c3846ced267ba0496de8bd54b47d27dae021f295dc47c77fc179973115:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODVhMDU5M2M0NTY0MDJmYTZhNjBhZTBmOThiYzIyNmQzOTg0NmNmYmI4ODBhY2QwYzdmNzhhZmJlOTVlNTMwMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTMyNTg5MzVmOTU1MDM4YjU1ZDc2NWZmNGFhNTc4MjM0ZWZlODdmN2QyNzhlYzEyODVlMWY4Njk4NTEzNGIwZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWI3ZjBiNzAwODM4YzM4ZGJiMTdmZDE2N2Q0YjIyYmY0ZDY1ODYwY2I4MjYxYjc5NTVmNzlkYzc5MDJjMTNmZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTEzOGEzZGY2MjA0MmQ4OGRkNzEyNTIyYjkwN2E5ZGNkNGRmNjBlNGI0NmFkNmQ3MDQ3NDBlMTNjZTdkMDcwOSJ9"
+          "version": "repo-lines-v1:sha256:ce4d9cf5a5f38b52927b9ff58460fb6160ae0d527a98af47a0c24460384479b3:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODVhMDU5M2M0NTY0MDJmYTZhNjBhZTBmOThiYzIyNmQzOTg0NmNmYmI4ODBhY2QwYzdmNzhhZmJlOTVlNTMwMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTMyNTg5MzVmOTU1MDM4YjU1ZDc2NWZmNGFhNTc4MjM0ZWZlODdmN2QyNzhlYzEyODVlMWY4Njk4NTEzNGIwZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWI3ZjBiNzAwODM4YzM4ZGJiMTdmZDE2N2Q0YjIyYmY0ZDY1ODYwY2I4MjYxYjc5NTVmNzlkYzc5MDJjMTNmZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTEzOGEzZGY2MjA0MmQ4OGRkNzEyNTIyYjkwN2E5ZGNkNGRmNjBlNGI0NmFkNmQ3MDQ3NDBlMTNjZTdkMDcwOSJ9"
         },
         {
           "resource": "repo://scripts/bootstrap-apps.sh#L9-L24",
@@ -238,7 +238,7 @@
       "evidence": [
         {
           "resource": "repo://bootstrap/helmfile.yaml",
-          "version": "repo-file-v1:sha256:79387e3a12f1408ab259b0a4198d1f8c5fcdd17632b5f1f7877a21b56d2a7847"
+          "version": "repo-file-v1:sha256:b76e95afa27926310da52e2c3293b948c6cd17d077f80c4c386f0de98e06eb5e"
         },
         {
           "resource": "repo://kubernetes/flux/cluster/ks.yaml#L70-L94",
@@ -270,7 +270,7 @@
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.0",
-    "at": "2026-09-08T21:57:36.335Z"
+    "by": "openwiki/0.5.1",
+    "at": "2026-09-12T21:32:37.847Z"
   }
 }

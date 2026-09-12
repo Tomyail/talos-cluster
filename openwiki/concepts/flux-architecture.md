@@ -3,9 +3,6 @@ type: architecture
 title: Flux GitOps Architecture
 description: Comprehensive documentation of the Flux GitOps reconciliation hierarchy, Kustomization structure (cluster-meta → CRDs → cluster-apps), source management, Helm vs Kustomize resources, SOPS decryption integration, and the automated image update system.
 tags: [flux, gitops, kubernetes, reconciliation, kustomize, helm]
-verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-08T21:57:36.335Z
 sources:
   - id: openwiki-source-1385f4adf262cc0ec92b6d45
     resource: repo://kubernetes/apps/default/echo/ks.yaml
@@ -53,7 +50,10 @@ sources:
     resource: repo://kubernetes/flux/meta/repos/jetstack.yaml
   - id: openwiki-source-12a44dba301e86ea2cf62628
     resource: repo://kubernetes/flux/meta/repos/kustomization.yaml
-generated: { by: "openwiki/0.4.3", at: "2026-08-30T21:57:36.532Z" }
+generated: { by: "openwiki/0.5.1", at: "2026-09-12T21:32:37.847Z" }
+verified:
+  - by: openwiki/0.5.1
+    at: 2026-09-12T21:32:37.847Z
 ---
 
 # Flux GitOps Architecture
@@ -228,7 +228,7 @@ Both flux-operator and flux-instance define OCIRepository resources followed by 
 - **HelmRelease configuration**:
   - **Rollback remediation** with 3 retries for failed upgrades
   - **cleanupOnFail: true** to clean up failed installs
-  - **dependsOn** (flux-instance Kustomization depends on flux-operator)
+  - **HelmRelease-level dependsOn**: the flux-instance HelmRelease depends on the flux-operator HelmRelease in flux-system, and the flux-instance Kustomization likewise depends on the flux-operator Kustomization
   - **Install remediation** with unlimited retries (-1) for robust initial installation
 
 ### Application HelmReleases

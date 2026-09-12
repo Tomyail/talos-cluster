@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:e2e4a8b1ca154bdad541561dcce4f1a5d8b81ed26974d2a8c822274e4f5d424d",
+  "pageVersion": "sha256:9210a5cafbc0691c373b2a37ccf3b08a14ebdf8e4d25cf7d6e95e876055733df",
   "claims": [
     {
       "id": "claim_ad4aee5586e148f183b37e571c767319",
@@ -74,15 +74,15 @@
     },
     {
       "id": "claim_785d0f365a9f430daf789a58ae77a11d",
-      "statement": "flux-operator and flux-instance OCIRepository sources from ghcr.io/controlplaneio-fluxcd/charts/flux-operator and flux-instance with tag-based versioning and layer selection for Helm chart content",
+      "statement": "flux-operator and flux-instance OCIRepository sources from ghcr.io/controlplaneio-fluxcd/charts/flux-operator and flux-instance with tag-based versioning (ref tag 0.60.0) and layerSelector selecting the Helm chart content layer with copy operation",
       "evidence": [
         {
           "resource": "repo://kubernetes/apps/flux-system/flux-instance/app/helmrelease.yaml#L2-L14",
-          "version": "repo-lines-v1:sha256:c2a49fc0516eea46a24ad23d70fd70cd18408297823c3883064dcd88283701dd:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI0NTcyNDhjOGMzOGE4YTZjOGUxOGQ4MDMyODUwZTA3MGY1OWIxNWM4OWRlZmI2MWJjNDc3YWVjYWIxNGVmZWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFlODdmMmE2NWRjZjE3NTRkMTEzZTA3ZGU3MzgzOGYyZGIyZTQzNDcxZGE3OWIxMjk5M2VlZjhmNWQxZDhmZmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoxLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY0NjY3MzQ4YmRkMGExMDAyYjhiYzAzMWU3ZTBjZTE5ZDllMTQ1YjdiMjJhMGNlODViNzllMzBiZDJmMjhmOTgifQ"
+          "version": "repo-lines-v1:sha256:a8a2762324ea7b6af80f63979dc83b68b63379ca923c803c799a821d3e4858a5:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI0NTcyNDhjOGMzOGE4YTZjOGUxOGQ4MDMyODUwZTA3MGY1OWIxNWM4OWRlZmI2MWJjNDc3YWVjYWIxNGVmZWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFlODdmMmE2NWRjZjE3NTRkMTEzZTA3ZGU3MzgzOGYyZGIyZTQzNDcxZGE3OWIxMjk5M2VlZjhmNWQxZDhmZmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoxLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY0NjY3MzQ4YmRkMGExMDAyYjhiYzAzMWU3ZTBjZTE5ZDllMTQ1YjdiMjJhMGNlODViNzllMzBiZDJmMjhmOTgifQ"
         },
         {
           "resource": "repo://kubernetes/apps/flux-system/flux-operator/app/helmrelease.yaml#L2-L14",
-          "version": "repo-lines-v1:sha256:fdea83c60e1d4d442697f7e8e84dde3bc7cdc2d78b313831786e336ba5fe0995:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI0NTcyNDhjOGMzOGE4YTZjOGUxOGQ4MDMyODUwZTA3MGY1OWIxNWM4OWRlZmI2MWJjNDc3YWVjYWIxNGVmZWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVmY2FlMjI4OWQxOTlhYmQyZWNhYzc5ZGExZmE4YTVkZTMwOTBmNTdmYjU5ZGIyMGViMzIwOGE3NWIxMjA1YWEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoxLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY0NjY3MzQ4YmRkMGExMDAyYjhiYzAzMWU3ZTBjZTE5ZDllMTQ1YjdiMjJhMGNlODViNzllMzBiZDJmMjhmOTgifQ"
+          "version": "repo-lines-v1:sha256:b57550d3fc6f969918db1c99a6b2c33f477d6cf593a1bfba163d02a38ee58b82:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI0NTcyNDhjOGMzOGE4YTZjOGUxOGQ4MDMyODUwZTA3MGY1OWIxNWM4OWRlZmI2MWJjNDc3YWVjYWIxNGVmZWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVmY2FlMjI4OWQxOTlhYmQyZWNhYzc5ZGExZmE4YTVkZTMwOTBmNTdmYjU5ZGIyMGViMzIwOGE3NWIxMjA1YWEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoxLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY0NjY3MzQ4YmRkMGExMDAyYjhiYzAzMWU3ZTBjZTE5ZDllMTQ1YjdiMjJhMGNlODViNzllMzBiZDJmMjhmOTgifQ"
         }
       ]
     },
@@ -230,7 +230,7 @@
     },
     {
       "id": "claim_101090853af64fc6a8399132f0392356",
-      "statement": "The common Kustomize component creates namespace, adds repository definitions including app-template OCIRepository, and configures SOPS secrets for application standardization",
+      "statement": "The common Kustomize component creates namespace, adds repository definitions including the app-template OCIRepository (oci://ghcr.io/bjw-s-labs/helm/app-template, tag 5.1.0, Helm chart layer selection), and configures SOPS secrets for application standardization",
       "evidence": [
         {
           "resource": "repo://kubernetes/components/common/kustomization.yaml",
@@ -238,7 +238,7 @@
         },
         {
           "resource": "repo://kubernetes/components/common/repos/app-template/ocirepository.yaml",
-          "version": "repo-file-v1:sha256:1de7ff03efc07f77a66364c1a51db82e0426d7cd1f6a59263e9a78cdcacd8a71"
+          "version": "repo-file-v1:sha256:02c2cfe8c64f6cd1b252b6ad01de56eaae0b0f516aba9b901a2c00e21c98073d"
         }
       ]
     },
@@ -293,10 +293,24 @@
           "version": "repo-file-v1:sha256:fa10b5630965480f453261c86956a0d97171b2b134e7d859a4caa3c6fa46a277"
         }
       ]
+    },
+    {
+      "id": "claim_ad00716402a843f2bac796b15d0af46f",
+      "statement": "The flux-instance HelmRelease depends on the flux-operator HelmRelease in flux-system via dependsOn, references the flux-instance OCIRepository via chartRef, and pulls chart values from the flux-instance-values ConfigMap via valuesFrom",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/flux-system/flux-instance/app/helmrelease.yaml#L23-L39",
+          "version": "repo-lines-v1:sha256:2d81907f1c95fd16e44ac17512f5e63ae4adc1be72e66a5f2258a323e9326d7b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY2YzE2OGIyMDZmOGU0ZjllMzlkNTlhMjdmYmMzMzQyYjgxMTVhMWRhYjhhZTcyMGE5ZGI5MmEwYWQ2M2VkNDkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg0OTIxNmFhNzQ4ZmM2Y2E0YTJkYWM3M2E5YTQ4NTlhNzUyNjY2YzdiOTk2NzNkNzBiZDZkMmZhM2EwMzE3ZmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjlkMzJjMDlmOWU2ZDYwMjEzMDU3ODlmNWYwZTY2MjUxMDBlMmY2YzRjOWVjN2NkMDQzZjUzYmQxYTBjMGE1MjkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/flux-system/flux-instance/ks.yaml#L16-L18",
+          "version": "repo-lines-v1:sha256:456d75bdaea371161ea492e9096d7037370472d182da7ba3076d463bde1bd3c8:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTYwYzNiZDdiYzU5ZmVjOWU0ZGVkMzVkN2NjZjcwMGEzODVhY2U1ODYzNGZhNjBkM2IyMmZmMjY4YzAxN2ViZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTYzNjUwYWUzODk5ODg4ZDQ2NzQ5NjBiOGRjYTc2ZDNhOWI5N2M1YmFjM2IwZDBlMWQ3ZDAxYTg4ZGRhMzM0MyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTAyYTZlODMwOGZiNjZmMmFmZDJmMTBlYzdkNDY3MDdkMDA1YjM3MGFkZmI1Y2Q3ODVkNTNlYThkNDYyM2NmMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDYyODk2NmZmM2EzNmM3Y2Q3NWFjMzFiOTNhY2QyMGFjNWNiNDA3ZGFlOTMwMDUzYjM0NWEyZWQ5ODU2YzI5NSJ9"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.0",
-    "at": "2026-09-08T21:57:36.335Z"
+    "by": "openwiki/0.5.1",
+    "at": "2026-09-12T21:32:37.847Z"
   }
 }

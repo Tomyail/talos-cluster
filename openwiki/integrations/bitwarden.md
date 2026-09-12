@@ -3,9 +3,6 @@ type: integration
 title: Bitwarden Secrets Integration
 description: Runtime secret management using Bitwarden as the external secrets provider via External Secrets Operator, with cluster-wide secret stores and automated secret synchronization.
 tags: [secrets, external-secrets, bitwarden, security]
-verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-08T21:57:36.335Z
 sources:
   - id: openwiki-source-41044dd9a7ebfa0249948610
     resource: repo://kubernetes/apps/default/growth-tracker/app/externalsecret.yaml
@@ -17,6 +14,8 @@ sources:
     resource: repo://kubernetes/apps/external-secrets/bitwarden-connect/ks.yaml
   - id: openwiki-source-e77c6b8832294602885266c1
     resource: repo://kubernetes/apps/external-secrets/external-secrets/app/helmrelease.yaml
+  - id: openwiki-source-9ca10a21b6a666906b6c355c
+    resource: repo://kubernetes/apps/external-secrets/kustomization.yaml
   - id: openwiki-source-e4bcfe57ab9e469c34ab93eb
     resource: repo://kubernetes/apps/network/adguard-dns/app/externalsecret.yaml
   - id: openwiki-source-14da33bfab166c5902ff2a16
@@ -27,7 +26,10 @@ sources:
     resource: repo://kubernetes/apps/network/tailscale/ks.yaml
   - id: openwiki-source-d7ce147b373b74b80f0794fd
     resource: repo://kubernetes/flux/meta/repos/bitwarden-eso.yaml
-generated: { by: "openwiki/0.5.0", at: "2026-09-08T21:57:36.335Z" }
+generated: { by: "openwiki/0.5.1", at: "2026-09-12T21:32:37.847Z" }
+verified:
+  - by: openwiki/0.5.1
+    at: 2026-09-12T21:32:37.847Z
 ---
 
 # Bitwarden Secrets Integration
@@ -121,7 +123,7 @@ These stores are created by the Helm chart's CRDs and are referenced by External
 
 ### External Secrets Operator
 
-The External Secrets Operator is deployed via Helm in the `external-secrets` namespace using the `external-secrets` chart version 2.8.0 with CRD installation enabled and service monitors for the webhook and cert controller (`kubernetes/apps/external-secrets/external-secrets/app/helmrelease.yaml`).
+The External Secrets Operator is deployed via Helm in the `external-secrets` namespace (set by the parent Kustomization at `kubernetes/apps/external-secrets/kustomization.yaml#L5`) using the `external-secrets` chart version 2.10.0 from the `external-secrets` HelmRepository in `flux-system`. The HelmRelease enables CRD installation, configures install/upgrade remediation with retries (rollback strategy on failed upgrades), and enables 1m-interval service monitors for the operator, webhook, and cert controller (`kubernetes/apps/external-secrets/external-secrets/app/helmrelease.yaml#L2-L38`). A commented-out `bitwarden-sdk-server.enabled: true` value shows the optional Bitwarden SDK Server integration path that is currently disabled.
 
 ## Secret Synchronization
 

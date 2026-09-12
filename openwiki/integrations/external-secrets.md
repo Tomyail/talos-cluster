@@ -3,9 +3,6 @@ type: integration
 title: External Secrets Integration
 description: External Secrets Operator deployment and configuration for pulling external secrets from Bitwarden into Kubernetes, including operator setup, CRD installation, secret synchronization patterns, and troubleshooting.
 tags: [secrets, external-secrets, eso, bitwarden, security, integration]
-verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-08T21:57:36.335Z
 sources:
   - id: openwiki-source-878c71c8660186a07262b148
     resource: repo://kubernetes/apps/database/cloudnative-pg/app/externalsecret.yaml
@@ -43,7 +40,10 @@ sources:
     resource: repo://kubernetes/components/volsync/minio.yaml
   - id: openwiki-source-d7ce147b373b74b80f0794fd
     resource: repo://kubernetes/flux/meta/repos/bitwarden-eso.yaml
-generated: { by: "openwiki/0.5.0", at: "2026-09-08T21:57:36.335Z" }
+generated: { by: "openwiki/0.5.1", at: "2026-09-12T21:32:37.847Z" }
+verified:
+  - by: openwiki/0.5.1
+    at: 2026-09-12T21:32:37.847Z
 ---
 
 # External Secrets Integration
@@ -93,7 +93,7 @@ The ESO core is deployed via Helm in the `external-secrets` namespace:
 - Chart: `external-secrets` version 2.8.0
 - Source: `external-secrets` HelmRepository (charts.external-secrets.io)
 - CRD installation: Enabled (`installCRDs: true`)
-- Service monitors: Enabled for webhook and cert controller with 1m scrape intervals
+- Service monitors: Enabled for the controller, webhook, and cert controller, each with a 1m scrape interval
 - Remediation: Configured with rollback on failure and 3 retries
 
 **Deployment Configuration**
@@ -558,4 +558,6 @@ kubectl get secret test-sync-secret -n default -o yaml
 - [Bitwarden Secrets Integration](../integrations/bitwarden.md) - Detailed Bitwarden provider configuration and patterns
 - [Secrets Management](../concepts/secrets-management.md) - Overall secrets architecture including SOPS and age encryption
 - [Networking Architecture](../concepts/networking.md) - Tailscale integration and network security
+- [Application Deployment Workflow](../workflows/app-deployment.md) - ExternalSecret integration in app deployments
+rking Architecture](../concepts/networking.md) - Tailscale integration and network security
 - [Application Deployment Workflow](../workflows/app-deployment.md) - ExternalSecret integration in app deployments

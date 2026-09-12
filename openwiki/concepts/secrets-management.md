@@ -3,9 +3,6 @@ type: architecture
 title: Secrets Management
 description: Dual-layer secrets architecture combining SOPS + age for Git encryption and External Secrets Operator with Bitwarden for runtime secret injection, including encryption rules, secret flows, and rotation procedures.
 tags: [secrets, sops, age, external-secrets, bitwarden, security, encryption]
-verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-08T21:57:36.335Z
 sources:
   - id: openwiki-source-240e6406ed4b6841961679cb
     resource: repo://.sops.yaml
@@ -45,7 +42,10 @@ sources:
     resource: repo://kubernetes/flux/cluster/ks.yaml
   - id: openwiki-source-6f1d2c8de9160e178167b990
     resource: repo://scripts/bootstrap-apps.sh
-generated: { by: "openwiki/0.5.0", at: "2026-09-08T21:57:36.335Z" }
+generated: { by: "openwiki/0.5.1", at: "2026-09-12T21:32:37.847Z" }
+verified:
+  - by: openwiki/0.5.1
+    at: 2026-09-12T21:32:37.847Z
 ---
 
 # Secrets Management
@@ -175,6 +175,8 @@ postBuild:
 ## Layer 2: Runtime Secret Injection with External Secrets
 
 External Secrets Operator pulls secrets from Bitwarden and injects them as Kubernetes Secrets for applications to consume. This layer handles dynamic secret synchronization and removes sensitive values from the Git repository entirely.
+
+The operator itself is deployed by the `external-secrets` HelmRelease (`kubernetes/apps/external-secrets/external-secrets/app/helmrelease.yaml`): chart `external-secrets` v2.10.0 from the `external-secrets` HelmRepository, `installCRDs: true`, ServiceMonitors for the operator, webhook, and cert controller (1m scrape interval), and install/upgrade remediation (3 retries, rollback on failed upgrade). The `bitwarden-sdk-server` value is deliberately left commented out, so the password-based `bitwarden-cli` provider is used instead of the Bitwarden SDK provider.
 
 ### Bitwarden Connect Deployment
 
@@ -487,7 +489,7 @@ Bitwarden credentials must be updated when:
 Application secrets (database passwords, API keys, etc.) stored in Bitwarden can be rotated independently:
 
 1. Update secret in Bitwarden vault
-2. Wait for External Secrets Operator reconciliation interval (default 1 hour)
+2. Wait for External Secrets Operator's `refreshInterval` (default 1 hour per ESO)
 3. Verify updated Kubernetes Secret reflects new values
 4. Trigger application restart if needed (or rely on automatic rollout annotations)
 
@@ -546,34 +548,6 @@ Application secrets (database passwords, API keys, etc.) stored in Bitwarden can
 
 **Disaster Recovery**:
 - Store age private key backup in secure, offline location
-- Document Bitwarden master password in secure password manager
-- Maintain Bitwarden backup/export for critical secrets
-- Test restoration process periodically
-, offline location
-- Document Bitwarden master password in secure password manager
-- Maintain Bitwarden backup/export for critical secrets
-- Test restoration process periodically
-t sync results but are not source of truth
-
-### Operational Considerations
-
-**Encryption Rules and Invariants**:
-- All `*.sops.yaml` files must match a creation rule in `.sops.yaml`
-- Talos secrets encrypt entire file; Kubernetes secrets encrypt only `data`/`stringData`
-- `mac_only_encrypted: true` ensures only specified fields are encrypted
-- Age recipient is hardcoded to a single public key
-
-**Secret Validation**:
-- Test SOPS encryption/decryption before committing: `sops --decrypt --encrypted-regex '^(data|stringData)$' file.sops.yaml`
-- Verify ExternalSecret resources reference valid Bitwarden items and properties
-- Check External Secrets Operator logs for sync errors after creating new ExternalSecrets
-
-**Disaster Recovery**:
-- Store age private key backup in secure, offline location
-- Document Bitwarden master password in secure password manager
-- Maintain Bitwarden backup/export for critical secrets
-- Test restoration process periodically
-, offline location
 - Document Bitwarden master password in secure password manager
 - Maintain Bitwarden backup/export for critical secrets
 - Test restoration process periodically

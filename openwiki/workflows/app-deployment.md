@@ -28,6 +28,8 @@ sources:
     resource: repo://kubernetes/apps/observability/gatus/app/helmrelease.yaml
   - id: openwiki-source-0aa0479be229def909bbfa22
     resource: repo://kubernetes/components/common/repos/app-template/ocirepository.yaml
+  - id: openwiki-source-d8126483419916725f75040b
+    resource: repo://kubernetes/components/common/repos/kustomization.yaml
   - id: openwiki-source-19cc4d5883bfca3fab22bd67
     resource: repo://kubernetes/components/gatus/external/config.yaml
   - id: openwiki-source-3ecfe771454a6bc6a446f83f
@@ -48,10 +50,10 @@ sources:
     resource: repo://kubernetes/components/volsync-new/minio.yaml
   - id: openwiki-source-0696023deccf378a358f7526
     resource: repo://kubernetes/flux/cluster/ks.yaml
-generated: { by: "openwiki/0.5.0", at: "2026-09-08T21:57:36.335Z" }
+generated: { by: "openwiki/0.5.1", at: "2026-09-12T21:32:37.847Z" }
 verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-08T21:57:36.335Z
+  - by: openwiki/0.5.1
+    at: 2026-09-12T21:32:37.847Z
 ---
 
 # Application Deployment Workflow
@@ -155,9 +157,11 @@ Most applications use the standardized app-template Helm chart from bjw-s-labs, 
 
 The app-template chart is sourced via OCIRepository:
 - URL: `oci://ghcr.io/bjw-s-labs/helm/app-template`
-- Version: 5.0.1 (tag-based)
+- Version: 5.1.0 (tag-based)
 - Interval: 1 hour
-- Deployed by `cluster-meta` Kustomization
+- `layerSelector` copies only the Helm chart tarball layer (`application/vnd.cncf.helm.chart.content.v1.tar+gzip`)
+
+The OCIRepository lives at `kubernetes/components/common/repos/app-template/` (its parent `kustomization.yaml` lists it); apps reference it by name via `chartRef`, so all app-template apps share one chart source and version.
 
 ### HelmRelease Structure
 
@@ -456,7 +460,7 @@ A complete real app lives at `kubernetes/apps/default/atuin/`. Three files are i
 **3. `app/helmrelease.yaml`** — the workload itself, using app-template:
 - `chartRef: {kind: OCIRepository, name: app-template}` with `interval: 1h`, `timeout: 10m`.
 - Remediation: `install.remediation.retries: 3`; `upgrade.cleanupOnFail: true` with `strategy: rollback` and 3 retries.
-- Values: `init-db` init container (`ghcr.io/home-operations/postgres-init`) plus the `atuin` container, both sharing the `&envFrom` secret anchor; probes on `/healthz`; `serviceMonitor` scraping `/metrics` every minute; a `service` exposing `http` and `metrics` ports; and a Gateway API `route` attaching to the `internal` and `external` Gateways in `kube-system` with hostname `atuin.${SECRET_DOMAIN}`.
+- Values: `init-db` init container (`ghcr.io/home-operations/postgres-init`) plus the `atuin` container, both sharing the `&envFrom` secret anchor; probes on `/healthz`; `serviceMonitor` scraping `/metrics` every minute; a `service` exposing `http` and `metrics` ports; and a Gateway API `route` attaching to the `internal` and `external` Gateways in `kube-system` with hostname `{{ .Release.Name }}.${SECRET_DOMAIN}` (resolved to `atuin.${SECRET_DOMAIN}` at render time).
 - Persistence comes from the VolSync component's PVC, referenced via `existingClaim` in apps that need it; atuin's data lives in the database, so it relies on `atuin-secret` instead.
 
 To add a new app, copy this directory, rename `*app`/`*namespace` anchors, adjust dependencies and values, then register the app's `ks.yaml` in the namespace-level `kubernetes/apps/<namespace>/kustomization.yaml` resources list.

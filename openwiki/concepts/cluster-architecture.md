@@ -74,10 +74,10 @@ sources:
     resource: repo://talos/talenv.yaml
   - id: openwiki-source-4d7c266d0d7adae77539048e
     resource: repo://talos/uservolume.yaml
-generated: { by: "openwiki/0.5.0", at: "2026-09-08T21:57:36.335Z" }
+generated: { by: "openwiki/0.5.1", at: "2026-09-12T21:32:37.847Z" }
 verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-08T21:57:36.335Z
+  - by: openwiki/0.5.1
+    at: 2026-09-12T21:32:37.847Z
 ---
 
 # Cluster & Talos Architecture
@@ -337,9 +337,9 @@ The NFS CSI enables provisioning of NFS-based PersistentVolumes for workloads re
 
 For simple local storage needs:
 
-- **Version**: 0.0.37
-- **Host Path**: `/var/mnt/local-path-provisioner`
-- **Scope**: Non-listed nodes use DEFAULT_PATH
+- **Version**: 0.0.38
+- **Host Path**: `/var/mnt/local-path-provisioner` (DEFAULT_PATH_FOR_NON_LISTED_NODES)
+- **CRDs**: CreateReplace on install/upgrade
 
 This provisioner is suitable for development workloads and applications that don't require replication or high availability.
 
@@ -395,11 +395,14 @@ flowchart LR
 
 Centralized metrics collection and alerting:
 
-- **Version**: 88.1.3
-- **Components**: Prometheus, Alertmanager, node-exporter, kube-state-metrics
-- **Scraping Targets**: Kubelet, API server, controller manager (disabled), scheduler (disabled), etcd (disabled), kube-proxy (disabled)
-- **Storage**: TopoLVM-provisioned PVs for Prometheus TSDB
-- **Thanos Integration**: Sidecar enabled for long-term metrics storage
+- **Version**: 88.6.5
+- **Components**: Prometheus, Alertmanager, node-exporter, kube-state-metrics (Grafana disabled here — deployed as its own app, dashboards force-deployed)
+- **CRD Management**: chart CRD install skipped (`crds.enabled: false`); Prometheus Operator CRDs managed by Flux at `kubernetes/apps/observability/prometheus-operator/crds/`
+- **Scraping Targets**: Kubelet, API server, node-exporter, kube-state-metrics; etcd, controller-manager, scheduler, kube-proxy scrape jobs disabled
+- **Storage**: TopoLVM-provisioned PVs — 10Gi for Prometheus TSDB (6d / 10GB retention), 1Gi for Alertmanager
+- **Thanos Integration**: Sidecar enabled with object storage config from `thanos-secret`; remote-write receiver and admin API enabled
+- **Cardinality control**: kubelet/API-server ServiceMonitors drop high-cardinality labels (`uid`, `id`, `name`) and `_bucket` duration metrics
+- **Custom rules**: Docker Hub rate-limit and OOM-kill alert rules defined inline via `additionalPrometheusRulesMap`
 
 Key features:
 - **High Cardinality Label Dropping**: Removes `uid`, `id`, `name` labels to reduce metric cardinality
@@ -446,10 +449,10 @@ Thanos enables global querying across Prometheus instances and long-term metric 
 
 Endpoint health monitoring and uptime tracking:
 
-- **Version**: v5.36.0
-- **Configuration**: Auto-discovered from resources labeled `gatus.io/enabled`
-- **Init Container**: k8s-sidecar watches for ConfigMaps/Secrets with Gatus configuration
-- **Resources**: 10m CPU / 64Mi memory request, 512Mi memory limit
+- **Version**: v5.36.0 (pinned by digest)
+- **Configuration**: Auto-discovered from resources labeled `gatus.io/enabled` (ConfigMaps and Secrets, all namespaces) via a k8s-sidecar 2.11.2 init container running in WATCH mode; config auto-reload enabled via reloader annotation
+- **Security**: Non-root, read-only root filesystem, all capabilities dropped except `NET_RAW` (needed for ping checks)
+- **Resources**: app container 100m CPU request / 256Mi memory limit; sidecar 10m CPU / 512Mi memory
 
 Gatus provides HTTP/HTTPS/TCP endpoint monitoring with configurable thresholds, alerting, and status page generation.
 
@@ -506,10 +509,9 @@ Most applications run with restricted security contexts:
 
 Flux provides continuous deployment and cluster management:
 
-- **Flux Operator**: v0.57.0
-- **Flux Instance**: v0.57.0
+- **Flux Operator & Flux Instance**: charts v0.60.0, installed by helmfile during app bootstrap
 - **Source**: GitRepository pointing to this repository
-- **SOPS Integration**: Age-based decryption for secrets
+- **SOPS Integration**: Age-based decryption via the `sops-age` secret on the `cluster-meta` and `cluster-apps` Kustomizations
 
 ### Flux Kustomizations
 
@@ -552,3 +554,7 @@ Upgrades operate at multiple layers, all versioned from declarative sources:
 - **Kubernetes Upgrades**: `task talos:upgrade-k8s` upgrades to the version pinned in `talenv.yaml`
 - **Application Upgrades**: automated via Flux HelmRelease reconciliation
 - **Dependency Tracking**: Renovate annotations on version pins in `talenv.yaml`, `talconfig.yaml` (via image references), and Helm releases keep versions current and reviewed through pull requests
+, `talconfig.yaml` (via image references), and Helm releases keep versions current and reviewed through pull requests
+liation
+- **Dependency Tracking**: Renovate annotations on version pins in `talenv.yaml`, `talconfig.yaml` (via image references), and Helm releases keep versions current and reviewed through pull requests
+, `talconfig.yaml` (via image references), and Helm releases keep versions current and reviewed through pull requests

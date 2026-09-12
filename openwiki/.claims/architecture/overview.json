@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:21190bcff24fa003cb5cb2903fb7e00d14f30114ed72306da22e24a57b2d8d1d",
+  "pageVersion": "sha256:939c8156bc7b7d7329184a8861cf36b698c2d336cbc303fba9f44d691b4f07ab",
   "claims": [
     {
       "id": "claim_568d0013139d486d968deda03423763a",
@@ -38,11 +38,11 @@
     },
     {
       "id": "claim_ad81243d8ce14921ba3f66ae3033409c",
-      "statement": "Bootstrap phase installs core platform components via helmfile: Cilium 1.20.0, CoreDNS 1.47.0, cert-manager v1.21.1, flux-operator 0.57.0, and flux-instance 0.57.0 with explicit dependency ordering.",
+      "statement": "Bootstrap phase installs core platform components via helmfile: Cilium 1.20.1, CoreDNS 1.47.0, cert-manager v1.21.1, flux-operator 0.60.0, and flux-instance 0.60.0, with explicit dependency ordering cilium → coredns → cert-manager → flux-operator → flux-instance.",
       "evidence": [
         {
           "resource": "repo://bootstrap/helmfile.yaml#L14-L52",
-          "version": "repo-lines-v1:sha256:8ed7e8e3fe8b1e0f0bd52f9de372dfeaceddb966f93568d84cc9fe0660e2ff7e:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1YTA1OTNjNDU2NDAyZmE2YTYwYWUwZjk4YmMyMjZkMzk4NDZjZmJiODgwYWNkMGM3Zjc4YWZiZTk1ZTUzMDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4NDQxMDY3MGJjNTUxNjEyNDRkZTdlZTRjMDM5YTEzMDUzYzZiN2M5ZTRkZTZiMzY4YzE3MzYzZDcyMjVlY2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjliN2YwYjcwMDgzOGMzOGRiYjE3ZmQxNjdkNGIyMmJmNGQ2NTg2MGNiODI2MWI3OTU1Zjc5ZGM3OTAyYzEzZmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "version": "repo-lines-v1:sha256:d69f89eb7adfb93507a6d9455ab79a70bc0518b5c468c3bca24529619b0a40bb:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1YTA1OTNjNDU2NDAyZmE2YTYwYWUwZjk4YmMyMjZkMzk4NDZjZmJiODgwYWNkMGM3Zjc4YWZiZTk1ZTUzMDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4NDQxMDY3MGJjNTUxNjEyNDRkZTdlZTRjMDM5YTEzMDUzYzZiN2M5ZTRkZTZiMzY4YzE3MzYzZDcyMjVlY2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjliN2YwYjcwMDgzOGMzOGRiYjE3ZmQxNjdkNGIyMmJmNGQ2NTg2MGNiODI2MWI3OTU1Zjc5ZGM3OTAyYzEzZmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -106,15 +106,19 @@
     },
     {
       "id": "claim_c9d1725ddece43fd845045650585daf9",
-      "statement": "Cilium replaces kube-proxy with eBPF-based data plane, provides BGP for load balancing and network policies, deployed via Helm in bootstrap phase at version 1.20.0 from official repository.",
+      "statement": "Cilium replaces kube-proxy with an eBPF-based data plane (kubeProxyReplacement: true) and provides LoadBalancer services via L2 announcements with DSR/Maglev, Gateway API support, and network policies; it is installed in the bootstrap phase and continuously reconciled by a Flux HelmRelease at version 1.20.1 from the official cilium repository.",
       "evidence": [
         {
           "resource": "repo://bootstrap/helmfile.yaml#L14-L19",
-          "version": "repo-lines-v1:sha256:382b76c3846ced267ba0496de8bd54b47d27dae021f295dc47c77fc179973115:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODVhMDU5M2M0NTY0MDJmYTZhNjBhZTBmOThiYzIyNmQzOTg0NmNmYmI4ODBhY2QwYzdmNzhhZmJlOTVlNTMwMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTMyNTg5MzVmOTU1MDM4YjU1ZDc2NWZmNGFhNTc4MjM0ZWZlODdmN2QyNzhlYzEyODVlMWY4Njk4NTEzNGIwZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWI3ZjBiNzAwODM4YzM4ZGJiMTdmZDE2N2Q0YjIyYmY0ZDY1ODYwY2I4MjYxYjc5NTVmNzlkYzc5MDJjMTNmZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTEzOGEzZGY2MjA0MmQ4OGRkNzEyNTIyYjkwN2E5ZGNkNGRmNjBlNGI0NmFkNmQ3MDQ3NDBlMTNjZTdkMDcwOSJ9"
+          "version": "repo-lines-v1:sha256:ce4d9cf5a5f38b52927b9ff58460fb6160ae0d527a98af47a0c24460384479b3:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODVhMDU5M2M0NTY0MDJmYTZhNjBhZTBmOThiYzIyNmQzOTg0NmNmYmI4ODBhY2QwYzdmNzhhZmJlOTVlNTMwMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTMyNTg5MzVmOTU1MDM4YjU1ZDc2NWZmNGFhNTc4MjM0ZWZlODdmN2QyNzhlYzEyODVlMWY4Njk4NTEzNGIwZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWI3ZjBiNzAwODM4YzM4ZGJiMTdmZDE2N2Q0YjIyYmY0ZDY1ODYwY2I4MjYxYjc5NTVmNzlkYzc5MDJjMTNmZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTEzOGEzZGY2MjA0MmQ4OGRkNzEyNTIyYjkwN2E5ZGNkNGRmNjBlNGI0NmFkNmQ3MDQ3NDBlMTNjZTdkMDcwOSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/kube-system/cilium/app/helm/values.yaml#L36-L42",
+          "version": "repo-lines-v1:sha256:eb87c921b7ad7b3a84abb28e2bb30f92f1c51298e3d0c5ce9b76ba136dfec390:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYWEwYTFjNjFiMzdhMzlkZWQ5ZDRiMTM2ODUyYzhlMzhhMDVhMzAwODg3NWQyNDc2ZjYzMjFiZTBkZWE0ZDE5MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDk2ZTFiNDExMmJmOGQ2N2Y5YTkzNjA4OTFhNTkxNTBhZDI0OGE3ZGM3YTUxZWE2MmRiYWM4ZWE5MmEzMTNjYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzE1ODViMDY4ZmNlZTNmYWUxZGI1YWY3NmQ2Njk3ODE4Njc4YzRjZDg3ZjVmNGM5NjlkZmI0ZjA1ZTYyYzllNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzdhMmZiZWIwNzgxNGI3ZGI4NGI0ZWNiNDEyNDhlYmY3OTc5NzFlNDM2M2Y5Y2M4YjBkYjY4NjZjOTY5OTU5MSJ9"
         },
         {
           "resource": "repo://kubernetes/apps/kube-system/cilium/app/helmrelease.yaml",
-          "version": "repo-file-v1:sha256:f71f4d04a383bf24aad244ebeb862b4943a225c23fedfc8bc933118d37d68cf2"
+          "version": "repo-file-v1:sha256:4b43467c6ddfeeffd774cf374300b2e0382c6f3f0b3169bd39a888b983945d1e"
         }
       ]
     },
@@ -130,11 +134,11 @@
     },
     {
       "id": "claim_045db16ab365481bbb8677b124542011",
-      "statement": "Cloudflare Tunnel exposes selected services publicly without open ports using cloudflared image with tunnel run command, HTTP/2 transport protocol, and metrics on port 8080.",
+      "statement": "Cloudflare Tunnel exposes selected services publicly without open ports, running the cloudflared image (tag 2026.9.1) with `tunnel run` args, HTTP/2 transport protocol (TUNNEL_TRANSPORT_PROTOCOL=http2), metrics/health probes on port 8080, and a read-only config file mounted from a ConfigMap; the release uses the shared app-template chart with reloader-driven restarts.",
       "evidence": [
         {
-          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/helmrelease.yaml#L19-L80",
-          "version": "repo-lines-v1:sha256:be471bb66998dd7917ca4d5cacb7b512ed7ee29c71bd68c2c0ab3a087a1c37fc:eyJzZWxlY3RlZExpbmVDb3VudCI6NjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2ZjFjNzJiNTlhZGU1MjRjMDEzNWM3Y2RiMGViMjRhYWZiZjE0ZGIxOWYxNzYwZjE5M2IyNzA3N2M5Nzg0NjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY0ZWJmMDIyOTI2YzkxMDA1YjQxYzA4ODc0NWI3MGM2N2ZhN2JiMjljNDRjMDRiZTY2YzVmMmI2ODEzNjQ5ODYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYxNWE0YjNlMTM3YTVhOWRiMGRkMDVhZGY4ODcyMTcyMGJmODMyNjA2Yzg2MDI0MDc4ZDk5YmZiYWEyMjE5ODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFkYmZhMzJkMzI0ODRkOTNhMDZiMmMxNGMxYWU3NjUyNjIzMDM0ZmQ0NWFmYzVjYjAxMzYwM2UzYTgwOTE3MzYifQ"
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/helmrelease.yaml#L19-L83",
+          "version": "repo-lines-v1:sha256:2d4b75c46ee4cf8e6eccdb5fc8c5dd15f3981f254cf5759b328f8038ec271f98:eyJzZWxlY3RlZExpbmVDb3VudCI6NjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2ZjFjNzJiNTlhZGU1MjRjMDEzNWM3Y2RiMGViMjRhYWZiZjE0ZGIxOWYxNzYwZjE5M2IyNzA3N2M5Nzg0NjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE3N2RhYWNhNTBkOTVjOTg4ZjA4ODVhNmFmM2ZmZGYzMzVlZjQ2NTExZDA4OGFmNTQzOTA0NGI4YzYwYzJkOTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYxNWE0YjNlMTM3YTVhOWRiMGRkMDVhZGY4ODcyMTcyMGJmODMyNjA2Yzg2MDI0MDc4ZDk5YmZiYWEyMjE5ODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -202,15 +206,23 @@
     },
     {
       "id": "claim_ef7c45073f974c009c189852a168a5b6",
-      "statement": "Monitoring stack uses Prometheus Operator via kube-prometheus-stack 88.1.3 scraping metrics from pods, nodes, kubelet, and API server, with Thanos for long-term storage and deduplication, and Grafana for visualization.",
+      "statement": "Monitoring stack uses Prometheus Operator via kube-prometheus-stack chart 88.6.5 (prometheus-community repo) scraping metrics from pods, nodes (node-exporter), kubelet, and API server, with Thanos sidecar/object-storage for long-term storage and Grafana for visualization; Prometheus keeps 6d/10GB local retention on topolvm-thin-provisioner storage.",
       "evidence": [
         {
           "resource": "repo://README.md#L28-L28",
           "version": "repo-lines-v1:sha256:5625a41b15276d66e4a46c9e61c919718981f66945d7670394f8cce79e89f6de:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTYyNWE0MWIxNTI3NmQ2NmU0YTQ2YzllNjFjOTE5NzE4OTgxZjY2OTQ1ZDc2NzAzOTRmOGNjZTc5ZTg5ZjZkZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTYyNWE0MWIxNTI3NmQ2NmU0YTQ2YzllNjFjOTE5NzE4OTgxZjY2OTQ1ZDc2NzAzOTRmOGNjZTc5ZTg5ZjZkZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDA3NDNkODljMzgyZGMxZDJkMGUzZmUwMjA4ODRhYzZiYTEyNzc2YTQxYzlkOTE1YjBiNzY3NDUwNzFiYjQ2OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzgwZDhjZjJiNDQ3NzY2ZTkzZmNjODU1NDRkOTU4OWI4ZmFmOWUyOTdkNjQ5Nzc4Yjg3NzY0M2U2MjEwYTUwOSJ9"
         },
         {
-          "resource": "repo://kubernetes/apps/observability/kube-prometheus-stack/app/helmrelease.yaml#L1-L80",
-          "version": "repo-lines-v1:sha256:b7e52798763bed14d3a78b80ddd065cc0cbe2e24280f72deedfbfff587a5133a:eyJzZWxlY3RlZExpbmVDb3VudCI6ODAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ2OTE0M2Y5NTZlMDU5OWI4MWFiNTk5ZGMxZWRhYzQ0Njg3NTc3OGZhZDU3ODFmYmIyODQxNzY4NWQ3YzljMDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1YWM2YTA1NWExMWYxYTdmM2MwMWJiNTk5MDc0YjY3ZTVmNmRiMzhmYzQ4OGY3OTI3YTJiMzkyOTdkNjM1OTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdkMzg2YmQ2MjEzNDllMzkwZDdkMmE1ODJjZjRiYTBjMjEzNzU3Yjk0ZGNlMTRjZWFiMDc3MDIzMDFhNmQ5YzAifQ"
+          "resource": "repo://kubernetes/apps/observability/kube-prometheus-stack/app/helmrelease.yaml#L103-L148",
+          "version": "repo-lines-v1:sha256:5c0c2eaf854f41dcc92caa3ed3571302f73f33dbcf8367fb5586a8f25db9d846:eyJzZWxlY3RlZExpbmVDb3VudCI6NDYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI2NjZiNGRkOGMxMTI4MjhiNjEwN2IwNTMyOWQzYjkxZGNlYzA0NzkzM2NiZjkzNjcwNGQ1NjdjYWU4MjljMjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIwZjU0ZDgxZmM0NzVjY2VlMDRkMzkxYjI2OTY1ZTkyMDdkMzBmYzgyMTYzZWM5ZGFmYTM4YzQ5NWQ2MTVjMTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVhNzgxODUxYzFlNjdiODdlMzY3ZDE0NDVhZTEyMjJjNmY4OWU2MTM5MTAwODM4NWU0OWNkYmNhNGY0MGZmNDAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI5YTJjNGJlMTJlYzIxZGE3M2NkMmU1MzdkMzI0NDUzNTU3ZWY3ZTc0NmMwMzg0YmU5MzNmMGNlZGM5ZmNlMjUifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/observability/kube-prometheus-stack/app/helmrelease.yaml#L60-L99",
+          "version": "repo-lines-v1:sha256:c6da3f80f7cf33ede0347a119fbc3258b5192df2b55412bb6351003fad9ceb27:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc3M2E0ZmIzYzE0NjRlNjEwMDFlYzViMDYyYzcxOWZmMDgzMTg4ZjA1OGI0ZDY4NmM2MjFmZTAwMmRjMmEwNGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVlOWMyOTJkNTYzNjZkYjIzNzVlODgxYjkwOTYyNTgyYmI4MTBiNjNmZGVmMGNiOTQzZTU4ZTI3NTczOGMxNzciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEyZjMwMWU1MTY0M2UwM2MzZTA2ZTBjZDk2YjY3YzU0MzQ4MzYyMGU1NjY0YmQyZjkwNzQ3NDAzZmU5OGUwZTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVhNzgxODUxYzFlNjdiODdlMzY3ZDE0NDVhZTEyMjJjNmY4OWU2MTM5MTAwODM4NWU0OWNkYmNhNGY0MGZmNDAifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/observability/kube-prometheus-stack/app/helmrelease.yaml#L9-L29",
+          "version": "repo-lines-v1:sha256:2943dd902b18be476ace497adc6cb690b3a46f7da6a852aee19a5410a2680c7f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYwY2NlZDU2YTZkNmE0MjQ5MjY1ZGM4YTdjNzBlNGNjMGY3MzdkZDJkYjVmOGI2NDc0YTFkMDE5ZGY4YzJiZGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMxOTc0NzhmZTljZWZkMmE4YmIxNjMzNDlmYmRlMGM1NjliZTM5NjFkNzNkN2Q5YzIwYTU4ZjEwZGQ1N2FjMGMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIwZDNiZmNjNjcyNDBjODI3NThlNWUxMjhiYWVjYTBlODg1M2NiMzY2OTkyMjQ1MTZiYzc0NzBkODJmNjUwMjYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZhN2MzMTZkMzdjYTZiMTEzNWRjM2ExOGIzNGJjY2Y5MDJjNzk5YmRmMzFjY2YyOTM4ZjBmYTdjZWI5YmM3MTkifQ"
         }
       ]
     },
@@ -334,7 +346,7 @@
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.0",
-    "at": "2026-09-08T21:57:36.335Z"
+    "by": "openwiki/0.5.1",
+    "at": "2026-09-12T21:32:37.847Z"
   }
 }

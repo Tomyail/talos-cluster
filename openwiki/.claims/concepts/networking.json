@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:63725ee8e6d58d1b0759d78c00b6b9e3b3c19c89427a24742856d6c5aa63d0fd",
+  "pageVersion": "sha256:d3414db9fcf6ffcb0640ef40688b2456e27fc65522d6ff9d61fb5ada490250e4",
   "claims": [
     {
       "id": "claim_0e4b64aa301a4c2dac2447bb89e242db",
@@ -60,15 +60,15 @@
     },
     {
       "id": "claim_accc044028b64880adba64cecc061a17",
-      "statement": "Cloudflare Tunnel (cloudflared) provides secure inbound access without opening external ports, running image docker.io/cloudflare/cloudflared:2026.7.3 with HTTP/2 protocol. The tunnel routes traffic for SECRET_DOMAIN and *.SECRET_DOMAIN to the external Cilium Gateway, with the tunnel endpoint registered as a CNAME DNS record pointing to the Cloudflare Tunnel unique ID.",
+      "statement": "Cloudflare Tunnel (cloudflared) provides secure inbound access without opening external ports, running image docker.io/cloudflare/cloudflared:2026.9.1 with HTTP/2 transport protocol (TUNNEL_TRANSPORT_PROTOCOL=http2, TUNNEL_ORIGIN_ENABLE_HTTP2). The tunnel routes traffic for SECRET_DOMAIN and *.SECRET_DOMAIN to the external Cilium Gateway service (cilium-gateway-external.kube-system.svc.cluster.local), with the tunnel endpoint registered as a CNAME DNS record (external.SECRET_DOMAIN) pointing to the Cloudflare Tunnel unique ID (.cfargotunnel.com). It runs as non-root (UID 65534) with read-only root filesystem, all capabilities dropped, and exposes metrics/probes on port 8080.",
       "evidence": [
         {
           "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/dnsendpoint.yaml",
           "version": "repo-file-v1:sha256:429a185741c44e4e8deac791cb3b3dab3de808b51c08e8e70ef33937197e07cc"
         },
         {
-          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/helmrelease.yaml",
-          "version": "repo-file-v1:sha256:681928113c7202eae41132fbcfd5899f7ef3f74361cddfc095480831fffd974a"
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/helmrelease.yaml#L19-L56",
+          "version": "repo-lines-v1:sha256:0b59fe628c9a3b3f77696c827c22227a0ac1d391f09e0d424934d1232f6856d5:eyJzZWxlY3RlZExpbmVDb3VudCI6MzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2ZjFjNzJiNTlhZGU1MjRjMDEzNWM3Y2RiMGViMjRhYWZiZjE0ZGIxOWYxNzYwZjE5M2IyNzA3N2M5Nzg0NjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjljMGY5NWYyOWMyNjI5OTYwODlkZmI4MDI2OTI3NjY3MWY1OWZiMjQwNmYyNjFlMjY1MTk5NjBlNTZhYzI3N2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYxNWE0YjNlMTM3YTVhOWRiMGRkMDVhZGY4ODcyMTcyMGJmODMyNjA2Yzg2MDI0MDc4ZDk5YmZiYWEyMjE5ODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNhYmIxYzRkMmMyZmJmM2YzNDlhNjc3M2JiMGFjMDQ4MzFmZTQwNjRlZTcyNzJhMzk4Njg1OGZhYzIyNTA2MGUifQ"
         },
         {
           "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/resources/config.yaml",
@@ -88,11 +88,11 @@
     },
     {
       "id": "claim_67eaf7b327b3435395a32c262fa38d1e",
-      "statement": "AdGuard DNS integration syncs internal service DNS records to AdGuard Home instance at http://192.168.50.1:3000 using a webhook provider (ghcr.io/muhlba91/external-dns-provider-adguard:v11.1.1). It watches gateway-httproute and gateway-tlsroute sources, targeting the internal gateway, with credentials stored in adguard-dns-secret.",
+      "statement": "AdGuard DNS integration is an external-dns instance deployed from the OCI chart oci://ghcr.io/home-operations/charts-mirror/external-dns (tag 1.21.1) that syncs internal service DNS records to an AdGuard Home instance at http://192.168.50.1:3000 using a webhook provider (ghcr.io/muhlba91/external-dns-provider-adguard:v11.1.3, digest-pinned). It watches gateway-httproute and gateway-tlsroute sources, runs with policy sync, txtPrefix k8s., and targets the internal gateway via --gateway-name=internal, with credentials in adguard-dns-secret (reloaded on change via reloader annotation).",
       "evidence": [
         {
           "resource": "repo://kubernetes/apps/network/adguard-dns/app/helmrelease.yaml",
-          "version": "repo-file-v1:sha256:da0652fb5fb065c5a7614e43e1d6102f8cfbaeebc2d28e364b10ae81535b41e4"
+          "version": "repo-file-v1:sha256:912b81d622d6d53e9d15b7fe61d114e0dc20265b70d6f8e7c2ff330db7e531c2"
         }
       ]
     },
@@ -158,7 +158,7 @@
         },
         {
           "resource": "repo://kubernetes/apps/network/adguard-dns/app/helmrelease.yaml",
-          "version": "repo-file-v1:sha256:da0652fb5fb065c5a7614e43e1d6102f8cfbaeebc2d28e364b10ae81535b41e4"
+          "version": "repo-file-v1:sha256:912b81d622d6d53e9d15b7fe61d114e0dc20265b70d6f8e7c2ff330db7e531c2"
         },
         {
           "resource": "repo://kubernetes/apps/network/k8s-gateway/app/helmrelease.yaml",
@@ -198,11 +198,11 @@
     },
     {
       "id": "claim_63473dc18d484e529e7066ded79b6d1e",
-      "statement": "Cilium is deployed by Flux as a HelmRelease from https://helm.cilium.io using chart version 1.20.0, with install retries -1, upgrade cleanupOnFail with 3 retries, and values supplied from the `cilium-values` ConfigMap.",
+      "statement": "Cilium is deployed by Flux as a HelmRelease from https://helm.cilium.io using chart version 1.20.1, with install retries -1, upgrade cleanupOnFail with 3 retries, and values supplied from the `cilium-values` ConfigMap.",
       "evidence": [
         {
           "resource": "repo://kubernetes/apps/kube-system/cilium/app/helmrelease.yaml#L14-L36",
-          "version": "repo-lines-v1:sha256:901286a923a17558897a94d730bf6cbd5c68af01e04d94a1803f4007f1619dc0:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAwNTI1NDE5MDhhZDkzM2M4ZWZkZDNiMWVhNzk0OGU4MDlhNmZhZTBjNWE4Y2Y1Nzg3YjhlYzNlNWZiNjY3YTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg4YzM5NDc3ZGIwNDQ1YTcyOWE2YThhOWExMzA4ZjFjODUyMjdlMzAyNmM3ZDI5YTAyMzc1NDAxMjdkZWQ5MjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY0NjY3MzQ4YmRkMGExMDAyYjhiYzAzMWU3ZTBjZTE5ZDllMTQ1YjdiMjJhMGNlODViNzllMzBiZDJmMjhmOTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "version": "repo-lines-v1:sha256:8a01878df03b5d81570ce25d87c0758e0ff3a01d63ab5a46d68c1b7b1eef9b00:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAwNTI1NDE5MDhhZDkzM2M4ZWZkZDNiMWVhNzk0OGU4MDlhNmZhZTBjNWE4Y2Y1Nzg3YjhlYzNlNWZiNjY3YTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg4YzM5NDc3ZGIwNDQ1YTcyOWE2YThhOWExMzA4ZjFjODUyMjdlMzAyNmM3ZDI5YTAyMzc1NDAxMjdkZWQ5MjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY0NjY3MzQ4YmRkMGExMDAyYjhiYzAzMWU3ZTBjZTE5ZDllMTQ1YjdiMjJhMGNlODViNzllMzBiZDJmMjhmOTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -272,7 +272,7 @@
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.0",
-    "at": "2026-09-08T21:57:36.335Z"
+    "by": "openwiki/0.5.1",
+    "at": "2026-09-12T21:32:37.847Z"
   }
 }

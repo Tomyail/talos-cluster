@@ -30,10 +30,10 @@ sources:
     resource: repo://talos/talenv.yaml
   - id: openwiki-source-b9ff7ee0aa4953cc601052a4
     resource: repo://Taskfile.yaml
-generated: { by: "openwiki/0.5.0", at: "2026-09-08T21:57:36.335Z" }
+generated: { by: "openwiki/0.5.1", at: "2026-09-12T21:32:37.847Z" }
 verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-08T21:57:36.335Z
+  - by: openwiki/0.5.1
+    at: 2026-09-12T21:32:37.847Z
 ---
 
 # Quick Start Guide
@@ -103,7 +103,7 @@ mise trust
 mise install
 ```
 
-This installs and configures the required tools: `task`, `talhelper`, `talosctl`, `kubectl`, `flux`, `helmfile`, `sops`, `age`, `yq`, `kubeconform`, `cilium-cli`, `cloudflared`, `cue`, `helm`, `jq`, `kustomize`, `gh`, `python`, `makejinja`, `node`, and `pipx`. Tool versions are pinned in `.mise.toml`; Renovate keeps them updated.
+This installs and configures the required tools: `task`, `talhelper`, `talosctl`, `kubectl`, `flux`, `helmfile`, `sops`, `age`, `yq`, `kubeconform`, `cilium-cli`, `cloudflared`, `cue`, `helm`, `jq`, `kustomize`, `gh`, `python`, `makejinja`, `node`, and `pipx`. Versions are pinned in `.mise.toml` (e.g. talhelper 3.1.17, talos 1.13.9, kubectl 1.33.1, flux2 2.9.5, python 3.14.7); Renovate keeps them updated.
 
 ### Environment Variables
 
@@ -162,19 +162,17 @@ task bootstrap:apps           # Bootstrap apps (namespaces, secrets, CRDs, Helm 
 task volsync:snapshot APP=<name> NS=<ns>  # Trigger VolSync backup
 ```
 
-See [**Cluster & OS Upgrade Workflow**](./workflows/upgrade.md) for upgrade ordering and the automated tuppr upgrade controller.
-
 ### Initial Cluster Bootstrap
 
 For new cluster installations, the bootstrap process is split into two phases:
 
 1. **Prepare Talos configuration**: Edit `talos/talconfig.yaml` and `talos/talenv.yaml`
 2. **Bootstrap Talos**: `task bootstrap:talos` (applies machine configs, bootstraps cluster, exports kubeconfig)
-3. **Bootstrap base apps**: `task bootstrap:apps` (installs Cilium, CoreDNS, cert-manager, Flux)
+3. **Bootstrap base apps**: `task bootstrap:apps` (creates namespaces, applies SOPS secrets and CRDs, then helmfile-installs Cilium, CoreDNS, cert-manager, flux-operator, and flux-instance)
 
 After bootstrap, Flux takes over and manages all applications under `kubernetes/apps/`.
 
-See [**Bootstrap Workflow**](./workflows/bootstrap.md) for detailed prerequisites, step-by-step instructions, and verification procedures.
+See [**Bootstrap Workflow**](./workflows/bootstrap.md) for detailed prerequisites, step-by-step instructions, and verification procedures, and [**Bootstrap Flow**](./architecture/bootstrap-flow.md) for the control flow in depth.
 
 ## Repository Structure
 
@@ -217,22 +215,23 @@ See [**Architecture Overview**](./architecture/overview.md) for details on names
 
 ## Documentation Map
 
-The wiki is organized into six domains. Start here, then follow the links for depth:
+The wiki is organized into five domains. Start here, then follow the links for depth:
 
 | Domain | Page | What it covers |
 | --- | --- | --- |
 | **Architecture** | [Overview](./architecture/overview.md) | Cluster layers, namespace organization, and the Flux reconciliation hierarchy |
 | **Architecture** | [Bootstrap Flow](./architecture/bootstrap-flow.md) | Control flow from bare Talos install to fully reconciled Flux cluster |
+| **Architecture** | [Namespace & Repo Structure](./architecture/namespace-structure.md) | How `kubernetes/` is organized and the shared app-template component |
 | **Concepts** | [Flux Architecture](./concepts/flux-architecture.md) | GitRepository source, Kustomization tree, dependency chain, drift behavior |
 | **Concepts** | [Secrets Management](./concepts/secrets-management.md) | SOPS+age in Git, External Secrets + Bitwarden at runtime |
-| **Concepts** | [Networking](./concepts/networking.md), [Storage](./concepts/storage.md), [Observability](./concepts/observability.md), [Cluster & Talos Architecture](./concepts/cluster-architecture.md), [Talos Config](./concepts/talos-config.md) | Domain deep dives |
+| **Concepts** | [Networking](./concepts/networking.md) | Cilium CNI, Gateway API/ingress, AdGuard DNS, Cloudflare Tunnel path |
+| **Concepts** | [Storage](./concepts/storage.md) | local-path-provisioner, StorageClass defaults, LVM formatting |
+| **Concepts** | [Observability](./concepts/observability.md) | kube-prometheus-stack, Gatus health checks, Loki logs |
+| **Concepts** | [Cluster Architecture](./concepts/cluster-architecture.md) | Concrete component inventory of the running cluster |
 | **Workflows** | [Bootstrap](./workflows/bootstrap.md) | Full cluster initialization from bare metal to GitOps-managed state |
 | **Workflows** | [App Deployment](./workflows/app-deployment.md) | Standard app layout and Flux reconciliation path: `ks.yaml` → `helmrelease.yaml` → secrets, storage, routing, monitoring |
-| **Workflows** | [Cluster & OS Upgrade](./workflows/upgrade.md) | Manual Talos/Kubernetes upgrade tasks plus the tuppr automated upgrade controller |
-| **Operations** | [Daily Operations](./operations/daily-operations.md) | Routine tasks: Flux reconciliation, log viewing, debugging, and maintenance |
+| **Integrations** | [Renovate & Tooling](./integrations/renovate.md), [Cloudflare](./integrations/cloudflare.md), [External Secrets](./integrations/external-secrets.md), [Bitwarden](./integrations/bitwarden.md) | External system integrations |
 | **Operations** | [Troubleshooting](./operations/troubleshooting.md) | Symptom-driven playbook for stuck Kustomizations, HelmReleases, secrets, storage |
-| **Integrations** | [Renovate](./integrations/renovate.md), [CI/CD](./integrations/ci-cd.md), [Tailscale](./integrations/tailscale.md), [Cloudflare](./integrations/cloudflare.md), [External Secrets](./integrations/external-secrets.md), [Bitwarden](./integrations/bitwarden.md), [Image Automation](./integrations/image-automation.md), [Hardware & Node Support](./integrations/hardware-support.md) | External system integrations |
-| **Testing** | [Validation & Testing](./testing/validation.md) | kustomize builds, flux-local CI checks, dry-run reconciliation, post-deploy verification |
 
 ## Key Architectural Patterns
 
@@ -247,7 +246,7 @@ Flux watches the Git repository and reconciles the cluster in two root Kustomiza
 
 Each namespace under `kubernetes/apps/` has its own Kustomization that Flux reconciles with SOPS decryption enabled (the `sops-age` secret in `flux-system`).
 
-See [**Flux GitOps Architecture**](./concepts/flux-architecture.md) for the complete reconciliation hierarchy and dependency ordering.
+See [**Flux Architecture**](./concepts/flux-architecture.md) for the complete reconciliation hierarchy and dependency ordering.
 
 ### Application Pattern
 
@@ -263,6 +262,8 @@ Most applications use the shared `app-template` OCI chart (`ghcr.io/bjw-s-labs/h
 ```
 
 Common components like VolSync (backup), Gatus (uptime monitoring), and image automation are integrated through reusable components in `kubernetes/components/` (e.g. `components/volsync-new`, `components/gatus/external`), referenced via the `components:` field in each app's `ks.yaml`.
+
+See [**Namespace & Repo Structure**](./architecture/namespace-structure.md) and [**App Deployment Workflow**](./workflows/app-deployment.md) for details.
 
 ### Secret Management
 
@@ -280,7 +281,7 @@ Two-layer encryption approach:
 
 Flux decrypts SOPS secrets using the `sops-age` Secret in `flux-system`. The local `age.key` file is required for editing secrets but never committed.
 
-See [**App Deployment Workflow**](./workflows/app-deployment.md) for how secrets are wired into applications, and [**Secrets Management**](./concepts/secrets-management.md) for the full model.
+See [**Secrets Management**](./concepts/secrets-management.md) for the full model, plus [**External Secrets**](./integrations/external-secrets.md) and [**Bitwarden**](./integrations/bitwarden.md) for the runtime pipeline.
 
 ### Dependency Automation
 
@@ -294,7 +295,7 @@ Renovate handles automated dependency updates:
 **Schedule**: Runs on weekends only
 **Auto-merge**: Patch updates and minor mise/GitHub Actions updates
 
-See [**Renovate Dependency Automation**](./integrations/renovate.md) for configuration details and custom datasource tracking.
+See [**Renovate & Tooling**](./integrations/renovate.md) for configuration details and custom datasource tracking.
 
 ## Project Origins
 
@@ -312,4 +313,4 @@ The cluster exposes status metrics at [kromgo.tomyail.com](https://kromgo.tomyai
 - CPU/memory usage
 - Network traffic
 
-A status page is available at [status-dev.tomyail.com](https://status-dev.tomyail.com).
+A status page is available at [status-dev.tomyail.com](https://status-dev.tomyail.com). If something breaks during bootstrap or reconciliation, see [**Troubleshooting**](./operations/troubleshooting.md).

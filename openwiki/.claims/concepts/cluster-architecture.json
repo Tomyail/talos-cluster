@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:ddab77300748ddd302d6bb481cf24ade80e0b89285b097960467cce0ae37ec83",
+  "pageVersion": "sha256:ff94c097f3859f12463b38ae509353c2704f37f29d1334740e7bc89aecc440d6",
   "claims": [
     {
       "id": "claim_2f8b2d0f8ee7497eb3ab28202bcff633",
@@ -66,11 +66,15 @@
     },
     {
       "id": "claim_bf0db5737391429b835b542e94b57dc0",
-      "statement": "Cloudflare Tunnel (cloudflared) provides secure inbound access to cluster services without opening ports, using HTTP/2 protocol with metrics on port 8080 and running as a non-root pod with dropped capabilities.",
+      "statement": "Cloudflare Tunnel (cloudflared, image 2026.9.1) provides secure inbound access to cluster services without opening ports, using HTTP/2 transport protocol with metrics on 0.0.0.0:8080 (also used for /ready probes) and running as a non-root pod (65534) with read-only filesystem and dropped capabilities; tunnel credentials come from cloudflare-tunnel-secret and ingress config is mounted from cloudflare-tunnel-configmap.",
       "evidence": [
         {
-          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/helmrelease.yaml#L19-L62",
-          "version": "repo-lines-v1:sha256:a2a90684f2cfcc8860dcaca3217bdbf78f39a15af21af5d48d1f8c58c70f60a8:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2ZjFjNzJiNTlhZGU1MjRjMDEzNWM3Y2RiMGViMjRhYWZiZjE0ZGIxOWYxNzYwZjE5M2IyNzA3N2M5Nzg0NjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjczZWZjYTYzM2Y1NTMwZWU4ZTcwZTkwZmM4MGJkNzQ1MmI5ZjE0Y2ExMmZmYWRhMWU3NDkyNjJhNWVhY2EyMWIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYxNWE0YjNlMTM3YTVhOWRiMGRkMDVhZGY4ODcyMTcyMGJmODMyNjA2Yzg2MDI0MDc4ZDk5YmZiYWEyMjE5ODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk1ZjIxY2FkM2ZlZGQ0ZDkyODVjMzExYjJkYTgyZDllYWY3MTUwM2RjMjZmNTc0NmM5YmM4YWY0NzlmOTc4NzMifQ"
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/helmrelease.yaml#L19-L61",
+          "version": "repo-lines-v1:sha256:c123c03bebe916efb80c4758e386e1f1e61ed4c53ec0f7d3c25520647a119a8c:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2ZjFjNzJiNTlhZGU1MjRjMDEzNWM3Y2RiMGViMjRhYWZiZjE0ZGIxOWYxNzYwZjE5M2IyNzA3N2M5Nzg0NjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI3YWIzZjdhNjAwMjM1ZGVmOTMzMzEzZmQyZmIwMWMxZjc4MzE4MTc2OTBmMjg3ZWRhZjI2ODAzZDQyNDY5ZDYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYxNWE0YjNlMTM3YTVhOWRiMGRkMDVhZGY4ODcyMTcyMGJmODMyNjA2Yzg2MDI0MDc4ZDk5YmZiYWEyMjE5ODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVmZTkxM2Q3OTYwMGJmNGYzYWQ0ODg0MTFiMzczMmU3MmY5MjM5ZDU2ZDhkMGZlMjcxNGVmOTNhMWQzN2FhY2UifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/helmrelease.yaml#L76-L83",
+          "version": "repo-lines-v1:sha256:5286938c9e5de2b6b0d209b505c9012960a5de801c805be3b6e3c982379c16ce:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMmJlN2M2YWY3MzBjY2YxYmNjMjgzZjFiZDAyMWZjNTNjMTdjZDM2NTM0NjYyZTRmODVjZTc5NDRiZDc1MTViOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTc3ZGFhY2E1MGQ5NWM5ODhmMDg4NWE2YWYzZmZkZjMzNWVmNDY1MTFkMDg4YWY1NDM5MDQ0YjhjNjBjMmQ5MyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWYzZDZlOTZjMGNiNTJlZmM0ZTQ4N2RlYmU3ZDM1NDI0MzA4NTRjZmI4MzdmYWJiMzBmMTk0YzVkMjZmNDdkNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
         }
       ]
     },
@@ -96,11 +100,11 @@
     },
     {
       "id": "claim_65a512d42f544d84a1f2a2fd2385c74a",
-      "statement": "AdGuard DNS integration uses a webhook provider to connect to AdGuard Home at 192.168.50.1:3000 for external DNS management with credentials stored in adguard-dns-secret.",
+      "statement": "AdGuard DNS deploys external-dns (chart 1.21.1) with the muhlba91/external-dns-provider-adguard webhook provider (v11.1.3) connecting to AdGuard Home at http://192.168.50.1:3000 for external DNS management; ADGUARD_USER/ADGUARD_PASSWORD come from adguard-dns-secret, sources are gateway-httproute/gateway-tlsroute, with sync policy, txtPrefix k8s., and a ServiceMonitor for metrics.",
       "evidence": [
         {
-          "resource": "repo://kubernetes/apps/network/adguard-dns/app/helmrelease.yaml#L34-L50",
-          "version": "repo-lines-v1:sha256:1c7da646307dc84230011b8d41c6b310499def1871a8b97115bef9e14bd3e807:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImExZWEyZmZhZmZmNDk2NGVhMjM5MTkxZTMwOGIwZGRhMTVjNmQ3MTUwZDQwNzU3OGZjOTM5NDVjNTI2NWViODkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhkMjI4YTdkNjJlZDA1ZmY2YzZlMjBkYTNmMjkyM2Y0MmNhNzg2N2YyZWUzYmFjYWYxNGI5YmJjYWFiZmE3YmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYyNWFlMmVlMjgxZTBlZmE4NzgxZTIwNjlhNjM4NWIyMjhlMDVmMTBlN2RhMGFiZWRiNTczN2Q0ZTAwOTM1ODYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE0NWZjZGUyMDdhNDE2ZWZkNjVlNzNjODE2Yzg2YWU5MDk2YmQ4OWNjMTJlNjNiMTZlYTFiNmVjN2U5NzU3MzIifQ"
+          "resource": "repo://kubernetes/apps/network/adguard-dns/app/helmrelease.yaml#L33-L68",
+          "version": "repo-lines-v1:sha256:01e0c80a38b475f1c79c8948ddab5f3c32050c866ad8be0e86af7d67d4291611:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2ZjFjNzJiNTlhZGU1MjRjMDEzNWM3Y2RiMGViMjRhYWZiZjE0ZGIxOWYxNzYwZjE5M2IyNzA3N2M5Nzg0NjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhjNmYyNzhiMDI1MjM1YzM3ZWJhN2Q1YThiM2JiYzFjOThlNGU3Mzk2NjczMmRjYzk3NmU4OTMyN2Q2NWRiZTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYxNWE0YjNlMTM3YTVhOWRiMGRkMDVhZGY4ODcyMTcyMGJmODMyNjA2Yzg2MDI0MDc4ZDk5YmZiYWEyMjE5ODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk0YTk0YmM4NDYzZWJlMjMwNzAxZGRmMTE1NzliNmQ3NWQ0MjI4MzcwM2FkZTY2MGRjNThmMDgyZjkzOTAxOTgifQ"
         }
       ]
     },
@@ -136,11 +140,11 @@
     },
     {
       "id": "claim_2200519bac71446a9eb313b323765506",
-      "statement": "Local path provisioner (v0.0.37) provides simple local storage from /var/mnt/local-path-provisioner for non-listed nodes.",
+      "statement": "Local path provisioner (chart 0.0.38) provides simple local storage from /var/mnt/local-path-provisioner as the DEFAULT_PATH_FOR_NON_LISTED_NODES, with CRDs managed via CreateReplace.",
       "evidence": [
         {
-          "resource": "repo://kubernetes/apps/storage/local-path-provisioner/app/helmrelease.yaml#L1-L27",
-          "version": "repo-lines-v1:sha256:66a15ebef60a9bb9669cfec227bf49996845dd86d0b65bb84782f1f67f77d9a4:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3MDhhNGU1NWM5ODUzODY2NGU5MzNjNjI5MTA5ZjQ4NGE0Njg1ZGUzNDc5NjhjZGY0MzVmODQ5NDhiNTQ1NTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://kubernetes/apps/storage/local-path-provisioner/app/helmrelease.yaml#L1-L26",
+          "version": "repo-lines-v1:sha256:3e4f00c2685df4064da1efb74ec4432b7d5e949403e463e05dd2cf4056a48034:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3MDhhNGU1NWM5ODUzODY2NGU5MzNjNjI5MTA5ZjQ4NGE0Njg1ZGUzNDc5NjhjZGY0MzVmODQ5NDhiNTQ1NTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE3ZWZkNjlmOWVmZmMzMzI5MGMwNjRkZGJmM2U5MjlmNTgxMzBlMGQ0OTFlN2ZiNzMxOGQzMGNmNDExODhjZWEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIifQ"
         }
       ]
     },
@@ -166,11 +170,15 @@
     },
     {
       "id": "claim_40c34b6b89fd40dc8ca2f108b6bb9334",
-      "statement": "kube-prometheus-stack (v88.1.3) provides metrics collection with Thanos sidecar integration, high cardinality label dropping, and stores metrics on TopoLVM-provisioned PVs.",
+      "statement": "kube-prometheus-stack (v88.6.5) provides metrics collection with chart CRD install skipped (Prometheus Operator CRDs managed by Flux), Thanos sidecar integration using objstore config from thanos-secret, remote-write receiver and admin API enabled, high-cardinality label dropping in kubelet/API-server ServiceMonitors, inline Docker Hub rate-limit and OOM alert rules, and Prometheus (10Gi, 6d/10GB retention) and Alertmanager (1Gi) stored on TopoLVM-provisioned PVs.",
       "evidence": [
         {
-          "resource": "repo://kubernetes/apps/observability/kube-prometheus-stack/app/helmrelease.yaml#L1-L100",
-          "version": "repo-lines-v1:sha256:af3fcdbfc5e8d4cb47c522b10be4b5f768e698202d751e4e06987f5ddc6c0d5c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAwLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI0NjkxNDNmOTU2ZTA1OTliODFhYjU5OWRjMWVkYWM0NDY4NzU3NzhmYWQ1NzgxZmJiMjg0MTc2ODVkN2M5YzA1IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIzNGJlNDc1Y2Q0YTE4NDMyNzg4MjZlNTRkZGJkYjc2ODYwZDRkZjI1MGQ1NzU2MDM3MGVlMmE2N2YxZmQxYjU0IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI4ZTc1NmEzMzBmNzgxZjQ1NjJjNjZhNDMxZWYyM2I2YzY2MWM0YzI3YTA4Mzg2OWE3MGQxMzM3YmNiZmU0YTI3In0"
+          "resource": "repo://kubernetes/apps/observability/kube-prometheus-stack/app/helmrelease.yaml#L1-L142",
+          "version": "repo-lines-v1:sha256:ccf7789dc806e29f31289da998d5b0f6019deaa546e3fb13739b51d2744f122d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQyLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI0NjkxNDNmOTU2ZTA1OTliODFhYjU5OWRjMWVkYWM0NDY4NzU3NzhmYWQ1NzgxZmJiMjg0MTc2ODVkN2M5YzA1IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI3MDg1NjcyNTI3M2U3ZTA2NmVmZTNlOGMzMjdmYzAwYzExYjY4ZDIzMDRkNzliODkxODBjN2MyZWQxMjAwY2UyIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI5NDBlNGZiYjY5NTg0ODczMjY1MmFiZDM3ZWJhOGYzM2Q2MjU4ODI1NmVmMzg2YzlmOGMyNTI5ZWRhNmUxNjk3In0"
+        },
+        {
+          "resource": "repo://kubernetes/apps/observability/kube-prometheus-stack/app/helmrelease.yaml#L178-L198",
+          "version": "repo-lines-v1:sha256:369ef6917fb9b8c689898f07ca64e7122f443fa91cc3ba9a3da02a85014c1398:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3ZTk0ZGNhZmFiMzY0MGE5NjVkMjM0YjZjYzQxMDM4MmE3MjE4YWM1ZWVlOGYwN2YwMzM3YzQ5OGU1MjE5ZjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA1NjAwMTliZTMxNGJjYjJlMzAyNDMxOGY4YTRlNjBiM2YyZTUyMDc1ZDE0M2ZlNjRiZjQ1MmMxOGM3MGVhMmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAzNGM2MWU4MzJjOGZkYTRiM2VhNDE3MjEyNGRjNTY3ZmVjOGFkODVkODdkNzk4ZWRkNTZlNTQzZmU0NTRlN2EiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -186,11 +194,11 @@
     },
     {
       "id": "claim_edc52793dcbf4206b8f90024d652d59f",
-      "statement": "Loki (v7.2.0) provides log aggregation in SingleBinary mode with filesystem storage, Snappy chunk encoding, 4Gi memory limit, and no authentication.",
+      "statement": "Loki (chart 7.3.0) provides log aggregation in SingleBinary mode (all other components scaled to 0) with filesystem TSDB storage (schema v13) on an 8Gi topolvm-thin-provisioner PVC, snappy chunk encoding, 7d retention, replication factor 1, auth disabled, 4Gi memory limit, and caches/canary/tests disabled.",
       "evidence": [
         {
-          "resource": "repo://kubernetes/apps/observability/loki/app/helmrelease.yaml#L1-L50",
-          "version": "repo-lines-v1:sha256:f495bd1c9a5acf40bce0ea4b2c5ca1fc2df4e2d735df5f6cd075636e5d310b16:eyJzZWxlY3RlZExpbmVDb3VudCI6NTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkZDYwMDY4ZWE0ZWJkNDk3MGRkZjhmNThiYTc1YTU2NzI0NzNlMjliMjFhODkyMGE4MTJmY2M1ODMyNzgxMTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVkOWUxMGRiYzY2OGEzZmQ1OTg2MDNjODFkMjFkYjcyMmMyZjgwZDcwMjQ1OTAzZWQ2ZDgzY2YwZWZjNTJhYTgifQ"
+          "resource": "repo://kubernetes/apps/observability/loki/app/helmrelease.yaml#L7-L76",
+          "version": "repo-lines-v1:sha256:c08eb8b07eb94d86c5df456145612d6b3c44ae011ba13bdd5b8fcb6a716b8228:eyJzZWxlY3RlZExpbmVDb3VudCI6NzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVlOTFlNTFjZTUzOGVmMTIwZWUyMGNiZGY5NDE1OGJhY2UxY2MxMTc5MDZmODY0ZmVkMmQ5NGUzNzExMGNiMjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMxOTc0NzhmZTljZWZkMmE4YmIxNjMzNDlmYmRlMGM1NjliZTM5NjFkNzNkN2Q5YzIwYTU4ZjEwZGQ1N2FjMGMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImExN2VhM2M4NzYxOTY3ODEzOGM5ZTFiZDVlNmIxOWRmNmQwMzk1NmFlZDUwMzNhOTFlYTI4NTM3MzY0ZmYxZDQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk4MjUzMWNiMWJhZTRmNWNiYThiODQ3MjU5NWNlNjY4ZDRkZTAzMDZkMTNmN2M0MDU1ZTkwMTkwNzFhNDc5MmYifQ"
         }
       ]
     },
@@ -206,11 +214,11 @@
     },
     {
       "id": "claim_247466410a7b4b689145e88aa9a266a0",
-      "statement": "Gatus (v5.36.0) provides endpoint health monitoring with configuration auto-discovered from resources labeled gatus.io/enabled via a k8s-sidecar init container.",
+      "statement": "Gatus (v5.36.0, digest-pinned) provides endpoint health monitoring with configuration auto-discovered from ConfigMaps/Secrets labeled gatus.io/enabled across all namespaces via a k8s-sidecar 2.11.2 init container in WATCH mode; it runs non-root with read-only filesystem, dropped capabilities plus NET_RAW, and auto-reloads on config changes via the reloader annotation.",
       "evidence": [
         {
-          "resource": "repo://kubernetes/apps/observability/gatus/app/helmrelease.yaml#L19-L50",
-          "version": "repo-lines-v1:sha256:ce94bd8d909979999b7c903477c2a07b9359cafd2e008e3cfbf32cd5f960a6f0:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2ZjFjNzJiNTlhZGU1MjRjMDEzNWM3Y2RiMGViMjRhYWZiZjE0ZGIxOWYxNzYwZjE5M2IyNzA3N2M5Nzg0NjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4Zjc0YWI0MzZiZWY1M2RhOWJjZjM3M2VlMmExYzA0ZTM1OWQ5NTUyZGMyZTA0NjMxYjFmNGUzNWQ2ZDg1NjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYxNWE0YjNlMTM3YTVhOWRiMGRkMDVhZGY4ODcyMTcyMGJmODMyNjA2Yzg2MDI0MDc4ZDk5YmZiYWEyMjE5ODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA5ZjkwNDY1MjYxYjBiMTIxOTllZjZiMWEwNWI1YzcxMGQ3Nzc4ZGFlYWJlY2YyNTdlMzI2YjI5ZGQ4YzVmZTcifQ"
+          "resource": "repo://kubernetes/apps/observability/gatus/app/helmrelease.yaml#L19-L77",
+          "version": "repo-lines-v1:sha256:2e3bc9b70ddface333d89eb2cd7213d5dc5d744a88645871fb2d7c98ff59a268:eyJzZWxlY3RlZExpbmVDb3VudCI6NTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2ZjFjNzJiNTlhZGU1MjRjMDEzNWM3Y2RiMGViMjRhYWZiZjE0ZGIxOWYxNzYwZjE5M2IyNzA3N2M5Nzg0NjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI3YWIzZjdhNjAwMjM1ZGVmOTMzMzEzZmQyZmIwMWMxZjc4MzE4MTc2OTBmMjg3ZWRhZjI2ODAzZDQyNDY5ZDYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYxNWE0YjNlMTM3YTVhOWRiMGRkMDVhZGY4ODcyMTcyMGJmODMyNjA2Yzg2MDI0MDc4ZDk5YmZiYWEyMjE5ODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA0MDc2YzRkODgwMjY3NDhmNjQ5ZTVlOTM1MTNmZDYzZDIxNzY1NTYyYmViYzEzZGQ2ODQzOGZlMzhjNDZkYmYifQ"
         }
       ]
     },
@@ -240,11 +248,11 @@
     },
     {
       "id": "claim_84a32b9ccabe4729a4602ad2a8cb9b43",
-      "statement": "Flux (v0.57.0) provides GitOps-based cluster management with SOPS decryption via sops-age secret and manages applications under kubernetes/apps/ via namespaced Kustomizations.",
+      "statement": "Flux is bootstrapped via helmfile as flux-operator and flux-instance charts (both v0.60.0, chained with needs) and then manages the cluster via namespaced Kustomizations: cluster-apps reconciles ./kubernetes/apps and, like cluster-meta, decrypts SOPS resources using the sops-age secret.",
       "evidence": [
         {
           "resource": "repo://bootstrap/helmfile.yaml#L38-L52",
-          "version": "repo-lines-v1:sha256:c0a486b47a4c714d2df38fb30774ca923edd8c73808270d53dd244516d9747bc:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQwZjY0ZjhiYTFjMDRlOGRlMGFmYjJlMWJkZDc3MjY1OWIzYTFkODY1NDQzYmI5N2RiMDVhMmI0ZDJhMjEyNDgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4NDQxMDY3MGJjNTUxNjEyNDRkZTdlZTRjMDM5YTEzMDUzYzZiN2M5ZTRkZTZiMzY4YzE3MzYzZDcyMjVlY2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQzMzA2MTcyOGExNWE5MWNkODdhYTQ1ZTFmOTkyYTcwOTNjNDM0ODNhMDA3MzAzMjBlZmIzZWM3YzI3ZDBkOTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "version": "repo-lines-v1:sha256:b9d75fac832bba9a116eac500b0988e569b32ea71ef26ba4a473b74033841e77:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQwZjY0ZjhiYTFjMDRlOGRlMGFmYjJlMWJkZDc3MjY1OWIzYTFkODY1NDQzYmI5N2RiMDVhMmI0ZDJhMjEyNDgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4NDQxMDY3MGJjNTUxNjEyNDRkZTdlZTRjMDM5YTEzMDUzYzZiN2M5ZTRkZTZiMzY4YzE3MzYzZDcyMjVlY2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQzMzA2MTcyOGExNWE5MWNkODdhYTQ1ZTFmOTkyYTcwOTNjNDM0ODNhMDA3MzAzMjBlZmIzZWM3YzI3ZDBkOTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
           "resource": "repo://kubernetes/flux/cluster/ks.yaml#L67-L94",
@@ -258,7 +266,7 @@
     },
     {
       "id": "claim_8675a16ad3f243b98ac88fc826de76f0",
-      "statement": "The cluster bootstrap follows a three-phase process: Talos bootstrap (apply configs, bootstrap control plane, export kubeconfig), app bootstrap (create namespaces, apply SOPS secrets, install CRDs, deploy base charts via helmfile), and Flux sync (continuous reconciliation of kubernetes/apps/).",
+      "statement": "The cluster bootstrap follows a three-phase process: Talos bootstrap (apply configs, bootstrap control plane, export kubeconfig), app bootstrap via scripts/bootstrap-apps.sh (wait for nodes, create one namespace per kubernetes/apps directory, apply SOPS secrets into flux-system via sops exec-file, apply External DNS v0.22.0 and Gateway API v1.6.2 CRDs, then helmfile-sync bootstrap/helmfile.yaml: cilium → coredns → cert-manager → flux-operator → flux-instance with atomic installs and needs ordering), and Flux sync (continuous reconciliation of kubernetes/apps/).",
       "evidence": [
         {
           "resource": "repo://README.md#L107-L147",
@@ -266,11 +274,11 @@
         },
         {
           "resource": "repo://bootstrap/helmfile.yaml#L13-L52",
-          "version": "repo-lines-v1:sha256:d27f1185643f876cb795c1cb4e32f32052b3ee048b01a87ab46646e2808c793e:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkZTI0Nzc3YTlhNjAzZjFlZmY3ZTNjMmMzMTcxZTE2MjU5YjhhN2M5OTZkYTMxNDdhMjc5N2Y2ZjA3NTQ0MmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4NDQxMDY3MGJjNTUxNjEyNDRkZTdlZTRjMDM5YTEzMDUzYzZiN2M5ZTRkZTZiMzY4YzE3MzYzZDcyMjVlY2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZmNWY5NGUxMDY0NDU3ZjAwNWMzYzFmNzJkMzMzYTgxM2YwNzYzNTJjZjFiNzNiNTUzNWQ5NDFiNDFhNmQ1OTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "version": "repo-lines-v1:sha256:fb72506f6e1cb35e428431e231a771289e97f0bed6d09a0b582733a2685a6107:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkZTI0Nzc3YTlhNjAzZjFlZmY3ZTNjMmMzMTcxZTE2MjU5YjhhN2M5OTZkYTMxNDdhMjc5N2Y2ZjA3NTQ0MmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4NDQxMDY3MGJjNTUxNjEyNDRkZTdlZTRjMDM5YTEzMDUzYzZiN2M5ZTRkZTZiMzY4YzE3MzYzZDcyMjVlY2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZmNWY5NGUxMDY0NDU3ZjAwNWMzYzFmNzJkMzMzYTgxM2YwNzYzNTJjZjFiNzNiNTUzNWQ5NDFiNDFhNmQ1OTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
-          "resource": "repo://scripts/bootstrap-apps.sh#L9-L100",
-          "version": "repo-lines-v1:sha256:69ecad4cfb2b6748d261d3a723c605a4b7d683cf6c1c7e38d3c74f3e94f2433a:eyJzZWxlY3RlZExpbmVDb3VudCI6OTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNmNWFhMDViMjIxNDdhNGMzYmEwODE0NjU0MGRhNzBlYzM0ODUzMzM5NDAwNjQ4MTc2ZGEwYjBkODA4OTI5ZDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwODZkMmU1YzE4M2Q4ODIwZDhkODZmOWJkZWYyMjBiNDNjYzdkMDc3OWE0ZjFlNzJjZjcxZDM5ZWRhM2NiZDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc2ODc1MTBiNTA3MjhmNzczMDEzNDFkMzU1YmMyYmQ5OThhODE5ZjI4ZjE4MTYxOGNkMmQ2NmJlZWU0MGZjMjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQzNDk3ODcxYjQ5MDRjMDM0ODgxY2ZiZjZiYzQzMTllZDRiNGQ4NjQ4NDc4MTMzNDMxMTYwNjdiN2UzODI2NzMifQ"
+          "resource": "repo://scripts/bootstrap-apps.sh#L9-L151",
+          "version": "repo-lines-v1:sha256:d286d53dc91a61f548e5c94ce937770dbebb01785ae2f6e9189cff4c6f562f1e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQzLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIzZjVhYTA1YjIyMTQ3YTRjM2JhMDgxNDY1NDBkYTcwZWMzNDg1MzMzOTQwMDY0ODE3NmRhMGIwZDgwODkyOWQyIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI2ZDhjYjQwNWNhODZjZDc3NDRhNTc3N2IwNTVkMmVjOGI0ZmNjNmYyMWI3NjU4MTY1ODZjMGFkYTA2MTI3ZDRlIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI3Njg3NTEwYjUwNzI4Zjc3MzAxMzQxZDM1NWJjMmJkOTk4YTgxOWYyOGYxODE2MThjZDJkNjZiZWVlNDBmYzI1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         }
       ]
     },
@@ -538,7 +546,7 @@
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.0",
-    "at": "2026-09-08T21:57:36.335Z"
+    "by": "openwiki/0.5.1",
+    "at": "2026-09-12T21:32:37.847Z"
   }
 }

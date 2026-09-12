@@ -21,9 +21,9 @@ sources:
   - id: openwiki-source-b9ff7ee0aa4953cc601052a4
     resource: repo://Taskfile.yaml
 verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-08T21:57:36.335Z
-generated: { by: "openwiki/0.5.0", at: "2026-09-08T21:57:36.335Z" }
+  - by: openwiki/0.5.1
+    at: 2026-09-12T21:32:37.847Z
+generated: { by: "openwiki/0.5.1", at: "2026-09-12T21:32:37.847Z" }
 ---
 
 # Bootstrap Flow
@@ -225,7 +225,7 @@ flowchart TD
    - Values: `../kubernetes/apps/flux-system/flux-operator/app/helm/values.yaml`
 
 5. **flux-instance** (`bootstrap/helmfile.yaml#L46-L52`)
-   - Chart: `oci://ghcr.io/controlplaneio-fluxcd/charts/flux-instance` v0.57.0
+   - Chart: `oci://ghcr.io/controlplaneio-fluxcd/charts/flux-instance` v0.60.0
    - Namespace: `flux-system`
    - Depends on: `flux-system/flux-operator`
    - Values: `../kubernetes/apps/flux-system/flux-instance/app/helm/values.yaml`

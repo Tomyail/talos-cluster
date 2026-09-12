@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:5cbb931629a007a834b2abaf420ab0578ae3a34da073c0d6c338bff3968a74f4",
+  "pageVersion": "sha256:df828c2dbf30048cc49ee4cd4fefb8b86801f31a5c3cac55a39c19a2609e2a82",
   "claims": [
     {
       "id": "claim_5ae66d25e4cc42ec9bb35d381c27e614",
@@ -26,11 +26,11 @@
     },
     {
       "id": "claim_1e245f0b100f4a7d9d466feeb0ec1d00",
-      "statement": "prometheus-operator-crds installs version 31.0.0 of the Prometheus Operator CRDs (Prometheus, Alertmanager, ServiceMonitor, PrometheusRule, ScrapeConfig) via OCI chart from ghcr.io/prometheus-community/charts.",
+      "statement": "prometheus-operator-crds installs version 31.0.1 of the Prometheus Operator CRDs (Prometheus, Alertmanager, ServiceMonitor, PrometheusRule, ScrapeConfig) via OCI chart from ghcr.io/prometheus-community/charts.",
       "evidence": [
         {
           "resource": "repo://kubernetes/apps/observability/prometheus-operator/crds/helmrelease.yaml#L4-L14",
-          "version": "repo-lines-v1:sha256:eefb3e028406437ccad5e049bde9239147d0c97c0c6fda77ce6a17d0430ec263:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUxMGI4YjNhZDdmN2Q5MTRiMTA4MTE3NTdjZTBhMmU1ODQxYjcwNTI0MDg3YzA3Y2EwMWJjNmQ4MWY1ZWRjNmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZhZjEwYTlmMDRiYTc3MTM5MjI1YjQ5OGUxN2RkYzJlMTg0NzVhZTY1ZTQwYmM1NmUzNjU5NTE4YTFlYzRlNjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVlYjdlMWY1ODU3YzkxZGVjOTA0MjI2YzYxNDdjODZjMGNhNDU3NTQyZDM4MjJiODE4MGE0N2M5ZDc1MWI4NTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU2YmYzMTYzMzE1Y2EyZmM1ZTc3N2I2YWUyMzFmZGNiYjljZDIxOWI4M2VlNjYwODc5MmI2YjM5ZDkzOGExODQifQ"
+          "version": "repo-lines-v1:sha256:9da5e655841e47fe0092f779c5e83f365735c262b97bb2b9cd3c6dfd2fa28590:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUxMGI4YjNhZDdmN2Q5MTRiMTA4MTE3NTdjZTBhMmU1ODQxYjcwNTI0MDg3YzA3Y2EwMWJjNmQ4MWY1ZWRjNmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZhZjEwYTlmMDRiYTc3MTM5MjI1YjQ5OGUxN2RkYzJlMTg0NzVhZTY1ZTQwYmM1NmUzNjU5NTE4YTFlYzRlNjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVlYjdlMWY1ODU3YzkxZGVjOTA0MjI2YzYxNDdjODZjMGNhNDU3NTQyZDM4MjJiODE4MGE0N2M5ZDc1MWI4NTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU2YmYzMTYzMzE1Y2EyZmM1ZTc3N2I2YWUyMzFmZGNiYjljZDIxOWI4M2VlNjYwODc5MmI2YjM5ZDkzOGExODQifQ"
         }
       ]
     },
@@ -172,7 +172,7 @@
       "evidence": [
         {
           "resource": "repo://kubernetes/apps/observability/gatus/app/helmrelease.yaml#L24-L42",
-          "version": "repo-lines-v1:sha256:9da1bf5c40fd45aa48efb71797cefaa9b64ba68c3cfd175ee4ee529050280402:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM3MTZhMWViNzYwYTJlNjI0YjI1NDE5OWQ5YWFhOGU4NGZlNGIxYTU5OTdjZTZlMjU2YjkzNjk2NGU0NWUwMGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2YTQ5NmJjYTQzNjliZjUyODBhYWQwNTNlOTk5ODZlYjRlNGQ5ZWU4ZmY4ZGQyNGVkZTNmNGU3NWIyODM5NDAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjMyZWI3NjUzNzA1NzE4Y2VkOTdiMmE0MzhjZjk3NWFhMTYyMDEyYzhhNDk0ZjM2MTA1NDU5YTVlZTA5NTM0MDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY4OTI5Zjk5MDMzMzg5OGRjNzFmZTMyYjczYTA3YzA2YThhYzk1MWRhYWU4ZmE4ZjJiZGI0MjkwOGE4ZGQ0ZDgifQ"
+          "version": "repo-lines-v1:sha256:76d9954b9a3adfd7c4df2fd73aa5795446fed6f263940c805ca057a3136a88c2:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM3MTZhMWViNzYwYTJlNjI0YjI1NDE5OWQ5YWFhOGU4NGZlNGIxYTU5OTdjZTZlMjU2YjkzNjk2NGU0NWUwMGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2YTQ5NmJjYTQzNjliZjUyODBhYWQwNTNlOTk5ODZlYjRlNGQ5ZWU4ZmY4ZGQyNGVkZTNmNGU3NWIyODM5NDAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjMyZWI3NjUzNzA1NzE4Y2VkOTdiMmE0MzhjZjk3NWFhMTYyMDEyYzhhNDk0ZjM2MTA1NDU5YTVlZTA5NTM0MDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY4OTI5Zjk5MDMzMzg5OGRjNzFmZTMyYjczYTA3YzA2YThhYzk1MWRhYWU4ZmE4ZjJiZGI0MjkwOGE4ZGQ0ZDgifQ"
         }
       ]
     },
@@ -490,7 +490,7 @@
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.0",
-    "at": "2026-09-08T21:57:36.335Z"
+    "by": "openwiki/0.5.1",
+    "at": "2026-09-12T21:32:37.847Z"
   }
 }

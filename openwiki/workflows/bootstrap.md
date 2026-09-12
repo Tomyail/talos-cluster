@@ -20,10 +20,10 @@ sources:
     resource: repo://talos/talconfig.yaml
   - id: openwiki-source-b65e4f1ccd91316116ad973a
     resource: repo://talos/talenv.yaml
-generated: { by: "openwiki/0.5.0", at: "2026-09-08T21:57:36.335Z" }
+generated: { by: "openwiki/0.5.1", at: "2026-09-12T21:32:37.847Z" }
 verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-08T21:57:36.335Z
+  - by: openwiki/0.5.1
+    at: 2026-09-12T21:32:37.847Z
 ---
 
 # Cluster Bootstrap Workflow
@@ -220,8 +220,8 @@ Each secret:
 apply_crds
 ```
 Installs essential CRDs before applications (`scripts/bootstrap-apps.sh#L91-L105`):
-- **External DNS CRDs** (v0.21.0) - `dnsendpoints.externaldns.k8s.io`
-- **Gateway API CRDs** (v1.6.1) - Experimental Gateway API resources
+- **External DNS CRDs** (v0.22.0) - `dnsendpoints.externaldns.k8s.io`
+- **Gateway API CRDs** (v1.6.2, experimental) - Gateway API resources
 - Notes indicate these are also managed by Flux but duplicated here for bootstrap safety
 
 Each CRD:

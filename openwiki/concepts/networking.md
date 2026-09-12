@@ -3,9 +3,6 @@ type: architecture
 title: Networking Architecture
 description: Layered networking stack comprising Cilium CNI with L2 announcements and Gateway API, Cloudflare Tunnel for secure ingress, Cloudflare DNS and AdGuard DNS integration for external DNS management, k8s-gateway for internal DNS, and Tailscale for VPN and mesh networking.
 tags: [networking, cilium, cloudflare, dns, gateway, tailscale, vpn, ingress]
-verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-08T21:57:36.335Z
 sources:
   - id: openwiki-source-514428fb63f74f5cc6fe8c1d
     resource: repo://kubernetes/apps/default/qbittorrent/app/egress-gateway-policy.yaml
@@ -39,7 +36,10 @@ sources:
     resource: repo://kubernetes/apps/network/tailscale/app/egress-proxy.yaml
   - id: openwiki-source-d4d025f39bde91bcff75daaa
     resource: repo://kubernetes/apps/network/tailscale/app/helmrelease.yaml
-generated: { by: "openwiki/0.5.0", at: "2026-09-08T21:57:36.335Z" }
+generated: { by: "openwiki/0.5.1", at: "2026-09-12T21:32:37.847Z" }
+verified:
+  - by: openwiki/0.5.1
+    at: 2026-09-12T21:32:37.847Z
 ---
 
 # Networking Architecture
@@ -310,5 +310,7 @@ This integration enables secure, private connectivity to cluster resources from 
 - **Tunnel Configuration**: Cloudflare Tunnel credentials stored in `cloudflare-tunnel-secret`; rotation requires secret update
 - **Egress IP**: Ensure designated egress IPs (`192.168.50.10`) are not assigned to other services
 - **Multus Compatibility**: Cilium CNI exclusive mode disabled for potential Multus pairing
+ilium CNI exclusive mode disabled for potential Multus pairing
 gned to other services
 - **Multus Compatibility**: Cilium CNI exclusive mode disabled for potential Multus pairing
+**: Cilium CNI exclusive mode disabled for potential Multus pairing

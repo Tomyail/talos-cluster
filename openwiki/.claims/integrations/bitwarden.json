@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:e68bc2f11fbe0b66e2983057b7d91b348ea52116b097b2dbe4a247d3d2f34033",
+  "pageVersion": "sha256:aa20492428cfeaca6b153a47f6fd3d36f4cd513880b0c20befaf544d6a9331fa",
   "claims": [
     {
       "id": "claim_4ed6aaea226943409690b5b4ed7088c4",
@@ -136,11 +136,15 @@
     },
     {
       "id": "claim_467334e95fd7408287ebbfd2cad19e05",
-      "statement": "The External Secrets Operator is deployed via Helm in the external-secrets namespace using the external-secrets chart version 2.8.0 with installCRDs enabled and service monitors for the webhook and cert controller.",
+      "statement": "The External Secrets Operator is deployed via Helm in the external-secrets namespace (set by the parent Kustomization) using the external-secrets chart version 2.10.0 with installCRDs enabled, install/upgrade remediation with retries (rollback on failed upgrades), and 1m-interval service monitors for the operator, webhook, and cert controller; the bitwarden-sdk-server integration is present but commented out.",
       "evidence": [
         {
-          "resource": "repo://kubernetes/apps/external-secrets/external-secrets/app/helmrelease.yaml#L4-L36",
-          "version": "repo-lines-v1:sha256:3c966025e814ddd991820cbfd88c22e54740726e5b24fcbc2e0fa0b474b2e52e:eyJzZWxlY3RlZExpbmVDb3VudCI6MzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNhNmY0ZGRhM2VhZWMwMzBmNTUyODI4MWFlYjI1OGRmYzRiOTAyMDhlYjllNWRiZDkxZGJlY2EzMWRiZDFhNTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ0ZmM4OWExYjBkM2M4YmIyOGY2YmQzMWRhMTFiZWE2Njg1MmVjNTc3MDAyMDg0ZTkzNjNmMDBlYWVlZTRjYzYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRlNTEwZjRkZmQ4YTNlOWVlZTcxYjk3NWVlZjY3NTRlODk2N2YzOTQwZmI0YWU4MDU1NWI3MTg0YmYxOTE5YWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY5ZTJiMDkyMzRmMTMwNmFkY2U1NWZiMWFjNzI5MTJmMGE3MThkZjEwZTU1NjM3ZjU3NjQ5YWE2NTc2YTkyZWYifQ"
+          "resource": "repo://kubernetes/apps/external-secrets/external-secrets/app/helmrelease.yaml#L2-L38",
+          "version": "repo-lines-v1:sha256:d5e0a3f60298b80b243a13604a3435a45ee6886d4e6594ed803df5aa74bb5d7c:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3MDhhNGU1NWM5ODUzODY2NGU5MzNjNjI5MTA5ZjQ4NGE0Njg1ZGUzNDc5NjhjZGY0MzVmODQ5NDhiNTQ1NTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUwYjE2MjVmZTQ5MmZmMThjNGVmNDNiYWMyMjJhNTkxZDlkZjAxZDQ0NzdiOWNhZThiYWRkOTY1MjlkZDAyNGYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoxLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/external-secrets/kustomization.yaml#L5-L5",
+          "version": "repo-lines-v1:sha256:34921e888315e5e8a49b78d278ef983bf3fc80067a7c1cf3eef678e6cd584fce:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzQ5MjFlODg4MzE1ZTVlOGE0OWI3OGQyNzhlZjk4M2JmM2ZjODAwNjdhN2MxY2YzZWVmNjc4ZTZjZDU4NGZjZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzQ5MjFlODg4MzE1ZTVlOGE0OWI3OGQyNzhlZjk4M2JmM2ZjODAwNjdhN2MxY2YzZWVmNjc4ZTZjZDU4NGZjZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZmYzYTc2ZjY2OGZjNTU0MzVmNTFkMWQ3MmU2ODQ4N2Y5ZDk0ODdhMjE4YjZjNjRiNTFiNGFhOTJmYzY5ZWI0NiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZmE0NDFhYzkxMTFiYTRjN2FlNTFjMGRlYzNiN2Y0ZDQzMmJlZjI3OGU4YmZjZGZmYzBkYmZmZDgzNjEyMzg4MCJ9"
         }
       ]
     },
@@ -174,7 +178,7 @@
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.0",
-    "at": "2026-09-08T21:57:36.335Z"
+    "by": "openwiki/0.5.1",
+    "at": "2026-09-12T21:32:37.847Z"
   }
 }
