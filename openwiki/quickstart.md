@@ -30,10 +30,10 @@ sources:
     resource: repo://talos/talenv.yaml
   - id: openwiki-source-b9ff7ee0aa4953cc601052a4
     resource: repo://Taskfile.yaml
-generated: { by: "openwiki/0.5.1", at: "2026-09-12T21:32:37.847Z" }
+generated: { by: "openwiki/0.5.1", at: "2026-09-13T21:33:18.353Z" }
 verified:
   - by: openwiki/0.5.1
-    at: 2026-09-12T21:32:37.847Z
+    at: 2026-09-13T21:33:18.353Z
 ---
 
 # Quick Start Guide
@@ -231,7 +231,9 @@ The wiki is organized into five domains. Start here, then follow the links for d
 | **Workflows** | [Bootstrap](./workflows/bootstrap.md) | Full cluster initialization from bare metal to GitOps-managed state |
 | **Workflows** | [App Deployment](./workflows/app-deployment.md) | Standard app layout and Flux reconciliation path: `ks.yaml` → `helmrelease.yaml` → secrets, storage, routing, monitoring |
 | **Integrations** | [Renovate & Tooling](./integrations/renovate.md), [Cloudflare](./integrations/cloudflare.md), [External Secrets](./integrations/external-secrets.md), [Bitwarden](./integrations/bitwarden.md) | External system integrations |
+| **Operations** | [Daily Operations](./operations/daily-operations.md) | Routine cluster maintenance, reconciliation, upgrades, and backups |
 | **Operations** | [Troubleshooting](./operations/troubleshooting.md) | Symptom-driven playbook for stuck Kustomizations, HelmReleases, secrets, storage |
+| **Testing** | [Validation](./testing/validation.md) | Local manifest validation, `flux-local` CI checks, and verification of a change end-to-end |
 
 ## Key Architectural Patterns
 

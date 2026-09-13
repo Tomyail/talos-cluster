@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:c80a5084840524c3be1cfdf124ce593296ebdd3900551bce865799d0aa48589c",
+  "pageVersion": "sha256:8809b484124eaa23d3d47653720a84ce4d028e6e4890a52f772f98d31c9cf82f",
   "claims": [
     {
       "id": "claim_7007b04a9365408685923e5725757fbe",
@@ -18,11 +18,11 @@
     },
     {
       "id": "claim_1ddb6f00c491410583e5bbc5e7148cd2",
-      "statement": "The repository uses mise for toolchain management, installing task, talhelper, talosctl, kubectl, flux, helmfile, sops, age, yq, kubeconform, cilium-cli, cloudflared, cue, helm, jq, kustomize, gh, python, makejinja, node, and pipx at versions pinned in .mise.toml (e.g. talhelper 3.1.17, talos 1.13.9, kubectl 1.33.1, flux2 2.9.5, python 3.14.7), while automatically setting KUBECONFIG, TALOSCONFIG, and SOPS_AGE_KEY_FILE.",
+      "statement": "The repository uses mise for toolchain management, installing task, talhelper, talosctl (talos), kubectl, flux, helmfile, sops, age, yq, kubeconform, cilium-cli, cloudflared, cue, helm, jq, kustomize, gh, python, makejinja, node, and pipx at versions pinned in .mise.toml (e.g. talhelper 3.1.17, talos 1.14.0, kubectl 1.33.1, flux2 2.9.5, python 3.14.7), while automatically setting KUBECONFIG, TALOSCONFIG, and SOPS_AGE_KEY_FILE.",
       "evidence": [
         {
           "resource": "repo://.mise.toml",
-          "version": "repo-file-v1:sha256:057a35e057863fe94232413c1324120e2847b421605cd04d76b709a7fdecdfc5"
+          "version": "repo-file-v1:sha256:465432b917b7d317a5f5aa1e29f761b0d9a4e7a52af8dd1bf02a9c0b45b37386"
         }
       ]
     },
@@ -198,7 +198,7 @@
       "evidence": [
         {
           "resource": "repo://.mise.toml",
-          "version": "repo-file-v1:sha256:057a35e057863fe94232413c1324120e2847b421605cd04d76b709a7fdecdfc5"
+          "version": "repo-file-v1:sha256:465432b917b7d317a5f5aa1e29f761b0d9a4e7a52af8dd1bf02a9c0b45b37386"
         },
         {
           "resource": "repo://talos/talenv.yaml#L1-L4",
@@ -223,6 +223,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.1",
-    "at": "2026-09-12T21:32:37.847Z"
+    "at": "2026-09-13T21:33:18.353Z"
   }
 }
