@@ -109,6 +109,6 @@ Renovate (`.renovaterc.json5`) handles container images, Helm charts, GitHub rel
 
 ## OpenWiki
 
-See [AGENTS.md](AGENTS.md) for OpenWiki agent instructions.
+@AGENTS.md
 
 <!-- OPENWIKI:END -->
