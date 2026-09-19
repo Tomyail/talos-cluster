@@ -44,6 +44,9 @@ function migrateConfig(config, values) {
     delete config.channels.feishu.streaming;
   }
 
+  // OpenClaw 2026.9+ rejects unrecognized meta.lastTouchedAt in config.
+  delete config.meta;
+
   // These sections are wholly Git-owned. Replacing the complete section also
   // removes sibling keys from legacy or already-partial include objects.
   config.agents = { $include: values.agentsInclude };
