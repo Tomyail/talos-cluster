@@ -4,8 +4,8 @@ title: Upgrade Workflow
 description: Complete upgrade process for Talos OS, Kubernetes, and cluster applications with proper ordering, rollback procedures, and verification steps.
 tags: [upgrade, talos, kubernetes, workflow, maintenance, tuppr, talhelper]
 verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-01T21:54:26.927Z
+  - by: openwiki/0.5.2
+    at: 2026-09-19T21:35:52.044Z
 sources:
   - id: openwiki-source-aa55808be329b3f929ddf105
     resource: repo://.renovaterc.json5
@@ -21,7 +21,7 @@ sources:
     resource: repo://kubernetes/apps/kube-system/system-upgrade/upgrades/talos.yaml
   - id: openwiki-source-b65e4f1ccd91316116ad973a
     resource: repo://talos/talenv.yaml
-generated: { by: "openwiki/0.5.0", at: "2026-09-01T21:54:26.927Z" }
+generated: { by: "openwiki/0.5.2", at: "2026-09-19T21:35:52.044Z" }
 ---
 
 # Upgrade Workflow
@@ -32,17 +32,16 @@ The cluster upgrade process follows a strict ordering to maintain high availabil
 
 The upgrade sequence is designed to maintain cluster health and minimize downtime:
 
-<!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
-```text
+```mermaid
 flowchart LR
-    A[Upgrade Start] --> B["Talos Node 1<br/>Control Plane"]
-    B --> C["Talos Node 2<br/>Control Plane"]
-    C --> D["Talos Node 3<br/>Control Plane"]
-    D --> E["Remaining Talos Nodes<br/>Workers"]
-    E --> F["Kubernetes Upgrade<br/>Cluster-wide"]
-    F --> G["Application Upgrades<br/>Flux Reconciliation"]
+    A[Upgrade Start] --> B["Talos Node 1 - Control Plane"]
+    B --> C["Talos Node 2 - Control Plane"]
+    C --> D["Talos Node 3 - Control Plane"]
+    D --> E["Remaining Talos Nodes - Workers"]
+    E --> F["Kubernetes Upgrade - Cluster-wide"]
+    F --> G["Application Upgrades - Flux Reconciliation"]
     G --> H[Verify Cluster Health]
-    
+
     style B fill:#f9f,stroke:#333,stroke-width:2px
     style C fill:#f9f,stroke:#333,stroke-width:2px
     style D fill:#f9f,stroke:#333,stroke-width:2px
@@ -77,13 +76,12 @@ task talos:upgrade-node IP=192.168.50.145
 
 **Upgrade process** (`.taskfiles/talos/Taskfile.yaml#L31-L46`):
 
-<!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
-```text
+```mermaid
 flowchart TD
-    A["Start upgrade-node"] --> B["Get Talos image URL<br/>from talconfig.yaml"]
-    B --> C["Get Talos version<br/>from talenv.yaml"]
-    C --> D["Generate talhelper<br/>upgrade command"]
-    D --> E["Execute talosctl upgrade<br/>with --image and --timeout=10m"]
+    A["Start upgrade-node"] --> B["Get Talos image URL from talconfig.yaml"]
+    B --> C["Get Talos version from talenv.yaml"]
+    C --> D["Generate talhelper upgrade command"]
+    D --> E["Execute talosctl upgrade with image and timeout=10m"]
     E --> F["Drain node if worker"]
     F --> G["Apply new Talos image"]
     G --> H["Reboot node"]
@@ -116,18 +114,17 @@ The cluster uses tuppr (system-upgrade-controller) for automated Talos node upgr
 
 **tuppr deployment** (`kubernetes/apps/kube-system/system-upgrade/ks.yaml`):
 
-<!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
-```text
+```mermaid
 flowchart TD
-    A["Flux Kustomization"] --> B["tuppr<br/>Controller Deployment"]
-    A --> C["tuppr-upgrades<br/>Upgrade CRs"]
-    
-    B --> D["OCIRepository<br/>tuppr Helm Chart"]
-    B --> E["HelmRelease<br/>tuppr Controller"]
-    
-    C --> F["TalosUpgrade CR<br/>talos.yaml"]
-    C --> G["KubernetesUpgrade CR<br/>kubernetes.yaml"]
-    
+    A["Flux Kustomization"] --> B["tuppr Controller Deployment"]
+    A --> C["tuppr-upgrades Upgrade CRs"]
+
+    B --> D["OCIRepository tuppr Helm Chart"]
+    B --> E["HelmRelease tuppr Controller"]
+
+    C --> F["TalosUpgrade CR - talos.yaml"]
+    C --> G["KubernetesUpgrade CR - kubernetes.yaml"]
+
     style B fill:#bbf,stroke:#333,stroke-width:2px
     style C fill:#bfb,stroke:#333,stroke-width:2px
 ```
@@ -178,12 +175,11 @@ task talos:upgrade-k8s
 
 **Upgrade process** (`.taskfiles/talos/Taskfile.yaml#L48-L58`):
 
-<!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
-```text
+```mermaid
 flowchart TD
-    A["Start upgrade-k8s"] --> B["Get Kubernetes version<br/>from talenv.yaml"]
-    B --> C["Generate talhelper<br/>upgrade-k8s command"]
-    C --> D["Execute talosctl upgrade-k8s<br/>with --to flag"]
+    A["Start upgrade-k8s"] --> B["Get Kubernetes version from talenv.yaml"]
+    B --> C["Generate talhelper upgrade-k8s command"]
+    C --> D["Execute talosctl upgrade-k8s with --to flag"]
     D --> E["Upgrade control plane"]
     E --> F["Upgrade worker nodes"]
     F --> G["Verify cluster health"]
@@ -231,10 +227,9 @@ Application upgrades are automated through Flux HelmRelease reconciliation. Afte
 
 **Application upgrade flow:**
 
-<!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
-```text
+```mermaid
 flowchart TD
-    A["Flux GitRepository<br/>Sync"] --> B["HelmRelease<br/>Reconciliation"]
+    A["Flux GitRepository Sync"] --> B["HelmRelease Reconciliation"]
     B --> C["Check Chart Version"]
     C --> D{"Version Changed?"}
     D -->|Yes| E["Plan Upgrade"]
@@ -246,7 +241,7 @@ flowchart TD
     J --> K{"Healthy?"}
     K -->|Yes| L["Complete"]
     K -->|No| M["Rollback"]
-    
+
     style M fill:#f99,stroke:#333,stroke-width:2px
     style L fill:#9f9,stroke:#333,stroke-width:2px
 ```
@@ -376,32 +371,31 @@ kubernetesVersion: v1.35.4
 
 **tuppr CR synchronization:**
 - The `TalosUpgrade` and `KubernetesUpgrade` CRs must be updated to match `talenv.yaml`
-- Renovate tracks both `talenv.yaml` and the upgrade CRs
+- Renovate tracks both `talenv.yaml` and the upgrade CRs (both carry `# renovate:` comments on the same image data sources)
 - Manual coordination may be needed to keep versions in sync
 
 ## Complete Upgrade Example
 
 A complete upgrade workflow from Talos v1.12.7 to v1.13.0 and Kubernetes v1.35.4 to v1.36.0:
 
-<!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
-```text
+```mermaid
 flowchart TD
-    A["Start Upgrade"] --> B["Update talenv.yaml<br/>New versions"]
+    A["Start Upgrade"] --> B["Update talenv.yaml with new versions"]
     B --> C["Run task talos:generate-config"]
-    C --> D["Upgrade Talos Node 1<br/>Control Plane"]
+    C --> D["Upgrade Talos Node 1 - Control Plane"]
     D --> E["Verify Node 1 Ready"]
-    E --> F["Upgrade Talos Node 2<br/>Control Plane"]
+    E --> F["Upgrade Talos Node 2 - Control Plane"]
     F --> G["Verify Node 2 Ready"]
-    G --> H["Upgrade Talos Node 3<br/>Control Plane"]
+    G --> H["Upgrade Talos Node 3 - Control Plane"]
     H --> I["Verify Node 3 Ready"]
-    I --> J["Upgrade Remaining<br/>Talos Nodes"]
-    J --> K["Verify All Nodes<br/>Same Talos Version"]
+    I --> J["Upgrade Remaining Talos Nodes"]
+    J --> K["Verify All Nodes on Same Talos Version"]
     K --> L["Run task talos:upgrade-k8s"]
-    L --> M["Verify Kubernetes<br/>Upgrade Complete"]
-    M --> N["Monitor Application<br/>Upgrades via Flux"]
-    N --> O["Verify All Apps<br/>Healthy"]
+    L --> M["Verify Kubernetes Upgrade Complete"]
+    M --> N["Monitor Application Upgrades via Flux"]
+    N --> O["Verify All Apps Healthy"]
     O --> P["Upgrade Complete"]
-    
+
     style D fill:#f9f,stroke:#333,stroke-width:2px
     style F fill:#f9f,stroke:#333,stroke-width:2px
     style H fill:#f9f,stroke:#333,stroke-width:2px

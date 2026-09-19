@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:d829b0966f9fa13a931edad5e35d8bc9d747c928770bb38e646217e6dca15a35",
+  "pageVersion": "sha256:f70e3f10ab38d31bb6d652933a4de203adf9ea59661b9f5ba4a46f37ccec6107",
   "claims": [
     {
       "id": "claim_1a31fe92977747538ba1d8d106ab1493",
@@ -297,10 +297,30 @@
           "version": "repo-lines-v1:sha256:e567d77812d4af99f3b9f56008902da336aa6ace6701731542edb349a73b24dd:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGY4NGM1OTg2NDc1OTQwZjM5ODlhMmFkYzgwZWZjMjQyMjcwYjQyNWY4MzcyOWMwNWQ2Yjk4Zjc3ODc3ZGFiZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjI0MGVjZjY2NzFlYTZkZmI0NmYyMDgwYzE2ZDQzYjIwMGZjMDAzODcxODM2MGM1ODVhOTY0ZDFjMzc4MzFlZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGIzNDc4ODVhNWU5YTAxYTU0MWM1ZjMzYTU5M2I2ZmNjOTJjZWMwNjY4OTNhNzcyYWQ4ZmI3NGFhZjhhN2FjMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
         }
       ]
+    },
+    {
+      "id": "claim_b7ddb548b07240d2ab5105fc5b938e9e",
+      "statement": "The volsync:restore-alert task performs an Alertmanager-specific restore: it suspends the kube-prometheus-stack Kustomization and HelmRelease, scales Alertmanager to 0, applies kubernetes/apps/observability/kube-prometheus-stack/app/volsync-restore-alertmanager.yaml server-side, then restores replicas and resumes/reconciles the stack.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/volsync/Taskfile.yaml#L125-L168",
+          "version": "repo-lines-v1:sha256:c9d931c1eb99edaa7bd8d1a7cf20077825417811f4ebd387f0f36eb1c8d519f3:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk1MDU4ZDEwNTVhNGQxYTgyYzZhY2JjM2RlNDdlNWZiNzZiMTNjYWQ3ZTFiMzM2MzNlOTVlNzgzN2IwMTE3MjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM0Yjc0NTBjNDJmZjE5NmM1ODNiZDMyYjhjMGVkM2FjOThjMjM3YzExZGI2OWExMzdiNzNlOWJlNDc5ZDk5NGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI4NWE3MTBjY2NkNzE3ZTljMGM0ZjRmN2U0OWJlYzdkNmMzYjA0ZDViOTNmZTRmYzUwNWUxNDBiOWRhOTM0NzMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU1ZDA5ODk1ZGFkYmE0ZTc2NGZjNDc3MmI3MjFiMmYwNTk4NDlkYmI0ZjMxZDc5YWFmYTgzYWUyMWRmM2Q2YzkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_8a1be60b58b443a1aa0ca5596417453f",
+      "statement": "The volsync:unlock-local task unlocks a single Restic source repo from the local machine by rendering unlock.yaml.j2 with minijinja-cli, waiting for the volsync-unlock-<app> job, streaming its logs with stern, and deleting the job; it requires CLUSTER and APP.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/volsync/Taskfile.yaml#L170-L187",
+          "version": "repo-lines-v1:sha256:6965f9eba1a98bd07e46101be9c9841ecacd94019177751affb3230e1323c466:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA4ZTU3YmU2MTYwNGYyODIyODJjZTAxOWY2ZDYyNzE1NDMzOGQ2MzFmNTgwNTdiOGExOGIyNDhiYTVmODVlYWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ0OWE4MTQ4OTBhNmY2NzJhODBlMTA5ZTFmYzdhMzc4YmZhMDYxMzk5Njg4MzU0NmVmNjk1OWMwZTdkOWFjYjEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM2ZGVmY2M4N2IwMmMwNWFiYWI4YmNlNjI4Y2ZlZTgzMzFjMDVhY2U3ZGJhMThhYWRhMTdhZTA0MjM1ZWRmNTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAxODk2MjYwNmU4ZWE5NmNjYjYzODNmZTQ3M2U3MWNmZjI5NjY1ZDczMzZjOGZmNjI2NDI0MjM0MThlMDg4NTQifQ"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.0",
-    "at": "2026-09-08T21:57:36.335Z"
+    "by": "openwiki/0.5.2",
+    "at": "2026-09-19T21:35:52.044Z"
   }
 }

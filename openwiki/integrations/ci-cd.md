@@ -16,10 +16,12 @@ sources:
     resource: repo://.github/workflows/labeler.yaml
   - id: openwiki-source-6d4b4e707b8d60b6ccfa3425
     resource: repo://.github/workflows/openwiki-update.yml
+  - id: openwiki-source-aa55808be329b3f929ddf105
+    resource: repo://.renovaterc.json5
 verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-08T21:57:36.335Z
-generated: { by: "openwiki/0.5.0", at: "2026-09-05T09:07:37.163Z" }
+  - by: openwiki/0.5.2
+    at: 2026-09-19T21:35:52.044Z
+generated: { by: "openwiki/0.5.2", at: "2026-09-19T21:35:52.044Z" }
 ---
 
 # CI/CD Integration
@@ -299,6 +301,18 @@ The workflow updates three key documentation artifacts:
 - `CLAUDE.md`: AI assistant instructions
 
 This automation ensures documentation stays synchronized with code changes without manual intervention.
+
+## Renovate Auto-Merge Behavior
+
+Renovate runs its own automation outside GitHub Actions, configured by `.renovaterc.json5`. Its merge behavior is a key part of the CI/CD pipeline because it determines which dependency updates reach `main` without human review:
+
+- **Schedule**: Updates are generated `"every weekend"`; the dependency dashboard is enabled and rate limiting is disabled.
+- **GitHub Actions updates**: Auto-merged via `automergeType: "branch"` for `minor`, `patch`, and `digest` updates after a `minimumReleaseAge` of 3 days, with `ignoreTests: true`. Digests are pinned because `helpers:pinGitHubActionDigests` is extended.
+- **Mise tool updates**: Auto-merged for `minor`/`patch` with `ignoreTests: true`.
+- **App-layer auto-merge**: Non-major (`minor`, `patch`, `digest`) updates are auto-merged **except** for an explicit `excludeDepPatterns` list of core infrastructure — storage/database operators (e.g. `topolvm`, `cloudnative-pg`, `volsync`), networking (`cilium`, `coredns`, `spegel`, `cloudflared`), certificates (`cert-manager`, `external-secrets`), GitOps (`flux-operator`, `flux-instance`), observability (`kube-prometheus-stack`, `thanos`, `loki`, `metrics-server`), Talos node components, and the shared `app-template` chart. These excluded dependencies effectively always require a PR and the flux-local validation gate.
+- **Grouping**: Cert-Manager, CoreDNS, Flux Operator, and Spegel updates are grouped into single PRs per group.
+- **Label coupling**: Renovate attaches the `renovate/*` and `type/*` labels defined in `.github/labels.yaml` (docker → `renovate/container`, helm → `renovate/helm`, github-actions manager → `renovate/github-action`, github-releases → `renovate/github-release`; update type maps to `type/major|minor|patch` and digest-only updates use `type/digest`), keeping the PR label schema consistent with the label-sync workflow.
+- **SOPS safety**: `ignorePaths: ["**/*.sops.*"]` prevents Renovate from rewriting encrypted files; Flux/Helm/Kustomize managers scan `kubernetes/**` YAML (including `.j2` templates), and a regex custom manager processes `# renovate:` annotated versions in `.env`, `.sh`, and `.yaml` files.
 
 ## Relationship to Flux Architecture
 

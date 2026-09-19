@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:6cad75fbd172df667e0fa5987f31119bcc90c531a38612bc7c7d0d740838cbd6",
+  "pageVersion": "sha256:db96c5d35ae324a3ccd798366d27b3615239071b8c573e458115047c1f4a6241",
   "claims": [
     {
       "id": "claim_80eba6a89bc94d76bb86d6fa3c395c3a",
@@ -61,10 +61,82 @@
           "version": "repo-lines-v1:sha256:a8782109d29205420a8abfe3c5b5febe3ecca1227bc72c48ece4a8d29a72d5d5:eyJzZWxlY3RlZExpbmVDb3VudCI6ODEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYxY2I1N2UyYzc5ODBlOTk5OGM2ZTFjNWYyYTYzZTJiYzk2NWI4NmMyNjJmNGFhNjYzZWYyNWY2Y2JhOGI2YjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRjMzUxN2U4MTNiM2EzMmI5NjU2MWI5ZTU0YjQyMjMyODQ2MGE4YjQ5NTFkMWI0NDJhMGI1NDA5ZTBmMjgyZTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImEwMmE2ZTgzMDhmYjY2ZjJhZmQyZjEwZWM3ZDQ2NzA3ZDAwNWIzNzBhZGZiNWNkNzg1ZDUzZWE4ZDQ2MjNjZjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEyY2ZmNWZmYmE1MGFjMzgxNmFmZjljODViNmI3YTQ4NWU3ZTJhNzM0NjI1ZjM5NGMwNDlkNGI5NmQ1N2E4YzAifQ"
         }
       ]
+    },
+    {
+      "id": "claim_aeb6e7bee7cf496da0362e2394113c8d",
+      "statement": "The bjw-s-labs app-template Helm chart is vendored once as a shared OCIRepository (pinned via ref.tag, with a Helm-chart layerSelector) inside the `common` Kustomize component that every app namespace includes; application HelmReleases consume it via chartRef kind OCIRepository name app-template, so chart upgrades are a single tag bump.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/atuin/app/helmrelease.yaml#L7-L12",
+          "version": "repo-lines-v1:sha256:818439110bf182eed5af27d8d6cd9d9cc1568450095c0891091b341fdcdc0647:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWU5MWU1MWNlNTM4ZWYxMjBlZTIwY2JkZjk0MTU4YmFjZTFjYzExNzkwNmY4NjRmZWQyZDk0ZTM3MTEwY2IyNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjg3OWFmODQ5NzMzYWM0ZWY1Mjg1MmI2ODFjZGQ5NjljYWJlYmNmYWNiMzc0MWEyZTJiNmQwNDk1MzZlOTg5MiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOGI4ZTg3YTk0YTcwZTcyODIzYWExYzljM2FmMjBkOTUzMzFiMTgyMWQ5ZDE5MWI2NjZjYTk3ODcyOTQxZGUxMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOWNmNDQ1NjkzNzkwMTJhNzM4ZjIyZmY4YmViMDJhMzVjNjgxY2M4M2YzNjY4ZGExNWExNGZmOTgyYWNhNTIxMiJ9"
+        },
+        {
+          "resource": "repo://kubernetes/components/common/kustomization.yaml#L5-L7",
+          "version": "repo-lines-v1:sha256:b53bcc0529a07faccab7cd4b2ad75bd2733a416cdcfd5ee135e211b853f0aa68:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzY2NDg5ZGJjOGUxYWM0MTBlODAwZTVmMTc0ZTU5M2IwOWFlYTNjOWM1OTA3ZjAxMzdkZjdjODIwYWU0NmFhYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjU4Y2IzM2UxZDNkMzcwNmQ1ZDNlNTUwMmRlZTE5MTRhYWEwMTFlNjdhY2Y0NmE0ZjkxNGNjMTkzNzQyYTA3NCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOGVmYzVjNzljZDYwMjZlYTYyYzE0MWM3MDIwM2JjOTAwZDA4MmJmYTBkYWFlYmM0Nzc4YWI4NDYyYmQ5NDZjMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2I2MzZmOGU2OTY3ZTk2YmJjYzA3ZTZiNzQ1ZWI0MGMxNjNhZWNkZTllNGFiOTVjM2Q4NmVhMWIzNzJiNzU3MCJ9"
+        },
+        {
+          "resource": "repo://kubernetes/components/common/repos/app-template/ocirepository.yaml#L4-L14",
+          "version": "repo-lines-v1:sha256:7b5ee7b32aab1d38c50fb15307b6f14fb18349522b464fac7fc929eab5976b97:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUxMGI4YjNhZDdmN2Q5MTRiMTA4MTE3NTdjZTBhMmU1ODQxYjcwNTI0MDg3YzA3Y2EwMWJjNmQ4MWY1ZWRjNmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE3MTk4ZmNjODZjMGJjYmYzMzI4ZDcxNWM5MTRiOTYxNmRhODVhZGNmNjFiYTc2ZTA0OTM4ZGM4NWNmNDVkNTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIxYTgxYjUyZWYxNzk1MWM5N2IzZWNhZDIxNGZkMTc4OWQzY2MxOThkYzc2YmU0YzU3ODUzNmY4ODMxMGZiMzkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_5e04e393e84a4f95b3ea0abf4c86c091",
+      "statement": "The reusable `image-automation` Kustomize component adds three per-app resources — an ExternalSecret for registry credentials from Bitwarden, an ImageRepository scanning every 1m, and an ImagePolicy labeled `image-automation: enabled` that selects the newest timestamp from tags matching `^.+-[a-f0-9]+-(?P<ts>[0-9]+)$` — all parameterized through postBuild substitution variables (APP, NAMESPACE, REGISTRY_URL).",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/image-automation/imagepolicy.yaml#L7-L17",
+          "version": "repo-lines-v1:sha256:f87c656d8c2351c4a69bb00481f8c2b1a7827c31822b37c94d824c5b127fa0bd:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjljZjgzYWU5ODQ5NThjNTYxYWM5NjRjMDQ3NDEyMDU0ZDk4Yjg4ZmViNGFhNTU4MGYwNjc5ODZjYjg3MmFjYTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkyN2RhYzUwYWZkZjNjYmIzNGQyNGM1OTFjNzI0MDQ2ZTAxOWU4NWI1YzRlZDJiZWNiNTk4MjYwODMwYWVmZDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhhZjFlZGY3NTVhMzcxZjBkNWQ2MDUwNzNjZjAwZGM2NWM5MTI5ZDdkYTgwMDhhOTlmOWI3ODg0MmViZjJhMjciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://kubernetes/components/image-automation/imagerepository.yaml#L8-L11",
+          "version": "repo-lines-v1:sha256:19c10475bc12dcf6dfb0205aeafb48eaf886c38f75853dba184bfd0d01697e6e:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWUxZDEzOWNlOGM2NTQ0OGYzY2Y5ZGNkYTFkOTA4MjA3NjRjZDk1Y2MwMDY1YjkxYWU5NWZjMDRkODAwYjQ3YSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODI0Yzk5ZjJiMmFiOGU1MWZmMmQyMDgwY2M0ZGM4YTYwZmExYTBhNDI2NTFkMGQzOWZlMDgzZWI0Yjk0MmZiMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNWM2ZGJlNjQ5OTdkNTIzYWJkMDIwOWYwMzk3NjY4YjdjNGYyMDNjYmZlOTUxOTA1Zjc1YmZjY2NiMGU4OTBlNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/components/image-automation/kustomization.yaml#L1-L7",
+          "version": "repo-lines-v1:sha256:b6711c301af49799491ebc9dec2224dc378bbfd3a4925ee0a6248016cd152a85:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjUyZDcxMTEwM2Q1MGE0Mzc4MzBjNmZiY2QwNGZiNGJhYjQ5YTBmODJmNmQyNmQxYzc5MWM2ZTg0ODhkZDA5MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTFjODEwMzM5Mzg3MGNhMTZkMGM0MTVhNmE3MGU1MzBjYzk5M2MwOGM2MzQxNzAzNmUwODczNTlmODYzNGVhOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_b51d2f5fdf8545abba8aca1da2c3b92c",
+      "statement": "A single cluster-wide ImageUpdateAutomation runs every 5 minutes with the Setters strategy scoped to ./kubernetes/apps/default, commits as flux-bot to main of the flux-system-https GitRepository, and its policySelector (matchLabels image-automation: enabled) restricts updates to ImagePolicies created by the image-automation component; apps consume the resolved tag via the `{\"$imagepolicy\": \"NAMESPACE:APP:tag\"}` setter marker in HelmRelease values.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/flux-system/image-automation/automation.yaml#L8-L27",
+          "version": "repo-lines-v1:sha256:477114c512b892845e21b3b93d341bdd5414e50e830427b3f9fc90642d6480e6:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdmZjk3ZDQzZmNjYzEyYjU3MDczY2Y0M2ZiNDRkODE3ZGI0ZWFhNGQ4ZDJkNzliNzg4MzEzZDhkOTI3ZWMyZTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUxZGZkMDVlNWZhY2Y4MmFmN2NkMzVkMjBiNDcxOWZiNmM3NzA0ZjZiMWUwMjI3NzllNGMwMmQ4NThjZjA3YTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJlYmEzN2RlMjdiMDNiZWFhMTZlODA5YTBmZWU0MDA1NjBmYzQyNjdjMTMwYTgzMjRjYTgxZTk1OWQzNmZmMDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImExOWI1ZDNhNjczOTcyMmZlYjMzMDNkOWM1MGEyNDgyNjBkN2M1ZGI4N2I5NWViNGQ0MWRjYTA2MDQ0OGMxNjUifQ"
+        },
+        {
+          "resource": "repo://kubernetes/components/image-automation/README.md#L29-L36",
+          "version": "repo-lines-v1:sha256:b3b4bdd3bfd0c782c0c3aa597e0aeadca27bf5c3412ece170a4aef8577a0d73d:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYzkzZThmOTE0M2QwNWU2OTU0YTU1ZTlmYmZlMzAzNTc0NzdhMTIxMzBkOWYzMmZiOGM3NDhmOTQwYTliYWNlYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDRmYTI2NzIzYzQyNGY2MjRjNzE5ZmU2MmE3ZTQxNzVhY2FkY2FhOTEzNzY1NGI1MWUxZTllOWUzZjEzNTQxNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/components/image-automation/imagepolicy.yaml#L7-L8",
+          "version": "repo-lines-v1:sha256:36c334ea9fe35ab1cdd6ea61ab3cd1c7bdbe86c6a64ad53bea1503381a015e24:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOWNmODNhZTk4NDk1OGM1NjFhYzk2NGMwNDc0MTIwNTRkOThiODhmZWI0YWE1NTgwZjA2Nzk4NmNiODcyYWNhMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYmNkN2UzMGE5OTJlZDZlNzY1NTAzNjc0MWRmMDM4MDg2ZWFhY2NkYTg4MjY4MDE2NWQwNTE0MzU4NTE2NDYwYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOGFmMWVkZjc1NWEzNzFmMGQ1ZDYwNTA3M2NmMDBkYzY1YzkxMjlkN2RhODAwOGE5OWY5Yjc4ODQyZWJmMmEyNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjAxOTI5YjI2MDlhZTE3MzdkMmE5Y2UzY2EyNDc4OWI5NjYyNTdkNDFlY2RkNjY3Y2ZkNGJmM2YxYWFkMzRkYyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_db7d5b1fe04b4596a6c5994070bd0f3b",
+      "statement": "dependsOn is declared per Kustomization (not per app directory), enabling cross-namespace ordering such as gitea waiting on topolvm, external-secrets, and cloudnative-pg-cluster while its sibling gitea-runner repeats only storage and external-secrets; HelmReleases additionally self-heal with install/upgrade remediation (retries, rollback, cleanupOnFail).",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/atuin/app/helmrelease.yaml#L13-L20",
+          "version": "repo-lines-v1:sha256:087769b158e5e886415322a887a83349578b9ba4fa41a647beafe070fe2065c7:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjM3ZWE4OTA4YjVjNjViMGFlZmUyODA1NDJmMjQwNTU2YzI4YjRjZjYzY2IyOGEwZmVhYzExZGJiMzMzMTM4NSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTVhMGZjY2FmZGU1N2IyZjZhYjU0ZDYzY2EzOGI1N2YzMDQ5NjRkMjY1MDAxNDVmODljZWZmYWU5MzA0YmFjMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMGJhZjQ0ZmVlYWRlODU4Y2FlNTMzZGZmNmViNmY3NDcxYmZjYmU4YmI2MWQ0MGQ2MGM2ZTM4MWI4OTU2ZWRlOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOGU4MjkxMzg2YmJmOTFiYWYyZTQ2YTE0NmMzM2NmMjNkNWFmYjZmZDYyYjczYTk5YTM3ZTljZWI1M2MwYzQzMyJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/ks.yaml#L13-L23",
+          "version": "repo-lines-v1:sha256:5806801133bc3a835916023bd7f9ece9ddab8c9b648e09057bd03d39da827b42:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVkM2E1ZDYxNWQ4YzhjYWZlZDM4MmU2ZmMxODVmNDU5NzAyYWE4NjhjZTc1MjRmZDI2NmYzZmI2ZDYwYzA2NzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBhYjZlMGVlMjFjZmU3MWE5MDVhOTk5MDVjNWRhMzk3NmQwNWE5OTAwYTM1YzBhZDFiMTI3N2NkYzllMTlkZWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYwYmVkZjViYmRjMDhmNDkyNzZiN2ViYzY4ZGVlZDA5ZmYwZDJjODc5MDA3MDA5NDM1ZjNiOTY0NzY0ZjU0ZGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEwMmE2ZTgzMDhmYjY2ZjJhZmQyZjEwZWM3ZDQ2NzA3ZDAwNWIzNzBhZGZiNWNkNzg1ZDUzZWE4ZDQ2MjNjZjMifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/ks.yaml#L55-L61",
+          "version": "repo-lines-v1:sha256:8167745ed070d985dcae2c0d4cbc4ee3272e0ccbf0d481e9b6a195bc06fedc75:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNGE3YzdmMTM3YjZlYTEzZTMyZTc0OGRlMTk4MjA0NzM2MDhjMDczMTEzNzE0ZDNkZWM5OTY5NmQwNzNmYWNjOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYmY5ODk5M2QyZTQ4YWE2MTY4NTMwNzlkNTgzOWU0NGVlYmNjYmJlMWVlYzhkZWI4MWM3ZDRiZmFiMDVhZTljNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzc3MWFjYThjMGVmMzAzZTI4MjgxMmYyNzFhNWVhMzVhOWY1MDkwNmIyNTM2ODBmN2M2YjY4YzFkYTBjNWI2OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTFmZDAzNzliZDhjYTI5ZDVlYTdhNjMwNmJiNThmZmM5YTIxNGFjM2UxNzQ4YzdjOTBlY2RmMjkzM2RjM2YyOSJ9"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.0",
-    "at": "2026-09-01T21:54:26.927Z"
+    "by": "openwiki/0.5.2",
+    "at": "2026-09-19T21:35:52.044Z"
   }
 }

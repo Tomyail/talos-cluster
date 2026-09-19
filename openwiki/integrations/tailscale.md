@@ -26,10 +26,10 @@ sources:
     resource: repo://kubernetes/components/gatus/external-tailscale/kustomization.yaml
   - id: openwiki-source-d787b4e38b39b0dac177c42f
     resource: repo://kubernetes/flux/meta/repos/tailscale.yaml
-generated: { by: "openwiki/0.5.0", at: "2026-09-08T21:57:36.335Z" }
+generated: { by: "openwiki/0.5.2", at: "2026-09-19T21:35:52.044Z" }
 verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-08T21:57:36.335Z
+  - by: openwiki/0.5.2
+    at: 2026-09-19T21:35:52.044Z
 ---
 
 # Tailscale Integration
@@ -289,7 +289,7 @@ The Gatus configuration is implemented as a reusable component that generates Co
 
 The HelmRelease uses Flux CD's built-in update mechanisms:
 - **Check Interval**: 30 minutes for chart updates
-- **Chart Version**: Pinned to 1.98.9 for stability
+- **Chart Version**: Pinned to 1.102.4 for stability
 - **Source Repository**: Official Tailscale Helm charts
 
 To update to a new version:
@@ -371,3 +371,4 @@ The Tailscale integration is part of the cluster's broader network architecture:
 - The different ingress paths serve complementary purposes and do not interfere
 
 For more details on the overall network architecture, see the [Network Architecture](/openwiki/concepts/networking.md) concept page.
+verall network architecture, see the [Network Architecture](/openwiki/concepts/networking.md) concept page.

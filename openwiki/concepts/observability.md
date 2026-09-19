@@ -54,10 +54,10 @@ sources:
     resource: repo://kubernetes/components/gatus/external/config.yaml
   - id: openwiki-source-a2a10e12c05dc77e43573bc3
     resource: repo://kubernetes/components/gatus/guarded/config.yaml
-generated: { by: "openwiki/0.5.1", at: "2026-09-12T21:32:37.847Z" }
+generated: { by: "openwiki/0.5.2", at: "2026-09-19T21:35:52.044Z" }
 verified:
-  - by: openwiki/0.5.1
-    at: 2026-09-12T21:32:37.847Z
+  - by: openwiki/0.5.2
+    at: 2026-09-19T21:35:52.044Z
 ---
 
 The observability stack provides complete visibility into system health, performance, and availability through integrated metrics, logs, and uptime monitoring. It follows a layered architecture with clear dependency chains, long-term storage capabilities, and automated alert routing.
@@ -189,7 +189,7 @@ Grafana queries Thanos Query Frontend as the unified Prometheus datasource, enab
 
 ### Loki
 
-Loki (chart 7.2.0) provides horizontally-scalable, cost-effective log aggregation:
+Loki (chart 7.3.0) provides horizontally-scalable, cost-effective log aggregation:
 
 - **Deployment Mode**: SingleBinary with filesystem storage
 - **Storage**: 8Gi persistent volume on TopoLVM
@@ -276,7 +276,7 @@ Grafana (chart 10.5.15) provides unified visualization for metrics and logs:
 
 - **Authentication**: Anonymous viewer access with admin credentials from ExternalSecret
 - **Datasources**: Pre-configured Prometheus (Thanos), Loki, and Alertmanager
-- **Dashboard Providers**: File-based provider for dashboards deployed via ConfigMaps
+- **Dashboard Providers**: File-based provider for dashboards deployed via ConfigMaps, plus a large set of pre-provisioned dashboards pulled from grafana.com (Kubernetes views, Node Exporter Full, Ceph, cert-manager, Thanos, VolSync, smartctl-exporter, borgmatic-exporter)
 - **Plugins**: Unsigned plugins allowed (natel-discrete-panel, pr0ps-trackmap-panel, panodata-map-panel)
 - **Explore Mode**: Enabled for ad-hoc querying
 
@@ -395,6 +395,16 @@ Loki SingleBinary handles log ingestion with:
 
 - **Chunk encoding**: Snappy compression reduces storage requirements
 - **Index period**: 24-hour periods balance index size and query performance
+- **TSDB backend**: Optimized for high-volume write workloads
+
+### Monitoring the Monitoring
+
+The stack monitors itself via:
+
+- **Prometheus Operator ServiceMonitors**: Scrapes Prometheus, Alertmanager, and Thanos components
+- **Gatus self-monitoring**: Health checks for all observability endpoints
+- **Gatus PrometheusRule**: Alerts when monitoring components fail
+y performance
 - **TSDB backend**: Optimized for high-volume write workloads
 
 ### Monitoring the Monitoring

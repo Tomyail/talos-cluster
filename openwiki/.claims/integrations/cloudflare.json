@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:61fc8e7beda9aab121030f9218301ac29acdac640ac71aee9c1159617a2bbd43",
+  "pageVersion": "sha256:6275c3f1b749d4434720b537e99419b7ca27834929baef83ac884b6aad07b807",
   "claims": [
     {
       "id": "claim_cced16d6ffcc403f88c2e2b84e04310f",
@@ -288,11 +288,11 @@
     },
     {
       "id": "claim_a227a770d945493ca63bc543f0958a88",
-      "statement": "external-dns (cloudflare-dns HelmRelease, chart 1.21.1) uses the Cloudflare provider with CF_API_TOKEN from cloudflare-dns-secret, sync policy, domain filter ${SECRET_DOMAIN}, sources crd + gateway-httproute with --gateway-name=external, --cloudflare-proxied, txtOwnerId default / txtPrefix k8s., triggerLoopOnEvent, and a Prometheus serviceMonitor.",
+      "statement": "external-dns (cloudflare-dns HelmRelease, chart 1.22.0 from the external-dns HelmRepository) uses the Cloudflare provider with CF_API_TOKEN from cloudflare-dns-secret, sync policy, domain filter ${SECRET_DOMAIN}, sources crd + gateway-httproute with --gateway-name=external, --cloudflare-proxied, --cloudflare-dns-records-per-page=1000, txtOwnerId default / txtPrefix k8s., triggerLoopOnEvent, and a Prometheus serviceMonitor.",
       "evidence": [
         {
           "resource": "repo://kubernetes/apps/network/cloudflare-dns/app/helmrelease.yaml",
-          "version": "repo-file-v1:sha256:db9f7548213f47ddddf4be41dd25be4548c2a2465dac6a317f9183b5f56cd8fa"
+          "version": "repo-file-v1:sha256:a7d88302ab121488a3ae688554eb682077379a82ae4bbabb73e15b4c52597ed0"
         }
       ]
     },
@@ -340,7 +340,7 @@
       "evidence": [
         {
           "resource": "repo://kubernetes/apps/network/cloudflare-dns/app/helmrelease.yaml",
-          "version": "repo-file-v1:sha256:db9f7548213f47ddddf4be41dd25be4548c2a2465dac6a317f9183b5f56cd8fa"
+          "version": "repo-file-v1:sha256:a7d88302ab121488a3ae688554eb682077379a82ae4bbabb73e15b4c52597ed0"
         },
         {
           "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/helmrelease.yaml#L23-L24",
@@ -354,7 +354,7 @@
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.1",
-    "at": "2026-09-12T21:32:37.847Z"
+    "by": "openwiki/0.5.2",
+    "at": "2026-09-19T21:35:52.044Z"
   }
 }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:200e6b46b01cbfd620ad9714cdf866e95c7f308e9fdc776015d7bbe94642c82d",
+  "pageVersion": "sha256:564abf389f201c4a33dd0d32bd3e6d5672340badef728bc7bff3470f0f6b7c3f",
   "claims": [
     {
       "id": "claim_8ac105d25dbd4612b11232201fa7237c",
@@ -77,10 +77,44 @@
           "version": "repo-lines-v1:sha256:f2b409c9b3a966056cf81ffda46d1fa84e0dac6fa0864aadf96e29fd134d093e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3ZTQ3NDY4MDg4NDE0M2E0NWY2ZWFiOWZiZjcxMWJlMjc1MmMwYjQyZjczYzU5MDg4MjZhZjkzZjllMjFmNmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ1MTQxYzY3MjM1NThmYzdjZGQyYTllYjFlZWRiMmYzMWQ3YjY0MTcwN2U0ODk3ZGVmZDZmNTI3ZDdkOWE4ZTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiY2Y4NDg1MWJhNDM1Y2M0NTM1YjdhYzRmZDY1ZDVjOTkyYzQyNDViNGU0MjUyNzI4OWJmNzdkNjk3NTFhOTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA2ZTFhNDk4NjgwY2QwM2JhNzVhMzNhNzdkNjg4NDhjMjhkM2U3MzIwNGVlYWQ5Y2NkMTY3MTY1ZDFiMTY1MWYifQ"
         }
       ]
+    },
+    {
+      "id": "claim_4d6f4c2ff56047748a1f105b1b54075f",
+      "statement": "kubeconform (0.8.0), kustomize (5.6.0), yq, helm, sops, and the rest of the validation toolchain are pinned locally via .mise.toml, but no CI step or repo config invokes kubeconform schema validation or kustomize build or yamllint — the only automated merge gate is the flux-local workflow.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/flux-local.yaml",
+          "version": "repo-file-v1:sha256:1571b34bb283853b64ecdb85b86ce355121bdf2d80517ad8da5fc906c1846401"
+        },
+        {
+          "resource": "repo://.mise.toml#L7-L27",
+          "version": "repo-lines-v1:sha256:28969ba9f616dcc1472d01c80a88cf9bf82dd2ea267bd3860ba29a3a0621a015:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE4MjZiZWEwNWZlNTBhNzNhNjQ1ZDhmYjEyZGMyODJmMjUzNjM0NDMyNjZkOTAxNzM3MmVhZjg4NDU5NDYzNDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImExMzJiZTlmM2NjMTcwZDEyNjFmZWFmOTIyN2RkZTI2ZmRiNzJhYzMxYjg2ZDQzZmY2ZmYyMTdjZjUwNzM2YTYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc1MDg0MzNmMTUzOWVkODEwOTlhNDhlNjIwMDVhMGE4ZGMyNGUwNDFhMDVlZmMxYjFiNGRiMzQ5ZmZkMTgzMTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRlMmZjMWNmZmMyMTMwOTk5YTk4NDcyYzQ1MzkxZmIwMWZiNzkwNDk5ZDIwZjk3NzllMTYyOTk0MDI4M2ViYzgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_61193df9927c48e480d5cdc2974913e6",
+      "statement": ".editorconfig (root = true) sets the formatting baseline: LF, UTF-8, trimmed trailing whitespace, final newline, 2-space indentation generally, with exceptions for Markdown (4-space indent, trailing whitespace preserved), shell scripts (4-space), and CUE (tabs, width 4).",
+      "evidence": [
+        {
+          "resource": "repo://.editorconfig#L1-L22",
+          "version": "repo-lines-v1:sha256:1ceedced773393de91e4f7e12f9766c6454f5f31d52ea374be9398feedf77e2f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJjODVkNmUwNWI2NmFmNDQyOWI4YzU4MjVkMTU0ZTY4YWM3YWQ5ZTkwZjgyMzk1NDRhNDVhN2IxMjQzZmFiMjIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgwZTFlMzBiYWJiYjk0NGEyMjhhMDQ2MWZmZjM4ZDA1OTNiOWVlMDIyNDgzM2U0MjE3MjYyNTZhN2RlY2IxYjkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a2c22ea180ce458d9336f0fc9f839858",
+      "statement": "Renovate automerges GitHub Actions (minor/patch/digest) and mise tool (minor/patch) updates with ignoreTests: true, so those updates bypass the flux-local CI gate; safety relies instead on digest-pinned actions and minimumReleaseAge: 3 days for actions. Its flux/helm-values/kubernetes/kustomize managers cover kubernetes/**/*.yaml (including .j2), encrypted **/*.sops.* files are ignored, updates run on an 'every weekend' schedule in grouped PRs, and semantic commit types mark patches (fix), minors (feat), and majors (feat...!:).",
+      "evidence": [
+        {
+          "resource": "repo://.renovaterc.json5#L1-L84",
+          "version": "repo-lines-v1:sha256:929a4aa13d0702fa4825f59ac8b896b39d45ed1b2eed66820ec9611e7e1280d9:eyJzZWxlY3RlZExpbmVDb3VudCI6ODQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE2ZmIwOGZkYTFhY2I5NTdiNjExNmJkMzc4MTFhMWZlNDFhMDE2MTFjMDYzMWVkYmY3ODZkNjg4OWEyN2E1NWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjUyMWY1NGQwNDU2YzkyYWRmNDEzMzhjNDQzMTJkY2EyOTU2MWNmYWZkYTkyYWQ4ODE3NDY3MDlmN2FmNmI2ZmQifQ"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.0",
-    "at": "2026-09-08T21:57:36.335Z"
+    "by": "openwiki/0.5.2",
+    "at": "2026-09-19T21:35:52.044Z"
   }
 }

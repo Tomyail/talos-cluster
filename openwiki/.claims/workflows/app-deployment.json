@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:d1ddb275a347aa6fb6f4be71bb5b5da0358cf126bad417fe63d51dbb8498f977",
+  "pageVersion": "sha256:c2f3b9f4cb277c2016c9926c0d9bb39c4eccacd6bf980954d49a49031b8a50b6",
   "claims": [
     {
       "id": "claim_57404914c2d54006847f1d8a72747f9d",
@@ -453,10 +453,28 @@
           "version": "repo-lines-v1:sha256:6c04577f69a578909261c2a9df3e95f699f986c756029395117404d7706b6f26:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUxNjM1MTMxYjQ1NjJhODc1MTY4Y2E3MzFhYjY1NDIyZmNiM2IyY2U4MDQ1M2E4ODQxYWU3NmM4NjE3OThjNGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyY2ZmNWZmYmE1MGFjMzgxNmFmZjljODViNmI3YTQ4NWU3ZTJhNzM0NjI1ZjM5NGMwNDlkNGI5NmQ1N2E4YzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgzMjBjMjdjOTc3MzU1N2IwOTNlMmZkYmQ1NTIxNWRhZDZmODQ1YjFjMzg5NmE3MzYzYjRlYjZiNmQ1ZjEwMGIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_001ace1e722b43e2b7f9fc05ff0d6138",
+      "statement": "The `volsync` and `volsync-new` components currently compose the same resources (claim.yaml + minio.yaml for PVC, ReplicationSource, ReplicationDestination, and a Bitwarden-backed ExternalSecret); apps reference either variant by relative path in their Kustomization `components` list.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/ks.yaml#L13-L15",
+          "version": "repo-lines-v1:sha256:9f405c3df7eba9dbf90e52993d2c49dc9934ac3732cf989bc8567eff651230af:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWQzYTVkNjE1ZDhjOGNhZmVkMzgyZTZmYzE4NWY0NTk3MDJhYTg2OGNlNzUyNGZkMjY2ZjNmYjZkNjBjMDY3MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDllZDgyNmJlNWI3MjJjYzcxMmE1MjU3NTVmNzgzNDZjZGFiZjJhM2NiMzc1ZmMyZThmOWE0NTE0NzkzNjAyMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjBiZWRmNWJiZGMwOGY0OTI3NmI3ZWJjNjhkZWVkMDlmZjBkMmM4NzkwMDcwMDk0MzVmM2I5NjQ3NjRmNTRkYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjRjYzRlN2QwNDExOTRlZGZlOWQ3MzZlYjQzZTZhZjNkNDZkMzJkZDI1ZGI1NzZlZmUzN2I4MjVjOWE2MjIxNCJ9"
+        },
+        {
+          "resource": "repo://kubernetes/components/volsync-new/kustomization.yaml",
+          "version": "repo-file-v1:sha256:4c2df018958ac36399edfa3f9447bad27dea5dd9b8506109b70f6b634eeaa88f"
+        },
+        {
+          "resource": "repo://kubernetes/components/volsync/kustomization.yaml",
+          "version": "repo-file-v1:sha256:4c2df018958ac36399edfa3f9447bad27dea5dd9b8506109b70f6b634eeaa88f"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.1",
-    "at": "2026-09-12T21:32:37.847Z"
+    "by": "openwiki/0.5.2",
+    "at": "2026-09-19T21:35:52.044Z"
   }
 }

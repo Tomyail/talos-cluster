@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:509d788bbaeea8fdf20399c5f8f1bfd2a12883776eb29d7d79e582aa671dc66b",
+  "pageVersion": "sha256:f09f7740fccbadf557c7ef2e59ae603264d35c7d7e2a53d523e2b3e4751512e5",
   "claims": [
     {
       "id": "claim_ff13b80cb8eb45d8b3df24bbc5cfa6f3",
@@ -239,10 +239,64 @@
           "version": "repo-lines-v1:sha256:d759e359f0e450762d9a5daa7dadbbbbb2a4aa147592b02b537590c94c332675:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI0Y2QyNTliYWZiMGYyMzhmZjUxMjFlODYzNmRkMDhhMTQ4Mjg1NTViNzJjN2UzYmM3M2QyN2MxZTJlN2IzMmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyZTNkMWIwN2M4ZGExMTVmMjRiY2ZhYWE2Nzg1MzhiZDZhNjQxMjFkYjhkYWM0OWI4NzViYjRlYmY0OTZlYjkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIxZmFhNjhiZjhkY2QwOWU4MGEwN2RhYmE2NzFlODI1YzI3ZjM4ODkxNjI0NmFiNTQ5ZjdhMzJhOTc0ZDRmODciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZmN2VlNDE2M2UxMDI4YzdhZTVmOWRlYTNiOTI2ZDYxNDI0MmNkOTZiNWZmMTYyNmVjZDQxZjRlMDNkN2EyYjQifQ"
         }
       ]
+    },
+    {
+      "id": "claim_8c359c395e3e414cb15610318d7d77ad",
+      "statement": "scripts/bootstrap-apps.sh runs bootstrap steps in a fixed order (wait_for_nodes, apply_namespaces, apply_sops_secrets, apply_crds, sync_helm_releases) under `set -Eeuo pipefail` with failing `log error` calls, so a failure at any step blocks all subsequent steps.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/bootstrap-apps.sh#L137-L149",
+          "version": "repo-lines-v1:sha256:c14c3d6c21a5b47fe7a68c02135bc881808d4e811ba699192046f15c37a26460:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRjZGE0MzIzZDljZmI1MmI1MjAyYmVlMjkyMTlmYjk1ZDdjNWM5YjBjYWZlNzJhZjA1ZmNkZDRhZDEzYWRhNTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM3ZTBjNDE1YjUxNmRkMjg5Y2MxMDFlYjAwNjJiNDI3NmVjMjU3YzhlYWYzY2IyZThlMmViYzg2ZDRhMzU2MTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEzMDE2ZDNkY2RhMDdjZGNjYmY4YjhiODk5MDcxNTU4MDJhMjNkZTBkZGRjOWI4OGRkY2U3YjQyZDFhYzcxNDYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4e6d7f585b414edc8df03217e8ab6c83",
+      "statement": "The bootstrap script's wait_for_nodes waits for nodes to be Ready=False in a 10-second retry loop (Talos requires nodes Ready=False before applying bootstrap resources) and skips the wait entirely if all nodes already report Ready=True.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/bootstrap-apps.sh#L10-L24",
+          "version": "repo-lines-v1:sha256:1a8e0239c6026ab66a8bffe184c90608faa24d07759e6d4e9c8669a97bd557b8:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBlNTA0OWQ5ZmE0OGVjZDZjNjljOWIwZDkxMTlmN2VmYjk5ZjEyMzBkMzlkZTRhMzQ0MTJlYzQyZjkzMjFlNjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ4OWI4YmI2OTZiMThhMGU2NTQ1N2EyOGRmNDkyY2IxZGYwZDA2YjZmNGZiNWUzMDY3ZmM5ZjNjYTMzYTQxZTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYxN2JhY2ExNDM3MzdjNjczZmJkMDY1ODhhMzM3NjEwOTRhM2M5NzYwMDEzMmM0ZTMwODM1Yjg4OGZhYzdiYmYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_2401fabf90b14dd5afaa5f8c8c227b30",
+      "statement": "Bootstrap applies three SOPS-encrypted secrets (bootstrap/github-deploy-key, cluster-secrets, sops-age) into the flux-system namespace via `sops exec-file ... kubectl apply --server-side`; apply failures are almost always local SOPS decryption problems (missing or mismatched age.key).",
+      "evidence": [
+        {
+          "resource": "repo://scripts/bootstrap-apps.sh#L57-L85",
+          "version": "repo-lines-v1:sha256:8f59b3064b8cac21918a59060f96636874e37359df2f0e4ba1ade95f5f706f69:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY0OThiODk0YzQ3NzQyYmM3MTc1MDQ1ZTk1MWY0NmQyMDc4NTVkMDNlZDZhNTJkMGZiMDEzM2MzMGFiOTgwMjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQwYmU3NDllNjExMWJjN2IwNjRiMDY1MGNlZDIzYjYxODg5ZDIzZjE1ZWI3MDViYjlhYzdlZDVlNTMzNWQ0YTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI1ZmUxMzM4YmI5YTIwMDA4ODZlY2ViYjg5NThhMjI1MzcwZTgyNTAwNzhlMmEzMDhkN2Q0NjYwYzQ1ZTdlN2IifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4826b7fd3766493ca6ab4f7234502026",
+      "statement": "The bootstrap script pre-applies External DNS and Gateway API experimental CRDs (Renovate-pinned versions) so that Cilium, installed by helmfile with gatewayAPI.enabled=true, has CRDs before starting; the same CRDs are subsequently managed by Flux via the external-dns-crds and gateway-api-crds Kustomizations.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/flux/cluster/ks.yaml#L25-L94",
+          "version": "repo-lines-v1:sha256:369f36ae7b138540b6a59050e5c63e5e60658ea842e91f984d52020e7dc26242:eyJzZWxlY3RlZExpbmVDb3VudCI6NzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAzMTI1OGFlNDc5YzY5MTNjM2MxYjFmNzc0ZTc2NWEyYzA3NjVhNDQ4ZDk5M2I2ZmUzODIxZjUwM2VhNGM1ZDciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyY2ZmNWZmYmE1MGFjMzgxNmFmZjljODViNmI3YTQ4NWU3ZTJhNzM0NjI1ZjM5NGMwNDlkNGI5NmQ1N2E4YzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFiNjFiMjIxZjQ3YjliMjQ2MDMzNTVkODQ3MjFmZThkMmFhOTVlMjUzYjI4MmJlNmNjNGJlZTZkZDU3NmZiMDciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://scripts/bootstrap-apps.sh#L88-L105",
+          "version": "repo-lines-v1:sha256:fde3e82ebc7b6a1998784809a24974743b6c443cf17e106c1464f34f2ac8f086:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY2M2YyNzhkYjQ4YWFiOTQzZjQ3ZTMxZmYzMmEzOTY3MDRiNDc5MTY1N2M0MzgwOGVlMGM3MmYyZmExNWU5MmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwYzFmMTg4ZjE0MmVkN2E4MjQ2ODBiMjA3MTcyYzU1MTliYzYxNGE0OGZkYTdjZjE2N2VkYjhkZGY3OTk1NmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhhZWFkOTQ4M2I2MjQ5YzgwNDc0NDZiMzQ0Y2FlODhhYTIyNDZmNzU3NTg4ZjJiNGY3MzM1YzE2M2MxNjkyYWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY4OTQ3YTZhMTcxMjk5NmNkYzM5OWUwYjNjOTM5YmJmMzE0NDQyYzUzYjg2NjQ0Yjg0NWNhMmNmYTNkYTMxMTIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e34c879a6cbd46f4983797849288d5b7",
+      "statement": "The final bootstrap step is `helmfile sync` on bootstrap/helmfile.yaml, which installs the foundation stack (Cilium, CoreDNS, cert-manager, flux-operator, flux-instance); failures typically trace back to the CRD or SOPS-secret steps not having completed.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/bootstrap-apps.sh#L120-L135",
+          "version": "repo-lines-v1:sha256:ec8d61d662c6afc8d2af952acf5ce389867b22066fb0545c4867be2d2bc6ad4a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3OTRlOWYyYTQ0ZDA1ZGQyNTRhOGM4YjViZjEzZDJiZjk0NzNlN2Q4ZjBiYzk3NGNkMTJiZGU2NzViYTVlNjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNiODliYzg3NjY4MWY5MzllMjQ1NTZmN2FjZGI0MmRiOTA0YmRiNWYyNjE3NzMzNWY0NDA5MjQ2ZWU1NjgxOTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVlYzE2NTUxMWRmNGM2N2I4Njg5OGZkNTFlYmEwYzhiMmVmMmJiMGYzMjM0ZmZjM2NmNTc4MWNhNTAzNDEyZGIifQ"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.0",
-    "at": "2026-09-08T21:57:36.335Z"
+    "by": "openwiki/0.5.2",
+    "at": "2026-09-19T21:35:52.044Z"
   }
 }

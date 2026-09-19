@@ -48,12 +48,14 @@ sources:
     resource: repo://kubernetes/components/volsync-new/kustomization.yaml
   - id: openwiki-source-687f5a81f368e2f129b0b0d7
     resource: repo://kubernetes/components/volsync-new/minio.yaml
+  - id: openwiki-source-cf127a322444d1f6306750c2
+    resource: repo://kubernetes/components/volsync/kustomization.yaml
   - id: openwiki-source-0696023deccf378a358f7526
     resource: repo://kubernetes/flux/cluster/ks.yaml
-generated: { by: "openwiki/0.5.1", at: "2026-09-12T21:32:37.847Z" }
+generated: { by: "openwiki/0.5.2", at: "2026-09-19T21:35:52.044Z" }
 verified:
-  - by: openwiki/0.5.1
-    at: 2026-09-12T21:32:37.847Z
+  - by: openwiki/0.5.2
+    at: 2026-09-19T21:35:52.044Z
 ---
 
 # Application Deployment Workflow
@@ -273,7 +275,7 @@ VolSync provides automated backup and replication for application data.
 components:
   - ../../../../components/volsync
 ```
-(Apps in this repo reference `components/volsync`; `components/volsync-new` is an alternative variant of the same pattern.)
+(Apps in this repo reference either `components/volsync` or `components/volsync-new`; both variants currently compose the same `claim.yaml` + `minio.yaml` resources.)
 
 ### Gatus Component
 

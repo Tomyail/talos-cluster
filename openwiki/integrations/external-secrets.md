@@ -40,10 +40,10 @@ sources:
     resource: repo://kubernetes/components/volsync/minio.yaml
   - id: openwiki-source-d7ce147b373b74b80f0794fd
     resource: repo://kubernetes/flux/meta/repos/bitwarden-eso.yaml
-generated: { by: "openwiki/0.5.1", at: "2026-09-12T21:32:37.847Z" }
+generated: { by: "openwiki/0.5.2", at: "2026-09-19T21:35:52.044Z" }
 verified:
-  - by: openwiki/0.5.1
-    at: 2026-09-12T21:32:37.847Z
+  - by: openwiki/0.5.2
+    at: 2026-09-19T21:35:52.044Z
 ---
 
 # External Secrets Integration
@@ -90,7 +90,7 @@ flowchart LR
 The ESO core is deployed via Helm in the `external-secrets` namespace:
 
 **HelmRelease** (`kubernetes/apps/external-secrets/external-secrets/app/helmrelease.yaml#L1-L36`)
-- Chart: `external-secrets` version 2.8.0
+- Chart: `external-secrets` version 2.10.0
 - Source: `external-secrets` HelmRepository (charts.external-secrets.io)
 - CRD installation: Enabled (`installCRDs: true`)
 - Service monitors: Enabled for the controller, webhook, and cert controller, each with a 1m scrape interval
@@ -133,7 +133,7 @@ The Bitwarden provider acts as the bridge between ESO and Bitwarden:
 
 **HelmRelease** (`kubernetes/apps/external-secrets/bitwarden-connect/app/helmrelease.yaml#L1-L59`)
 - Chart: `bitwarden-eso-provider` version 1.2.0
-- Source: Custom HelmRepository from `gh-pages` branch (upstream is archived)
+- Source: Custom HelmRepository from the `gh-pages` branch of the archived upstream `small-hack/bitwarden-eso-provider` (`kubernetes/flux/meta/repos/bitwarden-eso.yaml#L7-L12`); the upstream GitHub Pages site is offline, so the chart index is fetched via raw.githubusercontent.com and chart tarballs from the archived GitHub release (version 1.2.0 verified working)
 - Health checks: Extended liveness probe configuration
   - Initial delay: 20 seconds
   - Period: 300 seconds (5 minutes)
@@ -280,8 +280,14 @@ spec:
       data:
         GITEA__database__DB_TYPE: "postgres"
         GITEA__database__HOST: "dev-postgres16-rw.database.svc.cluster.local:5432"
-        GITEA__database__USER: "{{ .GITEA__database__USER }}"
-        GITEA__database__PASSWD: "{{ .GITEA__database__PASSWD }}"
+        GITEA__database__NAME: &dbName "gitea"
+        GITEA__database__USER: &dbUser "{{ .GITEA__database__USER }}"
+        GITEA__database__PASSWD: &dbPass "{{ .GITEA__database__PASSWD }}"
+        # Postgres Init (anchored to the Gitea config values above)
+        INIT_POSTGRES_DBNAME: *dbName
+        INIT_POSTGRES_HOST: "dev-postgres16-rw.database.svc.cluster.local"
+        INIT_POSTGRES_USER: *dbUser
+        INIT_POSTGRES_PASS: *dbPass
         INIT_POSTGRES_SUPER_PASS: '{{ .POSTGRES_SUPER_PASS }}'
   data:
     - secretKey: POSTGRES_SUPER_PASS
@@ -561,3 +567,4 @@ kubectl get secret test-sync-secret -n default -o yaml
 - [Application Deployment Workflow](../workflows/app-deployment.md) - ExternalSecret integration in app deployments
 rking Architecture](../concepts/networking.md) - Tailscale integration and network security
 - [Application Deployment Workflow](../workflows/app-deployment.md) - ExternalSecret integration in app deployments
+ployment Workflow](../workflows/app-deployment.md) - ExternalSecret integration in app deployments

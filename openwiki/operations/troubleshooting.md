@@ -28,10 +28,12 @@ sources:
     resource: repo://kubernetes/components/common/sops/sops-age.sops.yaml
   - id: openwiki-source-0696023deccf378a358f7526
     resource: repo://kubernetes/flux/cluster/ks.yaml
-generated: { by: "openwiki/0.5.0", at: "2026-09-08T21:57:36.335Z" }
+  - id: openwiki-source-6f1d2c8de9160e178167b990
+    resource: repo://scripts/bootstrap-apps.sh
+generated: { by: "openwiki/0.5.2", at: "2026-09-19T21:35:52.044Z" }
 verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-08T21:57:36.335Z
+  - by: openwiki/0.5.2
+    at: 2026-09-19T21:35:52.044Z
 ---
 
 # Troubleshooting Guide
@@ -157,6 +159,17 @@ The `diff` job (matrix over `helmrelease` and `kustomization`) checks out both t
 - The `flux-local-status` summary job fails only if `test` or `diff` actually failed; skipped jobs (no `kubernetes/**` changes) do not block merge (`.github/workflows/flux-local.yaml#L110-L122`)
 - Concurrency is configured with `cancel-in-progress: true`, so a new push to the same PR cancels the previous run — a "cancelled" status is normal, not a failure
 - Prevention: run `flux-local test` locally before pushing to catch rendering errors early
+
+## Bootstrap Failures
+
+The `task bootstrap:apps` flow runs `scripts/bootstrap-apps.sh`, which applies resources in a strict order and fails loudly on each step: `wait_for_nodes` → `apply_namespaces` → `apply_sops_secrets` → `apply_crds` → `sync_helm_releases` (`scripts/bootstrap-apps.sh#L137-L149`). Because the script uses `set -Eeuo pipefail` and `log error` aborts the run, a failure at any step blocks everything after it — diagnose in that order.
+
+1. **Stuck waiting for nodes**: the script waits for nodes to be `Ready=False` (Talos requires nodes `Ready=False` before applying resources during bootstrap) in a 10-second retry loop, and skips the wait if all nodes report `Ready=True` (`scripts/bootstrap-apps.sh#L10-L24`). If it loops forever, check the node's Talos state with `talosctl -n <node-ip> dmesg` and confirm `KUBECONFIG`/`TALOSCONFIG` point at `./kubeconfig` and `./talos/clusterconfig/talosconfig`.
+2. **Secret apply fails**: the three bootstrap secrets (`bootstrap/github-deploy-key.sops.yaml`, `kubernetes/components/common/sops/cluster-secrets.sops.yaml`, `kubernetes/components/common/sops/sops-age.sops.yaml`) are applied with `sops exec-file ... kubectl apply --server-side` into `flux-system` (`scripts/bootstrap-apps.sh#L57-L85`). A failure here is almost always SOPS decryption (missing/mismatched `age.key` via `SOPS_AGE_KEY_FILE`) — see the SOPS section above.
+3. **CRD apply fails**: the script pre-applies External DNS and Gateway API experimental CRDs (Renovate-pinned versions) so Cilium — installed by helmfile with `gatewayAPI.enabled=true` — has CRDs before it starts; they are also managed by Flux afterwards via the `external-dns-crds` and `gateway-api-crds` Kustomizations (`scripts/bootstrap-apps.sh#L88-L105`). Use `--server-side` conflicts in the output to spot ownership clashes between the bootstrap apply and Flux.
+4. **Helmfile sync fails**: `helmfile sync` on `bootstrap/helmfile.yaml` installs Cilium → CoreDNS → cert-manager → flux-operator → flux-instance. Failure here usually means the CRD step above didn't complete, or the cluster secrets applied in step 2 are missing values the helmfile interpolates.
+
+Once the script completes, Flux takes over reconciliation from the `flux-system` GitRepository — subsequent drift is fixed with `task reconcile`, not re-bootstrap.
 
 ## Flux Reconciliation Failures
 

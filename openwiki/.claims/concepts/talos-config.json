@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:bdc7bceacdbc51af5cd59704f22441e4e9ff6b8472431c0a1af7d26dd6b06216",
+  "pageVersion": "sha256:9ef9e708fc385124cb6c75ea0c8b54d9973734234041f70ccd80e476064c11d2",
   "claims": [
     {
       "id": "claim_4127cd77fcc84ba480c92c5910361a25",
@@ -249,10 +249,66 @@
           "version": "repo-lines-v1:sha256:1172dba8a5f5c572ea4428fc7814a5afe4ba06a270839de086f7fb4f0549a9ca:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQzYWZiZTlhYTEyMmU0N2ZiY2RkZmFlZWViYjQ3NjE0YzMyNTBlNzhmNzlhZDg5NzMyZDczMTY3ODg4MDYyODgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2MGRjZjk2Mjk1YzVkNThhNjk3NjU1MjRjMzc5YTgwOWUxNzRhNzVlZGM1YzdlYTUwMmI4MzFkOGI4MmFiNmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUwMGYyZTc4MmU2ZmRjZDY4ZTU2MDZmNWQ5MzJiYWQyNWRlY2JjNTRiODYzNTlkNjYxYmI4NDE0ZTc5Y2MxODkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdlOWVjZjQ3MzhmZTc2ZWE5N2MzYmYwZmIwNzNmZTkxODQwZThlNTBlYzVjOTdjOGQzZWZiNWU3YWI5YmRkNmQifQ"
         }
       ]
+    },
+    {
+      "id": "claim_4dc40f95040d4faab73ce019b4e516d8",
+      "statement": "talsecret.sops.yaml stores all cluster secrets (cluster ID/secret, bootstrap token, secretbox encryption secret, trustd token, and etcd/k8s/aggregator/service-account/os certificates) as SOPS AES256_GCM-encrypted blobs; the root .sops.yaml rule for talos/*.sops.yaml encrypts the entire file with a single age key and mac_only_encrypted: true, and decryption requires the matching age private key.",
+      "evidence": [
+        {
+          "resource": "repo://.sops.yaml#L2-L5",
+          "version": "repo-lines-v1:sha256:35da9b7e7dacce209c9b8550cc207df50d6026c5d352798e1ce62e1df55fbaa3:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzNkODUzYmNlZGZhOTBlZGIxMTZhZGJmOWY2YTdmMzQ3NzAzMTY0ZjBlMWRiMTU3ZTY3YmY3M2QwZjQ1YTJkMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDYwMWFkNjVkNmRjOWZmZDIxNWZiM2ZkZTkxZWFkZDlmN2IzOGUyMjJjNGU5NDc3MTFkMzk5YzQyN2MwMWQ5OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjEsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjUyZDcxMTEwM2Q1MGE0Mzc4MzBjNmZiY2QwNGZiNGJhYjQ5YTBmODJmNmQyNmQxYzc5MWM2ZTg0ODhkZDA5MCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDk1N2U0YjRhMDM3MGUwMjNlOTc3ZjZiZGQyMDk4NzEwMzk1NjIzNWI3MzBlNmJiZTFmM2Y2OTcyMDAwYzU0MCJ9"
+        },
+        {
+          "resource": "repo://talos/talsecret.sops.yaml#L1-L23",
+          "version": "repo-lines-v1:sha256:75cc84f89f8b2c639399ba7a32356284fc4b1ee78683d3804a63391222bba5ab:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYwYWJkNTZjMjE0NjgyNGVmZTg0MzE2ZDIxYjI1OWYwNmQ2M2I1ZmJmYjJkYTcwODU0ZDY1ZGRiMzU0Y2Y5YzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYyZTI0NWQzOWQyZDA4ZGNmNTMyMjNiMDI0M2MxNTNhMmQ1NWIwMmVkMjBmZjQ2NzFjMzU3NmUyOTk3MDk2MWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY2ODBmNGRhM2I2MzNlMmFjMzc2MGNlMWMyMzIxZDc2OGY4MmEzM2YyY2U3ZWJjMzE1NTNlMGQ2MjY1MTJhMWYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_761f49c461c84ebd9e6765d5d079e9e4",
+      "statement": "The root .sops.yaml distinguishes secret handling by path: files under bootstrap/ or kubernetes/ only encrypt the data/stringData fields of Kubernetes secrets, while talos/ secret files are fully encrypted; YAML output uses 2-space indentation.",
+      "evidence": [
+        {
+          "resource": "repo://.sops.yaml#L10-L12",
+          "version": "repo-lines-v1:sha256:a2fd8d4408d448951d31f90a4404b77f3827d6d3b0f6d9f8c4afa3988e0a22fd:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTU3YzQxYmQ2ZDNlZThlMWZmZTQxZWFhMDE1MDExOTEwNWZlOTIwYWNjYWM5NThlZDRmNTcyZTJjMDQzOTUyNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMmEyZWYzOWI2YzFlODlhOGI0Mzc3ZmE2OGY2ZmQ5MjVmMTQyZWY1NjdlN2RlOTI3MDBiYjcyMjk1MWU0OWMzZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTYzYzlmZDlkYTI5Mjg3MTM3ZThiOGFiNDg2OGY3Mzc2YmY0OWE5MmMzMGI3MmQ4NzA1NjU3YWFlOWZkNGY1NCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://.sops.yaml#L6-L9",
+          "version": "repo-lines-v1:sha256:41fb193544f4b6df061f97157f1d4b12e808bc37a2a0bf4fc6c9d9d36b2bbb6d:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmVjMWQ4Mzg0MzliNDYyMTU2OGJkNjMyYzA1NWY0YmQ2MTZmYmYwMTBhMTc2MjFkYzM0MTMzNzE4ZTg2YWQxMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDYwMWFkNjVkNmRjOWZmZDIxNWZiM2ZkZTkxZWFkZDlmN2IzOGUyMjJjNGU5NDc3MTFkMzk5YzQyN2MwMWQ5OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTQzYWE3ZTc4NTU4ZjZiMTAyZjJmNmRjMTk4ODI1MDA2ZTE0ZTA2YThkZGIwZTE4YzBlYjBkYzQ0ODJjMzExMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTJmZDhkNDQwOGQ0NDg5NTFkMzFmOTBhNDQwNGI3N2YzODI3ZDZkM2IwZjZkOWY4YzRhZmEzOTg4ZTBhMjJmZCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_5d3e299e225c45208a03db943e62fdf3",
+      "statement": "talos/uservolume.yaml is a standalone reference copy of the UserVolumeConfig manifest (volume local-path-provisioner on system_disk, minSize 2GB, grow: true) that is duplicated verbatim as an inlineManifest in talconfig.yaml, so the two copies must be kept in sync.",
+      "evidence": [
+        {
+          "resource": "repo://talos/talconfig.yaml#L53-L63",
+          "version": "repo-lines-v1:sha256:08115f75ece7ad13199de1b2ebe7a0529765e85d3f13aabc0fe5b794ad3faf61:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUwNWY4MDczYWRkZmVmN2Y2NDUzY2I4MDMzYTVkNGRkNzRkYjFiNjhmMzI4ZGM0ZDEzYTNiZDUxOGZhZGUwMzUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjljYjFkNzc5Y2U5ZGU5NjFhNWYwOWRhYjU4M2Q2OTE4OTNmNmIyOTdlNDUyMDMzMjNhYTFjZDFlZmQyZjZjYjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUxNTg3ZDVjMzk2YmExOWU5OGYyMTM5N2FhOWVmYTJjZWVjNTNjMjcxZDk5Yjk2NGJjZjg1MWQ4NjVjNjZhODMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA5M2RkZjI1MzNiNmE1ZjNjYTQ4M2YyMTM5MDA3ZTNkNDFlN2QyMTFiM2M3Yzg0MTc4YzM3NTcyN2Q0M2JmNTYifQ"
+        },
+        {
+          "resource": "repo://talos/uservolume.yaml",
+          "version": "repo-file-v1:sha256:192ff310b7ba19ee90b910e3334e02e55747e1c6f1d29d6ee37aed2bce187d5e"
+        }
+      ]
+    },
+    {
+      "id": "claim_31568406438545bfaf2e47c3487b93c8",
+      "statement": "The patch directory layout defines optional scopes global/, controller/, worker/, and ${node-hostname}/; this repository only contains global/ and controller/ directories, and talconfig.yaml wires global patches via patches: and the controller patch via controlPlane.patches:.",
+      "evidence": [
+        {
+          "resource": "repo://talos/patches/README.md#L7-L15",
+          "version": "repo-lines-v1:sha256:02e1f55e036cd9e5cb7efdae010ce5580be5d3be45da2e769e54d9f55565f045:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmZmOTRkZmYxZWVjOWQ3YjY3Yjg3ZmNkNWM5Y2I3MjMyOWE4ZTJkZDkyY2RhMjZiOThiNWJkOTA5ZDY0MjZkNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOGJjNDA0ZDYxMmFhYjU5OGY3NDI3YjdmNDkxMjlkMzE5ZThiYjZmNzFiMGEwMjdlM2Q5NDdlZGU2MTQ0OWQ3NCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTU0MDgzY2RhMmYyZjRkODdkNmE4NTRiODJhZDU5NjExNjJhNGVkOGM3YzlhY2NlYWVjM2RhNjIzYmM1ZWFhNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://talos/talconfig.yaml#L64-L77",
+          "version": "repo-lines-v1:sha256:00cdb21d0f7ae638eb0d2c9d873311350eb42815ac3acaaf67ae7dc3f07069b7:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM3OTA5MzIxYTQwYmM0MDMyYTQxYTM2ZDVjNzM0YjhkMGU0MDM2Nzk5ZWU2ZTg0NzQ1MmRiMTliYWNkMzY4MzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUxN2Y1N2E5ZDUzMWEzNTE5MTA2YmUyYTdmN2I4YjBiOWNkNWIwNGJiNGVhMjNkM2FmMGJiZGVlY2FjYmVhOTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk1ZjA0NWU1OGY2Yjg1ZjE0MDc2NjFlN2YxMWY5MGRkZWFiN2ZlZjZiNDY2M2NlOWRjNTU5ZGNkM2Q0NDM4ZDYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE1Njg2NjY1MGE0OWMyZDhlMjVjMDgxY2U3MDgxMWMxOGRkNzYzNDJiOTQ4ZTdlMzFkNzkzMzE5ZmEyNTlkMDUifQ"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.0",
-    "at": "2026-09-08T21:57:36.335Z"
+    "by": "openwiki/0.5.2",
+    "at": "2026-09-19T21:35:52.044Z"
   }
 }

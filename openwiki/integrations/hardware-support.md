@@ -4,8 +4,8 @@ title: Hardware and GPU Support
 description: Intel GPU device plugin setup, node feature discovery for hardware labeling, kernel module and udev configuration, and troubleshooting GPU device scheduling on Talos nodes.
 tags: [gpu, intel, node-feature-discovery, device-plugins, kernel-modules, hardware, i915, talos]
 verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-08T21:57:36.335Z
+  - by: openwiki/0.5.2
+    at: 2026-09-19T21:35:52.044Z
 sources:
   - id: openwiki-source-b9d4da166d7fb6816b60fef7
     resource: repo://kubernetes/apps/default/jellyfin/app/helmrelease.yaml
@@ -25,16 +25,22 @@ sources:
     resource: repo://kubernetes/apps/kube-system/node-feature-discovery/app/helmrelease.yaml
   - id: openwiki-source-eeb51a91678b601b80f93610
     resource: repo://kubernetes/apps/kube-system/node-feature-discovery/ks.yaml
+  - id: openwiki-source-10864cf427100b8104da89df
+    resource: repo://kubernetes/apps/observability/smartctl-exporter/app/helmrelease.yaml
+  - id: openwiki-source-1f7c9cfe347e39118ba89c7b
+    resource: repo://kubernetes/apps/observability/smartctl-exporter/app/prometheusrule.yaml
+  - id: openwiki-source-9279ce5cc0da65f429586f54
+    resource: repo://kubernetes/apps/observability/smartctl-exporter/ks.yaml
   - id: openwiki-source-456ed6bb68f86e098d0036e2
     resource: repo://talos/patches/global/machine-udev.yaml
   - id: openwiki-source-1fd71dc29915917549048436
     resource: repo://talos/talconfig.yaml
-generated: { by: "openwiki/0.5.0", at: "2026-09-08T21:57:36.335Z" }
+generated: { by: "openwiki/0.5.2", at: "2026-09-19T21:35:52.044Z" }
 ---
 
 # Hardware and GPU Support
 
-The cluster supports specialized hardware through Intel GPU device plugins, Node Feature Discovery (NFD) for automatic hardware labeling, and Talos kernel module/udev configuration. This enables workloads requiring GPU acceleration to discover and schedule on nodes with appropriate hardware capabilities.
+The cluster supports specialized hardware through Intel GPU device plugins, Node Feature Discovery (NFD) for automatic hardware labeling, smartctl-exporter for disk health monitoring, and Talos kernel module/udev configuration. This enables workloads requiring GPU acceleration to discover and schedule on nodes with appropriate hardware capabilities.
 
 ## Architecture Overview
 
@@ -218,6 +224,19 @@ Several applications in the cluster utilize Intel GPU acceleration by requesting
 - **Webtop**: Desktop environment with GPU-accelerated graphics (`kubernetes/apps/default/webtop/app/helmrelease.yaml#L41`)
 - **Paper**: Document processing with GPU support (`kubernetes/apps/default/paper/app/helmrelease.yaml#L59`)
 - **Playwright**: Browser automation with GPU acceleration (`kubernetes/apps/default/playwright/app/helmrelease.yaml#L41`)
+
+## Disk Health Monitoring (smartctl-exporter)
+
+The `smartctl-exporter` Helm release (chart `0.17.1`, from `prometheus-community`) exposes SMART telemetry for every mounted drive as Prometheus metrics (`kubernetes/apps/observability/smartctl-exporter/app/helmrelease.yaml`). It runs in the `observability` namespace with a `serviceMonitor` enabled so kube-prometheus-stack scrapes it automatically.
+
+A companion `PrometheusRule` defines five critical alerts on the exported metrics (`kubernetes/apps/observability/smartctl-exporter/app/prometheusrule.yaml`):
+
+- **SmartDeviceHighTemperature**: current device temperature above 65°C for 5 minutes
+- **SmartDeviceTestFailed**: device did not pass its SMART test (`smartctl_device_smart_status != 1` or `smartctl_device_status != 1`)
+- **SmartDeviceCriticalWarning**: non-zero SMART critical warning bit
+- **SmartDeviceMediaErrors**: non-zero media error count
+- **SmartDeviceAvailableSpareUnderThreadhold**: available spare below its threshold
+- **SmartDeviceInterfaceSlow**: negotiated interface speed below the device's maximum capability
 
 ## Troubleshooting
 

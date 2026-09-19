@@ -4,8 +4,12 @@ title: Storage & Backup
 description: Storage classes and provisioning (TopoLVM thin provisioning, local-path host storage, NFS CSI) plus VolSync-based restic backup of PVCs to MinIO and the snapshot-restore disaster-recovery pattern.
 tags: [storage, storageclasses, pvc, provisioning, volsync, backup, disaster-recovery, kubernetes, csi]
 sources:
+  - id: openwiki-source-ab04cad2d509128f85736a9f
+    resource: repo://.taskfiles/volsync/Taskfile.yaml
   - id: openwiki-source-ce5428b32557cc11ea784146
     resource: repo://kubernetes/apps/database/cloudnative-pg/cluster/cluster16.yaml
+  - id: openwiki-source-b7c690d23a47fc702a6fdc6d
+    resource: repo://kubernetes/apps/database/pgadmin/ks.yaml
   - id: openwiki-source-193460b9ee15eb184a70e006
     resource: repo://kubernetes/apps/storage/csi-driver-nfs/app/helmrelease.yaml
   - id: openwiki-source-f4981326e8ef2c12ac7b791b
@@ -36,6 +40,10 @@ sources:
     resource: repo://kubernetes/apps/storage/volsync/app/snapshot-cleanup-cronjob.yaml
   - id: openwiki-source-3714a051b30e9b02471fe9bf
     resource: repo://kubernetes/apps/storage/volsync/ks.yaml
+  - id: openwiki-source-38c32ceedfcf925cff975177
+    resource: repo://kubernetes/components/volsync-new/claim.yaml
+  - id: openwiki-source-687f5a81f368e2f129b0b0d7
+    resource: repo://kubernetes/components/volsync-new/minio.yaml
   - id: openwiki-source-a5d3d336aaacc62e6680c65d
     resource: repo://kubernetes/components/volsync/claim.yaml
   - id: openwiki-source-e77f449e947f9b25cfc86044
@@ -44,10 +52,10 @@ sources:
     resource: repo://kubernetes/flux/meta/repos/local-path-provisioner.yaml
   - id: openwiki-source-67d09412df5e9b5263585304
     resource: repo://lvm-format-manual.yaml
-generated: { by: "openwiki/0.5.1", at: "2026-09-12T21:32:37.847Z" }
+generated: { by: "openwiki/0.5.2", at: "2026-09-19T21:35:52.044Z" }
 verified:
-  - by: openwiki/0.5.1
-    at: 2026-09-12T21:32:37.847Z
+  - by: openwiki/0.5.2
+    at: 2026-09-19T21:35:52.044Z
 ---
 
 # Storage & Backup
@@ -412,7 +420,22 @@ Restore is PVC-claim-level, not in-place:
 
 **Nextcloud** is the reference example: its Flux Kustomization depends on `csi-driver-nfs`, `topolvm`, and `external-secrets`, sets `VOLSYNC_CAPACITY: 2Gi`, and uses the component to back up its `nextcloud-nfs` PVC (100Gi, `topolvm-thin-provisioner`, 2Gi local-path cache) to `s3:http://192.168.50.220:9010/volsync/dev/nextcloud-nfs`.
 
-### Snapshot cleanup
+#### `components/volsync-new` variant
+
+A second reusable component, `kubernetes/components/volsync-new`, contains an identical `ExternalSecret`/`ReplicationSource`/`ReplicationDestination` set but a **plain PVC `claim.yaml`**: it simply creates the `${APP}` PVC (defaulting to `ReadWriteOnce`, `VOLSYNC_CAPACITY`/1Gi, `topolvm-thin-provisioner`) with **no** `dataSourceRef` to the ReplicationDestination. It is therefore the right choice for applications that provision their own volume and only want scheduled backups, while the original `components/volsync` suits restore-driven adoption where the claim should materialize from the latest restic snapshot. It is used by `pgadmin`, `gitea`, `linkwarden`, `playwright`, `prowlarr`, and `epub-translator` (e.g. `kubernetes/apps/database/pgadmin/ks.yaml`, which also passes `VOLSYNC_CAPACITY` (and `VOLSYNC_UID`/`VOLSYNC_GID` substitutes — note the destination template itself reads `APP_UID`/`APP_GID`, defaulting to 1000, for its mover security context).
+
+## VolSync Operations
+
+The repo's `.taskfiles/volsync/Taskfile.yaml` automates VolSync operations under the constraints that the Kustomization, HelmRelease, PVC, and ReplicationSource share the app name and each app replicates one PVC via restic:
+
+- `task volsync:snapshot app=<app>` — patches the ReplicationSource's manual trigger and waits for the `volsync-src-<app>` mover job.
+- `task volsync:restore app=<app>` — full DR restore: suspends the app's Flux Kustomization/HelmRelease and scales the controller to 0, wipes the PVC, applies a temporary ReplicationDestination from templates to restore data, then resumes Flux and scales the app back up. It discovers the claim, controller kind (deployment/statefulset), and mover PUID/PGID live from the ReplicationSource.
+- `task volsync:unlock` / `unlock-local` — clear stale restic locks, cluster-wide via `spec.restic.unlock` patches or from a local machine via an `unlock.yaml.j2` unlock job.
+- `task volsync:list app=<app>` — lists restic snapshots via a temporary job.
+- `task volsync:state-suspend` / `state-resume` — suspend/resume the whole VolSync stack (Flux kustomization, HelmRelease, and `volsync` deployment replicas).
+- `restore-alert` — a specialized restore flow for Alertmanager that suspends `kube-prometheus-stack` first to avoid alert storms during the restore.
+
+## Snapshot cleanup
 
 A CronJob `volsync-snapshot-cleanup` in the `storage` namespace runs Sundays at 02:00 (`0 2 * * * 0`, `concurrencyPolicy: Forbid`) under the hardened `volsync-snapshot-cleanup` service account. It lists all VolumeSnapshots cluster-wide whose names match the VolSync destination prefix `volsync-volsync-dst-` and deletes any older than 7 days (`THRESHOLD_DAYS`). This prevents restore-time destination snapshots from consuming thin-pool capacity indefinitely.
 

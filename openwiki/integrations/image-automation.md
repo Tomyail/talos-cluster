@@ -4,8 +4,8 @@ title: Flux Image Automation
 description: Automated container image tag updates for default namespace applications using Flux ImageRepository, ImagePolicy, and ImageUpdateAutomation with Setters strategy and flux-bot commits.
 tags: [flux, image-automation, gitops, containers, automation]
 verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-08T21:57:36.335Z
+  - by: openwiki/0.5.2
+    at: 2026-09-19T21:35:52.044Z
 sources:
   - id: openwiki-source-aa55808be329b3f929ddf105
     resource: repo://.renovaterc.json5
@@ -19,8 +19,6 @@ sources:
     resource: repo://kubernetes/apps/default/fava/ks.yaml
   - id: openwiki-source-98116d7d2af016f632c79396
     resource: repo://kubernetes/apps/default/growth-tracker/ks.yaml
-  - id: openwiki-source-464b4100fd2b150ecd77c516
-    resource: repo://kubernetes/apps/default/omnifocus-sync-server/app/kustomization.yaml
   - id: openwiki-source-7a6dfabba58a5bbfbd748db5
     resource: repo://kubernetes/apps/flux-system/flux-instance/app/helm/values.yaml
   - id: openwiki-source-0c7ec057591fa8f2c504b0a2
@@ -33,7 +31,7 @@ sources:
     resource: repo://kubernetes/components/image-automation/kustomization.yaml
   - id: openwiki-source-3f02d6aaa16b90ed2eba88ec
     resource: repo://kubernetes/components/image-automation/registry-externalsecret.yaml
-generated: { by: "openwiki/0.5.0", at: "2026-09-01T21:54:26.927Z" }
+generated: { by: "openwiki/0.5.2", at: "2026-09-19T21:35:52.044Z" }
 ---
 
 # Flux Image Automation
@@ -93,6 +91,8 @@ The ImageRepository resource defines which container image repository to scan an
 
 The ImageRepository is instantiated per application using Kustomize variable substitution in the app's `ks.yaml` postBuild configuration.
 
+Applications currently opt in: `epub-translator`, `fava`, and `growth-tracker` (each `ks.yaml` includes `../../../../components/image-automation`).
+
 ### ImagePolicy
 
 The ImagePolicy resource defines how to select the appropriate image tag from the available tags scanned by ImageRepository.
@@ -100,13 +100,9 @@ The ImagePolicy resource defines how to select the appropriate image tag from th
 **Template** (`kubernetes/components/image-automation/imagepolicy.yaml`)
 - **Label selector**: `image-automation: enabled` (required for discovery)
 - **Policy type**: Numerical ordering in ascending direction
-- **Tag filter pattern**: `^.+-[a-f0-9]+-(?P<ts>[0-9]+)$` with timestamp extraction
+- **Tag filter pattern**: `^.+-[a-f0-9]+-(?P<ts>[0-9]+)$` with timestamp extraction (`extract: "$ts"`)
 
-**Example override** (`kubernetes/apps/default/omnifocus-sync-server/app/kustomization.yaml`)
-- Alternative alphabetical policy in descending order
-- Pattern: `^sha-[a-f0-9]+$` for pure SHA tags
-
-The ImagePolicy evaluates tags against the filter pattern, extracts the timestamp from matching tags, and selects the newest tag based on the numerical policy.
+The ImagePolicy evaluates tags against the filter pattern, extracts the timestamp from matching tags, and selects the tag with the greatest timestamp value (ascending numerical order picks the largest extracted value as latest).
 
 ### ImageUpdateAutomation
 
@@ -247,15 +243,7 @@ Uses the default numerical policy with timestamp-based tag filtering:
 
 **Policy**: `^.+-[a-f0-9]+-(?P<ts>[0-9]+)$` (e.g., `main-786bccf17263-1785740665`)
 
-This pattern matches CI/CD generated tags that embed timestamps, ensuring the chronologically newest build is selected.
-
-### SHA-Based Application (omnifocus-sync-server)
-
-Overrides to alphabetical policy for pure SHA tags:
-
-**Policy**: `^sha-[a-f0-9]+$` with alphabetical descending order
-
-This pattern matches git commit SHA tags and selects the highest SHA value (typically the newest commit in lexicographic sort).
+This pattern matches CI/CD generated tags that embed timestamps, ensuring the chronologically newest build is selected. All adopters (`epub-translator`, `fava`, `growth-tracker`) currently use this default policy.
 
 ### Private Registry
 

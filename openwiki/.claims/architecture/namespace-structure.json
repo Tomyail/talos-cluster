@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:42128a5d8fd58a58d0565b18afdb15eb3dfd34f4728c9c872c2b5b1137805bdd",
+  "pageVersion": "sha256:180672ed5380ec3132d91bf1b7bacdf5a411dc8ed229f5c64113861f59914448",
   "claims": [
     {
       "id": "claim_01f7d801aaf14c35acc5001119c780a4",
@@ -341,10 +341,24 @@
           "version": "repo-lines-v1:sha256:7db70faf5ccc1a5c1c33d7ca2b0efd148640a333995f1245820d976a516cbc2b:eyJzZWxlY3RlZExpbmVDb3VudCI6MzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM0N2YxODRiYWI3NjU5YzY3Mjk0ZmM3YTAyNDlhNjJhYzIxZDJkYTBkYjFjMzE1MWE0Zjc1MDJmNDhkODMzZjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNhNGQ0YTdhOWM4M2NiNjdjY2Y0OGNiOTgxNWQxNjBkZWNmNDYxMmM1YTc1Y2RlOGQ1MWM1MDAwYmNmZjM2MTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_1c0ba1ba53d049539c32b0bb60ef03cf",
+      "statement": "Namespace-level namespace.yaml files carry per-domain security and lifecycle metadata: storage enforces the privileged Pod Security Standard while database enforces baseline; both label volsync.backube/privileged-movers=\"true\" for VolSync movers, and both set kustomize.toolkit.fluxcd.io/prune: disabled so Flux never garbage-collects the namespace itself.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/database/namespace.yaml#L1-L9",
+          "version": "repo-lines-v1:sha256:551d7df0b60787b3877cabdf5c8d19f141f99ec44bde832e9583491fa41af368:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjUyZDcxMTEwM2Q1MGE0Mzc4MzBjNmZiY2QwNGZiNGJhYjQ5YTBmODJmNmQyNmQxYzc5MWM2ZTg0ODhkZDA5MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzQ1NjdmY2NiMDY4MGZiMjMzOTFiOTJjMDM2OThiOWM5NmVjM2YxOGY5YzNlZTMzM2Q3YzE4NGU1NGY2NmFiNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjYzNjI2NjI4ODMzNjhiOWY0YjNkNGM2YjAzNGRlMzQyMmJmODA1NzY3ZDg0NjUwOGE0YWQ2M2I1OGVmNDRmZiJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/storage/namespace.yaml#L1-L9",
+          "version": "repo-lines-v1:sha256:1ccdb360296ed93920c09654f3060f1b8cbf81200adeb88d3b547bde85019014:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjUyZDcxMTEwM2Q1MGE0Mzc4MzBjNmZiY2QwNGZiNGJhYjQ5YTBmODJmNmQyNmQxYzc5MWM2ZTg0ODhkZDA5MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTZiYTEwNjViN2EyNmU5ZjA1MmQwYjEwMDkxYWJjYmYxNTUyN2FmOWQ2NWM3ZjE4ZGQzMjMwYjAwMjA1ZDg0MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjYzNjI2NjI4ODMzNjhiOWY0YjNkNGM2YjAzNGRlMzQyMmJmODA1NzY3ZDg0NjUwOGE0YWQ2M2I1OGVmNDRmZiJ9"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.1",
-    "at": "2026-09-12T21:32:37.847Z"
+    "by": "openwiki/0.5.2",
+    "at": "2026-09-19T21:35:52.044Z"
   }
 }

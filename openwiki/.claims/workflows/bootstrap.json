@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:d4495ce507cedd62ff9fcb710de3e0da406dfd5f1dbd6ed059dbc2a6f2fd00d1",
+  "pageVersion": "sha256:d8d647eb3fcd20db05de3409c95b8fabea7822ee63413a727312bc7b2757ee93",
   "claims": [
     {
       "id": "claim_d11cc08ba8894ce49744eed253401d09",
@@ -172,11 +172,11 @@
     },
     {
       "id": "claim_05cb327c62914e45867bc0a2c39ee202",
-      "statement": "Bootstrap Helm releases (cilium 1.20.1, coredns 1.47.0, cert-manager v1.21.1, flux-operator 0.60.0, flux-instance 0.60.0) form a dependency chain via `needs`: Cilium (requires pre-applied Gateway API CRDs) → CoreDNS → cert-manager → flux-operator → flux-instance; all releases are atomic, waited on, and rollback on failure via helmDefaults.",
+      "statement": "Bootstrap Helm releases (cilium 1.20.1, coredns 1.47.1, cert-manager v1.21.2, flux-operator 0.60.0, flux-instance 0.60.0) form a dependency chain via `needs`: Cilium (requires pre-applied Gateway API CRDs) → CoreDNS → cert-manager → flux-operator → flux-instance; all releases are atomic, waited on, and rollback on failure via helmDefaults.",
       "evidence": [
         {
           "resource": "repo://bootstrap/helmfile.yaml#L13-L52",
-          "version": "repo-lines-v1:sha256:fb72506f6e1cb35e428431e231a771289e97f0bed6d09a0b582733a2685a6107:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkZTI0Nzc3YTlhNjAzZjFlZmY3ZTNjMmMzMTcxZTE2MjU5YjhhN2M5OTZkYTMxNDdhMjc5N2Y2ZjA3NTQ0MmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4NDQxMDY3MGJjNTUxNjEyNDRkZTdlZTRjMDM5YTEzMDUzYzZiN2M5ZTRkZTZiMzY4YzE3MzYzZDcyMjVlY2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZmNWY5NGUxMDY0NDU3ZjAwNWMzYzFmNzJkMzMzYTgxM2YwNzYzNTJjZjFiNzNiNTUzNWQ5NDFiNDFhNmQ1OTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "version": "repo-lines-v1:sha256:07813700e9db938e76b5df9fe0413a85f25bf2e9cb2b6abb58cfdc49c70e64c6:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkZTI0Nzc3YTlhNjAzZjFlZmY3ZTNjMmMzMTcxZTE2MjU5YjhhN2M5OTZkYTMxNDdhMjc5N2Y2ZjA3NTQ0MmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4NDQxMDY3MGJjNTUxNjEyNDRkZTdlZTRjMDM5YTEzMDUzYzZiN2M5ZTRkZTZiMzY4YzE3MzYzZDcyMjVlY2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZmNWY5NGUxMDY0NDU3ZjAwNWMzYzFmNzJkMzMzYTgxM2YwNzYzNTJjZjFiNzNiNTUzNWQ5NDFiNDFhNmQ1OTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -240,7 +240,7 @@
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.1",
-    "at": "2026-09-12T21:32:37.847Z"
+    "by": "openwiki/0.5.2",
+    "at": "2026-09-19T21:35:52.044Z"
   }
 }

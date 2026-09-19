@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:ff94c097f3859f12463b38ae509353c2704f37f29d1334740e7bc89aecc440d6",
+  "pageVersion": "sha256:923d51234ea33fedfdad5409df7b7c77b7e17e06c2912cb0e86ca3e9c0b2b6fa",
   "claims": [
     {
       "id": "claim_2f8b2d0f8ee7497eb3ab28202bcff633",
@@ -84,7 +84,7 @@
       "evidence": [
         {
           "resource": "repo://kubernetes/apps/network/tailscale/app/helmrelease.yaml#L1-L36",
-          "version": "repo-lines-v1:sha256:fe66aca1410c1edacbdd84d47d075eb0ad8cfb56c0ff52f70018fb806e155653:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "version": "repo-lines-v1:sha256:1032551b193f2cc8a2d21e351391c11693aef7bd6ce35be350163e3d0a967f81:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -274,7 +274,7 @@
         },
         {
           "resource": "repo://bootstrap/helmfile.yaml#L13-L52",
-          "version": "repo-lines-v1:sha256:fb72506f6e1cb35e428431e231a771289e97f0bed6d09a0b582733a2685a6107:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkZTI0Nzc3YTlhNjAzZjFlZmY3ZTNjMmMzMTcxZTE2MjU5YjhhN2M5OTZkYTMxNDdhMjc5N2Y2ZjA3NTQ0MmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4NDQxMDY3MGJjNTUxNjEyNDRkZTdlZTRjMDM5YTEzMDUzYzZiN2M5ZTRkZTZiMzY4YzE3MzYzZDcyMjVlY2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZmNWY5NGUxMDY0NDU3ZjAwNWMzYzFmNzJkMzMzYTgxM2YwNzYzNTJjZjFiNzNiNTUzNWQ5NDFiNDFhNmQ1OTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "version": "repo-lines-v1:sha256:07813700e9db938e76b5df9fe0413a85f25bf2e9cb2b6abb58cfdc49c70e64c6:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkZTI0Nzc3YTlhNjAzZjFlZmY3ZTNjMmMzMTcxZTE2MjU5YjhhN2M5OTZkYTMxNDdhMjc5N2Y2ZjA3NTQ0MmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4NDQxMDY3MGJjNTUxNjEyNDRkZTdlZTRjMDM5YTEzMDUzYzZiN2M5ZTRkZTZiMzY4YzE3MzYzZDcyMjVlY2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZmNWY5NGUxMDY0NDU3ZjAwNWMzYzFmNzJkMzMzYTgxM2YwNzYzNTJjZjFiNzNiNTUzNWQ5NDFiNDFhNmQ1OTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
           "resource": "repo://scripts/bootstrap-apps.sh#L9-L151",
@@ -543,10 +543,48 @@
           "version": "repo-file-v1:sha256:f041519d65e43b5cfa242a7a506f5d21aaf537a2514cc8f8e6a966267f533e60"
         }
       ]
+    },
+    {
+      "id": "claim_adf731dc6428407f91ffcccc588b67a9",
+      "statement": "The kube-system namespace hosts the cluster-foundation apps — cilium, coredns, metrics-server, reloader, node-feature-discovery, intel-device-plugin-operator, and system-upgrade (tuppr) — each referenced as a Flux Kustomization from kubernetes/apps/kube-system/kustomization.yaml, with Cilium and CoreDNS additionally installed first (needs-ordered) during bootstrap via bootstrap/helmfile.yaml.",
+      "evidence": [
+        {
+          "resource": "repo://bootstrap/helmfile.yaml#L13-L27",
+          "version": "repo-lines-v1:sha256:a78340d56cce9cee8f4f02c5ac38c4ced71ce5249c2593487c2fce90620c8987:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkZTI0Nzc3YTlhNjAzZjFlZmY3ZTNjMmMzMTcxZTE2MjU5YjhhN2M5OTZkYTMxNDdhMjc5N2Y2ZjA3NTQ0MmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRkODlhNDJjNzQxMWY5ZmQ1N2RiMTY3ZjkzOGMzMjdmNGMxN2QxMThhZDIxMjIwNWY3OTExZTU1OWIwYjdkMDkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZmNWY5NGUxMDY0NDU3ZjAwNWMzYzFmNzJkMzMzYTgxM2YwNzYzNTJjZjFiNzNiNTUzNWQ5NDFiNDFhNmQ1OTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgwMjI0YzE5OTlhMmUxNmRmOGUxMDllZmU1N2RkMWY1ZThlNGVhMmZmNDliMjI5ZTYzNzI3ZDI5NmQzNDhkOTgifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/kube-system/kustomization.yaml#L8-L15",
+          "version": "repo-lines-v1:sha256:25ea600825b60adff140645f39bab0d3980d9aa616a91477bb5bf824aa923bde:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzY2NDg5ZGJjOGUxYWM0MTBlODAwZTVmMTc0ZTU5M2IwOWFlYTNjOWM1OTA3ZjAxMzdkZjdjODIwYWU0NmFhYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiM2QzNDJkMTQ3OTgzMDFhYzc0MDlkNDg4YjkxMWVjNDYwNGFhODA4ZmE1YTZjOGE5YzUyZTUyNGYwNjliNjU1YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzM3ODgzMGE0OWJhYjg0YTdhMTRiMGZmOGRmYzU4NjI4ZmViN2NhNTU2YzBlOGE2NTlkNGQ3NzZhZWJiNWUyNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_a4730455fc3a447c8f59133a9427790d",
+      "statement": "The Tailscale operator is a Flux HelmRelease (chart tailscale-operator v1.102.4) in the network namespace, not kube-system; it enables the API server proxy via apiServerProxyConfig.mode='true' and injects OAuth clientId/clientSecret from the tailscale-secret Secret.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/kustomization.yaml#L14-L14",
+          "version": "repo-lines-v1:sha256:d8b37a8d279dfd3f2304c7330b48fb3b35ab96c6320a48d9451ce1f0dfb8b038:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDhiMzdhOGQyNzlkZmQzZjIzMDRjNzMzMGI0OGZiM2IzNWFiOTZjNjMyMGE0OGQ5NDUxY2UxZjBkZmI4YjAzOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDhiMzdhOGQyNzlkZmQzZjIzMDRjNzMzMGI0OGZiM2IzNWFiOTZjNjMyMGE0OGQ5NDUxY2UxZjBkZmI4YjAzOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDRlMTExYmJmYzIxMzBmMWY2ZmQ5OTIxZWM2ZDg0M2JkNTdiNjA1YThmYmZkNmU2YjQ5OWEyODEyNWIzZTdmZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/tailscale/app/helmrelease.yaml#L1-L36",
+          "version": "repo-lines-v1:sha256:1032551b193f2cc8a2d21e351391c11693aef7bd6ce35be350163e3d0a967f81:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4c1f9130dfc54968927744f2af1ef23e",
+      "statement": "The bootstrap helmfile installs, in needs order, cilium 1.20.1 (kube-system) → coredns 1.47.1 (kube-system) → cert-manager v1.21.2 → flux-operator 0.60.0 → flux-instance 0.60.0 (flux-system), all with atomic installs, wait, and cleanupOnFail defaults; cilium and coredns values come from the corresponding kubernetes/apps helm values files.",
+      "evidence": [
+        {
+          "resource": "repo://bootstrap/helmfile.yaml#L13-L52",
+          "version": "repo-lines-v1:sha256:07813700e9db938e76b5df9fe0413a85f25bf2e9cb2b6abb58cfdc49c70e64c6:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkZTI0Nzc3YTlhNjAzZjFlZmY3ZTNjMmMzMTcxZTE2MjU5YjhhN2M5OTZkYTMxNDdhMjc5N2Y2ZjA3NTQ0MmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4NDQxMDY3MGJjNTUxNjEyNDRkZTdlZTRjMDM5YTEzMDUzYzZiN2M5ZTRkZTZiMzY4YzE3MzYzZDcyMjVlY2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZmNWY5NGUxMDY0NDU3ZjAwNWMzYzFmNzJkMzMzYTgxM2YwNzYzNTJjZjFiNzNiNTUzNWQ5NDFiNDFhNmQ1OTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.1",
-    "at": "2026-09-12T21:32:37.847Z"
+    "by": "openwiki/0.5.2",
+    "at": "2026-09-19T21:35:52.044Z"
   }
 }

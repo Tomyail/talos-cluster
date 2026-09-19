@@ -32,14 +32,20 @@ sources:
     resource: repo://kubernetes/apps/network/cloudflare-tunnel/app/resources/config.yaml
   - id: openwiki-source-1ff1d265d4864ecc58515b0a
     resource: repo://kubernetes/apps/network/k8s-gateway/app/helmrelease.yaml
+  - id: openwiki-source-cfa24be7f3923928e4fe05dd
+    resource: repo://kubernetes/apps/network/kustomization.yaml
+  - id: openwiki-source-d8c4e370c14d2ec1e343aa98
+    resource: repo://kubernetes/apps/network/smtp-relay/app/externalsecret.yaml
+  - id: openwiki-source-f0ef8a9ac7a7201805f529f0
+    resource: repo://kubernetes/apps/network/smtp-relay/app/helmrelease.yaml
   - id: openwiki-source-d568e7b5376ab5b1f66e0d17
     resource: repo://kubernetes/apps/network/tailscale/app/egress-proxy.yaml
   - id: openwiki-source-d4d025f39bde91bcff75daaa
     resource: repo://kubernetes/apps/network/tailscale/app/helmrelease.yaml
-generated: { by: "openwiki/0.5.1", at: "2026-09-12T21:32:37.847Z" }
+generated: { by: "openwiki/0.5.2", at: "2026-09-19T21:35:52.044Z" }
 verified:
-  - by: openwiki/0.5.1
-    at: 2026-09-12T21:32:37.847Z
+  - by: openwiki/0.5.2
+    at: 2026-09-19T21:35:52.044Z
 ---
 
 # Networking Architecture
@@ -243,7 +249,7 @@ CoreDNS handles standard Kubernetes service discovery (cluster.local domains) wh
 Tailscale operator provides secure mesh networking capabilities, enabling cluster access from anywhere in the Tailscale network (tailnet).
 
 **Configuration**:
-- **Operator Version**: v1.98.9
+- **Operator Version**: chart `tailscale-operator` 1.102.4 (Flux `HelmRelease`, upstream `tailscale` HelmRepository in `flux-system`)
 - **Authentication**: OAuth client credentials from `tailscale-secret`
 - **Hostname**: `tailscale`
 - **API Server Proxy**: Enabled for remote cluster administration
@@ -255,6 +261,17 @@ Tailscale operator provides secure mesh networking capabilities, enabling cluste
 - Services configured with `tailscale.com/tailnet-ip` annotation for proxy class routing
 
 This integration enables secure, private connectivity to cluster resources from Tailscale clients without requiring VPN configuration on individual services.
+
+## SMTP Relay
+
+The `smtp-relay` app in the `network` namespace provides authenticated outbound email relay for cluster workloads, based on [maddy](https://github.com/foxcpp/maddy) (`ghcr.io/foxcpp/maddy:0.9.5`, digest-pinned), deployed via the `app-template` chart.
+
+- **Ports**: SMTP on port 25 (relay ingestion), server/submission on 465, metrics on 8080
+- **Configuration**: `maddy.conf` mounted read-only from the `smtp-relay-configmap` ConfigMap; credentials and relay settings injected via `smtp-relay-secret` (managed by External Secrets)
+- **Hardening**: Runs as non-root (UID/GID 1000) with read-only root filesystem and all capabilities dropped; memory limit 64Mi
+- **Operations**: `reloader` annotation restarts pods on secret change; ServiceMonitor scrapes metrics on port 8080
+
+Cluster services send mail to the relay's SMTP service rather than contacting external mail servers directly, centralizing authentication and rate limiting.
 
 ## Traffic Flow Examples
 

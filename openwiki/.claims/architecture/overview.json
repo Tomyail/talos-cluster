@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:939c8156bc7b7d7329184a8861cf36b698c2d336cbc303fba9f44d691b4f07ab",
+  "pageVersion": "sha256:b76f96f0bd1d27059258004860d15959ad9d2822de67248f6dabbafdbb36e069",
   "claims": [
     {
       "id": "claim_568d0013139d486d968deda03423763a",
@@ -38,11 +38,11 @@
     },
     {
       "id": "claim_ad81243d8ce14921ba3f66ae3033409c",
-      "statement": "Bootstrap phase installs core platform components via helmfile: Cilium 1.20.1, CoreDNS 1.47.0, cert-manager v1.21.1, flux-operator 0.60.0, and flux-instance 0.60.0, with explicit dependency ordering cilium → coredns → cert-manager → flux-operator → flux-instance.",
+      "statement": "Bootstrap phase installs core platform components via helmfile: Cilium 1.20.1 (from helm.cilium.io), CoreDNS 1.47.1 (OCI from ghcr.io/coredns/charts), cert-manager v1.21.2 (OCI from quay.io/jetstack/charts), flux-operator 0.60.0 and flux-instance 0.60.0 (OCI from ghcr.io/controlplaneio-fluxcd/charts), with explicit dependency ordering cilium → coredns → cert-manager → flux-operator → flux-instance and atomic installs with wait enabled.",
       "evidence": [
         {
-          "resource": "repo://bootstrap/helmfile.yaml#L14-L52",
-          "version": "repo-lines-v1:sha256:d69f89eb7adfb93507a6d9455ab79a70bc0518b5c468c3bca24529619b0a40bb:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1YTA1OTNjNDU2NDAyZmE2YTYwYWUwZjk4YmMyMjZkMzk4NDZjZmJiODgwYWNkMGM3Zjc4YWZiZTk1ZTUzMDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4NDQxMDY3MGJjNTUxNjEyNDRkZTdlZTRjMDM5YTEzMDUzYzZiN2M5ZTRkZTZiMzY4YzE3MzYzZDcyMjVlY2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjliN2YwYjcwMDgzOGMzOGRiYjE3ZmQxNjdkNGIyMmJmNGQ2NTg2MGNiODI2MWI3OTU1Zjc5ZGM3OTAyYzEzZmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://bootstrap/helmfile.yaml#L13-L52",
+          "version": "repo-lines-v1:sha256:07813700e9db938e76b5df9fe0413a85f25bf2e9cb2b6abb58cfdc49c70e64c6:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkZTI0Nzc3YTlhNjAzZjFlZmY3ZTNjMmMzMTcxZTE2MjU5YjhhN2M5OTZkYTMxNDdhMjc5N2Y2ZjA3NTQ0MmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4NDQxMDY3MGJjNTUxNjEyNDRkZTdlZTRjMDM5YTEzMDUzYzZiN2M5ZTRkZTZiMzY4YzE3MzYzZDcyMjVlY2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZmNWY5NGUxMDY0NDU3ZjAwNWMzYzFmNzJkMzMzYTgxM2YwNzYzNTJjZjFiNzNiNTUzNWQ5NDFiNDFhNmQ1OTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -346,7 +346,7 @@
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.1",
-    "at": "2026-09-12T21:32:37.847Z"
+    "by": "openwiki/0.5.2",
+    "at": "2026-09-19T21:35:52.044Z"
   }
 }

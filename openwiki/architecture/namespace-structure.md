@@ -68,10 +68,10 @@ sources:
     resource: repo://kubernetes/flux/meta/repos/bjw-s.yaml
   - id: openwiki-source-12a44dba301e86ea2cf62628
     resource: repo://kubernetes/flux/meta/repos/kustomization.yaml
-generated: { by: "openwiki/0.5.1", at: "2026-09-12T21:32:37.847Z" }
+generated: { by: "openwiki/0.5.2", at: "2026-09-19T21:35:52.044Z" }
 verified:
-  - by: openwiki/0.5.1
-    at: 2026-09-12T21:32:37.847Z
+  - by: openwiki/0.5.2
+    at: 2026-09-19T21:35:52.044Z
 ---
 
 # Namespace and Application Organization
@@ -433,12 +433,12 @@ Flux waits for dependencies to be ready before reconciling the dependent applica
 Each namespace may include additional resources beyond applications in its `namespace.yaml`:
 
 **Storage namespace** (`kubernetes/apps/storage/namespace.yaml`):
-- Namespace with `volsync.backube/privileged-movers: "true"` annotation
+- Namespace with `volsync.backube/privileged-movers: "true"` label, `pod-security.kubernetes.io/enforce: privileged`, and the `kustomize.toolkit.fluxcd.io/prune: disabled` label (so Flux never prunes the namespace itself)
 - AlertManager Provider for HelmRelease failure notifications
 - Alert resource for error events
 
 **Database namespace** (`kubernetes/apps/database/namespace.yaml`):
-- Namespace with `pod-security.kubernetes.io/enforce: baseline`
+- Namespace with `pod-security.kubernetes.io/enforce: baseline`, `volsync.backube/privileged-movers: "true"`, and prune-disabled
 - AlertManager Provider and Alert configuration
 
-These namespace-level resources provide per-domain configuration for monitoring, security policies, and integration points.
+These namespace-level resources provide per-domain configuration for monitoring, security policies, and integration points. Every namespace-level `namespace.yaml` is listed as a resource in that namespace's `kustomization.yaml`, so the namespace, its Flux notification resources, and the component-injected common resources all ship in the same reconciliation.

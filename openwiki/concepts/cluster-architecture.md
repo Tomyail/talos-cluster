@@ -16,6 +16,8 @@ sources:
     resource: repo://kubernetes/apps/default/calibre-web-automated/app/volsync-nfs.yaml
   - id: openwiki-source-d9f5f9eb0be17b72994fcd3e
     resource: repo://kubernetes/apps/kube-system/cilium/app/helm/values.yaml
+  - id: openwiki-source-473a10228ca4b1e96867e493
+    resource: repo://kubernetes/apps/kube-system/kustomization.yaml
   - id: openwiki-source-ededdde4ddcb07a3ee796444
     resource: repo://kubernetes/apps/kube-system/system-upgrade/upgrades/talos.yaml
   - id: openwiki-source-6462236f173fe5751314fd3e
@@ -24,6 +26,8 @@ sources:
     resource: repo://kubernetes/apps/network/cloudflare-tunnel/app/helmrelease.yaml
   - id: openwiki-source-1ff1d265d4864ecc58515b0a
     resource: repo://kubernetes/apps/network/k8s-gateway/app/helmrelease.yaml
+  - id: openwiki-source-cfa24be7f3923928e4fe05dd
+    resource: repo://kubernetes/apps/network/kustomization.yaml
   - id: openwiki-source-d4d025f39bde91bcff75daaa
     resource: repo://kubernetes/apps/network/tailscale/app/helmrelease.yaml
   - id: openwiki-source-713804fe0a8649683e2d52d6
@@ -74,10 +78,10 @@ sources:
     resource: repo://talos/talenv.yaml
   - id: openwiki-source-4d7c266d0d7adae77539048e
     resource: repo://talos/uservolume.yaml
-generated: { by: "openwiki/0.5.1", at: "2026-09-12T21:32:37.847Z" }
+generated: { by: "openwiki/0.5.2", at: "2026-09-19T21:35:52.044Z" }
 verified:
-  - by: openwiki/0.5.1
-    at: 2026-09-12T21:32:37.847Z
+  - by: openwiki/0.5.2
+    at: 2026-09-19T21:35:52.044Z
 ---
 
 # Cluster & Talos Architecture
@@ -253,11 +257,11 @@ Services exposed through Cloudflare Tunnel are accessed via Cloudflare's edge ne
 
 ### Tailscale
 
-Tailscale provides secure mesh networking for cluster access:
+Tailscale provides secure mesh networking for cluster access. Unlike Cilium and CoreDNS, it is a Flux-managed app in `kubernetes/apps/network/tailscale/` (not part of kube-system):
 
-- **Operator**: tailscale-operator v1.98.9
-- **API Server Proxy**: Enabled for Kubernetes API access via Tailscale
-- **OAuth**: Client credentials from `tailscale-secret`
+- **Operator**: tailscale-operator chart v1.102.4 (HelmRelease in the `network` namespace, 30m reconciliation)
+- **API Server Proxy**: `apiServerProxyConfig.mode: 'true'` exposes the Kubernetes API via Tailscale
+- **OAuth**: `clientId`/`clientSecret` injected from the `tailscale-secret` values into `oauth.clientId`/`oauth.clientSecret`
 - **Relay**: DERP mesh network for NAT traversal
 
 Tailscale enables secure access to cluster services from external networks without VPN configuration.
@@ -554,7 +558,17 @@ Upgrades operate at multiple layers, all versioned from declarative sources:
 - **Kubernetes Upgrades**: `task talos:upgrade-k8s` upgrades to the version pinned in `talenv.yaml`
 - **Application Upgrades**: automated via Flux HelmRelease reconciliation
 - **Dependency Tracking**: Renovate annotations on version pins in `talenv.yaml`, `talconfig.yaml` (via image references), and Helm releases keep versions current and reviewed through pull requests
-, `talconfig.yaml` (via image references), and Helm releases keep versions current and reviewed through pull requests
-liation
-- **Dependency Tracking**: Renovate annotations on version pins in `talenv.yaml`, `talconfig.yaml` (via image references), and Helm releases keep versions current and reviewed through pull requests
-, `talconfig.yaml` (via image references), and Helm releases keep versions current and reviewed through pull requests
+
+## kube-system Foundation Apps
+
+The `kube-system` namespace hosts the cluster-foundation applications, all managed as Flux `Kustomizations` referenced from `kubernetes/apps/kube-system/kustomization.yaml` (which applies the `../../components/common` component for the namespace):
+
+- **cilium** — CNI (installed at bootstrap via helmfile, reconciled by Flux thereafter)
+- **coredns** — cluster DNS (installed at bootstrap via helmfile; Talos's built-in CoreDNS is disabled)
+- **metrics-server** — resource metrics for `kubectl top` and the HPA
+- **reloader** — rolls pods automatically when referenced ConfigMaps/Secrets change (many apps use the `reloader.stakater.com/auto: "true"` annotation)
+- **node-feature-discovery** — labels hardware features (e.g. the `intel.feature.node.kubernetes.io/gpu` label consumed for GPU scheduling)
+- **intel-device-plugin-operator** — exposes the Intel GPU as a Kubernetes device resource
+- **system-upgrade** — the tuppr controller driving automated Talos/Kubernetes upgrades
+
+These are the apps that must exist before application workloads are useful; they are ordered accordingly during bootstrap (Cilium → CoreDNS via helmfile `needs`) and reconciled continuously by Flux afterwards.

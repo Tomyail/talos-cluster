@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:d3414db9fcf6ffcb0640ef40688b2456e27fc65522d6ff9d61fb5ada490250e4",
+  "pageVersion": "sha256:3944b4045faa7eaf90322040189a07b3b55a1840c82e11a036d41bed65838816",
   "claims": [
     {
       "id": "claim_0e4b64aa301a4c2dac2447bb89e242db",
@@ -82,17 +82,17 @@
       "evidence": [
         {
           "resource": "repo://kubernetes/apps/network/cloudflare-dns/app/helmrelease.yaml",
-          "version": "repo-file-v1:sha256:db9f7548213f47ddddf4be41dd25be4548c2a2465dac6a317f9183b5f56cd8fa"
+          "version": "repo-file-v1:sha256:a7d88302ab121488a3ae688554eb682077379a82ae4bbabb73e15b4c52597ed0"
         }
       ]
     },
     {
       "id": "claim_67eaf7b327b3435395a32c262fa38d1e",
-      "statement": "AdGuard DNS integration is an external-dns instance deployed from the OCI chart oci://ghcr.io/home-operations/charts-mirror/external-dns (tag 1.21.1) that syncs internal service DNS records to an AdGuard Home instance at http://192.168.50.1:3000 using a webhook provider (ghcr.io/muhlba91/external-dns-provider-adguard:v11.1.3, digest-pinned). It watches gateway-httproute and gateway-tlsroute sources, runs with policy sync, txtPrefix k8s., and targets the internal gateway via --gateway-name=internal, with credentials in adguard-dns-secret (reloaded on change via reloader annotation).",
+      "statement": "AdGuard DNS integration is an external-dns instance deployed from the OCI chart oci://ghcr.io/home-operations/charts-mirror/external-dns (tag 1.22.0) that syncs internal service DNS records to an AdGuard Home instance at http://192.168.50.1:3000 using a webhook provider (ghcr.io/muhlba91/external-dns-provider-adguard:v11.1.3, digest-pinned). It watches gateway-httproute and gateway-tlsroute sources, runs with policy sync, txtPrefix k8s., and targets the internal gateway via --gateway-name=internal, with credentials in adguard-dns-secret (reloaded on change via reloader annotation).",
       "evidence": [
         {
           "resource": "repo://kubernetes/apps/network/adguard-dns/app/helmrelease.yaml",
-          "version": "repo-file-v1:sha256:912b81d622d6d53e9d15b7fe61d114e0dc20265b70d6f8e7c2ff330db7e531c2"
+          "version": "repo-file-v1:sha256:d94f7391931c9960c28771855c02db18e8ccaf4107db2537e0d270600b5973c9"
         }
       ]
     },
@@ -118,7 +118,7 @@
     },
     {
       "id": "claim_a482503dde524ac9b5025763eab59269",
-      "statement": "Tailscale operator (v1.98.9) provides secure mesh networking with OAuth authentication from tailscale-secret. The operator is configured with hostname 'tailscale' and API server proxy enabled. Egress proxy functionality enables accessing external Tailnet resources via ExternalName services annotated with Tailnet IPs.",
+      "statement": "Tailscale operator (Helm chart tailscale-operator 1.102.4 from the upstream tailscale HelmRepository) provides secure mesh networking with OAuth authentication injected from tailscale-secret (client_id/client_secret keys). The operator is configured with hostname 'tailscale' and API server proxy enabled. Egress proxy functionality enables accessing external Tailnet resources via ExternalName services annotated with Tailnet IPs (e.g. prod-cluster-mosquitto pointing at 100.123.28.51).",
       "evidence": [
         {
           "resource": "repo://kubernetes/apps/network/tailscale/app/egress-proxy.yaml",
@@ -126,7 +126,7 @@
         },
         {
           "resource": "repo://kubernetes/apps/network/tailscale/app/helmrelease.yaml",
-          "version": "repo-file-v1:sha256:fe66aca1410c1edacbdd84d47d075eb0ad8cfb56c0ff52f70018fb806e155653"
+          "version": "repo-file-v1:sha256:1032551b193f2cc8a2d21e351391c11693aef7bd6ce35be350163e3d0a967f81"
         }
       ]
     },
@@ -140,7 +140,7 @@
         },
         {
           "resource": "repo://kubernetes/apps/network/cloudflare-dns/app/helmrelease.yaml",
-          "version": "repo-file-v1:sha256:db9f7548213f47ddddf4be41dd25be4548c2a2465dac6a317f9183b5f56cd8fa"
+          "version": "repo-file-v1:sha256:a7d88302ab121488a3ae688554eb682077379a82ae4bbabb73e15b4c52597ed0"
         },
         {
           "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/resources/config.yaml",
@@ -158,7 +158,7 @@
         },
         {
           "resource": "repo://kubernetes/apps/network/adguard-dns/app/helmrelease.yaml",
-          "version": "repo-file-v1:sha256:912b81d622d6d53e9d15b7fe61d114e0dc20265b70d6f8e7c2ff330db7e531c2"
+          "version": "repo-file-v1:sha256:d94f7391931c9960c28771855c02db18e8ccaf4107db2537e0d270600b5973c9"
         },
         {
           "resource": "repo://kubernetes/apps/network/k8s-gateway/app/helmrelease.yaml",
@@ -269,10 +269,28 @@
           "version": "repo-lines-v1:sha256:f02a18b97b0fd50e909381d28adb3fc7cc689048e62aedaaa88084de00fb0acd:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjdhOTFjOTc2YTJlZmI1Nzk0MWQyNTI2MjE5NzZjZDRiNjZmYzQ4YzgxMzZhZDYwOWRkZTE1ZDFiNjBlODA4MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDU4NDVlYTYxNTZjYzMwYzViZDM1Njg0Mjc4ZTJiMzc0OWZlZGFjNDA1MjFjMzA5NjhjNDFhMDkzMWJmMDhkZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjNiN2EwOWEyNjliZGUxNDU4ZWFkZGMxMjY5YTczY2VhMTIwNTYxZGYyYmEzZmQwZDY0YTNjMWVlYTk2OGRmNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDQ0ZWRhNDQxZjBkNzg4MzdjNWQxNWNlZTFmMDQwYjkzZTBjNWE4YTZmODM2MmMwZDczYTJiOGQ3ZGIxNDhkZiJ9"
         }
       ]
+    },
+    {
+      "id": "claim_0cc919563e3d4354ad4603d45b6e5f7e",
+      "statement": "The network namespace ships an smtp-relay app based on maddy (ghcr.io/foxcpp/maddy:0.9.5, digest-pinned, app-template chart) that provides outbound email relay on SMTP port 25 with a server port on 465 and metrics on 8080. It mounts maddy.conf read-only from the smtp-relay-configmap ConfigMap, injects credentials from smtp-relay-secret (ExternalSecret-managed), runs hardened (non-root UID 1000, read-only rootfs, all capabilities dropped, 64Mi memory limit), restarts on secret change via reloader, and is scraped by a ServiceMonitor.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/kustomization.yaml",
+          "version": "repo-file-v1:sha256:047360d70b32ca409e054e30a135afbbd0e93eef3f44c37c4528a3199435c333"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/smtp-relay/app/externalsecret.yaml",
+          "version": "repo-file-v1:sha256:911e0639821841822f6b47341d54156955d9402d0ab82684b068a4c1e26725d3"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/smtp-relay/app/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:175568e0d3763bb47be47b528b36913351ec44330a383373f750c6bff2fb19e2"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.1",
-    "at": "2026-09-12T21:32:37.847Z"
+    "by": "openwiki/0.5.2",
+    "at": "2026-09-19T21:35:52.044Z"
   }
 }

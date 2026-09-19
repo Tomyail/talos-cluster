@@ -4,8 +4,8 @@ title: Talos Configuration Management
 description: Talos Linux configuration structure using talhelper for node definitions, patch system, and machine config generation with version tracking via Renovate.
 tags: [talos, talhelper, configuration, patches, machine-config, kernel-modules, networking]
 verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-08T21:57:36.335Z
+  - by: openwiki/0.5.2
+    at: 2026-09-19T21:35:52.044Z
 sources:
   - id: openwiki-source-aa55808be329b3f929ddf105
     resource: repo://.renovaterc.json5
@@ -33,7 +33,11 @@ sources:
     resource: repo://talos/talconfig.yaml
   - id: openwiki-source-b65e4f1ccd91316116ad973a
     resource: repo://talos/talenv.yaml
-generated: { by: "openwiki/0.5.0", at: "2026-09-08T21:57:36.335Z" }
+  - id: openwiki-source-8ebb66a039d2620270b0a36c
+    resource: repo://talos/talsecret.sops.yaml
+  - id: openwiki-source-4d7c266d0d7adae77539048e
+    resource: repo://talos/uservolume.yaml
+generated: { by: "openwiki/0.5.2", at: "2026-09-19T21:35:52.044Z" }
 ---
 
 # Talos Configuration Management
@@ -47,6 +51,8 @@ The Talos configuration is managed through three primary files:
 - **`talconfig.yaml`** - Cluster topology, node definitions, and patch references
 - **`talenv.yaml`** - Version variables managed by Renovate
 - **`talsecret.sops.yaml`** - Encrypted cluster secrets (generated, not edited manually)
+- **`uservolume.yaml`** - Standalone reference copy of the `UserVolumeConfig` manifest that is also inlined into node configs
+- **`.sops.yaml`** (repo root) - SOPS encryption rules deciding how secrets files are encrypted
 
 ```mermaid
 flowchart LR
@@ -224,6 +230,28 @@ patches:
 - **`controller/`**: Applied only to control-plane nodes
 - **`worker/`**: Applied only to worker nodes
 - **`${hostname}/`**: Applied to specific node by hostname
+
+Each directory is optional; this repository only creates `global/` and `controller/` — there are no `worker/` or hostname-specific patch directories. `talconfig.yaml` references the global patches under `patches:` and the controller patch under `controlPlane.patches:`.
+
+## talsecret.sops.yaml and SOPS Encryption
+
+`talsecret.sops.yaml` holds the cluster's secrets — cluster ID and secret, bootstrap token, secretbox encryption secret, trustd token, and all PKI certificates and keys (etcd, k8s, k8s aggregator, k8s service account, os). Every sensitive value is stored as a SOPS `ENC[AES256_GCM,...]` blob; nothing is committed in plaintext.
+
+The root `.sops.yaml` controls encryption with path-based creation rules:
+
+- **`talos/.*\.sops\.ya?ml`** (matches `talsecret.sops.yaml`): the entire file is encrypted with the age key `age1shkd7...`, with `mac_only_encrypted: true` so the MAC covers the whole structure.
+- **`(bootstrap|kubernetes)/.*\.sops\.ya?ml`**: only `data`/`stringData` fields of Kubernetes secrets are encrypted.
+- YAML files are indented with 2 spaces (`stores: yaml: indent: 2`).
+
+Operating implications:
+
+- **Do not edit manually**: the file is generated once by `talhelper gensecret` and reused; regenerating it changes the cluster identity and certificates.
+- **Decryption**: any command that consumes the file (e.g. `talhelper genconfig`) requires the age private key (typically via `SOPS_AGE_KEY_FILE`) and the `.sops.yaml` rules.
+- **`_unencrypted` suffix**: values under keys ending in `_unencrypted` stay plaintext (`unencrypted_suffix: _unencrypted`).
+
+## uservolume.yaml
+
+`talos/uservolume.yaml` is a standalone copy of the Talos `UserVolumeConfig` manifest that is inlined verbatim into each node's config under `inlineManifests` in `talconfig.yaml`. It provisions a volume named `local-path-provisioner` on the `system_disk` with a 2GB minimum size and `grow: true`, backing the local-path-provisioner storage class. Keep the inline copy and this reference file in sync when changing volume provisioning.
 
 ### Global Patches
 

@@ -28,8 +28,8 @@ sources:
     resource: repo://kubernetes/flux/meta/repos/bitwarden-eso.yaml
 generated: { by: "openwiki/0.5.1", at: "2026-09-12T21:32:37.847Z" }
 verified:
-  - by: openwiki/0.5.1
-    at: 2026-09-12T21:32:37.847Z
+  - by: openwiki/0.5.2
+    at: 2026-09-19T21:35:52.044Z
 ---
 
 # Bitwarden Secrets Integration

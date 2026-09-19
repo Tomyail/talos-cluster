@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:3fc1d21c9cc0bfe0aa2aebf6b1199f3be8088f105f259de164cd3ea9551e8b6e",
+  "pageVersion": "sha256:6e871075f953eabc403da1914cecadb2f023d7d86b03ac9fa576e9eab2ff7edf",
   "claims": [
     {
       "id": "claim_92c47721f8cf41218bf310315692f6df",
@@ -229,10 +229,34 @@
           "version": "repo-lines-v1:sha256:8076d310013ccfe8bde95e92f1a0c5e548591f358caa983ce0b5983417ff4ba4:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODA3NmQzMTAwMTNjY2ZlOGJkZTk1ZTkyZjFhMGM1ZTU0ODU5MWYzNThjYWE5ODNjZTBiNTk4MzQxN2ZmNGJhNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODA3NmQzMTAwMTNjY2ZlOGJkZTk1ZTkyZjFhMGM1ZTU0ODU5MWYzNThjYWE5ODNjZTBiNTk4MzQxN2ZmNGJhNCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDRiNmY2ZmJlM2NmOGUyNDIwYzZjZWE5NTFmNDc3OWE2NGM1MTc0YTNmYjNhYmZjZjg4MGM2OGNmYTA1ZTNiNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNGRmMzNhNzg2MmQ1NmM0OTExMWQ0Nzg0MWVmOGM4ZTE3MDgxMWE3MDVkNWJhMzljOTAwMWUxOGY5MzViMWM3NyJ9"
         }
       ]
+    },
+    {
+      "id": "claim_2ecf0d89c34b4da3bc5ab09aab990ba8",
+      "statement": "smartctl-exporter (prometheus-community chart 0.17.1) is deployed via Flux HelmRelease in the observability namespace with a ServiceMonitor enabled, exposing SMART telemetry of mounted drives as Prometheus metrics.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/smartctl-exporter/app/helmrelease.yaml#L33-L38",
+          "version": "repo-lines-v1:sha256:84c2f3237ed1661ea66859bf1823947153ef890ed5506cc7c9ff9a1b7d12c2bc:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzZmMWM3MmI1OWFkZTUyNGMwMTM1YzdjZGIwZWIyNGFhZmJmMTRkYjE5ZjE3NjBmMTkzYjI3MDc3Yzk3ODQ2OSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTc5ZWU1MzZlNDBjNzAxMWRjZTQzZmE1MzdjMjQ0NDE0MTdlMWEzZmVmNDc4ZTJmMzk1ZGU0NWI0N2RhMjUwYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjE1YTRiM2UxMzdhNWE5ZGIwZGQwNWFkZjg4NzIxNzIwYmY4MzI2MDZjODYwMjQwNzhkOTliZmJhYTIyMTk4MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/observability/smartctl-exporter/ks.yaml#L14-L14",
+          "version": "repo-lines-v1:sha256:a326db52f2e18147e67668d79b4bb30c44542a7fd5d667a07c9c8282475a1b00:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTMyNmRiNTJmMmUxODE0N2U2NzY2OGQ3OWI0YmIzMGM0NDU0MmE3ZmQ1ZDY2N2EwN2M5YzgyODI0NzVhMWIwMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTMyNmRiNTJmMmUxODE0N2U2NzY2OGQ3OWI0YmIzMGM0NDU0MmE3ZmQ1ZDY2N2EwN2M5YzgyODI0NzVhMWIwMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNWVmNmMwMGMzMTI5MTcwMjgzMGY2NDE1NDI2Yzc2NDBhY2MzMjhkZTM5MTE2MDgyZTFlNGYzMTYyOTQ5NzFkYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzFiOWIxNTdlOTZlZWEyNzlhOWE4NzAyOTY1YWZmNThlZTE0MGE4OTZhMWFkZDQwNGM0MjFlN2Q4Y2E4YTM3ZCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_386973d628884660bed8dd2040e2bbbd",
+      "statement": "A PrometheusRule shipped alongside smartctl-exporter defines critical alerts for drive temperature above 65°C for 5 minutes, failed SMART status tests, non-zero critical warnings or media errors, available spare under threshold, and negotiated interface speed below device maximum.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/smartctl-exporter/app/prometheusrule.yaml#L8-L67",
+          "version": "repo-lines-v1:sha256:3ae1761517825649e111e14e1c8678910cecdfb92a704552763a2fa643533e3c:eyJzZWxlY3RlZExpbmVDb3VudCI6NjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJiNTU0ZDIxOTMyMTFlNzA4MGY5ZmMzOTFlZGViMTQ3NTdiNWU4NWVjMGFhN2E5NzA4NTRlOTUyNmMyMTVlZTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE0OWRmODQ3ODVhYzA2MTJhOTMyMzE0YjMwNDE5OWE3NzkxMDA5ZWE2MGRjNjg2Mjk4NzRjYmZmMmQ5MjQ0Y2YiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE4MmY1YWUyMDZmZjEwNjAxOGNlYWI1NDVlM2VkNGVmOWVjMzZhNzJkMTlmMWE0N2YwODM3NTZlOWVlZmU1ZmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQzZWM5ZDUyNDgyOGJhYjRhYmQxMTM2NGY4M2NhY2U5MzMyMDg3ZTIxNDJkZmJjNzQxMzBkMTRjMzY4MWYyODQifQ"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.0",
-    "at": "2026-09-08T21:57:36.335Z"
+    "by": "openwiki/0.5.2",
+    "at": "2026-09-19T21:35:52.044Z"
   }
 }

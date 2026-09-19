@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:31d409350e18a90939a8f9dcb8b939240075f4b739d84422b2332d7814e88d5d",
+  "pageVersion": "sha256:b42c3df368d98a53dfb7310fb544d944ee7a051b1d1c3406f13310fa8cd92711",
   "claims": [
     {
       "id": "claim_b4aa9234d97a441c954cfb4829fa91d1",
@@ -261,10 +261,110 @@
           "version": "repo-lines-v1:sha256:36a25e1fd4546a486d3a7131e598553d20aeeefabfe2a332bc77a2ccebf8af2b:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjUxNzRmZDI1NWNlNTY3MGI0NzhhZjA0NmNkNDNjNjczNGYyMDY1OWNkMTEyMzg1Zjc1MzMwNzU4M2JmY2RlMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOGU3MDc5ZWRhMmRjNzI5MDk2MWZkNzI4ODQyYmJjM2MzZDBiMjEyNTUzMjQ1MTI3OGQxYWE3NTU3MzdkZGIzMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDU3MDQyMTYxYzA1OGIxZmFiZDc2MTU2M2YzN2YyYTgxMTBmNmIxYzBmOTdkNGU1ZmRhMjk5YmIwZTRmYTM5NyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjFjYTY4ZDU1ODQ5ZDc1MzJkZmEyMzM3ZDJlMDA1Njk5ZmFjMjEyNWJhZDBiZmExZWJhYWM0NTgxNGU5NjI5ZCJ9"
         }
       ]
+    },
+    {
+      "id": "claim_98e40810352e49a1a109bfab86b5982b",
+      "statement": "The Flux Local workflow gates PR validation on a pre-job using tj-actions/changed-files to detect changes under `kubernetes/**`; only when `any_changed` is true do the `test` job (flux-local test v8.4.0 with --enable-helm, --all-namespaces, --sources flux-system, --path kubernetes/flux/cluster) and the `diff` matrix jobs run, with concurrency cancel-in-progress keyed on workflow + PR number.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/flux-local.yaml#L13-L41",
+          "version": "repo-lines-v1:sha256:3fd7951c388dfd91ff3d02bd3aa60a1d46ac4ad2e8b16ebe2a2b96d2ba87220f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU5ZDgwMTU0ZWQ0MmZjNWM3NzliMTMzMTU3OGI1OGI4OWM4MDFlYWNlNzRmMjRjZDQ4ZWI0YTIzNTc5NDBhOTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZiZWQzMDVhZjkxYjg4Nzg5NGI5MWMwMGNhNWNiOGRmOTI2OTQ3ZmU2ZjNhZDNiMjdkN2U5YjNlMjFlNjNmOWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFhZjY3ZTNmMDVjNjg1MjJmNjc3NmM4M2E4OWNmODcyOTZkOTJhOTFkNTkwMDE4OTY2ZWM3N2IzZDE0ODZmYzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJkM2Y5NzI5NWViNGJhMGI4OGU0ZjczNDAzZDVhNDZjMDVmYTU3MTQwZjgyMzExZjdlYjQxMjYzMDhhYWZkZjcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_12bb3f3fe2a244acae1f6645d319b8f8",
+      "statement": "The diff job runs as a matrix over [helmrelease, kustomization] with fail-fast: false, checks out the PR branch and default branch side by side, and runs `flux-local diff` with --strip-attrs (helm.sh/chart, checksum/config, app.kubernetes.io/version, chart), --limit-bytes 10000, and --sources flux-system; the resulting patch is posted to the PR via mshick/add-pr-comment with a per-resource message-id and continue-on-error, requiring contents:read and pull-requests:write permissions.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/flux-local.yaml#L43-L108",
+          "version": "repo-lines-v1:sha256:026f732d4e902e00fd49197a0a9b2dd654ade61033768d77608b7eade7dd2430:eyJzZWxlY3RlZExpbmVDb3VudCI6NjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUzYzMwNTU5ZDM5MGZlNDZmMGFkNDk4ZDk2Y2I1ZTEzNjk2Mzg1ZDBhNDE1NzRlNDYxN2MwOGE4YjlkMjUzMTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc1ZWZmOThjODJiNjI2Y2JlOTZmN2M3MmEyNTlmMDBkYjMwNzhiNTU0ZmQ4N2M3YjM2M2VhNzMyZDQ5MTkwZjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRkYjExOWVhYThhYzM5NGU4NmM5ODIyZTRlMDcxMDIwY2IxNTMyZTQwOGNkMzNmMmU0NjBhYTU1OTgzOGE3OWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjliMThkZWU4ZjBiNjBmNmNmMDg3MDM4OThhYzVhZWU4MDAzYjMxYzFkZTcxNGNkNGIxZGI2ZmM2ZDNiNGU4Y2EifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d6703def08ab494ab0ccce29cb290d39",
+      "statement": "The flux-local-status job depends on test and diff, runs with `if: always()`, and exits 1 if any needed job result contains 'failure', providing a single status check for branch protection; test job failures therefore block merge while PR-comment failures do not (continue-on-error).",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/flux-local.yaml#L110-L122",
+          "version": "repo-lines-v1:sha256:80897bb0a28de8d83060c7d77f398918f5e5b2bf9c094f379ad773ca9044208b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI4YTAyYjNmYzJiYWY4MDlhZTIzNjM1M2IyZjE4NjlkYWEwOWIyYmZiMjIwZjNmNTg4MzQ3OGRiNWI1YzU4ODIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVkMzlmNjU0ZWY2NzkyMjEyNzRkODIwYmZiMjdjZmVkZjIwMjVkZGY4ZDM0NTIwYThhYjYzNjRhODU3MjMyZWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU5MGM4YTMxOGMwYzdjZDI5ZTZkN2E0NzQ1YWE3MTNjNjA5NWY3NDdlZjk4ZGZmNmMxYzQyZjRkNTdlOTZkYzMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4349f079a4b5414c89d0ec1c3b231816",
+      "statement": "The Label Sync workflow, triggered on pushes to main touching .github/labels.yaml or manually, uses EndBug/label-sync with delete-other-labels: true to make the repository's label set exactly match the schema in labels.yaml: green area/* labels, blue renovate/* labels, type/digest|patch (yellow), type/minor (orange), type/major (red), plus community and hold.",
+      "evidence": [
+        {
+          "resource": "repo://.github/labels.yaml",
+          "version": "repo-file-v1:sha256:bc18eef8798dec3a30a0ae930e54638412d09688fb4afb862de3850758c1e199"
+        },
+        {
+          "resource": "repo://.github/workflows/label-sync.yaml",
+          "version": "repo-file-v1:sha256:3b8f5ea6890a99fb0c21727b0cb9409b87d8c7950b070ceaa501633ac230f6ff"
+        }
+      ]
+    },
+    {
+      "id": "claim_10e41aabd1474c3d8beb4538906b4cc9",
+      "statement": "The Labeler workflow runs on pull_request_target to main (safe for external contributors) and workflow_dispatch, using actions/labeler with .github/labeler.yaml to auto-apply area/* labels based on changed-file globs such as kubernetes/**/* → area/kubernetes and .renovaterc.json5 → area/renovate.",
+      "evidence": [
+        {
+          "resource": "repo://.github/labeler.yaml",
+          "version": "repo-file-v1:sha256:9c8d8f732d6bfd677c40a340b607eac9c15b5072268f67479110d60dbf031f06"
+        },
+        {
+          "resource": "repo://.github/workflows/labeler.yaml",
+          "version": "repo-file-v1:sha256:dffffd8b0845a5d0b09443d0c60c0c91334008c94fa0874af07251f48c8d29c0"
+        }
+      ]
+    },
+    {
+      "id": "claim_ed7fbac0925348dc9f961aa5ff2b3fdb",
+      "statement": "The OpenWiki Update workflow runs daily at 19:30 UTC or on demand with contents: write; it installs the `openwiki` npm package on Node 22, runs `openwiki code --update --print` using the Anthropic provider against a custom base URL (open.bigmodel.cn) with model glm-4.7 and the ANTHROPIC_API_KEY secret, then commits openwiki/, AGENTS.md, and CLAUDE.md as github-actions[bot] only when staged changes exist, rebasing onto origin/main before pushing.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml",
+          "version": "repo-file-v1:sha256:400ef013715a954a9b0169ec9585289e9c71ebe1369b52c79257ca9d8adab819"
+        }
+      ]
+    },
+    {
+      "id": "claim_6ee7f7e81bd0487f9e9cd19b57b8dcf0",
+      "statement": "Renovate auto-merges (automergeType: branch, ignoreTests: true) GitHub Actions minor/patch/digest updates after a 3-day minimum release age, mise tool minor/patch updates, and non-major app-layer updates — the latter excluding an explicit list of core-infrastructure dependencies (storage, networking, cert-manager, flux-operator, observability, Talos node components, app-template) that always require the flux-local PR gate; runs are scheduled every weekend.",
+      "evidence": [
+        {
+          "resource": "repo://.renovaterc.json5#L161-L204",
+          "version": "repo-lines-v1:sha256:f600f1c5cc34960570a98e753bb89a89a3cf476b3cbd64bbb738ffebd7a31737:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3OWJhNDA5NzU4ODI2M2ZiMTViNWUzNzU4NTJkZWU3OWY4MTc0OWIyZDViOTBlZTUxZDY0N2I4ZmY3ZjliOTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4OTNmNDBlMzc4MWViODk2YzgyZDA0NmEwODA2N2ExMWUzNWNkZjJmMWRmYWYyNmZlYTkwYjhkYjY2NzY0MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg4NjVlZDNiNWJmODIzZGQ0Y2VlNzM5ZDE0OTJkYmU2NTI4ZTU1MzAxOTg3ODE0ZDU2MmU2NTg2MWM2ZDRjOTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ0YjNlYjc5Y2NlM2E0YTI2NDI2ZWQ4NTQ1NTdhNjljMDUxMzc0MmE4YjMxNWRhMmQ1MzUxZTk3YmY5NmQ5ODAifQ"
+        },
+        {
+          "resource": "repo://.renovaterc.json5#L69-L84",
+          "version": "repo-lines-v1:sha256:bd9f3374c693893d2b4ee0d4b2d3c20feb41d9cd4dd1c4b3e5f97ee877de9929:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVkMmJhYjBlNzYzZGEyODE4MDZiMWRjOTkyMzM4ZmIyNjI5OTM1MTdkZjY1NDZmYmJlZDUyNzNmNmYzNTVkNjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImMwNWVkZDAwZGM1NmViMmJmMGY0OGMxZWQ5OTk4OWNiMDQ0N2U0YzQ0YWQxNzcxNjI4ODk5M2I0NmQ5ZDA3ZDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjUyMWY1NGQwNDU2YzkyYWRmNDEzMzhjNDQzMTJkY2EyOTU2MWNmYWZkYTkyYWQ4ODE3NDY3MDlmN2FmNmI2ZmQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_64612f8d0c314abe9ebc65883afbd135",
+      "statement": "Renovate groups Cert-Manager, CoreDNS, Flux Operator, and Spegel updates into single PRs and attaches the renovate/* and type/* labels defined in .github/labels.yaml by datasource/manager and update type; it ignores SOPS-encrypted files and uses a regex custom manager for `# renovate:` annotated versions in .env/.sh/.yaml files.",
+      "evidence": [
+        {
+          "resource": "repo://.renovaterc.json5#L133-L159",
+          "version": "repo-lines-v1:sha256:0c83dedf9b61a7dc66575356fc10502e3c6bf2046a0c48e995e9e2502d36cedb:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE4Y2I5NmJhM2JkZWQ2YmU1MmUzODYyZTZiNDYwYTc1ZmRkMWViOTQ1ODJjNDAwNjMyOWYyODA3OGUzZjk2ODEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjcyNjU1ZjY3ODE1NGU1ODM3ZmM0NzFmNzFiODNjZDY5ZjZiNGY5Y2I2NTMwNzRmN2EzYTc1ZjlkYzk2ODU5MGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY0YzA0YmMxZjJiYTdjZTM3MTllYzM5MjM3YjBjMGU1OTRkYmEzMzRjODcyMDhlZjIxZTkzNWQwNGM1NGZjNGMifQ"
+        },
+        {
+          "resource": "repo://.renovaterc.json5#L15-L30",
+          "version": "repo-lines-v1:sha256:2168b9b0b0aaf7d0a3bb10fe2e16508984baaed087c904df50bb8cd870eb8cb5:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU1NTIyOGIzMDQ4MjQ1ZWY4ZGIyNGI0YTdmNmVjYTE0MjBiYmU0YTUwMWQzYTFkZTc4MDI0ODc0OGNmMzM3YzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkNWNkMmZiNGYzZGY4ODQ1MTUyNTViMzk1MjNmMmY4YjU0NzJiZWVhOWY1NjZmZmNhMjA0ZGI4MDI1NjEwNDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjczZTY2OTZlMDQ4MTQ0Zjk2N2M5MTcyY2UwYTk1ZjIyYTA1ZDkxNGZlMGNhNmJkMjI4MjA3NzdhNDVjODdlZTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZjY2YxMTg1NDljNzE0NmQyMjViZjI1NTM1NDk0YjAyMmEwZTM1ZGJkMDJmMTdhYzAwNmVhNWM0ZDUwODZjZjAifQ"
+        },
+        {
+          "resource": "repo://.renovaterc.json5#L31-L67",
+          "version": "repo-lines-v1:sha256:36eac0690464066f70e3ad258927194ed18e7974c645d65e0615b340200504aa:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY4OWZlMTNhOTQ5MjEzOTdhYzc0ZDk3ODU3MmQ3NjUzYTM3N2Y1ZTQ4Mzk4NzIyN2ZkMDBlYjQ1OWM4MjFjMDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE5MjA3ODA3OGI4MmRjZGE4NjRiMDM1ZDJhMzIxNWRjMTU0OWY4ZmE2YmI1OTBlMzliMDcxMzBhZWQxMjcwMmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI3NjdjMWU5ZTYzMzdmNGQ2YjU0NjAyNzM0MDE1MzFmN2IwZjBlMGVhZDA3MWQ1NWYwMGQzZTg5MjM0OThiMzIifQ"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.0",
-    "at": "2026-09-08T21:57:36.335Z"
+    "by": "openwiki/0.5.2",
+    "at": "2026-09-19T21:35:52.044Z"
   }
 }

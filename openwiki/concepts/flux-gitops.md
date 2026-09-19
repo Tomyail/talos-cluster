@@ -1,25 +1,43 @@
 ---
 type: concept
 title: Flux GitOps Workflow
-description: Day-to-day GitOps workflow including making application changes, the reconciliation loop, automated dependency updates via Renovate, and dependency ordering through dependsOn.
+description: Concept-level explanation of Flux Kustomizations, HelmRelease, the app-template OCIRepository chart source, dependsOn ordering, and Flux image automation as used in this repo.
 tags: [flux, gitops, workflow, reconciliation, renovate, dependencies]
 verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-01T21:54:26.927Z
+  - by: openwiki/0.5.2
+    at: 2026-09-19T21:35:52.044Z
 sources:
   - id: openwiki-source-240e6406ed4b6841961679cb
     resource: repo://.sops.yaml
   - id: openwiki-source-559185c7613d95e269ebce5b
     resource: repo://kubernetes/apps/cert-manager/cert-manager/ks.yaml
+  - id: openwiki-source-37b3f77c1ceb2e20b192e263
+    resource: repo://kubernetes/apps/default/atuin/app/helmrelease.yaml
+  - id: openwiki-source-649e5ed74d5376f95cff2b2a
+    resource: repo://kubernetes/apps/default/gitea/ks.yaml
+  - id: openwiki-source-0c7ec057591fa8f2c504b0a2
+    resource: repo://kubernetes/apps/flux-system/image-automation/automation.yaml
   - id: openwiki-source-d6f15e9bcc98024fdcda7d87
     resource: repo://kubernetes/apps/kube-system/cilium/ks.yaml
+  - id: openwiki-source-63c7de935f96b1aa0a5dc1a4
+    resource: repo://kubernetes/components/common/kustomization.yaml
+  - id: openwiki-source-0aa0479be229def909bbfa22
+    resource: repo://kubernetes/components/common/repos/app-template/ocirepository.yaml
   - id: openwiki-source-47282df10449a6bce110950c
     resource: repo://kubernetes/components/common/sops/cluster-secrets.sops.yaml
   - id: openwiki-source-244e2919bbe6d12c6c8c9757
     resource: repo://kubernetes/components/common/sops/sops-age.sops.yaml
+  - id: openwiki-source-98651905762c8e5a9b4da8ba
+    resource: repo://kubernetes/components/image-automation/imagepolicy.yaml
+  - id: openwiki-source-7d50b3fa30e8bcbde0dc183c
+    resource: repo://kubernetes/components/image-automation/imagerepository.yaml
+  - id: openwiki-source-5b9de8faa6aefca68539d613
+    resource: repo://kubernetes/components/image-automation/kustomization.yaml
+  - id: openwiki-source-967d9e45efe8409177c04aa4
+    resource: repo://kubernetes/components/image-automation/README.md
   - id: openwiki-source-0696023deccf378a358f7526
     resource: repo://kubernetes/flux/cluster/ks.yaml
-generated: { by: "openwiki/0.5.0", at: "2026-09-01T21:54:26.927Z" }
+generated: { by: "openwiki/0.5.2", at: "2026-09-19T21:35:52.044Z" }
 ---
 
 # Flux GitOps Workflow
@@ -181,15 +199,85 @@ Labels are applied automatically for filtering:
 
 ### Image Automation
 
-Flux provides built-in image update automation that scans container registries and updates image tags in Git:
+Flux provides built-in image update automation that scans container registries and updates image tags in Git. In this repo it has two layers: a reusable Kustomize component that declares per-app image metadata objects, and one cluster-wide ImageUpdateAutomation that commits the resulting tag updates back to Git.
 
-**ImageUpdateAutomation** (`kubernetes/apps/flux-system/image-automation/automation.yaml#L1-L28`)
-- Scans registries every 5 minutes
-- Uses the Setters strategy to update image tags in `./kubernetes/apps/default`
-- Commits changes as `flux-bot`
-- Updates only resources with ImagePolicies labeled `image-automation: enabled`
+**Per-app `image-automation` component** (`kubernetes/components/image-automation/kustomization.yaml#L1-L7`)
+Applications opt in by adding `../../../../components/image-automation` to the `components:` list of their `ks.yaml` (e.g. `kubernetes/apps/default/gitea/ks.yaml`). The component adds three resources, all parameterized via postBuild substitution variables (`APP`, `NAMESPACE`, `REGISTRY_URL`):
 
-This works alongside Renovate: Renovate updates chart versions and pinned images, while ImageUpdateAutomation handles automated image tag policies.
+- **ExternalSecret** (`registry-externalsecret.yaml`): pulls registry pull credentials from Bitwarden via External Secrets Operator.
+- **ImageRepository** (`imagerepository.yaml#L1-L11`): points at `${REGISTRY_URL}` and scans the registry every 1 minute using the `${APP}-registry-secret` credentials.
+- **ImagePolicy** (`imagepolicy.yaml#L1-L17`): labeled `image-automation: enabled`, selects the highest timestamp from tags matching the pattern `^.+-[a-f0-9]+-(?P<ts>[0-9]+)$` (i.e. `sha-<digest>-<timestamp>` tags), ascending numerical order.
+
+The application's HelmRelease consumes the policy result through an in-line setter marker:
+
+```yaml
+image:
+  repository: gitea.tomyail.com/tomyail/myapp
+  tag: "sha-xxx" # {"$imagepolicy": "NAMESPACE:APP:tag"}
+```
+
+**Cluster-wide ImageUpdateAutomation** (`kubernetes/apps/flux-system/image-automation/automation.yaml#L1-L28`)
+- Runs every 5 minutes with the `Setters` strategy, scoped to `./kubernetes/apps/default`
+- Checks out `main` of the `flux-system-https` GitRepository and pushes tag-bump commits back to `main` as `flux-bot`
+- `policySelector: matchLabels: image-automation: enabled` restricts it to ImagePolicies created by the component — apps without the label are never touched
+
+This works alongside Renovate: Renovate updates chart versions and pinned upstream images, while ImageUpdateAutomation handles commit-tag policies for self-built images.
+
+## Common Components and the app-template Chart Source
+
+### Kustomize Components
+
+Several cross-cutting concerns are packaged as Kustomize **components** (`kind: Component`) under `kubernetes/components/` and attached from `ks.yaml` files via relative `components:` entries (e.g. `../../../../components/volsync-new`, `../../../../components/gatus/external` in `kubernetes/apps/default/gitea/ks.yaml#L13-L15`). Unlike a base overlay, a component's resources are spliced into the referencing Kustomization, so variables substituted by that Kustomization's `postBuild` are visible inside the component's manifests.
+
+### The `common` Component
+
+Every app namespace root (`kubernetes/apps/<namespace>/kustomization.yaml`) includes `../../components/common`. That component (`kubernetes/components/common/kustomization.yaml#L1-L7`) bundles:
+
+- A placeholder `not-used` Namespace annotated `kustomize.toolkit.fluxcd.io/prune: disabled` so Flux garbage collection has a namespace anchor without managing a real one (`namespace.yaml`)
+- The `repos` set, which currently ships a single shared chart source (below)
+- The `sops` set: the `sops-age` decryption key Secret and `cluster-secrets` Secret, both SOPS-encrypted (`sops/sops-age.sops.yaml`, `sops/cluster-secrets.sops.yaml`), which back the `decryption.secretRef` and `postBuild.substituteFrom` references used by application Kustomizations
+
+### OCIRepository: the app-template Chart
+
+Instead of per-app HelmRepository definitions, the `bjw-s-labs` `app-template` chart — the generic Helm chart wrapping nearly every application in this repo — is vendored once as an **OCIRepository** (`kubernetes/components/common/repos/app-template/ocirepository.yaml#L1-L14`):
+
+```yaml
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: app-template
+spec:
+  interval: 1h
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy
+  ref:
+    tag: 5.1.0
+  url: oci://ghcr.io/bjw-s-labs/helm/app-template
+```
+
+- Because it lives in the `common` component, every application namespace inherits the same pinned chart artifact; upgrading app-template is a single `ref.tag` bump
+- `layerSelector` copies the Helm chart tarball layer out of the OCI artifact so HelmRelease can consume it directly
+- Renovate tracks the `ref.tag` digest so chart upgrades arrive as normal pull requests
+
+### HelmRelease Consumption
+
+Application HelmReleases reference the shared OCI chart via `chartRef` rather than a `chart`/`sourceRef` pair (`kubernetes/apps/default/atuin/app/helmrelease.yaml#L7-L20`):
+
+```yaml
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+```
+
+All application-specific behavior (controllers, images, persistence, probes) is expressed as inline `values` against app-template's generic schema, and install/upgrade remediation (retries, rollback) is declared per HelmRelease.
 
 ## Dependency Management
 
@@ -384,5 +472,9 @@ kubectl get events -n <namespace> --field-selector reason=ReconciliationFailed
 ## Related Pages
 
 - [Flux GitOps Architecture](/openwiki/concepts/flux-architecture.md) - Detailed reconciliation hierarchy and Kustomization structure
+- [Image Automation](/openwiki/integrations/image-automation.md) - Deep dive into the image automation component and ImageUpdateAutomation
+- [Application Deployment Workflow](/openwiki/workflows/app-deployment.md) - Application deployment patterns and app-template usage
+- [Secrets Management](/openwiki/concepts/secrets-management.md) - SOPS encryption and External Secrets Operator integration
+ecture.md) - Detailed reconciliation hierarchy and Kustomization structure
 - [Application Deployment Workflow](/openwiki/workflows/app-deployment.md) - Application deployment patterns and app-template usage
 - [Secrets Management](/openwiki/concepts/secrets-management.md) - SOPS encryption and External Secrets Operator integration

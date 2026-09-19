@@ -30,10 +30,10 @@ sources:
     resource: repo://talos/talconfig.yaml
   - id: openwiki-source-b65e4f1ccd91316116ad973a
     resource: repo://talos/talenv.yaml
-generated: { by: "openwiki/0.5.0", at: "2026-09-08T21:57:36.335Z" }
+generated: { by: "openwiki/0.5.2", at: "2026-09-19T21:35:52.044Z" }
 verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-08T21:57:36.335Z
+  - by: openwiki/0.5.2
+    at: 2026-09-19T21:35:52.044Z
 ---
 
 # Cluster Upgrade Workflow
@@ -212,7 +212,7 @@ flowchart TD
 ```
 
 **Components:**
-- **OCIRepository** (`kubernetes/apps/kube-system/system-upgrade/tuppr/ocirepository.yaml`): Fetches the tuppr chart from `oci://ghcr.io/home-operations/charts/tuppr`, pinned to tag `0.5.4`, reconciling every 1h, with `layerSelector` copying only the Helm chart tarball layer (`application/vnd.cncf.helm.chart.content.v1.tar+gzip`)
+- **OCIRepository** (`kubernetes/apps/kube-system/system-upgrade/tuppr/ocirepository.yaml`): Fetches the tuppr chart from `oci://ghcr.io/home-operations/charts/tuppr`, pinned to tag `0.5.6`, reconciling every 1h, with `layerSelector` copying only the Helm chart tarball layer (`application/vnd.cncf.helm.chart.content.v1.tar+gzip`)
 - **HelmRelease** (`kubernetes/apps/kube-system/system-upgrade/tuppr/helmrelease.yaml`): Deploys the tuppr controller via `chartRef` pointing at the `tuppr` OCIRepository, reconciling every 30m with `replicaCount: 1` and a Prometheus `serviceMonitor` enabled
 - **Custom Resources**: `TalosUpgrade` and `KubernetesUpgrade` CRs define upgrade specifications
 - **PrometheusRule**: Monitors upgrade progress and fires alerts on failures

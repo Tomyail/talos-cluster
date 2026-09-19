@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:5c15ab2736b213a0d0140389c08ecdee0ec1373ce36f7e2c710e07e1df57e95e",
+  "pageVersion": "sha256:2e7ade4765ad48fb14c2bf9b63872c252c2e783f3dea95240685ab3e97e9f06e",
   "claims": [
     {
       "id": "claim_fdb31951fbef449e8d6a7379d6290774",
@@ -32,7 +32,7 @@
     },
     {
       "id": "claim_dedbf40cfa454fbfbb4ee73b110ad22f",
-      "statement": "The tuppr automation system is deployed via Flux Kustomization in `kubernetes/apps/kube-system/system-upgrade/ks.yaml`, which deploys the tuppr controller HelmRelease and a separate dependent Kustomization (`tuppr-upgrades`) for upgrade CRs. The controller HelmRelease is sourced via `chartRef` from an OCIRepository named `tuppr` that pins chart tag `0.5.4` from `oci://ghcr.io/home-operations/charts/tuppr` (reconciling every 1h) and selects only the Helm chart tarball layer (`application/vnd.cncf.helm.chart.content.v1.tar+gzip` with `operation: copy`); the HelmRelease reconciles every 30m with one replica and a Prometheus serviceMonitor enabled. The controller manages upgrade lifecycle through TalosUpgrade and KubernetesUpgrade custom resources.",
+      "statement": "The tuppr automation system is deployed via Flux Kustomization in `kubernetes/apps/kube-system/system-upgrade/ks.yaml`, which deploys the tuppr controller HelmRelease and a separate dependent Kustomization (`tuppr-upgrades`) for upgrade CRs. The controller HelmRelease is sourced via `chartRef` from an OCIRepository named `tuppr` that pins chart tag `0.5.6` from `oci://ghcr.io/home-operations/charts/tuppr` (reconciling every 1h) and selects only the Helm chart tarball layer (`application/vnd.cncf.helm.chart.content.v1.tar+gzip` with `operation: copy`); the HelmRelease reconciles every 30m with one replica and a Prometheus serviceMonitor enabled. The controller manages upgrade lifecycle through TalosUpgrade and KubernetesUpgrade custom resources.",
       "evidence": [
         {
           "resource": "repo://kubernetes/apps/kube-system/system-upgrade/ks.yaml",
@@ -44,7 +44,7 @@
         },
         {
           "resource": "repo://kubernetes/apps/kube-system/system-upgrade/tuppr/ocirepository.yaml",
-          "version": "repo-file-v1:sha256:21fd181ba3f881986d87def010be520c30e89683bedc29d6498c90d9885d4bee"
+          "version": "repo-file-v1:sha256:e3f22d6ef8da8729de883135def9201849de6b41b9c76db4a1b858cbcaeb4319"
         }
       ]
     },
@@ -262,7 +262,7 @@
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.0",
-    "at": "2026-09-08T21:57:36.335Z"
+    "by": "openwiki/0.5.2",
+    "at": "2026-09-19T21:35:52.044Z"
   }
 }

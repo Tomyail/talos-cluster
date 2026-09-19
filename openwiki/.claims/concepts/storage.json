@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:298e7ffe60600b3ebbb71065599d62ca1bd5222b19b12eb08f83038c11730fd3",
+  "pageVersion": "sha256:26a6a9f7ae61aa8fea6837a983182a2768f4aac574812686bf2aa3db988b6eaa",
   "claims": [
     {
       "id": "claim_5ab8c29c6d0d4c42addcf2ca1aa09c04",
@@ -257,10 +257,54 @@
           "version": "repo-lines-v1:sha256:91a6c934e3519921442f8f246abd5c16243f4a7c59fb4dcf7a2b3c036fc25cd1:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc3NmFlMTQyNDI4ZTc1NGI2N2Q3ZDZlM2RmZGJlMWI0NDhmMGJhYzM1NWQ4ZmEyNGVjOTQ3MWUyMWQ5MGI0MzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg4MDQ5ZWQ1YTA4MDVkOGZhYTE4ZmI5NmU2ZTcyZDBlNzQ0ZDFjOTBmM2FkNTE0NTQwZTU0ZmM4OGI0MzJiN2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIifQ"
         }
       ]
+    },
+    {
+      "id": "claim_b64990ea81f14759b4581f45557c18e2",
+      "statement": "The repository ships a second reusable backup component, kubernetes/components/volsync-new, with an identical ExternalSecret/ReplicationSource/ReplicationDestination set to components/volsync but a plain PVC claim.yaml lacking the dataSourceRef to the ReplicationDestination, making it suited for apps that provision their own volume with scheduled backups only.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/volsync-new/claim.yaml",
+          "version": "repo-file-v1:sha256:cb49de4194c92c3936a20756252d36294fce3c5ef4d0899007dce030aea5570b"
+        },
+        {
+          "resource": "repo://kubernetes/components/volsync/claim.yaml",
+          "version": "repo-file-v1:sha256:884ce121cda571f91734132bb4d973643f3dbd93b8b1ee9797c5a0715061161b"
+        }
+      ]
+    },
+    {
+      "id": "claim_029b2586fdd548008671528817855bb5",
+      "statement": "components/volsync-new is used by the pgadmin, gitea, linkwarden, playwright, prowlarr, and epub-translator Flux Kustomizations, which set APP and VOLSYNC_CAPACITY (e.g. pgadmin with 1Gi) postBuild substitutes.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/database/pgadmin/ks.yaml",
+          "version": "repo-file-v1:sha256:790324aae463d819f633ef50aabe7ecb4a83d7f45bae15f8b7f2544f58f82dff"
+        }
+      ]
+    },
+    {
+      "id": "claim_077c3b28f7d841e380ab7fd397748873",
+      "statement": "In the volsync component's ReplicationDestination, the mover security context is driven by APP_UID/APP_GID postBuild substitutes defaulting to 1000, not by VOLSYNC_UID/VOLSYNC_GID.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/volsync-new/minio.yaml#L77-L82",
+          "version": "repo-lines-v1:sha256:1372597ee8947e1818b1f411b9e2470dfba2d2cb8b0abe5b2f01482067aa570d:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzUwNzBjYzVjODExOTkzZDI4YTgxNWJhMjE4NDg5NzY0OWFhNzlkZmIxNWYyMjQ5Y2E2NGE4M2RiY2JhNzc1YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGVkZDQ4ZWQ2M2Q5MWJiZDcyM2ViZjE1NWQ3ZjgzNzdkN2E0OGZlYjIxNGU5YTlhZjI1NTY2MWJhZGUwYmNjMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjQwNjM3NDM5ZjY3N2RmNWNkYjUzNjg5ZDkzMmJhN2QyOGM1YTlkM2Y1MmU5MjA5MjQ1NjlkZWVjYTEzYjZhOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjkyY2MyMmEzN2M0Nzg4MTc3MDE4OGYyODJjNmYyMGVhNzFhN2JiOWNiZDcwNzkzYzdlN2FhOWYzN2NkNDE5OSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_f8f5582f37ab44d4b29d2021609a815c",
+      "statement": "The .taskfiles/volsync/Taskfile.yaml provides operational tasks: snapshot (manual-trigger ReplicationSource and wait for volsync-src-<app> job), restore (suspend app Flux resources and controller, wipe PVC, restore via temporary ReplicationDestination, resume), unlock/unlock-local (clear stale restic locks), list, state-suspend/state-resume of the whole VolSync stack, and a restore-alert flow that suspends kube-prometheus-stack when restoring Alertmanager.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/volsync/Taskfile.yaml",
+          "version": "repo-file-v1:sha256:85299c07f676268686fe613a24b4d337c1243fe9c3291bc7589d06eb3fe56105"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.1",
-    "at": "2026-09-12T21:32:37.847Z"
+    "by": "openwiki/0.5.2",
+    "at": "2026-09-19T21:35:52.044Z"
   }
 }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:40afeac0cdbaae8b3d459f9682bda20fec902620ec97e46c9c0a14bc67e5af15",
+  "pageVersion": "sha256:923c0967c169b6aace93c22f7ba9efe3cea252815785dc40a6ae8713e7daf58e",
   "claims": [
     {
       "id": "claim_d05bde63be0e48cca828a500a8054af5",
@@ -65,16 +65,6 @@
         {
           "resource": "repo://kubernetes/components/image-automation/imagepolicy.yaml#L9-L16",
           "version": "repo-lines-v1:sha256:7e14a183b997778ce3ff37c2b759409172a29e1494dd2c57711cd5312371c9fe:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWU5MWU1MWNlNTM4ZWYxMjBlZTIwY2JkZjk0MTU4YmFjZTFjYzExNzkwNmY4NjRmZWQyZDk0ZTM3MTEwY2IyNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzMyN2U1ZjFjZmViNDc5YzJkODlmZDZhY2MzMTExOGRhZjI3NzkyYTJjOTNkMGE3MzFlZjIyYjYwYWJiZDFmYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzEyNTY5NDAzODk0YmRiM2IwOGExYTQ5YzBkY2M4ODRlMzc4YWExNDkwOTc3NTA1NTc3YWFiNWQ5Nzc1YWU4YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTI3ZGFjNTBhZmRmM2NiYjM0ZDI0YzU5MWM3MjQwNDZlMDE5ZTg1YjVjNGVkMmJlY2I1OTgyNjA4MzBhZWZkOCJ9"
-        }
-      ]
-    },
-    {
-      "id": "claim_b435952e83174572992ddca37a79a0bb",
-      "statement": "Applications can override the default ImagePolicy using Kustomize patches to support alternative tag formats such as pure SHA tags with alphabetical sorting.",
-      "evidence": [
-        {
-          "resource": "repo://kubernetes/apps/default/omnifocus-sync-server/app/kustomization.yaml#L9-L24",
-          "version": "repo-lines-v1:sha256:9365eae0695dc0b326075d85a465fb8e3bba4e408de4e1c0c794f31c36f59747:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ5N2ZjZjlkM2U0ZWJlNGZiYWIxYTc1MWYwOTVlMTdkZjRjMjBjYmYyMDQ1YWIyMGUxMWE0MmJiMjNjNzNhNTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVjYmFjYzVlYjZiNTVkM2QyZmIxYjk5MmMwYjM2MzdmMWQ3OTEyZjNkYTY3ZGY2YTYxM2E4MGEzZmNmOTg4YjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJkYjY2NWQ4YTBlZTcyYTM2MmIyOTM4MzRmOGY3OTMzZTFiYTFjOTBkY2Q0NTEyNWFjYjc2ZjM4MTRiZTQzNGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIifQ"
         }
       ]
     },
@@ -153,10 +143,28 @@
           "version": "repo-lines-v1:sha256:9cba192463d6d0c2242234473b57a805f6c12e90f7b6b722856f34a01152c000:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVkM2E1ZDYxNWQ4YzhjYWZlZDM4MmU2ZmMxODVmNDU5NzAyYWE4NjhjZTc1MjRmZDI2NmYzZmI2ZDYwYzA2NzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlhYWIxOWIzZWVkNzVmYjQ3NDA0N2VjMWUxYWQ4ZDRjZDNkNzlhOWFhZTFmYWQyZjNhOWFjZTczMjQxMTgwMDYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYwYmVkZjViYmRjMDhmNDkyNzZiN2ViYzY4ZGVlZDA5ZmYwZDJjODc5MDA3MDA5NDM1ZjNiOTY0NzY0ZjU0ZGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_b6d55d58b5764cb2bd27bb23fecaf6ee",
+      "statement": "Current adopters of the image-automation component are epub-translator, fava, and growth-tracker, all using the default timestamp-based numerical ImagePolicy; gitea and omnifocus-sync-server do not use the component.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/epub-translator/ks.yaml#L12-L41",
+          "version": "repo-lines-v1:sha256:875ba6d16ac8fd2b682e6e8b0096bd45be31a50adea1c1519bbd59bede89ab3f:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVkM2E1ZDYxNWQ4YzhjYWZlZDM4MmU2ZmMxODVmNDU5NzAyYWE4NjhjZTc1MjRmZDI2NmYzZmI2ZDYwYzA2NzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlhYWIxOWIzZWVkNzVmYjQ3NDA0N2VjMWUxYWQ4ZDRjZDNkNzlhOWFhZTFmYWQyZjNhOWFjZTczMjQxMTgwMDYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYwYmVkZjViYmRjMDhmNDkyNzZiN2ViYzY4ZGVlZDA5ZmYwZDJjODc5MDA3MDA5NDM1ZjNiOTY0NzY0ZjU0ZGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/fava/ks.yaml#L12-L35",
+          "version": "repo-lines-v1:sha256:15096af50858e71b83e0f4f995fb281adea435299ea1f8019974ef2ef2646906:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVkM2E1ZDYxNWQ4YzhjYWZlZDM4MmU2ZmMxODVmNDU5NzAyYWE4NjhjZTc1MjRmZDI2NmYzZmI2ZDYwYzA2NzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlhYWIxOWIzZWVkNzVmYjQ3NDA0N2VjMWUxYWQ4ZDRjZDNkNzlhOWFhZTFmYWQyZjNhOWFjZTczMjQxMTgwMDYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYwYmVkZjViYmRjMDhmNDkyNzZiN2ViYzY4ZGVlZDA5ZmYwZDJjODc5MDA3MDA5NDM1ZjNiOTY0NzY0ZjU0ZGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY1YzI3YzJkZDI3ZWY0ZWQxMjBmOWJhN2EwZjBmNjkzMDU0OTFmYWI3NjA4M2RkZmY4NDNmN2UxOTI2ZDJkMWUifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/growth-tracker/ks.yaml#L13-L39",
+          "version": "repo-lines-v1:sha256:9cba192463d6d0c2242234473b57a805f6c12e90f7b6b722856f34a01152c000:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVkM2E1ZDYxNWQ4YzhjYWZlZDM4MmU2ZmMxODVmNDU5NzAyYWE4NjhjZTc1MjRmZDI2NmYzZmI2ZDYwYzA2NzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlhYWIxOWIzZWVkNzVmYjQ3NDA0N2VjMWUxYWQ4ZDRjZDNkNzlhOWFhZTFmYWQyZjNhOWFjZTczMjQxMTgwMDYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYwYmVkZjViYmRjMDhmNDkyNzZiN2ViYzY4ZGVlZDA5ZmYwZDJjODc5MDA3MDA5NDM1ZjNiOTY0NzY0ZjU0ZGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.0",
-    "at": "2026-09-08T21:57:36.335Z"
+    "by": "openwiki/0.5.2",
+    "at": "2026-09-19T21:35:52.044Z"
   }
 }

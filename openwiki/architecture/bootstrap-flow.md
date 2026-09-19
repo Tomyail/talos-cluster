@@ -21,9 +21,9 @@ sources:
   - id: openwiki-source-b9ff7ee0aa4953cc601052a4
     resource: repo://Taskfile.yaml
 verified:
-  - by: openwiki/0.5.1
-    at: 2026-09-12T21:32:37.847Z
-generated: { by: "openwiki/0.5.1", at: "2026-09-12T21:32:37.847Z" }
+  - by: openwiki/0.5.2
+    at: 2026-09-19T21:35:52.044Z
+generated: { by: "openwiki/0.5.2", at: "2026-09-19T21:35:52.044Z" }
 ---
 
 # Bootstrap Flow
@@ -171,7 +171,7 @@ The `apply_crds` function (`scripts/bootstrap-apps.sh#L88-L118`) installs Custom
 - **External DNS CRDs** (v0.21.0) - Required for external-dns
   - Also managed by Flux but duplicated for bootstrap safety
   - Source: `dnsendpoints.externaldns.k8s.io.yaml`
-- **Gateway API CRDs** (v1.6.1) - Required for Cilium Gateway API integration
+- **Gateway API CRDs** (v1.6.2) - Required for Cilium Gateway API integration
   - Experimental features enabled
   - Also managed by Flux but duplicated for bootstrap safety
   - Source: `experimental-install.yaml`

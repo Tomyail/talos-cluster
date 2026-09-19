@@ -28,10 +28,10 @@ sources:
     resource: repo://kubernetes/apps/network/cloudflare-tunnel/app/secret.sops.yaml
   - id: openwiki-source-a50b7595ce7b0d9f3df80bc7
     resource: repo://kubernetes/apps/network/cloudflare-tunnel/ks.yaml
-generated: { by: "openwiki/0.5.1", at: "2026-09-12T21:32:37.847Z" }
+generated: { by: "openwiki/0.5.2", at: "2026-09-19T21:35:52.044Z" }
 verified:
-  - by: openwiki/0.5.1
-    at: 2026-09-12T21:32:37.847Z
+  - by: openwiki/0.5.2
+    at: 2026-09-19T21:35:52.044Z
 ---
 
 # Cloudflare Integration
@@ -115,7 +115,7 @@ Requests to the gateway use HTTPS with `originServerName: "external.${SECRET_DOM
 
 ### external-dns (cloudflare-dns)
 
-The `cloudflare-dns` Flux Kustomization deploys external-dns (chart version 1.21.1) with the Cloudflare provider (`kubernetes/apps/network/cloudflare-dns/app/helmrelease.yaml`).
+The `cloudflare-dns` Flux Kustomization deploys external-dns (chart version 1.22.0 from the `external-dns` HelmRepository in `flux-system`) with the Cloudflare provider (`kubernetes/apps/network/cloudflare-dns/app/helmrelease.yaml`).
 
 **Key Configuration:**
 - **Provider:** `cloudflare`, authenticated with `CF_API_TOKEN` from the `cloudflare-dns-secret` Secret (SOPS-encrypted; annotated for Stakater Reloader to restart on secret change)
@@ -127,6 +127,7 @@ The `cloudflare-dns` Flux Kustomization deploys external-dns (chart version 1.21
 - **Reactivity:** `triggerLoopOnEvent: true` reacts to Kubernetes events instead of waiting for the full resync interval
 - **Gateway naming:** `--gateway-name=external` restricts Gateway API watching to the `external` Gateway
 - **Observability:** Prometheus `serviceMonitor` enabled
+- **Cloudflare paging:** `--cloudflare-dns-records-per-page=1000` raises the per-page record limit when reconciling large zones
 
 ### Cilium External Gateway
 

@@ -32,10 +32,10 @@ sources:
     resource: repo://kubernetes/flux/meta/repos/gateway-api.yaml
   - id: openwiki-source-b65e4f1ccd91316116ad973a
     resource: repo://talos/talenv.yaml
-generated: { by: "openwiki/0.5.1", at: "2026-09-12T21:32:37.847Z" }
+generated: { by: "openwiki/0.5.2", at: "2026-09-19T21:35:52.044Z" }
 verified:
-  - by: openwiki/0.5.1
-    at: 2026-09-13T21:33:18.353Z
+  - by: openwiki/0.5.2
+    at: 2026-09-19T21:35:52.044Z
 ---
 
 # Renovate Dependency Automation
@@ -142,7 +142,7 @@ The Flux sources in `kubernetes/flux/meta/repos/` define the upstream repositori
 ```yaml
 # kubernetes/flux/meta/repos/gateway-api.yaml#L12
 # renovate: datasource=github-releases depName=kubernetes-sigs/gateway-api
-tag: v1.6.1
+tag: v1.6.2
 ```
 
 ```yaml

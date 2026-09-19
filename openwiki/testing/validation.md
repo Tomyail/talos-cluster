@@ -1,14 +1,20 @@
 ---
 type: operations-guide
 title: Validation & Testing
-description: How changes to the cluster repository are validated before merge — the flux-local CI checks, local Taskfile task preconditions and dry-runs, flux diff/dry-run reconciliation, and post-deploy verification.
-tags: [validation, testing, ci, flux, kustomize, taskfile]
+description: How changes to the cluster repository are validated before merge — the flux-local CI checks, local Taskfile task preconditions and dry-runs, formatting conventions, the mise toolchain, and how Renovate automerge gates changes.
+tags: [validation, testing, ci, flux, kustomize, taskfile, renovate, editorconfig]
 verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-08T21:57:36.335Z
+  - by: openwiki/0.5.2
+    at: 2026-09-19T21:35:52.044Z
 sources:
+  - id: openwiki-source-22d03a54ca65a8e3305dad24
+    resource: repo://.editorconfig
   - id: openwiki-source-6378149bc01898a8718f6f2d
     resource: repo://.github/workflows/flux-local.yaml
+  - id: openwiki-source-9c06bd9d7d25770709e07c7c
+    resource: repo://.mise.toml
+  - id: openwiki-source-aa55808be329b3f929ddf105
+    resource: repo://.renovaterc.json5
   - id: openwiki-source-f04021c19122a44288e9cea0
     resource: repo://.taskfiles/bootstrap/Taskfile.yaml
   - id: openwiki-source-4f5be6b4c7dcc699aca46164
@@ -21,12 +27,12 @@ sources:
     resource: repo://scripts/bootstrap-apps.sh
   - id: openwiki-source-b9ff7ee0aa4953cc601052a4
     resource: repo://Taskfile.yaml
-generated: { by: "openwiki/0.5.0", at: "2026-09-08T21:57:36.335Z" }
+generated: { by: "openwiki/0.5.2", at: "2026-09-19T21:35:52.044Z" }
 ---
 
 # Validation & Testing
 
-This repository is a Flux-managed Talos Kubernetes cluster, so "testing" means: rendering manifests locally and in CI before merge, verifying that Flux can build and apply them, and confirming health after reconciliation. There is no unit test suite; validation is declarative-render and cluster-convergence checking.
+This repository is a Flux-managed Talos Kubernetes cluster, so "testing" means: rendering manifests locally and in CI before merge, verifying that Flux can build and apply them, and confirming health after reconciliation. There is no unit test suite and no separate kubeconform/yamllint CI job; validation is declarative-render and cluster-convergence checking. `kubeconform`, `kustomize`, `yq`, and `sops` are pinned as local tools via mise and available for ad-hoc local checks (e.g. `kustomize build` against an app directory), but the only automated merge gate is the flux-local workflow plus Renovate's automerge rules.
 
 ## CI validation on pull requests (flux-local)
 
@@ -47,7 +53,7 @@ flowchart TD
 
 - **pre-job** uses `tj-actions/changed-files` filtered to `kubernetes/**` and exposes `any_changed` as an output. Both validation jobs are skipped when no `kubernetes/` files changed, so workflow/bootstrap-only PRs stay fast.
 - **test** runs `flux-local test --enable-helm --all-namespaces --sources flux-system --path .../kubernetes/flux/cluster` in the `ghcr.io/allenporter/flux-local:v8.4.0` container. This renders the full Kustomization tree starting at `kubernetes/flux/cluster/ks.yaml`, including Helm charts (HelmReleases referencing the `app-template` OCI chart) and SOPS decryption — so broken kustomizations, invalid HelmRelease values, or undecryptable manifests fail the PR.
-- **diff** runs `flux-local diff` in a matrix over `helmrelease` and `kustomization` resources, checking out both the PR branch (`pull/`) and the default branch (`default/`). It strips volatile attributes (`helm.sh/chart`, `checksum/config`, `app.kubernetes.io/version`, `chart`) with `--strip-attrs`, limits output with `--limit-bytes 10000`, writes `diff.patch`, and posts the rendered diff as a PR comment via `mshick/add-pr-comment` (keyed per resource type). The diff job is informational — reviewers see exactly what rendered manifests will change on the cluster.
+- **diff** runs `flux-local diff` in a matrix over `helmrelease` and `kustomization` resources, checking out both the PR branch (`pull/`) and the default branch (`default/`). It strips volatile attributes (`helm.sh/chart`, `checksum/config`, `app.kubernetes.io/version`, `chart`) with `--strip-attrs`, limits output with `--limit-bytes 10000`, writes `diff.patch`, echoes it into the job summary, and posts the rendered diff as a PR comment via `mshick/add-pr-comment` (keyed per resource type, with `continue-on-error: true`). The diff job is informational — reviewers see exactly what rendered manifests will change on the cluster.
 - **flux-local-status** runs with `if: always()` and fails if either `test` or `diff` failed, giving a single stable check name for branch protection.
 
 Concurrency is configured with `cancel-in-progress: true`, so pushing new commits to a PR cancels superseded runs.
@@ -61,6 +67,17 @@ The root `Taskfile.yaml` includes `.taskfiles/bootstrap`, `.taskfiles/talos`, an
 - **Generated-config integrity**: `talos/clusterconfig/` is generated output (`talhelper genconfig`); never edit it directly — change `talconfig.yaml`/patches and regenerate via `task talos:generate-config`.
 
 Because mise auto-exports `KUBECONFIG`, `TALOSCONFIG`, and `SOPS_AGE_KEY_FILE`, all task commands run against the repo-local kubeconfig, avoiding accidental changes to another cluster.
+
+## Local toolchain and rendering checks
+
+`.mise.toml` pins the complete toolchain used for local validation, including `kubeconform = 0.8.0`, `kustomize = 5.6.0`, `kubectl = 1.33.1`, `helm = 4.3.0`, `sops`, `talos`, `talhelper`, `flux`, `yq`, and `jq`. Two notes:
+
+- Schema validation via `kubeconform` and rendering via `kustomize build` are manual, local practices — there is no repo config file for either and no CI step invokes them. The closest automated equivalent is the CI `flux-local test` job, which builds every Kustomization and applies the same helm/sops rendering pipeline.
+- There is also no `yamllint` configuration in the repository; YAML style is instead governed by `.editorconfig`.
+
+## Formatting and file conventions (.editorconfig)
+
+`.editorconfig` (marked `root = true`) defines the baseline formatting expected of every file: LF line endings, UTF-8, trimmed trailing whitespace, final newline, and space indentation at 2 spaces for general files. Exceptions: Markdown files use 4-space indent and do not trim trailing whitespace (line breaks matter); shell scripts use 4-space indent; CUE files use tabs at width 4. Editors and formatters honoring this file keep PR diffs clean, which matters because the flux-local diff comments are diff-based.
 
 ## Dry-run validation patterns
 
@@ -82,6 +99,15 @@ After merging, changes reach the cluster through Flux's reconciliation of the `f
   ```
 - **Pre-apply a specific change locally**: run `kustomize build` (available via mise) against the app directory, or rely on the CI `flux-local diff` comment which shows the same rendering.
 - **VolSync operations verify their own work**: `task volsync:snapshot APP=<name> NS=<ns>` patches the ReplicationSource to trigger a manual backup, then `kubectl wait job/volsync-src-<app> --for=condition=complete --timeout=120m` blocks until the backup job completes; `volsync:list` runs a job, streams its logs, and deletes it. Tasks assume the Kustomization/HelmRelease/PVC/ReplicationSource share the app's name and each app has one replicated PVC.
+
+## Renovate and the CI gate
+
+Renovate (`.renovaterc.json5`) is the main source of manifest churn, and its configuration interacts directly with validation:
+
+- Managers for `flux`, `helm-values`, `kubernetes`, and `kustomize` match all `kubernetes/**/*.yaml` (including `.j2` templates), so HelmRelease values and Kustomization patches get dependency PRs. Encrypted files (`**/*.sops.*`) are ignored because Renovate cannot decrypt them.
+- PRs land on a `every weekend` schedule, and updates are batched into groups (Cert-Manager, CoreDNS, Flux Operator, Spegel).
+- **Automerge without tests**: GitHub Actions and mise tool updates (minor/patch/digest) have `automerge: true` with `ignoreTests: true`, meaning they merge without waiting for CI checks — Renovate deliberately bypasses the flux-local gate for these, relying on pinning (GitHub Actions are pinned to commit digests via `helpers:pinGitHubActionDigests`) and the 3-day `minimumReleaseAge` for actions as the safety net instead.
+- Semantic commits encode risk class: `fix` for patches, `feat` for minors, and `feat(...)!:` for majors, so `git log`/release notes surface breaking updates at a glance.
 
 ## Failure semantics
 

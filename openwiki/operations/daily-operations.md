@@ -36,10 +36,10 @@ sources:
     resource: repo://README.md
   - id: openwiki-source-b9ff7ee0aa4953cc601052a4
     resource: repo://Taskfile.yaml
-generated: { by: "openwiki/0.5.0", at: "2026-09-08T21:57:36.335Z" }
+generated: { by: "openwiki/0.5.2", at: "2026-09-19T21:35:52.044Z" }
 verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-08T21:57:36.335Z
+  - by: openwiki/0.5.2
+    at: 2026-09-19T21:35:52.044Z
 ---
 
 # Daily Operations
@@ -276,6 +276,13 @@ The task:
 - Runs `restic snapshots` using the app's repository credentials
 - Displays the snapshot list
 - Cleans up the Job after completion
+
+### Specialized Restore Tasks
+
+The volsync Taskfile also ships two specialized tasks beyond the generic restore flow:
+
+- `task volsync:restore-alert` — restores the Alertmanager state specifically: it suspends the `kube-prometheus-stack` Kustomization/HelmRelease, scales the Alertmanager StatefulSet to 0, applies `kubernetes/apps/observability/kube-prometheus-stack/app/volsync-restore-alertmanager.yaml` server-side, then scales back to 1 and resumes/reconciles the HelmRelease.
+- `task volsync:unlock-local CLUSTER=main NS=<ns> APP=<app>` — unlocks a single Restic repo from the local machine by rendering `unlock.yaml.j2` with `minijinja-cli`, waiting for the `volsync-unlock-<app>` job, streaming its logs via `stern`, and deleting the job.
 
 ### Unlock Restic Repositories
 

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:df828c2dbf30048cc49ee4cd4fefb8b86801f31a5c3cac55a39c19a2609e2a82",
+  "pageVersion": "sha256:39c7b96690915a45bd6bd9e2caeb9c634c558dba216e2cd827ca7eb534b96e36",
   "claims": [
     {
       "id": "claim_5ae66d25e4cc42ec9bb35d381c27e614",
@@ -36,15 +36,11 @@
     },
     {
       "id": "claim_6dbc31ce77a94875b85d326659c46230",
-      "statement": "kube-prometheus-stack chart (version 88.1.3) explicitly skips CRD installation with crds.enabled=false and install.crds=Skip, relying on the separate prometheus-operator-crds deployment.",
+      "statement": "kube-prometheus-stack chart (version 88.6.5) explicitly skips CRD installation with crds.enabled=false and install.crds=Skip, relying on the separate prometheus-operator-crds deployment.",
       "evidence": [
         {
-          "resource": "repo://kubernetes/apps/observability/kube-prometheus-stack/app/helmrelease.yaml#L18-L23",
-          "version": "repo-lines-v1:sha256:0a4c71f713c5faa6834981319f45617034037dcae8379e5f782566fd2c99112c:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzMxYmI3MmJhMDNiMzUyMDc1YTFkNTlkMjBiZDhmMDdkZDM2YjMzM2Q4ZWJiY2RlNzk2Mjg2MmY1OWE5OGRmZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYzMxYmI3MmJhMDNiMzUyMDc1YTFkNTlkMjBiZDhmMDdkZDM2YjMzM2Q4ZWJiY2RlNzk2Mjg2MmY1OWE5OGRmZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYWU3ZjQ2MTczZDAyZjBlMWY0YjVhODQ0ZDNhMDFkODhkMmQ2NDFjYzcwZTY2ZjdkMzAxYjJlOWU3MzFiN2RiYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYmY5YzllZWNmMzFlZTExYjk1MmRiNTFlMzQ1NmIyOGYzMTZkYmVkZDhjMmVjMGIyMzE1N2IwODJkYTUwNGM4NyJ9"
-        },
-        {
-          "resource": "repo://kubernetes/apps/observability/kube-prometheus-stack/app/helmrelease.yaml#L28-L29",
-          "version": "repo-lines-v1:sha256:9db1aebb54ed86c568b8c856b64bfab0f2869f210ee57d52a7bdc65d8b161b54:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzBlMDg4ZTIxOTA5OWM0MTRlOTJlNWExNzUxODYxYTVhZWQwYWY2MzZiNjFkNzU4MzBhZGVmNDBkMTkxMGUxNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYzE5NzQ3OGZlOWNlZmQyYThiYjE2MzM0OWZiZGUwYzU2OWJlMzk2MWQ3M2Q3ZDljMjBhNThmMTBkZDU3YWMwYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTUyNmY1MjMzOTQ5NTdkMzQ5ZmU5NmI5MjNlZTNjYzBkYjE5Mzk1MDI1ZWE2M2NlYWM1NmUzNDk2NDdkZGQ0MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNmE3YzMxNmQzN2NhNmIxMTM1ZGMzYTE4YjM0YmNjZjkwMmM3OTliZGYzMWNjZjI5MzhmMGZhN2NlYjliYzcxOSJ9"
+          "resource": "repo://kubernetes/apps/observability/kube-prometheus-stack/app/helmrelease.yaml#L9-L29",
+          "version": "repo-lines-v1:sha256:2943dd902b18be476ace497adc6cb690b3a46f7da6a852aee19a5410a2680c7f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYwY2NlZDU2YTZkNmE0MjQ5MjY1ZGM4YTdjNzBlNGNjMGY3MzdkZDJkYjVmOGI2NDc0YTFkMDE5ZGY4YzJiZGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMxOTc0NzhmZTljZWZkMmE4YmIxNjMzNDlmYmRlMGM1NjliZTM5NjFkNzNkN2Q5YzIwYTU4ZjEwZGQ1N2FjMGMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIwZDNiZmNjNjcyNDBjODI3NThlNWUxMjhiYWVjYTBlODg1M2NiMzY2OTkyMjQ1MTZiYzc0NzBkODJmNjUwMjYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZhN2MzMTZkMzdjYTZiMTEzNWRjM2ExOGIzNGJjY2Y5MDJjNzk5YmRmMzFjY2YyOTM4ZjBmYTdjZWI5YmM3MTkifQ"
         }
       ]
     },
@@ -487,10 +483,24 @@
           "version": "repo-lines-v1:sha256:efb660df2bcebf449e546691d9b9ffbec34ca2792e7e4c67286bb62d040b452c:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjdhOTFjOTc2YTJlZmI1Nzk0MWQyNTI2MjE5NzZjZDRiNjZmYzQ4YzgxMzZhZDYwOWRkZTE1ZDFiNjBlODA4MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDU0OTk0ZGEzNDFmMTQ3YzE1ZTk2Yzc2OTkxODY5ZWU2ZWY1NmMzNGZlNmUxNjM1MzkwYzViZDVkNjUyYTY1NSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiY2M5OWFlNzdkYmNlMzBkMTYyZmE1N2NjYmIxMGNkOWUzZjJlZjU0ZjgwNTAxMGY2YWRlNmI3MjFmNzk0ODU2NyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
         }
       ]
+    },
+    {
+      "id": "claim_4b013d916d944794b20adacee881baed",
+      "statement": "kube-prometheus-stack Prometheus is configured with 1m scrape interval, 6-day/10GB retention, WAL compression, admin API and remote-write receiver enabled, and its default etcd rule group plus kubeEtcd/kubeControllerManager/kubeScheduler/kubeProxy exporters disabled for k3s; it adds critical DockerhubRateLimitRisk and OomKilled rules, and disables its bundled Grafana while force-deploying its dashboards.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/kube-prometheus-stack/app/helmrelease.yaml#L175-L198",
+          "version": "repo-lines-v1:sha256:0916f0e5cc76c27df714cc35c9469c3494ad32e1c758d48d8b2cfcbff8351269:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYwODMxNzhjODliOTVkZGVmNTM5NjViNWJmNGZlYTQ0MzBhNDVhNjZjN2MwYjc3YWJhNjZhMWQwZTEwYTg3MTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA1NjAwMTliZTMxNGJjYjJlMzAyNDMxOGY4YTRlNjBiM2YyZTUyMDc1ZDE0M2ZlNjRiZjQ1MmMxOGM3MGVhMmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk3NzYxNTU3ZTNiOGNjNzA0Zjg1NDNlMDUwNzEyYmY3MjAxNTQwMGZmNDdlMGNjM2VhOTk0M2VkOWVhZThiM2MiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/observability/kube-prometheus-stack/app/helmrelease.yaml#L84-L129",
+          "version": "repo-lines-v1:sha256:a305d16b57bf57b710f820d7d533d7422cc272d60b6096b951eb770bdb626bde:eyJzZWxlY3RlZExpbmVDb3VudCI6NDYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY5OTc1NTIxNWNiZjZkMmM5ZDc4M2I5YjA5YTg0NGZjNWI2MWViYWU2ODQxYzg2YTYwODVmZDEwYjU4YWM2ODQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJlMjQ1ZTQwZDE5YWMwYzYwMzQyZTY4OWY5OWFiMDc0NmI2ZDkwNTk2ODg3ZjgzNDllYWY1Mjg1OTZiMjhiZDAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdkMzg2YmQ2MjEzNDllMzkwZDdkMmE1ODJjZjRiYTBjMjEzNzU3Yjk0ZGNlMTRjZWFiMDc3MDIzMDFhNmQ5YzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ0NTdkMTVkMzlkMTc2MDc4YTE2YzdlODYxMzBhNDBkYzFmZWVjOGMyNWJlNDIxZDJlMDcwOTIyNzhiMjM0YzAifQ"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.1",
-    "at": "2026-09-12T21:32:37.847Z"
+    "by": "openwiki/0.5.2",
+    "at": "2026-09-19T21:35:52.044Z"
   }
 }

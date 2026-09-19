@@ -30,10 +30,10 @@ sources:
     resource: repo://talos/talenv.yaml
   - id: openwiki-source-b9ff7ee0aa4953cc601052a4
     resource: repo://Taskfile.yaml
-generated: { by: "openwiki/0.5.1", at: "2026-09-13T21:33:18.353Z" }
+generated: { by: "openwiki/0.5.2", at: "2026-09-19T21:35:52.044Z" }
 verified:
-  - by: openwiki/0.5.1
-    at: 2026-09-13T21:33:18.353Z
+  - by: openwiki/0.5.2
+    at: 2026-09-19T21:35:52.044Z
 ---
 
 # Quick Start Guide
@@ -103,7 +103,7 @@ mise trust
 mise install
 ```
 
-This installs and configures the required tools: `task`, `talhelper`, `talosctl`, `kubectl`, `flux`, `helmfile`, `sops`, `age`, `yq`, `kubeconform`, `cilium-cli`, `cloudflared`, `cue`, `helm`, `jq`, `kustomize`, `gh`, `python`, `makejinja`, `node`, and `pipx`. Versions are pinned in `.mise.toml` (e.g. talhelper 3.1.17, talos 1.13.9, kubectl 1.33.1, flux2 2.9.5, python 3.14.7); Renovate keeps them updated.
+This installs and configures the required tools: `task`, `talhelper`, `talosctl`, `kubectl`, `flux`, `helmfile`, `sops`, `age`, `yq`, `kubeconform`, `cilium-cli`, `cloudflared`, `cue`, `helm`, `jq`, `kustomize`, `gh`, `python`, `makejinja`, `node`, and `pipx`. Versions are pinned in `.mise.toml` (e.g. talhelper 3.1.17, talos 1.14.1, kubectl 1.33.1, flux2 2.9.5, helm 4.3.0, sops 3.13.3, python 3.14.7); Renovate keeps them updated.
 
 ### Environment Variables
 
@@ -221,17 +221,21 @@ The wiki is organized into five domains. Start here, then follow the links for d
 | --- | --- | --- |
 | **Architecture** | [Overview](./architecture/overview.md) | Cluster layers, namespace organization, and the Flux reconciliation hierarchy |
 | **Architecture** | [Bootstrap Flow](./architecture/bootstrap-flow.md) | Control flow from bare Talos install to fully reconciled Flux cluster |
-| **Architecture** | [Namespace & Repo Structure](./architecture/namespace-structure.md) | How `kubernetes/` is organized and the shared app-template component |
+| **Architecture** | [Namespace Structure](./architecture/namespace-structure.md) | How `kubernetes/` is organized and the per-namespace Kustomization wiring |
+| **Concepts** | [Cluster Architecture (Talos)](./concepts/cluster-architecture.md) | Talos node layout, talhelper config, machine config generation, kube-system foundation |
 | **Concepts** | [Flux Architecture](./concepts/flux-architecture.md) | GitRepository source, Kustomization tree, dependency chain, drift behavior |
+| **Concepts** | [Flux GitOps Concepts](./concepts/flux-gitops.md) | Kustomization, HelmRelease, OCIRepository/app-template, dependsOn, image automation |
+| **Concepts** | [Networking](./concepts/networking.md) | Cilium CNI, Gateway API routes, Cloudflare Tunnel, Tailscale, DNS |
 | **Concepts** | [Secrets Management](./concepts/secrets-management.md) | SOPS+age in Git, External Secrets + Bitwarden at runtime |
-| **Concepts** | [Networking](./concepts/networking.md) | Cilium CNI, Gateway API/ingress, AdGuard DNS, Cloudflare Tunnel path |
-| **Concepts** | [Storage](./concepts/storage.md) | local-path-provisioner, StorageClass defaults, LVM formatting |
-| **Concepts** | [Observability](./concepts/observability.md) | kube-prometheus-stack, Gatus health checks, Loki logs |
-| **Concepts** | [Cluster Architecture](./concepts/cluster-architecture.md) | Concrete component inventory of the running cluster |
+| **Concepts** | [Storage](./concepts/storage.md) | TopoLVM, VolSync, snapshot-controller, NFS CSI, MinIO offsite backup |
+| **Concepts** | [Observability](./concepts/observability.md) | kube-prometheus-stack, Grafana, Loki, Thanos, Gatus, Uptime Kuma |
+| **Concepts** | [Talos Configuration](./concepts/talos-config.md) | talconfig/talenv structure, patches, generated clusterconfig, talsecret SOPS handling |
 | **Workflows** | [Bootstrap](./workflows/bootstrap.md) | Full cluster initialization from bare metal to GitOps-managed state |
 | **Workflows** | [App Deployment](./workflows/app-deployment.md) | Standard app layout and Flux reconciliation path: `ks.yaml` → `helmrelease.yaml` → secrets, storage, routing, monitoring |
-| **Integrations** | [Renovate & Tooling](./integrations/renovate.md), [Cloudflare](./integrations/cloudflare.md), [External Secrets](./integrations/external-secrets.md), [Bitwarden](./integrations/bitwarden.md) | External system integrations |
-| **Operations** | [Daily Operations](./operations/daily-operations.md) | Routine cluster maintenance, reconciliation, upgrades, and backups |
+| **Workflows** | [Upgrade](./workflows/upgrade.md) | Talos/Kubernetes upgrades via `task talos:*` plus tuppr/system-upgrade automation |
+| **Integrations** | [Renovate](./integrations/renovate.md), [CI/CD](./integrations/ci-cd.md), [Cloudflare](./integrations/cloudflare.md), [Tailscale](./integrations/tailscale.md), [External Secrets](./integrations/external-secrets.md), [Bitwarden](./integrations/bitwarden.md), [Image Automation](./integrations/image-automation.md), [Hardware Support](./integrations/hardware-support.md) | External system integrations |
+| **Operations** | [Daily Operations](./operations/daily-operations.md) | Routine maintenance: reconcile, VolSync snapshots, node config, status dashboards |
+| **Operations** | [Upgrade Operations](./operations/upgrade-workflow.md) | Upgrade windows, ordering, and rollback considerations |
 | **Operations** | [Troubleshooting](./operations/troubleshooting.md) | Symptom-driven playbook for stuck Kustomizations, HelmReleases, secrets, storage |
 | **Testing** | [Validation](./testing/validation.md) | Local manifest validation, `flux-local` CI checks, and verification of a change end-to-end |
 
