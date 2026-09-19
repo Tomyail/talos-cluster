@@ -15,19 +15,20 @@
       mode: "safeguard",
     },
     elevatedDefault: "full",
+    systemAgent: {
+      agentId: "main",
+    },
     heartbeat: {
-      target: "none",
+      agentId: "main",
     },
   },
-  list: [
-    {
-      id: "main",
+  entries: {
+    main: {
       tools: {
         $include: "/etc/openclaw/managed/agent-feishu-tools.json5",
       },
     },
-    {
-      id: "master",
+    master: {
       name: "Master",
       workspace: "/home/node/.openclaw/workspace-BK",
       agentDir: "/home/node/.openclaw/agents/BK/agent",
@@ -39,8 +40,7 @@
         $include: "/etc/openclaw/managed/agent-feishu-tools.json5",
       },
     },
-    {
-      id: "coder",
+    coder: {
       name: "Code Expert",
       workspace: "/home/node/.openclaw/workspace-tom_legal",
       agentDir: "/home/node/.openclaw/agents/tom_legal/agent",
@@ -52,8 +52,7 @@
         $include: "/etc/openclaw/managed/agent-feishu-tools.json5",
       },
     },
-    {
-      id: "research",
+    research: {
       name: "Research",
       workspace: "/home/node/.openclaw/workspace-bk_radar",
       agentDir: "/home/node/.openclaw/agents/bk_radar/agent",
@@ -66,8 +65,7 @@
         $include: "/etc/openclaw/managed/agent-feishu-tools.json5",
       },
     },
-    {
-      id: "creative",
+    creative: {
       name: "Creative",
       workspace: "/home/node/.openclaw/workspace-bk_brand",
       agentDir: "/home/node/.openclaw/agents/bk_brand/agent",
@@ -79,8 +77,7 @@
         $include: "/etc/openclaw/managed/agent-feishu-tools.json5",
       },
     },
-    {
-      id: "writer",
+    writer: {
       name: "Writer",
       workspace: "/home/node/.openclaw/workspace-bk-content",
       agentDir: "/home/node/.openclaw/agents/bk_content/agent",
@@ -92,5 +89,5 @@
         $include: "/etc/openclaw/managed/agent-feishu-tools.json5",
       },
     },
-  ],
+  },
 }

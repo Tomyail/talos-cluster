@@ -127,12 +127,19 @@ test("replaces managed legacy sections and preserves unrelated fields", () => {
         },
       },
     },
+    channels: {
+      feishu: {
+        streaming: true,
+        domain: "feishu",
+      },
+    },
   };
 
   const { config, first, second } = runMigration(input);
 
   assert.equal(second, first);
   assert.deepEqual(config.unrelated, input.unrelated);
+  assert.deepEqual(config.channels, { feishu: { domain: "feishu" } });
   assert.deepEqual(config.gateway, expectedIncludes.gateway);
   assert.deepEqual(config.models, expectedIncludes.models);
   assert.deepEqual(config.tools, expectedIncludes.tools);

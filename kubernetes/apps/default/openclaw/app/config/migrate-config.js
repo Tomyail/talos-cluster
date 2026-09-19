@@ -39,6 +39,11 @@ function migrateConfig(config, values) {
     delete braveWebSearch.apiKey;
   }
 
+  // OpenClaw 2026.9+ requires channels.feishu.streaming to be an object if set.
+  if (typeof config.channels?.feishu?.streaming === "boolean") {
+    delete config.channels.feishu.streaming;
+  }
+
   // These sections are wholly Git-owned. Replacing the complete section also
   // removes sibling keys from legacy or already-partial include objects.
   config.agents = { $include: values.agentsInclude };
