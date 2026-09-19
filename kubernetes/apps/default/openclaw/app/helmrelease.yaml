@@ -50,6 +50,17 @@ spec:
                 fi
                 node /etc/openclaw/migrate-config.js /home/node/.openclaw/openclaw.json
 
+                # Backup legacy agent dirs and unresolved credential files to prevent doctor migration refusals
+                mkdir -p /home/node/.openclaw/legacy-agents-backup
+                for d in BK bk bk_brand bk_content bk_radar tom_legal codex; do
+                  if [ -d "/home/node/.openclaw/agents/$d" ]; then
+                    mv "/home/node/.openclaw/agents/$d" /home/node/.openclaw/legacy-agents-backup/ 2>/dev/null || true
+                  fi
+                done
+                if [ -f /home/node/.openclaw/credentials/feishu-main-allowFrom.json ]; then
+                  mv /home/node/.openclaw/credentials/feishu-main-allowFrom.json /home/node/.openclaw/credentials/feishu-main-allowFrom.json.bak 2>/dev/null || true
+                fi
+
                 # Run official OpenClaw doctor to migrate database schema and legacy workspace setup files to SQLite
                 openclaw doctor --fix --yes --non-interactive || true
                 node /etc/openclaw/migrate-config.js /home/node/.openclaw/openclaw.json
