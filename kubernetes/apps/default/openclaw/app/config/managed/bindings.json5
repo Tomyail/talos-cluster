@@ -33,6 +33,14 @@
   },
   {
     type: "route",
+    agentId: "main",
+    match: {
+      channel: "telegram",
+      accountId: "default",
+    },
+  },
+  {
+    type: "route",
     agentId: "coder",
     match: {
       channel: "telegram",
