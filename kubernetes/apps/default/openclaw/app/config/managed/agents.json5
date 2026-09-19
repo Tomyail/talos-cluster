@@ -1,5 +1,6 @@
 // Git-owned and read-only. Agent identities, model routing, and workspaces are policy.
 {
+  ownership: "explicit",
   defaults: {
     model: {
       primary: "litellm/glm-5-turbo",

@@ -3,7 +3,6 @@
   profiles: {
     webtop: {
       cdpUrl: "http://webtop.default.svc.cluster.local:9223",
-      color: "#00AA00",
     },
   },
 }

@@ -17,7 +17,6 @@
   trustedProxies: ["192.168.50.145/32"],
   tailscale: {
     mode: "off",
-    resetOnExit: false,
   },
   remote: {
     url: "https://openclaw.${SECRET_DOMAIN}",
