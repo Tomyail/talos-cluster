@@ -3,9 +3,6 @@ type: operations-guide
 title: Validation & Testing
 description: How changes to the cluster repository are validated before merge — the flux-local CI checks, local Taskfile task preconditions and dry-runs, formatting conventions, the mise toolchain, and how Renovate automerge gates changes.
 tags: [validation, testing, ci, flux, kustomize, taskfile, renovate, editorconfig]
-verified:
-  - by: openwiki/0.5.2
-    at: 2026-09-19T21:35:52.044Z
 sources:
   - id: openwiki-source-22d03a54ca65a8e3305dad24
     resource: repo://.editorconfig
@@ -27,7 +24,10 @@ sources:
     resource: repo://scripts/bootstrap-apps.sh
   - id: openwiki-source-b9ff7ee0aa4953cc601052a4
     resource: repo://Taskfile.yaml
-generated: { by: "openwiki/0.5.2", at: "2026-09-19T21:35:52.044Z" }
+generated: { by: "openwiki/0.5.2", at: "2026-09-21T22:42:37.553Z" }
+verified:
+  - by: openwiki/0.5.2
+    at: 2026-09-21T22:42:37.553Z
 ---
 
 # Validation & Testing
@@ -66,11 +66,11 @@ The root `Taskfile.yaml` includes `.taskfiles/bootstrap`, `.taskfiles/talos`, an
 - **Cluster-state checks**: e.g. `talos:apply-node` and `talos:upgrade-node` first run `talosctl --nodes <IP> get machineconfig` and `talosctl config info` to prove connectivity before applying or upgrading.
 - **Generated-config integrity**: `talos/clusterconfig/` is generated output (`talhelper genconfig`); never edit it directly — change `talconfig.yaml`/patches and regenerate via `task talos:generate-config`.
 
-Because mise auto-exports `KUBECONFIG`, `TALOSCONFIG`, and `SOPS_AGE_KEY_FILE`, all task commands run against the repo-local kubeconfig, avoiding accidental changes to another cluster.
+Because mise auto-exports `KUBECONFIG`, `TALOSCONFIG`, and `SOPS_AGE_KEY_FILE` (and creates a repo-local Python venv at `.venv`), all task commands run against the repo-local kubeconfig, avoiding accidental changes to another cluster.
 
 ## Local toolchain and rendering checks
 
-`.mise.toml` pins the complete toolchain used for local validation, including `kubeconform = 0.8.0`, `kustomize = 5.6.0`, `kubectl = 1.33.1`, `helm = 4.3.0`, `sops`, `talos`, `talhelper`, `flux`, `yq`, and `jq`. Two notes:
+`.mise.toml` pins the complete toolchain used for local validation: `kubeconform = 0.8.0`, `kustomize = 5.6.0`, `kubectl = 1.33.1`, `helm = 4.3.0`, plus `sops` (3.13.3), `talos` (1.14.1), `talhelper` (3.1.17), `flux` (2.9.5), `yq` (4.53.6), `jq`, `task`, `age`, `cilium-cli`, `helmfile`, `gh`, and `makejinja` (via pipx). Newer additions include `cue` (0.17.1) and `cloudflared` (2026.9.1); neither is invoked by any Taskfile or CI step, so they are available only for ad-hoc local checks. Python (3.14.7) is pinned with an auto-created repo-local venv at `.venv`. Three notes:
 
 - Schema validation via `kubeconform` and rendering via `kustomize build` are manual, local practices — there is no repo config file for either and no CI step invokes them. The closest automated equivalent is the CI `flux-local test` job, which builds every Kustomization and applies the same helm/sops rendering pipeline.
 - There is also no `yamllint` configuration in the repository; YAML style is instead governed by `.editorconfig`.

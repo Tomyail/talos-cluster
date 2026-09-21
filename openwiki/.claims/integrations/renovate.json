@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:b9c4f216f7874559ff61cbe6f71948a196190ef1d795ca4d013e7b9b7cf179c8",
+  "pageVersion": "sha256:9c95ab2575d0a8a259a4ee32f421bce39a8123b2247157ca45fa41bc248f1bcb",
   "claims": [
     {
       "id": "claim_28ba8b626032486cb6cfda160b55c8a5",
@@ -90,11 +90,11 @@
     },
     {
       "id": "claim_27bbd42c27414fd89888c309dba7ef1a",
-      "statement": "mise toolchain versions pinned in the .mise.toml [tools] block (Python, aqua-proxied CLIs such as talhelper/cilium-cli/flux2/helm/helmfile/kustomize/kubectl/talos/yq/kubeconform, node, pipx) are managed by Renovate's mise manager and auto-merged via branch for minor and patch updates with tests ignored.",
+      "statement": "mise toolchain versions pinned in the .mise.toml [tools] block — Python (3.14.7), pipx-installed tools (makejinja), aqua-proxied CLIs (talhelper, cilium-cli, gh, cloudflared, cue, age, flux2, sops, go-task, helm 4.3.0, helmfile, jq, kustomize, kubectl 1.33.1, yq, talos 1.14.1, kubeconform) — plus unpinned node and pipx are managed by Renovate's mise manager, auto-merged via branch for minor and patch updates with tests ignored.",
       "evidence": [
         {
           "resource": "repo://.mise.toml#L7-L28",
-          "version": "repo-lines-v1:sha256:9ab96cc401a90a3f60d45dda5b78df5a22f720e4a0c110793d81c56463edcf4f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE4MjZiZWEwNWZlNTBhNzNhNjQ1ZDhmYjEyZGMyODJmMjUzNjM0NDMyNjZkOTAxNzM3MmVhZjg4NDU5NDYzNDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRlMmZjMWNmZmMyMTMwOTk5YTk4NDcyYzQ1MzkxZmIwMWZiNzkwNDk5ZDIwZjk3NzllMTYyOTk0MDI4M2ViYzgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc1MDg0MzNmMTUzOWVkODEwOTlhNDhlNjIwMDVhMGE4ZGMyNGUwNDFhMDVlZmMxYjFiNGRiMzQ5ZmZkMTgzMTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "version": "repo-lines-v1:sha256:8bbb94e2400c498d72a276c02df59530d34a60f72c277893c03e61dfd37a8689:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE4MjZiZWEwNWZlNTBhNzNhNjQ1ZDhmYjEyZGMyODJmMjUzNjM0NDMyNjZkOTAxNzM3MmVhZjg4NDU5NDYzNDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRlMmZjMWNmZmMyMTMwOTk5YTk4NDcyYzQ1MzkxZmIwMWZiNzkwNDk5ZDIwZjk3NzllMTYyOTk0MDI4M2ViYzgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc1MDg0MzNmMTUzOWVkODEwOTlhNDhlNjIwMDVhMGE4ZGMyNGUwNDFhMDVlZmMxYjFiNGRiMzQ5ZmZkMTgzMTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
           "resource": "repo://.renovaterc.json5#L77-L84",
@@ -217,6 +217,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.2",
-    "at": "2026-09-19T21:35:52.044Z"
+    "at": "2026-09-21T22:42:37.553Z"
   }
 }

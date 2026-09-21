@@ -32,10 +32,10 @@ sources:
     resource: repo://kubernetes/flux/meta/repos/gateway-api.yaml
   - id: openwiki-source-b65e4f1ccd91316116ad973a
     resource: repo://talos/talenv.yaml
-generated: { by: "openwiki/0.5.2", at: "2026-09-19T21:35:52.044Z" }
+generated: { by: "openwiki/0.5.2", at: "2026-09-21T22:42:37.553Z" }
 verified:
   - by: openwiki/0.5.2
-    at: 2026-09-19T21:35:52.044Z
+    at: 2026-09-21T22:42:37.553Z
 ---
 
 # Renovate Dependency Automation
@@ -205,13 +205,20 @@ Example from the `.mise.toml` `[tools]` block:
 ```toml
 [tools]
 "python" = "3.14.7"
+"pipx:makejinja" = "2.8.3"
 "aqua:budimanjojo/talhelper" = "3.1.17"
-"aqua:siderolabs/talos" = "1.13.9"
+"aqua:cilium/cilium-cli" = "0.20.0"
+"aqua:fluxcd/flux2" = "2.9.5"
+"aqua:helm/helm" = "4.3.0"
+"aqua:kubernetes/kubectl" = "1.33.1"
+"aqua:siderolabs/talos" = "1.14.1"
+"aqua:cloudflare/cloudflared" = "2026.9.1"
+"aqua:cue-lang/cue" = "0.17.1"
 node = "latest"
 pipx = "latest"
 ```
 
-All pinned tool versions that the `mise` manager updates live in this `[tools]` block, including aqua-proxied CLIs (talhelper, cilium-cli, flux2, helm, helmfile, kustomize, kubectl, talos, yq, kubeconform, etc.), pipx-installed tools, and Python.
+All pinned tool versions that the `mise` manager updates live in this `[tools]` block: Python (`3.14.7`), pipx-installed tools (makejinja), aqua-proxied CLIs (talhelper, cilium-cli, gh CLI, cloudflared, cue, age, flux2, sops, go-task, helm `4.3.0`, helmfile, jq, kustomize, kubectl `1.33.1`, yq, talos `1.14.1`, kubeconform), plus unpinned `node` and `pipx` (`latest`). Minor and patch bumps to these entries are auto-merged as branch commits with tests ignored.
 
 ## Package Grouping
 
