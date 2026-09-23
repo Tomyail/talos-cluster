@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:f233d844840c293507ea78fdc5ab560d10fabddc1c8f79849b0eb8ce38b2389b",
+  "pageVersion": "sha256:b71fa878ebd150204e209bbbf1c81c870d76719eb5ec446c125dc300175138f7",
   "claims": [
     {
       "id": "claim_7007b04a9365408685923e5725757fbe",
@@ -219,10 +219,68 @@
           "version": "repo-file-v1:sha256:eebd93a11ab8005e82532e3ff1c92e12e4bfcadfa59000036daa9463adfae378"
         }
       ]
+    },
+    {
+      "id": "claim_ad9ab787d66c42cd8d74a4d48fcfcd86",
+      "statement": "kubernetes/components/ provides reusable kustomize components in five groups — common/ (namespace, SOPS, app-template OCI repo), gatus/ check variants, image-automation/, volsync-new/, and volsync/ — which apps consume via the `components:` field of their ks.yaml with substitutes such as VOLSYNC_CAPACITY; this library is documented in /openwiki/architecture/component-library.md.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/common/kustomization.yaml",
+          "version": "repo-file-v1:sha256:6a499644d69e7563a12512291f01942ccdc1ceff4e741dd26aa28a228117f9d2"
+        },
+        {
+          "resource": "repo://kubernetes/components/image-automation/kustomization.yaml",
+          "version": "repo-file-v1:sha256:b6711c301af49799491ebc9dec2224dc378bbfd3a4925ee0a6248016cd152a85"
+        },
+        {
+          "resource": "repo://kubernetes/components/volsync-new/kustomization.yaml",
+          "version": "repo-file-v1:sha256:4c2df018958ac36399edfa3f9447bad27dea5dd9b8506109b70f6b634eeaa88f"
+        },
+        {
+          "resource": "repo://kubernetes/components/volsync/kustomization.yaml",
+          "version": "repo-file-v1:sha256:4c2df018958ac36399edfa3f9447bad27dea5dd9b8506109b70f6b634eeaa88f"
+        }
+      ]
+    },
+    {
+      "id": "claim_ddd14d276c2141ecbe880cf741271d6c",
+      "statement": "The local operator toolchain is documented in /openwiki/operations/local-tooling.md: mise pins tools and exports KUBECONFIG, TALOSCONFIG, and SOPS_AGE_KEY_FILE; the root Taskfile.yaml includes .taskfiles/ bootstrap, talos, and volsync namespaces; and scripts/bootstrap-apps.sh plus scripts/lib wait for node readiness, pre-create namespaces, apply SOPS secrets, and helmfile-bootstrap the foundation releases.",
+      "evidence": [
+        {
+          "resource": "repo://.mise.toml",
+          "version": "repo-file-v1:sha256:d0aa113afde20e67f4f6ce0fb96df5f43b536b3b43b431e75f0902d4e8b36cf1"
+        },
+        {
+          "resource": "repo://Taskfile.yaml#L21-L24",
+          "version": "repo-lines-v1:sha256:a75660a05f29d9053abf465658362886fd95a8acc40b4350702456e34ddd6106:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDgyMWJmYzVjNTE2YWM3OGM5M2E2NmRkN2MzYWNmYjZmNzIyZDRmZTdkNDZiYjliMDc4MTcwZDM0MzAwMGQ4YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzU5ZjhmNGIzYjJiZjhiZTZiY2E2MjgxMzBkMTVlNjEwYzI3MTY5NTEzMzNlNjJlMzkxYjU3MjE2ZDYzYTA1YSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGQyYTBkNzk1YjllNzBjMDZmYjJmNjY4NDcwMGY4MDdkYTcwMDYwMTE0YWU0YjIzY2NjMjVlZDYwNjg2Zjk3YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMjFkMTJiNTZjMTBiN2ZiNjJjOGYwNDFiMzdlMThjZjhmMjdjNTc4YTBkMjdhYjdlOGRkODhkYmRjOWRmNGIxZiJ9"
+        },
+        {
+          "resource": "repo://scripts/bootstrap-apps.sh",
+          "version": "repo-file-v1:sha256:eebd93a11ab8005e82532e3ff1c92e12e4bfcadfa59000036daa9463adfae378"
+        }
+      ]
+    },
+    {
+      "id": "claim_4e41cfd4d88f4903ad3239772fbf5471",
+      "statement": "An in-flight migration moves app PVCs from app-local pvc.yaml/volsync.yaml manifests to the shared kubernetes/components/volsync component, tracked in docs/volsync-migration-tracker.md with known partial/pending apps and pitfalls (extra claims, NFS mounts, disabled volsync-new); the workflow is documented in /openwiki/operations/volsync-pvc-migration.md.",
+      "evidence": [
+        {
+          "resource": "repo://docs/volsync-migration-tracker.md",
+          "version": "repo-file-v1:sha256:feee5c093f7e3b3205667535f68fb80efd547bd9bde2adaca7e9b80b47077500"
+        },
+        {
+          "resource": "repo://kubernetes/components/volsync-new/kustomization.yaml",
+          "version": "repo-file-v1:sha256:4c2df018958ac36399edfa3f9447bad27dea5dd9b8506109b70f6b634eeaa88f"
+        },
+        {
+          "resource": "repo://kubernetes/components/volsync/kustomization.yaml",
+          "version": "repo-file-v1:sha256:4c2df018958ac36399edfa3f9447bad27dea5dd9b8506109b70f6b634eeaa88f"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.2",
-    "at": "2026-09-21T22:42:37.553Z"
+    "by": "openwiki/0.6.0",
+    "at": "2026-09-23T22:25:15.108Z"
   }
 }

@@ -1,0 +1,154 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:d12c52c120dc5637ced21399dd463cc3ba87e06d47897613e903a7b5c44f9012",
+  "claims": [
+    {
+      "id": "claim_c0ebaf31acb54ed7ae9d9c9f602965b2",
+      "statement": "Apps consume the shared components by listing repo-relative paths in their Flux Kustomization's spec.components and supplying variables (e.g. APP, VOLSYNC_CAPACITY) via postBuild.substitute; kubernetes/apps/default/gitea/ks.yaml references components/volsync-new and components/gatus/external with APP=gitea and VOLSYNC_CAPACITY=10Gi.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/ks.yaml#L13-L43",
+          "version": "repo-lines-v1:sha256:511067ee748cf3811f80c3ebf4309b56699a3540262f3c88a0fb74264bab3c8b:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVkM2E1ZDYxNWQ4YzhjYWZlZDM4MmU2ZmMxODVmNDU5NzAyYWE4NjhjZTc1MjRmZDI2NmYzZmI2ZDYwYzA2NzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk3OGEyZTE1ZThjZWJjZmU2YjM1ZTkyODM1NWNkZjRiM2Q0Y2RkMjJmY2IwYjQ3MDFmMDc5NTFhZDEzMDZlZmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYwYmVkZjViYmRjMDhmNDkyNzZiN2ViYzY4ZGVlZDA5ZmYwZDJjODc5MDA3MDA5NDM1ZjNiOTY0NzY0ZjU0ZGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMyMGQ2MWFhZTQyMGZlZmIyZTQ5ZGE4YzY1ZDQ5MWUyNzM5NzZmOTQ0Njg3MTIxODU3MmIyZmE2YjJjNzdiMTcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c2f56f4bf75942d5b8accdbd7aa026bb",
+      "statement": "The common component composes a placeholder prune-disabled privileged namespace, a shared OCIRepository pinning the app-template chart (oci://ghcr.io/bjw-s-labs/helm/app-template, tag 5.1.0), and SOPS-encrypted cluster-secrets and sops-age resources.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/common/kustomization.yaml",
+          "version": "repo-file-v1:sha256:6a499644d69e7563a12512291f01942ccdc1ceff4e741dd26aa28a228117f9d2"
+        },
+        {
+          "resource": "repo://kubernetes/components/common/namespace.yaml",
+          "version": "repo-file-v1:sha256:cc90502c30a32ce402d07577c6d533123f6aa07629c5b37962e8f83c98b4ab5f"
+        },
+        {
+          "resource": "repo://kubernetes/components/common/repos/app-template/ocirepository.yaml",
+          "version": "repo-file-v1:sha256:02c2cfe8c64f6cd1b252b6ad01de56eaae0b0f516aba9b901a2c00e21c98073d"
+        },
+        {
+          "resource": "repo://kubernetes/components/common/sops/kustomization.yaml",
+          "version": "repo-file-v1:sha256:d8ed27e133a7c7b3a4e77fc5e274182244e747a7c15a7f8a3d6532ccb14f629a"
+        }
+      ]
+    },
+    {
+      "id": "claim_810c4ca72b6c408e885837fdb966b0ab",
+      "statement": "Each gatus component variant generates a ConfigMap ${APP}-gatus-ep labeled gatus.io/enabled=true via configMapGenerator; the central Gatus deployment discovers these ConfigMaps by that label. The external variant probes https://${GATUS_SUBDOMAIN:=${APP}}.${SECRET_DOMAIN} for status 200; the guarded variant checks that the domain's DNS A record is unresolvable (len([BODY]) == 0).",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/gatus/app/helmrelease.yaml#L31-L31",
+          "version": "repo-lines-v1:sha256:977029cafba157e66351b9082d70efe1b947eaacdf678d51494e4ae8857df480:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTc3MDI5Y2FmYmExNTdlNjYzNTFiOTA4MmQ3MGVmZTFiOTQ3ZWFhY2RmNjc4ZDUxNDk0ZTRhZTg4NTdkZjQ4MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTc3MDI5Y2FmYmExNTdlNjYzNTFiOTA4MmQ3MGVmZTFiOTQ3ZWFhY2RmNjc4ZDUxNDk0ZTRhZTg4NTdkZjQ4MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDdmNzdiN2NhMjNmOTFmNTJjYzdmYzU1NDc3NTIxZTIxOGRjMTI5ZWViNmJjMWRjZTAzNjU0YTJiM2UzYjgxNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODdiYjk3YjJiYzYwYTIyODMzNGM2NjhhNTJjNjFmNjQ0ZjRkOWI4NWY5MTNjODM1M2UyMTQ3Y2ZmNzU3ZWVlYSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/components/gatus/external/config.yaml",
+          "version": "repo-file-v1:sha256:04e8bf8712a614a2c0c16e250c3ffdf2625c8ae6e110e81e5dd0f28eeb6f0e02"
+        },
+        {
+          "resource": "repo://kubernetes/components/gatus/external/kustomization.yaml",
+          "version": "repo-file-v1:sha256:9b7f737953cde50bbf2e4f24584464c00b3e6e6cf26cb16b7f07e599032be423"
+        },
+        {
+          "resource": "repo://kubernetes/components/gatus/guarded/config.yaml",
+          "version": "repo-file-v1:sha256:ff22db22cb7f4c8272e17065435b5e0bfe64a44ffd7e43368c58107393d34864"
+        }
+      ]
+    },
+    {
+      "id": "claim_44a9f477d165419390d2920481525000",
+      "statement": "The image-automation component adds, per app, an ExternalSecret for registry credentials from Bitwarden, an ImageRepository scanning tags each minute, and an ImagePolicy labeled image-automation:enabled whose numerical policy extracts a timestamp from tags matching ^.+-[a-f0-9]+-(?P<ts>[0-9]+)$ to select the newest tag.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/image-automation/README.md",
+          "version": "repo-file-v1:sha256:d3fa1cd58d903599d4c4d28ca589d8d0567fd3e85d41bc265e8014cb016349cd"
+        },
+        {
+          "resource": "repo://kubernetes/components/image-automation/imagepolicy.yaml",
+          "version": "repo-file-v1:sha256:113bf2b5cbce8ceba3497aa6a2f996b221bd3c3d9fe684848649bc44cbe1284c"
+        }
+      ]
+    },
+    {
+      "id": "claim_e9a9d93a271f41d6a34d33306d597273",
+      "statement": "Both volsync component variants ship an ExternalSecret (bitwarden-login store) templating a restic secret pointing at s3:http://192.168.50.220:9010/volsync/dev/${APP} with credentials from Bitwarden items volsync-minio-template and cold-minio, and a ReplicationSource backing up the ${APP} PVC every 6 hours with retain 24 hourly / 7 daily / 5 weekly.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/volsync-new/minio.yaml#L34-L57",
+          "version": "repo-lines-v1:sha256:1a8e50a70d950900637e092521e2fb81a0f91d172fa7bc1ff20ca59eaac9641a:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJmMDVhOGY5MWJjZmQzMTE4YmYzZDY2ZmU1NjQ4NjZlM2QzMTA0OGVlMGRmOGU3OTkwMjIxYWYzMzU4ODNmMTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjlkOWE3NjE0YTg4YjQ0ZjU0NGNmMTI4MDIxMmVkNjg3MzAwYzgyMTM1MjZmNzFhMDIyMjg2YTZkOWQ5NDlmZjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQxOGVkMTE2MmNjNWJkYzcwNTM2MmJiMmFjYzdlODY4MzI5NmFlNzM2MzhjNzNhN2E2YjFlM2Y2N2RlZDM3ZGEifQ"
+        },
+        {
+          "resource": "repo://kubernetes/components/volsync/minio.yaml#L1-L32",
+          "version": "repo-lines-v1:sha256:01042a302b6fcb2ebdbf4608633e1b964ada2676931fe511e55a8dfcb19689eb:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNiYmYzOWYwZTkwNzFkOGEwZjQyZjNlMzc0OTdhOTRhMDExNGU2NmYyNmFmYjcyN2VmNDFhMDkxZWE3Yzg1YjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQzZjc2OWYzNTgxZTRlYTMwYzhkNzlmYjI0YmE1NGZjZTY5MzM1ODM0MjFlNTAwNmY0N2NjMDFjNjBmNTJkOWEifQ"
+        },
+        {
+          "resource": "repo://kubernetes/components/volsync/minio.yaml#L34-L59",
+          "version": "repo-lines-v1:sha256:e5e903096b7b243a91f47e3d6ccccdba256ff3e478fba75f89fa462caced85e8:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJmMDVhOGY5MWJjZmQzMTE4YmYzZDY2ZmU1NjQ4NjZlM2QzMTA0OGVlMGRmOGU3OTkwMjIxYWYzMzU4ODNmMTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjlkOWE3NjE0YTg4YjQ0ZjU0NGNmMTI4MDIxMmVkNjg3MzAwYzgyMTM1MjZmNzFhMDIyMjg2YTZkOWQ5NDlmZjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQxOGVkMTE2MmNjNWJkYzcwNTM2MmJiMmFjYzdlODY4MzI5NmFlNzM2MzhjNzNhN2E2YjFlM2Y2N2RlZDM3ZGEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_8dd55309e8d749cfae03f1431ef3d2cb",
+      "statement": "The volsync component's PVC uses dataSourceRef ReplicationDestination volsync-dst-${APP} (trigger manual: restore-once) so the claim is seeded from the latest restic snapshot for migration/restore; volsync-new's claim.yaml omits the dataSourceRef, creating a fresh empty PVC while still shipping the same ReplicationSource and destination.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/volsync-new/claim.yaml",
+          "version": "repo-file-v1:sha256:cb49de4194c92c3936a20756252d36294fce3c5ef4d0899007dce030aea5570b"
+        },
+        {
+          "resource": "repo://kubernetes/components/volsync/claim.yaml",
+          "version": "repo-file-v1:sha256:884ce121cda571f91734132bb4d973643f3dbd93b8b1ee9797c5a0715061161b"
+        },
+        {
+          "resource": "repo://kubernetes/components/volsync/minio.yaml#L61-L87",
+          "version": "repo-lines-v1:sha256:f12ecd3d6c7bf7d5552bb9af4c4fcde3840ca679732a4c45a4df66fbb7c17b2f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlhMDdjMjNiN2ZhZWY4NjVjZTVhN2U3ZDE0ZmZlYjNkMzRjNTBiNTdhNjRmMjI1MGE1NmZkZGFmOTE5N2IyYzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE1MWE4NjQyMGU4NDQwODVkZjVmNDc3ODE4ZTQwNzE2NDQwMDA4MjE3NDc1YTFkYTExNjdjZjFiZjc0NmFjMmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU2ZmQ3NmFhNjZkZDZlNmJlZDc3YmQ3YmU0NDNmMGU1ZjI4ZmRhYjE0ZTAxZTg4ZjRmMzBiMGQyMWQ3YmM1ODciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ef7cee830e2a4fa0be32aa53626f765b",
+      "statement": "Volsync PVC capacity, storage class, cache, and copy method are parameterized via substitutes defaulting to VOLSYNC_CAPACITY=1Gi, storageClass topolvm-thin-provisioner, cache 1Gi on local-path, and copyMethod Snapshot; apps like gitea override VOLSYNC_CAPACITY to 10Gi in postBuild.substitute.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/ks.yaml#L41-L43",
+          "version": "repo-lines-v1:sha256:c7876346ac5253e9e156b83af679c0d61a93e8a16ace8752ef0744cd06ac5770:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzk2YjI2N2E3ZjQ2NmM4MzFiNzM5MzEwY2QzODQwMWMwODhmNzRmNjQ1OTAwN2M2N2Q5YzhmOWMxNDRmYjg4MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTc4YTJlMTVlOGNlYmNmZTZiMzVlOTI4MzU1Y2RmNGIzZDRjZGQyMmZjYjBiNDcwMWYwNzk1MWFkMTMwNmVmYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiM2E0ZDRhN2E5YzgzY2I2N2NjZjQ4Y2I5ODE1ZDE2MGRlY2Y0NjEyYzVhNzVjZGU4ZDUxYzUwMDBiY2ZmMzYxMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzIwZDYxYWFlNDIwZmVmYjJlNDlkYThjNjVkNDkxZTI3Mzk3NmY5NDQ2ODcxMjE4NTcyYjJmYTZiMmM3N2IxNyJ9"
+        },
+        {
+          "resource": "repo://kubernetes/components/volsync-new/claim.yaml#L10-L10",
+          "version": "repo-lines-v1:sha256:4d011ed22d530ec9724955e1c18d750dad000e1e202817ea0c925489f04b2e95:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNGQwMTFlZDIyZDUzMGVjOTcyNDk1NWUxYzE4ZDc1MGRhZDAwMGUxZTIwMjgxN2VhMGM5MjU0ODlmMDRiMmU5NSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGQwMTFlZDIyZDUzMGVjOTcyNDk1NWUxYzE4ZDc1MGRhZDAwMGUxZTIwMjgxN2VhMGM5MjU0ODlmMDRiMmU5NSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjc1NjA5ZDcwOWYyMjkyOTY5ZmQ2NmY0Mjc3OTM5NWFkMTIyOGVhZTllNWM3MDY2NDM2MDBjZjE5YWY0NWJlMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMmVjOGE1YzZiN2FkMjkyYzk3ODYwNWNhNmE3NDk4NDg1OTIwOTI0ZGQ0NmQ1MGZmMmE3ZDIzZmM0Y2ZkYTBlZSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/components/volsync/claim.yaml#L14-L14",
+          "version": "repo-lines-v1:sha256:4d011ed22d530ec9724955e1c18d750dad000e1e202817ea0c925489f04b2e95:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNGQwMTFlZDIyZDUzMGVjOTcyNDk1NWUxYzE4ZDc1MGRhZDAwMGUxZTIwMjgxN2VhMGM5MjU0ODlmMDRiMmU5NSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGQwMTFlZDIyZDUzMGVjOTcyNDk1NWUxYzE4ZDc1MGRhZDAwMGUxZTIwMjgxN2VhMGM5MjU0ODlmMDRiMmU5NSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzQ2ZDllMTc4ZDcyMmUwMjM2ZmJmODg2ZmZjNTE3ZWU2ZDg2NDQwZWU4OWI1NTc2NWYwZTViMmI1YjUxMjM3ZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMmVjOGE1YzZiN2FkMjkyYzk3ODYwNWNhNmE3NDk4NDg1OTIwOTI0ZGQ0NmQ1MGZmMmE3ZDIzZmM0Y2ZkYTBlZSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/components/volsync/minio.yaml#L72-L85",
+          "version": "repo-lines-v1:sha256:cde58f447ffaa91d94e278c42e13d7cd553dc987c801ee0c153aaf77b9b36c9a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNlMDcwZWFhNzBmNzEyMmZmMDlkZjAwNWI0ODVhMDBmNDU1M2JjMzM0OTE5NzE1NzFjYjQ2NGQ2NmMwMThiODEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ3MTEwZTk0ZDNmNWIzMzE1NWRlMDM4YjkyNGU0ZjEwYzI5MzNkM2EyMGQzM2NhNDMxNTU3NDExOTRlNGZkM2EiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEwNjIxOWQyOTI2ODJiMzY0ZmQ4MjE0NzVlMDU3MmVjOTQ2NWIzMjY4NTFjNzFiYmMxM2ZlOGVlNzQ0YmNiMTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYwNmU5OTk2OTQxOGQ0ZmM2NmExMTRkMmZhZjJlNTExNTI1Yjk2NTVjYTQxY2U5NGJmZjgzYzQxYTM0ZjEyZTMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_2c9d2ac7c5d34231a3b8318967b07af9",
+      "statement": "Both volsync variants are in active use across apps: e.g. atuin, jellyfin, navidrome, and qbittorrent use components/volsync, while gitea, pgadmin, linkwarden, prowlarr, and playwright use components/volsync-new.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/database/pgadmin/ks.yaml#L14-L14",
+          "version": "repo-lines-v1:sha256:937f5170fcaae7bbbe01c2fd2066929503f7c73a1dd45da2bd808fd6373d9d36:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTM3ZjUxNzBmY2FhZTdiYmJlMDFjMmZkMjA2NjkyOTUwM2Y3YzczYTFkZDQ1ZGEyYmQ4MDhmZDYzNzNkOWQzNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTM3ZjUxNzBmY2FhZTdiYmJlMDFjMmZkMjA2NjkyOTUwM2Y3YzczYTFkZDQ1ZGEyYmQ4MDhmZDYzNzNkOWQzNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYWFhNmVmOWJiMDEzZGE1N2QyNjEyNmU1OTYyOWFkOGYzYWE5YmQ4M2JjYTdjNDRmNjgyOTE1N2JlZWMyZmY1OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTBkYTkyNWMxNmYwYWZjZWY3MTdhNjNkMjVlN2ExZTI4MWE2OGY4NzJhNzZiZjk2MWMyOGRmZmY2YWNjODBkNyJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/atuin/ks.yaml#L14-L14",
+          "version": "repo-lines-v1:sha256:cb27b52169ef20c02a31750c3b90af305de0cc3cb527e5f4b230cc1cc7de4c9c:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2IyN2I1MjE2OWVmMjBjMDJhMzE3NTBjM2I5MGFmMzA1ZGUwY2MzY2I1MjdlNWY0YjIzMGNjMWNjN2RlNGM5YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiY2IyN2I1MjE2OWVmMjBjMDJhMzE3NTBjM2I5MGFmMzA1ZGUwY2MzY2I1MjdlNWY0YjIzMGNjMWNjN2RlNGM5YyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYWFhNmVmOWJiMDEzZGE1N2QyNjEyNmU1OTYyOWFkOGYzYWE5YmQ4M2JjYTdjNDRmNjgyOTE1N2JlZWMyZmY1OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTIxODlmOTEwNThkNGM4OWU3OTAyZTFkNWQ0OWYyZWFhZjJhZDRlMTMyMDZiZjIzMTQ0ZTRkNTgyOWM4ZjRhZiJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/ks.yaml#L14-L14",
+          "version": "repo-lines-v1:sha256:937f5170fcaae7bbbe01c2fd2066929503f7c73a1dd45da2bd808fd6373d9d36:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTM3ZjUxNzBmY2FhZTdiYmJlMDFjMmZkMjA2NjkyOTUwM2Y3YzczYTFkZDQ1ZGEyYmQ4MDhmZDYzNzNkOWQzNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTM3ZjUxNzBmY2FhZTdiYmJlMDFjMmZkMjA2NjkyOTUwM2Y3YzczYTFkZDQ1ZGEyYmQ4MDhmZDYzNzNkOWQzNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYWFhNmVmOWJiMDEzZGE1N2QyNjEyNmU1OTYyOWFkOGYzYWE5YmQ4M2JjYTdjNDRmNjgyOTE1N2JlZWMyZmY1OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTIxODlmOTEwNThkNGM4OWU3OTAyZTFkNWQ0OWYyZWFhZjJhZDRlMTMyMDZiZjIzMTQ0ZTRkNTgyOWM4ZjRhZiJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.6.0",
+    "at": "2026-09-23T22:25:15.108Z"
+  }
+}

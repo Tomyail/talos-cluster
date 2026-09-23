@@ -16,10 +16,20 @@ sources:
     resource: repo://.taskfiles/bootstrap/Taskfile.yaml
   - id: openwiki-source-4f5be6b4c7dcc699aca46164
     resource: repo://.taskfiles/talos/Taskfile.yaml
+  - id: openwiki-source-0e996dcef7180d2fe4f95073
+    resource: repo://docs/volsync-migration-tracker.md
   - id: openwiki-source-dbd8b5c09621dda4424792fd
     resource: repo://kubernetes/apps/default/gitea/app/helmrelease.yaml
   - id: openwiki-source-649e5ed74d5376f95cff2b2a
     resource: repo://kubernetes/apps/default/gitea/ks.yaml
+  - id: openwiki-source-63c7de935f96b1aa0a5dc1a4
+    resource: repo://kubernetes/components/common/kustomization.yaml
+  - id: openwiki-source-5b9de8faa6aefca68539d613
+    resource: repo://kubernetes/components/image-automation/kustomization.yaml
+  - id: openwiki-source-286accabe6659d8f9ce3fa94
+    resource: repo://kubernetes/components/volsync-new/kustomization.yaml
+  - id: openwiki-source-cf127a322444d1f6306750c2
+    resource: repo://kubernetes/components/volsync/kustomization.yaml
   - id: openwiki-source-0696023deccf378a358f7526
     resource: repo://kubernetes/flux/cluster/ks.yaml
   - id: openwiki-source-23775c3de52f3ab95a13cb8b
@@ -30,10 +40,10 @@ sources:
     resource: repo://talos/talenv.yaml
   - id: openwiki-source-b9ff7ee0aa4953cc601052a4
     resource: repo://Taskfile.yaml
-generated: { by: "openwiki/0.5.2", at: "2026-09-19T21:35:52.044Z" }
+generated: { by: "openwiki/0.6.0", at: "2026-09-23T22:25:15.108Z" }
 verified:
-  - by: openwiki/0.5.2
-    at: 2026-09-21T22:42:37.553Z
+  - by: openwiki/0.6.0
+    at: 2026-09-23T22:25:15.108Z
 ---
 
 # Quick Start Guide
@@ -235,6 +245,8 @@ The wiki is organized into five domains. Start here, then follow the links for d
 | **Workflows** | [Upgrade](./workflows/upgrade.md) | Talos/Kubernetes upgrades via `task talos:*` plus tuppr/system-upgrade automation |
 | **Integrations** | [Renovate](./integrations/renovate.md), [CI/CD](./integrations/ci-cd.md), [Cloudflare](./integrations/cloudflare.md), [Tailscale](./integrations/tailscale.md), [External Secrets](./integrations/external-secrets.md), [Bitwarden](./integrations/bitwarden.md), [Image Automation](./integrations/image-automation.md), [Hardware Support](./integrations/hardware-support.md) | External system integrations |
 | **Operations** | [Daily Operations](./operations/daily-operations.md) | Routine maintenance: reconcile, VolSync snapshots, node config, status dashboards |
+| **Operations** | [Local Tooling](./operations/local-tooling.md) | mise-managed tools and env vars, root Taskfile and `.taskfiles/`, and the bootstrap scripts under `scripts/` |
+| **Operations** | [VolSync PVC Migration](./operations/volsync-pvc-migration.md) | In-flight migration of app PVCs to the shared `components/volsync` component, migration flow, tracker, and known pitfalls |
 | **Operations** | [Upgrade Operations](./operations/upgrade-workflow.md) | Upgrade windows, ordering, and rollback considerations |
 | **Operations** | [Troubleshooting](./operations/troubleshooting.md) | Symptom-driven playbook for stuck Kustomizations, HelmReleases, secrets, storage |
 | **Testing** | [Validation](./testing/validation.md) | Local manifest validation, `flux-local` CI checks, and verification of a change end-to-end |
@@ -269,7 +281,7 @@ Most applications use the shared `app-template` OCI chart (`ghcr.io/bjw-s-labs/h
 
 Common components like VolSync (backup), Gatus (uptime monitoring), and image automation are integrated through reusable components in `kubernetes/components/` (e.g. `components/volsync-new`, `components/gatus/external`), referenced via the `components:` field in each app's `ks.yaml`.
 
-See [**Namespace & Repo Structure**](./architecture/namespace-structure.md) and [**App Deployment Workflow**](./workflows/app-deployment.md) for details.
+See [**Namespace & Repo Structure**](./architecture/namespace-structure.md), [**App Deployment Workflow**](./workflows/app-deployment.md), and [**Component Library**](./architecture/component-library.md) for details. Note that app PVCs are being migrated from app-local `pvc.yaml`/`volsync.yaml` files to the shared `components/volsync` component — see [**VolSync PVC Migration**](./operations/volsync-pvc-migration.md) before adding or changing a PVC.
 
 ### Secret Management
 

@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:9ab804a1250955460c210e25df981e508ce09fd08eaaee1533314a3e55d2bcf8",
+  "claims": [
+    {
+      "id": "claim_afbcac7a39e541838f26d10c9f19a278",
+      "statement": "mise (.mise.toml) pins the local toolchain (talhelper, talos, kubectl, flux2, sops, helm, helmfile, go-task, etc.) and exports KUBECONFIG, TALOSCONFIG, and SOPS_AGE_KEY_FILE; the root Taskfile sets the same variables so tasks work with or without mise.",
+      "evidence": [
+        {
+          "resource": "repo://.mise.toml",
+          "version": "repo-file-v1:sha256:d0aa113afde20e67f4f6ce0fb96df5f43b536b3b43b431e75f0902d4e8b36cf1"
+        },
+        {
+          "resource": "repo://Taskfile.yaml#L16-L19",
+          "version": "repo-lines-v1:sha256:1b77a471a1efac641fdd4077f315e1af5afb41665d718d3ab315da86e4100d89:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTBhNTk0ZjM0YjdmMGVhNTczZGE3ODcwM2UyNzQ5MzBkYjcxOGM5NDJjYWYzYzA0MjUxNzU1ZjYyM2M2MGQ1YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGEwYTlmMjVkY2UxZjUzYTVlOWNjODVkMWVlMDdlOTI4ZjkxOWFkZGM4ZmQ2NDVkN2E3NjI5YTQ5NGFkYjY0NCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMGI5N2MzYTFlY2IyNmM5MzAxZWFiMjZhOTdiNmZlZTQxNTg0ZmYyYWJjOTA1MWVkYmFjZjM5MTA5NmY0MGVhYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzQ3ZDA1YWU3Zjc4OTI4OTBjYTI1NGI2YTliMTMwZTA0NjVlNDllYzVlMDIxYzY3MzZjODA2MTlkYzg2MjUyOSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_5eb0bcb2258f41bfbc1ece35517b34dd",
+      "statement": "The root Taskfile includes bootstrap, talos, and volsync task namespaces and provides a `task reconcile` command that forces Flux to reconcile the flux-system kustomization with its Git source.",
+      "evidence": [
+        {
+          "resource": "repo://Taskfile.yaml#L21-L35",
+          "version": "repo-lines-v1:sha256:1c6151576bae35a9b6447f36815b51f7e34583f47b2caa7f5693b31567b51003:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA4MjFiZmM1YzUxNmFjNzhjOTNhNjZkZDdjM2FjZmI2ZjcyMmQ0ZmU3ZDQ2YmI5YjA3ODE3MGQzNDMwMDBkOGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY0ODg2Mzc0MzNlZjAxNDgzN2FhY2JkZmUzYzFjMmFlYTJiMjY2YTU0Y2Y0ZGYzM2ZkNDk0Mjg0OWFlYTM2NjkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRkMmEwZDc5NWI5ZTcwYzA2ZmIyZjY2ODQ3MDBmODA3ZGE3MDA2MDExNGFlNGIyM2NjYzI1ZWQ2MDY4NmY5N2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_64db0ae074864a7d989e23434c0b4f21",
+      "statement": "task bootstrap:talos performs the full Talos cluster bootstrap: generating and SOPS-encrypting talsecret.sops.yaml if absent, generating configs, applying node configs insecurely, then retrying `talhelper gencommand bootstrap` and kubeconfig fetch until they succeed; task bootstrap:apps runs scripts/bootstrap-apps.sh with preconditions on kubeconfig, .sops.yaml, and the age key.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/bootstrap/Taskfile.yaml",
+          "version": "repo-file-v1:sha256:3c26042d3a22fc7582ce3641d7090c5346b19f8f4ed41f1d2bf4109072973fa9"
+        }
+      ]
+    },
+    {
+      "id": "claim_76d43d88af1047a9a2c102c620671fa6",
+      "statement": "The talos task namespace provides day-2 node operations (generate-config, apply-node, upgrade-node, upgrade-k8s, destructive reset with prompt) all driven by `talhelper gencommand … | bash`, reading versions/images from talconfig.yaml and talenv.yaml via yq.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml",
+          "version": "repo-file-v1:sha256:c225f89537001da000f854eaa234bf1973988aa49e84e216fb7284dcbcd786bd"
+        }
+      ]
+    },
+    {
+      "id": "claim_41380c0a61674445b2e9a1c0d5eb25bb",
+      "statement": "scripts/bootstrap-apps.sh runs an ordered, idempotent bootstrap: check_env/check_cli guards → wait for all nodes Ready=False → apply one namespace per kubernetes/apps/* dir → decrypt and server-side apply three SOPS secrets (github-deploy-key, cluster-secrets, sops-age) into flux-system → apply external-dns and gateway-api CRDs → `helmfile sync bootstrap/helmfile.yaml`; the log error helper exits 1 so failures abort the script.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/bootstrap-apps.sh#L137-L149",
+          "version": "repo-lines-v1:sha256:c14c3d6c21a5b47fe7a68c02135bc881808d4e811ba699192046f15c37a26460:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRjZGE0MzIzZDljZmI1MmI1MjAyYmVlMjkyMTlmYjk1ZDdjNWM5YjBjYWZlNzJhZjA1ZmNkZDRhZDEzYWRhNTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM3ZTBjNDE1YjUxNmRkMjg5Y2MxMDFlYjAwNjJiNDI3NmVjMjU3YzhlYWYzY2IyZThlMmViYzg2ZDRhMzU2MTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEzMDE2ZDNkY2RhMDdjZGNjYmY4YjhiODk5MDcxNTU4MDJhMjNkZTBkZGRjOWI4OGRkY2U3YjQyZDFhYzcxNDYifQ"
+        },
+        {
+          "resource": "repo://scripts/lib/common.sh#L54-L67",
+          "version": "repo-lines-v1:sha256:34b13c5802f7ca766e5893de439dfbd38285283bf1bbf37bf6709df899d795fc:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcwNmFiMGYxYTI1MzMzMGQwOTE5YjlkZWU0YzlmOTM4MTdkZGM4NWE1MjU5MzlmNjU4NDczY2Y2NDM3ZjJhYTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg0ZTc2MDQyNmE4ZTNhODYwZGQxNTBlNmMxMTc4YmFhNmJmMTgyNGM1N2ZlODI3M2IwMmI0YTVjZTQ1M2FhNzEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJjMjEwYjRkZTczYTU2OTBmOTRmZDM0ZDM3ZTVmMDQ2M2NhNzE2ZmI2M2Q1NjcwNGFiYjIwMzEzOWE4YTEyNjQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg4ZWFkZWU3ZjcxYTA2YWEwNDJhMzdkNjk2YzM5NjEyMmJlNjcwM2EwNzRjNGQyZjIyMTA0NTQzNzFiY2UzNGMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f8d2779b446a499cba204edc0762679b",
+      "statement": "wait_for_nodes enforces the Talos bootstrap ordering: it skips if all nodes are Ready=True, otherwise polls until all nodes report Ready=False (Talos requires Ready=False before resources are applied). CRD application exists for bootstrap safety because Cilium (installed by helmfile) has gatewayAPI enabled and needs Gateway API CRDs before starting, even though Flux also manages those CRDs from Git.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/bootstrap-apps.sh#L87-L105",
+          "version": "repo-lines-v1:sha256:55970d26b40d7852e94094403503e801a6480392a97fc2bb3a594b198e9d285b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAzMGI3N2FjMTdhZjYwNmUwMjNhMzQ4YjA4NzdlMWNiNWFjZDg3NTg1MzM5Y2JlMWYxZjBkZjkyZDk1MDcyNGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwYzFmMTg4ZjE0MmVkN2E4MjQ2ODBiMjA3MTcyYzU1MTliYzYxNGE0OGZkYTdjZjE2N2VkYjhkZGY3OTk1NmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNiODliYzg3NjY4MWY5MzllMjQ1NTZmN2FjZGI0MmRiOTA0YmRiNWYyNjE3NzMzNWY0NDA5MjQ2ZWU1NjgxOTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY4OTQ3YTZhMTcxMjk5NmNkYzM5OWUwYjNjOTM5YmJmMzE0NDQyYzUzYjg2NjQ0Yjg0NWNhMmNmYTNkYTMxMTIifQ"
+        },
+        {
+          "resource": "repo://scripts/bootstrap-apps.sh#L9-L24",
+          "version": "repo-lines-v1:sha256:5d2ab35cc3e3c7cae060abc2e8c00aed56becbacabad04db5f8c662dab26584c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNmNWFhMDViMjIxNDdhNGMzYmEwODE0NjU0MGRhNzBlYzM0ODUzMzM5NDAwNjQ4MTc2ZGEwYjBkODA4OTI5ZDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc2ODc1MTBiNTA3MjhmNzczMDEzNDFkMzU1YmMyYmQ5OThhODE5ZjI4ZjE4MTYxOGNkMmQ2NmJlZWU0MGZjMjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYxN2JhY2ExNDM3MzdjNjczZmJkMDY1ODhhMzM3NjEwOTRhM2M5NzYwMDEzMmM0ZTMwODM1Yjg4OGZhYzdiYmYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_5f8cde2730664a35978a4d220c1a926d",
+      "statement": "VolSync tasks provide backup/restore/wipe operations for app PVCs under naming conventions (Kustomization/HelmRelease/PVC/ReplicationSource share the app name); task volsync:restore runs suspend → wipe → restore → resume internal tasks, deriving claim, controller kind, and mover PUID/PGID from the existing ReplicationSource, and renders templates with envsubst; the ReplicationDestination template restores a configurable number of previous snapshots (default 2) with an optional restoreAsOf cutoff to avoid restoring post-teardown backups during cluster bootstrap.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/volsync/Taskfile.yaml#L92-L231",
+          "version": "repo-lines-v1:sha256:f51463ba1440b5f48d8286ebd60a241b5d8e89928a2a7b04251cb976a0ea8f08:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQwLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJhMDA0ODdkZjRiYmFhMTIzZjQyMWMwM2MzMmZlYmFiNDY5MTQ1MmE5NWQwMWIxZGM5ZTJmNWE4YTFhNmM0YzllIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI1NmIzZDI3MDhiYmFjNzQwMDE4MmI2NDk3YjU1M2Q3M2VkNDMzNGE0YzkzYjIwZDRjYmVhZjAzY2E4YjZkZWQ2IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI3YTFhMTA0MWIzZWVkNDhjNmUyYjM0ZDc0MjM1NTIzNTBjOWIxYWI5ZjU3YmJkNWQxNzUyODQ2OTcwMDFmM2QxIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        },
+        {
+          "resource": "repo://.taskfiles/volsync/templates/replicationdestination.tmpl.yaml",
+          "version": "repo-file-v1:sha256:26cba1ddf0c7c99f4b9ab552867703f0cf5aef4693a6330fac4a6526296cffa2"
+        }
+      ]
+    },
+    {
+      "id": "claim_cf6c19c9837e448fa40596e83e5ff026",
+      "statement": "Additional volsync tasks manage Restic repository state: state-* suspends/resumes the volsync kustomization, HelmRelease, and deployment; unlock patches all ReplicationSources cluster-wide with restic.unlock; snapshot triggers manual backups; list and unlock-local render templates (envsubst / minijinja-cli) to run one-shot jobs whose logs are printed and jobs deleted.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/volsync/Taskfile.yaml#L170-L187",
+          "version": "repo-lines-v1:sha256:6965f9eba1a98bd07e46101be9c9841ecacd94019177751affb3230e1323c466:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA4ZTU3YmU2MTYwNGYyODIyODJjZTAxOWY2ZDYyNzE1NDMzOGQ2MzFmNTgwNTdiOGExOGIyNDhiYTVmODVlYWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ0OWE4MTQ4OTBhNmY2NzJhODBlMTA5ZTFmYzdhMzc4YmZhMDYxMzk5Njg4MzU0NmVmNjk1OWMwZTdkOWFjYjEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM2ZGVmY2M4N2IwMmMwNWFiYWI4YmNlNjI4Y2ZlZTgzMzFjMDVhY2U3ZGJhMThhYWRhMTdhZTA0MjM1ZWRmNTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAxODk2MjYwNmU4ZWE5NmNjYjYzODNmZTQ3M2U3MWNmZjI5NjY1ZDczMzZjOGZmNjI2NDI0MjM0MThlMDg4NTQifQ"
+        },
+        {
+          "resource": "repo://.taskfiles/volsync/Taskfile.yaml#L26-L87",
+          "version": "repo-lines-v1:sha256:d3876c41f0297c3e65dabb21a015f39dc2b09c56f3abadfaebdbde7ec61dc796:eyJzZWxlY3RlZExpbmVDb3VudCI6NjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFhMWQ5ZjA0NzBjYTQ3NzRkODJjNWZhNmU4MTBhZGFiZTNhMDYzOGE3ZTI0ZDM4NTc5MTE0M2VjMTkyOTg3OGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNjM2IzMjNhNjVkODJkMjBkZmM4ZWZmYWQ5YzY1OTBhYjhkZjhiODQ3MzdlZmZkYmU1ZTNmMGE2NDNiMzAxNDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ4ODE3NDEyN2ViZmVmZWExMmMzMTUzYzc1YjYzYmJjNmQyOTY3MWJiMWZhMDI5YWRhZDQ5NzJhMWYyNjkyYjciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkxYmZhYmE3Mzg0OTY3ZTUwOGFjN2E4OTVlNjlhZGVkM2NiMTI2MjVlNzg1Mjk5ODI2MmRjNTExNTc2MGE5OGMifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.6.0",
+    "at": "2026-09-23T22:25:15.108Z"
+  }
+}
