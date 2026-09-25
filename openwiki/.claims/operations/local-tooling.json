@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:9ab804a1250955460c210e25df981e508ce09fd08eaaee1533314a3e55d2bcf8",
+  "pageVersion": "sha256:fd733bc41a499ae4167baa10b1fa11089c9223dbc69b8f9493a36d74bfdc647b",
   "claims": [
     {
       "id": "claim_afbcac7a39e541838f26d10c9f19a278",
@@ -62,11 +62,11 @@
     },
     {
       "id": "claim_f8d2779b446a499cba204edc0762679b",
-      "statement": "wait_for_nodes enforces the Talos bootstrap ordering: it skips if all nodes are Ready=True, otherwise polls until all nodes report Ready=False (Talos requires Ready=False before resources are applied). CRD application exists for bootstrap safety because Cilium (installed by helmfile) has gatewayAPI enabled and needs Gateway API CRDs before starting, even though Flux also manages those CRDs from Git.",
+      "statement": "In scripts/bootstrap-apps.sh, wait_for_nodes enforces Talos bootstrap ordering by skipping the wait when all nodes are already Ready=True, otherwise polling every 10 seconds until all nodes report Ready=False (Talos requires Ready=False before resources are applied), making the script safe to re-run on a running cluster. The subsequent apply_crds step (lines 87-118) is a cluster bootstrap step, not local tooling: it applies external-dns v0.23.0 and gateway-api v1.6.2 (experimental) CRDs server-side for bootstrap safety because Cilium, installed next by helmfile, has gatewayAPI enabled and needs the Gateway API CRDs before starting, even though Flux also manages those CRDs from Git.",
       "evidence": [
         {
-          "resource": "repo://scripts/bootstrap-apps.sh#L87-L105",
-          "version": "repo-lines-v1:sha256:55970d26b40d7852e94094403503e801a6480392a97fc2bb3a594b198e9d285b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAzMGI3N2FjMTdhZjYwNmUwMjNhMzQ4YjA4NzdlMWNiNWFjZDg3NTg1MzM5Y2JlMWYxZjBkZjkyZDk1MDcyNGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwYzFmMTg4ZjE0MmVkN2E4MjQ2ODBiMjA3MTcyYzU1MTliYzYxNGE0OGZkYTdjZjE2N2VkYjhkZGY3OTk1NmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNiODliYzg3NjY4MWY5MzllMjQ1NTZmN2FjZGI0MmRiOTA0YmRiNWYyNjE3NzMzNWY0NDA5MjQ2ZWU1NjgxOTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY4OTQ3YTZhMTcxMjk5NmNkYzM5OWUwYjNjOTM5YmJmMzE0NDQyYzUzYjg2NjQ0Yjg0NWNhMmNmYTNkYTMxMTIifQ"
+          "resource": "repo://scripts/bootstrap-apps.sh#L87-L118",
+          "version": "repo-lines-v1:sha256:3ca34e492199f27391fa5c4902ca61f1d632fced6443258d07d2614613df496a:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAzMGI3N2FjMTdhZjYwNmUwMjNhMzQ4YjA4NzdlMWNiNWFjZDg3NTg1MzM5Y2JlMWYxZjBkZjkyZDk1MDcyNGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNiODliYzg3NjY4MWY5MzllMjQ1NTZmN2FjZGI0MmRiOTA0YmRiNWYyNjE3NzMzNWY0NDA5MjQ2ZWU1NjgxOTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMzNTk0ZDBhY2RhOTVjNGNjZjA3YmM5MzNiOWU1MTI3YmIxYTYyMTZhMDdkNTUyMjJmZDk4MzYzOGJjOWNkNDcifQ"
         },
         {
           "resource": "repo://scripts/bootstrap-apps.sh#L9-L24",
@@ -105,6 +105,6 @@
   ],
   "verification": {
     "by": "openwiki/0.6.0",
-    "at": "2026-09-23T22:25:15.108Z"
+    "at": "2026-09-25T22:38:38.997Z"
   }
 }

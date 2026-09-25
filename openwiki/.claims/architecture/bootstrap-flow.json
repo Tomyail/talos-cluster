@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:a537f775f89d3e379c1f5fed2a31a73b27f0ba0489c9064c5099074b3c9e8cf3",
+  "pageVersion": "sha256:c4f586649bb77f4b4c79d8e35a9ec42d5e9971c617104d80b34b116a3047cf13",
   "claims": [
     {
       "id": "claim_30f820b5ccba4c9a9c4aad7234c3dfc2",
@@ -12,11 +12,11 @@
         },
         {
           "resource": "repo://bootstrap/helmfile.yaml",
-          "version": "repo-file-v1:sha256:8274e45e66a14006e54630684933d195d2a5905c3dea7f0944b790a6a3c86de1"
+          "version": "repo-file-v1:sha256:2befd1e606655677378f27d3501a06b4f7047ecf386e95f56ecfd9bef2108ca6"
         },
         {
-          "resource": "repo://scripts/bootstrap-apps.sh",
-          "version": "repo-file-v1:sha256:eebd93a11ab8005e82532e3ff1c92e12e4bfcadfa59000036daa9463adfae378"
+          "resource": "repo://scripts/bootstrap-apps.sh#L137-L149",
+          "version": "repo-lines-v1:sha256:c14c3d6c21a5b47fe7a68c02135bc881808d4e811ba699192046f15c37a26460:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRjZGE0MzIzZDljZmI1MmI1MjAyYmVlMjkyMTlmYjk1ZDdjNWM5YjBjYWZlNzJhZjA1ZmNkZDRhZDEzYWRhNTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM3ZTBjNDE1YjUxNmRkMjg5Y2MxMDFlYjAwNjJiNDI3NmVjMjU3YzhlYWYzY2IyZThlMmViYzg2ZDRhMzU2MTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEzMDE2ZDNkY2RhMDdjZGNjYmY4YjhiODk5MDcxNTU4MDJhMjNkZTBkZGRjOWI4OGRkY2U3YjQyZDFhYzcxNDYifQ"
         }
       ]
     },
@@ -124,21 +124,21 @@
     },
     {
       "id": "claim_3a9be7730387407eb58c776b4cef2e26",
-      "statement": "The apply_crds function installs two CRD sets required by Helm charts: External DNS v0.22.0 standard CRDs and Gateway API v1.6.2 experimental CRDs. Both are also managed by Flux (via GitRepository sources in kubernetes/flux/cluster/ks.yaml) but duplicated for bootstrap safety — notably because Cilium has gatewayAPI enabled and needs the Gateway API CRDs before it starts.",
+      "statement": "The apply_crds function installs two CRD sets required by Helm charts: External DNS v0.23.0 standard CRDs and Gateway API v1.6.2 experimental CRDs. Both are also managed by Flux (via GitRepository sources in kubernetes/flux/cluster/ks.yaml) but duplicated for bootstrap safety — notably because Cilium has gatewayAPI enabled and needs the Gateway API CRDs before it starts.",
       "evidence": [
         {
           "resource": "repo://scripts/bootstrap-apps.sh#L88-L118",
-          "version": "repo-lines-v1:sha256:a528ce525bb291f3b05f7b196f6299bba1818757e82f8ac9ce41febfd0c0402c:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY2M2YyNzhkYjQ4YWFiOTQzZjQ3ZTMxZmYzMmEzOTY3MDRiNDc5MTY1N2M0MzgwOGVlMGM3MmYyZmExNWU5MmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhhZWFkOTQ4M2I2MjQ5YzgwNDc0NDZiMzQ0Y2FlODhhYTIyNDZmNzU3NTg4ZjJiNGY3MzM1YzE2M2MxNjkyYWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMzNTk0ZDBhY2RhOTVjNGNjZjA3YmM5MzNiOWU1MTI3YmIxYTYyMTZhMDdkNTUyMjJmZDk4MzYzOGJjOWNkNDcifQ"
+          "version": "repo-lines-v1:sha256:dc700e5fd17561d7612c47bc6d91f8fb3022d9913eeca8c99293b5157be38d8c:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY2M2YyNzhkYjQ4YWFiOTQzZjQ3ZTMxZmYzMmEzOTY3MDRiNDc5MTY1N2M0MzgwOGVlMGM3MmYyZmExNWU5MmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhhZWFkOTQ4M2I2MjQ5YzgwNDc0NDZiMzQ0Y2FlODhhYTIyNDZmNzU3NTg4ZjJiNGY3MzM1YzE2M2MxNjkyYWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMzNTk0ZDBhY2RhOTVjNGNjZjA3YmM5MzNiOWU1MTI3YmIxYTYyMTZhMDdkNTUyMjJmZDk4MzYzOGJjOWNkNDcifQ"
         }
       ]
     },
     {
       "id": "claim_b372cde832a34abba56c97f0a7cc80d3",
-      "statement": "Helmfile deploys releases in dependency order: Cilium 1.20.1 (CNI) first, then CoreDNS 1.47.1 (needs cilium), then cert-manager v1.21.2 (needs coredns), then flux-operator 0.60.0 (needs cert-manager), and finally flux-instance 0.60.0 (needs flux-operator).",
+      "statement": "Helmfile deploys releases in an atomic needs-chain: Cilium 1.20.2 (CNI, from https://helm.cilium.io) first, then CoreDNS 1.47.1 (needs cilium), then cert-manager v1.21.2 (needs coredns), then flux-operator 0.60.0 (needs cert-manager), and finally flux-instance 0.60.0 (needs flux-operator).",
       "evidence": [
         {
           "resource": "repo://bootstrap/helmfile.yaml#L13-L52",
-          "version": "repo-lines-v1:sha256:07813700e9db938e76b5df9fe0413a85f25bf2e9cb2b6abb58cfdc49c70e64c6:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkZTI0Nzc3YTlhNjAzZjFlZmY3ZTNjMmMzMTcxZTE2MjU5YjhhN2M5OTZkYTMxNDdhMjc5N2Y2ZjA3NTQ0MmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4NDQxMDY3MGJjNTUxNjEyNDRkZTdlZTRjMDM5YTEzMDUzYzZiN2M5ZTRkZTZiMzY4YzE3MzYzZDcyMjVlY2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZmNWY5NGUxMDY0NDU3ZjAwNWMzYzFmNzJkMzMzYTgxM2YwNzYzNTJjZjFiNzNiNTUzNWQ5NDFiNDFhNmQ1OTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "version": "repo-lines-v1:sha256:6476a2b528b6c4c2342d4f5b48106162fde3ac46a5570178b36d8e899f4de7e5:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkZTI0Nzc3YTlhNjAzZjFlZmY3ZTNjMmMzMTcxZTE2MjU5YjhhN2M5OTZkYTMxNDdhMjc5N2Y2ZjA3NTQ0MmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4NDQxMDY3MGJjNTUxNjEyNDRkZTdlZTRjMDM5YTEzMDUzYzZiN2M5ZTRkZTZiMzY4YzE3MzYzZDcyMjVlY2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZmNWY5NGUxMDY0NDU3ZjAwNWMzYzFmNzJkMzMzYTgxM2YwNzYzNTJjZjFiNzNiNTUzNWQ5NDFiNDFhNmQ1OTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -216,11 +216,11 @@
     },
     {
       "id": "claim_26e652e2472c4b5fbadf74bb58579687",
-      "statement": "Because Talos's built-in CNI is disabled in favor of Cilium, nodes remain Ready=False until bootstrap-apps.sh installs Cilium via Helmfile; wait_for_nodes deliberately waits for the Ready=False state and a Cilium failure (atomic rollback) leaves the cluster unable to progress to Ready=True.",
+      "statement": "Because Talos's built-in CNI is disabled in favor of Cilium, nodes remain Ready=False until bootstrap-apps.sh installs Cilium via Helmfile; wait_for_nodes deliberately waits for the Ready=False state and skips only if all nodes are already Ready=True. A Cilium failure (atomic rollback) leaves the cluster unable to progress to Ready=True.",
       "evidence": [
         {
           "resource": "repo://bootstrap/helmfile.yaml#L14-L19",
-          "version": "repo-lines-v1:sha256:ce4d9cf5a5f38b52927b9ff58460fb6160ae0d527a98af47a0c24460384479b3:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODVhMDU5M2M0NTY0MDJmYTZhNjBhZTBmOThiYzIyNmQzOTg0NmNmYmI4ODBhY2QwYzdmNzhhZmJlOTVlNTMwMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTMyNTg5MzVmOTU1MDM4YjU1ZDc2NWZmNGFhNTc4MjM0ZWZlODdmN2QyNzhlYzEyODVlMWY4Njk4NTEzNGIwZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWI3ZjBiNzAwODM4YzM4ZGJiMTdmZDE2N2Q0YjIyYmY0ZDY1ODYwY2I4MjYxYjc5NTVmNzlkYzc5MDJjMTNmZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTEzOGEzZGY2MjA0MmQ4OGRkNzEyNTIyYjkwN2E5ZGNkNGRmNjBlNGI0NmFkNmQ3MDQ3NDBlMTNjZTdkMDcwOSJ9"
+          "version": "repo-lines-v1:sha256:d99212b8933cd3cd1d6256839d8519a122b64a3b5cf4b5b92d69d16b308d9c05:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODVhMDU5M2M0NTY0MDJmYTZhNjBhZTBmOThiYzIyNmQzOTg0NmNmYmI4ODBhY2QwYzdmNzhhZmJlOTVlNTMwMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTMyNTg5MzVmOTU1MDM4YjU1ZDc2NWZmNGFhNTc4MjM0ZWZlODdmN2QyNzhlYzEyODVlMWY4Njk4NTEzNGIwZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWI3ZjBiNzAwODM4YzM4ZGJiMTdmZDE2N2Q0YjIyYmY0ZDY1ODYwY2I4MjYxYjc5NTVmNzlkYzc5MDJjMTNmZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTEzOGEzZGY2MjA0MmQ4OGRkNzEyNTIyYjkwN2E5ZGNkNGRmNjBlNGI0NmFkNmQ3MDQ3NDBlMTNjZTdkMDcwOSJ9"
         },
         {
           "resource": "repo://scripts/bootstrap-apps.sh#L9-L24",
@@ -234,11 +234,11 @@
     },
     {
       "id": "claim_f24d6a04ea85495ca9ff037a4dc7bc2b",
-      "statement": "Bootstrap ordering forms two dependency chains whose breakage deadlocks the rest: the Helmfile release chain cilium → coredns → cert-manager → flux-operator → flux-instance, and the Flux Kustomization chain cluster-meta → gateway-api-crds/external-dns-crds → cluster-apps (with prune enabled on CRD Kustomizations).",
+      "statement": "Bootstrap ordering forms two dependency chains whose breakage deadlocks the rest: the Helmfile release chain cilium → coredns → cert-manager → flux-operator → flux-instance, and the Flux Kustomization chain cluster-meta → gateway-api-crds/external-dns-crds → cluster-apps (with prune enabled on the CRD Kustomizations).",
       "evidence": [
         {
           "resource": "repo://bootstrap/helmfile.yaml",
-          "version": "repo-file-v1:sha256:8274e45e66a14006e54630684933d195d2a5905c3dea7f0944b790a6a3c86de1"
+          "version": "repo-file-v1:sha256:2befd1e606655677378f27d3501a06b4f7047ecf386e95f56ecfd9bef2108ca6"
         },
         {
           "resource": "repo://kubernetes/flux/cluster/ks.yaml#L70-L94",
@@ -267,10 +267,24 @@
           "version": "repo-lines-v1:sha256:8f59b3064b8cac21918a59060f96636874e37359df2f0e4ba1ade95f5f706f69:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY0OThiODk0YzQ3NzQyYmM3MTc1MDQ1ZTk1MWY0NmQyMDc4NTVkMDNlZDZhNTJkMGZiMDEzM2MzMGFiOTgwMjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQwYmU3NDllNjExMWJjN2IwNjRiMDY1MGNlZDIzYjYxODg5ZDIzZjE1ZWI3MDViYjlhYzdlZDVlNTMzNWQ0YTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI1ZmUxMzM4YmI5YTIwMDA4ODZlY2ViYjg5NThhMjI1MzcwZTgyNTAwNzhlMmEzMDhkN2Q0NjYwYzQ1ZTdlN2IifQ"
         }
       ]
+    },
+    {
+      "id": "claim_51745d50e12f46d4bc902ca7552e4910",
+      "statement": "scripts/bootstrap-apps.sh validates its environment before doing any work: main() calls check_env KUBECONFIG TALOSCONFIG and check_cli helmfile kubectl kustomize sops talhelper yq (helpers from scripts/lib/common.sh), then executes wait_for_nodes, apply_namespaces, apply_sops_secrets, apply_crds, and sync_helm_releases in strict order.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/bootstrap-apps.sh#L137-L149",
+          "version": "repo-lines-v1:sha256:c14c3d6c21a5b47fe7a68c02135bc881808d4e811ba699192046f15c37a26460:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRjZGE0MzIzZDljZmI1MmI1MjAyYmVlMjkyMTlmYjk1ZDdjNWM5YjBjYWZlNzJhZjA1ZmNkZDRhZDEzYWRhNTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM3ZTBjNDE1YjUxNmRkMjg5Y2MxMDFlYjAwNjJiNDI3NmVjMjU3YzhlYWYzY2IyZThlMmViYzg2ZDRhMzU2MTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEzMDE2ZDNkY2RhMDdjZGNjYmY4YjhiODk5MDcxNTU4MDJhMjNkZTBkZGRjOWI4OGRkY2U3YjQyZDFhYzcxNDYifQ"
+        },
+        {
+          "resource": "repo://scripts/lib/common.sh",
+          "version": "repo-file-v1:sha256:f3bcaf1dc7ee987aead64263fd416ea88290d845b23812f1442ec4973e54d2c0"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.2",
-    "at": "2026-09-19T21:35:52.044Z"
+    "by": "openwiki/0.6.0",
+    "at": "2026-09-25T22:38:38.997Z"
   }
 }

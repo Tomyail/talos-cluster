@@ -4,6 +4,8 @@ title: Flux GitOps Architecture
 description: Comprehensive documentation of the Flux GitOps reconciliation hierarchy, Kustomization structure (cluster-meta → CRDs → cluster-apps), source management, Helm vs Kustomize resources, SOPS decryption integration, and the automated image update system.
 tags: [flux, gitops, kubernetes, reconciliation, kustomize, helm]
 sources:
+  - id: openwiki-source-b39dd7458c333c8d2cd9b103
+    resource: repo://kubernetes/apps/default/echo/app/helmrelease.yaml
   - id: openwiki-source-1385f4adf262cc0ec92b6d45
     resource: repo://kubernetes/apps/default/echo/ks.yaml
   - id: openwiki-source-e25edd804fc5172169ff7128
@@ -50,10 +52,10 @@ sources:
     resource: repo://kubernetes/flux/meta/repos/jetstack.yaml
   - id: openwiki-source-12a44dba301e86ea2cf62628
     resource: repo://kubernetes/flux/meta/repos/kustomization.yaml
-generated: { by: "openwiki/0.5.1", at: "2026-09-12T21:32:37.847Z" }
+generated: { by: "openwiki/0.6.0", at: "2026-09-25T22:38:38.997Z" }
 verified:
-  - by: openwiki/0.5.2
-    at: 2026-09-19T21:35:52.044Z
+  - by: openwiki/0.6.0
+    at: 2026-09-25T22:38:38.997Z
 ---
 
 # Flux GitOps Architecture
@@ -352,10 +354,10 @@ These settings ensure efficient reconciliation while preventing resource exhaust
 The `common` Kustomize component (`kubernetes/components/common/kustomization.yaml`) provides standardized resources for applications:
 
 1. **namespace.yaml** - Creates namespace with pod-security annotation and prune-disabled marker
-2. **repos/** - Adds repository definitions including the app-template OCIRepository for bjw-s Helm charts
+2. **repos/** - Adds repository definitions including the app-template OCIRepository
 3. **sops/** - Adds SOPS decryption secret resource
 
-This component is included by namespace-level Kustomizations, ensuring consistency across namespaces. The app-template OCIRepository enables applications to use standardized bjw-s Helm charts from OCI registries.
+This component is included by namespace-level Kustomizations, ensuring consistency across namespaces. The app-template OCIRepository (`kubernetes/components/common/repos/app-template/ocirepository.yaml`) pins `oci://ghcr.io/bjw-s-labs/helm/app-template` at tag `5.2.1` and uses a `layerSelector` with `operation: copy` on the `application/vnd.cncf.helm.chart.content.v1.tar+gzip` media type so source-controller extracts the packaged Helm chart layer from the OCI artifact. Applications then consume it via `chartRef: {kind: OCIRepository, name: app-template}` in their HelmRelease `spec.chart`-free form, so chart versioning is centralized in this one component rather than in each application.
 
 ## Reconciliation Workflow
 

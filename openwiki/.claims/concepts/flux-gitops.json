@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:db96c5d35ae324a3ccd798366d27b3615239071b8c573e458115047c1f4a6241",
+  "pageVersion": "sha256:b2c367c8a0f0ccf443724d9b58e9fad1682af1dcaf3c7109cb85fb66d6615541",
   "claims": [
     {
       "id": "claim_80eba6a89bc94d76bb86d6fa3c395c3a",
@@ -64,7 +64,7 @@
     },
     {
       "id": "claim_aeb6e7bee7cf496da0362e2394113c8d",
-      "statement": "The bjw-s-labs app-template Helm chart is vendored once as a shared OCIRepository (pinned via ref.tag, with a Helm-chart layerSelector) inside the `common` Kustomize component that every app namespace includes; application HelmReleases consume it via chartRef kind OCIRepository name app-template, so chart upgrades are a single tag bump.",
+      "statement": "The bjw-s-labs app-template Helm chart is vendored once as a shared OCIRepository (currently pinned to ref.tag 5.2.1, with a Helm-chart layerSelector) inside the `common` Kustomize component that every app namespace includes; application HelmReleases consume it via chartRef kind OCIRepository name app-template, so chart upgrades are a single tag bump.",
       "evidence": [
         {
           "resource": "repo://kubernetes/apps/default/atuin/app/helmrelease.yaml#L7-L12",
@@ -76,7 +76,7 @@
         },
         {
           "resource": "repo://kubernetes/components/common/repos/app-template/ocirepository.yaml#L4-L14",
-          "version": "repo-lines-v1:sha256:7b5ee7b32aab1d38c50fb15307b6f14fb18349522b464fac7fc929eab5976b97:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUxMGI4YjNhZDdmN2Q5MTRiMTA4MTE3NTdjZTBhMmU1ODQxYjcwNTI0MDg3YzA3Y2EwMWJjNmQ4MWY1ZWRjNmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE3MTk4ZmNjODZjMGJjYmYzMzI4ZDcxNWM5MTRiOTYxNmRhODVhZGNmNjFiYTc2ZTA0OTM4ZGM4NWNmNDVkNTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIxYTgxYjUyZWYxNzk1MWM5N2IzZWNhZDIxNGZkMTc4OWQzY2MxOThkYzc2YmU0YzU3ODUzNmY4ODMxMGZiMzkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "version": "repo-lines-v1:sha256:89ef725217b0406b8f9cd315610550bdc1927999b234a7c664d94b0ef202823f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUxMGI4YjNhZDdmN2Q5MTRiMTA4MTE3NTdjZTBhMmU1ODQxYjcwNTI0MDg3YzA3Y2EwMWJjNmQ4MWY1ZWRjNmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE3MTk4ZmNjODZjMGJjYmYzMzI4ZDcxNWM5MTRiOTYxNmRhODVhZGNmNjFiYTc2ZTA0OTM4ZGM4NWNmNDVkNTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIxYTgxYjUyZWYxNzk1MWM5N2IzZWNhZDIxNGZkMTc4OWQzY2MxOThkYzc2YmU0YzU3ODUzNmY4ODMxMGZiMzkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -133,10 +133,32 @@
           "version": "repo-lines-v1:sha256:8167745ed070d985dcae2c0d4cbc4ee3272e0ccbf0d481e9b6a195bc06fedc75:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNGE3YzdmMTM3YjZlYTEzZTMyZTc0OGRlMTk4MjA0NzM2MDhjMDczMTEzNzE0ZDNkZWM5OTY5NmQwNzNmYWNjOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYmY5ODk5M2QyZTQ4YWE2MTY4NTMwNzlkNTgzOWU0NGVlYmNjYmJlMWVlYzhkZWI4MWM3ZDRiZmFiMDVhZTljNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzc3MWFjYThjMGVmMzAzZTI4MjgxMmYyNzFhNWVhMzVhOWY1MDkwNmIyNTM2ODBmN2M2YjY4YzFkYTBjNWI2OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTFmZDAzNzliZDhjYTI5ZDVlYTdhNjMwNmJiNThmZmM5YTIxNGFjM2UxNzQ4YzdjOTBlY2RmMjkzM2RjM2YyOSJ9"
         }
       ]
+    },
+    {
+      "id": "claim_697d3270dde84270b81f51c6944df814",
+      "statement": "Upstream CRDs are delivered from the upstream repos via pinned GitRepositories in kubernetes/flux/meta/repos: external-dns-crds points at https://github.com/kubernetes-sigs/external-dns (Renovate-managed tag v0.23.0, interval 15m, ignore restricted to /config/crd/standard/) and gateway-api at https://github.com/kubernetes-sigs/gateway-api (tag v1.6.2, interval 15m, ignore restricted to /config/crd/experimental/); both are wired into the repos kustomization and back the external-dns-crds and gateway-api-crds Kustomizations in kubernetes/flux/cluster/ks.yaml, which cluster-apps depends on.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/flux/cluster/ks.yaml#L29-L65",
+          "version": "repo-lines-v1:sha256:22f78d131f093886bf439d93cc1626676f51948aef617ffdd9b182995c0e38f6:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjczZWNiYmMwM2RlNDZhNWU2M2FkNTZmODYzMzYzZTAwZDRlN2I1ZDU4ZTY1ZTgwNzAwY2M3ZWEyOTk4OTEwM2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyY2ZmNWZmYmE1MGFjMzgxNmFmZjljODViNmI3YTQ4NWU3ZTJhNzM0NjI1ZjM5NGMwNDlkNGI5NmQ1N2E4YzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgzMjBjMjdjOTc3MzU1N2IwOTNlMmZkYmQ1NTIxNWRhZDZmODQ1YjFjMzg5NmE3MzYzYjRlYjZiNmQ1ZjEwMGIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ4NjllNzFiYzE5ZjhkNjJjYWQ0NzNjY2RiMDQ2ZDA3Yzk1YTM1YTlhMGJjNTQ5MDk5NDczYmEzNThmYTU3MTMifQ"
+        },
+        {
+          "resource": "repo://kubernetes/flux/meta/repos/external-dns-crds.yaml",
+          "version": "repo-file-v1:sha256:ab13a6466c09c97818407bfdeb66433be04fd189a4f36727390d03fcfc6a6a24"
+        },
+        {
+          "resource": "repo://kubernetes/flux/meta/repos/gateway-api.yaml",
+          "version": "repo-file-v1:sha256:a22d1974bd0ef7cbb9b220fb23d9ea3fc6a0eb377d310b017384d8d6c789079e"
+        },
+        {
+          "resource": "repo://kubernetes/flux/meta/repos/kustomization.yaml",
+          "version": "repo-file-v1:sha256:fa10b5630965480f453261c86956a0d97171b2b134e7d859a4caa3c6fa46a277"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.2",
-    "at": "2026-09-19T21:35:52.044Z"
+    "by": "openwiki/0.6.0",
+    "at": "2026-09-25T22:38:38.997Z"
   }
 }

@@ -30,12 +30,14 @@ sources:
     resource: repo://kubernetes/flux/meta/repos/external-dns-crds.yaml
   - id: openwiki-source-2b0d1261d82082fced240caa
     resource: repo://kubernetes/flux/meta/repos/gateway-api.yaml
+  - id: openwiki-source-6f1d2c8de9160e178167b990
+    resource: repo://scripts/bootstrap-apps.sh
   - id: openwiki-source-b65e4f1ccd91316116ad973a
     resource: repo://talos/talenv.yaml
-generated: { by: "openwiki/0.5.2", at: "2026-09-21T22:42:37.553Z" }
+generated: { by: "openwiki/0.6.0", at: "2026-09-25T22:38:38.997Z" }
 verified:
-  - by: openwiki/0.5.2
-    at: 2026-09-21T22:42:37.553Z
+  - by: openwiki/0.6.0
+    at: 2026-09-25T22:38:38.997Z
 ---
 
 # Renovate Dependency Automation
@@ -148,8 +150,17 @@ tag: v1.6.2
 ```yaml
 # kubernetes/flux/meta/repos/external-dns-crds.yaml#L12
 # renovate: datasource=github-releases depName=kubernetes-sigs/external-dns
-tag: v0.21.0
+tag: v0.23.0
 ```
+
+### Dual Delivery of external-dns and gateway-api CRDs
+
+The External DNS and Gateway API CRDs are delivered by **two coordinated paths**:
+
+1. **Flux (steady state)**: the `external-dns-crds` and `gateway-api` GitRepositories in `kubernetes/flux/meta/repos/` check out the upstream repo and include only the CRD directories (`config/crd/standard` for external-dns, `config/crd/experimental` for gateway-api) via `ignore` rules; the cluster-meta Kustomization applies them continuously.
+2. **Bootstrap script (cold start)**: `scripts/bootstrap-apps.sh` `apply_crds` applies the same CRDs directly from pinned GitHub release URLs *before* Helmfile installs cilium, whose `gatewayAPI.enabled=true` requires Gateway API CRDs to pre-exist. The script comments explicitly note the Flux ownership and keep these raw URL pins "for cluster bootstrap safety".
+
+Both delivery paths carry `# renovate: datasource=github-releases depName=...` annotations, so a single Renovate PR bumps the GitRepository tag and the bootstrap URL tag together — keeping bootstrap and steady-state CRD versions identical. Currently both paths pin external-dns `v0.23.0` and gateway-api `v1.6.2`.
 
 OCI repositories are tracked through Flux OCIRepository resources, such as the app-template chart used by most applications.
 

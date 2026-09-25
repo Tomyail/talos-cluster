@@ -36,6 +36,8 @@ sources:
     resource: repo://kubernetes/apps/kube-system/cilium/ks.yaml
   - id: openwiki-source-473a10228ca4b1e96867e493
     resource: repo://kubernetes/apps/kube-system/kustomization.yaml
+  - id: openwiki-source-6462236f173fe5751314fd3e
+    resource: repo://kubernetes/apps/network/adguard-dns/app/helmrelease.yaml
   - id: openwiki-source-cfa24be7f3923928e4fe05dd
     resource: repo://kubernetes/apps/network/kustomization.yaml
   - id: openwiki-source-9f2f8a056bc4576db95d46f4
@@ -68,10 +70,12 @@ sources:
     resource: repo://kubernetes/flux/meta/repos/bjw-s.yaml
   - id: openwiki-source-12a44dba301e86ea2cf62628
     resource: repo://kubernetes/flux/meta/repos/kustomization.yaml
-generated: { by: "openwiki/0.5.2", at: "2026-09-19T21:35:52.044Z" }
+  - id: openwiki-source-6f1d2c8de9160e178167b990
+    resource: repo://scripts/bootstrap-apps.sh
+generated: { by: "openwiki/0.6.0", at: "2026-09-25T22:38:38.997Z" }
 verified:
-  - by: openwiki/0.5.2
-    at: 2026-09-19T21:35:52.044Z
+  - by: openwiki/0.6.0
+    at: 2026-09-25T22:38:38.997Z
 ---
 
 # Namespace and Application Organization
@@ -301,10 +305,10 @@ spec:
     operation: copy
   url: oci://ghcr.io/bjw-s-labs/helm/app-template
   ref:
-    tag: 5.1.0
+    tag: 5.2.1
 ```
 
-The `layerSelector` copies only the OCI image layer containing the Helm chart tarball (`application/vnd.cncf.helm.chart.content.v1.tar+gzip`), so the reconciled artifact is the chart itself rather than a multi-layer image. Pinning the chart version via `ref.tag` means every app-template-consuming HelmRelease upgrades in lockstep when this single file changes.
+The `layerSelector` copies only the OCI image layer containing the Helm chart tarball (`application/vnd.cncf.helm.chart.content.v1.tar+gzip`), so the reconciled artifact is the chart itself rather than a multi-layer image. Pinning the chart version via `ref.tag` means every app-template-consuming HelmRelease upgrades in lockstep when this single file changes. Not every app uses this shared OCIRepository, however: any application can define its own namespace-scoped OCIRepository in the same file as its HelmRelease and point `chartRef` at it. For example, `kubernetes/apps/network/adguard-dns/app/helmrelease.yaml` declares an `adguard-dns` OCIRepository pulling external-dns from `oci://ghcr.io/home-operations/charts-mirror/external-dns` at tag 1.22.0, and the co-located HelmRelease references it via `chartRef: {kind: OCIRepository, name: adguard-dns}`.
 
 ### HelmRelease Pattern
 
@@ -442,3 +446,14 @@ Each namespace may include additional resources beyond applications in its `name
 - AlertManager Provider and Alert configuration
 
 These namespace-level resources provide per-domain configuration for monitoring, security policies, and integration points. Every namespace-level `namespace.yaml` is listed as a resource in that namespace's `kustomization.yaml`, so the namespace, its Flux notification resources, and the component-injected common resources all ship in the same reconciliation.
+
+## Bootstrap Namespace Pre-Creation
+
+Flux cannot reconcile applications into namespaces that do not yet exist, and the SOPS-encrypted secrets referenced by the `components/common` component live inside those namespaces. `scripts/bootstrap-apps.sh` therefore pre-creates namespaces before Flux takes over, via the `apply_namespaces` function:
+
+1. It sets `apps_dir="${ROOT_DIR}/kubernetes/apps"` and iterates over every top-level subdirectory (`"${apps_dir}"/*/`).
+2. For each directory, the namespace name is derived with `basename`, so **each top-level `kubernetes/apps/<name>` directory is treated as exactly one namespace**. Adding a new namespace directory is all that is required for bootstrap to create it.
+3. If `kubectl get namespace <name>` succeeds, the namespace is considered up-to-date and is skipped (idempotent re-runs).
+4. Otherwise it runs `kubectl create namespace <name> --dry-run=client --output=yaml | kubectl apply --server-side --filename -`, applying server-side so field ownership is handed off cleanly to Flux later.
+
+`main()` orders the bootstrap as `wait_for_nodes` → `apply_namespaces` → `apply_sops_secrets` → `apply_crds` → `sync_helm_releases`, so bare namespaces exist before SOPS secrets (including `kubernetes/components/common/sops/*.sops.yaml`) are decrypted and applied to `flux-system`, and before the helmfile-managed releases that Flux subsequently adopts. The resulting namespaces intentionally contain only their name at this stage; labels, prune-disabled annotations, and notification resources are added by Flux when the namespace-level Kustomizations reconcile.

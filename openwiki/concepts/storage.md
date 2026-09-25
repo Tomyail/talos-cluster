@@ -52,10 +52,10 @@ sources:
     resource: repo://kubernetes/flux/meta/repos/local-path-provisioner.yaml
   - id: openwiki-source-67d09412df5e9b5263585304
     resource: repo://lvm-format-manual.yaml
-generated: { by: "openwiki/0.5.2", at: "2026-09-19T21:35:52.044Z" }
+generated: { by: "openwiki/0.6.0", at: "2026-09-25T22:38:38.997Z" }
 verified:
-  - by: openwiki/0.5.2
-    at: 2026-09-19T21:35:52.044Z
+  - by: openwiki/0.6.0
+    at: 2026-09-25T22:38:38.997Z
 ---
 
 # Storage & Backup
@@ -228,7 +228,7 @@ The CSI driver handles the filesystem expansion (XFS grow) online without interr
 
 ### Configuration
 
-- **Version**: 0.0.37 from Containeroo charts
+- **Version**: 0.0.38 from Containeroo charts
 - **Default Path**: `/var/mnt/local-path-provisioner`
 - **Chart Source**: `https://charts.containeroo.ch`
 

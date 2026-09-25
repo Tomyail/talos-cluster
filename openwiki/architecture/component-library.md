@@ -3,14 +3,13 @@ type: architecture
 title: Shared Component Library (kubernetes/components)
 description: Reusable Flux kustomize components under kubernetes/components/ — common bootstrap resources, Gatus uptime-check variants, Flux image automation, and VolSync backup/restore — and how apps compose them via ks.yaml component references and postBuild substitutes.
 tags: [flux, kustomize, components, volsync, gatus, image-automation]
-verified:
-  - by: openwiki/0.6.0
-    at: 2026-09-23T22:25:15.108Z
 sources:
   - id: openwiki-source-b7c690d23a47fc702a6fdc6d
     resource: repo://kubernetes/apps/database/pgadmin/ks.yaml
   - id: openwiki-source-9e043d4334dabe714c9fb532
     resource: repo://kubernetes/apps/default/atuin/ks.yaml
+  - id: openwiki-source-dbd8b5c09621dda4424792fd
+    resource: repo://kubernetes/apps/default/gitea/app/helmrelease.yaml
   - id: openwiki-source-649e5ed74d5376f95cff2b2a
     resource: repo://kubernetes/apps/default/gitea/ks.yaml
   - id: openwiki-source-713804fe0a8649683e2d52d6
@@ -41,7 +40,10 @@ sources:
     resource: repo://kubernetes/components/volsync/claim.yaml
   - id: openwiki-source-e77f449e947f9b25cfc86044
     resource: repo://kubernetes/components/volsync/minio.yaml
-generated: { by: "openwiki/0.6.0", at: "2026-09-23T22:25:15.108Z" }
+generated: { by: "openwiki/0.6.0", at: "2026-09-25T22:38:38.997Z" }
+verified:
+  - by: openwiki/0.6.0
+    at: 2026-09-25T22:38:38.997Z
 ---
 
 # Shared Component Library (kubernetes/components)
@@ -80,7 +82,7 @@ automation objects, and VolSync backup/restore resources.
   real namespace while the component is in the build.
 - `repos/app-template` pins the community app chart as a Flux `OCIRepository`
   named `app-template` from `oci://ghcr.io/bjw-s-labs/helm/app-template`, tag
-  `5.1.0`, selecting the Helm-chart tarball layer. App HelmReleases then point
+  `5.2.1`, reconciled hourly and selecting the Helm-chart tarball layer. App HelmReleases then point
   `spec.chartRef` at this shared OCIRepository instead of each declaring their
   own chart source.
 - `sops` ships the SOPS-encrypted `cluster-secrets` (e.g. `SECRET_DOMAIN`,

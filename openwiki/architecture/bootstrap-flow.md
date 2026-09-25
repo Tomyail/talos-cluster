@@ -16,14 +16,16 @@ sources:
     resource: repo://kubernetes/flux/cluster/ks.yaml
   - id: openwiki-source-6f1d2c8de9160e178167b990
     resource: repo://scripts/bootstrap-apps.sh
+  - id: openwiki-source-f732321d388a413da3d9f609
+    resource: repo://scripts/lib/common.sh
   - id: openwiki-source-1fd71dc29915917549048436
     resource: repo://talos/talconfig.yaml
   - id: openwiki-source-b9ff7ee0aa4953cc601052a4
     resource: repo://Taskfile.yaml
 verified:
-  - by: openwiki/0.5.2
-    at: 2026-09-19T21:35:52.044Z
-generated: { by: "openwiki/0.5.2", at: "2026-09-19T21:35:52.044Z" }
+  - by: openwiki/0.6.0
+    at: 2026-09-25T22:38:38.997Z
+generated: { by: "openwiki/0.6.0", at: "2026-09-25T22:38:38.997Z" }
 ---
 
 # Bootstrap Flow
@@ -125,6 +127,12 @@ The bootstrap task enforces these preconditions (`.taskfiles/bootstrap/Taskfile.
 
 Once Talos is operational, the `task bootstrap:apps` command (`.taskfiles/bootstrap/Taskfile.yaml#L22-L30`) executes `scripts/bootstrap-apps.sh` to install critical infrastructure before Flux takes over.
 
+### Entry Checks and Execution Order
+
+The script's `main` function (`scripts/bootstrap-apps.sh#L137-L149`) first validates the environment with `check_env KUBECONFIG TALOSCONFIG` and `check_cli helmfile kubectl kustomize sops talhelper yq` (helpers from `scripts/lib/common.sh`), then runs the stages in strict order:
+
+`wait_for_nodes` → `apply_namespaces` → `apply_sops_secrets` → `apply_crds` → `sync_helm_releases`
+
 ### Node Availability Check
 
 The `wait_for_nodes` function (`scripts/bootstrap-apps.sh#L10-L24`) handles Talos node state transitions:
@@ -201,25 +209,25 @@ flowchart TD
 **Release Details** (`bootstrap/helmfile.yaml#L14-L52`):
 
 1. **Cilium** (`bootstrap/helmfile.yaml#L14-L19`)
-   - Chart: `cilium/cilium` v1.20.0
+   - Chart: `cilium/cilium` v1.20.2 (repository `https://helm.cilium.io`)
    - Namespace: `kube-system`
    - Values: `../kubernetes/apps/kube-system/cilium/app/helm/values.yaml`
    - Atomic: true (rollback on failure)
 
 2. **CoreDNS** (`bootstrap/helmfile.yaml#L21-L27`)
-   - Chart: `oci://ghcr.io/coredns/charts/coredns` v1.47.0
+   - Chart: `oci://ghcr.io/coredns/charts/coredns` v1.47.1
    - Namespace: `kube-system`
    - Depends on: `kube-system/cilium`
    - Values: `../kubernetes/apps/kube-system/coredns/app/helm/values.yaml`
 
 3. **cert-manager** (`bootstrap/helmfile.yaml#L30-L36`)
-   - Chart: `oci://quay.io/jetstack/charts/cert-manager` v1.21.1
+   - Chart: `oci://quay.io/jetstack/charts/cert-manager` v1.21.2
    - Namespace: `cert-manager`
    - Depends on: `kube-system/coredns`
    - Values: `../kubernetes/apps/cert-manager/cert-manager/app/helm/values.yaml`
 
 4. **flux-operator** (`bootstrap/helmfile.yaml#L38-L44`)
-   - Chart: `oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator` v0.57.0
+   - Chart: `oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator` v0.60.0
    - Namespace: `flux-system`
    - Depends on: `cert-manager/cert-manager`
    - Values: `../kubernetes/apps/flux-system/flux-operator/app/helm/values.yaml`

@@ -3,9 +3,6 @@ type: operational-concept
 title: Local Tooling — mise, Taskfiles, and Bootstrap Scripts
 description: How local operators run the cluster toolchain via mise-managed tools and environment variables, the root Taskfile and its bootstrap/talos/volsync task groups, and the scripts/bootstrap-apps.sh ordered cluster bootstrap flow.
 tags: [tooling, mise, task, talos, volsync, bootstrap, sops, helmfile]
-verified:
-  - by: openwiki/0.6.0
-    at: 2026-09-23T22:25:15.108Z
 sources:
   - id: openwiki-source-9c06bd9d7d25770709e07c7c
     resource: repo://.mise.toml
@@ -23,7 +20,10 @@ sources:
     resource: repo://scripts/lib/common.sh
   - id: openwiki-source-b9ff7ee0aa4953cc601052a4
     resource: repo://Taskfile.yaml
-generated: { by: "openwiki/0.6.0", at: "2026-09-23T22:25:15.108Z" }
+generated: { by: "openwiki/0.6.0", at: "2026-09-25T22:38:38.997Z" }
+verified:
+  - by: openwiki/0.6.0
+    at: 2026-09-25T22:38:38.997Z
 ---
 
 ## Overview
@@ -80,16 +80,17 @@ Most tasks precondition on `talosctl` node reachability (`get machineconfig`), a
 
 The script sources `scripts/lib/common.sh` (a colored, level-filtered `log` function where `error` writes to stderr and exits 1, plus `check_env` and `check_cli` guards), then runs five ordered steps in `main`:
 
-<!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
-```text
+```mermaid
 flowchart TD
-    A[check_env KUBECONFIG TALOSCONFIG<br/>check_cli helmfile kubectl kustomize sops talhelper yq] --> B[wait_for_nodes<br/>all nodes Ready=False]
-    B --> C[apply_namespaces<br/>one namespace per kubernetes/apps/* dir]
-    C --> D[apply_sops_secrets<br/>github-deploy-key, cluster-secrets, sops-age]
-    D --> E[apply_crds<br/>external-dns, gateway-api]
-    E --> F[sync_helm_releases<br/>helmfile sync bootstrap/helmfile.yaml]
-    F --> G[Flux syncs the Git repository]
+    A["check_env KUBECONFIG TALOSCONFIG, check_cli helmfile kubectl kustomize sops talhelper yq"] --> B["wait_for_nodes: all nodes Ready=False"]
+    B --> C["apply_namespaces: one namespace per kubernetes/apps dir"]
+    C --> D["apply_sops_secrets: github-deploy-key, cluster-secrets, sops-age"]
+    D --> E["apply_crds: external-dns, gateway-api (bootstrap step)"]
+    E --> F["sync_helm_releases: helmfile sync bootstrap/helmfile.yaml"]
+    F --> G["Flux syncs the Git repository"]
 ```
+
+*Caption: the ordered, idempotent steps `scripts/bootstrap-apps.sh` runs in `main`.*
 
 1. **`wait_for_nodes`** — Talos requires nodes to be `Ready=False` before applying resources. If all nodes are already `Ready=True` the wait is skipped; otherwise the script polls `kubectl wait nodes --for=condition=Ready=False --all` every 10 seconds until it succeeds. This makes the script safe to re-run both before first boot and against a running cluster.
 2. **`apply_namespaces`** — creates one namespace per directory under `kubernetes/apps/`, using `kubectl create --dry-run=client | kubectl apply --server-side` and skipping namespaces that already exist. These namespaces must exist before the SOPS secrets land.
@@ -119,5 +120,8 @@ Helper scripts live in `.taskfiles/volsync/scripts/`: `wait-for-job.sh`, `wait-f
 
 - `/openwiki/workflows/bootstrap.md` — the end-to-end bootstrap workflow these tasks implement.
 - `/openwiki/concepts/talos-config.md` — Talos configuration and talhelper.
+- `/openwiki/operations/daily-operations.md` — routine operations built on these tools.
+- `/openwiki/quickstart.md` — first-time setup instructions.
+ncepts/talos-config.md` — Talos configuration and talhelper.
 - `/openwiki/operations/daily-operations.md` — routine operations built on these tools.
 - `/openwiki/quickstart.md` — first-time setup instructions.

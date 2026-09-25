@@ -78,10 +78,10 @@ sources:
     resource: repo://talos/talenv.yaml
   - id: openwiki-source-4d7c266d0d7adae77539048e
     resource: repo://talos/uservolume.yaml
-generated: { by: "openwiki/0.5.2", at: "2026-09-19T21:35:52.044Z" }
+generated: { by: "openwiki/0.6.0", at: "2026-09-25T22:38:38.997Z" }
 verified:
-  - by: openwiki/0.5.2
-    at: 2026-09-19T21:35:52.044Z
+  - by: openwiki/0.6.0
+    at: 2026-09-25T22:38:38.997Z
 ---
 
 # Cluster & Talos Architecture
@@ -539,11 +539,11 @@ The cluster follows a three-phase bootstrap:
    - Export kubeconfig
 
 2. **App Bootstrap** (`task bootstrap:apps`):
-   - Wait for nodes to be available
-   - Create namespaces
-   - Apply SOPS secrets (GitHub deploy key, cluster secrets, age key)
-   - Install CRDs (Gateway API, External DNS)
-   - Deploy base charts via helmfile (Cilium, CoreDNS, cert-manager, Flux)
+   - Wait for nodes to be available (Talos nodes start `Ready=False`)
+   - Create one namespace per directory under `kubernetes/apps/`
+   - Apply SOPS secrets into `flux-system` via `sops exec-file` (GitHub deploy key, cluster secrets, age key)
+   - Apply CRDs (Gateway API v1.6.2 experimental — required by Cilium's `gatewayAPI.enabled` — and External DNS v0.23.0 standard CRDs)
+   - Deploy base charts via helmfile (Cilium → CoreDNS → cert-manager → flux-operator → flux-instance)
 
 3. **Flux Sync**:
    - Flux operator reconciles `kubernetes/apps/`

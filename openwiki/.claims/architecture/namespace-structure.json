@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:180672ed5380ec3132d91bf1b7bacdf5a411dc8ed229f5c64113861f59914448",
+  "pageVersion": "sha256:a2be7fc7ad2c6ef64821a84173f7f80bbf7ade38c94648a62c58003866229566",
   "claims": [
     {
       "id": "claim_01f7d801aaf14c35acc5001119c780a4",
@@ -232,11 +232,11 @@
     },
     {
       "id": "claim_751a695f02444024b86b168e88bf0237",
-      "statement": "Most applications use the bjw-s app-template Helm chart sourced via OCIRepository from oci://ghcr.io/bjw-s-labs/helm/app-template with tag 5.1.0, defined in kubernetes/components/common/repos/app-template/ocirepository.yaml; the layerSelector copies only the Helm chart content layer so the artifact is the chart tarball.",
+      "statement": "Most applications use the bjw-s app-template Helm chart sourced via OCIRepository from oci://ghcr.io/bjw-s-labs/helm/app-template with tag 5.2.1, defined in kubernetes/components/common/repos/app-template/ocirepository.yaml; the layerSelector copies only the Helm chart content layer so the artifact is the chart tarball.",
       "evidence": [
         {
           "resource": "repo://kubernetes/components/common/repos/app-template/ocirepository.yaml",
-          "version": "repo-file-v1:sha256:02c2cfe8c64f6cd1b252b6ad01de56eaae0b0f516aba9b901a2c00e21c98073d"
+          "version": "repo-file-v1:sha256:f0d9f158f13d4316067330be34e56a84216e6bf821b9a152c9cc1163cead9328"
         },
         {
           "resource": "repo://kubernetes/components/common/repos/kustomization.yaml",
@@ -355,10 +355,40 @@
           "version": "repo-lines-v1:sha256:1ccdb360296ed93920c09654f3060f1b8cbf81200adeb88d3b547bde85019014:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjUyZDcxMTEwM2Q1MGE0Mzc4MzBjNmZiY2QwNGZiNGJhYjQ5YTBmODJmNmQyNmQxYzc5MWM2ZTg0ODhkZDA5MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTZiYTEwNjViN2EyNmU5ZjA1MmQwYjEwMDkxYWJjYmYxNTUyN2FmOWQ2NWM3ZjE4ZGQzMjMwYjAwMjA1ZDg0MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjYzNjI2NjI4ODMzNjhiOWY0YjNkNGM2YjAzNGRlMzQyMmJmODA1NzY3ZDg0NjUwOGE0YWQ2M2I1OGVmNDRmZiJ9"
         }
       ]
+    },
+    {
+      "id": "claim_109b6db855ab4065b8942e27218d76ef",
+      "statement": "Some applications bypass the shared app-template OCIRepository by defining their own OCIRepository in the same helmrelease.yaml file and referencing it via chartRef; adguard-dns pulls external-dns from oci://ghcr.io/home-operations/charts-mirror/external-dns at tag 1.22.0.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/adguard-dns/app/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:85ec726c8a6b37328ae19ad50a92c9c7f578347f08118c2ad2839fe91f143e40"
+        }
+      ]
+    },
+    {
+      "id": "claim_30ba1126bf6d4f7ea6d59508f70f72ae",
+      "statement": "scripts/bootstrap-apps.sh's apply_namespaces loop iterates over every top-level kubernetes/apps/*/ directory, derives the namespace name via basename, skips existing namespaces, and pre-creates each one server-side with kubectl create --dry-run=client piped to kubectl apply --server-side.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/bootstrap-apps.sh#L26-L54",
+          "version": "repo-lines-v1:sha256:12a31bb7e11b0d5b8f1809e98aa33da5cfc35c8a5adb4a5dd3fd93bfc7c9319f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVlNWNlNzNlNjdkNTFkNzk5Mjg0MDQ4YWY1Y2I4MzYxMjM4OGFhODBhM2Y0MDJiZGQxM2RmMWUzNDY2ZjZlZGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNiODliYzg3NjY4MWY5MzllMjQ1NTZmN2FjZGI0MmRiOTA0YmRiNWYyNjE3NzMzNWY0NDA5MjQ2ZWU1NjgxOTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjRlZGUzM2E4MDI1MzQzMDY1Yjc0NzUzMWJjMzk4MzY0YmY4MzdlOWRlYWE4OThlNzg4M2Q4YjU2YWFmYmE4NTgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_5225a964af2d4464aa0bf5a1bf2f0a8f",
+      "statement": "The bootstrap main() order is wait_for_nodes → apply_namespaces → apply_sops_secrets → apply_crds → sync_helm_releases, so namespaces exist before SOPS secrets are applied to flux-system and before helmfile-managed releases are installed for Flux to adopt.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/bootstrap-apps.sh#L137-L151",
+          "version": "repo-lines-v1:sha256:7bf316ff3fc01502afc7a48dd862cee3d10809c9e0ffe0b8a85e0f7b678c1094:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRjZGE0MzIzZDljZmI1MmI1MjAyYmVlMjkyMTlmYjk1ZDdjNWM5YjBjYWZlNzJhZjA1ZmNkZDRhZDEzYWRhNTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZkOGNiNDA1Y2E4NmNkNzc0NGE1Nzc3YjA1NWQyZWM4YjRmY2M2ZjIxYjc2NTgxNjU4NmMwYWRhMDYxMjdkNGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM3ZTBjNDE1YjUxNmRkMjg5Y2MxMDFlYjAwNjJiNDI3NmVjMjU3YzhlYWYzY2IyZThlMmViYzg2ZDRhMzU2MTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.2",
-    "at": "2026-09-19T21:35:52.044Z"
+    "by": "openwiki/0.6.0",
+    "at": "2026-09-25T22:38:38.997Z"
   }
 }

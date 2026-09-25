@@ -3,9 +3,6 @@ type: concept
 title: Flux GitOps Workflow
 description: Concept-level explanation of Flux Kustomizations, HelmRelease, the app-template OCIRepository chart source, dependsOn ordering, and Flux image automation as used in this repo.
 tags: [flux, gitops, workflow, reconciliation, renovate, dependencies]
-verified:
-  - by: openwiki/0.5.2
-    at: 2026-09-19T21:35:52.044Z
 sources:
   - id: openwiki-source-240e6406ed4b6841961679cb
     resource: repo://.sops.yaml
@@ -37,7 +34,16 @@ sources:
     resource: repo://kubernetes/components/image-automation/README.md
   - id: openwiki-source-0696023deccf378a358f7526
     resource: repo://kubernetes/flux/cluster/ks.yaml
-generated: { by: "openwiki/0.5.2", at: "2026-09-19T21:35:52.044Z" }
+  - id: openwiki-source-97e4f584aefe24b958a6081d
+    resource: repo://kubernetes/flux/meta/repos/external-dns-crds.yaml
+  - id: openwiki-source-2b0d1261d82082fced240caa
+    resource: repo://kubernetes/flux/meta/repos/gateway-api.yaml
+  - id: openwiki-source-12a44dba301e86ea2cf62628
+    resource: repo://kubernetes/flux/meta/repos/kustomization.yaml
+generated: { by: "openwiki/0.6.0", at: "2026-09-25T22:38:38.997Z" }
+verified:
+  - by: openwiki/0.6.0
+    at: 2026-09-25T22:38:38.997Z
 ---
 
 # Flux GitOps Workflow
@@ -278,6 +284,20 @@ spec:
 ```
 
 All application-specific behavior (controllers, images, persistence, probes) is expressed as inline `values` against app-template's generic schema, and install/upgrade remediation (retries, rollback) is declared per HelmRelease.
+
+## Upstream CRD Delivery via Pinned GitRepositories
+
+CRDs that Flux needs before applications run are not vendored into this repo; they are pulled directly from upstream release tags as `GitRepository` sources under `kubernetes/flux/meta/repos/`:
+
+**external-dns-crds** (`kubernetes/flux/meta/repos/external-dns-crds.yaml`)
+- URL: `https://github.com/kubernetes-sigs/external-dns`, pinned via `ref.tag` with a `# renovate: datasource=github-releases` comment so Renovate keeps the tag current (currently `v0.23.0`)
+- Polls every 15 minutes
+- An `ignore` block excludes everything (`/**`) and re-includes only `/config/crd/standard/`, so only the standard CRD manifests are exposed to the Kustomization
+
+**gateway-api** (`kubernetes/flux/meta/repos/gateway-api.yaml`)
+- Same pattern: `https://github.com/kubernetes-sigs/gateway-api` pinned with a Renovate-managed tag (currently `v1.6.2`), interval 15m, `ignore` restricted to `/config/crd/experimental/` for the experimental CRDs
+
+Both repositories are registered as resources of the `repos` Kustomization (`kubernetes/flux/meta/repos/kustomization.yaml#L5-L45`) applied by `cluster-meta`, and each backs a dedicated CRD Kustomization in `kubernetes/flux/cluster/ks.yaml` (names `external-dns-crds` at `path: ./config/crd/standard` and `gateway-api-crds` at `path: ./config/crd/experimental`) which installs the CRDs with a 5 minute timeout. `cluster-apps` `dependsOn` both, so no application reconciles until the upstream CRDs are applied. To bump a CRD set, only the pinned tag changes — the ignore scoping keeps the served manifest set stable across releases.
 
 ## Dependency Management
 

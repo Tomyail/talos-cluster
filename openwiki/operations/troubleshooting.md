@@ -10,6 +10,8 @@ sources:
     resource: repo://.sops.yaml
   - id: openwiki-source-4f5be6b4c7dcc699aca46164
     resource: repo://.taskfiles/talos/Taskfile.yaml
+  - id: openwiki-source-360da09d9920a02e1e719d90
+    resource: repo://bootstrap/helmfile.yaml
   - id: openwiki-source-d3d80f124bb7f98ce2094ebc
     resource: repo://kubernetes/apps/default/calibre-web-automated/app/volsync-nfs.yaml
   - id: openwiki-source-514428fb63f74f5cc6fe8c1d
@@ -30,10 +32,10 @@ sources:
     resource: repo://kubernetes/flux/cluster/ks.yaml
   - id: openwiki-source-6f1d2c8de9160e178167b990
     resource: repo://scripts/bootstrap-apps.sh
-generated: { by: "openwiki/0.5.2", at: "2026-09-19T21:35:52.044Z" }
+generated: { by: "openwiki/0.6.0", at: "2026-09-25T22:38:38.997Z" }
 verified:
-  - by: openwiki/0.5.2
-    at: 2026-09-19T21:35:52.044Z
+  - by: openwiki/0.6.0
+    at: 2026-09-25T22:38:38.997Z
 ---
 
 # Troubleshooting Guide
@@ -167,7 +169,7 @@ The `task bootstrap:apps` flow runs `scripts/bootstrap-apps.sh`, which applies r
 1. **Stuck waiting for nodes**: the script waits for nodes to be `Ready=False` (Talos requires nodes `Ready=False` before applying resources during bootstrap) in a 10-second retry loop, and skips the wait if all nodes report `Ready=True` (`scripts/bootstrap-apps.sh#L10-L24`). If it loops forever, check the node's Talos state with `talosctl -n <node-ip> dmesg` and confirm `KUBECONFIG`/`TALOSCONFIG` point at `./kubeconfig` and `./talos/clusterconfig/talosconfig`.
 2. **Secret apply fails**: the three bootstrap secrets (`bootstrap/github-deploy-key.sops.yaml`, `kubernetes/components/common/sops/cluster-secrets.sops.yaml`, `kubernetes/components/common/sops/sops-age.sops.yaml`) are applied with `sops exec-file ... kubectl apply --server-side` into `flux-system` (`scripts/bootstrap-apps.sh#L57-L85`). A failure here is almost always SOPS decryption (missing/mismatched `age.key` via `SOPS_AGE_KEY_FILE`) — see the SOPS section above.
 3. **CRD apply fails**: the script pre-applies External DNS and Gateway API experimental CRDs (Renovate-pinned versions) so Cilium — installed by helmfile with `gatewayAPI.enabled=true` — has CRDs before it starts; they are also managed by Flux afterwards via the `external-dns-crds` and `gateway-api-crds` Kustomizations (`scripts/bootstrap-apps.sh#L88-L105`). Use `--server-side` conflicts in the output to spot ownership clashes between the bootstrap apply and Flux.
-4. **Helmfile sync fails**: `helmfile sync` on `bootstrap/helmfile.yaml` installs Cilium → CoreDNS → cert-manager → flux-operator → flux-instance. Failure here usually means the CRD step above didn't complete, or the cluster secrets applied in step 2 are missing values the helmfile interpolates.
+4. **Helmfile sync fails**: `helmfile sync` on `bootstrap/helmfile.yaml` installs five releases in dependency order via the `needs` chain — Cilium (1.20.2) → CoreDNS → cert-manager → flux-operator → flux-instance (0.60.0) — each with `atomic: true` and `wait`/`waitForJobs` defaults, so a failing release rolls back and blocks all downstream releases. Failure here usually means the CRD step above didn't complete, or the cluster secrets applied in step 2 are missing values the helmfile interpolates.
 
 Once the script completes, Flux takes over reconciliation from the `flux-system` GitRepository — subsequent drift is fixed with `task reconcile`, not re-bootstrap.
 

@@ -50,10 +50,10 @@ sources:
     resource: repo://README.md
   - id: openwiki-source-1fd71dc29915917549048436
     resource: repo://talos/talconfig.yaml
-generated: { by: "openwiki/0.5.1", at: "2026-09-12T21:32:37.847Z" }
+generated: { by: "openwiki/0.6.0", at: "2026-09-25T22:38:38.997Z" }
 verified:
-  - by: openwiki/0.5.2
-    at: 2026-09-19T21:35:52.044Z
+  - by: openwiki/0.6.0
+    at: 2026-09-25T22:38:38.997Z
 ---
 
 # Architecture Overview
@@ -578,6 +578,13 @@ Auto-updates tracked dependencies:
 6. **VolSync over Velero**: Application-level backup with remote sync support
 7. **Gateway API over Ingress**: Modern routing standard with better CRD support
 8. **OCIRepository over GitRepository for charts**: Immutable chart storage with better caching
+9. **Bootstrap then GitOps**: Helmfile establishes foundation, Flux maintains state
+10. **Bitwarden for external secrets**: Centralized secret management with self-hosting option
+hosting option
+e
+10. **Bitwarden for external secrets**: Centralized secret management with self-hosting option
+ with self-hosting option
+tory for charts**: Immutable chart storage with better caching
 9. **Bootstrap then GitOps**: Helmfile establishes foundation, Flux maintains state
 10. **Bitwarden for external secrets**: Centralized secret management with self-hosting option
 e

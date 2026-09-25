@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:3944b4045faa7eaf90322040189a07b3b55a1840c82e11a036d41bed65838816",
+  "pageVersion": "sha256:4cd37368a99afffa02f1bb121cadeaf3383b7a60d5f7ae96613bec8543910422",
   "claims": [
     {
       "id": "claim_0e4b64aa301a4c2dac2447bb89e242db",
@@ -88,11 +88,11 @@
     },
     {
       "id": "claim_67eaf7b327b3435395a32c262fa38d1e",
-      "statement": "AdGuard DNS integration is an external-dns instance deployed from the OCI chart oci://ghcr.io/home-operations/charts-mirror/external-dns (tag 1.22.0) that syncs internal service DNS records to an AdGuard Home instance at http://192.168.50.1:3000 using a webhook provider (ghcr.io/muhlba91/external-dns-provider-adguard:v11.1.3, digest-pinned). It watches gateway-httproute and gateway-tlsroute sources, runs with policy sync, txtPrefix k8s., and targets the internal gateway via --gateway-name=internal, with credentials in adguard-dns-secret (reloaded on change via reloader annotation).",
+      "statement": "AdGuard DNS integration is an external-dns instance deployed from the OCI chart oci://ghcr.io/home-operations/charts-mirror/external-dns (tag 1.22.0) that syncs internal service DNS records to an AdGuard Home instance at http://192.168.50.1:3000 using a webhook provider (ghcr.io/muhlba91/external-dns-provider-adguard:v11.2.0, digest-pinned). It watches gateway-httproute and gateway-tlsroute sources, runs with policy sync, txtPrefix k8s., and targets the internal gateway via --gateway-name=internal, with credentials in adguard-dns-secret (reloaded on change via reloader annotation).",
       "evidence": [
         {
           "resource": "repo://kubernetes/apps/network/adguard-dns/app/helmrelease.yaml",
-          "version": "repo-file-v1:sha256:d94f7391931c9960c28771855c02db18e8ccaf4107db2537e0d270600b5973c9"
+          "version": "repo-file-v1:sha256:85ec726c8a6b37328ae19ad50a92c9c7f578347f08118c2ad2839fe91f143e40"
         }
       ]
     },
@@ -158,7 +158,7 @@
         },
         {
           "resource": "repo://kubernetes/apps/network/adguard-dns/app/helmrelease.yaml",
-          "version": "repo-file-v1:sha256:d94f7391931c9960c28771855c02db18e8ccaf4107db2537e0d270600b5973c9"
+          "version": "repo-file-v1:sha256:85ec726c8a6b37328ae19ad50a92c9c7f578347f08118c2ad2839fe91f143e40"
         },
         {
           "resource": "repo://kubernetes/apps/network/k8s-gateway/app/helmrelease.yaml",
@@ -198,11 +198,11 @@
     },
     {
       "id": "claim_63473dc18d484e529e7066ded79b6d1e",
-      "statement": "Cilium is deployed by Flux as a HelmRelease from https://helm.cilium.io using chart version 1.20.1, with install retries -1, upgrade cleanupOnFail with 3 retries, and values supplied from the `cilium-values` ConfigMap.",
+      "statement": "Cilium is deployed by Flux as a HelmRelease from https://helm.cilium.io using chart version 1.20.2, with install retries -1, upgrade cleanupOnFail with 3 retries, and values supplied from the `cilium-values` ConfigMap.",
       "evidence": [
         {
           "resource": "repo://kubernetes/apps/kube-system/cilium/app/helmrelease.yaml#L14-L36",
-          "version": "repo-lines-v1:sha256:8a01878df03b5d81570ce25d87c0758e0ff3a01d63ab5a46d68c1b7b1eef9b00:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAwNTI1NDE5MDhhZDkzM2M4ZWZkZDNiMWVhNzk0OGU4MDlhNmZhZTBjNWE4Y2Y1Nzg3YjhlYzNlNWZiNjY3YTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg4YzM5NDc3ZGIwNDQ1YTcyOWE2YThhOWExMzA4ZjFjODUyMjdlMzAyNmM3ZDI5YTAyMzc1NDAxMjdkZWQ5MjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY0NjY3MzQ4YmRkMGExMDAyYjhiYzAzMWU3ZTBjZTE5ZDllMTQ1YjdiMjJhMGNlODViNzllMzBiZDJmMjhmOTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "version": "repo-lines-v1:sha256:1c68263d0f2e78ea6dd618747c139253488f9fc59fb2e401dac20faed9530af4:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAwNTI1NDE5MDhhZDkzM2M4ZWZkZDNiMWVhNzk0OGU4MDlhNmZhZTBjNWE4Y2Y1Nzg3YjhlYzNlNWZiNjY3YTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg4YzM5NDc3ZGIwNDQ1YTcyOWE2YThhOWExMzA4ZjFjODUyMjdlMzAyNmM3ZDI5YTAyMzc1NDAxMjdkZWQ5MjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY0NjY3MzQ4YmRkMGExMDAyYjhiYzAzMWU3ZTBjZTE5ZDllMTQ1YjdiMjJhMGNlODViNzllMzBiZDJmMjhmOTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -287,10 +287,32 @@
           "version": "repo-file-v1:sha256:175568e0d3763bb47be47b528b36913351ec44330a383373f750c6bff2fb19e2"
         }
       ]
+    },
+    {
+      "id": "claim_e175ada7eaa34534a2f553907031e0a8",
+      "statement": "External DNS DNSEndpoint CRDs (v0.23.0) are delivered twice by design: `apply_crds` in scripts/bootstrap-apps.sh applies them server-side before helmfile-installed components (alongside Gateway API experimental v1.6.2 CRDs, which Cilium's gatewayAPI.enabled=true requires), and Flux then manages the same CRDs via the external-dns-crds Kustomization applying config/crd/standard from a GitRepository tracking kubernetes-sigs/external-dns v0.23.0; the cluster-apps Kustomization depends on external-dns-crds before reconciling apps.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/cilium/app/helm/values.yaml#L27-L28",
+          "version": "repo-lines-v1:sha256:2685453ec165e5a900c0e9cb4907ec4fb54eae25beb9ec1e552369619365b5cb:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDYxMDI5NDhiNmJjNDNmZDU2NzFmZTBjMzA5YTJkNjliOTFlZDdjMjU2ZDdkOTVhNWIxZDY1MzRlYmE2YzdiNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzhhMWNhNWE4YTU2NzhmMTlhOGYwYjliYjlhY2M4NjQ2NDY2ODY4YjMxOGM0MDA2MjE3ZGRkNGM3ZmY4MGM4MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMGNjMWQ3NjAyNTVkNTBiOWY5ZDNkZTNjNjQwMjA4MzBlNzZlNTM3NWI5MzAwYWY4N2U3OTliMTFlMjY1OTQxNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjllYmM0ZDQwMGY1NzVmODQyNDYxYzdkZWIzODFjNTQyMDRkNmMzYzY1M2I4ZDBkZDhmZmZiMjlkMGNkMGMxOSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/flux/cluster/ks.yaml#L47-L65",
+          "version": "repo-lines-v1:sha256:3b4c7d094526c22848a94808d0f7df01987190af2927a678b41ab89e3596297b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUwZTdkMjIwMjg3MTMzMDlmNGJjOTk3MWU0OTA4MzM2ZGJkMDNjZmRiOWE3Y2ExMjdiZGQwY2Y0NjFiZmEwYTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyY2ZmNWZmYmE1MGFjMzgxNmFmZjljODViNmI3YTQ4NWU3ZTJhNzM0NjI1ZjM5NGMwNDlkNGI5NmQ1N2E4YzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImViZWY0Yzg5N2EyYTMyMDJkNmE4ZjdmYjAwODg2N2UwYTk3YzEyM2E4YzAzNDBjNTNhMzkyMDU5ZTE5ZjU2MjEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ4NjllNzFiYzE5ZjhkNjJjYWQ0NzNjY2RiMDQ2ZDA3Yzk1YTM1YTlhMGJjNTQ5MDk5NDczYmEzNThmYTU3MTMifQ"
+        },
+        {
+          "resource": "repo://kubernetes/flux/meta/repos/external-dns-crds.yaml",
+          "version": "repo-file-v1:sha256:ab13a6466c09c97818407bfdeb66433be04fd189a4f36727390d03fcfc6a6a24"
+        },
+        {
+          "resource": "repo://scripts/bootstrap-apps.sh#L88-L105",
+          "version": "repo-lines-v1:sha256:3dc684c0cd34ec16eb59b8c4488a07f37e2053a7130857e0676fa264ae1a9ef4:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY2M2YyNzhkYjQ4YWFiOTQzZjQ3ZTMxZmYzMmEzOTY3MDRiNDc5MTY1N2M0MzgwOGVlMGM3MmYyZmExNWU5MmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwYzFmMTg4ZjE0MmVkN2E4MjQ2ODBiMjA3MTcyYzU1MTliYzYxNGE0OGZkYTdjZjE2N2VkYjhkZGY3OTk1NmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhhZWFkOTQ4M2I2MjQ5YzgwNDc0NDZiMzQ0Y2FlODhhYTIyNDZmNzU3NTg4ZjJiNGY3MzM1YzE2M2MxNjkyYWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY4OTQ3YTZhMTcxMjk5NmNkYzM5OWUwYjNjOTM5YmJmMzE0NDQyYzUzYjg2NjQ0Yjg0NWNhMmNmYTNkYTMxMTIifQ"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.2",
-    "at": "2026-09-19T21:35:52.044Z"
+    "by": "openwiki/0.6.0",
+    "at": "2026-09-25T22:38:38.997Z"
   }
 }

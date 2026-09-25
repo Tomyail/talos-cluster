@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:c2f3b9f4cb277c2016c9926c0d9bb39c4eccacd6bf980954d49a49031b8a50b6",
+  "pageVersion": "sha256:3bbbacd63411315521273241f7a3bfcabaf129c3209ad36d4434b9bbf75cfde0",
   "claims": [
     {
       "id": "claim_57404914c2d54006847f1d8a72747f9d",
@@ -78,11 +78,11 @@
     },
     {
       "id": "claim_966c20dfbc7540b7ba794942b6588a38",
-      "statement": "The app-template Helm chart is sourced via a shared OCIRepository at kubernetes/components/common/repos/app-template/ from oci://ghcr.io/bjw-s-labs/helm/app-template at tag 5.1.0 with a 1-hour interval and a layerSelector that copies only the Helm chart tarball layer; applications across the repo reference it by name via chartRef.kind: OCIRepository, so all share one chart source and version.",
+      "statement": "The app-template Helm chart is sourced via a shared OCIRepository at kubernetes/components/common/repos/app-template/ from oci://ghcr.io/bjw-s-labs/helm/app-template at tag 5.2.1 with a 1-hour interval and a layerSelector that copies only the Helm chart tarball layer (application/vnd.cncf.helm.chart.content.v1.tar+gzip); applications across the repo reference it by name via chartRef.kind: OCIRepository, so all share one chart source and version, and chart upgrades only require changing ref.tag in the shared OCIRepository.",
       "evidence": [
         {
           "resource": "repo://kubernetes/components/common/repos/app-template/ocirepository.yaml#L1-L14",
-          "version": "repo-lines-v1:sha256:02c2cfe8c64f6cd1b252b6ad01de56eaae0b0f516aba9b901a2c00e21c98073d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE3MTk4ZmNjODZjMGJjYmYzMzI4ZDcxNWM5MTRiOTYxNmRhODVhZGNmNjFiYTc2ZTA0OTM4ZGM4NWNmNDVkNTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "version": "repo-lines-v1:sha256:f0d9f158f13d4316067330be34e56a84216e6bf821b9a152c9cc1163cead9328:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE3MTk4ZmNjODZjMGJjYmYzMzI4ZDcxNWM5MTRiOTYxNmRhODVhZGNmNjFiYTc2ZTA0OTM4ZGM4NWNmNDVkNTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
           "resource": "repo://kubernetes/components/common/repos/kustomization.yaml",
@@ -474,7 +474,7 @@
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.2",
-    "at": "2026-09-19T21:35:52.044Z"
+    "by": "openwiki/0.6.0",
+    "at": "2026-09-25T22:38:38.997Z"
   }
 }

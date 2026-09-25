@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:9c95ab2575d0a8a259a4ee32f421bce39a8123b2247157ca45fa41bc248f1bcb",
+  "pageVersion": "sha256:d920f077cb5eeb17964368e7f27e2923753060d47a7518a97a49e6fb5a136a5c",
   "claims": [
     {
       "id": "claim_28ba8b626032486cb6cfda160b55c8a5",
@@ -34,11 +34,11 @@
     },
     {
       "id": "claim_efc9d77862b14149883ce85429b6b98e",
-      "statement": "Flux GitRepository sources in kubernetes/flux/meta/repos/ (gateway-api and external-dns-crds) pin their upstream release tags with `# renovate: datasource=github-releases` annotations so Renovate tracks and bumps them; currently gateway-api v1.6.2 (kubernetes-sigs/gateway-api) and external-dns v0.22.0 (kubernetes-sigs/external-dns).",
+      "statement": "Flux GitRepository sources in kubernetes/flux/meta/repos/ (gateway-api and external-dns-crds) pin their upstream release tags with `# renovate: datasource=github-releases` annotations so Renovate tracks and bumps them; currently gateway-api v1.6.2 (kubernetes-sigs/gateway-api) and external-dns v0.23.0 (kubernetes-sigs/external-dns).",
       "evidence": [
         {
           "resource": "repo://kubernetes/flux/meta/repos/external-dns-crds.yaml#L11-L13",
-          "version": "repo-lines-v1:sha256:16f7c7b924c00742d37b8c2501f1bbea90f4f6a2a128de435b3887986486a256:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGNkZWU4NzUwNDk5NDBjY2IzMzAzYjdjZGVhZmI0OGYwYjQxMjdmNDBiNDdlNjhkOWE2ZGFhN2U0OTVjYWNiNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjhiZGViZjM3YTViMzk3YjExNTkxMGFhMDk5NzQxZTAzMTY1NzdhOGI4OWYyNzVkMDQ1YWZjNTgyYjhiODJiYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNGQyNDUyODQyNmNkNzhkZjNiZmQ5ODdlZTBkZDQ0YTM3NGFkMmNiMDY4Yzk3YTQzM2M2NWMyM2RiODRkOWNhMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2YzN2I4MmQ5ZGJkOTk5MjA3ODIyNDI2MmMxYjQzYzEwNTkyNDdlNGFkOTJlZGRiNzdjMDExODYzNTU0MzNkYSJ9"
+          "version": "repo-lines-v1:sha256:36e0b11446ad540995376648f9d9bf7521b9f60a64448bb8b08e12f1b041aa34:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGNkZWU4NzUwNDk5NDBjY2IzMzAzYjdjZGVhZmI0OGYwYjQxMjdmNDBiNDdlNjhkOWE2ZGFhN2U0OTVjYWNiNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiY2E5OGE3ODZiMDc2MTdiODdiYWI0NDI2NTNlNzYwM2E5MTg5MmNlNjc5Y2Q1MmE1OGY3MmE3YjhkZjFmZDQxMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNGQyNDUyODQyNmNkNzhkZjNiZmQ5ODdlZTBkZDQ0YTM3NGFkMmNiMDY4Yzk3YTQzM2M2NWMyM2RiODRkOWNhMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2YzN2I4MmQ5ZGJkOTk5MjA3ODIyNDI2MmMxYjQzYzEwNTkyNDdlNGFkOTJlZGRiNzdjMDExODYzNTU0MzNkYSJ9"
         },
         {
           "resource": "repo://kubernetes/flux/meta/repos/gateway-api.yaml#L11-L13",
@@ -213,10 +213,24 @@
           "version": "repo-lines-v1:sha256:b1e529f756d6b689a1f00b338e10d05fed1a72d380c73536198aaff928eee41e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImExOWI1ZDNhNjczOTcyMmZlYjMzMDNkOWM1MGEyNDgyNjBkN2M1ZGI4N2I5NWViNGQ0MWRjYTA2MDQ0OGMxNjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_72c11fce12754abcbafd274ad03c4e5b",
+      "statement": "External DNS and Gateway API CRDs are delivered by two coordinated paths: Flux GitRepositories in kubernetes/flux/meta/repos/ (steady state, filtered via ignore rules to only the CRD directories) and scripts/bootstrap-apps.sh apply_crds, which applies the same CRDs from pinned GitHub release URLs before Helmfile installs cilium (whose gatewayAPI.enabled requires pre-existing Gateway API CRDs). Both paths carry renovate github-releases annotations, so a single Renovate PR keeps both pins at the same version (currently external-dns v0.23.0, gateway-api v1.6.2).",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/flux/meta/repos/external-dns-crds.yaml#L11-L18",
+          "version": "repo-lines-v1:sha256:087ab24d8516fb89255322219bc468bc3d7d41a4f3d191e7ea8dff33a843a688:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGNkZWU4NzUwNDk5NDBjY2IzMzAzYjdjZGVhZmI0OGYwYjQxMjdmNDBiNDdlNjhkOWE2ZGFhN2U0OTVjYWNiNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMTBmYTNjOWVhZjQwYzRhY2Q1ZDEyYmVhYzUyOTg1ZjhiMjJiNzQ1MzQwZTgxOTEwNTQ4NTVkMTI5Njg1OTY3ZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNGQyNDUyODQyNmNkNzhkZjNiZmQ5ODdlZTBkZDQ0YTM3NGFkMmNiMDY4Yzk3YTQzM2M2NWMyM2RiODRkOWNhMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://scripts/bootstrap-apps.sh#L88-L105",
+          "version": "repo-lines-v1:sha256:3dc684c0cd34ec16eb59b8c4488a07f37e2053a7130857e0676fa264ae1a9ef4:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY2M2YyNzhkYjQ4YWFiOTQzZjQ3ZTMxZmYzMmEzOTY3MDRiNDc5MTY1N2M0MzgwOGVlMGM3MmYyZmExNWU5MmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwYzFmMTg4ZjE0MmVkN2E4MjQ2ODBiMjA3MTcyYzU1MTliYzYxNGE0OGZkYTdjZjE2N2VkYjhkZGY3OTk1NmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhhZWFkOTQ4M2I2MjQ5YzgwNDc0NDZiMzQ0Y2FlODhhYTIyNDZmNzU3NTg4ZjJiNGY3MzM1YzE2M2MxNjkyYWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY4OTQ3YTZhMTcxMjk5NmNkYzM5OWUwYjNjOTM5YmJmMzE0NDQyYzUzYjg2NjQ0Yjg0NWNhMmNmYTNkYTMxMTIifQ"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.2",
-    "at": "2026-09-21T22:42:37.553Z"
+    "by": "openwiki/0.6.0",
+    "at": "2026-09-25T22:38:38.997Z"
   }
 }

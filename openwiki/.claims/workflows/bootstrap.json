@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:d8d647eb3fcd20db05de3409c95b8fabea7822ee63413a727312bc7b2757ee93",
+  "pageVersion": "sha256:332693f923452602718530a34836d733213baa587bbcec7ab2e5d02a990463f3",
   "claims": [
     {
       "id": "claim_d11cc08ba8894ce49744eed253401d09",
@@ -162,11 +162,11 @@
     },
     {
       "id": "claim_d768599a76cf43b08f04ec834941199e",
-      "statement": "bootstrap-apps.sh installs External DNS CRDs (v0.22.0) and Gateway API CRDs (v1.6.2) before Helm releases; both are also managed by Flux but duplicated in bootstrap for safety so Cilium (which enables gatewayAPI and requires Gateway API CRDs) can start successfully.",
+      "statement": "apply_crds in scripts/bootstrap-apps.sh installs External DNS CRDs (v0.23.0) and Gateway API CRDs (v1.6.2 experimental) before the helmfile sync; both sets are also managed by Flux but duplicated in bootstrap for safety so Cilium (whose values set gatewayAPI.enabled=true and require Gateway API CRDs) can start successfully. Each CRD is skipped if `kubectl diff` reports up-to-date, applied with --server-side otherwise, and apply errors are logged without failing the script.",
       "evidence": [
         {
-          "resource": "repo://scripts/bootstrap-apps.sh#L87-L105",
-          "version": "repo-lines-v1:sha256:55970d26b40d7852e94094403503e801a6480392a97fc2bb3a594b198e9d285b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAzMGI3N2FjMTdhZjYwNmUwMjNhMzQ4YjA4NzdlMWNiNWFjZDg3NTg1MzM5Y2JlMWYxZjBkZjkyZDk1MDcyNGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwYzFmMTg4ZjE0MmVkN2E4MjQ2ODBiMjA3MTcyYzU1MTliYzYxNGE0OGZkYTdjZjE2N2VkYjhkZGY3OTk1NmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNiODliYzg3NjY4MWY5MzllMjQ1NTZmN2FjZGI0MmRiOTA0YmRiNWYyNjE3NzMzNWY0NDA5MjQ2ZWU1NjgxOTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY4OTQ3YTZhMTcxMjk5NmNkYzM5OWUwYjNjOTM5YmJmMzE0NDQyYzUzYjg2NjQ0Yjg0NWNhMmNmYTNkYTMxMTIifQ"
+          "resource": "repo://scripts/bootstrap-apps.sh#L87-L118",
+          "version": "repo-lines-v1:sha256:3ca34e492199f27391fa5c4902ca61f1d632fced6443258d07d2614613df496a:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAzMGI3N2FjMTdhZjYwNmUwMjNhMzQ4YjA4NzdlMWNiNWFjZDg3NTg1MzM5Y2JlMWYxZjBkZjkyZDk1MDcyNGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNiODliYzg3NjY4MWY5MzllMjQ1NTZmN2FjZGI0MmRiOTA0YmRiNWYyNjE3NzMzNWY0NDA5MjQ2ZWU1NjgxOTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMzNTk0ZDBhY2RhOTVjNGNjZjA3YmM5MzNiOWU1MTI3YmIxYTYyMTZhMDdkNTUyMjJmZDk4MzYzOGJjOWNkNDcifQ"
         }
       ]
     },
@@ -176,7 +176,7 @@
       "evidence": [
         {
           "resource": "repo://bootstrap/helmfile.yaml#L13-L52",
-          "version": "repo-lines-v1:sha256:07813700e9db938e76b5df9fe0413a85f25bf2e9cb2b6abb58cfdc49c70e64c6:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkZTI0Nzc3YTlhNjAzZjFlZmY3ZTNjMmMzMTcxZTE2MjU5YjhhN2M5OTZkYTMxNDdhMjc5N2Y2ZjA3NTQ0MmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4NDQxMDY3MGJjNTUxNjEyNDRkZTdlZTRjMDM5YTEzMDUzYzZiN2M5ZTRkZTZiMzY4YzE3MzYzZDcyMjVlY2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZmNWY5NGUxMDY0NDU3ZjAwNWMzYzFmNzJkMzMzYTgxM2YwNzYzNTJjZjFiNzNiNTUzNWQ5NDFiNDFhNmQ1OTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "version": "repo-lines-v1:sha256:6476a2b528b6c4c2342d4f5b48106162fde3ac46a5570178b36d8e899f4de7e5:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkZTI0Nzc3YTlhNjAzZjFlZmY3ZTNjMmMzMTcxZTE2MjU5YjhhN2M5OTZkYTMxNDdhMjc5N2Y2ZjA3NTQ0MmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4NDQxMDY3MGJjNTUxNjEyNDRkZTdlZTRjMDM5YTEzMDUzYzZiN2M5ZTRkZTZiMzY4YzE3MzYzZDcyMjVlY2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZmNWY5NGUxMDY0NDU3ZjAwNWMzYzFmNzJkMzMzYTgxM2YwNzYzNTJjZjFiNzNiNTUzNWQ5NDFiNDFhNmQ1OTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -237,10 +237,24 @@
           "version": "repo-lines-v1:sha256:5b633d6bf55abdf780ec8d982308227210d23c57691cbaf7b3174394f55e5df9:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjc4ZWEyMjhiYzdkMjEzMGRjN2I3NDNlZjczMDhkZmE4YzE2OWUwMmYyNjcwNGNjYmFiMTFlODAyODI3ZGM4NyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDUxMjUxMTMyMTViMzAxMGFlYzZlYWRiYTY0OWJmMWVjNDIyNjkzZjc5MTU3YjE5OTY0YzUwYTdiYjY5MDE4YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGQ1YjYwYmQyYjllZmJkY2U3YzM2ZGEzOTRmOGMyN2EwMjA2NmJjZTkxZjhjMTAwOTk3NGY1NzhkYmE3NDZkNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzM2ZjY5ZGY0YjlmNWY4OGY5OGRiNmU3OGQ4Njk2N2E2OTE0MDNlODEyMmNhYWQzMjkxZmQ5MmE0OTI3NGM4ZCJ9"
         }
       ]
+    },
+    {
+      "id": "claim_89bc9ad10d3543d78d4a731bbb41bc47",
+      "statement": "The cilium release in bootstrap/helmfile.yaml pins chart version 1.20.2 (kube-system, atomic: true, values from kubernetes/apps/kube-system/cilium/app/helm/values.yaml) and has no `needs` entry, making it the first Helm release; its values enable gatewayAPI, so it depends on the CRDs applied by apply_crds rather than a helmfile dependency.",
+      "evidence": [
+        {
+          "resource": "repo://bootstrap/helmfile.yaml#L14-L19",
+          "version": "repo-lines-v1:sha256:d99212b8933cd3cd1d6256839d8519a122b64a3b5cf4b5b92d69d16b308d9c05:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODVhMDU5M2M0NTY0MDJmYTZhNjBhZTBmOThiYzIyNmQzOTg0NmNmYmI4ODBhY2QwYzdmNzhhZmJlOTVlNTMwMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTMyNTg5MzVmOTU1MDM4YjU1ZDc2NWZmNGFhNTc4MjM0ZWZlODdmN2QyNzhlYzEyODVlMWY4Njk4NTEzNGIwZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWI3ZjBiNzAwODM4YzM4ZGJiMTdmZDE2N2Q0YjIyYmY0ZDY1ODYwY2I4MjYxYjc5NTVmNzlkYzc5MDJjMTNmZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTEzOGEzZGY2MjA0MmQ4OGRkNzEyNTIyYjkwN2E5ZGNkNGRmNjBlNGI0NmFkNmQ3MDQ3NDBlMTNjZTdkMDcwOSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/kube-system/cilium/app/helm/values.yaml#L27-L28",
+          "version": "repo-lines-v1:sha256:2685453ec165e5a900c0e9cb4907ec4fb54eae25beb9ec1e552369619365b5cb:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDYxMDI5NDhiNmJjNDNmZDU2NzFmZTBjMzA5YTJkNjliOTFlZDdjMjU2ZDdkOTVhNWIxZDY1MzRlYmE2YzdiNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzhhMWNhNWE4YTU2NzhmMTlhOGYwYjliYjlhY2M4NjQ2NDY2ODY4YjMxOGM0MDA2MjE3ZGRkNGM3ZmY4MGM4MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMGNjMWQ3NjAyNTVkNTBiOWY5ZDNkZTNjNjQwMjA4MzBlNzZlNTM3NWI5MzAwYWY4N2U3OTliMTFlMjY1OTQxNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjllYmM0ZDQwMGY1NzVmODQyNDYxYzdkZWIzODFjNTQyMDRkNmMzYzY1M2I4ZDBkZDhmZmZiMjlkMGNkMGMxOSJ9"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.2",
-    "at": "2026-09-19T21:35:52.044Z"
+    "by": "openwiki/0.6.0",
+    "at": "2026-09-25T22:38:38.997Z"
   }
 }

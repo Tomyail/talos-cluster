@@ -10,6 +10,8 @@ sources:
     resource: repo://.taskfiles/bootstrap/Taskfile.yaml
   - id: openwiki-source-360da09d9920a02e1e719d90
     resource: repo://bootstrap/helmfile.yaml
+  - id: openwiki-source-d9f5f9eb0be17b72994fcd3e
+    resource: repo://kubernetes/apps/kube-system/cilium/app/helm/values.yaml
   - id: openwiki-source-23775c3de52f3ab95a13cb8b
     resource: repo://README.md
   - id: openwiki-source-6f1d2c8de9160e178167b990
@@ -20,10 +22,10 @@ sources:
     resource: repo://talos/talconfig.yaml
   - id: openwiki-source-b65e4f1ccd91316116ad973a
     resource: repo://talos/talenv.yaml
-generated: { by: "openwiki/0.5.2", at: "2026-09-19T21:35:52.044Z" }
+generated: { by: "openwiki/0.6.0", at: "2026-09-25T22:38:38.997Z" }
 verified:
-  - by: openwiki/0.5.2
-    at: 2026-09-19T21:35:52.044Z
+  - by: openwiki/0.6.0
+    at: 2026-09-25T22:38:38.997Z
 ---
 
 # Cluster Bootstrap Workflow
@@ -223,6 +225,7 @@ Installs essential CRDs before applications (`scripts/bootstrap-apps.sh#L91-L105
 - **External DNS CRDs** (v0.22.0) - `dnsendpoints.externaldns.k8s.io`
 - **Gateway API CRDs** (v1.6.2, experimental) - Gateway API resources
 - Notes indicate these are also managed by Flux but duplicated here for bootstrap safety
+- This CRD pre-apply is the step Cilium depends on: its Helm values set `gatewayAPI.enabled: true` (`kubernetes/apps/kube-system/cilium/app/helm/values.yaml#L27-L28`), so the Gateway API CRDs must exist before the first Helm release installs
 
 Each CRD:
 - Checks if up-to-date using `kubectl diff`
@@ -240,7 +243,7 @@ Executes `bootstrap/helmfile.yaml` with `helmfile sync`:
 - Waits for jobs to complete
 
 **Bootstrap Helm Releases** (`bootstrap/helmfile.yaml#L13-L52`)
-- **Cilium 1.20.1** (kube-system) - CNI plugin, depends on pre-applied Gateway API CRDs
+- **Cilium 1.20.2** (kube-system) - CNI plugin, depends on pre-applied Gateway API CRDs
 - **CoreDNS 1.47.1** (kube-system) - Cluster DNS, depends on Cilium
 - **cert-manager v1.21.2** (cert-manager) - Certificate management, depends on CoreDNS
 - **flux-operator 0.60.0** (flux-system) - Flux operator, depends on cert-manager

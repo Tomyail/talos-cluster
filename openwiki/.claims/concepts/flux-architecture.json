@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:4e8de770a243559a233664fb10872bdaeeee61aaff24f9b34067f1117a19110a",
+  "pageVersion": "sha256:f4e48dc9524b7070f6f81a2bab774be7e5e4e46ff8a804952eb70daf72eeb600",
   "claims": [
     {
       "id": "claim_ad4aee5586e148f183b37e571c767319",
@@ -230,15 +230,19 @@
     },
     {
       "id": "claim_101090853af64fc6a8399132f0392356",
-      "statement": "The common Kustomize component creates namespace, adds repository definitions including the app-template OCIRepository (oci://ghcr.io/bjw-s-labs/helm/app-template, tag 5.1.0, Helm chart layer selection), and configures SOPS secrets for application standardization",
+      "statement": "The common Kustomize component creates the namespace, adds repository definitions including the app-template OCIRepository (oci://ghcr.io/bjw-s-labs/helm/app-template, ref tag 5.2.1, layerSelector copy of the application/vnd.cncf.helm.chart.content.v1.tar+gzip Helm chart media type), and configures SOPS secrets for application standardization; applications consume it via HelmRelease chartRef kind OCIRepository name app-template.",
       "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/echo/app/helmrelease.yaml#L9-L11",
+          "version": "repo-lines-v1:sha256:37bff5066b168e4c9cc8cbed6be4171e3dfcd050bdb49324e2347e2fc79de822:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjZjMTY4YjIwNmY4ZTRmOWUzOWQ1OWEyN2ZiYzMzNDJiODExNWExZGFiOGFlNzIwYTlkYjkyYTBhZDYzZWQ0OSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjMwZmMxNGI1NmYyNzI3MTEwYWI1YjFjMmUxZjE4OTg3MTE4MWZiZGU5NjU3MTI0MjE1MGZlNTQ2OTAxYjZmZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNGI2M2JiZjU4ZjJjNWI2OTQ5MTJmMTIwZjA5ZTgwNjA1ODdjYjI0ZmY1ZGVhOWE2MWEyMjdlNmE5OTdjMzZlMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOThiZWMxNTQxMDMyNTAzN2IzNGE2YWZkNzA3ZGQ4MDQxZDAzNzUxODdjZmM5MDFmNmE0ODVmZDk3NDhjNGRiYyJ9"
+        },
         {
           "resource": "repo://kubernetes/components/common/kustomization.yaml",
           "version": "repo-file-v1:sha256:6a499644d69e7563a12512291f01942ccdc1ceff4e741dd26aa28a228117f9d2"
         },
         {
           "resource": "repo://kubernetes/components/common/repos/app-template/ocirepository.yaml",
-          "version": "repo-file-v1:sha256:02c2cfe8c64f6cd1b252b6ad01de56eaae0b0f516aba9b901a2c00e21c98073d"
+          "version": "repo-file-v1:sha256:f0d9f158f13d4316067330be34e56a84216e6bf821b9a152c9cc1163cead9328"
         }
       ]
     },
@@ -310,7 +314,7 @@
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.2",
-    "at": "2026-09-19T21:35:52.044Z"
+    "by": "openwiki/0.6.0",
+    "at": "2026-09-25T22:38:38.997Z"
   }
 }

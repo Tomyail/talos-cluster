@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:d12c52c120dc5637ced21399dd463cc3ba87e06d47897613e903a7b5c44f9012",
+  "pageVersion": "sha256:5ae71d66fe6d2467ae14f67a5458730dc9a6c63ef2f20292e7651f7565209012",
   "claims": [
     {
       "id": "claim_c0ebaf31acb54ed7ae9d9c9f602965b2",
@@ -14,7 +14,7 @@
     },
     {
       "id": "claim_c2f56f4bf75942d5b8accdbd7aa026bb",
-      "statement": "The common component composes a placeholder prune-disabled privileged namespace, a shared OCIRepository pinning the app-template chart (oci://ghcr.io/bjw-s-labs/helm/app-template, tag 5.1.0), and SOPS-encrypted cluster-secrets and sops-age resources.",
+      "statement": "The common component composes a placeholder prune-disabled privileged namespace, a shared OCIRepository pinning the app-template chart (oci://ghcr.io/bjw-s-labs/helm/app-template, tag 5.2.1, interval 1h, layerSelector mediaType application/vnd.cncf.helm.chart.content.v1.tar+gzip with operation copy), and SOPS-encrypted cluster-secrets and sops-age resources.",
       "evidence": [
         {
           "resource": "repo://kubernetes/components/common/kustomization.yaml",
@@ -26,7 +26,7 @@
         },
         {
           "resource": "repo://kubernetes/components/common/repos/app-template/ocirepository.yaml",
-          "version": "repo-file-v1:sha256:02c2cfe8c64f6cd1b252b6ad01de56eaae0b0f516aba9b901a2c00e21c98073d"
+          "version": "repo-file-v1:sha256:f0d9f158f13d4316067330be34e56a84216e6bf821b9a152c9cc1163cead9328"
         },
         {
           "resource": "repo://kubernetes/components/common/sops/kustomization.yaml",
@@ -145,10 +145,24 @@
           "version": "repo-lines-v1:sha256:937f5170fcaae7bbbe01c2fd2066929503f7c73a1dd45da2bd808fd6373d9d36:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTM3ZjUxNzBmY2FhZTdiYmJlMDFjMmZkMjA2NjkyOTUwM2Y3YzczYTFkZDQ1ZGEyYmQ4MDhmZDYzNzNkOWQzNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTM3ZjUxNzBmY2FhZTdiYmJlMDFjMmZkMjA2NjkyOTUwM2Y3YzczYTFkZDQ1ZGEyYmQ4MDhmZDYzNzNkOWQzNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYWFhNmVmOWJiMDEzZGE1N2QyNjEyNmU1OTYyOWFkOGYzYWE5YmQ4M2JjYTdjNDRmNjgyOTE1N2JlZWMyZmY1OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTIxODlmOTEwNThkNGM4OWU3OTAyZTFkNWQ0OWYyZWFhZjJhZDRlMTMyMDZiZjIzMTQ0ZTRkNTgyOWM4ZjRhZiJ9"
         }
       ]
+    },
+    {
+      "id": "claim_eb132e7aac7746e5be884c8256c61e35",
+      "statement": "App HelmReleases across kubernetes/apps/**/app/helmrelease.yaml use spec.chartRef {kind: OCIRepository, name: app-template} to consume the single shared app-template OCIRepository from the common component instead of declaring per-app chart sources.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/app/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:49858e9082e7cb72c2f4888e40509c4f8b20c888859823405cb5aa78931a6ab5"
+        },
+        {
+          "resource": "repo://kubernetes/components/common/repos/app-template/ocirepository.yaml",
+          "version": "repo-file-v1:sha256:f0d9f158f13d4316067330be34e56a84216e6bf821b9a152c9cc1163cead9328"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.6.0",
-    "at": "2026-09-23T22:25:15.108Z"
+    "at": "2026-09-25T22:38:38.997Z"
   }
 }

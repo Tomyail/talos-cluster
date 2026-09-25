@@ -16,6 +16,8 @@ sources:
     resource: repo://.taskfiles/bootstrap/Taskfile.yaml
   - id: openwiki-source-4f5be6b4c7dcc699aca46164
     resource: repo://.taskfiles/talos/Taskfile.yaml
+  - id: openwiki-source-360da09d9920a02e1e719d90
+    resource: repo://bootstrap/helmfile.yaml
   - id: openwiki-source-0e996dcef7180d2fe4f95073
     resource: repo://docs/volsync-migration-tracker.md
   - id: openwiki-source-dbd8b5c09621dda4424792fd
@@ -40,10 +42,10 @@ sources:
     resource: repo://talos/talenv.yaml
   - id: openwiki-source-b9ff7ee0aa4953cc601052a4
     resource: repo://Taskfile.yaml
-generated: { by: "openwiki/0.6.0", at: "2026-09-23T22:25:15.108Z" }
+generated: { by: "openwiki/0.6.0", at: "2026-09-25T22:38:38.997Z" }
 verified:
   - by: openwiki/0.6.0
-    at: 2026-09-23T22:25:15.108Z
+    at: 2026-09-25T22:38:38.997Z
 ---
 
 # Quick Start Guide
@@ -178,7 +180,7 @@ For new cluster installations, the bootstrap process is split into two phases:
 
 1. **Prepare Talos configuration**: Edit `talos/talconfig.yaml` and `talos/talenv.yaml`
 2. **Bootstrap Talos**: `task bootstrap:talos` (applies machine configs, bootstraps cluster, exports kubeconfig)
-3. **Bootstrap base apps**: `task bootstrap:apps` (creates namespaces, applies SOPS secrets and CRDs, then helmfile-installs Cilium, CoreDNS, cert-manager, flux-operator, and flux-instance)
+3. **Bootstrap base apps**: `task bootstrap:apps` (`scripts/bootstrap-apps.sh`) — checks prerequisites (`KUBECONFIG`/`TALOSCONFIG` env and the `helmfile kubectl kustomize sops talhelper yq` CLIs), waits for node readiness, server-side creates one namespace per `kubernetes/apps/` top-level directory, applies the SOPS secrets (`github-deploy-key`, `cluster-secrets`, `sops-age` into `flux-system`), applies CRDs (external-dns v0.23.0, gateway-api v1.6.2), then helmfile-syncs `bootstrap/helmfile.yaml` in dependency order: cilium 1.20.2 → coredns 1.47.1 → cert-manager v1.21.2 → flux-operator → flux-instance (both 0.60.0)
 
 After bootstrap, Flux takes over and manages all applications under `kubernetes/apps/`.
 

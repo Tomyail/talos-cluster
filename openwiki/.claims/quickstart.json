@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:b71fa878ebd150204e209bbbf1c81c870d76719eb5ec446c125dc300175138f7",
+  "pageVersion": "sha256:128cab23e01c095f9265fc9e1a73d0009d17848f430310d62a7ae71135a46391",
   "claims": [
     {
       "id": "claim_7007b04a9365408685923e5725757fbe",
@@ -208,15 +208,19 @@
     },
     {
       "id": "claim_d687e642f27c47a998f440f8cb5e1a28",
-      "statement": "Bootstrap is two-phase: `task bootstrap:talos` generates/reuses talsecret, runs talhelper genconfig, applies machine configs, bootstraps Talos, and exports kubeconfig; `task bootstrap:apps` (scripts/bootstrap-apps.sh) creates namespaces, applies SOPS secrets and CRDs, and helmfile-syncs the initial foundation (Cilium, CoreDNS, cert-manager, flux-operator, flux-instance), after which Flux owns kubernetes/apps/.",
+      "statement": "Bootstrap is two-phase: `task bootstrap:talos` generates/reuses talsecret, runs talhelper genconfig, applies machine configs, bootstraps Talos, and exports kubeconfig; `task bootstrap:apps` (scripts/bootstrap-apps.sh) verifies prerequisites (KUBECONFIG/TALOSCONFIG env; helmfile kubectl kustomize sops talhelper yq CLIs), then runs wait_for_nodes, apply_namespaces (server-side create of one namespace per kubernetes/apps top-level dir), apply_sops_secrets (github-deploy-key, cluster-secrets, sops-age into flux-system), apply_crds (external-dns v0.23.0, gateway-api v1.6.2), and helmfile sync of bootstrap/helmfile.yaml (cilium 1.20.2 → coredns 1.47.1 → cert-manager v1.21.2 → flux-operator/flux-instance 0.60.0), after which Flux owns kubernetes/apps/.",
       "evidence": [
         {
           "resource": "repo://README.md#L107-L147",
           "version": "repo-lines-v1:sha256:944adfd5f7f0fc6eb83ed79b260593713fb8087c52ab3c5756c8b21b111815e7:eyJzZWxlY3RlZExpbmVDb3VudCI6NDEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUzNzhkOTRjODU1MGEzNzE3NGJiNWJkN2Q4NDJiNGQ4MjVkNjZlZDcwM2U0ZmIyZTkwNWE2NTNhNThmNWUzMTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRlZDNhNGQ1ZGRmZjc2ZmViZWUxMmViZTQwYzYwMGEzOWYwZWRkYjYzOGRhYWI3ZTM2YTMxZDNkOGE3ZmJhODAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ3NWFkNDc0MzcxZWE5ZGY5YWQxMTdiYzAxM2FmNWJlMjE5NjIxY2UxODU5NDhjOTg5NzVkYTg2NzRjMzVhZWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQzMTVlYTllNWJmNDIyY2U0MjQzMWI4YmE1MzM4MWE0MzkwOWMwYjcxZDE2NDRiYjc3NWVkNzcxNGRjZTc5NWMifQ"
         },
         {
-          "resource": "repo://scripts/bootstrap-apps.sh",
-          "version": "repo-file-v1:sha256:eebd93a11ab8005e82532e3ff1c92e12e4bfcadfa59000036daa9463adfae378"
+          "resource": "repo://bootstrap/helmfile.yaml#L13-L52",
+          "version": "repo-lines-v1:sha256:6476a2b528b6c4c2342d4f5b48106162fde3ac46a5570178b36d8e899f4de7e5:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkZTI0Nzc3YTlhNjAzZjFlZmY3ZTNjMmMzMTcxZTE2MjU5YjhhN2M5OTZkYTMxNDdhMjc5N2Y2ZjA3NTQ0MmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4NDQxMDY3MGJjNTUxNjEyNDRkZTdlZTRjMDM5YTEzMDUzYzZiN2M5ZTRkZTZiMzY4YzE3MzYzZDcyMjVlY2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZmNWY5NGUxMDY0NDU3ZjAwNWMzYzFmNzJkMzMzYTgxM2YwNzYzNTJjZjFiNzNiNTUzNWQ5NDFiNDFhNmQ1OTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://scripts/bootstrap-apps.sh#L137-L149",
+          "version": "repo-lines-v1:sha256:c14c3d6c21a5b47fe7a68c02135bc881808d4e811ba699192046f15c37a26460:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRjZGE0MzIzZDljZmI1MmI1MjAyYmVlMjkyMTlmYjk1ZDdjNWM5YjBjYWZlNzJhZjA1ZmNkZDRhZDEzYWRhNTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM3ZTBjNDE1YjUxNmRkMjg5Y2MxMDFlYjAwNjJiNDI3NmVjMjU3YzhlYWYzY2IyZThlMmViYzg2ZDRhMzU2MTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEzMDE2ZDNkY2RhMDdjZGNjYmY4YjhiODk5MDcxNTU4MDJhMjNkZTBkZGRjOWI4OGRkY2U3YjQyZDFhYzcxNDYifQ"
         }
       ]
     },
@@ -244,7 +248,7 @@
     },
     {
       "id": "claim_ddd14d276c2141ecbe880cf741271d6c",
-      "statement": "The local operator toolchain is documented in /openwiki/operations/local-tooling.md: mise pins tools and exports KUBECONFIG, TALOSCONFIG, and SOPS_AGE_KEY_FILE; the root Taskfile.yaml includes .taskfiles/ bootstrap, talos, and volsync namespaces; and scripts/bootstrap-apps.sh plus scripts/lib wait for node readiness, pre-create namespaces, apply SOPS secrets, and helmfile-bootstrap the foundation releases.",
+      "statement": "The local operator toolchain is documented in /openwiki/operations/local-tooling.md: mise pins tools and exports KUBECONFIG, TALOSCONFIG, and SOPS_AGE_KEY_FILE; the root Taskfile.yaml includes .taskfiles/ bootstrap, talos, and volsync namespaces; and scripts/bootstrap-apps.sh starts by checking required env vars and CLIs (helmfile, kubectl, kustomize, sops, talhelper, yq) before waiting for node readiness, pre-creating namespaces, applying SOPS secrets, and helmfile-bootstrapping the foundation releases.",
       "evidence": [
         {
           "resource": "repo://.mise.toml",
@@ -255,8 +259,8 @@
           "version": "repo-lines-v1:sha256:a75660a05f29d9053abf465658362886fd95a8acc40b4350702456e34ddd6106:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDgyMWJmYzVjNTE2YWM3OGM5M2E2NmRkN2MzYWNmYjZmNzIyZDRmZTdkNDZiYjliMDc4MTcwZDM0MzAwMGQ4YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzU5ZjhmNGIzYjJiZjhiZTZiY2E2MjgxMzBkMTVlNjEwYzI3MTY5NTEzMzNlNjJlMzkxYjU3MjE2ZDYzYTA1YSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGQyYTBkNzk1YjllNzBjMDZmYjJmNjY4NDcwMGY4MDdkYTcwMDYwMTE0YWU0YjIzY2NjMjVlZDYwNjg2Zjk3YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMjFkMTJiNTZjMTBiN2ZiNjJjOGYwNDFiMzdlMThjZjhmMjdjNTc4YTBkMjdhYjdlOGRkODhkYmRjOWRmNGIxZiJ9"
         },
         {
-          "resource": "repo://scripts/bootstrap-apps.sh",
-          "version": "repo-file-v1:sha256:eebd93a11ab8005e82532e3ff1c92e12e4bfcadfa59000036daa9463adfae378"
+          "resource": "repo://scripts/bootstrap-apps.sh#L137-L149",
+          "version": "repo-lines-v1:sha256:c14c3d6c21a5b47fe7a68c02135bc881808d4e811ba699192046f15c37a26460:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRjZGE0MzIzZDljZmI1MmI1MjAyYmVlMjkyMTlmYjk1ZDdjNWM5YjBjYWZlNzJhZjA1ZmNkZDRhZDEzYWRhNTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM3ZTBjNDE1YjUxNmRkMjg5Y2MxMDFlYjAwNjJiNDI3NmVjMjU3YzhlYWYzY2IyZThlMmViYzg2ZDRhMzU2MTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEzMDE2ZDNkY2RhMDdjZGNjYmY4YjhiODk5MDcxNTU4MDJhMjNkZTBkZGRjOWI4OGRkY2U3YjQyZDFhYzcxNDYifQ"
         }
       ]
     },
@@ -281,6 +285,6 @@
   ],
   "verification": {
     "by": "openwiki/0.6.0",
-    "at": "2026-09-23T22:25:15.108Z"
+    "at": "2026-09-25T22:38:38.997Z"
   }
 }

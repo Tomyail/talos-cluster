@@ -52,10 +52,10 @@ sources:
     resource: repo://kubernetes/components/volsync/kustomization.yaml
   - id: openwiki-source-0696023deccf378a358f7526
     resource: repo://kubernetes/flux/cluster/ks.yaml
-generated: { by: "openwiki/0.5.2", at: "2026-09-19T21:35:52.044Z" }
+generated: { by: "openwiki/0.6.0", at: "2026-09-25T22:38:38.997Z" }
 verified:
-  - by: openwiki/0.5.2
-    at: 2026-09-19T21:35:52.044Z
+  - by: openwiki/0.6.0
+    at: 2026-09-25T22:38:38.997Z
 ---
 
 # Application Deployment Workflow
@@ -159,11 +159,11 @@ Most applications use the standardized app-template Helm chart from bjw-s-labs, 
 
 The app-template chart is sourced via OCIRepository:
 - URL: `oci://ghcr.io/bjw-s-labs/helm/app-template`
-- Version: 5.1.0 (tag-based)
+- Version: 5.2.1 (tag-based)
 - Interval: 1 hour
 - `layerSelector` copies only the Helm chart tarball layer (`application/vnd.cncf.helm.chart.content.v1.tar+gzip`)
 
-The OCIRepository lives at `kubernetes/components/common/repos/app-template/` (its parent `kustomization.yaml` lists it); apps reference it by name via `chartRef`, so all app-template apps share one chart source and version.
+The OCIRepository lives at `kubernetes/components/common/repos/app-template/` (its parent `kustomization.yaml` lists it); apps reference it by name via `chartRef`, so all app-template apps share one chart source and version. Bumping the chart therefore means editing the single `ref.tag` in `ocirepository.yaml` (currently `5.2.1`), not per-app chart versions.
 
 ### HelmRelease Structure
 

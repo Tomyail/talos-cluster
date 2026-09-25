@@ -42,10 +42,16 @@ sources:
     resource: repo://kubernetes/apps/network/tailscale/app/egress-proxy.yaml
   - id: openwiki-source-d4d025f39bde91bcff75daaa
     resource: repo://kubernetes/apps/network/tailscale/app/helmrelease.yaml
-generated: { by: "openwiki/0.5.2", at: "2026-09-19T21:35:52.044Z" }
+  - id: openwiki-source-0696023deccf378a358f7526
+    resource: repo://kubernetes/flux/cluster/ks.yaml
+  - id: openwiki-source-97e4f584aefe24b958a6081d
+    resource: repo://kubernetes/flux/meta/repos/external-dns-crds.yaml
+  - id: openwiki-source-6f1d2c8de9160e178167b990
+    resource: repo://scripts/bootstrap-apps.sh
+generated: { by: "openwiki/0.6.0", at: "2026-09-25T22:38:38.997Z" }
 verified:
-  - by: openwiki/0.5.2
-    at: 2026-09-19T21:35:52.044Z
+  - by: openwiki/0.6.0
+    at: 2026-09-25T22:38:38.997Z
 ---
 
 # Networking Architecture
@@ -220,7 +226,7 @@ k8s-gateway automatically generates DNS records for Kubernetes services and HTTP
 AdGuard DNS integration synchronizes internal service DNS records to an AdGuard Home instance for local network resolution.
 
 **Configuration**:
-- **Provider**: Webhook provider using `ghcr.io/muhlba91/external-dns-provider-adguard:v11.1.1`
+- **Provider**: Webhook provider using `ghcr.io/muhlba91/external-dns-provider-adguard:v11.2.0` (digest-pinned); the chart itself is the OCI mirror `oci://ghcr.io/home-operations/charts-mirror/external-dns` tag `1.22.0`
 - **AdGuard Home URL**: `http://192.168.50.1:3000`
 - **Sources**: Gateway API (gateway-httproute, gateway-tlsroute)
 - **Policy**: Sync mode
@@ -229,6 +235,15 @@ AdGuard DNS integration synchronizes internal service DNS records to an AdGuard 
 - **TXT Prefix**: `k8s.` for ownership verification
 
 This integration allows local network clients to resolve cluster service names through the AdGuard Home DNS server, which can then use k8s-gateway as an upstream DNS resolver for Kubernetes-specific records.
+
+### External DNS CRD Delivery
+
+The `DNSEndpoint` (`dnsendpoints.externaldns.k8s.io`) CRDs are delivered twice, deliberately:
+
+1. **Pre-bootstrap**: `apply_crds` in `scripts/bootstrap-apps.sh` applies the External DNS CRDs (v0.23.0) and Gateway API CRDs (experimental v1.6.2) server-side before helmfile-installed components start — Cilium has `gatewayAPI.enabled=true` and requires the Gateway API CRDs to exist immediately.
+2. **Post-bootstrap**: Flux manages the same CRDs via the `external-dns-crds` Kustomization in `kubernetes/flux/cluster/ks.yaml`, which applies `config/crd/standard` from a GitRepository tracking `kubernetes-sigs/external-dns` tag `v0.23.0`. The `cluster-apps` Kustomization depends on it, so the CRDs (and Gateway API CRDs) are present before any app manifests reconcile.
+
+Both paths are Renovate-pinned to the same External DNS release, keeping the pre-bootstrap copy a bootstrap-safety fallback that Flux then owns.
 
 ### CoreDNS
 
