@@ -28,15 +28,39 @@ sources:
     resource: repo://kubernetes/apps/network/cloudflare-tunnel/app/secret.sops.yaml
   - id: openwiki-source-a50b7595ce7b0d9f3df80bc7
     resource: repo://kubernetes/apps/network/cloudflare-tunnel/ks.yaml
-generated: { by: "openwiki/0.5.2", at: "2026-09-19T21:35:52.044Z" }
+generated: { by: "openwiki/0.6.0", at: "2026-09-26T22:04:11.432Z" }
 verified:
-  - by: openwiki/0.5.2
-    at: 2026-09-19T21:35:52.044Z
+  - by: openwiki/0.6.0
+    at: 2026-09-26T22:04:11.432Z
 ---
 
 # Cloudflare Integration
 
 The cluster integrates Cloudflare services for secure external ingress, automated DNS management, and TLS certificate issuance. This integration combines Cloudflare Tunnel for inbound traffic without open ports, external-dns for synchronized DNS records between Kubernetes resources and Cloudflare DNS, and cert-manager's Cloudflare DNS-01 solver for wildcard certificates.
+
+## External Request Flow
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant Client as Client (browser)
+    participant Edge as Cloudflare Edge
+    participant CFD as cloudflared Pod
+    participant GW as Cilium External Gateway
+    participant Svc as Backend Service (HTTPRoute)
+
+    Client->>Edge: HTTPS gitea.${SECRET_DOMAIN}
+    Note over Edge: Proxied DNS record resolves through<br/>Cloudflare (tunnel CNAME)
+    Edge->>CFD: Forward over established outbound tunnel (http2)
+    CFD->>CFD: Match ingress rule (*.${SECRET_DOMAIN})
+    CFD->>GW: HTTPS to cilium-gateway-external...svc<br/>(originServerName: external.${SECRET_DOMAIN})
+    GW->>GW: Terminate TLS (wildcard cert)
+    GW->>Svc: Route via matching HTTPRoute
+    Svc-->>GW: Response
+    GW-->>CFD: Response
+    CFD-->>Edge: Response over tunnel
+    Edge-->>Client: HTTPS response
+```
 
 ## Architecture Overview
 
@@ -78,12 +102,16 @@ Cloudflare Tunnel provides secure inbound connectivity to the cluster without ex
 **HelmRelease Pattern:** The tunnel deployment uses the `app-template` OCI chart pattern, providing a standardized Helm chart structure for application deployment. This pattern encapsulates common Kubernetes workload configurations including controllers, containers, pod options, services, and persistence in a reusable template.
 
 **Key Configuration:**
-- **Image:** `cloudflare/cloudflared:2026.9.1`
+- **Image:** `cloudflare/cloudflared:2026.9.3`
 - **Transport Protocol:** HTTP/2 for efficient multiplexing (`TUNNEL_TRANSPORT_PROTOCOL: http2`)
 - **Origin HTTP/2:** Enabled for improved performance (`TUNNEL_ORIGIN_ENABLE_HTTP2: true`)
-- **Security:** Runs as non-root user (65534) with read-only root filesystem
+- **Security:** Runs as non-root user/group 65534 with read-only root filesystem, no privilege escalation, and all capabilities dropped
 - **Resources:** 10m CPU request, 256Mi memory limit
-- **Metrics:** Exposes metrics on port 8080 for Prometheus scraping
+- **Metrics:** Exposes metrics on `0.0.0.0:8080` for Prometheus scraping (ServiceMonitor scraping the `http` port)
+- **Credentials:** `envFrom` injects the `cloudflare-tunnel-secret` Secret (containing `TUNNEL_TOKEN`) into the container
+- **Config:** The ingress `config.yaml` is mounted read-only from the `cloudflare-tunnel-configmap` ConfigMap (subPath `config.yaml`) at `/etc/cloudflared/config.yaml`
+
+**Flux Remediation:** Install failures are retried indefinitely (`install.remediation.retries: -1`); upgrades clean up on failure and are retried up to 3 times.
 
 **cloudflared Configuration:**
 
@@ -93,6 +121,8 @@ The tunnel container is configured with several environment variables that contr
 - **TUNNEL_TRANSPORT_PROTOCOL:** Uses HTTP/2 as the transport protocol between cloudflared and Cloudflare edge
 - **TUNNEL_ORIGIN_ENABLE_HTTP2:** Enables HTTP/2 communication from cloudflared to origin services
 - **NO_AUTOUPDATE:** Disabled (`true`) to ensure version control through container image updates
+
+**Probes:** Liveness and readiness both use a custom HTTP probe against `/ready` on port 8080 (period 10s, failure threshold 3), so the tunnel is only routed traffic and restarted when cloudflared reports itself unready to Cloudflare's edge.
 
 **Tunnel Run Arguments:**
 

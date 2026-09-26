@@ -1,7 +1,7 @@
 ---
 type: Quickstart Guide
-title: Quick Start Guide
-description: Entry point for understanding the Talos + Flux GitOps cluster repository structure, bootstrapping process, making and validating a change end-to-end, and routing into the rest of the wiki.
+title: Quickstart & Task Routing
+description: Entry point for understanding the Talos + Flux GitOps cluster repository structure, mise-managed toolchain, bootstrapping process, making and validating a change end-to-end, and routing into the rest of the wiki.
 tags: [talos, kubernetes, flux, quickstart, gitops, homelab]
 sources:
   - id: openwiki-source-6378149bc01898a8718f6f2d
@@ -42,15 +42,15 @@ sources:
     resource: repo://talos/talenv.yaml
   - id: openwiki-source-b9ff7ee0aa4953cc601052a4
     resource: repo://Taskfile.yaml
-generated: { by: "openwiki/0.6.0", at: "2026-09-25T22:38:38.997Z" }
+generated: { by: "openwiki/0.6.0", at: "2026-09-26T22:04:11.432Z" }
 verified:
   - by: openwiki/0.6.0
-    at: 2026-09-25T22:38:38.997Z
+    at: 2026-09-26T22:04:11.432Z
 ---
 
-# Quick Start Guide
+# Quickstart & Task Routing
 
-Welcome to the Talos Kubernetes cluster documentation. This repository contains the complete GitOps configuration for a homelab cluster running Talos Linux with ~30 applications across multiple namespaces.
+Welcome to the Talos Kubernetes cluster documentation. This repository contains the complete GitOps configuration for a homelab cluster running Talos Linux with ~30 applications across multiple namespaces. This page is the entry point: it orients you on the repository, the mise-managed toolchain, and routes you into the rest of the wiki.
 
 ## Architecture Overview
 
@@ -184,7 +184,7 @@ For new cluster installations, the bootstrap process is split into two phases:
 
 After bootstrap, Flux takes over and manages all applications under `kubernetes/apps/`.
 
-See [**Bootstrap Workflow**](./workflows/bootstrap.md) for detailed prerequisites, step-by-step instructions, and verification procedures, and [**Bootstrap Flow**](./architecture/bootstrap-flow.md) for the control flow in depth.
+See [**Bootstrap Workflow**](./workflows/bootstrap.md) for detailed prerequisites, step-by-step instructions, and verification procedures.
 
 ## Repository Structure
 
@@ -232,25 +232,13 @@ The wiki is organized into five domains. Start here, then follow the links for d
 | Domain | Page | What it covers |
 | --- | --- | --- |
 | **Architecture** | [Overview](./architecture/overview.md) | Cluster layers, namespace organization, and the Flux reconciliation hierarchy |
-| **Architecture** | [Bootstrap Flow](./architecture/bootstrap-flow.md) | Control flow from bare Talos install to fully reconciled Flux cluster |
-| **Architecture** | [Namespace Structure](./architecture/namespace-structure.md) | How `kubernetes/` is organized and the per-namespace Kustomization wiring |
-| **Concepts** | [Cluster Architecture (Talos)](./concepts/cluster-architecture.md) | Talos node layout, talhelper config, machine config generation, kube-system foundation |
-| **Concepts** | [Flux Architecture](./concepts/flux-architecture.md) | GitRepository source, Kustomization tree, dependency chain, drift behavior |
-| **Concepts** | [Flux GitOps Concepts](./concepts/flux-gitops.md) | Kustomization, HelmRelease, OCIRepository/app-template, dependsOn, image automation |
-| **Concepts** | [Networking](./concepts/networking.md) | Cilium CNI, Gateway API routes, Cloudflare Tunnel, Tailscale, DNS |
-| **Concepts** | [Secrets Management](./concepts/secrets-management.md) | SOPS+age in Git, External Secrets + Bitwarden at runtime |
-| **Concepts** | [Storage](./concepts/storage.md) | TopoLVM, VolSync, snapshot-controller, NFS CSI, MinIO offsite backup |
-| **Concepts** | [Observability](./concepts/observability.md) | kube-prometheus-stack, Grafana, Loki, Thanos, Gatus, Uptime Kuma |
-| **Concepts** | [Talos Configuration](./concepts/talos-config.md) | talconfig/talenv structure, patches, generated clusterconfig, talsecret SOPS handling |
+| **Concepts** | [Cluster Architecture (Talos)](./concepts/cluster-architecture.md) | Talos node layout, app-template HelmRelease pattern, Kustomization layering, invariants shared by every app |
+| **Concepts** | [Networking](./concepts/networking.md) | Cilium CNI, internal/external Gateway API routes, ingress topology |
 | **Workflows** | [Bootstrap](./workflows/bootstrap.md) | Full cluster initialization from bare metal to GitOps-managed state |
 | **Workflows** | [App Deployment](./workflows/app-deployment.md) | Standard app layout and Flux reconciliation path: `ks.yaml` → `helmrelease.yaml` → secrets, storage, routing, monitoring |
-| **Workflows** | [Upgrade](./workflows/upgrade.md) | Talos/Kubernetes upgrades via `task talos:*` plus tuppr/system-upgrade automation |
-| **Integrations** | [Renovate](./integrations/renovate.md), [CI/CD](./integrations/ci-cd.md), [Cloudflare](./integrations/cloudflare.md), [Tailscale](./integrations/tailscale.md), [External Secrets](./integrations/external-secrets.md), [Bitwarden](./integrations/bitwarden.md), [Image Automation](./integrations/image-automation.md), [Hardware Support](./integrations/hardware-support.md) | External system integrations |
-| **Operations** | [Daily Operations](./operations/daily-operations.md) | Routine maintenance: reconcile, VolSync snapshots, node config, status dashboards |
+| **Integrations** | [Cloudflare](./integrations/cloudflare.md) | Cloudflare Tunnel deployment, config, DNS, and how external traffic reaches the cluster |
+| **Integrations** | [Renovate](./integrations/renovate.md) | Dependency automation (`.renovaterc.json5`) and how it updates the mise toolchain pins |
 | **Operations** | [Local Tooling](./operations/local-tooling.md) | mise-managed tools and env vars, root Taskfile and `.taskfiles/`, and the bootstrap scripts under `scripts/` |
-| **Operations** | [VolSync PVC Migration](./operations/volsync-pvc-migration.md) | In-flight migration of app PVCs to the shared `components/volsync` component, migration flow, tracker, and known pitfalls |
-| **Operations** | [Upgrade Operations](./operations/upgrade-workflow.md) | Upgrade windows, ordering, and rollback considerations |
-| **Operations** | [Troubleshooting](./operations/troubleshooting.md) | Symptom-driven playbook for stuck Kustomizations, HelmReleases, secrets, storage |
 | **Testing** | [Validation](./testing/validation.md) | Local manifest validation, `flux-local` CI checks, and verification of a change end-to-end |
 
 ## Key Architectural Patterns
@@ -266,7 +254,7 @@ Flux watches the Git repository and reconciles the cluster in two root Kustomiza
 
 Each namespace under `kubernetes/apps/` has its own Kustomization that Flux reconciles with SOPS decryption enabled (the `sops-age` secret in `flux-system`).
 
-See [**Flux Architecture**](./concepts/flux-architecture.md) for the complete reconciliation hierarchy and dependency ordering.
+See [**Architecture Overview**](./architecture/overview.md) for the complete reconciliation hierarchy and dependency ordering.
 
 ### Application Pattern
 
@@ -283,7 +271,7 @@ Most applications use the shared `app-template` OCI chart (`ghcr.io/bjw-s-labs/h
 
 Common components like VolSync (backup), Gatus (uptime monitoring), and image automation are integrated through reusable components in `kubernetes/components/` (e.g. `components/volsync-new`, `components/gatus/external`), referenced via the `components:` field in each app's `ks.yaml`.
 
-See [**Namespace & Repo Structure**](./architecture/namespace-structure.md), [**App Deployment Workflow**](./workflows/app-deployment.md), and [**Component Library**](./architecture/component-library.md) for details. Note that app PVCs are being migrated from app-local `pvc.yaml`/`volsync.yaml` files to the shared `components/volsync` component — see [**VolSync PVC Migration**](./operations/volsync-pvc-migration.md) before adding or changing a PVC.
+See [**App Deployment Workflow**](./workflows/app-deployment.md) for details, and [**Architecture Overview**](./architecture/overview.md) for how namespace Kustomizations wire everything together.
 
 ### Secret Management
 
@@ -301,7 +289,7 @@ Two-layer encryption approach:
 
 Flux decrypts SOPS secrets using the `sops-age` Secret in `flux-system`. The local `age.key` file is required for editing secrets but never committed.
 
-See [**Secrets Management**](./concepts/secrets-management.md) for the full model, plus [**External Secrets**](./integrations/external-secrets.md) and [**Bitwarden**](./integrations/bitwarden.md) for the runtime pipeline.
+See [**Cluster Architecture Concepts**](./concepts/cluster-architecture.md) for how these patterns apply inside every app.
 
 ### Dependency Automation
 
@@ -333,4 +321,4 @@ The cluster exposes status metrics at [kromgo.tomyail.com](https://kromgo.tomyai
 - CPU/memory usage
 - Network traffic
 
-A status page is available at [status-dev.tomyail.com](https://status-dev.tomyail.com). If something breaks during bootstrap or reconciliation, see [**Troubleshooting**](./operations/troubleshooting.md).
+A status page is available at [status-dev.tomyail.com](https://status-dev.tomyail.com). If something breaks during bootstrap or reconciliation, start with the verification commands above and [**Validation**](./testing/validation.md).

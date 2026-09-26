@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:fd733bc41a499ae4167baa10b1fa11089c9223dbc69b8f9493a36d74bfdc647b",
+  "pageVersion": "sha256:ed34fee0f72604970a3a27e395e48eb584419c61b59850310973c6fd0cb8c900",
   "claims": [
     {
       "id": "claim_afbcac7a39e541838f26d10c9f19a278",
-      "statement": "mise (.mise.toml) pins the local toolchain (talhelper, talos, kubectl, flux2, sops, helm, helmfile, go-task, etc.) and exports KUBECONFIG, TALOSCONFIG, and SOPS_AGE_KEY_FILE; the root Taskfile sets the same variables so tasks work with or without mise.",
+      "statement": "mise (.mise.toml) pins the local toolchain (talhelper 3.1.17, talos 1.14.1, kubectl 1.33.1, flux2 2.9.5, sops 3.13.3, helm 4.3.0, helmfile 1.8.0, go-task 3.53.1, kubeconform 0.8.0, etc.) and exports KUBECONFIG, TALOSCONFIG, and SOPS_AGE_KEY_FILE plus an auto-created Python venv; the root Taskfile sets the same variables so tasks work with or without mise.",
       "evidence": [
         {
           "resource": "repo://.mise.toml",
-          "version": "repo-file-v1:sha256:d0aa113afde20e67f4f6ce0fb96df5f43b536b3b43b431e75f0902d4e8b36cf1"
+          "version": "repo-file-v1:sha256:fba1364094ff6690ee588cf3173fa9640988a27d9cd88c4e52b364ae041d5ddc"
         },
         {
           "resource": "repo://Taskfile.yaml#L16-L19",
@@ -101,10 +101,30 @@
           "version": "repo-lines-v1:sha256:d3876c41f0297c3e65dabb21a015f39dc2b09c56f3abadfaebdbde7ec61dc796:eyJzZWxlY3RlZExpbmVDb3VudCI6NjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFhMWQ5ZjA0NzBjYTQ3NzRkODJjNWZhNmU4MTBhZGFiZTNhMDYzOGE3ZTI0ZDM4NTc5MTE0M2VjMTkyOTg3OGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNjM2IzMjNhNjVkODJkMjBkZmM4ZWZmYWQ5YzY1OTBhYjhkZjhiODQ3MzdlZmZkYmU1ZTNmMGE2NDNiMzAxNDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ4ODE3NDEyN2ViZmVmZWExMmMzMTUzYzc1YjYzYmJjNmQyOTY3MWJiMWZhMDI5YWRhZDQ5NzJhMWYyNjkyYjciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkxYmZhYmE3Mzg0OTY3ZTUwOGFjN2E4OTVlNjlhZGVkM2NiMTI2MjVlNzg1Mjk5ODI2MmRjNTExNTc2MGE5OGMifQ"
         }
       ]
+    },
+    {
+      "id": "claim_9e87efc7439b461080afec58988d9dc4",
+      "statement": "The bootstrap script applies external-dns CRDs at v0.23.0 and Gateway API experimental CRDs at v1.6.2 server-side for bootstrap safety, even though Flux also manages both CRDs from Git; Cilium (installed next by helmfile) has gatewayAPI enabled and needs the CRDs before it starts.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/bootstrap-apps.sh#L88-L105",
+          "version": "repo-lines-v1:sha256:3dc684c0cd34ec16eb59b8c4488a07f37e2053a7130857e0676fa264ae1a9ef4:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY2M2YyNzhkYjQ4YWFiOTQzZjQ3ZTMxZmYzMmEzOTY3MDRiNDc5MTY1N2M0MzgwOGVlMGM3MmYyZmExNWU5MmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwYzFmMTg4ZjE0MmVkN2E4MjQ2ODBiMjA3MTcyYzU1MTliYzYxNGE0OGZkYTdjZjE2N2VkYjhkZGY3OTk1NmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhhZWFkOTQ4M2I2MjQ5YzgwNDc0NDZiMzQ0Y2FlODhhYTIyNDZmNzU3NTg4ZjJiNGY3MzM1YzE2M2MxNjkyYWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY4OTQ3YTZhMTcxMjk5NmNkYzM5OWUwYjNjOTM5YmJmMzE0NDQyYzUzYjg2NjQ0Yjg0NWNhMmNmYTNkYTMxMTIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_98482cbbfc4e4060a84f68bd839bc43d",
+      "statement": "The volsync restore-alert task is a specialized Alertmanager restore path for kube-prometheus-stack in observability: it suspends the Flux kustomization/helmrelease and scales Alertmanager to 0, applies the checked-in volsync-restore-alertmanager.yaml ReplicationDestination, then scales back up and forces a helmrelease reconcile; unlock-local renders resources/unlock.yaml.j2 with minijinja-cli and streams logs via stern.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/volsync/Taskfile.yaml#L170-L187",
+          "version": "repo-lines-v1:sha256:6965f9eba1a98bd07e46101be9c9841ecacd94019177751affb3230e1323c466:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA4ZTU3YmU2MTYwNGYyODIyODJjZTAxOWY2ZDYyNzE1NDMzOGQ2MzFmNTgwNTdiOGExOGIyNDhiYTVmODVlYWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ0OWE4MTQ4OTBhNmY2NzJhODBlMTA5ZTFmYzdhMzc4YmZhMDYxMzk5Njg4MzU0NmVmNjk1OWMwZTdkOWFjYjEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM2ZGVmY2M4N2IwMmMwNWFiYWI4YmNlNjI4Y2ZlZTgzMzFjMDVhY2U3ZGJhMThhYWRhMTdhZTA0MjM1ZWRmNTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAxODk2MjYwNmU4ZWE5NmNjYjYzODNmZTQ3M2U3MWNmZjI5NjY1ZDczMzZjOGZmNjI2NDI0MjM0MThlMDg4NTQifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.6.0",
-    "at": "2026-09-25T22:38:38.997Z"
+    "at": "2026-09-26T22:04:11.432Z"
   }
 }

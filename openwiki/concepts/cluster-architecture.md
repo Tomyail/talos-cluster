@@ -12,6 +12,8 @@ sources:
     resource: repo://.taskfiles/talos/Taskfile.yaml
   - id: openwiki-source-360da09d9920a02e1e719d90
     resource: repo://bootstrap/helmfile.yaml
+  - id: openwiki-source-37b3f77c1ceb2e20b192e263
+    resource: repo://kubernetes/apps/default/atuin/app/helmrelease.yaml
   - id: openwiki-source-d3d80f124bb7f98ce2094ebc
     resource: repo://kubernetes/apps/default/calibre-web-automated/app/volsync-nfs.yaml
   - id: openwiki-source-d9f5f9eb0be17b72994fcd3e
@@ -52,6 +54,8 @@ sources:
     resource: repo://kubernetes/apps/storage/topolvm/app/helmrelease.yaml
   - id: openwiki-source-710f7608ef2681013d8705c7
     resource: repo://kubernetes/apps/storage/volsync/app/helmrelease.yaml
+  - id: openwiki-source-0aa0479be229def909bbfa22
+    resource: repo://kubernetes/components/common/repos/app-template/ocirepository.yaml
   - id: openwiki-source-0696023deccf378a358f7526
     resource: repo://kubernetes/flux/cluster/ks.yaml
   - id: openwiki-source-67d09412df5e9b5263585304
@@ -78,10 +82,10 @@ sources:
     resource: repo://talos/talenv.yaml
   - id: openwiki-source-4d7c266d0d7adae77539048e
     resource: repo://talos/uservolume.yaml
-generated: { by: "openwiki/0.6.0", at: "2026-09-25T22:38:38.997Z" }
+generated: { by: "openwiki/0.6.0", at: "2026-09-26T22:04:11.432Z" }
 verified:
   - by: openwiki/0.6.0
-    at: 2026-09-25T22:38:38.997Z
+    at: 2026-09-26T22:04:11.432Z
 ---
 
 # Cluster & Talos Architecture
@@ -247,11 +251,15 @@ Key capabilities:
 
 The Cloudflare Tunnel (`cloudflared`) provides secure inbound access to cluster services without opening ports:
 
-- **Image**: docker.io/cloudflare/cloudflared:2026.7.3
-- **Protocol**: HTTP/2 with tunnel metrics on 0.0.0.0:8080
-- **Origin HTTP/2**: Enabled for better performance
-- **Security Context**: Non-root, read-only filesystem, all capabilities dropped
+- **Image**: docker.io/cloudflare/cloudflared:2026.9.3
+- **Protocol**: HTTP/2 transport (`TUNNEL_TRANSPORT_PROTOCOL: http2`) with origin HTTP/2 enabled for better performance
+- **Metrics**: `TUNNEL_METRICS: 0.0.0.0:8080`; the same port serves the `/ready` endpoint used by both liveness and readiness probes (period 10s, failure threshold 3)
+- **Credentials**: tunnel credentials are injected from the `cloudflare-tunnel-secret` Secret via `envFrom`
+- **Config**: the ingress configuration is mounted read-only from the `cloudflare-tunnel-configmap` ConfigMap at `/etc/cloudflared/config.yaml`
+- **Security Context**: pod-level `runAsNonRoot: true` with UID/GID 65534; container-level read-only root filesystem, no privilege escalation, all capabilities dropped
 - **Resources**: 10m CPU request, 256Mi memory limit
+- **Observability**: a ServiceMonitor scrapes the metrics port; the `reloader.stakater.com/auto: "true"` annotation rolls the pod when the config Secret/ConfigMap change
+- **Rollout**: RollingUpdate strategy; install remediation retries indefinitely (`retries: -1`), upgrade retries 3 times with `cleanupOnFail: true`
 
 Services exposed through Cloudflare Tunnel are accessed via Cloudflare's edge network, which terminates TLS and forwards traffic to the tunnel. The tunnel configuration is managed via a ConfigMap and secrets.
 
@@ -572,3 +580,27 @@ The `kube-system` namespace hosts the cluster-foundation applications, all manag
 - **system-upgrade** — the tuppr controller driving automated Talos/Kubernetes upgrades
 
 These are the apps that must exist before application workloads are useful; they are ordered accordingly during bootstrap (Cilium → CoreDNS via helmfile `needs`) and reconciled continuously by Flux afterwards.
+
+## Shared Application Conventions (app-template)
+
+Nearly every application in `kubernetes/apps/` is deployed as a Flux `HelmRelease` built on the [bjw-s app-template](https://github.com/bjw-s-labs/helm-charts) chart. Instead of per-app chart repositories, a single shared `OCIRepository` named `app-template` (defined in `kubernetes/components/common/repos/app-template/ocirepository.yaml`, pointing at `oci://ghcr.io/bjw-s-labs/helm/app-template`, tag 5.2.1, 1h interval) is referenced by every app via:
+
+```yaml
+chartRef:
+  kind: OCIRepository
+  name: app-template
+```
+
+The OCIRepository's `layerSelector` copies only the Helm chart content layer (`application/vnd.cncf.helm.chart.content.v1.tar+gzip`), avoiding digest churn from unrelated image layers. App directories then contain only values: each `app/helmrelease.yaml` pins `spec.interval: 1h` and expresses the app purely through `spec.values` (controllers, service, persistence, route, serviceMonitor).
+
+Typical shared conventions visible across app releases (e.g. cloudflare-tunnel, atuin):
+
+- **Remediation**: `install.remediation.retries` (3, or `-1` for unlimited on cloudflare-tunnel) and `upgrade.remediation.retries: 3` with `cleanupOnFail: true`; atuin additionally sets `upgrade.remediation.strategy: rollback` and a 10m timeout.
+- **Config-driven restarts**: the `reloader.stakater.com/auto: "true"` controller annotation makes the reloader controller roll pods whenever a referenced ConfigMap/Secret changes.
+- **Hardened containers**: container `securityContext` sets `allowPrivilegeEscalation: false`, `readOnlyRootFilesystem: true`, and `capabilities: { drop: ["ALL"] }`; pod-level `defaultPodOptions.securityContext` enforces `runAsNonRoot` with a per-app non-root UID/GID (65534 for cloudflared, 1000 for atuin, with `fsGroup: 1000` and `fsGroupChangePolicy: OnRootMismatch` and `RuntimeDefault` seccomp).
+- **Resource limits**: small CPU requests (10m) with explicit memory limits (e.g. 256Mi for cloudflared; atuin requests 10m/16Mi and limits 50m/32Mi).
+- **Health probes**: custom HTTP liveness and readiness probes sharing one YAML anchor — cloudflared on `:8080/ready`, atuin on `:80/healthz` (10s period, 1s timeout, failure threshold 3).
+- **Metrics**: a `serviceMonitor` block per app exposes Prometheus scrapes (cloudflared scrapes the shared `http` metrics port; atuin serves `/metrics` on a dedicated port 8080 with 1m interval).
+- **Database init**: stateful apps pair the app container with a `postgres-init` initContainer (`ghcr.io/home-operations/postgres-init`), sharing the same `envFrom` secret anchor as the app so DB credentials come from one Secret (e.g. `atuin-secret`).
+
+The atuin release is the canonical example of the full pattern: HelmRelease → `chartRef` to the shared app-template OCIRepository → values with an initContainer, reloader annotation, anchored probes, hardened security contexts, dual-port Service (http + metrics), ServiceMonitor, and a Gateway-API-style `route`. See [Workflows: App Deployment](/openwiki/workflows/app-deployment.md) for how a new app directory is wired into the Flux tree.

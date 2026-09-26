@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:128cab23e01c095f9265fc9e1a73d0009d17848f430310d62a7ae71135a46391",
+  "pageVersion": "sha256:d8368ff75c779f3c32f8bab5f268e7e422058c302270f6bfb2297ac2672c9387",
   "claims": [
     {
       "id": "claim_7007b04a9365408685923e5725757fbe",
@@ -22,7 +22,7 @@
       "evidence": [
         {
           "resource": "repo://.mise.toml",
-          "version": "repo-file-v1:sha256:d0aa113afde20e67f4f6ce0fb96df5f43b536b3b43b431e75f0902d4e8b36cf1"
+          "version": "repo-file-v1:sha256:fba1364094ff6690ee588cf3173fa9640988a27d9cd88c4e52b364ae041d5ddc"
         }
       ]
     },
@@ -198,7 +198,7 @@
       "evidence": [
         {
           "resource": "repo://.mise.toml",
-          "version": "repo-file-v1:sha256:d0aa113afde20e67f4f6ce0fb96df5f43b536b3b43b431e75f0902d4e8b36cf1"
+          "version": "repo-file-v1:sha256:fba1364094ff6690ee588cf3173fa9640988a27d9cd88c4e52b364ae041d5ddc"
         },
         {
           "resource": "repo://talos/talenv.yaml#L1-L4",
@@ -252,7 +252,7 @@
       "evidence": [
         {
           "resource": "repo://.mise.toml",
-          "version": "repo-file-v1:sha256:d0aa113afde20e67f4f6ce0fb96df5f43b536b3b43b431e75f0902d4e8b36cf1"
+          "version": "repo-file-v1:sha256:fba1364094ff6690ee588cf3173fa9640988a27d9cd88c4e52b364ae041d5ddc"
         },
         {
           "resource": "repo://Taskfile.yaml#L21-L24",
@@ -285,6 +285,6 @@
   ],
   "verification": {
     "by": "openwiki/0.6.0",
-    "at": "2026-09-25T22:38:38.997Z"
+    "at": "2026-09-26T22:04:11.432Z"
   }
 }

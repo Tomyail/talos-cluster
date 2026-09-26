@@ -24,10 +24,10 @@ sources:
     resource: repo://scripts/bootstrap-apps.sh
   - id: openwiki-source-b9ff7ee0aa4953cc601052a4
     resource: repo://Taskfile.yaml
-generated: { by: "openwiki/0.5.2", at: "2026-09-21T22:42:37.553Z" }
+generated: { by: "openwiki/0.6.0", at: "2026-09-26T22:04:11.432Z" }
 verified:
-  - by: openwiki/0.5.2
-    at: 2026-09-21T22:42:37.553Z
+  - by: openwiki/0.6.0
+    at: 2026-09-26T22:04:11.432Z
 ---
 
 # Validation & Testing
@@ -70,7 +70,7 @@ Because mise auto-exports `KUBECONFIG`, `TALOSCONFIG`, and `SOPS_AGE_KEY_FILE` (
 
 ## Local toolchain and rendering checks
 
-`.mise.toml` pins the complete toolchain used for local validation: `kubeconform = 0.8.0`, `kustomize = 5.6.0`, `kubectl = 1.33.1`, `helm = 4.3.0`, plus `sops` (3.13.3), `talos` (1.14.1), `talhelper` (3.1.17), `flux` (2.9.5), `yq` (4.53.6), `jq`, `task`, `age`, `cilium-cli`, `helmfile`, `gh`, and `makejinja` (via pipx). Newer additions include `cue` (0.17.1) and `cloudflared` (2026.9.1); neither is invoked by any Taskfile or CI step, so they are available only for ad-hoc local checks. Python (3.14.7) is pinned with an auto-created repo-local venv at `.venv`. Three notes:
+`.mise.toml` pins the complete toolchain used for local validation: `kubeconform = 0.8.0`, `kustomize = 5.6.0`, `kubectl = 1.33.1`, `helm = 4.3.0`, plus `sops` (3.13.3), `talos` (1.14.1), `talhelper` (3.1.17), `flux` (2.9.5), `yq` (4.53.6), `jq`, `task`, `age`, `cilium-cli`, `helmfile`, `gh`, and `makejinja` (via pipx). Newer additions include `cue` (0.17.1) and `cloudflared` (2026.9.3); neither is invoked by any Taskfile or CI step, so they are available only for ad-hoc local checks. Python (3.14.7) is pinned with an auto-created repo-local venv at `.venv`. Three notes:
 
 - Schema validation via `kubeconform` and rendering via `kustomize build` are manual, local practices — there is no repo config file for either and no CI step invokes them. The closest automated equivalent is the CI `flux-local test` job, which builds every Kustomization and applies the same helm/sops rendering pipeline.
 - There is also no `yamllint` configuration in the repository; YAML style is instead governed by `.editorconfig`.

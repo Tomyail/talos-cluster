@@ -4,6 +4,8 @@ title: Networking Architecture
 description: Layered networking stack comprising Cilium CNI with L2 announcements and Gateway API, Cloudflare Tunnel for secure ingress, Cloudflare DNS and AdGuard DNS integration for external DNS management, k8s-gateway for internal DNS, and Tailscale for VPN and mesh networking.
 tags: [networking, cilium, cloudflare, dns, gateway, tailscale, vpn, ingress]
 sources:
+  - id: openwiki-source-37b3f77c1ceb2e20b192e263
+    resource: repo://kubernetes/apps/default/atuin/app/helmrelease.yaml
   - id: openwiki-source-514428fb63f74f5cc6fe8c1d
     resource: repo://kubernetes/apps/default/qbittorrent/app/egress-gateway-policy.yaml
   - id: openwiki-source-d9f5f9eb0be17b72994fcd3e
@@ -48,10 +50,10 @@ sources:
     resource: repo://kubernetes/flux/meta/repos/external-dns-crds.yaml
   - id: openwiki-source-6f1d2c8de9160e178167b990
     resource: repo://scripts/bootstrap-apps.sh
-generated: { by: "openwiki/0.6.0", at: "2026-09-25T22:38:38.997Z" }
+generated: { by: "openwiki/0.6.0", at: "2026-09-26T22:04:11.432Z" }
 verified:
   - by: openwiki/0.6.0
-    at: 2026-09-25T22:38:38.997Z
+    at: 2026-09-26T22:04:11.432Z
 ---
 
 # Networking Architecture
@@ -160,6 +162,34 @@ Cilium implements the Kubernetes Gateway API specification with two gateway inst
 
 Both gateways leverage Cilium's eBPF data plane for high-performance HTTPRoute routing to backend pods.
 
+### Application Route Pattern
+
+Applications exposed through the gateways follow a uniform `app-template` `route` block pattern, exemplified by atuin (`kubernetes/apps/default/atuin/app/helmrelease.yaml#L99-L112`):
+
+```yaml
+route:
+  app:
+    hostnames: ['{{ .Release.Name }}.${SECRET_DOMAIN}']
+    parentRefs:
+      - name: internal
+        namespace: kube-system
+        sectionName: https
+      - name: external
+        namespace: kube-system
+        sectionName: https
+    rules:
+      - backendRefs:
+          - identifier: app
+            port: 80
+```
+
+Key properties of the pattern:
+
+- **Hostname templating**: `{{ .Release.Name }}.${SECRET_DOMAIN}` derives the public hostname from the Helm release name, so an app named `atuin` is served at `atuin.SECRET_DOMAIN`
+- **Dual attachment**: `parentRefs` bind the HTTPRoute to both the `internal` and `external` gateways in the `kube-system` namespace, selecting only the `https` listener section — TLS is terminated by the gateways' cert-manager wildcard certificate, and apps run TLS-free internally (`ATUIN_TLS__ENABLE: 'false'`)
+- **Backend wiring**: a single rule forwards to the app's own service (`identifier: app`) on the shared `port` anchor (80 for atuin)
+- To expose an app internally only, drop the `external` parentRef; the Cloudflare Tunnel ingress only reaches the external gateway, so external traffic ceases automatically
+
 ### Egress Gateway
 
 Cilium Egress Gateway is enabled, allowing controlled egress traffic routing through designated nodes using `CiliumEgressGatewayPolicy` CRDs. This feature enables workloads to use specific egress IPs for external traffic.
@@ -177,12 +207,12 @@ Example configuration for qBittorrent:
 Cloudflare Tunnel (cloudflared) provides secure inbound access without opening external ports on the cluster.
 
 **Configuration**:
-- **Image**: `docker.io/cloudflare/cloudflared:2026.7.3`
-- **Protocol**: HTTP/2 for optimized tunnel performance
-- **Ingress Rules**: Routes `SECRET_DOMAIN` and `*.SECRET_DOMAIN` to the external Cilium Gateway service (`cilium-gateway-external.kube-system.svc.cluster.local`)
-- **DNS Registration**: Tunnel endpoint registered as CNAME record `external.SECRET_DOMAIN` pointing to Cloudflare Tunnel unique ID
-- **Origin Server Name**: Configured as `external.SECRET_DOMAIN`
-- **Metrics**: Exposed on port 8080 (`TUNNEL_METRICS`) with ServiceMonitor integration; liveness/readiness probes hit `/ready` on the same port
+- **Image**: `docker.io/cloudflare/cloudflared:2026.9.3`
+- **Protocol**: HTTP/2 (`TUNNEL_TRANSPORT_PROTOCOL=http2`, `TUNNEL_ORIGIN_ENABLE_HTTP2=true`) for optimized tunnel performance; `NO_AUTOUPDATE=true` prevents cloudflared from self-upgrading outside Flux control
+- **Secret-backed env**: tunnel credentials and account settings injected wholesale via `envFrom` secretRef `cloudflare-tunnel-secret`
+- **Ingress Rules**: Routes `SECRET_DOMAIN` and `*.SECRET_DOMAIN` to the external Cilium Gateway service (`cilium-gateway-external.kube-system.svc.cluster.local`), with a 404 catch-all; origin request uses `originServerName: external.SECRET_DOMAIN`
+- **DNS Registration**: Tunnel endpoint registered as CNAME record `external.SECRET_DOMAIN` pointing to the Cloudflare Tunnel unique ID `5b7a9006-79aa-4f8d-a157-fde642c738fe.cfargotunnel.com`
+- **Metrics**: Exposed on port 8080 (`TUNNEL_METRICS=0.0.0.0:8080`) with ServiceMonitor integration; liveness/readiness probes hit `/ready` on the same port
 - **Hardening**: Runs as non-root (UID 65534) with read-only root filesystem and all capabilities dropped
 
 **Traffic Flow**:
@@ -342,7 +372,3 @@ Cluster services send mail to the relay's SMTP service rather than contacting ex
 - **Tunnel Configuration**: Cloudflare Tunnel credentials stored in `cloudflare-tunnel-secret`; rotation requires secret update
 - **Egress IP**: Ensure designated egress IPs (`192.168.50.10`) are not assigned to other services
 - **Multus Compatibility**: Cilium CNI exclusive mode disabled for potential Multus pairing
-ilium CNI exclusive mode disabled for potential Multus pairing
-gned to other services
-- **Multus Compatibility**: Cilium CNI exclusive mode disabled for potential Multus pairing
-**: Cilium CNI exclusive mode disabled for potential Multus pairing

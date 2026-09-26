@@ -20,10 +20,10 @@ sources:
     resource: repo://scripts/lib/common.sh
   - id: openwiki-source-b9ff7ee0aa4953cc601052a4
     resource: repo://Taskfile.yaml
-generated: { by: "openwiki/0.6.0", at: "2026-09-25T22:38:38.997Z" }
+generated: { by: "openwiki/0.6.0", at: "2026-09-26T22:04:11.432Z" }
 verified:
   - by: openwiki/0.6.0
-    at: 2026-09-25T22:38:38.997Z
+    at: 2026-09-26T22:04:11.432Z
 ---
 
 ## Overview
@@ -119,6 +119,13 @@ Helper scripts live in `.taskfiles/volsync/scripts/`: `wait-for-job.sh`, `wait-f
 ## Related pages
 
 - `/openwiki/workflows/bootstrap.md` — the end-to-end bootstrap workflow these tasks implement.
+- `/openwiki/concepts/talos-config.md` — Talos configuration and talhelper.
+- `/openwiki/operations/daily-operations.md` — routine operations built on these tools.
+- `/openwiki/quickstart.md` — first-time setup instructions.
+ncepts/talos-config.md` — Talos configuration and talhelper.
+- `/openwiki/operations/daily-operations.md` — routine operations built on these tools.
+- `/openwiki/quickstart.md` — first-time setup instructions.
+w these tasks implement.
 - `/openwiki/concepts/talos-config.md` — Talos configuration and talhelper.
 - `/openwiki/operations/daily-operations.md` — routine operations built on these tools.
 - `/openwiki/quickstart.md` — first-time setup instructions.

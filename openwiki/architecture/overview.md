@@ -50,10 +50,10 @@ sources:
     resource: repo://README.md
   - id: openwiki-source-1fd71dc29915917549048436
     resource: repo://talos/talconfig.yaml
-generated: { by: "openwiki/0.6.0", at: "2026-09-25T22:38:38.997Z" }
+generated: { by: "openwiki/0.6.0", at: "2026-09-26T22:04:11.432Z" }
 verified:
   - by: openwiki/0.6.0
-    at: 2026-09-25T22:38:38.997Z
+    at: 2026-09-26T22:04:11.432Z
 ---
 
 # Architecture Overview
@@ -171,7 +171,7 @@ flowchart TB
 
 **Key components**:
 - **Cilium**: Replaces default kube-proxy, provides BGP, network policies, and load balancing
-- **Cloudflare Tunnel**: Exposes selected services publicly without open ports
+- **Cloudflare Tunnel**: Exposes selected services publicly without open ports. It deploys via `chartRef` to the shared `app-template` OCIRepository with a single `cloudflare-tunnel` controller running the `cloudflared` image (tag 2026.9.3) with `tunnel run` args and HTTP/2 transport (`TUNNEL_TRANSPORT_PROTOCOL=http2`). Its config file is mounted read-only from the `cloudflare-tunnel-configmap` ConfigMap, the tunnel credentials come from the `cloudflare-tunnel-secret` Secret (`envFrom`), and metrics/health probes are served on `0.0.0.0:8080` with `/ready` probes plus a ServiceMonitor for Prometheus scraping. Reloader annotations restart the pod automatically when the config or secret changes.
 - **k8s-gateway**: Internal Gateway API controller for DNS-based routing (LoadBalancer IP 192.168.50.11)
 - **AdGuard DNS**: Local DNS resolver with ad blocking
 - **Tailscale**: VPN for secure remote access to cluster services
@@ -323,6 +323,8 @@ spec:
 ```
 
 All apps share the same app-template chart defined in kubernetes/components/common/repos/app-template/.
+
+**Install/upgrade remediation policy (platform-wide convention)**: HelmReleases across all namespaces share a uniform remediation policy: `install.remediation.retries: -1` (retry installs indefinitely until they succeed) and `upgrade.remediation.retries: 3` with `cleanupOnFail: true` (clean up failed upgrade state and retry up to three times before the release is marked failed). This convention is applied consistently in app helmreleases such as cloudflare-tunnel, cilium, cert-manager, kube-prometheus-stack, and default-namespace apps, so Flux self-heals bootstrap-time install failures and bounds upgrade retry loops.
 
 ### Reusable Components
 
@@ -579,13 +581,4 @@ Auto-updates tracked dependencies:
 7. **Gateway API over Ingress**: Modern routing standard with better CRD support
 8. **OCIRepository over GitRepository for charts**: Immutable chart storage with better caching
 9. **Bootstrap then GitOps**: Helmfile establishes foundation, Flux maintains state
-10. **Bitwarden for external secrets**: Centralized secret management with self-hosting option
-hosting option
-e
-10. **Bitwarden for external secrets**: Centralized secret management with self-hosting option
- with self-hosting option
-tory for charts**: Immutable chart storage with better caching
-9. **Bootstrap then GitOps**: Helmfile establishes foundation, Flux maintains state
-10. **Bitwarden for external secrets**: Centralized secret management with self-hosting option
-e
 10. **Bitwarden for external secrets**: Centralized secret management with self-hosting option

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:3bbbacd63411315521273241f7a3bfcabaf129c3209ad36d4434b9bbf75cfde0",
+  "pageVersion": "sha256:d96cd1dee5b13f8dbd6a2f29e7bec0c505e5041dc21960e6904e58b4876a8dab",
   "claims": [
     {
       "id": "claim_57404914c2d54006847f1d8a72747f9d",
@@ -100,7 +100,7 @@
         },
         {
           "resource": "repo://kubernetes/apps/default/atuin/app/helmrelease.yaml#L21-L117",
-          "version": "repo-lines-v1:sha256:863b00926cfef10376082b6b25cd0021aae3a4b57e4dd41f05e42d6dab65a6f4:eyJzZWxlY3RlZExpbmVDb3VudCI6OTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2ZjFjNzJiNTlhZGU1MjRjMDEzNWM3Y2RiMGViMjRhYWZiZjE0ZGIxOWYxNzYwZjE5M2IyNzA3N2M5Nzg0NjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM5ODBkOWMzMDc1ZGM4YmI5ZDNkYzY0MDdkZmNiMDlhMzRiYjhkNjk2ZjgzNDAyZTJmOGZjM2JhNmRmZDU0YTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJmOWM5ZWVjZjMxZWUxMWI5NTJkYjUxZTM0NTZiMjhmMzE2ZGJlZGQ4YzJlYzBiMjMxNTdiMDgyZGE1MDRjODciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "version": "repo-lines-v1:sha256:ec2fb470d5efb553159d51637d2fb0da3bd3b9445140de0b3f34c616276cd18e:eyJzZWxlY3RlZExpbmVDb3VudCI6OTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2ZjFjNzJiNTlhZGU1MjRjMDEzNWM3Y2RiMGViMjRhYWZiZjE0ZGIxOWYxNzYwZjE5M2IyNzA3N2M5Nzg0NjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM5ODBkOWMzMDc1ZGM4YmI5ZDNkYzY0MDdkZmNiMDlhMzRiYjhkNjk2ZjgzNDAyZTJmOGZjM2JhNmRmZDU0YTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJmOWM5ZWVjZjMxZWUxMWI5NTJkYjUxZTM0NTZiMjhmMzE2ZGJlZGQ4YzJlYzBiMjMxNTdiMDgyZGE1MDRjODciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
           "resource": "repo://kubernetes/apps/default/gitea/app/helmrelease.yaml#L1-L19",
@@ -230,7 +230,7 @@
       "evidence": [
         {
           "resource": "repo://kubernetes/apps/default/atuin/app/helmrelease.yaml#L22-L81",
-          "version": "repo-lines-v1:sha256:86d44b482754e5689b5baa542888e98e4e6e9825ec408cabc6fed9280b5ee17d:eyJzZWxlY3RlZExpbmVDb3VudCI6NjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVmN2MyMDAxMzkyNmZiZDBhYWJhZTAzZGNjMTA3NTA5NDFhNjYyMjZhM2QzY2NhMWYwOGNkYjNiMTg3NGYwZmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUwMDUzNjg2M2YxMjEwZjVmN2M3Njg2ODIwZTFlNjcyY2Y3NTZmMGM4NThkNDYyNjZjZTcxZDRmMTZiMmJlMDUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE1MjZmNTIzMzk0OTU3ZDM0OWZlOTZiOTIzZWUzY2MwZGIxOTM5NTAyNWVhNjNjZWFjNTZlMzQ5NjQ3ZGRkNDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFhYzVkZmU4NWFjYWUyNmVlYTgyZjQ3YzUyYjFmOTRjNmEzMmI5NDA5M2NmNTJiZDhhNGIxNmRhOWZmODhkMzIifQ"
+          "version": "repo-lines-v1:sha256:547c8069dc5b438f108ab8c631b6e7aec4abd6a801fe46e7060b5a458d9d43e0:eyJzZWxlY3RlZExpbmVDb3VudCI6NjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVmN2MyMDAxMzkyNmZiZDBhYWJhZTAzZGNjMTA3NTA5NDFhNjYyMjZhM2QzY2NhMWYwOGNkYjNiMTg3NGYwZmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUwMDUzNjg2M2YxMjEwZjVmN2M3Njg2ODIwZTFlNjcyY2Y3NTZmMGM4NThkNDYyNjZjZTcxZDRmMTZiMmJlMDUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE1MjZmNTIzMzk0OTU3ZDM0OWZlOTZiOTIzZWUzY2MwZGIxOTM5NTAyNWVhNjNjZWFjNTZlMzQ5NjQ3ZGRkNDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFhYzVkZmU4NWFjYWUyNmVlYTgyZjQ3YzUyYjFmOTRjNmEzMmI5NDA5M2NmNTJiZDhhNGIxNmRhOWZmODhkMzIifQ"
         },
         {
           "resource": "repo://kubernetes/apps/observability/gatus/app/helmrelease.yaml#L20-L85",
@@ -400,7 +400,7 @@
       "evidence": [
         {
           "resource": "repo://kubernetes/apps/default/atuin/app/helmrelease.yaml#L26-L48",
-          "version": "repo-lines-v1:sha256:b196d4101b930ce13ad5514671b92439ae3ba522d375877f6de205c80b205821:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM3MTZhMWViNzYwYTJlNjI0YjI1NDE5OWQ5YWFhOGU4NGZlNGIxYTU5OTdjZTZlMjU2YjkzNjk2NGU0NWUwMGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQwMTZmZDk1MjczMGYyZmZiNWJhYTc1ZDEyNmVhNzViNmRlNWY3NzM5ZWE5NzZhOWZiZjNlYmExMjA5ZDg4NTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImExNTliNmQ1NjIxMDNlYWYzYjYxYzgxM2NiNWZlOGEyNjc0MjhhOWQ1MWEzZDMyMzdkNDIxYWM5YjMyMmRmY2YiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJkYjdjNDk2NTE5ZjAyMzA3OTI1NmY3ZGRkYmViMjIwMTY1MzIzODM4MTI2MDNjMjMyODQ0MjJmNmUyY2NhMDAifQ"
+          "version": "repo-lines-v1:sha256:2665f64ca43e256d6414e856e675fd77ca8c66b0b7741633925c404a6892cf1c:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM3MTZhMWViNzYwYTJlNjI0YjI1NDE5OWQ5YWFhOGU4NGZlNGIxYTU5OTdjZTZlMjU2YjkzNjk2NGU0NWUwMGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQwMTZmZDk1MjczMGYyZmZiNWJhYTc1ZDEyNmVhNzViNmRlNWY3NzM5ZWE5NzZhOWZiZjNlYmExMjA5ZDg4NTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImExNTliNmQ1NjIxMDNlYWYzYjYxYzgxM2NiNWZlOGEyNjc0MjhhOWQ1MWEzZDMyMzdkNDIxYWM5YjMyMmRmY2YiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJkYjdjNDk2NTE5ZjAyMzA3OTI1NmY3ZGRkYmViMjIwMTY1MzIzODM4MTI2MDNjMjMyODQ0MjJmNmUyY2NhMDAifQ"
         },
         {
           "resource": "repo://kubernetes/apps/default/gitea/app/helmrelease.yaml#L24-L50",
@@ -414,7 +414,7 @@
       "evidence": [
         {
           "resource": "repo://kubernetes/apps/default/atuin/app/helmrelease.yaml",
-          "version": "repo-file-v1:sha256:741ba9bfe5283b8e95a837f6e1c338d5ef551593c5b6af5e372f2981f58336ba"
+          "version": "repo-file-v1:sha256:d0e474b8c8be16aaa793d89190c19400d0a6934e8b6e4fa65da187378a96ff94"
         },
         {
           "resource": "repo://kubernetes/apps/default/atuin/app/kustomization.yaml#L1-L7",
@@ -471,10 +471,24 @@
           "version": "repo-file-v1:sha256:4c2df018958ac36399edfa3f9447bad27dea5dd9b8506109b70f6b634eeaa88f"
         }
       ]
+    },
+    {
+      "id": "claim_dd002ce071d948b5b91dc92597fe9fca",
+      "statement": "Atuin's app-template values expose custom liveness/readiness probes hitting /healthz on the anchored &port 80, a ServiceMonitor scraping /metrics on the anchored &metricsPort 8080 every minute, and a Gateway API HTTPRoute with parentRefs to both the `internal` and `external` Gateways in kube-system; its /config volume is an emptyDir since persistent state lives in Postgres.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/atuin/app/helmrelease.yaml#L42-L62",
+          "version": "repo-lines-v1:sha256:946a1431e7f5c6036470299188ae9bada219348614c7899e1691156774cf9b5b:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ5YjRjMTllOTcxMTRhMTU0MzBkZGIzNjk3NWIzYjMxZjgzYmEwMThmYjVlMjQ5ZTBmZTI1MzFiNTIwZmE3ZGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY2MjYzYzgyNTJhMTQyZDM5ZTUyOGU1MDRmMmRiZTVjOTUzZjc0ZTZmZTAwNDhjZDQ1OTkwN2JkNzFlMWFkODQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA4ODczZDBkMzE4NGE2MjlhOTQyNjVjZTZhM2Q1NzBlNzgyZDI2MDZkYmM4NjY3NDNmNjQzMmQzYzc2OTA4MmIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI3MjcyOTJmNTZhMGIwNmI4MDE3NTc5MDRkZjE1ZGY1NGY3ZWE0ZDg2ZGExN2FlOWI5ZGM4NDQ1MDhkYWM3ZTYifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/atuin/app/helmrelease.yaml#L82-L117",
+          "version": "repo-lines-v1:sha256:a46b26e93ca785efc182e0750a68c88922d50a39d271dd08dd666c6a6f3f32e8:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY3YTkxYzk3NmEyZWZiNTc5NDFkMjUyNjIxOTc2Y2Q0YjY2ZmM0OGM4MTM2YWQ2MDlkZGUxNWQxYjYwZTgwODIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM5ODBkOWMzMDc1ZGM4YmI5ZDNkYzY0MDdkZmNiMDlhMzRiYjhkNjk2ZjgzNDAyZTJmOGZjM2JhNmRmZDU0YTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU1Y2JkY2VkNTY2MGZjZDlhY2I5YTQ1MzU4MTEyMjY4OTkwOGI3NjJmYjllOWYxOWQ5ZTk2YjliNzYyMDgwZjYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.6.0",
-    "at": "2026-09-25T22:38:38.997Z"
+    "at": "2026-09-26T22:04:11.432Z"
   }
 }

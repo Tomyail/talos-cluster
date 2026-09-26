@@ -52,10 +52,10 @@ sources:
     resource: repo://kubernetes/components/volsync/kustomization.yaml
   - id: openwiki-source-0696023deccf378a358f7526
     resource: repo://kubernetes/flux/cluster/ks.yaml
-generated: { by: "openwiki/0.6.0", at: "2026-09-25T22:38:38.997Z" }
+generated: { by: "openwiki/0.6.0", at: "2026-09-26T22:04:11.432Z" }
 verified:
   - by: openwiki/0.6.0
-    at: 2026-09-25T22:38:38.997Z
+    at: 2026-09-26T22:04:11.432Z
 ---
 
 # Application Deployment Workflow
@@ -463,7 +463,7 @@ A complete real app lives at `kubernetes/apps/default/atuin/`. Three files are i
 - `chartRef: {kind: OCIRepository, name: app-template}` with `interval: 1h`, `timeout: 10m`.
 - Remediation: `install.remediation.retries: 3`; `upgrade.cleanupOnFail: true` with `strategy: rollback` and 3 retries.
 - Values: `init-db` init container (`ghcr.io/home-operations/postgres-init`) plus the `atuin` container, both sharing the `&envFrom` secret anchor; probes on `/healthz`; `serviceMonitor` scraping `/metrics` every minute; a `service` exposing `http` and `metrics` ports; and a Gateway API `route` attaching to the `internal` and `external` Gateways in `kube-system` with hostname `{{ .Release.Name }}.${SECRET_DOMAIN}` (resolved to `atuin.${SECRET_DOMAIN}` at render time).
-- Persistence comes from the VolSync component's PVC, referenced via `existingClaim` in apps that need it; atuin's data lives in the database, so it relies on `atuin-secret` instead.
+- Persistence: atuin's `/config` is an `emptyDir` volume (`kubernetes/apps/default/atuin/app/helmrelease.yaml#L113-L117`) — atuin state lives in Postgres (via `atuin-secret`), so no PVC is needed here. Apps that do need persistent data reference the VolSync component's PVC instead.
 
 To add a new app, copy this directory, rename `*app`/`*namespace` anchors, adjust dependencies and values, then register the app's `ks.yaml` in the namespace-level `kubernetes/apps/<namespace>/kustomization.yaml` resources list.
 
@@ -507,3 +507,4 @@ After Flux reconciles an app change, verify in order (each step fails at the lay
 - Add ServiceMonitor for Prometheus scraping
 - Include Gatus component for health checks
 - Configure probes for liveness/readiness
+adiness

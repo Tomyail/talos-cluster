@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:9068242c3728267fd5bf124664dabc6886006e3c59c3dd99a8c86bdaa4093dbf",
+  "pageVersion": "sha256:89d27167ccfa6320182f91bad161e3f8626c3220691284db57560a85a0f94325",
   "claims": [
     {
       "id": "claim_568d0013139d486d968deda03423763a",
@@ -134,11 +134,11 @@
     },
     {
       "id": "claim_045db16ab365481bbb8677b124542011",
-      "statement": "Cloudflare Tunnel exposes selected services publicly without open ports, running the cloudflared image (tag 2026.9.1) with `tunnel run` args, HTTP/2 transport protocol (TUNNEL_TRANSPORT_PROTOCOL=http2), metrics/health probes on port 8080, and a read-only config file mounted from a ConfigMap; the release uses the shared app-template chart with reloader-driven restarts.",
+      "statement": "Cloudflare Tunnel exposes selected services publicly without open ports, deploying via chartRef to the shared app-template OCIRepository with a single cloudflare-tunnel controller running the cloudflared image (tag 2026.9.3) with `tunnel run` args and HTTP/2 transport protocol (TUNNEL_TRANSPORT_PROTOCOL=http2). Its config file is mounted read-only from the cloudflare-tunnel-configmap ConfigMap, credentials come from the cloudflare-tunnel-secret Secret, metrics and /ready liveness/readiness probes are served on 0.0.0.0:8080, a ServiceMonitor scrapes the metrics port, and reloader annotations trigger automatic pod restarts on config/secret changes.",
       "evidence": [
         {
-          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/helmrelease.yaml#L19-L83",
-          "version": "repo-lines-v1:sha256:2d4b75c46ee4cf8e6eccdb5fc8c5dd15f3981f254cf5759b328f8038ec271f98:eyJzZWxlY3RlZExpbmVDb3VudCI6NjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2ZjFjNzJiNTlhZGU1MjRjMDEzNWM3Y2RiMGViMjRhYWZiZjE0ZGIxOWYxNzYwZjE5M2IyNzA3N2M5Nzg0NjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE3N2RhYWNhNTBkOTVjOTg4ZjA4ODVhNmFmM2ZmZGYzMzVlZjQ2NTExZDA4OGFmNTQzOTA0NGI4YzYwYzJkOTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYxNWE0YjNlMTM3YTVhOWRiMGRkMDVhZGY4ODcyMTcyMGJmODMyNjA2Yzg2MDI0MDc4ZDk5YmZiYWEyMjE5ODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/helmrelease.yaml#L9-L83",
+          "version": "repo-lines-v1:sha256:68df1562eb825e7b6ccf9e16dd12e316c067d69ac56698c1f735c62099e39f34:eyJzZWxlY3RlZExpbmVDb3VudCI6NzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY2YzE2OGIyMDZmOGU0ZjllMzlkNTlhMjdmYmMzMzQyYjgxMTVhMWRhYjhhZTcyMGE5ZGI5MmEwYWQ2M2VkNDkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE3N2RhYWNhNTBkOTVjOTg4ZjA4ODVhNmFmM2ZmZGYzMzVlZjQ2NTExZDA4OGFmNTQzOTA0NGI4YzYwYzJkOTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYyOWY4ODcwNDY0ZTgwN2RjMmJhYWI2NzMyMzM0ZjUyOGYwNzY1OWQ5ZGY1MmNlZGJhMDQ3N2FhNDdmODY5ZmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -343,10 +343,28 @@
           "version": "repo-file-v1:sha256:34d6970a4822f2b762ed2b48b96225a7d9a1bb7f3c4007fed459656c84134c45"
         }
       ]
+    },
+    {
+      "id": "claim_3bec966e4eb843a78e2560d29080528e",
+      "statement": "HelmReleases across all namespaces follow a uniform platform-wide install/upgrade remediation policy: install.remediation.retries is -1 (retry installs indefinitely) and upgrade.remediation.retries is 3 with cleanupOnFail: true, so Flux self-heals failed installs and bounds failed-upgrade retries after cleaning up their state.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/cilium/app/helmrelease.yaml#L26-L31",
+          "version": "repo-lines-v1:sha256:228ddf6dd36e78b93fa6af18462352f21b68e4f2f10af8360c7654bb0f38d764:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzE4Y2NhYjU5NWFhYTdkYzViYzJmYjA4N2FhYzlmZWNmODc1M2Q1MjJmMGRmNDk4NWVmMDBjMjZlOGE4NWQ4NyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODJmM2U5ZmY5M2YzNmRjNjc3YWVmYjFiZDZlNTNhZTQwNmY5MDhmZmQ5MGIzMDE1Y2ZjYjE1MzFmNzM0ZWRiYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjg3NGMzZjkxZGU1NjkxNTM5ZmE1NDBiNWZmYjFhYjM2YzlhMzExMjFkYzVkZjQ0NjM5NTk3MWJkMWI4Nzc1OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDk4YjcwNzZhMWM2Mzc4MmM5OTU2MjNmYzllYzhlYjM4MWU3N2FkZGJlYzQzNGNhM2E1MjE5MmZhMjQyMTJkMiJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/helmrelease.yaml#L12-L18",
+          "version": "repo-lines-v1:sha256:e7209cf5976106c37e39674a6d393377640a811f2160092d41e74166d482b981:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjM3ZWE4OTA4YjVjNjViMGFlZmUyODA1NDJmMjQwNTU2YzI4YjRjZjYzY2IyOGEwZmVhYzExZGJiMzMzMTM4NSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTVhMGZjY2FmZGU1N2IyZjZhYjU0ZDYzY2EzOGI1N2YzMDQ5NjRkMjY1MDAxNDVmODljZWZmYWU5MzA0YmFjMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzdiZmY1MDY2YjE2OGU0YzljYzhjYmVkNmJlNDE3MWUzZGZjZDA1MGJkYjQ5MzI0ZTIzNDdlMmZjNzlkZTgyMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZGJlNDJmNjg1Y2QyODMwNTcwNjc1YWNkNmJkNjIyMmNhMWNiMTAwNmRmOWM1N2I0MGVhNDhmOWNjYTc0N2Y4MSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/observability/kube-prometheus-stack/app/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:37f45bb02580b90a722c925c7d07c616ee308d5fbb209ecbf33fea4098549c5a"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.6.0",
-    "at": "2026-09-25T22:38:38.997Z"
+    "at": "2026-09-26T22:04:11.432Z"
   }
 }
