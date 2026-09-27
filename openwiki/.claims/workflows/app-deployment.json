@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:d96cd1dee5b13f8dbd6a2f29e7bec0c505e5041dc21960e6904e58b4876a8dab",
+  "pageVersion": "sha256:cd895d0b9350263bab1e78e07991d9067b08af4f0551668fed42408240d41915",
   "claims": [
     {
       "id": "claim_57404914c2d54006847f1d8a72747f9d",
@@ -226,7 +226,7 @@
     },
     {
       "id": "claim_1b3e97b52a104acfb3b459119535117f",
-      "statement": "App-template controllers section defines main and init containers with image (digest-pinned for atuin/gatus), environment variables and envFrom secret refs, custom health probes, resource requests/limits, hardened container securityContext, and the reloader.stakater.com/auto annotation for automatic rollouts on config changes.",
+      "statement": "App-template controllers sections define main and init containers with digest-pinned images, environment variables, custom health probes, resource requests/limits, hardened container securityContext, and the reloader.stakater.com/auto annotation for automatic rollouts on config changes. Database-backed apps (atuin) share Postgres credentials between init and app containers via an envFrom secret anchor; gatus instead uses a k8s-sidecar init container with restartPolicy Always, chart-managed ClusterRole/ClusterRoleBinding RBAC plus a serviceAccount, and re-adds NET_RAW to the dropped capabilities.",
       "evidence": [
         {
           "resource": "repo://kubernetes/apps/default/atuin/app/helmrelease.yaml#L22-L81",
@@ -234,7 +234,7 @@
         },
         {
           "resource": "repo://kubernetes/apps/observability/gatus/app/helmrelease.yaml#L20-L85",
-          "version": "repo-lines-v1:sha256:374ac6ab5289fbd85f1ab0a76112de251c66c9092ba375ebf57b926939d3f79d:eyJzZWxlY3RlZExpbmVDb3VudCI6NjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVmN2MyMDAxMzkyNmZiZDBhYWJhZTAzZGNjMTA3NTA5NDFhNjYyMjZhM2QzY2NhMWYwOGNkYjNiMTg3NGYwZmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjMjlhOGZiNzE0NjBkYmZmOWU5MWNkOGMxY2ViZjE3YzkzZDI1ZDJlODMxM2M4ZDExYjI3N2FhMDEyM2IyMjYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYyNWFlMmVlMjgxZTBlZmE4NzgxZTIwNjlhNjM4NWIyMjhlMDVmMTBlN2RhMGFiZWRiNTczN2Q0ZTAwOTM1ODYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEzOGIwOGQ2MjMxNDMyMDQ0ZGY2YWNmNmQ2OWIwOTBiYTEzNTc5OThjMWQ5NTY1ZjMzMThkY2E3MGZhMTU2Y2IifQ"
+          "version": "repo-lines-v1:sha256:883b88d1a03be98199a92a823f6d0f24f8dd725307cbedea5e370947ec6cea93:eyJzZWxlY3RlZExpbmVDb3VudCI6NjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVmN2MyMDAxMzkyNmZiZDBhYWJhZTAzZGNjMTA3NTA5NDFhNjYyMjZhM2QzY2NhMWYwOGNkYjNiMTg3NGYwZmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjMjlhOGZiNzE0NjBkYmZmOWU5MWNkOGMxY2ViZjE3YzkzZDI1ZDJlODMxM2M4ZDExYjI3N2FhMDEyM2IyMjYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYyNWFlMmVlMjgxZTBlZmE4NzgxZTIwNjlhNjM4NWIyMjhlMDVmMTBlN2RhMGFiZWRiNTczN2Q0ZTAwOTM1ODYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEzOGIwOGQ2MjMxNDMyMDQ0ZGY2YWNmNmQ2OWIwOTBiYTEzNTc5OThjMWQ5NTY1ZjMzMThkY2E3MGZhMTU2Y2IifQ"
         }
       ]
     },
@@ -489,6 +489,6 @@
   ],
   "verification": {
     "by": "openwiki/0.6.0",
-    "at": "2026-09-26T22:04:11.432Z"
+    "at": "2026-09-27T22:26:24.169Z"
   }
 }

@@ -82,10 +82,10 @@ sources:
     resource: repo://talos/talenv.yaml
   - id: openwiki-source-4d7c266d0d7adae77539048e
     resource: repo://talos/uservolume.yaml
-generated: { by: "openwiki/0.6.0", at: "2026-09-26T22:04:11.432Z" }
+generated: { by: "openwiki/0.6.0", at: "2026-09-27T22:26:24.169Z" }
 verified:
   - by: openwiki/0.6.0
-    at: 2026-09-26T22:04:11.432Z
+    at: 2026-09-27T22:26:24.169Z
 ---
 
 # Cluster & Talos Architecture
@@ -461,10 +461,12 @@ Thanos enables global querying across Prometheus instances and long-term metric 
 
 Endpoint health monitoring and uptime tracking:
 
-- **Version**: v5.36.0 (pinned by digest)
-- **Configuration**: Auto-discovered from resources labeled `gatus.io/enabled` (ConfigMaps and Secrets, all namespaces) via a k8s-sidecar 2.11.2 init container running in WATCH mode; config auto-reload enabled via reloader annotation
-- **Security**: Non-root, read-only root filesystem, all capabilities dropped except `NET_RAW` (needed for ping checks)
-- **Resources**: app container 100m CPU request / 256Mi memory limit; sidecar 10m CPU / 512Mi memory
+- **Version**: v5.37.0 (pinned by digest)
+- **Configuration**: Auto-discovered from resources labeled `gatus.io/enabled` (ConfigMaps and Secrets, all namespaces) via a k8s-sidecar 2.11.2 init container running in WATCH mode; config auto-reload enabled via reloader annotation; a read-only `config.yaml` is mounted from the `gatus-configmap` ConfigMap
+- **RBAC**: a ClusterRole granting get/watch/list on configmaps and secrets cluster-wide, bound to the gatus service account (needed for discovery)
+- **Security**: Non-root (UID/GID 1000), read-only root filesystem, all capabilities dropped except `NET_RAW` (needed for ping checks)
+- **Resources**: app container 100m CPU request / 256Mi memory limit; sidecar 10m CPU / 64Mi memory request, 512Mi memory limit
+- **Exposure**: Service on port 80 with a ServiceMonitor, and a Gateway API route at `status-dev.${SECRET_DOMAIN}` via the external gateway
 
 Gatus provides HTTP/HTTPS/TCP endpoint monitoring with configurable thresholds, alerting, and status page generation.
 

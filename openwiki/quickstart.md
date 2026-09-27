@@ -42,10 +42,10 @@ sources:
     resource: repo://talos/talenv.yaml
   - id: openwiki-source-b9ff7ee0aa4953cc601052a4
     resource: repo://Taskfile.yaml
-generated: { by: "openwiki/0.6.0", at: "2026-09-26T22:04:11.432Z" }
+generated: { by: "openwiki/0.6.0", at: "2026-09-27T22:26:24.169Z" }
 verified:
   - by: openwiki/0.6.0
-    at: 2026-09-26T22:04:11.432Z
+    at: 2026-09-27T22:26:24.169Z
 ---
 
 # Quickstart & Task Routing
@@ -227,7 +227,7 @@ See [**Architecture Overview**](./architecture/overview.md) for details on names
 
 ## Documentation Map
 
-The wiki is organized into five domains. Start here, then follow the links for depth:
+The wiki is organized into five domains. Start here, then follow the links for depth (canonical order: concepts → workflows → operations → integrations → testing):
 
 | Domain | Page | What it covers |
 | --- | --- | --- |
@@ -236,9 +236,9 @@ The wiki is organized into five domains. Start here, then follow the links for d
 | **Concepts** | [Networking](./concepts/networking.md) | Cilium CNI, internal/external Gateway API routes, ingress topology |
 | **Workflows** | [Bootstrap](./workflows/bootstrap.md) | Full cluster initialization from bare metal to GitOps-managed state |
 | **Workflows** | [App Deployment](./workflows/app-deployment.md) | Standard app layout and Flux reconciliation path: `ks.yaml` → `helmrelease.yaml` → secrets, storage, routing, monitoring |
+| **Operations** | [Local Tooling](./operations/local-tooling.md) | mise-managed tools and env vars, root Taskfile and `.taskfiles/`, and the bootstrap scripts under `scripts/` |
 | **Integrations** | [Cloudflare](./integrations/cloudflare.md) | Cloudflare Tunnel deployment, config, DNS, and how external traffic reaches the cluster |
 | **Integrations** | [Renovate](./integrations/renovate.md) | Dependency automation (`.renovaterc.json5`) and how it updates the mise toolchain pins |
-| **Operations** | [Local Tooling](./operations/local-tooling.md) | mise-managed tools and env vars, root Taskfile and `.taskfiles/`, and the bootstrap scripts under `scripts/` |
 | **Testing** | [Validation](./testing/validation.md) | Local manifest validation, `flux-local` CI checks, and verification of a change end-to-end |
 
 ## Key Architectural Patterns

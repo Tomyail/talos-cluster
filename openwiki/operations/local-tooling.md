@@ -20,10 +20,10 @@ sources:
     resource: repo://scripts/lib/common.sh
   - id: openwiki-source-b9ff7ee0aa4953cc601052a4
     resource: repo://Taskfile.yaml
-generated: { by: "openwiki/0.6.0", at: "2026-09-26T22:04:11.432Z" }
+generated: { by: "openwiki/0.6.0", at: "2026-09-27T22:26:24.169Z" }
 verified:
   - by: openwiki/0.6.0
-    at: 2026-09-26T22:04:11.432Z
+    at: 2026-09-27T22:26:24.169Z
 ---
 
 ## Overview
@@ -47,7 +47,7 @@ Local operations are driven by three layers:
 | `SOPS_AGE_KEY_FILE` | `{{config_root}}/age.key` | age private key used by SOPS decryption |
 | `_.python.venv` | `{{config_root}}/.venv` | auto-created Python virtualenv |
 
-**Pinned tools**: python 3.14.7, makejinja, talhelper, cilium-cli, `gh`, cloudflared, cue, age, flux2, sops, go-task, helm, helmfile, jq, kustomize, kubectl, yq, talos, kubeconform, and node/pipx. Because `Taskfile.yaml` sets the same `KUBECONFIG`, `TALOSCONFIG`, and `SOPS_AGE_KEY_FILE` values in its own `env:` block, tasks behave identically whether or not the shell was entered through mise.
+**Pinned tools** (per `.mise.toml`): python 3.14.7, pipx:makejinja 2.9.1, talhelper 3.1.17, cilium-cli 0.20.1, `gh` (cli) 2.101.0, cloudflared 2026.9.3, cue 0.17.1, age 1.3.2, flux2 2.9.5, sops 3.13.3, go-task 3.53.1, helm 4.3.0, helmfile 1.8.0, jq 1.7.1, kustomize 5.6.0, kubectl 1.33.1, yq 4.53.6, talos 1.14.1, kubeconform 0.8.0, plus node and pipx at `latest`. Because `Taskfile.yaml` sets the same `KUBECONFIG`, `TALOSCONFIG`, and `SOPS_AGE_KEY_FILE` values in its own `env:` block, tasks behave identically whether or not the shell was entered through mise.
 
 ## Root Taskfile
 

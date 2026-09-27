@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:614daa352bc3db14383e7390b49be83dddbc3c263c85a01891c8c7705371734b",
+  "pageVersion": "sha256:5a8e4085a54dea96183eeac1966becb39cb6eb0171e445b1cb1e98b691c068cd",
   "claims": [
     {
       "id": "claim_2f8b2d0f8ee7497eb3ab28202bcff633",
@@ -214,11 +214,19 @@
     },
     {
       "id": "claim_247466410a7b4b689145e88aa9a266a0",
-      "statement": "Gatus (v5.36.0, digest-pinned) provides endpoint health monitoring with configuration auto-discovered from ConfigMaps/Secrets labeled gatus.io/enabled across all namespaces via a k8s-sidecar 2.11.2 init container in WATCH mode; it runs non-root with read-only filesystem, dropped capabilities plus NET_RAW, and auto-reloads on config changes via the reloader annotation.",
+      "statement": "Gatus (v5.37.0, digest-pinned) provides endpoint health monitoring with configuration auto-discovered from ConfigMaps/Secrets labeled gatus.io/enabled across all namespaces via a k8s-sidecar 2.11.2 init container in WATCH mode; it runs non-root (UID/GID 1000) with read-only filesystem and dropped capabilities plus NET_RAW, auto-reloads on config changes via the reloader annotation, reads a read-only config.yaml from gatus-configmap, exposes port 80 with a ServiceMonitor and an external Gateway API route at status-dev.${SECRET_DOMAIN}, and the HelmRelease uses unlimited install remediation retries with upgrade cleanupOnFail and 3 retries.",
       "evidence": [
         {
           "resource": "repo://kubernetes/apps/observability/gatus/app/helmrelease.yaml#L19-L77",
-          "version": "repo-lines-v1:sha256:2e3bc9b70ddface333d89eb2cd7213d5dc5d744a88645871fb2d7c98ff59a268:eyJzZWxlY3RlZExpbmVDb3VudCI6NTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2ZjFjNzJiNTlhZGU1MjRjMDEzNWM3Y2RiMGViMjRhYWZiZjE0ZGIxOWYxNzYwZjE5M2IyNzA3N2M5Nzg0NjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI3YWIzZjdhNjAwMjM1ZGVmOTMzMzEzZmQyZmIwMWMxZjc4MzE4MTc2OTBmMjg3ZWRhZjI2ODAzZDQyNDY5ZDYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYxNWE0YjNlMTM3YTVhOWRiMGRkMDVhZGY4ODcyMTcyMGJmODMyNjA2Yzg2MDI0MDc4ZDk5YmZiYWEyMjE5ODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA0MDc2YzRkODgwMjY3NDhmNjQ5ZTVlOTM1MTNmZDYzZDIxNzY1NTYyYmViYzEzZGQ2ODQzOGZlMzhjNDZkYmYifQ"
+          "version": "repo-lines-v1:sha256:672dd70c4717a54280b23e5ef7524db0881de956f7d4cdb03bf1a0ffa4030eac:eyJzZWxlY3RlZExpbmVDb3VudCI6NTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2ZjFjNzJiNTlhZGU1MjRjMDEzNWM3Y2RiMGViMjRhYWZiZjE0ZGIxOWYxNzYwZjE5M2IyNzA3N2M5Nzg0NjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI3YWIzZjdhNjAwMjM1ZGVmOTMzMzEzZmQyZmIwMWMxZjc4MzE4MTc2OTBmMjg3ZWRhZjI2ODAzZDQyNDY5ZDYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYxNWE0YjNlMTM3YTVhOWRiMGRkMDVhZGY4ODcyMTcyMGJmODMyNjA2Yzg2MDI0MDc4ZDk5YmZiYWEyMjE5ODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA0MDc2YzRkODgwMjY3NDhmNjQ5ZTVlOTM1MTNmZDYzZDIxNzY1NTYyYmViYzEzZGQ2ODQzOGZlMzhjNDZkYmYifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/observability/gatus/app/helmrelease.yaml#L7-L18",
+          "version": "repo-lines-v1:sha256:648f2a7b3895a58bbba64220cc34f6c8a205c2f2e765cf781566e92dc338f9ea:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVlOTFlNTFjZTUzOGVmMTIwZWUyMGNiZGY5NDE1OGJhY2UxY2MxMTc5MDZmODY0ZmVkMmQ5NGUzNzExMGNiMjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE1YTBmY2NhZmRlNTdiMmY2YWI1NGQ2M2NhMzhiNTdmMzA0OTY0ZDI2NTAwMTQ1Zjg5Y2VmZmFlOTMwNGJhYzIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhkYzA4NGQ2NWQxMmQ4YWRhOTJlMzBmOGVjNTZhZWRmM2YzNTM3NmU5NWIxNzI5NmZmNWYxZjA0NjBkMGQwOTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjUyZGZlMTJlY2Q3NGEyZGRhODgwNTg3OTkwMjczNjI2NTA3YjBhMDE3YzRmYmRiODVmYjMwMWJlYmUwZGE5ZTUifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/observability/gatus/app/helmrelease.yaml#L86-L129",
+          "version": "repo-lines-v1:sha256:da1998ce2bdac88cfe4813952f3a51ad7730a9e2f84bf425a928971f719f0a13:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFkMTJhMDVlZDIyODY4ODE1NTNhYjUxODg1MWY2ODU3YTUyY2UwMGM3ZGI1OTY5ZWEyZDE5NjhiNjY5OWZlZGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE3N2RhYWNhNTBkOTVjOTg4ZjA4ODVhNmFmM2ZmZGYzMzVlZjQ2NTExZDA4OGFmNTQzOTA0NGI4YzYwYzJkOTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUxODUxMjJhN2VhOTEyYTdlNjk0OTU0ZDQ5ZDIyODU2NWUyZTE0ZjkyNTA2NDE3MDA0MzRjMzNiMGE0NTYwMjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -655,6 +663,6 @@
   ],
   "verification": {
     "by": "openwiki/0.6.0",
-    "at": "2026-09-26T22:04:11.432Z"
+    "at": "2026-09-27T22:26:24.169Z"
   }
 }

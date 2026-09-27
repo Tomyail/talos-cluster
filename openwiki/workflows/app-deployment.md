@@ -52,10 +52,10 @@ sources:
     resource: repo://kubernetes/components/volsync/kustomization.yaml
   - id: openwiki-source-0696023deccf378a358f7526
     resource: repo://kubernetes/flux/cluster/ks.yaml
-generated: { by: "openwiki/0.6.0", at: "2026-09-26T22:04:11.432Z" }
+generated: { by: "openwiki/0.6.0", at: "2026-09-27T22:26:24.169Z" }
 verified:
   - by: openwiki/0.6.0
-    at: 2026-09-26T22:04:11.432Z
+    at: 2026-09-27T22:26:24.169Z
 ---
 
 # Application Deployment Workflow
@@ -212,6 +212,8 @@ The app-template chart organizes configuration into logical sections:
 - Container image, environment variables, probes
 - Resource limits and security context
 - Annotations (e.g., `reloader.stakater.com/auto: "true"`)
+
+Two concrete variants exist. Database-backed apps (atuin) use a `postgres-init` init container whose `envFrom` secret anchor is shared with the app container. Apps that build config from the cluster (gatus) use a `k8s-sidecar` init container (`init-config`, `restartPolicy: Always`, `METHOD: WATCH`) watching for ConfigMaps labeled `gatus.io/enabled`, plus chart-managed `rbac` (ClusterRole/ClusterRoleBinding for configmaps/secrets get/watch/list) and a `serviceAccount`; its container adds `NET_RAW` back into the dropped capabilities for ICMP checks and pins both images to digests.
 
 **Default Pod Options**
 - Pod-level security context (runAsUser, fsGroup)
