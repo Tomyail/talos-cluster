@@ -82,7 +82,7 @@ sources:
     resource: repo://talos/talenv.yaml
   - id: openwiki-source-4d7c266d0d7adae77539048e
     resource: repo://talos/uservolume.yaml
-generated: { by: "openwiki/0.6.0", at: "2026-09-27T22:26:24.169Z" }
+generated: { by: "openwiki/0.6.1", at: "2026-09-28T23:52:40.438Z" }
 verified:
   - by: openwiki/0.6.0
     at: 2026-09-27T22:26:24.169Z
@@ -175,6 +175,7 @@ cluster:
 
 Key consequences for the Kubernetes layer:
 
+<!-- openwiki: broken internal link [/openwiki/concepts/networking.md] link "/openwiki/concepts/networking.md" is root-absolute, which no real consumer resolves against the repository root (not a coding agent reading the page, not GitHub's Markdown renderer, not a local viewer); use a path relative to this file instead. Fix the href or restore the target, then delete this comment. -->
 - **kube-proxy disabled** — Cilium's eBPF kube-proxy replacement handles service forwarding (see [Networking](/openwiki/concepts/networking.md))
 - **Built-in CoreDNS disabled** — CoreDNS is installed as a Helm release during app bootstrap instead
 - **etcd metrics on :2381** — scraped by Prometheus; etcd advertises only on the 192.168.50.0/24 LAN subnet
@@ -605,4 +606,5 @@ Typical shared conventions visible across app releases (e.g. cloudflare-tunnel, 
 - **Metrics**: a `serviceMonitor` block per app exposes Prometheus scrapes (cloudflared scrapes the shared `http` metrics port; atuin serves `/metrics` on a dedicated port 8080 with 1m interval).
 - **Database init**: stateful apps pair the app container with a `postgres-init` initContainer (`ghcr.io/home-operations/postgres-init`), sharing the same `envFrom` secret anchor as the app so DB credentials come from one Secret (e.g. `atuin-secret`).
 
+<!-- openwiki: broken internal link [/openwiki/workflows/app-deployment.md] link "/openwiki/workflows/app-deployment.md" is root-absolute, which no real consumer resolves against the repository root (not a coding agent reading the page, not GitHub's Markdown renderer, not a local viewer); use a path relative to this file instead. Fix the href or restore the target, then delete this comment. -->
 The atuin release is the canonical example of the full pattern: HelmRelease → `chartRef` to the shared app-template OCIRepository → values with an initContainer, reloader annotation, anchored probes, hardened security contexts, dual-port Service (http + metrics), ServiceMonitor, and a Gateway-API-style `route`. See [Workflows: App Deployment](/openwiki/workflows/app-deployment.md) for how a new app directory is wired into the Flux tree.

@@ -22,7 +22,7 @@ sources:
     resource: repo://talos/talconfig.yaml
   - id: openwiki-source-b65e4f1ccd91316116ad973a
     resource: repo://talos/talenv.yaml
-generated: { by: "openwiki/0.6.0", at: "2026-09-25T22:38:38.997Z" }
+generated: { by: "openwiki/0.6.1", at: "2026-09-28T23:52:40.438Z" }
 verified:
   - by: openwiki/0.6.0
     at: 2026-09-25T22:38:38.997Z
@@ -357,11 +357,15 @@ If Flux doesn't start syncing:
 
 The bootstrap workflow integrates with several operational procedures:
 
+<!-- openwiki: broken internal link [/openwiki/workflows/app-deployment.md] link "/openwiki/workflows/app-deployment.md" is root-absolute, which no real consumer resolves against the repository root (not a coding agent reading the page, not GitHub's Markdown renderer, not a local viewer); use a path relative to this file instead. Fix the href or restore the target, then delete this comment. -->
 - **Application Deployment** ([`/openwiki/workflows/app-deployment.md`](/openwiki/workflows/app-deployment.md)) - After bootstrap, all applications follow the Flux GitOps deployment pattern
+<!-- openwiki: broken internal link [/openwiki/architecture/bootstrap-flow.md] link "/openwiki/architecture/bootstrap-flow.md" is root-absolute, which no real consumer resolves against the repository root (not a coding agent reading the page, not GitHub's Markdown renderer, not a local viewer); use a path relative to this file instead. Fix the href or restore the target, then delete this comment. -->
 - **Bootstrap Flow Architecture** ([`/openwiki/architecture/bootstrap-flow.md`](/openwiki/architecture/bootstrap-flow.md)) - Detailed architectural view of the bootstrap process
+<!-- openwiki: broken internal link [/openwiki/concepts/cluster-architecture.md] link "/openwiki/concepts/cluster-architecture.md" is root-absolute, which no real consumer resolves against the repository root (not a coding agent reading the page, not GitHub's Markdown renderer, not a local viewer); use a path relative to this file instead. Fix the href or restore the target, then delete this comment. -->
 - **Cluster Architecture** ([`/openwiki/concepts/cluster-architecture.md`](/openwiki/concepts/cluster-architecture.md)) - Bootstrap establishes the foundational cluster architecture
-<!-- openwiki: broken internal link [/openwiki/talos/configuration.md] file "/openwiki/talos/configuration.md" does not exist. Fix the href or restore the target, then delete this comment. -->
+<!-- openwiki: broken internal link [/openwiki/talos/configuration.md] link "/openwiki/talos/configuration.md" is root-absolute, which no real consumer resolves against the repository root (not a coding agent reading the page, not GitHub's Markdown renderer, not a local viewer); use a path relative to this file instead. Fix the href or restore the target, then delete this comment. -->
 - **Talos Configuration** ([`/openwiki/talos/configuration.md`](/openwiki/talos/configuration.md)) - Detailed reference on talhelper, machine patches, and node definitions
+<!-- openwiki: broken internal link [/openwiki/quickstart.md] link "/openwiki/quickstart.md" is root-absolute, which no real consumer resolves against the repository root (not a coding agent reading the page, not GitHub's Markdown renderer, not a local viewer); use a path relative to this file instead. Fix the href or restore the target, then delete this comment. -->
 - **Quick Start** ([`/openwiki/quickstart.md`](/openwiki/quickstart.md)) - Entry point for bootstrap and daily operations
 
 ## Security Considerations

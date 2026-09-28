@@ -32,7 +32,7 @@ sources:
     resource: repo://kubernetes/flux/cluster/ks.yaml
   - id: openwiki-source-6f1d2c8de9160e178167b990
     resource: repo://scripts/bootstrap-apps.sh
-generated: { by: "openwiki/0.6.0", at: "2026-09-25T22:38:38.997Z" }
+generated: { by: "openwiki/0.6.1", at: "2026-09-28T23:52:40.438Z" }
 verified:
   - by: openwiki/0.6.0
     at: 2026-09-25T22:38:38.997Z
@@ -636,7 +636,11 @@ kubectl logs -n <namespace> job/volsync-dst-<app>-manual --container main
 
 ## Additional Resources
 
+<!-- openwiki: broken internal link [/openwiki/concepts/networking.md] link "/openwiki/concepts/networking.md" is root-absolute, which no real consumer resolves against the repository root (not a coding agent reading the page, not GitHub's Markdown renderer, not a local viewer); use a path relative to this file instead. Fix the href or restore the target, then delete this comment. -->
 - [Networking Architecture](/openwiki/concepts/networking.md) - Cilium CNI configuration and L2 announcements
+<!-- openwiki: broken internal link [/openwiki/concepts/storage.md] link "/openwiki/concepts/storage.md" is root-absolute, which no real consumer resolves against the repository root (not a coding agent reading the page, not GitHub's Markdown renderer, not a local viewer); use a path relative to this file instead. Fix the href or restore the target, then delete this comment. -->
 - [Storage Architecture](/openwiki/concepts/storage.md) - TopoLVM configuration and LVM management
+<!-- openwiki: broken internal link [/openwiki/concepts/secrets-management.md] link "/openwiki/concepts/secrets-management.md" is root-absolute, which no real consumer resolves against the repository root (not a coding agent reading the page, not GitHub's Markdown renderer, not a local viewer); use a path relative to this file instead. Fix the href or restore the target, then delete this comment. -->
 - [Secrets Management](/openwiki/concepts/secrets-management.md) - SOPS and External Secrets Operator details
+<!-- openwiki: broken internal link [/openwiki/operations/daily-operations.md] link "/openwiki/operations/daily-operations.md" is root-absolute, which no real consumer resolves against the repository root (not a coding agent reading the page, not GitHub's Markdown renderer, not a local viewer); use a path relative to this file instead. Fix the href or restore the target, then delete this comment. -->
 - [Daily Operations](/openwiki/operations/daily-operations.md) - Common operational procedures including VolSync workflows

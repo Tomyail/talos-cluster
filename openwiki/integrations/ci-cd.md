@@ -21,7 +21,7 @@ sources:
 verified:
   - by: openwiki/0.5.2
     at: 2026-09-19T21:35:52.044Z
-generated: { by: "openwiki/0.5.2", at: "2026-09-19T21:35:52.044Z" }
+generated: { by: "openwiki/0.6.1", at: "2026-09-28T23:52:40.438Z" }
 ---
 
 # CI/CD Integration
@@ -316,6 +316,7 @@ Renovate runs its own automation outside GitHub Actions, configured by `.renovat
 
 ## Relationship to Flux Architecture
 
+<!-- openwiki: broken internal link [/openwiki/concepts/flux-architecture.md] link "/openwiki/concepts/flux-architecture.md" is root-absolute, which no real consumer resolves against the repository root (not a coding agent reading the page, not GitHub's Markdown renderer, not a local viewer); use a path relative to this file instead. Fix the href or restore the target, then delete this comment. -->
 These CI/CD workflows complement the Flux GitOps architecture described in [Flux GitOps Architecture](/openwiki/concepts/flux-architecture.md):
 
 - **Validation Layer**: flux-local testing provides pre-deployment validation before Flux reconciles changes to the cluster
@@ -358,6 +359,7 @@ The Flux Local workflow uses concurrency groups to prevent resource waste:
 
 ### Renovate Integration
 
+<!-- openwiki: broken internal link [/openwiki/integrations/renovate.md] link "/openwiki/integrations/renovate.md" is root-absolute, which no real consumer resolves against the repository root (not a coding agent reading the page, not GitHub's Markdown renderer, not a local viewer); use a path relative to this file instead. Fix the href or restore the target, then delete this comment. -->
 The label schema works with Renovate bot, which automatically applies `renovate/*` and `type/*` labels to dependency update PRs. See [Renovate Integration](/openwiki/integrations/renovate.md) for details on dependency automation.
 
 ### Application Deployment

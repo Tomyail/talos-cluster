@@ -26,7 +26,7 @@ sources:
     resource: repo://kubernetes/apps/network/tailscale/ks.yaml
   - id: openwiki-source-d7ce147b373b74b80f0794fd
     resource: repo://kubernetes/flux/meta/repos/bitwarden-eso.yaml
-generated: { by: "openwiki/0.5.1", at: "2026-09-12T21:32:37.847Z" }
+generated: { by: "openwiki/0.6.1", at: "2026-09-28T23:52:40.438Z" }
 verified:
   - by: openwiki/0.5.2
     at: 2026-09-19T21:35:52.044Z
@@ -420,6 +420,9 @@ kubectl logs -n external-secrets deployment/external-secrets --tail=100 -f
 
 ## Related Documentation
 
+<!-- openwiki: broken internal link [/openwiki/concepts/secrets-management.md] link "/openwiki/concepts/secrets-management.md" is root-absolute, which no real consumer resolves against the repository root (not a coding agent reading the page, not GitHub's Markdown renderer, not a local viewer); use a path relative to this file instead. Fix the href or restore the target, then delete this comment. -->
 - [Secrets Management](/openwiki/concepts/secrets-management.md) - Complete overview of the dual-layer secrets architecture
+<!-- openwiki: broken internal link [/openwiki/concepts/flux-architecture.md] link "/openwiki/concepts/flux-architecture.md" is root-absolute, which no real consumer resolves against the repository root (not a coding agent reading the page, not GitHub's Markdown renderer, not a local viewer); use a path relative to this file instead. Fix the href or restore the target, then delete this comment. -->
 - [Flux Architecture](/openwiki/concepts/flux-architecture.md) - How Flux reconciles and decrypts secrets
+<!-- openwiki: broken internal link [/openwiki/integrations/ci-cd.md] link "/openwiki/integrations/ci-cd.md" is root-absolute, which no real consumer resolves against the repository root (not a coding agent reading the page, not GitHub's Markdown renderer, not a local viewer); use a path relative to this file instead. Fix the href or restore the target, then delete this comment. -->
 - [CI/CD Integration](/openwiki/integrations/ci-cd.md) - How external secrets integrate with deployment pipelines

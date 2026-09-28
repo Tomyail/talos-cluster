@@ -40,7 +40,7 @@ sources:
     resource: repo://kubernetes/flux/meta/repos/gateway-api.yaml
   - id: openwiki-source-12a44dba301e86ea2cf62628
     resource: repo://kubernetes/flux/meta/repos/kustomization.yaml
-generated: { by: "openwiki/0.6.0", at: "2026-09-25T22:38:38.997Z" }
+generated: { by: "openwiki/0.6.1", at: "2026-09-28T23:52:40.438Z" }
 verified:
   - by: openwiki/0.6.0
     at: 2026-09-25T22:38:38.997Z
@@ -491,10 +491,16 @@ kubectl get events -n <namespace> --field-selector reason=ReconciliationFailed
 
 ## Related Pages
 
+<!-- openwiki: broken internal link [/openwiki/concepts/flux-architecture.md] link "/openwiki/concepts/flux-architecture.md" is root-absolute, which no real consumer resolves against the repository root (not a coding agent reading the page, not GitHub's Markdown renderer, not a local viewer); use a path relative to this file instead. Fix the href or restore the target, then delete this comment. -->
 - [Flux GitOps Architecture](/openwiki/concepts/flux-architecture.md) - Detailed reconciliation hierarchy and Kustomization structure
+<!-- openwiki: broken internal link [/openwiki/integrations/image-automation.md] link "/openwiki/integrations/image-automation.md" is root-absolute, which no real consumer resolves against the repository root (not a coding agent reading the page, not GitHub's Markdown renderer, not a local viewer); use a path relative to this file instead. Fix the href or restore the target, then delete this comment. -->
 - [Image Automation](/openwiki/integrations/image-automation.md) - Deep dive into the image automation component and ImageUpdateAutomation
+<!-- openwiki: broken internal link [/openwiki/workflows/app-deployment.md] link "/openwiki/workflows/app-deployment.md" is root-absolute, which no real consumer resolves against the repository root (not a coding agent reading the page, not GitHub's Markdown renderer, not a local viewer); use a path relative to this file instead. Fix the href or restore the target, then delete this comment. -->
 - [Application Deployment Workflow](/openwiki/workflows/app-deployment.md) - Application deployment patterns and app-template usage
+<!-- openwiki: broken internal link [/openwiki/concepts/secrets-management.md] link "/openwiki/concepts/secrets-management.md" is root-absolute, which no real consumer resolves against the repository root (not a coding agent reading the page, not GitHub's Markdown renderer, not a local viewer); use a path relative to this file instead. Fix the href or restore the target, then delete this comment. -->
 - [Secrets Management](/openwiki/concepts/secrets-management.md) - SOPS encryption and External Secrets Operator integration
 ecture.md) - Detailed reconciliation hierarchy and Kustomization structure
+<!-- openwiki: broken internal link [/openwiki/workflows/app-deployment.md] link "/openwiki/workflows/app-deployment.md" is root-absolute, which no real consumer resolves against the repository root (not a coding agent reading the page, not GitHub's Markdown renderer, not a local viewer); use a path relative to this file instead. Fix the href or restore the target, then delete this comment. -->
 - [Application Deployment Workflow](/openwiki/workflows/app-deployment.md) - Application deployment patterns and app-template usage
+<!-- openwiki: broken internal link [/openwiki/concepts/secrets-management.md] link "/openwiki/concepts/secrets-management.md" is root-absolute, which no real consumer resolves against the repository root (not a coding agent reading the page, not GitHub's Markdown renderer, not a local viewer); use a path relative to this file instead. Fix the href or restore the target, then delete this comment. -->
 - [Secrets Management](/openwiki/concepts/secrets-management.md) - SOPS encryption and External Secrets Operator integration

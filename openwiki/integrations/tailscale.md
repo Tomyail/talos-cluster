@@ -26,7 +26,7 @@ sources:
     resource: repo://kubernetes/components/gatus/external-tailscale/kustomization.yaml
   - id: openwiki-source-d787b4e38b39b0dac177c42f
     resource: repo://kubernetes/flux/meta/repos/tailscale.yaml
-generated: { by: "openwiki/0.5.2", at: "2026-09-19T21:35:52.044Z" }
+generated: { by: "openwiki/0.6.1", at: "2026-09-28T23:52:40.438Z" }
 verified:
   - by: openwiki/0.5.2
     at: 2026-09-19T21:35:52.044Z
@@ -370,5 +370,7 @@ The Tailscale integration is part of the cluster's broader network architecture:
 - Services with `tailscale.com/expose` provide alternative private ingress
 - The different ingress paths serve complementary purposes and do not interfere
 
+<!-- openwiki: broken internal link [/openwiki/concepts/networking.md] link "/openwiki/concepts/networking.md" is root-absolute, which no real consumer resolves against the repository root (not a coding agent reading the page, not GitHub's Markdown renderer, not a local viewer); use a path relative to this file instead. Fix the href or restore the target, then delete this comment. -->
 For more details on the overall network architecture, see the [Network Architecture](/openwiki/concepts/networking.md) concept page.
+<!-- openwiki: broken internal link [/openwiki/concepts/networking.md] link "/openwiki/concepts/networking.md" is root-absolute, which no real consumer resolves against the repository root (not a coding agent reading the page, not GitHub's Markdown renderer, not a local viewer); use a path relative to this file instead. Fix the href or restore the target, then delete this comment. -->
 verall network architecture, see the [Network Architecture](/openwiki/concepts/networking.md) concept page.

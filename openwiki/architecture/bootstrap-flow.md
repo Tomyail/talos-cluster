@@ -25,7 +25,7 @@ sources:
 verified:
   - by: openwiki/0.6.0
     at: 2026-09-25T22:38:38.997Z
-generated: { by: "openwiki/0.6.0", at: "2026-09-25T22:38:38.997Z" }
+generated: { by: "openwiki/0.6.1", at: "2026-09-28T23:52:40.438Z" }
 ---
 
 # Bootstrap Flow
@@ -394,6 +394,9 @@ Bootstrap failures concentrate at three known hazards:
 
 ## Related Documentation
 
+<!-- openwiki: broken internal link [/openwiki/concepts/flux-architecture.md] link "/openwiki/concepts/flux-architecture.md" is root-absolute, which no real consumer resolves against the repository root (not a coding agent reading the page, not GitHub's Markdown renderer, not a local viewer); use a path relative to this file instead. Fix the href or restore the target, then delete this comment. -->
 - [Flux GitOps Architecture](/openwiki/concepts/flux-architecture.md) - Detailed Flux reconciliation and Kustomization structure
+<!-- openwiki: broken internal link [/openwiki/workflows/bootstrap.md] link "/openwiki/workflows/bootstrap.md" is root-absolute, which no real consumer resolves against the repository root (not a coding agent reading the page, not GitHub's Markdown renderer, not a local viewer); use a path relative to this file instead. Fix the href or restore the target, then delete this comment. -->
 - [Cluster Bootstrap Workflow](/openwiki/workflows/bootstrap.md) - Step-by-step bootstrap execution guide
+<!-- openwiki: broken internal link [/openwiki/quickstart.md] link "/openwiki/quickstart.md" is root-absolute, which no real consumer resolves against the repository root (not a coding agent reading the page, not GitHub's Markdown renderer, not a local viewer); use a path relative to this file instead. Fix the href or restore the target, then delete this comment. -->
 - [Quick Start Guide](/openwiki/quickstart.md) - Repository overview and initial setup
