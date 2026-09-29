@@ -4,8 +4,8 @@ title: Talos Configuration Management
 description: Talos Linux configuration structure using talhelper for node definitions, patch system, and machine config generation with version tracking via Renovate.
 tags: [talos, talhelper, configuration, patches, machine-config, kernel-modules, networking]
 verified:
-  - by: openwiki/0.5.2
-    at: 2026-09-19T21:35:52.044Z
+  - by: openwiki/0.6.1
+    at: 2026-09-29T23:05:38.384Z
 sources:
   - id: openwiki-source-aa55808be329b3f929ddf105
     resource: repo://.renovaterc.json5
@@ -37,7 +37,7 @@ sources:
     resource: repo://talos/talsecret.sops.yaml
   - id: openwiki-source-4d7c266d0d7adae77539048e
     resource: repo://talos/uservolume.yaml
-generated: { by: "openwiki/0.5.2", at: "2026-09-19T21:35:52.044Z" }
+generated: { by: "openwiki/0.6.1", at: "2026-09-29T23:05:38.384Z" }
 ---
 
 # Talos Configuration Management
@@ -292,7 +292,19 @@ machine:
     nameservers:
       - 1.1.1.1
       - 1.0.0.1
+    extraHostEntries:
+      - ip: 192.168.50.12
+        aliases:
+          - gitea.tomyail.com
+          - cold-minio-api.tomyail.com
 ```
+
+**Network Customizations**:
+
+- **DNS**: Uses Cloudflare resolvers (1.1.1.1, 1.0.0.1) and disables search-domain suffixing
+- **Extra Host Entries**: Pins `gitea.tomyail.com` and `cold-minio-api.tomyail.com` to `192.168.50.12` in each node's `/etc/hosts`, so node-local workloads resolve these internal services via the LAN instead of public DNS (e.g. to reach Gitea and the Minio S3 API hosted on the cluster itself)
+
+This file is the source of truth for Talos-level network/DNS settings; it is a Kustomization patch referenced from `talconfig.yaml` under `patches:` and applied by talhelper to every generated machine config.
 
 **System Tuning** (`talos/patches/global/machine-sysctls.yaml`):
 

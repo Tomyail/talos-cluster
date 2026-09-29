@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:9ef9e708fc385124cb6c75ea0c8b54d9973734234041f70ccd80e476064c11d2",
+  "pageVersion": "sha256:316a907f89dd48b971049b71567b2483b71874adf6fcd4f9e6d4a4cf060886e8",
   "claims": [
     {
       "id": "claim_4127cd77fcc84ba480c92c5910361a25",
@@ -102,11 +102,11 @@
     },
     {
       "id": "claim_fa3652888ce243d2a9fd5bacd8a6f52b",
-      "statement": "Global network patch disables search domain and configures Cloudflare DNS nameservers (1.1.1.1, 1.0.0.1) for all nodes",
+      "statement": "Global network patch disables search domain, configures Cloudflare DNS nameservers (1.1.1.1, 1.0.0.1), and adds extraHostEntries pinning gitea.tomyail.com and cold-minio-api.tomyail.com to 192.168.50.12 for all nodes; it is a Kustomization patch applied by talhelper via the talconfig patches list.",
       "evidence": [
         {
           "resource": "repo://talos/patches/global/machine-network.yaml",
-          "version": "repo-file-v1:sha256:48adb2610aed4950c8a3c048aaab37785008bc886db5199c8400187e07a96bb3"
+          "version": "repo-file-v1:sha256:36515cf1e7be59e238de379a167402c5ea2a00ac7d57ab913035f2f0830de5c1"
         }
       ]
     },
@@ -305,10 +305,24 @@
           "version": "repo-lines-v1:sha256:00cdb21d0f7ae638eb0d2c9d873311350eb42815ac3acaaf67ae7dc3f07069b7:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM3OTA5MzIxYTQwYmM0MDMyYTQxYTM2ZDVjNzM0YjhkMGU0MDM2Nzk5ZWU2ZTg0NzQ1MmRiMTliYWNkMzY4MzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUxN2Y1N2E5ZDUzMWEzNTE5MTA2YmUyYTdmN2I4YjBiOWNkNWIwNGJiNGVhMjNkM2FmMGJiZGVlY2FjYmVhOTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk1ZjA0NWU1OGY2Yjg1ZjE0MDc2NjFlN2YxMWY5MGRkZWFiN2ZlZjZiNDY2M2NlOWRjNTU5ZGNkM2Q0NDM4ZDYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE1Njg2NjY1MGE0OWMyZDhlMjVjMDgxY2U3MDgxMWMxOGRkNzYzNDJiOTQ4ZTdlMzFkNzkzMzE5ZmEyNTlkMDUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_082028b060024b588ffaf5ccf4bfb7e2",
+      "statement": "The extraHostEntries in the global network patch ensure node-level resolution of the self-hosted Gitea and Minio S3 API hostnames through the LAN address 192.168.50.12 rather than public DNS.",
+      "evidence": [
+        {
+          "resource": "repo://talos/patches/README.md#L12-L12",
+          "version": "repo-lines-v1:sha256:a56a0e6359b2c6d55cdf843416c5c42e27ffe3b2593de638bb11f875b496b4a9:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTU2YTBlNjM1OWIyYzZkNTVjZGY4NDM0MTZjNWM0MmUyN2ZmZTNiMjU5M2RlNjM4YmIxMWY4NzViNDk2YjRhOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTU2YTBlNjM1OWIyYzZkNTVjZGY4NDM0MTZjNWM0MmUyN2ZmZTNiMjU5M2RlNjM4YmIxMWY4NzViNDk2YjRhOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTgxMGIzNDU1Y2U4MThmYzVjZjA1NjQ4ZDQ4NTk2YzljYzE1YWViZjU5MGVkMzZhMTVmZTdhNWI5YjFkYzhkMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiM2QyNTYyZTgxNjE4MjNhM2I4OTMwZTRiZDZiZjMyZjIyZGQxOTQ2ZjVmNWY4Mzk3NWE1OWY5YzRiMTRkMDk1ZCJ9"
+        },
+        {
+          "resource": "repo://talos/patches/global/machine-network.yaml",
+          "version": "repo-file-v1:sha256:36515cf1e7be59e238de379a167402c5ea2a00ac7d57ab913035f2f0830de5c1"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.2",
-    "at": "2026-09-19T21:35:52.044Z"
+    "by": "openwiki/0.6.1",
+    "at": "2026-09-29T23:05:38.384Z"
   }
 }
