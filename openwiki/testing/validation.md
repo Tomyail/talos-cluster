@@ -1,7 +1,7 @@
 ---
 type: operations-guide
 title: Validation & Testing
-description: How changes to the cluster repository are validated before merge — the flux-local CI checks, local Taskfile task preconditions and dry-runs, formatting conventions, the mise toolchain, and how Renovate automerge gates changes.
+description: How changes to the cluster repository are validated before and after merge — the flux-local CI checks, local Taskfile task preconditions and dry-runs, mise-pinned tooling, Flux health checks and HelmRelease remediation/rollback, and Gatus/Uptime Kuma health monitoring.
 tags: [validation, testing, ci, flux, kustomize, taskfile, renovate, editorconfig]
 sources:
   - id: openwiki-source-22d03a54ca65a8e3305dad24
@@ -18,16 +18,26 @@ sources:
     resource: repo://.taskfiles/talos/Taskfile.yaml
   - id: openwiki-source-ab04cad2d509128f85736a9f
     resource: repo://.taskfiles/volsync/Taskfile.yaml
+  - id: openwiki-source-dbd8b5c09621dda4424792fd
+    resource: repo://kubernetes/apps/default/gitea/app/helmrelease.yaml
+  - id: openwiki-source-713804fe0a8649683e2d52d6
+    resource: repo://kubernetes/apps/observability/gatus/app/helmrelease.yaml
+  - id: openwiki-source-19cc4d5883bfca3fab22bd67
+    resource: repo://kubernetes/components/gatus/external/config.yaml
+  - id: openwiki-source-a2a10e12c05dc77e43573bc3
+    resource: repo://kubernetes/components/gatus/guarded/config.yaml
+  - id: openwiki-source-4aadf660c5ebb52ca592d9de
+    resource: repo://kubernetes/components/gatus/guarded/kustomization.yaml
   - id: openwiki-source-0696023deccf378a358f7526
     resource: repo://kubernetes/flux/cluster/ks.yaml
   - id: openwiki-source-6f1d2c8de9160e178167b990
     resource: repo://scripts/bootstrap-apps.sh
   - id: openwiki-source-b9ff7ee0aa4953cc601052a4
     resource: repo://Taskfile.yaml
-generated: { by: "openwiki/0.6.0", at: "2026-09-26T22:04:11.432Z" }
+generated: { by: "openwiki/0.7.0", at: "2026-10-03T22:17:28.945Z" }
 verified:
-  - by: openwiki/0.6.0
-    at: 2026-09-27T22:26:24.169Z
+  - by: openwiki/0.7.0
+    at: 2026-10-03T22:17:28.945Z
 ---
 
 # Validation & Testing
@@ -70,7 +80,7 @@ Because mise auto-exports `KUBECONFIG`, `TALOSCONFIG`, and `SOPS_AGE_KEY_FILE` (
 
 ## Local toolchain and rendering checks
 
-`.mise.toml` pins the complete toolchain used for local validation: `kubeconform = 0.8.0`, `kustomize = 5.6.0`, `kubectl = 1.33.1`, `helm = 4.3.0`, plus `sops` (3.13.3), `talos` (1.14.1), `talhelper` (3.1.17), `flux` (2.9.5), `yq` (4.53.6), `jq`, `task`, `age`, `cilium-cli`, `helmfile`, `gh`, and `makejinja` (via pipx). Newer additions include `cue` (0.17.1) and `cloudflared` (2026.9.3); neither is invoked by any Taskfile or CI step, so they are available only for ad-hoc local checks. Python (3.14.7) is pinned with an auto-created repo-local venv at `.venv`. Three notes:
+`.mise.toml` pins the complete toolchain used for local validation: `kubeconform = 0.8.0`, `kustomize = 5.6.0`, `kubectl = 1.33.1`, `helm = 4.3.0`, plus `sops` (3.13.3), `talos` (1.14.2), `talhelper` (3.1.17), `flux` (2.9.6), `yq` (4.53.6), `jq` (1.7.1), `task` (3.53.1), `age` (1.3.2), `cilium-cli` (0.20.1), `helmfile` (1.8.1), `gh` (2.101.0), `node` (latest), and `makejinja` 2.9.1 (via pipx). Newer additions include `cue` (0.17.1) and `cloudflared` (2026.9.3); neither is invoked by any Taskfile or CI step, so they are available only for ad-hoc local checks. Python (3.14.8) is pinned with an auto-created repo-local venv at `.venv`. Three notes:
 
 - Schema validation via `kubeconform` and rendering via `kustomize build` are manual, local practices — there is no repo config file for either and no CI step invokes them. The closest automated equivalent is the CI `flux-local test` job, which builds every Kustomization and applies the same helm/sops rendering pipeline.
 - There is also no `yamllint` configuration in the repository; YAML style is instead governed by `.editorconfig`.
@@ -99,6 +109,36 @@ After merging, changes reach the cluster through Flux's reconciliation of the `f
   ```
 - **Pre-apply a specific change locally**: run `kustomize build` (available via mise) against the app directory, or rely on the CI `flux-local diff` comment which shows the same rendering.
 - **VolSync operations verify their own work**: `task volsync:snapshot APP=<name> NS=<ns>` patches the ReplicationSource to trigger a manual backup, then `kubectl wait job/volsync-src-<app> --for=condition=complete --timeout=120m` blocks until the backup job completes; `volsync:list` runs a job, streams its logs, and deletes it. Tasks assume the Kustomization/HelmRelease/PVC/ReplicationSource share the app's name and each app has one replicated PVC.
+
+## Flux health checks and remediation
+
+Health validation does not stop at render time — Flux itself gates convergence:
+
+- The root Kustomizations in `kubernetes/flux/cluster/ks.yaml` set `wait: true`, `timeout: 5m`, and `retryInterval: 2m`, so Flux waits for each deployed resource to become healthy and keeps retrying, surfacing a bad change as `Ready=False` instead of a silent failure.
+- HelmReleases declare their own health semantics. `kubernetes/apps/default/gitea/app/helmrelease.yaml` is representative: `interval: 1h`, `install.remediation.retries: 3`, and `upgrade.cleanupOnFail: true` with `upgrade.remediation.strategy: rollback` and `retries: 3` — a failed upgrade is rolled back to the previous release automatically (up to three attempts), rather than leaving the cluster broken. The Gatus HelmRelease (`kubernetes/apps/observability/gatus/app/helmrelease.yaml`) uses `install.remediation.retries: -1` (retry installs indefinitely) with the same `cleanupOnFail`/`retries: 3` upgrade remediation.
+- In-app readiness also feeds this: apps such as Gatus define custom liveness/readiness probes (`/health` on the web port), which is what `wait: true` observes on the deployed Deployment.
+
+In combination with the `dependsOn` ordering in `ks.yaml` (e.g. `cluster-apps` depends on `cluster-meta` and both CRD Kustomizations), a failing dependency blocks downstream reconciliation, which is the cluster-side equivalent of a CI gate.
+
+## Post-merge health monitoring (Gatus and Uptime Kuma)
+
+Reconciliation health is complemented by external health checks:
+
+- **Gatus** (`kubernetes/apps/observability/gatus/app/`) runs as an app-template HelmRelease with a `k8s-sidecar` init container that watches all resources labeled `gatus.io/enabled: "true"` (`LABEL: gatus.io/enabled`, `NAMESPACE: ALL`, `METHOD: WATCH`) and feeds their ConfigMaps into `/config`. Apps opt in via the reusable components in `kubernetes/components/gatus/` — `external` (HTTPS check against `https://${APP}.${SECRET_DOMAIN}` resolving via an external DNS resolver, expecting HTTP 200) and `guarded` (a DNS A-record check ensuring public exposure is intentional), each a kustomize Component generating a `${APP}-gatus-ep` ConfigMap labeled `gatus.io/enabled: "true"` with a stable name (hash suffix disabled).
+- Gatus also ships PrometheusRules (`prometheusrule.yaml`) alerting when a monitored endpoint is down or publicly exposed, and its own `/health` liveness/readiness probes keep the Flux `wait` healthy.
+- **Uptime Kuma** (`kubernetes/apps/observability/uptime-kuma/`) provides a second, UI-driven uptime monitor alongside Gatus.
+
+```mermaid
+flowchart LR
+    M["merge to main"] --> R["Flux reconciles flux-system"]
+    R --> K["Kustomizations: wait/timeout/retry"]
+    K --> H["HelmReleases: remediation + rollback"]
+    H --> G["Gatus endpoints (per-app components)"]
+    H --> U["Uptime Kuma"]
+    G --> A["Prometheus alerts"]
+```
+
+*Caption: From merge to externally verified health.*
 
 ## Renovate and the CI gate
 

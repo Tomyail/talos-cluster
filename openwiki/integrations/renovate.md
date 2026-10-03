@@ -34,10 +34,10 @@ sources:
     resource: repo://scripts/bootstrap-apps.sh
   - id: openwiki-source-b65e4f1ccd91316116ad973a
     resource: repo://talos/talenv.yaml
-generated: { by: "openwiki/0.6.0", at: "2026-09-27T22:26:24.169Z" }
+generated: { by: "openwiki/0.7.0", at: "2026-10-03T22:17:28.945Z" }
 verified:
-  - by: openwiki/0.6.0
-    at: 2026-09-27T22:26:24.169Z
+  - by: openwiki/0.7.0
+    at: 2026-10-03T22:17:28.945Z
 ---
 
 # Renovate Dependency Automation
@@ -227,7 +227,7 @@ Example from the `.mise.toml` `[tools]` block:
 "aqua:getsops/sops" = "3.13.3"
 "aqua:go-task/task" = "3.53.1"
 "aqua:helm/helm" = "4.3.0"
-"aqua:helmfile/helmfile" = "1.8.0"
+"aqua:helmfile/helmfile" = "1.8.1"
 "aqua:jqlang/jq" = "1.7.1"
 "aqua:kubernetes-sigs/kustomize" = "5.6.0"
 "aqua:kubernetes/kubectl" = "1.33.1"

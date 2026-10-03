@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:1291f30980f53c99c8470c5fc4d90aa02b6423c8bbe1b5705c5008750aa10078",
+  "pageVersion": "sha256:f8c459bb46572606918f1d99f9bddc7350fc9ee7b65f292bea55fd33db80b0fa",
   "claims": [
     {
       "id": "claim_4ed6aaea226943409690b5b4ed7088c4",
@@ -136,11 +136,11 @@
     },
     {
       "id": "claim_467334e95fd7408287ebbfd2cad19e05",
-      "statement": "The External Secrets Operator is deployed via Helm in the external-secrets namespace (set by the parent Kustomization) using the external-secrets chart version 2.10.0 with installCRDs enabled, install/upgrade remediation with retries (rollback on failed upgrades), and 1m-interval service monitors for the operator, webhook, and cert controller; the bitwarden-sdk-server integration is present but commented out.",
+      "statement": "The External Secrets Operator is deployed via Helm in the external-secrets namespace (set by the parent Kustomization) using the external-secrets chart version 2.11.0 with installCRDs enabled, install/upgrade remediation with retries (rollback on failed upgrades), and 1m-interval service monitors for the operator, webhook, and cert controller; the bitwarden-sdk-server integration is present but commented out.",
       "evidence": [
         {
           "resource": "repo://kubernetes/apps/external-secrets/external-secrets/app/helmrelease.yaml#L2-L38",
-          "version": "repo-lines-v1:sha256:d5e0a3f60298b80b243a13604a3435a45ee6886d4e6594ed803df5aa74bb5d7c:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3MDhhNGU1NWM5ODUzODY2NGU5MzNjNjI5MTA5ZjQ4NGE0Njg1ZGUzNDc5NjhjZGY0MzVmODQ5NDhiNTQ1NTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUwYjE2MjVmZTQ5MmZmMThjNGVmNDNiYWMyMjJhNTkxZDlkZjAxZDQ0NzdiOWNhZThiYWRkOTY1MjlkZDAyNGYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoxLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "version": "repo-lines-v1:sha256:38b7a6364f32604da75a96db04e127613c8db49eba037f0ee99958ad3c2d3877:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3MDhhNGU1NWM5ODUzODY2NGU5MzNjNjI5MTA5ZjQ4NGE0Njg1ZGUzNDc5NjhjZGY0MzVmODQ5NDhiNTQ1NTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUwYjE2MjVmZTQ5MmZmMThjNGVmNDNiYWMyMjJhNTkxZDlkZjAxZDQ0NzdiOWNhZThiYWRkOTY1MjlkZDAyNGYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoxLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
           "resource": "repo://kubernetes/apps/external-secrets/kustomization.yaml#L5-L5",
@@ -175,10 +175,48 @@
           "version": "repo-lines-v1:sha256:e39a2150537fe0e1156b68600fdb08f7f69f7ea61871f167123a84f3d61984dc:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEwYzRjODg3MDkxZjBlZTIwODMzOGRlNTEwYzQ2ODdmNjVmYzJhYTk0N2Q0NGQxNWNhN2UzYmQ4MjVmMmFkODYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRjMzUxN2U4MTNiM2EzMmI5NjU2MWI5ZTU0YjQyMjMyODQ2MGE4YjQ5NTFkMWI0NDJhMGI1NDA5ZTBmMjgyZTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ4NjU3ZjBhOTkzMzc0MDE5OWJiMzA2NTBmNTUwYzUyMjU5ZWQ2M2U2M2IyODkzZDRhMmRhOWRmY2U1YWIwOTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_151b393b5a0e46cbb87eb7b0c4d9a59e",
+      "statement": "The bitwarden-connect app deploys the bitwarden-eso-provider chart (version 1.2.0) as HelmRelease bitwarden-cli, with an extended liveness probe (20s initial delay, 300s period, 15s timeout, failure threshold 30), installCRDs enabled, 1m-interval service monitors, and authentication from an existing Secret bitwarden-cli whose keys BW_PASSWORD, BW_USERNAME (app ID), and BW_HOST are mapped (BW_CLIENTID/BW_CLIENTSECRET commented out).",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/external-secrets/bitwarden-connect/app/helmrelease.yaml#L1-L59",
+          "version": "repo-lines-v1:sha256:6a7ea2f9693faaa6bf83b9b271eca21a5a6925322b94157825c7b5292984ed5e:eyJzZWxlY3RlZExpbmVDb3VudCI6NTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ0ZmM4OWExYjBkM2M4YmIyOGY2YmQzMWRhMTFiZWE2Njg1MmVjNTc3MDAyMDg0ZTkzNjNmMDBlYWVlZTRjYzYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a7e1f0e2c7864663a59e8fecf30d3031",
+      "statement": "The bitwarden-connect Flux Kustomization SOPS-decrypts manifests with the sops-age secret, waits for reconciliation, and lives alongside the external-secrets app under the parent Kustomization kubernetes/apps/external-secrets/kustomization.yaml, which sets the external-secrets namespace for both.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/external-secrets/bitwarden-connect/ks.yaml#L15-L18",
+          "version": "repo-lines-v1:sha256:f000b31c3522bd306a024cee6cfaa7daf3e17c4cde85925ad1ade76d25df1976:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGFiNmUwZWUyMWNmZTcxYTkwNWE5OTkwNWM1ZGEzOTc2ZDA1YTk5MDBhMzVjMGFkMWIxMjc3Y2RjOWUxOWRlZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGUxNWFiOThmYjQ2MzhhOTc1MTM4OTdiMWNmOWZmYTlhZTJmNjVlNWZjYzY1ZTI0YTJhYWRiNGI5ZjQ0YjBlNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjUwMmNlNGJjMDJkYWFmOWI3MDQ2ZjgyNDdhNDg5ZTI0YzgxZjI1MDE3YjI4NDJhNmNmNTFkZDMwZmQ3ZDQwNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjU2YWJjZTYyNGU3ZDc3NzFiZjgyNTRkMWYwMTcxZWUxNjBjOTE3MTFiYmE3NWU0NjM5Njk3MDY3YTE5ZjIyOSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/external-secrets/kustomization.yaml#L4-L10",
+          "version": "repo-lines-v1:sha256:304aebb7c6e13d3a624a9dc81373fdefda9f8a0ea6446ff180ab5c97d1eb5e75:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2U4MjhmMjhjOThmMGMxYjMxOGI2MjQ5NDg4MDhhOTE2NDQ5YmEzNjQxMGJjMjE5YTNmYWY5YmJmYmZiZTQ1OCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDAwNjE1NGRjNmYxYjA3NjkyZjRjYmIyMzAyMDI0NmNlM2RmZDhhYjRmNGM2MjA2MDdkMDcyYWVkYjFiNTAwZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDZhYzEzNmJkMzIxNThjZWRiOTUxM2MyYWY0OTExMTMxMzFkODQ2YmFiZDBhMjBlYmI0MzQ0N2QyODRiNzAwMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_509c5f28a61845fc80b65f69d66073be",
+      "statement": "Applications depending on Bitwarden-synchronized secrets (tailscale, adguard-dns, smtp-relay) declare a Flux dependsOn on the bitwarden-connect Kustomization in the external-secrets namespace to ensure the provider and ClusterSecretStores are ready first.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/adguard-dns/ks.yaml",
+          "version": "repo-file-v1:sha256:c4509cb9f05274a5f9a65e352514476d0d90b32b62c9d7c5f2db75a15f440dc6"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/tailscale/ks.yaml#L22-L24",
+          "version": "repo-lines-v1:sha256:e6b2712337ef26239f1c9425c612890c44655efd50b9f855653e07fcb8f417f8:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTYwYzNiZDdiYzU5ZmVjOWU0ZGVkMzVkN2NjZjcwMGEzODVhY2U1ODYzNGZhNjBkM2IyMmZmMjY4YzAxN2ViZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYmY5ODk5M2QyZTQ4YWE2MTY4NTMwNzlkNTgzOWU0NGVlYmNjYmJlMWVlYzhkZWI4MWM3ZDRiZmFiMDVhZTljNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiM2E0ZDRhN2E5YzgzY2I2N2NjZjQ4Y2I5ODE1ZDE2MGRlY2Y0NjEyYzVhNzVjZGU4ZDUxYzUwMDBiY2ZmMzYxMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzFiOWIxNTdlOTZlZWEyNzlhOWE4NzAyOTY1YWZmNThlZTE0MGE4OTZhMWFkZDQwNGM0MjFlN2Q4Y2E4YTM3ZCJ9"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.2",
-    "at": "2026-09-19T21:35:52.044Z"
+    "by": "openwiki/0.7.0",
+    "at": "2026-10-03T22:17:28.945Z"
   }
 }

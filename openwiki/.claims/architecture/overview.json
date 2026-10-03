@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:89d27167ccfa6320182f91bad161e3f8626c3220691284db57560a85a0f94325",
+  "pageVersion": "sha256:5d5d6434531a6369e32e49ad32ab6faffe5d7054592cc62319fc810c78bdb3d6",
   "claims": [
     {
       "id": "claim_568d0013139d486d968deda03423763a",
@@ -76,7 +76,7 @@
     },
     {
       "id": "claim_e13b8dafd6ce4b5fa5812a1631e2f278",
-      "statement": "Applications are organized by namespace (kube-system, network, observability, storage, database, external-secrets, default, external-server) with each namespace having its own Kustomization managing app-specific resources.",
+      "statement": "Applications are organized by namespace (kube-system, flux-system, network, observability, storage, database, cert-manager, external-secrets, default, external-server) with each namespace having its own Kustomization managing app-specific resources.",
       "evidence": [
         {
           "resource": "repo://kubernetes/apps/database/kustomization.yaml",
@@ -361,10 +361,24 @@
           "version": "repo-file-v1:sha256:37f45bb02580b90a722c925c7d07c616ee308d5fbb209ecbf33fea4098549c5a"
         }
       ]
+    },
+    {
+      "id": "claim_b71f12ca52fa47c7ab3d3bbccefaff52",
+      "statement": "Cluster delivery follows a two-stage model: the one-time bootstrap helmfile (bootstrap/helmfile.yaml) installs the foundation (Cilium, CoreDNS, cert-manager, flux-operator, flux-instance), after which Flux owns everything under kubernetes/apps/; ongoing changes are made exclusively in Git rather than by re-running helmfile.",
+      "evidence": [
+        {
+          "resource": "repo://bootstrap/helmfile.yaml#L13-L52",
+          "version": "repo-lines-v1:sha256:6476a2b528b6c4c2342d4f5b48106162fde3ac46a5570178b36d8e899f4de7e5:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkZTI0Nzc3YTlhNjAzZjFlZmY3ZTNjMmMzMTcxZTE2MjU5YjhhN2M5OTZkYTMxNDdhMjc5N2Y2ZjA3NTQ0MmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4NDQxMDY3MGJjNTUxNjEyNDRkZTdlZTRjMDM5YTEzMDUzYzZiN2M5ZTRkZTZiMzY4YzE3MzYzZDcyMjVlY2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZmNWY5NGUxMDY0NDU3ZjAwNWMzYzFmNzJkMzMzYTgxM2YwNzYzNTJjZjFiNzNiNTUzNWQ5NDFiNDFhNmQ1OTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://kubernetes/flux/cluster/ks.yaml",
+          "version": "repo-file-v1:sha256:34d6970a4822f2b762ed2b48b96225a7d9a1bb7f3c4007fed459656c84134c45"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.6.0",
-    "at": "2026-09-26T22:04:11.432Z"
+    "by": "openwiki/0.7.0",
+    "at": "2026-10-03T22:17:28.945Z"
   }
 }

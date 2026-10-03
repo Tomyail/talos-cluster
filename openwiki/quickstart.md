@@ -42,10 +42,10 @@ sources:
     resource: repo://talos/talenv.yaml
   - id: openwiki-source-b9ff7ee0aa4953cc601052a4
     resource: repo://Taskfile.yaml
-generated: { by: "openwiki/0.6.0", at: "2026-09-27T22:26:24.169Z" }
+generated: { by: "openwiki/0.7.0", at: "2026-10-03T22:17:28.945Z" }
 verified:
-  - by: openwiki/0.6.0
-    at: 2026-09-27T22:26:24.169Z
+  - by: openwiki/0.7.0
+    at: 2026-10-03T22:17:28.945Z
 ---
 
 # Quickstart & Task Routing
@@ -227,19 +227,22 @@ See [**Architecture Overview**](./architecture/overview.md) for details on names
 
 ## Documentation Map
 
-The wiki is organized into five domains. Start here, then follow the links for depth (canonical order: concepts → workflows → operations → integrations → testing):
+The wiki is organized into five domains. Start here, then follow the links for depth:
 
 | Domain | Page | What it covers |
 | --- | --- | --- |
-| **Architecture** | [Overview](./architecture/overview.md) | Cluster layers, namespace organization, and the Flux reconciliation hierarchy |
-| **Concepts** | [Cluster Architecture (Talos)](./concepts/cluster-architecture.md) | Talos node layout, app-template HelmRelease pattern, Kustomization layering, invariants shared by every app |
-| **Concepts** | [Networking](./concepts/networking.md) | Cilium CNI, internal/external Gateway API routes, ingress topology |
+| **Architecture** | [Overview](./architecture/overview.md) | Top-level repo map: Talos via talhelper/Taskfiles, Flux owning `kubernetes/apps`, the bootstrap helmfile layer, and namespace grouping |
+| **Architecture** | [Namespace & App Directory Conventions](./architecture/namespace-structure.md) | Per-app directory layout (`app/helmrelease.yaml` + `kustomization.yaml`), per-app `ks.yaml` dependencies, and namespace aggregation |
+| **Concepts** | [Flux GitOps Model](./concepts/flux-gitops.md) | Flux hierarchy (`cluster-meta`, `cluster-apps`, CRD Kustomizations), SOPS decryption, postBuild substitution, prune/wait semantics |
+| **Concepts** | [Networking](./concepts/networking.md) | Cilium, Gateway API HTTPRoutes, Cloudflare Tunnel, Tailscale, DNS, smtp-relay |
+| **Concepts** | [Secrets Management](./concepts/secrets-management.md) | SOPS+age encryption rules, postBuild substitution, External Secrets from Bitwarden |
 | **Workflows** | [Bootstrap](./workflows/bootstrap.md) | Full cluster initialization from bare metal to GitOps-managed state |
-| **Workflows** | [App Deployment](./workflows/app-deployment.md) | Standard app layout and Flux reconciliation path: `ks.yaml` → `helmrelease.yaml` → secrets, storage, routing, monitoring |
 | **Operations** | [Local Tooling](./operations/local-tooling.md) | mise-managed tools and env vars, root Taskfile and `.taskfiles/`, and the bootstrap scripts under `scripts/` |
-| **Integrations** | [Cloudflare](./integrations/cloudflare.md) | Cloudflare Tunnel deployment, config, DNS, and how external traffic reaches the cluster |
-| **Integrations** | [Renovate](./integrations/renovate.md) | Dependency automation (`.renovaterc.json5`) and how it updates the mise toolchain pins |
-| **Testing** | [Validation](./testing/validation.md) | Local manifest validation, `flux-local` CI checks, and verification of a change end-to-end |
+| **Operations** | [Daily Operations](./operations/daily-operations.md) | Routine cluster operation and maintenance |
+| **Integrations** | [Bitwarden](./integrations/bitwarden.md) | Upstream secret source: bitwarden-connect and its relation to ESO providers |
+| **Integrations** | [External Secrets Operator](./integrations/external-secrets.md) | ESO HelmRelease config and how apps consume ExternalSecret/ClusterSecretStore resources |
+| **Integrations** | [Renovate](./integrations/renovate.md) | Dependency automation (`.renovaterc.json5`) and how it updates charts, images, and the mise toolchain pins |
+| **Testing** | [Validation](./testing/validation.md) | kubeconform validation, CI workflows, Flux health checks, Gatus monitoring, dry-run reconciliation |
 
 ## Key Architectural Patterns
 
@@ -254,7 +257,7 @@ Flux watches the Git repository and reconciles the cluster in two root Kustomiza
 
 Each namespace under `kubernetes/apps/` has its own Kustomization that Flux reconciles with SOPS decryption enabled (the `sops-age` secret in `flux-system`).
 
-See [**Architecture Overview**](./architecture/overview.md) for the complete reconciliation hierarchy and dependency ordering.
+See [**Flux GitOps Model**](./concepts/flux-gitops.md) for the complete reconciliation hierarchy and dependency ordering.
 
 ### Application Pattern
 
@@ -322,3 +325,4 @@ The cluster exposes status metrics at [kromgo.tomyail.com](https://kromgo.tomyai
 - Network traffic
 
 A status page is available at [status-dev.tomyail.com](https://status-dev.tomyail.com). If something breaks during bootstrap or reconciliation, start with the verification commands above and [**Validation**](./testing/validation.md).
+dation.md).

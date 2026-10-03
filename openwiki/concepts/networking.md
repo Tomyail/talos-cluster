@@ -50,10 +50,10 @@ sources:
     resource: repo://kubernetes/flux/meta/repos/external-dns-crds.yaml
   - id: openwiki-source-6f1d2c8de9160e178167b990
     resource: repo://scripts/bootstrap-apps.sh
-generated: { by: "openwiki/0.6.0", at: "2026-09-26T22:04:11.432Z" }
+generated: { by: "openwiki/0.7.0", at: "2026-10-03T22:17:28.945Z" }
 verified:
-  - by: openwiki/0.6.0
-    at: 2026-09-26T22:04:11.432Z
+  - by: openwiki/0.7.0
+    at: 2026-10-03T22:17:28.945Z
 ---
 
 # Networking Architecture
@@ -309,11 +309,11 @@ This integration enables secure, private connectivity to cluster resources from 
 
 ## SMTP Relay
 
-The `smtp-relay` app in the `network` namespace provides authenticated outbound email relay for cluster workloads, based on [maddy](https://github.com/foxcpp/maddy) (`ghcr.io/foxcpp/maddy:0.9.5`, digest-pinned), deployed via the `app-template` chart.
+The `smtp-relay` app in the `network` namespace provides authenticated outbound email relay for cluster workloads, based on [maddy](https://github.com/foxcpp/maddy) (`ghcr.io/foxcpp/maddy:0.9.6`, digest-pinned), deployed via the `app-template` chart.
 
 - **Ports**: SMTP on port 25 (relay ingestion), server/submission on 465, metrics on 8080
 - **Configuration**: `maddy.conf` mounted read-only from the `smtp-relay-configmap` ConfigMap; credentials and relay settings injected via `smtp-relay-secret` (managed by External Secrets)
-- **Hardening**: Runs as non-root (UID/GID 1000) with read-only root filesystem and all capabilities dropped; memory limit 64Mi
+- **Hardening**: Runs as non-root (UID/GID 1000) with read-only root filesystem and all capabilities dropped; memory limit 64Mi (with a 10m CPU request); `maddy` state kept in an in-memory `emptyDir` cache volume
 - **Operations**: `reloader` annotation restarts pods on secret change; ServiceMonitor scrapes metrics on port 8080
 
 Cluster services send mail to the relay's SMTP service rather than contacting external mail servers directly, centralizing authentication and rate limiting.

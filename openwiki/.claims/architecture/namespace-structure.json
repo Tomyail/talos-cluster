@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:a2be7fc7ad2c6ef64821a84173f7f80bbf7ade38c94648a62c58003866229566",
+  "pageVersion": "sha256:493cb665f85c4ded5d6fd4d02d413c0a4a4532db421b7830e491cfa8edfed021",
   "claims": [
     {
       "id": "claim_01f7d801aaf14c35acc5001119c780a4",
@@ -385,10 +385,110 @@
           "version": "repo-lines-v1:sha256:7bf316ff3fc01502afc7a48dd862cee3d10809c9e0ffe0b8a85e0f7b678c1094:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRjZGE0MzIzZDljZmI1MmI1MjAyYmVlMjkyMTlmYjk1ZDdjNWM5YjBjYWZlNzJhZjA1ZmNkZDRhZDEzYWRhNTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZkOGNiNDA1Y2E4NmNkNzc0NGE1Nzc3YjA1NWQyZWM4YjRmY2M2ZjIxYjc2NTgxNjU4NmMwYWRhMDYxMjdkNGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM3ZTBjNDE1YjUxNmRkMjg5Y2MxMDFlYjAwNjJiNDI3NmVjMjU3YzhlYWYzY2IyZThlMmViYzg2ZDRhMzU2MTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_4330227606a84f9a9356b1c7a813b110",
+      "statement": "The components/volsync-new kustomize component generates four ${APP}-templated resources per app: a PersistentVolumeClaim named ${APP}, an ExternalSecret (${APP}-volsync, via the bitwarden-login ClusterSecretStore) that materializes Restic/MinIO credentials into ${APP}-volsync-secret, a ReplicationSource backing up sourcePVC ${APP} on a 6-hour schedule with restic retention of 24 hourly/7 daily/5 weekly snapshots, and a one-shot ReplicationDestination volsync-dst-${APP} with trigger manual: restore-once.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/volsync-new/claim.yaml",
+          "version": "repo-file-v1:sha256:cb49de4194c92c3936a20756252d36294fce3c5ef4d0899007dce030aea5570b"
+        },
+        {
+          "resource": "repo://kubernetes/components/volsync-new/kustomization.yaml",
+          "version": "repo-file-v1:sha256:4c2df018958ac36399edfa3f9447bad27dea5dd9b8506109b70f6b634eeaa88f"
+        },
+        {
+          "resource": "repo://kubernetes/components/volsync-new/minio.yaml",
+          "version": "repo-file-v1:sha256:67b8e7182a3de13541dc9734b42e12296509411b30a7841ee677d1bf15cfe1d2"
+        }
+      ]
+    },
+    {
+      "id": "claim_367a71c4a36f4c4f99952090f3216ad9",
+      "statement": "components/volsync and components/volsync-new differ in that the legacy volsync PVC declares dataSourceRef ReplicationDestination volsync-dst-${APP} (so first PVC creation restores from the one-shot destination), while volsync-new omits the dataSourceRef so the claim is created empty — appropriate for new apps with no existing dataset.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/volsync-new/claim.yaml",
+          "version": "repo-file-v1:sha256:cb49de4194c92c3936a20756252d36294fce3c5ef4d0899007dce030aea5570b"
+        },
+        {
+          "resource": "repo://kubernetes/components/volsync/claim.yaml",
+          "version": "repo-file-v1:sha256:884ce121cda571f91734132bb4d973643f3dbd93b8b1ee9797c5a0715061161b"
+        }
+      ]
+    },
+    {
+      "id": "claim_ff692ca087ac4cd99d4c73a27fe5f279",
+      "statement": "VolSync components are parameterized per app through Flux postBuild substitution variables (APP, VOLSYNC_CAPACITY, VOLSYNC_STORAGECLASS, VOLSYNC_ACCESSMODES, VOLSYNC_CACHE_*, VOLSYNC_COPYMETHOD, APP_UID/APP_GID); e.g. gitea sets VOLSYNC_CAPACITY: 10Gi while the claim defaults to 1Gi on storageClass topolvm-thin-provisioner.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/ks.yaml",
+          "version": "repo-file-v1:sha256:ff7408f8816c4ea8ec6166d7e1df5d61eb085dab2621b2ad42c89c1e48e7a1e5"
+        },
+        {
+          "resource": "repo://kubernetes/components/volsync-new/claim.yaml",
+          "version": "repo-file-v1:sha256:cb49de4194c92c3936a20756252d36294fce3c5ef4d0899007dce030aea5570b"
+        },
+        {
+          "resource": "repo://kubernetes/components/volsync-new/minio.yaml",
+          "version": "repo-file-v1:sha256:67b8e7182a3de13541dc9734b42e12296509411b30a7841ee677d1bf15cfe1d2"
+        }
+      ]
+    },
+    {
+      "id": "claim_251b31403b2742a08982980259581df6",
+      "statement": "The components/gatus/external component generates a stable ConfigMap ${APP}-gatus-ep (disableNameSuffixHash) labeled gatus.io/enabled: \"true\" that defines a Gatus endpoint probing https://${APP}.${SECRET_DOMAIN} every 1 minute through external DNS resolver tcp://223.5.5.5:53 and asserting HTTP 200, validating the app's externally routed URL; guarded and external-tailscale variants follow the same pattern.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/gatus/external/config.yaml",
+          "version": "repo-file-v1:sha256:04e8bf8712a614a2c0c16e250c3ffdf2625c8ae6e110e81e5dd0f28eeb6f0e02"
+        },
+        {
+          "resource": "repo://kubernetes/components/gatus/external/kustomization.yaml",
+          "version": "repo-file-v1:sha256:9b7f737953cde50bbf2e4f24584464c00b3e6e6cf26cb16b7f07e599032be423"
+        }
+      ]
+    },
+    {
+      "id": "claim_77b60178cb2a42dda1a4b76bbf5103f4",
+      "statement": "Kustomize components are opt-in per application: only apps listing a component in their Flux Kustomization spec.components (e.g. ../../../../components/volsync-new and ../../../../components/gatus/external in gitea's ks.yaml) receive its generated resources, and those components resolve the app's postBuild substitution variables such as ${APP}.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/ks.yaml",
+          "version": "repo-file-v1:sha256:ff7408f8816c4ea8ec6166d7e1df5d61eb085dab2621b2ad42c89c1e48e7a1e5"
+        },
+        {
+          "resource": "repo://kubernetes/components/gatus/external/kustomization.yaml",
+          "version": "repo-file-v1:sha256:9b7f737953cde50bbf2e4f24584464c00b3e6e6cf26cb16b7f07e599032be423"
+        },
+        {
+          "resource": "repo://kubernetes/components/volsync-new/kustomization.yaml",
+          "version": "repo-file-v1:sha256:4c2df018958ac36399edfa3f9447bad27dea5dd9b8506109b70f6b634eeaa88f"
+        }
+      ]
+    },
+    {
+      "id": "claim_7eeb6a5af9b544a7a62c4d72f6ad5d53",
+      "statement": "Apps opting into automated image updates add ../../../../components/image-automation to their ks.yaml components (e.g. epub-translator, fava, growth-tracker), which injects ImageRepository/ImagePolicy resources.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/epub-translator/ks.yaml",
+          "version": "repo-file-v1:sha256:3a9f2e34a2fa9ede34b2f9b52f22c67d99d2bfc63812a22cf5030c812346d0c6"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/fava/ks.yaml",
+          "version": "repo-file-v1:sha256:93ba2de6d9aa2151559e07b1ab2072a05b8d8d4a9a943167ae0380dc57187c7b"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/growth-tracker/ks.yaml",
+          "version": "repo-file-v1:sha256:0e9963ba4a5d1aac6d80641f83dfcddc596b03ca9ed38ca997882650fe21033e"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.6.0",
-    "at": "2026-09-25T22:38:38.997Z"
+    "by": "openwiki/0.7.0",
+    "at": "2026-10-03T22:17:28.945Z"
   }
 }

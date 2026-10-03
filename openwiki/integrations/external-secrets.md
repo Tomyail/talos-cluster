@@ -20,6 +20,8 @@ sources:
     resource: repo://kubernetes/apps/external-secrets/external-secrets/app/helmrelease.yaml
   - id: openwiki-source-70b4e591b02463e8d942ce39
     resource: repo://kubernetes/apps/external-secrets/external-secrets/ks.yaml
+  - id: openwiki-source-9ca10a21b6a666906b6c355c
+    resource: repo://kubernetes/apps/external-secrets/kustomization.yaml
   - id: openwiki-source-e4bcfe57ab9e469c34ab93eb
     resource: repo://kubernetes/apps/network/adguard-dns/app/externalsecret.yaml
   - id: openwiki-source-14da33bfab166c5902ff2a16
@@ -40,10 +42,10 @@ sources:
     resource: repo://kubernetes/components/volsync/minio.yaml
   - id: openwiki-source-d7ce147b373b74b80f0794fd
     resource: repo://kubernetes/flux/meta/repos/bitwarden-eso.yaml
-generated: { by: "openwiki/0.5.2", at: "2026-09-19T21:35:52.044Z" }
+generated: { by: "openwiki/0.7.0", at: "2026-10-03T22:17:28.945Z" }
 verified:
-  - by: openwiki/0.5.2
-    at: 2026-09-19T21:35:52.044Z
+  - by: openwiki/0.7.0
+    at: 2026-10-03T22:17:28.945Z
 ---
 
 # External Secrets Integration
@@ -562,6 +564,10 @@ kubectl get secret test-sync-secret -n default -o yaml
 ## Related Documentation
 
 - [Bitwarden Secrets Integration](../integrations/bitwarden.md) - Detailed Bitwarden provider configuration and patterns
+- [Secrets Management](../concepts/secrets-management.md) - Overall secrets architecture including SOPS and age encryption
+- [Networking Architecture](../concepts/networking.md) - Tailscale integration and network security
+- [Application Deployment Workflow](../workflows/app-deployment.md) - ExternalSecret integration in app deployments
+ation](../integrations/bitwarden.md) - Detailed Bitwarden provider configuration and patterns
 - [Secrets Management](../concepts/secrets-management.md) - Overall secrets architecture including SOPS and age encryption
 - [Networking Architecture](../concepts/networking.md) - Tailscale integration and network security
 - [Application Deployment Workflow](../workflows/app-deployment.md) - ExternalSecret integration in app deployments

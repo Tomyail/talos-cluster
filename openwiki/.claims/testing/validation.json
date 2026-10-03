@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:4a7b67ef7d919c2766115c00e690e85afae7af4082126836848b6dcf9b69b7a5",
+  "pageVersion": "sha256:8dd5674612a8458da389ad80c96b79eae172bb6fcec3b83bcafd1f6be081c9a9",
   "claims": [
     {
       "id": "claim_8ac105d25dbd4612b11232201fa7237c",
@@ -80,7 +80,7 @@
     },
     {
       "id": "claim_4d6f4c2ff56047748a1f105b1b54075f",
-      "statement": "kubeconform (0.8.0), kustomize (5.6.0), yq (4.53.6), helm (4.3.0), kubectl (1.33.1), sops, flux, talos/talhelper, and the rest of the validation toolchain (including newly pinned cue and cloudflared 2026.9.3, plus a Python 3.14.7 venv at .venv) are pinned locally via .mise.toml, but no CI step or repo config invokes kubeconform schema validation, kustomize build, or yamllint — the only automated merge gate is the flux-local workflow.",
+      "statement": "kubeconform (0.8.0), kustomize (5.6.0), yq (4.53.6), helm (4.3.0), kubectl (1.33.1), sops, flux (2.9.6), talos (1.14.2), talhelper, and the rest of the validation toolchain (including pinned cue 0.17.1 and cloudflared 2026.9.3, plus a Python 3.14.8 venv at .venv) are pinned locally via .mise.toml, but no CI step or repo config invokes kubeconform schema validation, kustomize build, or yamllint — the only automated merge gate is the flux-local workflow.",
       "evidence": [
         {
           "resource": "repo://.github/workflows/flux-local.yaml#L29-L41",
@@ -88,7 +88,7 @@
         },
         {
           "resource": "repo://.mise.toml#L7-L28",
-          "version": "repo-lines-v1:sha256:b87094105a0f310d29f56a9f26497a08f78737230e599435419bef0b3d989f67:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE4MjZiZWEwNWZlNTBhNzNhNjQ1ZDhmYjEyZGMyODJmMjUzNjM0NDMyNjZkOTAxNzM3MmVhZjg4NDU5NDYzNDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRlMmZjMWNmZmMyMTMwOTk5YTk4NDcyYzQ1MzkxZmIwMWZiNzkwNDk5ZDIwZjk3NzllMTYyOTk0MDI4M2ViYzgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc1MDg0MzNmMTUzOWVkODEwOTlhNDhlNjIwMDVhMGE4ZGMyNGUwNDFhMDVlZmMxYjFiNGRiMzQ5ZmZkMTgzMTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "version": "repo-lines-v1:sha256:23a9d8f27440df0e3ac6a0a8f1ed24ef85472fa1ad157623b44bd804b45266f0:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE4MjZiZWEwNWZlNTBhNzNhNjQ1ZDhmYjEyZGMyODJmMjUzNjM0NDMyNjZkOTAxNzM3MmVhZjg4NDU5NDYzNDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRlMmZjMWNmZmMyMTMwOTk5YTk4NDcyYzQ1MzkxZmIwMWZiNzkwNDk5ZDIwZjk3NzllMTYyOTk0MDI4M2ViYzgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc1MDg0MzNmMTUzOWVkODEwOTlhNDhlNjIwMDVhMGE4ZGMyNGUwNDFhMDVlZmMxYjFiNGRiMzQ5ZmZkMTgzMTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -111,10 +111,50 @@
           "version": "repo-lines-v1:sha256:929a4aa13d0702fa4825f59ac8b896b39d45ed1b2eed66820ec9611e7e1280d9:eyJzZWxlY3RlZExpbmVDb3VudCI6ODQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE2ZmIwOGZkYTFhY2I5NTdiNjExNmJkMzc4MTFhMWZlNDFhMDE2MTFjMDYzMWVkYmY3ODZkNjg4OWEyN2E1NWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjUyMWY1NGQwNDU2YzkyYWRmNDEzMzhjNDQzMTJkY2EyOTU2MWNmYWZkYTkyYWQ4ODE3NDY3MDlmN2FmNmI2ZmQifQ"
         }
       ]
+    },
+    {
+      "id": "claim_52c5396d037e4a11bba5ab27bdc9b205",
+      "statement": "Root Kustomizations in kubernetes/flux/cluster/ks.yaml use wait: true, timeout: 5m, and retryInterval: 2m, and HelmReleases such as Gitea use interval 1h with install.remediation.retries: 3 and upgrade cleanupOnFail + remediation strategy rollback with retries: 3 (Gatus uses install.remediation.retries: -1), so bad changes retry on the cluster and failed Helm upgrades roll back automatically.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/app/helmrelease.yaml#L7-L18",
+          "version": "repo-lines-v1:sha256:d85eab182a79649752ae330a6039ab65d43ee10e7d374aa1d4afbcbf39f2fc46:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYxY2I1N2UyYzc5ODBlOTk5OGM2ZTFjNWYyYTYzZTJiYzk2NWI4NmMyNjJmNGFhNjYzZWYyNWY2Y2JhOGI2YjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE1YTBmY2NhZmRlNTdiMmY2YWI1NGQ2M2NhMzhiNTdmMzA0OTY0ZDI2NTAwMTQ1Zjg5Y2VmZmFlOTMwNGJhYzIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYzOWIyZjljMTBmNmJiNDE0OGJlN2YyMWNkZGYzNDE1OTI1ZDM1ZWE2Zjk3ZGJmY2RkZmViY2YzMDhiOGQ5YTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIxYWVjMjdjZWFkMTMxZWM3NWFiNjE0ZmMyMWFmNjgxNmY4OTM1MDBkM2FkNzQwM2NiOTI4YjJkMDEzNzEyYzAifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/observability/gatus/app/helmrelease.yaml#L7-L18",
+          "version": "repo-lines-v1:sha256:648f2a7b3895a58bbba64220cc34f6c8a205c2f2e765cf781566e92dc338f9ea:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVlOTFlNTFjZTUzOGVmMTIwZWUyMGNiZGY5NDE1OGJhY2UxY2MxMTc5MDZmODY0ZmVkMmQ5NGUzNzExMGNiMjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE1YTBmY2NhZmRlNTdiMmY2YWI1NGQ2M2NhMzhiNTdmMzA0OTY0ZDI2NTAwMTQ1Zjg5Y2VmZmFlOTMwNGJhYzIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhkYzA4NGQ2NWQxMmQ4YWRhOTJlMzBmOGVjNTZhZWRmM2YzNTM3NmU5NWIxNzI5NmZmNWYxZjA0NjBkMGQwOTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjUyZGZlMTJlY2Q3NGEyZGRhODgwNTg3OTkwMjczNjI2NTA3YjBhMDE3YzRmYmRiODVmYjMwMWJlYmUwZGE5ZTUifQ"
+        },
+        {
+          "resource": "repo://kubernetes/flux/cluster/ks.yaml",
+          "version": "repo-file-v1:sha256:34d6970a4822f2b762ed2b48b96225a7d9a1bb7f3c4007fed459656c84134c45"
+        }
+      ]
+    },
+    {
+      "id": "claim_a6591b4ba7a541da989be4041ef11e39",
+      "statement": "Gatus is deployed as an app-template HelmRelease whose k8s-sidecar init container watches every resource labeled gatus.io/enabled: \"true\" across all namespaces and feeds the resulting ConfigMaps into /config; apps opt in via the reusable kustomize Components in kubernetes/components/gatus/ (external HTTPS check via external DNS resolver expecting HTTP 200, and guarded DNS A-record check), each generating a ${APP}-gatus-ep ConfigMap with a stable, hash-suffix-free name labeled gatus.io/enabled.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/gatus/app/helmrelease.yaml#L24-L36",
+          "version": "repo-lines-v1:sha256:89f655bb451c27a203471a72de62f7768a6a7862bfe92d41bdb1b69132a6ccd2:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM3MTZhMWViNzYwYTJlNjI0YjI1NDE5OWQ5YWFhOGU4NGZlNGIxYTU5OTdjZTZlMjU2YjkzNjk2NGU0NWUwMGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUwMmRjYjRkZGY2Nzg0NDYxNmMyYTczZTQ3NTg4MWQyYjcxY2RlNTdlMzRhZmMzMDkwNWIwZmEyYTdmNTdkNGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjMyZWI3NjUzNzA1NzE4Y2VkOTdiMmE0MzhjZjk3NWFhMTYyMDEyYzhhNDk0ZjM2MTA1NDU5YTVlZTA5NTM0MDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNhYmIxYzRkMmMyZmJmM2YzNDlhNjc3M2JiMGFjMDQ4MzFmZTQwNjRlZTcyNzJhMzk4Njg1OGZhYzIyNTA2MGUifQ"
+        },
+        {
+          "resource": "repo://kubernetes/components/gatus/external/config.yaml",
+          "version": "repo-file-v1:sha256:04e8bf8712a614a2c0c16e250c3ffdf2625c8ae6e110e81e5dd0f28eeb6f0e02"
+        },
+        {
+          "resource": "repo://kubernetes/components/gatus/guarded/config.yaml",
+          "version": "repo-file-v1:sha256:ff22db22cb7f4c8272e17065435b5e0bfe64a44ffd7e43368c58107393d34864"
+        },
+        {
+          "resource": "repo://kubernetes/components/gatus/guarded/kustomization.yaml",
+          "version": "repo-file-v1:sha256:9b7f737953cde50bbf2e4f24584464c00b3e6e6cf26cb16b7f07e599032be423"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.6.0",
-    "at": "2026-09-27T22:26:24.169Z"
+    "by": "openwiki/0.7.0",
+    "at": "2026-10-03T22:17:28.945Z"
   }
 }

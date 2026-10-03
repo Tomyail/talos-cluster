@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:1a0f182a0aec1216c8aac95dd77becc9f8090cec9947b487b1a18c022b569306",
+  "pageVersion": "sha256:e6fd546302b41ab5de6e05dd1681ed05f30c31c3ae18052e5342d8fd80703928",
   "claims": [
     {
       "id": "claim_80eba6a89bc94d76bb86d6fa3c395c3a",
@@ -155,10 +155,164 @@
           "version": "repo-file-v1:sha256:fa10b5630965480f453261c86956a0d97171b2b134e7d859a4caa3c6fa46a277"
         }
       ]
+    },
+    {
+      "id": "claim_12f92245c0eb489f8b56d3bd81f91b8b",
+      "statement": "The flux-instance HelmRelease values configure Flux's sync to point at the GitRepository for github.com/tomyail/talos-cluster.git refs/heads/main with path kubernetes/flux/cluster, which is what applies the root Kustomizations from kubernetes/flux/cluster/ks.yaml; the distribution version 2.9.5 is Renovate-pinned and all six Flux controllers are enabled.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/flux-system/flux-instance/app/helm/values.yaml#L15-L19",
+          "version": "repo-lines-v1:sha256:e2bf530dcdece63c5b52dace356d6d6bb032b2ca81f21f93201b0c5bddfef0a0:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTE4ZWViZDJiYjlhMTA5ZDVhNjgzNDU3OGY3MWY4Yzg1ZmUzOTZhYTg5NWZkM2JiOTU0NTVkMjIxYjE0ZWM0MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzJjMjdmYmI3ZDI2OWI5NGIzOWY4NDFjMjAwYmM3YWYzYzA0NWEyZmYzYWFjMjM1MmJhNmM3NWE2M2MzMmVmMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDBlMGMzZTNiOTAyNDY3ZTI5YmY3NDc5NTFjMmRhNDk3OTMwMDI4NGUxMmI1YzU3MDNkNmYzNjBlZTJhZjI4YyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzM4MzMyMzkwZmQwODU4Y2VlMTBjMmNhOTU2MjU5N2E1OTU5YTRmNTc5NTQwYjBlNGNkYjcxNzA5Y2RhMjBkZiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_8828fe9a281d41c3912903e048b75700",
+      "statement": "Flux is installed via GitOps rather than flux bootstrap: the flux-operator Kustomization deploys the ControlPlane Flux operator with a healthCheck on its own HelmRelease, and the flux-instance Kustomization (dependsOn flux-operator) deploys the pinned flux-instance OCI chart with install remediation retries -1 and upgrade rollback with 3 retries.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/flux-system/flux-instance/app/helmrelease.yaml#L17-L36",
+          "version": "repo-lines-v1:sha256:d32648093712af03c52849e301fbd81ffc7c7e5f69b68470ed11ef62d388ee57:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3MDhhNGU1NWM5ODUzODY2NGU5MzNjNjI5MTA5ZjQ4NGE0Njg1ZGUzNDc5NjhjZGY0MzVmODQ5NDhiNTQ1NTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgzOTFiYzcxMzE4OWViNzNiODllZjhmMjI5YTE0MmY0MGRkN2FiMTgyYmI3YTVhNmM0OTAwNmEyNzdhOWVkYzgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRjNjRhNzVjYTdlMGJhNjc4MWQ3YzUzOTFhZTMzMDU0NjhhZTJiYzU4NjE3ZmQ4OTQyYWZhOTI1ODAxYjU0NDQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBkOGFkMzkxOTRmYjU4ZjJkYmNjODAwMzNmYTk0ODE4NDk2NDIxNGU1NWQxM2YyNDkwMzMxNTNmMTkzOWVhZWEifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/flux-system/flux-instance/ks.yaml",
+          "version": "repo-file-v1:sha256:f8f5980b99b8044e4e1f696adfc522076eb30bbe028917095312c22557890050"
+        },
+        {
+          "resource": "repo://kubernetes/apps/flux-system/flux-operator/ks.yaml",
+          "version": "repo-file-v1:sha256:7a328e4623057bc9f9c3117b08f5818984e72c4813235ea1598f9fa7904e4119"
+        }
+      ]
+    },
+    {
+      "id": "claim_25a4edb943804eb782cbe9c5e0b8c6d6",
+      "statement": "kubernetes/flux/cluster/ks.yaml defines four root Kustomizations in flux-system: cluster-meta (path ./kubernetes/flux/meta, no dependencies), gateway-api-crds and external-dns-crds (each dependsOn cluster-meta, 5m timeout), and cluster-apps (path ./kubernetes/apps, dependsOn cluster-meta plus both CRD Kustomizations), so no application reconciles until the upstream CRDs and source repositories exist.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/flux/cluster/ks.yaml",
+          "version": "repo-file-v1:sha256:34d6970a4822f2b762ed2b48b96225a7d9a1bb7f3c4007fed459656c84134c45"
+        },
+        {
+          "resource": "repo://kubernetes/flux/meta/repos/external-dns-crds.yaml",
+          "version": "repo-file-v1:sha256:ab13a6466c09c97818407bfdeb66433be04fd189a4f36727390d03fcfc6a6a24"
+        },
+        {
+          "resource": "repo://kubernetes/flux/meta/repos/gateway-api.yaml",
+          "version": "repo-file-v1:sha256:a22d1974bd0ef7cbb9b220fb23d9ea3fc6a0eb377d310b017384d8d6c789079e"
+        }
+      ]
+    },
+    {
+      "id": "claim_4d8e032e8ee44509bbed50c3ae25ea55",
+      "statement": "cluster-meta reconciles kubernetes/flux/meta, which contains the repos/ directory registering roughly thirty upstream GitRepository chart sources (cilium, cloudnative-pg, grafana, jetstack, etc.) that application HelmReleases depend on; cluster-meta also hardcodes targetNamespace flux-system for Renovate lookups.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/flux/cluster/ks.yaml#L7-L23",
+          "version": "repo-lines-v1:sha256:75a5050aaad6281e5fa5132f0c0a2c8dbf1ed6f076fc0b97a3c343e44e2ebddf:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk4ZWRhMzdiMjQyZGRiYjI5OTZmZjQ3MTQ2OGM5OGJmOGYzYWVkMzkxOWY0NWJlYzk1YjVkOTcxZjg5ODZlMGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyY2ZmNWZmYmE1MGFjMzgxNmFmZjljODViNmI3YTQ4NWU3ZTJhNzM0NjI1ZjM5NGMwNDlkNGI5NmQ1N2E4YzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIyMjYyODAxNDM1ZDUyYzMwYmQwMTdjOWE0MTNlNTQ3NDJhMjg4ZTBhYzM5YTY2YjRkZDdkZjM0Yjk1ZWIzMTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ4NjllNzFiYzE5ZjhkNjJjYWQ0NzNjY2RiMDQ2ZDA3Yzk1YTM1YTlhMGJjNTQ5MDk5NDczYmEzNThmYTU3MTMifQ"
+        },
+        {
+          "resource": "repo://kubernetes/flux/meta/repos/kustomization.yaml",
+          "version": "repo-file-v1:sha256:fa10b5630965480f453261c86956a0d97171b2b134e7d859a4caa3c6fa46a277"
+        }
+      ]
+    },
+    {
+      "id": "claim_631c5cb0f8854ce7932a1cce4ba99d55",
+      "statement": "Gateway API and external-dns CRDs are pulled from upstream release tags via pinned GitRepositories (gateway-api v1.6.2 from kubernetes-sigs/gateway-api, external-dns-crds v0.23.0 from kubernetes-sigs/external-dns), each with a 15m interval and an ignore block exposing only /config/crd/experimental/ or /config/crd/standard/; Renovate manages the tags, and bootstrap-apps.sh also applies these CRDs directly during first bootstrap.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/flux/cluster/ks.yaml#L29-L65",
+          "version": "repo-lines-v1:sha256:22f78d131f093886bf439d93cc1626676f51948aef617ffdd9b182995c0e38f6:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjczZWNiYmMwM2RlNDZhNWU2M2FkNTZmODYzMzYzZTAwZDRlN2I1ZDU4ZTY1ZTgwNzAwY2M3ZWEyOTk4OTEwM2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyY2ZmNWZmYmE1MGFjMzgxNmFmZjljODViNmI3YTQ4NWU3ZTJhNzM0NjI1ZjM5NGMwNDlkNGI5NmQ1N2E4YzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgzMjBjMjdjOTc3MzU1N2IwOTNlMmZkYmQ1NTIxNWRhZDZmODQ1YjFjMzg5NmE3MzYzYjRlYjZiNmQ1ZjEwMGIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ4NjllNzFiYzE5ZjhkNjJjYWQ0NzNjY2RiMDQ2ZDA3Yzk1YTM1YTlhMGJjNTQ5MDk5NDczYmEzNThmYTU3MTMifQ"
+        },
+        {
+          "resource": "repo://kubernetes/flux/meta/repos/external-dns-crds.yaml#L8-L18",
+          "version": "repo-lines-v1:sha256:b2aeb3f0c55d72f3cc064b715f23a693836f40f3e979469867aad714d7b140ff:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVlOTFlNTFjZTUzOGVmMTIwZWUyMGNiZGY5NDE1OGJhY2UxY2MxMTc5MDZmODY0ZmVkMmQ5NGUzNzExMGNiMjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEwZmEzYzllYWY0MGM0YWNkNWQxMmJlYWM1Mjk4NWY4YjIyYjc0NTM0MGU4MTkxMDU0ODU1ZDEyOTY4NTk2N2YiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZmMzExMzE1Mzg1Yjk0MDEyZGEwYzlmNzkwZjgwMGZhMzQ3MDIwZWY0YTYxYmFmYTJkY2IwYzEwMjE5ZTQyZTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://kubernetes/flux/meta/repos/gateway-api.yaml#L8-L18",
+          "version": "repo-lines-v1:sha256:e3df3d13c759358923412235023dd7d065e4e8a9b7200dcff1d591509f0a1748:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVlOTFlNTFjZTUzOGVmMTIwZWUyMGNiZGY5NDE1OGJhY2UxY2MxMTc5MDZmODY0ZmVkMmQ5NGUzNzExMGNiMjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEzZjI3YjMwOWQ4NWQzYmQzNWExNjhhY2NjZmZiNWNmNzY1NDkxNDc5NzE1MTVkM2M5NTE1OGJlMWIwMGVmMTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI0YTY0Mzk1Y2ZjZmIyZjYwMmQ4ZTExMzU3MmM5MTE4NDRhODBkMWQ5NDcyNGRkOGY2MzgxMzYyM2U0NDc2Y2YiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://scripts/bootstrap-apps.sh#L88-L100",
+          "version": "repo-lines-v1:sha256:d9a63d960bee35dc74cba305f7a836e0729f45bfe423c9adfdba5cbf358453ed:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY2M2YyNzhkYjQ4YWFiOTQzZjQ3ZTMxZmYzMmEzOTY3MDRiNDc5MTY1N2M0MzgwOGVlMGM3MmYyZmExNWU5MmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwODZkMmU1YzE4M2Q4ODIwZDhkODZmOWJkZWYyMjBiNDNjYzdkMDc3OWE0ZjFlNzJjZjcxZDM5ZWRhM2NiZDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhhZWFkOTQ4M2I2MjQ5YzgwNDc0NDZiMzQ0Y2FlODhhYTIyNDZmNzU3NTg4ZjJiNGY3MzM1YzE2M2MxNjkyYWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBjNTg5NDJhYWI5ODEwM2U2N2QxZDdjMTUxODU3ZTk0NmZjNzYyYzg3NWE0MTA3N2FkZjZmYWNhMDVhYjc2OWYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ce80fda881494f11945113d077d9852a",
+      "statement": "All root and flux-system Kustomizations decrypt SOPS files with decryption provider sops referencing the sops-age Secret, which holds an age private key encrypted for recipient age1shkd7fsr...; the secret is seeded out-of-band into flux-system by scripts/bootstrap-apps.sh before Flux can reconcile, and re-applied thereafter through the common Kustomize component.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/common/sops/kustomization.yaml",
+          "version": "repo-file-v1:sha256:d8ed27e133a7c7b3a4e77fc5e274182244e747a7c15a7f8a3d6532ccb14f629a"
+        },
+        {
+          "resource": "repo://kubernetes/components/common/sops/sops-age.sops.yaml#L1-L9",
+          "version": "repo-lines-v1:sha256:f4c2bc225e627f9c1b4c07ec07ca9abd7e27ff21ea3d051d2239c2bde553722b:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzc2YWUxNDI0MjhlNzU0YjY3ZDdkNmUzZGZkYmUxYjQ0OGYwYmFjMzU1ZDhmYTI0ZWM5NDcxZTIxZDkwYjQzMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTg2YzYyNWQ5YzM1M2QyYTVjNzFkZTA3ODYwZmQ4ZTVhNzIzYWM5YmY5OWJmYjA0N2YxMGExMzBlYmMyZGNiNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjU5NmM2YTlmZWY0MDhhN2VlZGFhNjBmNDVkZjRlOTJmMDgzN2Q5OTdiYmExYmU1NzA2NGJiZWFmZDBlOTU0MSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/flux/cluster/ks.yaml#L9-L12",
+          "version": "repo-lines-v1:sha256:f000b31c3522bd306a024cee6cfaa7daf3e17c4cde85925ad1ade76d25df1976:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGFiNmUwZWUyMWNmZTcxYTkwNWE5OTkwNWM1ZGEzOTc2ZDA1YTk5MDBhMzVjMGFkMWIxMjc3Y2RjOWUxOWRlZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGUxNWFiOThmYjQ2MzhhOTc1MTM4OTdiMWNmOWZmYTlhZTJmNjVlNWZjYzY1ZTI0YTJhYWRiNGI5ZjQ0YjBlNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjNmYzJmYmI4MWVjM2Q2M2VhN2VjMTQ1ZjE0NGEzNDViNzVlZDI5YjFkZjIxMzMwZDcyMjQ2NmQ3ZmU2NTJlNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTg4YzNhZDUzMDMyNGZkZmNjMjY0Mjk0MmU5MTFiYWNhYTI1MjNhNzI5ZDc4ZjA2NTI3NTQzY2Y2YjQ1ZDA4MSJ9"
+        },
+        {
+          "resource": "repo://scripts/bootstrap-apps.sh#L57-L85",
+          "version": "repo-lines-v1:sha256:8f59b3064b8cac21918a59060f96636874e37359df2f0e4ba1ade95f5f706f69:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY0OThiODk0YzQ3NzQyYmM3MTc1MDQ1ZTk1MWY0NmQyMDc4NTVkMDNlZDZhNTJkMGZiMDEzM2MzMGFiOTgwMjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQwYmU3NDllNjExMWJjN2IwNjRiMDY1MGNlZDIzYjYxODg5ZDIzZjE1ZWI3MDViYjlhYzdlZDVlNTMzNWQ0YTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI1ZmUxMzM4YmI5YTIwMDA4ODZlY2ViYjg5NThhMjI1MzcwZTgyNTAwNzhlMmEzMDhkN2Q0NjYwYzQ1ZTdlN2IifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_00f77fd2bd9b436481a05aee292d7f42",
+      "statement": "Application and flux-system Kustomizations use postBuild.substituteFrom with the cluster-secrets Secret (SOPS-encrypted, seeded by bootstrap-apps.sh, shipped in the common component) so ${VAR} placeholders like SECRET_DOMAIN and TIMEZONE are replaced cluster-wide, with per-app variables added via inline postBuild.substitute entries.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/flux-system/flux-instance/ks.yaml#L21-L26",
+          "version": "repo-lines-v1:sha256:f0a44e07376f6d3830540be2314f617ecba6ed627d1c6e82ff11d19fe09dbc27:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDVmYjU2ZDNhNTI5OWEwMzRlNDAzYmQ0YzFhYWFkMmFkZWE4MmVlMWY2YjkwOTE4MzkxNWNlNWY1ZjA2MzRhZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGE3ODg5OTAzOWYyYWM4OTYzYjhmMDQ3YzQ4ZjA3NmFkZjFkMDgxNmUwNzYyMjJlNTg3MDdjNTRmYzEzMGFkNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjdlY2E2ZGNmZDhkOTY4NWZiOWE1MmVjOTAzMzRmNTQ4ZTg1ZDEyMWIxN2RlNDFhMjczYzdhM2JiY2RhOWNhMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTFmZDAzNzliZDhjYTI5ZDVlYTdhNjMwNmJiNThmZmM5YTIxNGFjM2UxNzQ4YzdjOTBlY2RmMjkzM2RjM2YyOSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/components/common/sops/cluster-secrets.sops.yaml",
+          "version": "repo-file-v1:sha256:997e16c33fef587b4a95c73cc6d3fa5b0c7342a14afe9f646a2a23f9b62fb1c0"
+        },
+        {
+          "resource": "repo://scripts/bootstrap-apps.sh#L57-L85",
+          "version": "repo-lines-v1:sha256:8f59b3064b8cac21918a59060f96636874e37359df2f0e4ba1ade95f5f706f69:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY0OThiODk0YzQ3NzQyYmM3MTc1MDQ1ZTk1MWY0NmQyMDc4NTVkMDNlZDZhNTJkMGZiMDEzM2MzMGFiOTgwMjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQwYmU3NDllNjExMWJjN2IwNjRiMDY1MGNlZDIzYjYxODg5ZDIzZjE1ZWI3MDViYjlhYzdlZDVlNTMzNWQ0YTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI1ZmUxMzM4YmI5YTIwMDA4ODZlY2ViYjg5NThhMjI1MzcwZTgyNTAwNzhlMmEzMDhkN2Q0NjYwYzQ1ZTdlN2IifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e629de7bd06541169eb889dae4877bee",
+      "statement": "Root Kustomizations uniformly set prune: true (garbage-collect resources deleted from Git), retryInterval: 2m (fast retry of failed reconciles), wait: true (health-wait resources before Ready, with --requeue-dependency=5s making dependency checks quick), interval: 1h steady state (shortened by the GitHub Receiver webhook), and timeout: 5m on CRD and cluster-apps reconciles.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/flux-system/flux-instance/app/helm/values.yaml#L25-L66",
+          "version": "repo-lines-v1:sha256:111b2503d61c7b430cd017e41921ef42c4b010c4aee7116c4bab5f11354ee211:eyJzZWxlY3RlZExpbmVDb3VudCI6NDIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhkNDc1ZTI5MWVmZmMyZWQ5YjRjOWVmZTM3Y2M5ODlhYTM2Nzg0MDM1YjgzNjFjZTFkMTEzN2MzYmRkYjUyMWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVkYzE5Y2FhODU3NTY2OGZlNjA5NDMxOWFiMzE3OWYzNjg4ZjE1OTdmYTgxZWYxMTJhNWM1MTE0ZmJkOTU0OGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY5NzQzYWJjYjM2MDcyNzU0NjdlYjcxYTlkYTU3ODMyNjllZGIxMjFjNTUyYzY3YTFlZjEwOWY4ZTBmNWU4MGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJiMTA5MjQxYjFjMTc2YjY5YTM3ZGM1M2I2MmE4MDU4NzI3ZjI4YTc1OTBlNWJhYzYyMDhkN2U2MWIxMzczYzYifQ"
+        },
+        {
+          "resource": "repo://kubernetes/flux/cluster/ks.yaml",
+          "version": "repo-file-v1:sha256:34d6970a4822f2b762ed2b48b96225a7d9a1bb7f3c4007fed459656c84134c45"
+        }
+      ]
+    },
+    {
+      "id": "claim_d0688b40c3b446209640e98f5d699dcc",
+      "statement": "The flux-instance Kustomization also ships a GitHub notification Receiver (events ping/push) targeting the flux-system GitRepository, authenticated by a SOPS-encrypted github-webhook-token-secret, so pushes trigger immediate reconciliation instead of waiting for the poll interval.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/flux-system/flux-instance/app/kustomization.yaml",
+          "version": "repo-file-v1:sha256:eab5c0f98fa1e6ec02aceff9de13107e9566f5c22c7e940983dd186ab447f19b"
+        },
+        {
+          "resource": "repo://kubernetes/apps/flux-system/flux-instance/app/receiver.yaml",
+          "version": "repo-file-v1:sha256:c6a97e4b370a9a3af37d304e10a9521a15a39042a06d364ec90b97897eab1e9f"
+        },
+        {
+          "resource": "repo://kubernetes/apps/flux-system/flux-instance/app/secret.sops.yaml",
+          "version": "repo-file-v1:sha256:ec80b6a7e4f91c74d25e6af121c84df32c70c3b8060033d2848d2cb6d6a2ffcc"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.6.0",
-    "at": "2026-09-25T22:38:38.997Z"
+    "by": "openwiki/0.7.0",
+    "at": "2026-10-03T22:17:28.945Z"
   }
 }

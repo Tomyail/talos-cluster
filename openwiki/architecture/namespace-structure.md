@@ -18,6 +18,14 @@ sources:
     resource: repo://kubernetes/apps/default/echo/app/kustomization.yaml
   - id: openwiki-source-1385f4adf262cc0ec92b6d45
     resource: repo://kubernetes/apps/default/echo/ks.yaml
+  - id: openwiki-source-4499c1774b6eb592ec1c4664
+    resource: repo://kubernetes/apps/default/epub-translator/ks.yaml
+  - id: openwiki-source-e25edd804fc5172169ff7128
+    resource: repo://kubernetes/apps/default/fava/ks.yaml
+  - id: openwiki-source-649e5ed74d5376f95cff2b2a
+    resource: repo://kubernetes/apps/default/gitea/ks.yaml
+  - id: openwiki-source-98116d7d2af016f632c79396
+    resource: repo://kubernetes/apps/default/growth-tracker/ks.yaml
   - id: openwiki-source-83fcf5098607a9b2edbdd01e
     resource: repo://kubernetes/apps/default/kustomization.yaml
   - id: openwiki-source-9779b9f95c92fea599cac48c
@@ -60,8 +68,18 @@ sources:
     resource: repo://kubernetes/components/common/repos/kustomization.yaml
   - id: openwiki-source-dff47ef9008ba7bce93e217b
     resource: repo://kubernetes/components/common/sops/kustomization.yaml
+  - id: openwiki-source-19cc4d5883bfca3fab22bd67
+    resource: repo://kubernetes/components/gatus/external/config.yaml
   - id: openwiki-source-3ecfe771454a6bc6a446f83f
     resource: repo://kubernetes/components/gatus/external/kustomization.yaml
+  - id: openwiki-source-38c32ceedfcf925cff975177
+    resource: repo://kubernetes/components/volsync-new/claim.yaml
+  - id: openwiki-source-286accabe6659d8f9ce3fa94
+    resource: repo://kubernetes/components/volsync-new/kustomization.yaml
+  - id: openwiki-source-687f5a81f368e2f129b0b0d7
+    resource: repo://kubernetes/components/volsync-new/minio.yaml
+  - id: openwiki-source-a5d3d336aaacc62e6680c65d
+    resource: repo://kubernetes/components/volsync/claim.yaml
   - id: openwiki-source-cf127a322444d1f6306750c2
     resource: repo://kubernetes/components/volsync/kustomization.yaml
   - id: openwiki-source-0696023deccf378a358f7526
@@ -72,10 +90,10 @@ sources:
     resource: repo://kubernetes/flux/meta/repos/kustomization.yaml
   - id: openwiki-source-6f1d2c8de9160e178167b990
     resource: repo://scripts/bootstrap-apps.sh
-generated: { by: "openwiki/0.6.0", at: "2026-09-25T22:38:38.997Z" }
+generated: { by: "openwiki/0.7.0", at: "2026-10-03T22:17:28.945Z" }
 verified:
-  - by: openwiki/0.6.0
-    at: 2026-09-25T22:38:38.997Z
+  - by: openwiki/0.7.0
+    at: 2026-10-03T22:17:28.945Z
 ---
 
 # Namespace and Application Organization
@@ -283,8 +301,10 @@ postBuild:
 ```yaml
 components:
   - ../../../../components/volsync-new
-  - ../../../../components/gatus/guarded
+  - ../../../../components/gatus/external
 ```
+
+Components are opt-in: only apps whose `ks.yaml` lists a component get its generated resources, and components consume the `postBuild` substitution variables (`APP`, `VOLSYNC_*`, `GATUS_*`) the app defines, so the same component files serve every application.
 
 ## App-Template OCI Pattern
 
@@ -364,6 +384,10 @@ Shared functionality is provided through components in `kubernetes/components/`:
 - **components/gatus** - Gatus monitoring endpoints (external, guarded, external-tailscale variants)
 - **components/volsync** - VolSync backup configuration (claim, minio)
 - **components/volsync-new** - Updated VolSync component for new deployments
+
+The two VolSync components are nearly identical in shape but differ in one important way. Both bundle three `${APP}`-templated resources: a PersistentVolumeClaim named after the app, an ExternalSecret (`${APP}-volsync`, from the `bitwarden-login` ClusterSecretStore) that materializes Restic repository credentials (`RESTIC_REPOSITORY`, `RESTIC_PASSWORD`, MinIO access keys) into `${APP}-volsync-secret`, a six-hourly `ReplicationSource` (restic, retain 24 hourly / 7 daily / 5 weekly snapshots), and a one-shot `ReplicationDestination` (`volsync-dst-${APP}` with `trigger: manual: restore-once`). In the legacy `components/volsync`, the PVC declares `dataSourceRef: ReplicationDestination volsync-dst-${APP}`, so the first PVC creation restores data from the destination (the "restore once" bootstrap for migrating an existing dataset). In `components/volsync-new`, the PVC drops that `dataSourceRef`, so the claim is created empty and sized by `VOLSYNC_CAPACITY` (default `1Gi`, storage class `topolvm-thin-provisioner`) — appropriate for genuinely new apps that start with no data to restore. Apps tune the component entirely through `postBuild.substitute` variables such as `APP`, `VOLSYNC_CAPACITY`, `VOLSYNC_STORAGECLASS`, `VOLSYNC_ACCESSMODES`, and `APP_UID`/`APP_GID`.
+
+The `components/gatus/external` variant generates a Gatus health-check endpoint for the app from a fixed `config.yaml` template: it creates a ConfigMap `${APP}-gatus-ep` (hash suffix disabled so the name is stable) labeled `gatus.io/enabled: "true"`, which the Gatus deployment discovers. The check probes `https://${APP}.${SECRET_DOMAIN}` (overridable via `GATUS_SUBDOMAIN`, `GATUS_PATH`, `GATUS_STATUS`) every minute through an external DNS resolver (`tcp://223.5.5.5:53`), verifying an HTTP 200 — i.e. it validates the app's externally routed URL rather than an in-cluster one. The `guarded` and `external-tailscale` variants follow the same ConfigMap pattern with different probe semantics.
 - **components/image-automation** - ImageRepository and ImagePolicy for automated updates
 
 ### Component Injection

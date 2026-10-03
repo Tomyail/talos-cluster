@@ -42,15 +42,17 @@ sources:
     resource: repo://kubernetes/flux/cluster/ks.yaml
   - id: openwiki-source-6f1d2c8de9160e178167b990
     resource: repo://scripts/bootstrap-apps.sh
-generated: { by: "openwiki/0.5.2", at: "2026-09-19T21:35:52.044Z" }
+generated: { by: "openwiki/0.7.0", at: "2026-10-03T22:17:28.945Z" }
 verified:
-  - by: openwiki/0.5.2
-    at: 2026-09-19T21:35:52.044Z
+  - by: openwiki/0.7.0
+    at: 2026-10-03T22:17:28.945Z
 ---
 
 # Secrets Management
 
 The cluster employs a dual-layer secrets architecture that separates Git repository encryption from runtime secret injection. This approach ensures secrets stored in Git remain encrypted at rest while applications receive decrypted secrets at runtime through External Secrets Operator.
+
+**Core Invariant**: Every secret file committed to Git must match a `.sops.yaml` creation rule and remain encrypted at rest, and the local `age.key` private key must correspond to the same age keypair stored in the in-cluster `sops-age` secret (`kubernetes/components/common/sops/sops-age.sops.yaml`). If these ever diverge — a plaintext `*.sops.yaml` committed to Git, or an `age.key` that no longer matches the in-cluster `sops-age` key — Flux decryption fails and the repository cannot reconcile. Verify both before pushing changes (`sops --decrypt` locally; `kubectl get secret sops-age -n flux-system` in the cluster).
 
 ## Architecture Overview
 

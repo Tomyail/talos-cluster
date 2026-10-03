@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:4448c484cdc084db12b5264c39a0ab5857d5bb82cd6b6d3ab26a5d77259e9e7f",
+  "pageVersion": "sha256:dc6a8a8eaa99f78895c9db4472755befa9e3f9637e6061322039502762af59ea",
   "claims": [
     {
       "id": "claim_0e4b64aa301a4c2dac2447bb89e242db",
@@ -272,7 +272,7 @@
     },
     {
       "id": "claim_0cc919563e3d4354ad4603d45b6e5f7e",
-      "statement": "The network namespace ships an smtp-relay app based on maddy (ghcr.io/foxcpp/maddy:0.9.5, digest-pinned, app-template chart) that provides outbound email relay on SMTP port 25 with a server port on 465 and metrics on 8080. It mounts maddy.conf read-only from the smtp-relay-configmap ConfigMap, injects credentials from smtp-relay-secret (ExternalSecret-managed), runs hardened (non-root UID 1000, read-only rootfs, all capabilities dropped, 64Mi memory limit), restarts on secret change via reloader, and is scraped by a ServiceMonitor.",
+      "statement": "The network namespace ships an smtp-relay app based on maddy (ghcr.io/foxcpp/maddy:0.9.6, digest-pinned, app-template chart) that provides outbound email relay on SMTP port 25 with a server port on 465 and metrics on 8080. It mounts maddy.conf read-only from the smtp-relay-configmap ConfigMap, keeps runtime state in an in-memory emptyDir cache volume, injects credentials from smtp-relay-secret (ExternalSecret-managed), runs hardened (non-root UID 1000, read-only rootfs, all capabilities dropped, 10m CPU request, 64Mi memory limit), restarts on secret change via reloader, and is scraped by a ServiceMonitor.",
       "evidence": [
         {
           "resource": "repo://kubernetes/apps/network/kustomization.yaml",
@@ -283,8 +283,8 @@
           "version": "repo-file-v1:sha256:911e0639821841822f6b47341d54156955d9402d0ab82684b068a4c1e26725d3"
         },
         {
-          "resource": "repo://kubernetes/apps/network/smtp-relay/app/helmrelease.yaml",
-          "version": "repo-file-v1:sha256:175568e0d3763bb47be47b528b36913351ec44330a383373f750c6bff2fb19e2"
+          "resource": "repo://kubernetes/apps/network/smtp-relay/app/helmrelease.yaml#L18-L77",
+          "version": "repo-lines-v1:sha256:dd37538bc14d88c21f65914940ebe0264fd437b240633babc045cce29d091ec5:eyJzZWxlY3RlZExpbmVDb3VudCI6NjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2ZjFjNzJiNTlhZGU1MjRjMDEzNWM3Y2RiMGViMjRhYWZiZjE0ZGIxOWYxNzYwZjE5M2IyNzA3N2M5Nzg0NjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZhZmUyOGZjM2U0MjEwNzFhZWZjYmZkYmFmMTNkMDU1MjZiY2JlYTBlNGIyNDY3ZGM5MDI1YmM2MDViZjA2YzgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYxNWE0YjNlMTM3YTVhOWRiMGRkMDVhZGY4ODcyMTcyMGJmODMyNjA2Yzg2MDI0MDc4ZDk5YmZiYWEyMjE5ODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -326,7 +326,7 @@
     }
   ],
   "verification": {
-    "by": "openwiki/0.6.0",
-    "at": "2026-09-26T22:04:11.432Z"
+    "by": "openwiki/0.7.0",
+    "at": "2026-10-03T22:17:28.945Z"
   }
 }

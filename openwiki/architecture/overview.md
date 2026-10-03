@@ -50,10 +50,10 @@ sources:
     resource: repo://README.md
   - id: openwiki-source-1fd71dc29915917549048436
     resource: repo://talos/talconfig.yaml
-generated: { by: "openwiki/0.6.0", at: "2026-09-26T22:04:11.432Z" }
+generated: { by: "openwiki/0.7.0", at: "2026-10-03T22:17:28.945Z" }
 verified:
-  - by: openwiki/0.6.0
-    at: 2026-09-26T22:04:11.432Z
+  - by: openwiki/0.7.0
+    at: 2026-10-03T22:17:28.945Z
 ---
 
 # Architecture Overview
@@ -286,7 +286,7 @@ flowchart TD
    - Prunes resources on removal
 
 **Namespace-level Kustomizations**:
-Each namespace (kube-system, network, observability, storage, database, external-secrets, default, external-server) has its own Kustomization managing app-specific resources.
+Each namespace (kube-system, flux-system, network, observability, storage, database, cert-manager, external-secrets, default, external-server) has its own Kustomization managing app-specific resources.
 
 ### Namespace-per-App Layout and Cross-Namespace Ordering
 
@@ -579,6 +579,10 @@ Auto-updates tracked dependencies:
 5. **TopoLVM over hostPath/emptyDir**: Dynamic volume management with LVM flexibility
 6. **VolSync over Velero**: Application-level backup with remote sync support
 7. **Gateway API over Ingress**: Modern routing standard with better CRD support
+8. **OCIRepository over GitRepository for charts**: Immutable chart storage with better caching
+9. **Bootstrap then GitOps**: Helmfile establishes foundation, Flux maintains state
+10. **Bitwarden for external secrets**: Centralized secret management with self-hosting option
+routing standard with better CRD support
 8. **OCIRepository over GitRepository for charts**: Immutable chart storage with better caching
 9. **Bootstrap then GitOps**: Helmfile establishes foundation, Flux maintains state
 10. **Bitwarden for external secrets**: Centralized secret management with self-hosting option
