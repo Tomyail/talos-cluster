@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:898cbb2051b19b6c20f67bc906b5d751613e27726917a404d8bc1fda2483596f",
+  "pageVersion": "sha256:1deab2b268e6081d29854d202920295649c6370b7e1c6051552bd2977034b1ed",
   "claims": [
     {
       "id": "claim_28ba8b626032486cb6cfda160b55c8a5",
@@ -90,11 +90,11 @@
     },
     {
       "id": "claim_27bbd42c27414fd89888c309dba7ef1a",
-      "statement": "mise toolchain versions pinned in the .mise.toml [tools] block — Python (3.14.8), pipx-installed makejinja (2.9.1), aqua-proxied CLIs (talhelper 3.1.17, cilium-cli 0.20.1, gh CLI 2.101.0, cloudflared 2026.9.3, cue 0.17.1, age 1.3.2, flux2 2.9.6, sops 3.13.3, go-task 3.53.1, helm 4.3.0, helmfile 1.8.1, jq 1.7.1, kustomize 5.6.0, kubectl 1.33.1, yq 4.53.6, talos 1.14.2, kubeconform 0.8.0) — plus unpinned node and pipx are managed by Renovate's mise manager, auto-merged via branch for minor and patch updates with tests ignored.",
+      "statement": "mise toolchain versions pinned in the .mise.toml [tools] block — Python (3.14.8), pipx-installed makejinja (2.9.1), aqua-proxied CLIs (talhelper 3.1.17, cilium-cli 0.20.1, gh CLI 2.102.0, cloudflared 2026.9.3, cue 0.17.1, age 1.3.2, flux2 2.9.6, sops 3.13.3, go-task 3.54.0, helm 4.3.0, helmfile 1.8.1, jq 1.7.1, kustomize 5.6.0, kubectl 1.33.1, yq 4.54.1, talos 1.14.2, kubeconform 0.8.0) — plus unpinned node and pipx (latest) are managed by Renovate's mise manager, auto-merged via branch for minor and patch updates with tests ignored.",
       "evidence": [
         {
           "resource": "repo://.mise.toml#L7-L28",
-          "version": "repo-lines-v1:sha256:23a9d8f27440df0e3ac6a0a8f1ed24ef85472fa1ad157623b44bd804b45266f0:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE4MjZiZWEwNWZlNTBhNzNhNjQ1ZDhmYjEyZGMyODJmMjUzNjM0NDMyNjZkOTAxNzM3MmVhZjg4NDU5NDYzNDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRlMmZjMWNmZmMyMTMwOTk5YTk4NDcyYzQ1MzkxZmIwMWZiNzkwNDk5ZDIwZjk3NzllMTYyOTk0MDI4M2ViYzgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc1MDg0MzNmMTUzOWVkODEwOTlhNDhlNjIwMDVhMGE4ZGMyNGUwNDFhMDVlZmMxYjFiNGRiMzQ5ZmZkMTgzMTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "version": "repo-lines-v1:sha256:ade9f4c62cb1bf6e927778ab5084e3e4cdc135b3b966a1a18b0a6636458f68a2:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE4MjZiZWEwNWZlNTBhNzNhNjQ1ZDhmYjEyZGMyODJmMjUzNjM0NDMyNjZkOTAxNzM3MmVhZjg4NDU5NDYzNDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRlMmZjMWNmZmMyMTMwOTk5YTk4NDcyYzQ1MzkxZmIwMWZiNzkwNDk5ZDIwZjk3NzllMTYyOTk0MDI4M2ViYzgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc1MDg0MzNmMTUzOWVkODEwOTlhNDhlNjIwMDVhMGE4ZGMyNGUwNDFhMDVlZmMxYjFiNGRiMzQ5ZmZkMTgzMTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
           "resource": "repo://.renovaterc.json5#L77-L84",
@@ -227,10 +227,24 @@
           "version": "repo-lines-v1:sha256:3dc684c0cd34ec16eb59b8c4488a07f37e2053a7130857e0676fa264ae1a9ef4:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY2M2YyNzhkYjQ4YWFiOTQzZjQ3ZTMxZmYzMmEzOTY3MDRiNDc5MTY1N2M0MzgwOGVlMGM3MmYyZmExNWU5MmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwYzFmMTg4ZjE0MmVkN2E4MjQ2ODBiMjA3MTcyYzU1MTliYzYxNGE0OGZkYTdjZjE2N2VkYjhkZGY3OTk1NmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhhZWFkOTQ4M2I2MjQ5YzgwNDc0NDZiMzQ0Y2FlODhhYTIyNDZmNzU3NTg4ZjJiNGY3MzM1YzE2M2MxNjkyYWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY4OTQ3YTZhMTcxMjk5NmNkYzM5OWUwYjNjOTM5YmJmMzE0NDQyYzUzYjg2NjQ0Yjg0NWNhMmNmYTNkYTMxMTIifQ"
         }
       ]
+    },
+    {
+      "id": "claim_fccdd9ec3fc44071bfad042bca639e7f",
+      "statement": "Changes to .mise.toml are automatically labeled area/mise by the GitHub labeler, while Renovate mise-manager updates use the mise semantic commit scope with topic \"tool {{depName}}\", connecting toolchain PRs to the mise area label.",
+      "evidence": [
+        {
+          "resource": "repo://.github/labeler.yaml#L18-L21",
+          "version": "repo-lines-v1:sha256:08a8840324949b9ec805a772529ed53d14a8f14e0dc2e11c7af031450d975e6e:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2VmOTRlZjU0NmM5ODhmNTc4ZWUzMWVmNmUzZmFlOTI3OGNmMTMwOWFiMDUyMDEwYTRkNTUwZTU5MzZhNDc4MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGY2Mzc0ZjdiNjZmMjQzYWZiYTg5ODZiZjlhZjM2ZTU5ZmIzNDJiODIxNmIwOGNiOTA0NzNiMWQzYjRmY2Y4OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTg0NTA4OWI5YjgzMTIzYTFlZGJmOGUxZjdhMTRjNzQxN2U5NjFlOGIxYTE1NzVlMTAzYzM2MmNiYTBjNTJmOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzRkY2Y1YWY2ZWYyN2RjYWIyMzhhNjJhOTIxNTc4NzBmYjUzZTZiZTQyNmM1ZGY2NTZjYWUwZGQ3MWJhNzYxOCJ9"
+        },
+        {
+          "resource": "repo://.renovaterc.json5#L127-L131",
+          "version": "repo-lines-v1:sha256:362eeda44f1015cb0b9c6e25d21b68c47630dc15d17022ba15d6c1aede69b9b0:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjljYTg5MWJmZjdhYzFmN2NlYWFlNDBlZjA1MTA2NmJlOWVmZTQ3YjRlNDI4MWU4NmMzMTliZTJjNTVlYmNlNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWYwY2RiOTcyYTdiZmI3ZWQyNDZmOWZmNjcyMzg1ZTU1ZjQ5NjhmYzExMDQzZGM1YjY4NGQ1MWRmYTMxZGJjYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjExMTk4MGJjMmZiMTI5MmEzMWRkZTI2MjUzNDdmY2RkY2Q4MGExMDBiNjc1MDU5ZWUxNjkzYTJiMzVlMzFmNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTUwZTJjZmFjOTgxZDdjZjc1NmExNjUxMWRjZTMxZjQyOWZlMTE2OTg0ODE4NGJiYzcxODc1NDU1NDkwOWRlZiJ9"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.7.0",
-    "at": "2026-10-03T22:17:28.945Z"
+    "at": "2026-10-04T22:26:02.682Z"
   }
 }

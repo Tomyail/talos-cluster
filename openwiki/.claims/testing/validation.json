@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:8dd5674612a8458da389ad80c96b79eae172bb6fcec3b83bcafd1f6be081c9a9",
+  "pageVersion": "sha256:12d0f86c73e3cf10124658e59e96ee9049bd08337603461287341f057437170e",
   "claims": [
     {
       "id": "claim_8ac105d25dbd4612b11232201fa7237c",
@@ -80,7 +80,7 @@
     },
     {
       "id": "claim_4d6f4c2ff56047748a1f105b1b54075f",
-      "statement": "kubeconform (0.8.0), kustomize (5.6.0), yq (4.53.6), helm (4.3.0), kubectl (1.33.1), sops, flux (2.9.6), talos (1.14.2), talhelper, and the rest of the validation toolchain (including pinned cue 0.17.1 and cloudflared 2026.9.3, plus a Python 3.14.8 venv at .venv) are pinned locally via .mise.toml, but no CI step or repo config invokes kubeconform schema validation, kustomize build, or yamllint — the only automated merge gate is the flux-local workflow.",
+      "statement": "kubeconform (0.8.0), kustomize (5.6.0), yq (4.54.1), helm (4.3.0), kubectl (1.33.1), sops, flux (2.9.6), talos (1.14.2), talhelper, and the rest of the validation toolchain (including pinned cue 0.17.1 and cloudflared 2026.9.3, plus a Python 3.14.8 venv at .venv) are pinned locally via .mise.toml, but no CI step or repo config invokes kubeconform schema validation, kustomize build, or yamllint — the only automated merge gate is the flux-local workflow.",
       "evidence": [
         {
           "resource": "repo://.github/workflows/flux-local.yaml#L29-L41",
@@ -88,7 +88,7 @@
         },
         {
           "resource": "repo://.mise.toml#L7-L28",
-          "version": "repo-lines-v1:sha256:23a9d8f27440df0e3ac6a0a8f1ed24ef85472fa1ad157623b44bd804b45266f0:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE4MjZiZWEwNWZlNTBhNzNhNjQ1ZDhmYjEyZGMyODJmMjUzNjM0NDMyNjZkOTAxNzM3MmVhZjg4NDU5NDYzNDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRlMmZjMWNmZmMyMTMwOTk5YTk4NDcyYzQ1MzkxZmIwMWZiNzkwNDk5ZDIwZjk3NzllMTYyOTk0MDI4M2ViYzgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc1MDg0MzNmMTUzOWVkODEwOTlhNDhlNjIwMDVhMGE4ZGMyNGUwNDFhMDVlZmMxYjFiNGRiMzQ5ZmZkMTgzMTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "version": "repo-lines-v1:sha256:ade9f4c62cb1bf6e927778ab5084e3e4cdc135b3b966a1a18b0a6636458f68a2:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE4MjZiZWEwNWZlNTBhNzNhNjQ1ZDhmYjEyZGMyODJmMjUzNjM0NDMyNjZkOTAxNzM3MmVhZjg4NDU5NDYzNDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRlMmZjMWNmZmMyMTMwOTk5YTk4NDcyYzQ1MzkxZmIwMWZiNzkwNDk5ZDIwZjk3NzllMTYyOTk0MDI4M2ViYzgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc1MDg0MzNmMTUzOWVkODEwOTlhNDhlNjIwMDVhMGE4ZGMyNGUwNDFhMDVlZmMxYjFiNGRiMzQ5ZmZkMTgzMTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -155,6 +155,6 @@
   ],
   "verification": {
     "by": "openwiki/0.7.0",
-    "at": "2026-10-03T22:17:28.945Z"
+    "at": "2026-10-04T22:26:02.682Z"
   }
 }

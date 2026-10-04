@@ -4,6 +4,8 @@ title: Renovate Dependency Automation
 description: Automated dependency update bot for container images, Helm charts, OCI repositories, Kubernetes manifests, Talos/Kubernetes versions, and toolchain versions.
 tags: [renovate, dependencies, automation, flux, gitops]
 sources:
+  - id: openwiki-source-6d9eaf54557a60120951afe0
+    resource: repo://.github/labeler.yaml
   - id: openwiki-source-9c06bd9d7d25770709e07c7c
     resource: repo://.mise.toml
   - id: openwiki-source-aa55808be329b3f929ddf105
@@ -34,10 +36,10 @@ sources:
     resource: repo://scripts/bootstrap-apps.sh
   - id: openwiki-source-b65e4f1ccd91316116ad973a
     resource: repo://talos/talenv.yaml
-generated: { by: "openwiki/0.7.0", at: "2026-10-03T22:17:28.945Z" }
+generated: { by: "openwiki/0.7.0", at: "2026-10-04T22:26:02.682Z" }
 verified:
   - by: openwiki/0.7.0
-    at: 2026-10-03T22:17:28.945Z
+    at: 2026-10-04T22:26:02.682Z
 ---
 
 # Renovate Dependency Automation
@@ -212,6 +214,8 @@ The custom regex manager extracts four key fields from annotated comments:
 - Auto-merge: Enabled for minor and patch updates
 - Tracks: Python, aqua tools, Node.js, pipx versions
 
+Mise tool changes are automatically labeled `area/mise` by the GitHub labeler, which maps `.mise.toml` to that label (`.github/labeler.yaml#L18-L21`); Renovate PRs touching mise tools also use the `mise` semantic commit scope and `tool {{depName}}` topic (`.renovaterc.json5#L127-L131`).
+
 Example from the `.mise.toml` `[tools]` block:
 ```toml
 [tools]
@@ -231,8 +235,8 @@ Example from the `.mise.toml` `[tools]` block:
 "aqua:jqlang/jq" = "1.7.1"
 "aqua:kubernetes-sigs/kustomize" = "5.6.0"
 "aqua:kubernetes/kubectl" = "1.33.1"
-"aqua:mikefarah/yq" = "4.53.6"
-"aqua:siderolabs/talos" = "1.14.1"
+"aqua:mikefarah/yq" = "4.54.1"
+"aqua:siderolabs/talos" = "1.14.2"
 "aqua:yannh/kubeconform" = "0.8.0"
 node = "latest"
 pipx = "latest"

@@ -42,10 +42,10 @@ sources:
     resource: repo://talos/talenv.yaml
   - id: openwiki-source-b9ff7ee0aa4953cc601052a4
     resource: repo://Taskfile.yaml
-generated: { by: "openwiki/0.7.0", at: "2026-10-03T22:17:28.945Z" }
+generated: { by: "openwiki/0.7.0", at: "2026-10-04T22:26:02.682Z" }
 verified:
   - by: openwiki/0.7.0
-    at: 2026-10-03T22:17:28.945Z
+    at: 2026-10-04T22:26:02.682Z
 ---
 
 # Quickstart & Task Routing
@@ -324,5 +324,6 @@ The cluster exposes status metrics at [kromgo.tomyail.com](https://kromgo.tomyai
 - CPU/memory usage
 - Network traffic
 
-A status page is available at [status-dev.tomyail.com](https://status-dev.tomyail.com). If something breaks during bootstrap or reconciliation, start with the verification commands above and [**Validation**](./testing/validation.md).
+A status page is available at [status-dev.tomyail.com](https://status-dev.tomyail.com). If something breaks during bootstrap or reconciliation, start with the verification commands above, then see [**Validation**](./testing/validation.md) and [**Troubleshooting**](./operations/troubleshooting.md).
+, start with the verification commands above and [**Validation**](./testing/validation.md).
 dation.md).

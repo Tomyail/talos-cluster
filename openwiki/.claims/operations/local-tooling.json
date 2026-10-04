@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:edab99f5b605de820305f8048648fb8ae69c06f2ea9999a1a33e8cfbf8c82647",
+  "pageVersion": "sha256:492290699330d667db4a2432038d017ee78159022ecc99ae40db59b84acfbaaf",
   "claims": [
     {
       "id": "claim_afbcac7a39e541838f26d10c9f19a278",
-      "statement": "mise (.mise.toml) pins the local toolchain (talhelper 3.1.17, talos 1.14.2, kubectl 1.33.1, flux2 2.9.6, sops 3.13.3, helm 4.3.0, helmfile 1.8.1, go-task 3.53.1, kubeconform 0.8.0, python 3.14.8, etc.) and exports KUBECONFIG, TALOSCONFIG, and SOPS_AGE_KEY_FILE plus an auto-created Python venv; the root Taskfile sets the same variables so tasks work with or without mise.",
+      "statement": "mise (.mise.toml) pins the local toolchain (talhelper 3.1.17, talos 1.14.2, kubectl 1.33.1, flux2 2.9.6, sops 3.13.3, helm 4.3.0, helmfile 1.8.1, go-task 3.54.0, kubeconform 0.8.0, python 3.14.8, etc.) and exports KUBECONFIG, TALOSCONFIG, and SOPS_AGE_KEY_FILE plus an auto-created Python venv; the root Taskfile sets the same variables so tasks work with or without mise.",
       "evidence": [
         {
           "resource": "repo://.mise.toml",
-          "version": "repo-file-v1:sha256:73870aa086f5aa30e7de20a8a4c86ddb1160449a7406d544e88e7361dbac04b0"
+          "version": "repo-file-v1:sha256:9ea40bb53ea8a36d815b47d71b9775d7a90d32a0d8016d9f76be8dfd213d758d"
         },
         {
           "resource": "repo://Taskfile.yaml#L14-L19",
@@ -125,6 +125,6 @@
   ],
   "verification": {
     "by": "openwiki/0.7.0",
-    "at": "2026-10-03T22:17:28.945Z"
+    "at": "2026-10-04T22:26:02.682Z"
   }
 }

@@ -20,10 +20,10 @@ sources:
     resource: repo://scripts/lib/common.sh
   - id: openwiki-source-b9ff7ee0aa4953cc601052a4
     resource: repo://Taskfile.yaml
-generated: { by: "openwiki/0.7.0", at: "2026-10-03T22:17:28.945Z" }
+generated: { by: "openwiki/0.7.0", at: "2026-10-04T22:26:02.682Z" }
 verified:
   - by: openwiki/0.7.0
-    at: 2026-10-03T22:17:28.945Z
+    at: 2026-10-04T22:26:02.682Z
 ---
 
 ## Overview
@@ -47,7 +47,7 @@ Local operations are driven by three layers:
 | `SOPS_AGE_KEY_FILE` | `{{config_root}}/age.key` | age private key used by SOPS decryption |
 | `_.python.venv` | `{{config_root}}/.venv` | auto-created Python virtualenv |
 
-**Pinned tools** (per `.mise.toml`): python 3.14.7, pipx:makejinja 2.9.1, talhelper 3.1.17, cilium-cli 0.20.1, `gh` (cli) 2.101.0, cloudflared 2026.9.3, cue 0.17.1, age 1.3.2, flux2 2.9.5, sops 3.13.3, go-task 3.53.1, helm 4.3.0, helmfile 1.8.0, jq 1.7.1, kustomize 5.6.0, kubectl 1.33.1, yq 4.53.6, talos 1.14.1, kubeconform 0.8.0, plus node and pipx at `latest`. Because `Taskfile.yaml` sets the same `KUBECONFIG`, `TALOSCONFIG`, and `SOPS_AGE_KEY_FILE` values in its own `env:` block, tasks behave identically whether or not the shell was entered through mise.
+**Pinned tools** (per `.mise.toml`): python 3.14.8, pipx:makejinja 2.9.1, talhelper 3.1.17, cilium-cli 0.20.1, `gh` (cli) 2.102.0, cloudflared 2026.9.3, cue 0.17.1, age 1.3.2, flux2 2.9.6, sops 3.13.3, go-task 3.54.0, helm 4.3.0, helmfile 1.8.1, jq 1.7.1, kustomize 5.6.0, kubectl 1.33.1, yq 4.54.1, talos 1.14.2, kubeconform 0.8.0, plus node and pipx at `latest`. Because `Taskfile.yaml` sets the same `KUBECONFIG`, `TALOSCONFIG`, and `SOPS_AGE_KEY_FILE` values in its own `env:` block, tasks behave identically whether or not the shell was entered through mise.
 
 ## Root Taskfile
 
@@ -122,13 +122,3 @@ Helper scripts live in `.taskfiles/volsync/scripts/`: `wait-for-job.sh`, `wait-f
 - [Talos Configuration](../concepts/talos-config.md) — Talos configuration and talhelper.
 - [Daily Operations](daily-operations.md) — routine operations built on these tools.
 - [Quickstart](../quickstart.md) — first-time setup instructions.
-alos configuration and talhelper.
-- `/openwiki/operations/daily-operations.md` — routine operations built on these tools.
-- `/openwiki/quickstart.md` — first-time setup instructions.
-w these tasks implement.
-- `/openwiki/concepts/talos-config.md` — Talos configuration and talhelper.
-- `/openwiki/operations/daily-operations.md` — routine operations built on these tools.
-- `/openwiki/quickstart.md` — first-time setup instructions.
-ncepts/talos-config.md` — Talos configuration and talhelper.
-- `/openwiki/operations/daily-operations.md` — routine operations built on these tools.
-- `/openwiki/quickstart.md` — first-time setup instructions.

@@ -34,10 +34,10 @@ sources:
     resource: repo://scripts/bootstrap-apps.sh
   - id: openwiki-source-b9ff7ee0aa4953cc601052a4
     resource: repo://Taskfile.yaml
-generated: { by: "openwiki/0.7.0", at: "2026-10-03T22:17:28.945Z" }
+generated: { by: "openwiki/0.7.0", at: "2026-10-04T22:26:02.682Z" }
 verified:
   - by: openwiki/0.7.0
-    at: 2026-10-03T22:17:28.945Z
+    at: 2026-10-04T22:26:02.682Z
 ---
 
 # Validation & Testing
@@ -80,7 +80,7 @@ Because mise auto-exports `KUBECONFIG`, `TALOSCONFIG`, and `SOPS_AGE_KEY_FILE` (
 
 ## Local toolchain and rendering checks
 
-`.mise.toml` pins the complete toolchain used for local validation: `kubeconform = 0.8.0`, `kustomize = 5.6.0`, `kubectl = 1.33.1`, `helm = 4.3.0`, plus `sops` (3.13.3), `talos` (1.14.2), `talhelper` (3.1.17), `flux` (2.9.6), `yq` (4.53.6), `jq` (1.7.1), `task` (3.53.1), `age` (1.3.2), `cilium-cli` (0.20.1), `helmfile` (1.8.1), `gh` (2.101.0), `node` (latest), and `makejinja` 2.9.1 (via pipx). Newer additions include `cue` (0.17.1) and `cloudflared` (2026.9.3); neither is invoked by any Taskfile or CI step, so they are available only for ad-hoc local checks. Python (3.14.8) is pinned with an auto-created repo-local venv at `.venv`. Three notes:
+`.mise.toml` pins the complete toolchain used for local validation: `kubeconform = 0.8.0`, `kustomize = 5.6.0`, `kubectl = 1.33.1`, `helm = 4.3.0`, plus `sops` (3.13.3), `talos` (1.14.2), `talhelper` (3.1.17), `flux` (2.9.6), `yq` (4.54.1), `jq` (1.7.1), `task` (3.54.0), `age` (1.3.2), `cilium-cli` (0.20.1), `helmfile` (1.8.1), `gh` (2.102.0), `node` (latest), and `makejinja` 2.9.1 (via pipx). Newer additions include `cue` (0.17.1) and `cloudflared` (2026.9.3); neither is invoked by any Taskfile or CI step, so they are available only for ad-hoc local checks. Python (3.14.8) is pinned with an auto-created repo-local venv at `.venv`. Three notes:
 
 - Schema validation via `kubeconform` and rendering via `kustomize build` are manual, local practices — there is no repo config file for either and no CI step invokes them. The closest automated equivalent is the CI `flux-local test` job, which builds every Kustomization and applies the same helm/sops rendering pipeline.
 - There is also no `yamllint` configuration in the repository; YAML style is instead governed by `.editorconfig`.
