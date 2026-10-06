@@ -1,8 +1,11 @@
 ---
 type: Quickstart Guide
-title: Quickstart & Task Routing
-description: Entry point for understanding the Talos + Flux GitOps cluster repository structure, mise-managed toolchain, bootstrapping process, making and validating a change end-to-end, and routing into the rest of the wiki.
-tags: [talos, kubernetes, flux, quickstart, gitops, homelab]
+title: Quickstart & Repository Map
+description: Entry point for understanding the Talos + Flux GitOps cluster repository structure, mise-managed toolchain, common task commands, bootstrapping process, making and validating a change end-to-end, and routing into the rest of the wiki.
+tags: [talos, kubernetes, flux, quickstart, gitops, homelab, mise, task]
+verified:
+  - by: openwiki/0.7.0
+    at: 2026-10-06T00:54:23.845Z
 sources:
   - id: openwiki-source-6378149bc01898a8718f6f2d
     resource: repo://.github/workflows/flux-local.yaml
@@ -16,6 +19,8 @@ sources:
     resource: repo://.taskfiles/bootstrap/Taskfile.yaml
   - id: openwiki-source-4f5be6b4c7dcc699aca46164
     resource: repo://.taskfiles/talos/Taskfile.yaml
+  - id: openwiki-source-ab04cad2d509128f85736a9f
+    resource: repo://.taskfiles/volsync/Taskfile.yaml
   - id: openwiki-source-360da09d9920a02e1e719d90
     resource: repo://bootstrap/helmfile.yaml
   - id: openwiki-source-0e996dcef7180d2fe4f95073
@@ -42,15 +47,12 @@ sources:
     resource: repo://talos/talenv.yaml
   - id: openwiki-source-b9ff7ee0aa4953cc601052a4
     resource: repo://Taskfile.yaml
-generated: { by: "openwiki/0.7.0", at: "2026-10-04T22:26:02.682Z" }
-verified:
-  - by: openwiki/0.7.0
-    at: 2026-10-04T22:26:02.682Z
+generated: { by: "openwiki/0.7.0", at: "2026-10-06T00:54:23.845Z" }
 ---
 
-# Quickstart & Task Routing
+# Quickstart & Repository Map
 
-Welcome to the Talos Kubernetes cluster documentation. This repository contains the complete GitOps configuration for a homelab cluster running Talos Linux with ~30 applications across multiple namespaces. This page is the entry point: it orients you on the repository, the mise-managed toolchain, and routes you into the rest of the wiki.
+Welcome to the Talos Kubernetes cluster documentation. This repository contains the complete GitOps configuration for a homelab cluster running Talos Linux with ~30 applications across multiple namespaces. This page is the entry point: it orients you on the repository, the mise-managed toolchain, common task commands, and routes you into the rest of the wiki.
 
 ## Architecture Overview
 
@@ -115,19 +117,45 @@ mise trust
 mise install
 ```
 
-This installs and configures the required tools: `task`, `talhelper`, `talosctl`, `kubectl`, `flux`, `helmfile`, `sops`, `age`, `yq`, `kubeconform`, `cilium-cli`, `cloudflared`, `cue`, `helm`, `jq`, `kustomize`, `gh`, `python`, `makejinja`, `node`, and `pipx`. Versions are pinned in `.mise.toml` (e.g. talhelper 3.1.17, talos 1.14.1, kubectl 1.33.1, flux2 2.9.5, helm 4.3.0, sops 3.13.3, python 3.14.7); Renovate keeps them updated.
+This installs and configures the required tools: `task`, `talhelper`, `talosctl`, `kubectl`, `flux`, `helmfile`, `sops`, `age`, `yq`, `kubeconform`, `cilium-cli`, `cloudflared`, `cue`, `helm`, `jq`, `kustomize`, `gh`, `python`, `makejinja`, `node`, and `pipx`. Versions are pinned in `.mise.toml` (e.g. talhelper 3.1.17, talos 1.14.2, kubectl 1.33.1, flux2 2.9.6, helm 4.3.0, sops 3.13.3, python 3.14.8); Renovate keeps them updated.
 
 ### Environment Variables
 
-mise automatically sets these essential environment variables:
+mise (`.mise.toml`) and the root `Taskfile.yaml` both set the same three essential environment variables:
 
 - `KUBECONFIG=./kubeconfig` - Kubernetes client configuration
 - `TALOSCONFIG=./talos/clusterconfig/talosconfig` - Talos client configuration
 - `SOPS_AGE_KEY_FILE=./age.key` - Age private key for secret encryption/decryption
 
+The `age.key` file is local-only and never committed; you must supply it before running bootstrap or editing secrets.
+
+## Task Routing Map
+
+Start from what you want to change, then go to the wiki page that covers it:
+
+| I want to... | Go to |
+| --- | --- |
+| Add a new app or change an existing one | [Workflow: Adding / Changing an App](./workflows/app-deployment.md) |
+| Change Talos node config (patches, talhelper) | [Talos Node & Machine Config](./architecture/talos-cluster.md) |
+| Rotate or edit a secret (SOPS / External Secrets) | [Secrets Management](./concepts/secrets-management.md) |
+| Upgrade Talos OS or Kubernetes | [Operations: Talos & Kubernetes Upgrades](./operations/upgrade-workflow.md) |
+| Trigger a backup or restore a PVC | [Operations: VolSync Backup & Restore](./operations/volsync-ops.md) |
+| Understand the cluster shape (nodes, Flux chain, namespaces) | [Cluster Architecture Overview](./architecture/overview.md) |
+| Run day-to-day ops (reconcile, suspend, inspect) | [Daily Operations](./operations/daily-operations.md) |
+| Do a first-boot cluster install | [Workflow: Cluster Bootstrap](./workflows/bootstrap.md) |
+| Debug a failed sync, decryption, or Helm upgrade | [Troubleshooting](./operations/troubleshooting.md) |
+| Understand Cilium, Gateway API, DNS, tunnels | [Networking & Ingress](./concepts/networking.md) |
+| Understand metrics, logs, and uptime monitoring | [Observability Stack](./concepts/observability.md) |
+| Understand storage classes, VolSync, MinIO backups | [Storage & Backup](./concepts/storage.md) |
+| Understand CI validation and Renovate automation | [Integrations: CI & Renovate](./integrations/ci-cd-renovate.md) |
+| Understand Cloudflare / Tailscale / Bitwarden dependencies | [Integrations: External Identity](./integrations/external-identity.md) |
+| Reuse kustomize components (gatus, volsync-new) | [Reusable Kustomize Components](./concepts/components.md) |
+| Understand Flux Kustomizations, dependencies, substitution | [Flux GitOps Model](./concepts/flux-gitops.md) |
+| Check manifests before merge (flux-local, kubeconform) | [Validation & Local Checks](./testing/validation.md) |
+
 ## Make a Change (the core loop)
 
-Most agent/operator changes touch only `kubernetes/` manifests and flow through Flux. The minimal loop:
+Most changes touch only `kubernetes/` manifests and flow through Flux. The minimal loop:
 
 1. **Edit manifests** under `kubernetes/apps/<namespace>/<app>/` (e.g. `helmrelease.yaml`, `externalsecret.yaml`, or the app's `ks.yaml`).
 2. **Verify the build locally** with kustomize before committing:
@@ -158,29 +186,36 @@ If a change introduces a new dependency (CRDs, another app), model it with `depe
 
 For pull requests, CI runs `flux-local test` and posts `flux-local diff` comments for `helmrelease` and `kustomization` resources (`.github/workflows/flux-local.yaml`), so the rendered impact is visible before merge.
 
-## Quick Reference
+## Quick Reference: Common Task Commands
 
-### Common Tasks
+The root `Taskfile.yaml` includes three task namespaces: `bootstrap` (`.taskfiles/bootstrap`), `talos` (`.taskfiles/talos`), and `volsync` (`.taskfiles/volsync`).
 
 ```bash
 task                          # List all available tasks
 task reconcile                # Force Flux to pull git changes
-task talos:generate-config    # Regenerate Talos machine configs
-task talos:apply-node IP=<ip> # Apply Talos config to one node
-task talos:upgrade-node IP=<ip>  # Upgrade Talos OS on one node
-task talos:upgrade-k8s        # Upgrade Kubernetes cluster-wide
+task talos:generate-config    # Regenerate Talos machine configs (talhelper genconfig)
+task talos:apply-node IP=<ip> # Apply Talos config to one node (MODE=auto by default)
+task talos:upgrade-node IP=<ip>  # Upgrade Talos OS on one node (reads talenv.yaml pin)
+task talos:upgrade-k8s        # Upgrade Kubernetes cluster-wide (reads talenv.yaml pin)
+task talos:reset              # Reset nodes to maintenance mode (DESTRUCTIVE, prompts)
 task bootstrap:talos          # Full Talos cluster bootstrap
 task bootstrap:apps           # Bootstrap apps (namespaces, secrets, CRDs, Helm releases)
-task volsync:snapshot APP=<name> NS=<ns>  # Trigger VolSync backup
+task volsync:snapshot APP=<name> NS=<ns>  # Trigger VolSync restic backup
+task volsync:restore APP=<name> NS=<ns>   # Restore PVC from backup
+task volsync:list APP=<name> NS=<ns>      # List snapshots
+task volsync:unlock CLUSTER=main         # Unlock all restic source repos
+task volsync:suspend | resume             # Suspend/resume VolSync kustomization + HelmRelease
 ```
+
+`talos:upgrade-node` resolves the node's image URL from `talconfig.yaml` and the version from `talenv.yaml`; `talos:upgrade-k8s` reads `kubernetesVersion` from `talenv.yaml`. These tasks have preconditions (e.g. reachable node, `talosctl config info`) that fail fast before running.
 
 ### Initial Cluster Bootstrap
 
 For new cluster installations, the bootstrap process is split into two phases:
 
 1. **Prepare Talos configuration**: Edit `talos/talconfig.yaml` and `talos/talenv.yaml`
-2. **Bootstrap Talos**: `task bootstrap:talos` (applies machine configs, bootstraps cluster, exports kubeconfig)
-3. **Bootstrap base apps**: `task bootstrap:apps` (`scripts/bootstrap-apps.sh`) — checks prerequisites (`KUBECONFIG`/`TALOSCONFIG` env and the `helmfile kubectl kustomize sops talhelper yq` CLIs), waits for node readiness, server-side creates one namespace per `kubernetes/apps/` top-level directory, applies the SOPS secrets (`github-deploy-key`, `cluster-secrets`, `sops-age` into `flux-system`), applies CRDs (external-dns v0.23.0, gateway-api v1.6.2), then helmfile-syncs `bootstrap/helmfile.yaml` in dependency order: cilium 1.20.2 → coredns 1.47.1 → cert-manager v1.21.2 → flux-operator → flux-instance (both 0.60.0)
+2. **Bootstrap Talos**: `task bootstrap:talos` (generates secrets + machine configs, applies them insecurely, bootstraps the cluster, forces a kubeconfig export)
+3. **Bootstrap base apps**: `task bootstrap:apps` (`scripts/bootstrap-apps.sh`) — checks prerequisites (`KUBECONFIG`/`TALOSCONFIG` env and the `helmfile kubectl kustomize sops talhelper yq` CLIs), waits for node readiness, server-side creates one namespace per `kubernetes/apps/` top-level directory, applies the SOPS secrets (`github-deploy-key`, `cluster-secrets`, `sops-age` into `flux-system`), applies CRDs, then helmfile-syncs `bootstrap/helmfile.yaml` in dependency order: cilium → coredns → cert-manager → flux-operator → flux-instance
 
 After bootstrap, Flux takes over and manages all applications under `kubernetes/apps/`.
 
@@ -190,14 +225,14 @@ See [**Bootstrap Workflow**](./workflows/bootstrap.md) for detailed prerequisite
 
 ```
 .
-├── bootstrap/              # Initial Helm charts installed during cluster bootstrap
+├── bootstrap/              # Initial Helm charts installed during cluster bootstrap (helmfile)
 ├── kubernetes/
 │   ├── apps/               # Flux-managed applications (one Kustomization per namespace)
 │   ├── components/         # Reusable components and common configurations
 │   └── flux/               # Flux cluster/meta Kustomizations
 ├── talos/
 │   ├── talconfig.yaml      # Talhelper main configuration
-│   ├── talenv.yaml         # Talos/Kubernetes version pins
+│   ├── talenv.yaml         # Talos/Kubernetes version pins (Renovate-tracked)
 │   ├── clusterconfig/      # Generated Talos machine configs (do not edit)
 │   └── patches/            # Machine-level patches merged by talhelper
 ├── scripts/                # Bootstrap and utility scripts
@@ -225,37 +260,16 @@ Applications are organized by namespace under `kubernetes/apps/`, with each name
 
 See [**Architecture Overview**](./architecture/overview.md) for details on namespace organization and the Flux reconciliation hierarchy.
 
-## Documentation Map
-
-The wiki is organized into five domains. Start here, then follow the links for depth:
-
-| Domain | Page | What it covers |
-| --- | --- | --- |
-| **Architecture** | [Overview](./architecture/overview.md) | Top-level repo map: Talos via talhelper/Taskfiles, Flux owning `kubernetes/apps`, the bootstrap helmfile layer, and namespace grouping |
-| **Architecture** | [Namespace & App Directory Conventions](./architecture/namespace-structure.md) | Per-app directory layout (`app/helmrelease.yaml` + `kustomization.yaml`), per-app `ks.yaml` dependencies, and namespace aggregation |
-| **Concepts** | [Flux GitOps Model](./concepts/flux-gitops.md) | Flux hierarchy (`cluster-meta`, `cluster-apps`, CRD Kustomizations), SOPS decryption, postBuild substitution, prune/wait semantics |
-| **Concepts** | [Networking](./concepts/networking.md) | Cilium, Gateway API HTTPRoutes, Cloudflare Tunnel, Tailscale, DNS, smtp-relay |
-| **Concepts** | [Secrets Management](./concepts/secrets-management.md) | SOPS+age encryption rules, postBuild substitution, External Secrets from Bitwarden |
-| **Workflows** | [Bootstrap](./workflows/bootstrap.md) | Full cluster initialization from bare metal to GitOps-managed state |
-| **Operations** | [Local Tooling](./operations/local-tooling.md) | mise-managed tools and env vars, root Taskfile and `.taskfiles/`, and the bootstrap scripts under `scripts/` |
-| **Operations** | [Daily Operations](./operations/daily-operations.md) | Routine cluster operation and maintenance |
-| **Integrations** | [Bitwarden](./integrations/bitwarden.md) | Upstream secret source: bitwarden-connect and its relation to ESO providers |
-| **Integrations** | [External Secrets Operator](./integrations/external-secrets.md) | ESO HelmRelease config and how apps consume ExternalSecret/ClusterSecretStore resources |
-| **Integrations** | [Renovate](./integrations/renovate.md) | Dependency automation (`.renovaterc.json5`) and how it updates charts, images, and the mise toolchain pins |
-| **Testing** | [Validation](./testing/validation.md) | kubeconform validation, CI workflows, Flux health checks, Gatus monitoring, dry-run reconciliation |
-
 ## Key Architectural Patterns
 
 ### Flux GitOps Flow
 
-Flux watches the Git repository and reconciles the cluster in two root Kustomizations defined in `kubernetes/flux/cluster/ks.yaml`:
+Flux watches the Git repository and reconciles the cluster via root Kustomizations defined in `kubernetes/flux/cluster/ks.yaml`:
 
 1. **`cluster-meta`** → Deploys source repositories (GitRepository, HelmRepository, OCIRepository) from `kubernetes/flux/meta/`
 2. **`cluster-apps`** → Reconciles all application Kustomizations from `kubernetes/apps/`
 
-`cluster-apps` additionally depends on `gateway-api-crds` and `external-dns-crds` Kustomizations, which install CRDs from their own GitRepository sources before any app is reconciled.
-
-Each namespace under `kubernetes/apps/` has its own Kustomization that Flux reconciles with SOPS decryption enabled (the `sops-age` secret in `flux-system`).
+Each namespace under `kubernetes/apps/` has its own Kustomization that Flux reconciles with SOPS decryption enabled (the `sops-age` secret in `flux-system`), `prune: true`, `wait: true`, and postBuild substitution from the `cluster-secrets` Secret.
 
 See [**Flux GitOps Model**](./concepts/flux-gitops.md) for the complete reconciliation hierarchy and dependency ordering.
 
@@ -274,7 +288,7 @@ Most applications use the shared `app-template` OCI chart (`ghcr.io/bjw-s-labs/h
 
 Common components like VolSync (backup), Gatus (uptime monitoring), and image automation are integrated through reusable components in `kubernetes/components/` (e.g. `components/volsync-new`, `components/gatus/external`), referenced via the `components:` field in each app's `ks.yaml`.
 
-See [**App Deployment Workflow**](./workflows/app-deployment.md) for details, and [**Architecture Overview**](./architecture/overview.md) for how namespace Kustomizations wire everything together.
+See [**App Deployment Workflow**](./workflows/app-deployment.md) for details, and [**Reusable Kustomize Components**](./concepts/components.md) for the component catalog.
 
 ### Secret Management
 
@@ -292,7 +306,7 @@ Two-layer encryption approach:
 
 Flux decrypts SOPS secrets using the `sops-age` Secret in `flux-system`. The local `age.key` file is required for editing secrets but never committed.
 
-See [**Cluster Architecture Concepts**](./concepts/cluster-architecture.md) for how these patterns apply inside every app.
+See [**Secrets Management**](./concepts/secrets-management.md) for the full model.
 
 ### Dependency Automation
 
@@ -306,7 +320,7 @@ Renovate handles automated dependency updates:
 **Schedule**: Runs on weekends only
 **Auto-merge**: Patch updates and minor mise/GitHub Actions updates
 
-See [**Renovate & Tooling**](./integrations/renovate.md) for configuration details and custom datasource tracking.
+See [**Integrations: CI (flux-local) & Renovate**](./integrations/ci-cd-renovate.md) for configuration details.
 
 ## Project Origins
 
@@ -316,14 +330,4 @@ This cluster was originally initialized using the [onedr0p/cluster-template](htt
 
 ## Status and Monitoring
 
-The cluster exposes status metrics at [kromgo.tomyail.com](https://kromgo.tomyail.com) showing:
-
-- Cluster age and uptime
-- Node count
-- Running pods
-- CPU/memory usage
-- Network traffic
-
-A status page is available at [status-dev.tomyail.com](https://status-dev.tomyail.com). If something breaks during bootstrap or reconciliation, start with the verification commands above, then see [**Validation**](./testing/validation.md) and [**Troubleshooting**](./operations/troubleshooting.md).
-, start with the verification commands above and [**Validation**](./testing/validation.md).
-dation.md).
+The cluster exposes status metrics at [kromgo.tomyail.com](https://kromgo.tomyail.com) showing cluster age/uptime, node count, running pods, CPU/memory usage, and network traffic. A status page is available at [status-dev.tomyail.com](https://status-dev.tomyail.com). If something breaks during bootstrap or reconciliation, start with the verification commands above, then see [**Troubleshooting**](./operations/troubleshooting.md) and [**Validation**](./testing/validation.md).

@@ -1,7 +1,7 @@
 ---
 type: operations-guide
-title: Validation & Testing
-description: How changes to the cluster repository are validated before and after merge — the flux-local CI checks, local Taskfile task preconditions and dry-runs, mise-pinned tooling, Flux health checks and HelmRelease remediation/rollback, and Gatus/Uptime Kuma health monitoring.
+title: Validation & Local Checks
+description: How changes to the cluster repository are validated before merge — the flux-local CI checks, local shellcheck/editorconfig conventions, Taskfile task preconditions and dry-runs, mise-pinned tooling, Flux health checks and HelmRelease remediation/rollback, and Gatus/Uptime Kuma health monitoring.
 tags: [validation, testing, ci, flux, kustomize, taskfile, renovate, editorconfig]
 sources:
   - id: openwiki-source-22d03a54ca65a8e3305dad24
@@ -12,6 +12,8 @@ sources:
     resource: repo://.mise.toml
   - id: openwiki-source-aa55808be329b3f929ddf105
     resource: repo://.renovaterc.json5
+  - id: openwiki-source-80b720b54d3a546354f53eed
+    resource: repo://.shellcheckrc
   - id: openwiki-source-f04021c19122a44288e9cea0
     resource: repo://.taskfiles/bootstrap/Taskfile.yaml
   - id: openwiki-source-4f5be6b4c7dcc699aca46164
@@ -34,13 +36,13 @@ sources:
     resource: repo://scripts/bootstrap-apps.sh
   - id: openwiki-source-b9ff7ee0aa4953cc601052a4
     resource: repo://Taskfile.yaml
-generated: { by: "openwiki/0.7.0", at: "2026-10-04T22:26:02.682Z" }
+generated: { by: "openwiki/0.7.0", at: "2026-10-06T00:54:23.845Z" }
 verified:
   - by: openwiki/0.7.0
-    at: 2026-10-04T22:26:02.682Z
+    at: 2026-10-06T00:54:23.845Z
 ---
 
-# Validation & Testing
+# Validation & Local Checks
 
 This repository is a Flux-managed Talos Kubernetes cluster, so "testing" means: rendering manifests locally and in CI before merge, verifying that Flux can build and apply them, and confirming health after reconciliation. There is no unit test suite and no separate kubeconform/yamllint CI job; validation is declarative-render and cluster-convergence checking. `kubeconform`, `kustomize`, `yq`, and `sops` are pinned as local tools via mise and available for ad-hoc local checks (e.g. `kustomize build` against an app directory), but the only automated merge gate is the flux-local workflow plus Renovate's automerge rules.
 
@@ -88,6 +90,44 @@ Because mise auto-exports `KUBECONFIG`, `TALOSCONFIG`, and `SOPS_AGE_KEY_FILE` (
 ## Formatting and file conventions (.editorconfig)
 
 `.editorconfig` (marked `root = true`) defines the baseline formatting expected of every file: LF line endings, UTF-8, trimmed trailing whitespace, final newline, and space indentation at 2 spaces for general files. Exceptions: Markdown files use 4-space indent and do not trim trailing whitespace (line breaks matter); shell scripts use 4-space indent; CUE files use tabs at width 4. Editors and formatters honoring this file keep PR diffs clean, which matters because the flux-local diff comments are diff-based.
+
+## Shell script conventions (.shellcheckrc)
+
+`.shellcheckrc` disables exactly two shellcheck diagnostics repo-wide: `SC1091` (can't follow non-constant `source`) and `SC2155` (declare-and-assign masks return value). These are the accepted patterns in `scripts/` and Taskfile shell snippets; any *other* shellcheck warning is expected to be fixed rather than suppressed, so `shellcheck scripts/*.sh` should come back clean with this config in place.
+
+## Conventions checklist for every PR
+
+- **YAML**: 2-space indent, LF endings, UTF-8, trimmed trailing whitespace, final newline (`.editorconfig` defaults). Markdown is the exception: 4-space indent and trailing whitespace preserved.
+- **`# renovate:` comments**: version pins in manifests follow Renovate's inline-comment convention (e.g. `# renovate: datasource=... depName=...`) so dependency updates are automated — when adding a new pinned image/chart/tool, add the comment rather than a bare version string.
+- **Action pins**: GitHub Actions are pinned to commit digests with a version comment (`uses: actions/checkout@<sha> # v4.2.2`); Renovate's `helpers:pinGitHubActionDigests` maintains this.
+- **Generated output**: never hand-edit `talos/clusterconfig/` — regenerate with `task talos:generate-config`.
+
+## Exact commands an agent can run before opening a PR
+
+```bash
+# 1. Render every Kustomization exactly as CI does (equivalent to the flux-local test job)
+flux-local test --enable-helm --all-namespaces --sources flux-system \
+  --path ./kubernetes/flux/cluster -v
+
+# 2. Preview rendered changes vs main (what the diff job posts as a PR comment)
+flux-local diff helmrelease --path ./kubernetes/flux/cluster \
+  --path-orig <(git worktree ... ) # or check out main elsewhere and pass its path
+flux-local diff kustomization --all-namespaces --sources flux-system \
+  --path ./kubernetes/flux/cluster --path-orig /path/to/main/kubernetes/flux/cluster \
+  --strip-attrs "helm.sh/chart,checksum/config,app.kubernetes.io/version,chart" \
+  --limit-bytes 10000
+
+# 3. Render a single app locally and schema-check the output
+kustomize build kubernetes/apps/<namespace>/<app>/app | kubeconform -strict -summary
+
+# 4. Shell script lint (uses .shellcheckrc suppressions)
+shellcheck scripts/*.sh
+
+# 5. Verify SOPS secrets still decrypt with the repo key
+sops --decrypt kubernetes/.../secret.sops.yaml > /dev/null
+```
+
+All binaries come from the mise-pinned toolchain (`mise install` then `mise activate` / `direnv allow`), so local rendering matches CI versions. Step 1 is the authoritative gate — if it passes locally, the CI `test` job will pass.
 
 ## Dry-run validation patterns
 

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:37e71454ea86c7fbc89768121354e8ca03316587724987ae8167548dd4fd67f8",
+  "pageVersion": "sha256:15c6d544976eacf32caa6abe61553c617767557f8f395c9d94a4f16370b1c880",
   "claims": [
     {
       "id": "claim_7007b04a9365408685923e5725757fbe",
@@ -281,10 +281,80 @@
           "version": "repo-file-v1:sha256:4c2df018958ac36399edfa3f9447bad27dea5dd9b8506109b70f6b634eeaa88f"
         }
       ]
+    },
+    {
+      "id": "claim_c7eec94d514f4f37b4a7cb181cda7cb2",
+      "statement": "The local toolchain is pinned in .mise.toml via mise: talhelper 3.1.17, talosctl 1.14.2, kubectl 1.33.1, flux2 2.9.6, helm 4.3.0, sops 3.13.3, task 3.54.0, kustomize 5.6.0, kubeconform 0.8.0, python 3.14.8, among others; `mise trust && mise install` sets it up and Renovate updates the pins.",
+      "evidence": [
+        {
+          "resource": "repo://.mise.toml#L7-L28",
+          "version": "repo-lines-v1:sha256:ade9f4c62cb1bf6e927778ab5084e3e4cdc135b3b966a1a18b0a6636458f68a2:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE4MjZiZWEwNWZlNTBhNzNhNjQ1ZDhmYjEyZGMyODJmMjUzNjM0NDMyNjZkOTAxNzM3MmVhZjg4NDU5NDYzNDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRlMmZjMWNmZmMyMTMwOTk5YTk4NDcyYzQ1MzkxZmIwMWZiNzkwNDk5ZDIwZjk3NzllMTYyOTk0MDI4M2ViYzgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc1MDg0MzNmMTUzOWVkODEwOTlhNDhlNjIwMDVhMGE4ZGMyNGUwNDFhMDVlZmMxYjFiNGRiMzQ5ZmZkMTgzMTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_6c285b5099cf4e118f6a2c47246e5f2c",
+      "statement": "mise (.mise.toml) and the root Taskfile.yaml both export KUBECONFIG=<root>/kubeconfig, TALOSCONFIG=<root>/talos/clusterconfig/talosconfig, and SOPS_AGE_KEY_FILE=<root>/age.key, so task commands and direct CLI use share the same cluster context and age key.",
+      "evidence": [
+        {
+          "resource": "repo://.mise.toml#L1-L5",
+          "version": "repo-lines-v1:sha256:f9e6c13546b5adfa4e4c1ed50f3300ce57ba783495e0128dd0ca228fc8d5bc99:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmU2MDBkNjZiOGE5MTZlYzg0ZThmNjVkZGFkNzAxMGM3ZWQ2NTEzNzU4ZDczYTJjNGE2ZjNjMDcwNTY2YjhkOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZWNlZWEyNDkyMzYyNGFjYzc3ZjU2NjE0MTdhYWI2Zjc5ZjQ3OWUxZGE2N2NmYWZmNjQ2MDgxMjEwODRkNzBiZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2M2YWYwYzBjMGQ2ODNjZWY4ZGI1YTM3MWU5OTIwYjhlZjNiYzUwNTMyYmI0ZTQwMzc4OGYzNmE2MzY3NWFjZSJ9"
+        },
+        {
+          "resource": "repo://Taskfile.yaml#L16-L19",
+          "version": "repo-lines-v1:sha256:1b77a471a1efac641fdd4077f315e1af5afb41665d718d3ab315da86e4100d89:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTBhNTk0ZjM0YjdmMGVhNTczZGE3ODcwM2UyNzQ5MzBkYjcxOGM5NDJjYWYzYzA0MjUxNzU1ZjYyM2M2MGQ1YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGEwYTlmMjVkY2UxZjUzYTVlOWNjODVkMWVlMDdlOTI4ZjkxOWFkZGM4ZmQ2NDVkN2E3NjI5YTQ5NGFkYjY0NCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMGI5N2MzYTFlY2IyNmM5MzAxZWFiMjZhOTdiNmZlZTQxNTg0ZmYyYWJjOTA1MWVkYmFjZjM5MTA5NmY0MGVhYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzQ3ZDA1YWU3Zjc4OTI4OTBjYTI1NGI2YTliMTMwZTA0NjVlNDllYzVlMDIxYzY3MzZjODA2MTlkYzg2MjUyOSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_da4f5e3f762a46d1aa28feb2761c6f87",
+      "statement": "The root Taskfile includes three task namespaces — bootstrap (.taskfiles/bootstrap), talos (.taskfiles/talos), volsync (.taskfiles/volsync) — plus a top-level `task reconcile` that runs `flux --namespace flux-system reconcile kustomization flux-system --with-source`.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/bootstrap/Taskfile.yaml",
+          "version": "repo-file-v1:sha256:3c26042d3a22fc7582ce3641d7090c5346b19f8f4ed41f1d2bf4109072973fa9"
+        },
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml",
+          "version": "repo-file-v1:sha256:c225f89537001da000f854eaa234bf1973988aa49e84e216fb7284dcbcd786bd"
+        },
+        {
+          "resource": "repo://.taskfiles/volsync/Taskfile.yaml",
+          "version": "repo-file-v1:sha256:85299c07f676268686fe613a24b4d337c1243fe9c3291bc7589d06eb3fe56105"
+        },
+        {
+          "resource": "repo://Taskfile.yaml#L21-L34",
+          "version": "repo-lines-v1:sha256:5cdaaee68b45838ed0518e2a82f349b02adb701574532c97ba965157cb85bf7a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA4MjFiZmM1YzUxNmFjNzhjOTNhNjZkZDdjM2FjZmI2ZjcyMmQ0ZmU3ZDQ2YmI5YjA3ODE3MGQzNDMwMDBkOGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ5ZDk0MjU4Zjc0ZmY0Y2Q5ZTJhNjk1MWZiMTEyNTM5ZWMxMzJlYmVhNjQxMjZlMzZiZWM2YzNiYjMyZDU5ZDYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRkMmEwZDc5NWI5ZTcwYzA2ZmIyZjY2ODQ3MDBmODA3ZGE3MDA2MDExNGFlNGIyM2NjYzI1ZWQ2MDY4NmY5N2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY0ODg2Mzc0MzNlZjAxNDgzN2FhY2JkZmUzYzFjMmFlYTJiMjY2YTU0Y2Y0ZGYzM2ZkNDk0Mjg0OWFlYTM2NjkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_cd55e801ec8f4de29a2f6dc453a3ceee",
+      "statement": "task talos:upgrade-node resolves each node's talosImageURL from talconfig.yaml and the version from talenv.yaml's talosVersion, and task talos:upgrade-k8s reads kubernetesVersion from talenv.yaml; both run talhelper gencommand wrappers with preconditions that fail fast.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml#L31-L58",
+          "version": "repo-lines-v1:sha256:267a2e1d3c62adf33264ff5ff9fb740b9bd6894bb8f0708ab17fa5b8d5b20468:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcyMTc2ZGE5ZmU1N2MzMDM4YzQ5MGNmM2ZkODFlZWU1OTA1NDE0YzYzYzVhY2RhZmE0ZTdjMjExMjk0YjNmNWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2MGRjZjk2Mjk1YzVkNThhNjk3NjU1MjRjMzc5YTgwOWUxNzRhNzVlZGM1YzdlYTUwMmI4MzFkOGI4MmFiNmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJjMjI3NzVjMmU1ZWViMDBmOWFiNzIyZjM5Njc0YTZkZDE1NTNhYTA4ODZmZWM5ZDFiNzZkYjU3OGJlNmJiODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdlOWVjZjQ3MzhmZTc2ZWE5N2MzYmYwZmIwNzNmZTkxODQwZThlNTBlYzVjOTdjOGQzZWZiNWU3YWI5YmRkNmQifQ"
+        },
+        {
+          "resource": "repo://talos/talenv.yaml",
+          "version": "repo-file-v1:sha256:4ae26d952e597f70c4bbe7665882b09fe952fe44746284b6ff794e03502b0c1d"
+        }
+      ]
+    },
+    {
+      "id": "claim_fa60de779231481c9d82f5878ded1b82",
+      "statement": "task bootstrap:talos generates the Talos secret (talsecret.sops.yaml, SOPS-encrypted) if absent, runs talhelper genconfig, applies node configs insecurely, bootstraps the cluster, and force-exports kubeconfig; it requires .sops.yaml, the age key, talconfig.yaml, and talhelper/talosctl/sops on PATH.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/bootstrap/Taskfile.yaml#L7-L21",
+          "version": "repo-lines-v1:sha256:e434fbb6e850f61f5c3e898c3424956d0c2503442e495f7a455fe32dbab04976:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZiOGU3MDRjNjBkYTQyMjIzODFlZWM4OWFlNDRiYzIyNTZmOTE5NTY5NTQ4MmFiOWE2MzEwMmY3NDI0NDA0OWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIxZDEyYjU2YzEwYjdmYjYyYzhmMDQxYjM3ZTE4Y2Y4ZjI3YzU3OGEwZDI3YWI3ZThkZDg4ZGJkYzlkZjRiMWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI4MzYzMDNlMTc3NmViNWUxNTEwMTA1MDEwZmM5MDQ2ZDFjNDQ2OTI2MDBmZWIwYWRhOThjY2E3YTNkZDI0MTUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.7.0",
-    "at": "2026-10-04T22:26:02.682Z"
+    "at": "2026-10-06T00:54:23.845Z"
   }
 }

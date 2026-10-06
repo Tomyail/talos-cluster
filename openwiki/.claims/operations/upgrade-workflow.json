@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:6f60921e874c2ab23a02c1dd22c2f5c338aa52793214364d76eeb70ba760c613",
+  "pageVersion": "sha256:2c94d961ffe6ffcb9e03d5447035a77f1ae10240425a6937d137b6472ed9b308",
   "claims": [
     {
       "id": "claim_3e10603fa3e24b1c8d82863d9900d32f",
@@ -129,10 +129,48 @@
           "version": "repo-lines-v1:sha256:d48d73933fcf6ca9d98bc07075320f9803a9b558d1ed23361a46c384a7894104:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcxOWNkNDA1ZWQzMWMwZGY3NDJlNjMzN2VhMDEwZDJjYjc4YjhlYTVlZGFjNzJkYmFiOTc5N2RkYzllOGZiNDgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlhNjI2MWZlNzI4NDUwMWRiYzY0ODNkOTEyZWFjZGQyMzNiZjkwMmIyNGY1OWU0ZmRjYTFlZTVmMWQ2MmFhMWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNlNTEyMDA2NjNiZjI0YzRiMjhiMzVlZjY0ZjcyMmY2YzU0ZWZjZTg2MTEzZGM5NDMyZGE1NTA1NDllMzg2ZmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgyMjNlZDA2NGU4NDJmYWNiOThmMGI2ZGViYmE1MWQzODg4MjQ0ZjM0NTVjMTIzZjRiMzRiMDU3OGU3ZDAyZWEifQ"
         }
       ]
+    },
+    {
+      "id": "claim_4e1ffab1198f416cbfd580e8623fbdb8",
+      "statement": "The tuppr controller is deployed by Flux as a HelmRelease sourced from an OCIRepository pointing at oci://ghcr.io/home-operations/charts/tuppr pinned to chart tag 0.5.7, with a single replica and a ServiceMonitor enabled.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/system-upgrade/tuppr/helmrelease.yaml#L8-L16",
+          "version": "repo-lines-v1:sha256:aa145e13d863f558777b5cc8794a0c3fe733a001d7a193ae251e719ff568f4e7:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjZjMTY4YjIwNmY4ZTRmOWUzOWQ1OWEyN2ZiYzMzNDJiODExNWExZGFiOGFlNzIwYTlkYjkyYTBhZDYzZWQ0OSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNWU5YzI5MmQ1NjM2NmRiMjM3NWU4ODFiOTA5NjI1ODJiYjgxMGI2M2ZkZWYwY2I5NDNlNThlMjc1NzM4YzE3NyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTVlZDg1MGMxZjhmYzk5M2I2NTEwMmY1N2RjZTY5NWRmMDI0MTQzZmMyZmQ1ZGFmYzQ5ZDY3ODM0M2U5MWYyZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/kube-system/system-upgrade/tuppr/ocirepository.yaml",
+          "version": "repo-file-v1:sha256:d10510d19f1df03d40b954dd358770d17b2178192e7b052573ce90cf1f63be93"
+        }
+      ]
+    },
+    {
+      "id": "claim_c39ccf2ffcfe42dc9d040fa5e4795dd0",
+      "statement": "tuppr ships a PrometheusRule that alerts on failed or stuck upgrades: TalosUpgradeNodeFailed, TalosUpgradeFailed, and KubernetesUpgradeFailed (critical, after 1m) fire on failed nodes or Failed phase; TalosUpgradeStuck (1h in Upgrading/Rebooting/Draining/HealthChecking) and KubernetesUpgradeStuck (45m in Upgrading/HealthChecking) fire on stalled phases; UpgradeJobRunningTooLong warns after an upgrade job runs over 1 hour.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/system-upgrade/tuppr/prometheusrule.yaml#L51-L93",
+          "version": "repo-lines-v1:sha256:2b548bb8e61342808a18aa532d1abfae0432843cf422539210275fde0f7212d9:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc1MTJmZTE4ODUzZmI5MjM5NjFmYzU5MzQ1NzRkZGE3OTU1OGM0ZjQ5NTA4ZWY2OWYwNGQ1ZjlkOTAwNDk0YjciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI1NzA5N2Y4ZWMyZDBkZDM3MzcyYTdmNjRjYWM1Y2FlNmM1NWEwZDVkZWI5ZTZmZDZjODdlMmNjNTVhODUxZmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBjY2MyYTFlOTFiOGMyOGU3N2QzNGU5MTBjNjNhNTlmNGZiMDEyNWZmNWU1YTFmMDUwOWQ2MzIyNWY5M2Y0MmIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/kube-system/system-upgrade/tuppr/prometheusrule.yaml#L8-L50",
+          "version": "repo-lines-v1:sha256:0df2f2c0ca6f6243a039cd7689cd14d62715286c7cb903eab5c33ecf4e8ee429:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJiNTU0ZDIxOTMyMTFlNzA4MGY5ZmMzOTFlZGViMTQ3NTdiNWU4NWVjMGFhN2E5NzA4NTRlOTUyNmMyMTVlZTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk1ZWQ4NTBjMWY4ZmM5OTNiNjUxMDJmNTdkY2U2OTVkZjAyNDE0M2ZjMmZkNWRhZmM0OWQ2NzgzNDNlOTFmMmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYwOWMyMzI0YzY3OWZhYTYyZTg4ZDdmYjAxZDFhYTBiZWQ5N2M0MzYxMThhZDAwMzgyMmJjMTJkM2ZhMWFhMDEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_69fa17aadb354e0fbe2bced98c119c4f",
+      "statement": "A failed Talos node upgrade halts the upgrade and requires manual intervention: the operator fixes the underlying issue and resets via the reset annotation before the upgrade can proceed.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/system-upgrade/tuppr/prometheusrule.yaml#L11-L24",
+          "version": "repo-lines-v1:sha256:bde00b713f86c2ee635e590fd3728f5f6ab8cc6526765d3d05a66efa6ec98cae:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ3OWZhYTEwMWYzMTc4MzVmMTdkYmEwNTRiYzdlMjkyNjI5ZmViNmU5ZGJiYjYwZmU3OWRhNTVhMTdmNDI1MjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY5NzdhNzBhMzUwYmE4M2U0ZmY5ZDVkM2M4YTA2Mjg1MjI0ODk1MDUwMWIzNmEwMmNjZWVhMzY2ODE5ZDAzZGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJjNzA5ZGM4Mzg4YmJlYjk5OTQ4ZTQwZjEwOTlmMjliY2VjZTQwYjYxODlkZmFhNGY1N2IzMDRhYTVlODBhN2MifQ"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.2",
-    "at": "2026-09-19T21:35:52.044Z"
+    "by": "openwiki/0.7.0",
+    "at": "2026-10-06T00:54:23.845Z"
   }
 }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:eb6d68cf364666df3c4db190ce455fd10896004e7a7703427106b2f65d098ba4",
+  "pageVersion": "sha256:472d14efe453b57ca8e27948e896c6a74c01e59e57fd46c1265ae398668ec040",
   "claims": [
     {
       "id": "claim_d11cc08ba8894ce49744eed253401d09",
@@ -251,10 +251,38 @@
           "version": "repo-lines-v1:sha256:2685453ec165e5a900c0e9cb4907ec4fb54eae25beb9ec1e552369619365b5cb:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDYxMDI5NDhiNmJjNDNmZDU2NzFmZTBjMzA5YTJkNjliOTFlZDdjMjU2ZDdkOTVhNWIxZDY1MzRlYmE2YzdiNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzhhMWNhNWE4YTU2NzhmMTlhOGYwYjliYjlhY2M4NjQ2NDY2ODY4YjMxOGM0MDA2MjE3ZGRkNGM3ZmY4MGM4MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMGNjMWQ3NjAyNTVkNTBiOWY5ZDNkZTNjNjQwMjA4MzBlNzZlNTM3NWI5MzAwYWY4N2U3OTliMTFlMjY1OTQxNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjllYmM0ZDQwMGY1NzVmODQyNDYxYzdkZWIzODFjNTQyMDRkNmMzYzY1M2I4ZDBkZDhmZmZiMjlkMGNkMGMxOSJ9"
         }
       ]
+    },
+    {
+      "id": "claim_eeba9fe9ea6f4a81b557681f6d428a78",
+      "statement": "bootstrap-apps.sh pre-applies two CRD sets before any Helm release: External DNS CRDs from kubernetes-sigs/external-dns v0.23.0 and Gateway API experimental CRDs v1.6.2. Both are also managed by Flux after takeover but are duplicated here for bootstrap safety; the Gateway API CRDs are a hard prerequisite for Cilium, whose Helm values enable gatewayAPI.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/cilium/app/helm/values.yaml",
+          "version": "repo-file-v1:sha256:a5d44cfd8523a63bed8cf76f09c859c2a9a91a46e254c263386774dccf811abf"
+        },
+        {
+          "resource": "repo://scripts/bootstrap-apps.sh#L91-L105",
+          "version": "repo-lines-v1:sha256:68212b71027ab7884c0552c8a3e2289f1f2bd23deecb61575aefcdf9c798db8f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU0MmNiNjNlNGEzNmVhNjkzOWNkN2FmYTQwZTdjM2MxZjhmNGMwYTk1Nzc4OGU4ZmQxYTY5MTZmMjIzNmFhZjciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwYzFmMTg4ZjE0MmVkN2E4MjQ2ODBiMjA3MTcyYzU1MTliYzYxNGE0OGZkYTdjZjE2N2VkYjhkZGY3OTk1NmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY2NmVlZjJjYmI0ODlhYzdjZGNmNGM1ZWQ2YTQzYmY5YjMwZjRiM2NiY2Y4ZTU4YzJjMDk5NjM3NmJiY2VmZmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY4OTQ3YTZhMTcxMjk5NmNkYzM5OWUwYjNjOTM5YmJmMzE0NDQyYzUzYjg2NjQ0Yjg0NWNhMmNmYTNkYTMxMTIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_46f6f499e0434af3bf9b9c2201e7fc1f",
+      "statement": "The bootstrap chart set is superseded at the end of Phase 2: helmfile sync installs flux-instance (0.60.0) last, after flux-operator, and the resulting Flux instance begins reconciling kubernetes/apps/ from Git, taking over ongoing management of all resources that bootstrap applied manually.",
+      "evidence": [
+        {
+          "resource": "repo://bootstrap/helmfile.yaml#L46-L52",
+          "version": "repo-lines-v1:sha256:028ffea069d05bee699ba1495869ac831405327e8f7efe139573abc37004cd22:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNGMyMzhjZjNlNzM4MzFjYmMyZmQ3ZTNjMmU1YTM0NjM5YWM2NjhiZGExN2E2YTNlMjFlZWVlMTQ2ZWZjZWJkNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTg0NDEwNjcwYmM1NTE2MTI0NGRlN2VlNGMwMzlhMTMwNTNjNmI3YzllNGRlNmIzNjhjMTczNjNkNzIyNWVjYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYWJhNGQ4NDZhYWQyODE0M2NiYjBlMWU1ZmI1YTZmNWVkZTg1NDk4NWJjODdmYTg1MjM1ZTc0OTA3ZjQ4M2M2MiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://scripts/bootstrap-apps.sh#L120-L149",
+          "version": "repo-lines-v1:sha256:2305ea48a54a445fbf9e52b0e61741fb39155e0fd09715dd5602994218d0dfbd:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3OTRlOWYyYTQ0ZDA1ZGQyNTRhOGM4YjViZjEzZDJiZjk0NzNlN2Q4ZjBiYzk3NGNkMTJiZGU2NzViYTVlNjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNiODliYzg3NjY4MWY5MzllMjQ1NTZmN2FjZGI0MmRiOTA0YmRiNWYyNjE3NzMzNWY0NDA5MjQ2ZWU1NjgxOTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEzMDE2ZDNkY2RhMDdjZGNjYmY4YjhiODk5MDcxNTU4MDJhMjNkZTBkZGRjOWI4OGRkY2U3YjQyZDFhYzcxNDYifQ"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.6.0",
-    "at": "2026-09-25T22:38:38.997Z"
+    "by": "openwiki/0.7.0",
+    "at": "2026-10-06T00:54:23.845Z"
   }
 }

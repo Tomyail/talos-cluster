@@ -1,0 +1,122 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:fef65efc4eddcf3f9733805aafad66b5084127e1d5108e6ae071130df69c0263",
+  "claims": [
+    {
+      "id": "claim_780473c14fdc47fd8686c4d3113c9df2",
+      "statement": "kubernetes/components/common bundles a prune-disabled, privileged pod-security `not-used` Namespace, the app-template OCIRepository (oci://ghcr.io/bjw-s-labs/helm/app-template tag 5.2.1), and SOPS-encrypted sops-age and cluster-secrets Secrets used as Flux decryption/substitution inputs.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/common/kustomization.yaml",
+          "version": "repo-file-v1:sha256:6a499644d69e7563a12512291f01942ccdc1ceff4e741dd26aa28a228117f9d2"
+        },
+        {
+          "resource": "repo://kubernetes/components/common/namespace.yaml",
+          "version": "repo-file-v1:sha256:cc90502c30a32ce402d07577c6d533123f6aa07629c5b37962e8f83c98b4ab5f"
+        },
+        {
+          "resource": "repo://kubernetes/components/common/repos/app-template/ocirepository.yaml",
+          "version": "repo-file-v1:sha256:f0d9f158f13d4316067330be34e56a84216e6bf821b9a152c9cc1163cead9328"
+        },
+        {
+          "resource": "repo://kubernetes/components/common/sops/kustomization.yaml",
+          "version": "repo-file-v1:sha256:d8ed27e133a7c7b3a4e77fc5e274182244e747a7c15a7f8a3d6532ccb14f629a"
+        }
+      ]
+    },
+    {
+      "id": "claim_84b3e5c42c1a4291a1922c7173305e2f",
+      "statement": "App Kustomizations opt into shared behavior by listing component paths under spec.components (e.g. ../../../../components/volsync-new and ../../../../components/gatus/external in gitea's ks.yaml) and feed them values via postBuild.substitute variables such as APP and VOLSYNC_CAPACITY.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/ks.yaml#L13-L15",
+          "version": "repo-lines-v1:sha256:9f405c3df7eba9dbf90e52993d2c49dc9934ac3732cf989bc8567eff651230af:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWQzYTVkNjE1ZDhjOGNhZmVkMzgyZTZmYzE4NWY0NTk3MDJhYTg2OGNlNzUyNGZkMjY2ZjNmYjZkNjBjMDY3MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDllZDgyNmJlNWI3MjJjYzcxMmE1MjU3NTVmNzgzNDZjZGFiZjJhM2NiMzc1ZmMyZThmOWE0NTE0NzkzNjAyMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjBiZWRmNWJiZGMwOGY0OTI3NmI3ZWJjNjhkZWVkMDlmZjBkMmM4NzkwMDcwMDk0MzVmM2I5NjQ3NjRmNTRkYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjRjYzRlN2QwNDExOTRlZGZlOWQ3MzZlYjQzZTZhZjNkNDZkMzJkZDI1ZGI1NzZlZmUzN2I4MjVjOWE2MjIxNCJ9"
+        },
+        {
+          "resource": "repo://kubernetes/components/gatus/external/kustomization.yaml",
+          "version": "repo-file-v1:sha256:9b7f737953cde50bbf2e4f24584464c00b3e6e6cf26cb16b7f07e599032be423"
+        },
+        {
+          "resource": "repo://kubernetes/components/volsync-new/kustomization.yaml",
+          "version": "repo-file-v1:sha256:4c2df018958ac36399edfa3f9447bad27dea5dd9b8506109b70f6b634eeaa88f"
+        }
+      ]
+    },
+    {
+      "id": "claim_a6a536e28f9c4a779d74ad9e3d32b7e7",
+      "statement": "The volsync-new component injects a ${APP} PersistentVolumeClaim (defaults: ReadWriteOnce, 1Gi, topolvm-thin-provisioner, all overridable via VOLSYNC_* vars) plus an ExternalSecret building a restic repository Secret against MinIO (s3:http://192.168.50.220:9010/volsync/dev/${APP}), a ReplicationSource backing up every 6 hours with retention 24h/7d/5w, and a manual-trigger ReplicationDestination for one-shot restores.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/volsync-new/claim.yaml",
+          "version": "repo-file-v1:sha256:cb49de4194c92c3936a20756252d36294fce3c5ef4d0899007dce030aea5570b"
+        },
+        {
+          "resource": "repo://kubernetes/components/volsync-new/minio.yaml",
+          "version": "repo-file-v1:sha256:67b8e7182a3de13541dc9734b42e12296509411b30a7841ee677d1bf15cfe1d2"
+        }
+      ]
+    },
+    {
+      "id": "claim_8da16578cdb344619af0561a27d418ef",
+      "statement": "Each gatus component variant generates a ConfigMap ${APP}-gatus-ep labeled gatus.io/enabled=\"true\" (name-hash disabled) from its config.yaml so a central Gatus picks it up: external probes https://${GATUS_SUBDOMAIN:=${APP}}.${SECRET_DOMAIN} for HTTP 200, external-tailscale is the same but for tailnet-only hostnames (group tailscale), and guarded performs a DNS A-record check with hidden UI details for endpoints behind auth guards.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/gatus/external-tailscale/config.yaml",
+          "version": "repo-file-v1:sha256:47a9be62800b1136cc70cb75ac9c119cceb4dc80ea000dfb9a63b98c05b552ad"
+        },
+        {
+          "resource": "repo://kubernetes/components/gatus/external/config.yaml",
+          "version": "repo-file-v1:sha256:04e8bf8712a614a2c0c16e250c3ffdf2625c8ae6e110e81e5dd0f28eeb6f0e02"
+        },
+        {
+          "resource": "repo://kubernetes/components/gatus/external/kustomization.yaml",
+          "version": "repo-file-v1:sha256:9b7f737953cde50bbf2e4f24584464c00b3e6e6cf26cb16b7f07e599032be423"
+        },
+        {
+          "resource": "repo://kubernetes/components/gatus/guarded/config.yaml",
+          "version": "repo-file-v1:sha256:ff22db22cb7f4c8272e17065435b5e0bfe64a44ffd7e43368c58107393d34864"
+        }
+      ]
+    },
+    {
+      "id": "claim_0faa67594d7741bdb58de14ddf813ccd",
+      "statement": "The image-automation component injects a dockerconfigjson ExternalSecret from Bitwarden item ${BW_ID}, a per-minute ImageRepository for ${REGISTRY_URL}, and an ImagePolicy labeled image-automation: enabled that extracts the timestamp from tags matching ^.+-[a-f0-9]+-(?P<ts>[0-9]+)$ to select the newest sha-<digest>-<timestamp> tag, consumed by HelmReleases via the {\"$imagepolicy\": ...} marker.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/image-automation/README.md",
+          "version": "repo-file-v1:sha256:d3fa1cd58d903599d4c4d28ca589d8d0567fd3e85d41bc265e8014cb016349cd"
+        },
+        {
+          "resource": "repo://kubernetes/components/image-automation/imagepolicy.yaml",
+          "version": "repo-file-v1:sha256:113bf2b5cbce8ceba3497aa6a2f996b221bd3c3d9fe684848649bc44cbe1284c"
+        },
+        {
+          "resource": "repo://kubernetes/components/image-automation/imagerepository.yaml",
+          "version": "repo-file-v1:sha256:4f386fe3fde87d6f45d6d54d4112b2699a3077e4dcebb664ead932b350e2dd36"
+        },
+        {
+          "resource": "repo://kubernetes/components/image-automation/registry-externalsecret.yaml",
+          "version": "repo-file-v1:sha256:b8f1e03ecc938df063efdff6b8f9bac8aa209ce56040f8b1a564ec77d217f4b8"
+        }
+      ]
+    },
+    {
+      "id": "claim_1c129d57103d430dbe80a40be40f3016",
+      "statement": "The older kubernetes/components/volsync directory declares the identical resource list (claim.yaml + minio.yaml) as volsync-new; volsync-new is the variant referenced by current apps such as gitea.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/volsync-new/kustomization.yaml",
+          "version": "repo-file-v1:sha256:4c2df018958ac36399edfa3f9447bad27dea5dd9b8506109b70f6b634eeaa88f"
+        },
+        {
+          "resource": "repo://kubernetes/components/volsync/kustomization.yaml",
+          "version": "repo-file-v1:sha256:4c2df018958ac36399edfa3f9447bad27dea5dd9b8506109b70f6b634eeaa88f"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.7.0",
+    "at": "2026-10-06T00:54:23.845Z"
+  }
+}

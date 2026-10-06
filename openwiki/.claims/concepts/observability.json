@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:39c7b96690915a45bd6bd9e2caeb9c634c558dba216e2cd827ca7eb534b96e36",
+  "pageVersion": "sha256:394fd7046be877c25e36bc5d3d824d39cc9073a455745f2647d5cfa88c510fde",
   "claims": [
     {
       "id": "claim_5ae66d25e4cc42ec9bb35d381c27e614",
@@ -497,10 +497,54 @@
           "version": "repo-lines-v1:sha256:a305d16b57bf57b710f820d7d533d7422cc272d60b6096b951eb770bdb626bde:eyJzZWxlY3RlZExpbmVDb3VudCI6NDYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY5OTc1NTIxNWNiZjZkMmM5ZDc4M2I5YjA5YTg0NGZjNWI2MWViYWU2ODQxYzg2YTYwODVmZDEwYjU4YWM2ODQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJlMjQ1ZTQwZDE5YWMwYzYwMzQyZTY4OWY5OWFiMDc0NmI2ZDkwNTk2ODg3ZjgzNDllYWY1Mjg1OTZiMjhiZDAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdkMzg2YmQ2MjEzNDllMzkwZDdkMmE1ODJjZjRiYTBjMjEzNzU3Yjk0ZGNlMTRjZWFiMDc3MDIzMDFhNmQ5YzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ0NTdkMTVkMzlkMTc2MDc4YTE2YzdlODYxMzBhNDBkYzFmZWVjOGMyNWJlNDIxZDJlMDcwOTIyNzhiMjM0YzAifQ"
         }
       ]
+    },
+    {
+      "id": "claim_e6730ad5cac7413ba8f7bc09e3ff3b3d",
+      "statement": "Gatus probes are auto-registered per-app through three reusable kustomize components (external, external-tailscale, guarded): each component's configMapGenerator renders config.yaml into a ConfigMap ${APP}-gatus-ep labeled gatus.io/enabled=true, which the k8s-sidecar in the Gatus pod watches across all namespaces and materializes into /config for Gatus to pick up; external/external-tailscale check HTTPS status 200 via public DNS resolver tcp://223.5.5.5:53 (tailscale variant uses ${GATUS_SUBDOMAIN_TAILSCALE:=${APP}}.${SECRET_DOMAIN} in group tailscale), while guarded asserts an empty DNS A-record answer, failing if the app is publicly resolvable.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/gatus/app/helmrelease.yaml#L24-L36",
+          "version": "repo-lines-v1:sha256:89f655bb451c27a203471a72de62f7768a6a7862bfe92d41bdb1b69132a6ccd2:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM3MTZhMWViNzYwYTJlNjI0YjI1NDE5OWQ5YWFhOGU4NGZlNGIxYTU5OTdjZTZlMjU2YjkzNjk2NGU0NWUwMGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUwMmRjYjRkZGY2Nzg0NDYxNmMyYTczZTQ3NTg4MWQyYjcxY2RlNTdlMzRhZmMzMDkwNWIwZmEyYTdmNTdkNGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjMyZWI3NjUzNzA1NzE4Y2VkOTdiMmE0MzhjZjk3NWFhMTYyMDEyYzhhNDk0ZjM2MTA1NDU5YTVlZTA5NTM0MDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNhYmIxYzRkMmMyZmJmM2YzNDlhNjc3M2JiMGFjMDQ4MzFmZTQwNjRlZTcyNzJhMzk4Njg1OGZhYzIyNTA2MGUifQ"
+        },
+        {
+          "resource": "repo://kubernetes/components/gatus/external-tailscale/config.yaml",
+          "version": "repo-file-v1:sha256:47a9be62800b1136cc70cb75ac9c119cceb4dc80ea000dfb9a63b98c05b552ad"
+        },
+        {
+          "resource": "repo://kubernetes/components/gatus/external/config.yaml",
+          "version": "repo-file-v1:sha256:04e8bf8712a614a2c0c16e250c3ffdf2625c8ae6e110e81e5dd0f28eeb6f0e02"
+        },
+        {
+          "resource": "repo://kubernetes/components/gatus/external/kustomization.yaml",
+          "version": "repo-file-v1:sha256:9b7f737953cde50bbf2e4f24584464c00b3e6e6cf26cb16b7f07e599032be423"
+        },
+        {
+          "resource": "repo://kubernetes/components/gatus/guarded/config.yaml",
+          "version": "repo-file-v1:sha256:ff22db22cb7f4c8272e17065435b5e0bfe64a44ffd7e43368c58107393d34864"
+        }
+      ]
+    },
+    {
+      "id": "claim_ca75ed53069446bda7c75ffa7adb57e9",
+      "statement": "Kromgo queries Prometheus at prometheus-operated.observability.svc.cluster.local:9090 and serves threshold-colored badges from its ConfigMap-defined metrics (talos_version, kubernetes_version, cluster_cpu/memory/network usage, node/pod counts, cluster age/uptime, prometheus_active_alerts, cluster_power_usage); the repository root README embeds these as shields.io endpoint badges (e.g. /kubernetes_version, /cluster_cpu_usage), so README badge values are live queries served by this deployment.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L7-L18",
+          "version": "repo-lines-v1:sha256:6e6d7d54a53ea4277af3e75f967ff5075b29c03a1165506cd188fc436cea3f69:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAzMzYzY2I3OTU5ZTY4ZDI0YWQyNzI1ZThmM2FhOTBlNWZhZDU3YmY3YjE1OTgzZTljMTUwNDY0OWFlOTI5Y2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI5MDgyZmNiZjdmMDYwOGU5NzRlZTRiN2RiMjhhYWQxNmYzZDdmOWYxYmM3OGJiZmQ0YTJhMGIxNjlkNDc0YzQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM2NGE1YjNkYzQyMTFmY2Y5MDU1ZGExYzQ0ZTk1YmM1ZjVjYmE1YjAzNWUxYTlmM2I3MDYzZDc5NmMwODY2NWIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRjMmMyNmU1NmRkMjEwYzI5ZWE4NWFjNzUwZTFiY2I4MzdmNzgyMTFhZjAxN2MzNjFjMjkwYzhlMjY5YjE5ZTIifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/observability/kromgo/app/helmrelease.yaml#L33-L33",
+          "version": "repo-lines-v1:sha256:9c8a98c19144081b35a933a2711a4bb8091382210e1b51141a85316b08ee8202:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOWM4YTk4YzE5MTQ0MDgxYjM1YTkzM2EyNzExYTRiYjgwOTEzODIyMTBlMWI1MTE0MWE4NTMxNmIwOGVlODIwMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWM4YTk4YzE5MTQ0MDgxYjM1YTkzM2EyNzExYTRiYjgwOTEzODIyMTBlMWI1MTE0MWE4NTMxNmIwOGVlODIwMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNGUzMTIzZTJlZDA4MzdjNGU0YTVhNjI0NGE0YTRjMTA3OTYwZTkyMjNkOTgyMDhmOGZlMjlhMzJmY2YyOGU5ZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNmNkYjUyZWM4NWQ5ZDQ5MTE4MTg0M2JhMTBiMTA5OTMxZTYyZjQ1NGJmNjI1OGJlNjdlMDk0MDQ3OTg1NzIzOCJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/observability/kromgo/app/resources/config.yaml",
+          "version": "repo-file-v1:sha256:78416b2f5dc7c21d09370941062560f428514116b7281c3845c71c663194bf56"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.2",
-    "at": "2026-09-19T21:35:52.044Z"
+    "by": "openwiki/0.7.0",
+    "at": "2026-10-06T00:54:23.845Z"
   }
 }

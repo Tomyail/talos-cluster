@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:0e173e33e3f0664770861a70fca915c7aace02c6a167992f896c0c4f88c3eff1",
+  "claims": [
+    {
+      "id": "claim_3a5efba291a24d41be157c2c9f656cef",
+      "statement": "The flux-local workflow runs on PRs to main; a pre-job using tj-actions/changed-files with filter `kubernetes/**` gates the test and diff jobs via its any_changed output, with per-PR concurrency cancellation.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/flux-local.yaml#L5-L33",
+          "version": "repo-lines-v1:sha256:fdea5cde15c784200a7e08546cafee67fd6241b689382e4aeaa2b3795a172e48:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU5NmRjNDgxNDlmNWE4M2QxZWQ2ZGJiMzliYmM3ZTJiOTAyYWEzZDM0ZDZiZDVhZTRiMjkxYjY4ZGYwY2E3OWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJjNjcyMjgyZWRhZGYyZDRjZTZkMjM1YjczMTAyZjE5Nzg3YTczZWEyMDRlNmJlNzc1ODk3YmRlNDdmZTkyYWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI1MzQyZDg1ZjIzZDA4NDZiNWQ1NTE2YzJhNGQ0ZmVhM2U2ZjEzMjJhOThkZjI0M2Q3N2MwYTE3MjIxYWJhZDgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg3YzA5NWQ4NTFlZTk0ODhhNThhM2VmNjg5MTFiOWZiYzBjNmZjMTgyYTFlODNkOTQ2YzFkOTJlOWQyMTViZmMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_36d8d00a143342fe98655919e9cf2d17",
+      "statement": "The test job runs `flux-local test --enable-helm --all-namespaces --sources flux-system --path kubernetes/flux/cluster` in the ghcr.io/allenporter/flux-local:v8.4.0 container, rendering and validating the full Kustomization/HelmRelease tree.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/flux-local.yaml#L38-L41",
+          "version": "repo-lines-v1:sha256:d0b57f30d3c060a4ed169576b3850b32dce47103330887bd64b2f0f337864fe8:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWU1YTQ3YmI5YjZkMjUxMWFhZDcyZjcwNDhjMjQyMTM5NGNkY2FlMGE1NTNhZDgxNTQyYTk0YTAwODhjOTcxZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNmJlZDMwNWFmOTFiODg3ODk0YjkxYzAwY2E1Y2I4ZGY5MjY5NDdmZTZmM2FkM2IyN2Q3ZTliM2UyMWU2M2Y5ZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDAwZGM3MzAwNTJkNDdkMmI5YmMyN2Q1NDMxZDQzZjlmMDRmOTQ5NTExY2M1OWE2YmJlYjhkZmEyNjIwYTdmNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMmQzZjk3Mjk1ZWI0YmEwYjg4ZTRmNzM0MDNkNWE0NmMwNWZhNTcxNDBmODIzMTFmN2ViNDEyNjMwOGFhZmRmNyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_e15a233ddf8b4d37b6be63bfce515377",
+      "statement": "The diff job is a helmrelease/kustomization matrix comparing the PR branch against the default branch with flux-local diff, stripping cosmetic chart attributes and capping output at 10000 bytes; non-empty diffs are posted as per-resource-type PR comments via mshick/add-pr-comment (continue-on-error) and to the job summary.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/flux-local.yaml#L43-L108",
+          "version": "repo-lines-v1:sha256:026f732d4e902e00fd49197a0a9b2dd654ade61033768d77608b7eade7dd2430:eyJzZWxlY3RlZExpbmVDb3VudCI6NjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUzYzMwNTU5ZDM5MGZlNDZmMGFkNDk4ZDk2Y2I1ZTEzNjk2Mzg1ZDBhNDE1NzRlNDYxN2MwOGE4YjlkMjUzMTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc1ZWZmOThjODJiNjI2Y2JlOTZmN2M3MmEyNTlmMDBkYjMwNzhiNTU0ZmQ4N2M3YjM2M2VhNzMyZDQ5MTkwZjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRkYjExOWVhYThhYzM5NGU4NmM5ODIyZTRlMDcxMDIwY2IxNTMyZTQwOGNkMzNmMmU0NjBhYTU1OTgzOGE3OWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjliMThkZWU4ZjBiNjBmNmNmMDg3MDM4OThhYzVhZWU4MDAzYjMxYzFkZTcxNGNkNGIxZGI2ZmM2ZDNiNGU4Y2EifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ce17b817d4a8462088d8b1812566af81",
+      "statement": "The flux-local-status aggregator job runs always(), fails if test or diff failed, and serves as the single branch-protection check.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/flux-local.yaml#L110-L122",
+          "version": "repo-lines-v1:sha256:80897bb0a28de8d83060c7d77f398918f5e5b2bf9c094f379ad773ca9044208b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI4YTAyYjNmYzJiYWY4MDlhZTIzNjM1M2IyZjE4NjlkYWEwOWIyYmZiMjIwZjNmNTg4MzQ3OGRiNWI1YzU4ODIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVkMzlmNjU0ZWY2NzkyMjEyNzRkODIwYmZiMjdjZmVkZjIwMjVkZGY4ZDM0NTIwYThhYjYzNjRhODU3MjMyZWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU5MGM4YTMxOGMwYzdjZDI5ZTZkN2E0NzQ1YWE3MTNjNjA5NWY3NDdlZjk4ZGZmNmMxYzQyZjRkNTdlOTZkYzMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4ceb50f5b48943a99842774c2fe89c30",
+      "statement": "Labels are defined in .github/labels.yaml (area/*, renovate/*, type/*, community, hold) and synced by label-sync.yaml via EndBug/label-sync with delete-other-labels on pushes to main touching labels.yaml; .github/labeler.yaml maps paths to area/* labels.",
+      "evidence": [
+        {
+          "resource": "repo://.github/labeler.yaml",
+          "version": "repo-file-v1:sha256:9c8d8f732d6bfd677c40a340b607eac9c15b5072268f67479110d60dbf031f06"
+        },
+        {
+          "resource": "repo://.github/labels.yaml",
+          "version": "repo-file-v1:sha256:bc18eef8798dec3a30a0ae930e54638412d09688fb4afb862de3850758c1e199"
+        },
+        {
+          "resource": "repo://.github/workflows/label-sync.yaml",
+          "version": "repo-file-v1:sha256:3b8f5ea6890a99fb0c21727b0cb9409b87d8c7950b070ceaa501633ac230f6ff"
+        }
+      ]
+    },
+    {
+      "id": "claim_f5c5a1e248eb4c63821ddc535af75cba",
+      "statement": "Renovate extends config:recommended with docker:enableMajor, pinGitHubActionDigests, automergeBranch, dependencyDashboard, disableRateLimiting, and semanticCommits; it runs every weekend, ignores **/*.sops.* files, and all Flux/helm/kustomize managers target kubernetes/**/*.ya?ml including .j2 files.",
+      "evidence": [
+        {
+          "resource": "repo://.renovaterc.json5#L1-L30",
+          "version": "repo-lines-v1:sha256:f03aba33416f83ce226c494891a72802c6011506a786dc524b5988e530a1f18d:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE2ZmIwOGZkYTFhY2I5NTdiNjExNmJkMzc4MTFhMWZlNDFhMDE2MTFjMDYzMWVkYmY3ODZkNjg4OWEyN2E1NWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkNWNkMmZiNGYzZGY4ODQ1MTUyNTViMzk1MjNmMmY4YjU0NzJiZWVhOWY1NjZmZmNhMjA0ZGI4MDI1NjEwNDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZjY2YxMTg1NDljNzE0NmQyMjViZjI1NTM1NDk0YjAyMmEwZTM1ZGJkMDJmMTdhYzAwNmVhNWM0ZDUwODZjZjAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_75b05f7ee004431f80c99b4a8975f6e6",
+      "statement": "Renovate groups cert-manager, CoreDNS, Flux Operator (flux-operator + flux-instance), and Spegel docker images into single PRs, and auto-merges GitHub Actions (minor/patch/digest, 3-day minimumReleaseAge) and Mise tool updates.",
+      "evidence": [
+        {
+          "resource": "repo://.renovaterc.json5#L31-L84",
+          "version": "repo-lines-v1:sha256:0f6a86dca6e1c27d092bc5410114bf87cb1c015005b7f021b84a9cfb101d9b22:eyJzZWxlY3RlZExpbmVDb3VudCI6NTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY4OWZlMTNhOTQ5MjEzOTdhYzc0ZDk3ODU3MmQ3NjUzYTM3N2Y1ZTQ4Mzk4NzIyN2ZkMDBlYjQ1OWM4MjFjMDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE5MjA3ODA3OGI4MmRjZGE4NjRiMDM1ZDJhMzIxNWRjMTU0OWY4ZmE2YmI1OTBlMzliMDcxMzBhZWQxMjcwMmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjUyMWY1NGQwNDU2YzkyYWRmNDEzMzhjNDQzMTJkY2EyOTU2MWNmYWZkYTkyYWQ4ODE3NDY3MDlmN2FmNmI2ZmQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_1ab91d5fcdf04e8eab4a5a4166e379a2",
+      "statement": "Non-major (minor/patch/digest) app-layer updates auto-merge, but excludeDepPatterns keeps core infrastructure (storage, network, certs/secrets, GitOps, observability, node components, app-template) on human-reviewed PRs.",
+      "evidence": [
+        {
+          "resource": "repo://.renovaterc.json5#L161-L204",
+          "version": "repo-lines-v1:sha256:f600f1c5cc34960570a98e753bb89a89a3cf476b3cbd64bbb738ffebd7a31737:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3OWJhNDA5NzU4ODI2M2ZiMTViNWUzNzU4NTJkZWU3OWY4MTc0OWIyZDViOTBlZTUxZDY0N2I4ZmY3ZjliOTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4OTNmNDBlMzc4MWViODk2YzgyZDA0NmEwODA2N2ExMWUzNWNkZjJmMWRmYWYyNmZlYTkwYjhkYjY2NzY0MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg4NjVlZDNiNWJmODIzZGQ0Y2VlNzM5ZDE0OTJkYmU2NTI4ZTU1MzAxOTg3ODE0ZDU2MmU2NTg2MWM2ZDRjOTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ0YjNlYjc5Y2NlM2E0YTI2NDI2ZWQ4NTQ1NTdhNjljMDUxMzc0MmE4YjMxNWRhMmQ1MzUxZTk3YmY5NmQ5ODAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_335c651a85c44f048686bffb3d8ca99b",
+      "statement": "Semantic-commit and labeling rules map update types/datasources to commit messages (feat!/feat/fix/chore with version extras) and labels (type/major|minor|patch, renovate/container|helm|github-action|github-release) matching .github/labels.yaml.",
+      "evidence": [
+        {
+          "resource": "repo://.renovaterc.json5#L86-L159",
+          "version": "repo-lines-v1:sha256:822f1a67e8bf5df93f43966bc7b14eaf2ca83a1b5790357aa18f6f9be951365d:eyJzZWxlY3RlZExpbmVDb3VudCI6NzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE4Y2I5NmJhM2JkZWQ2YmU1MmUzODYyZTZiNDYwYTc1ZmRkMWViOTQ1ODJjNDAwNjMyOWYyODA3OGUzZjk2ODEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ4YTQyMDI2MDkzODhlNTA1YjUwMTI4OGU1NDU1Nzc1NmZkM2FiMDkzOTUwM2JiOWZjOTZkMjY3ZDM1NDQ4MmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY0YzA0YmMxZjJiYTdjZTM3MTllYzM5MjM3YjBjMGU1OTRkYmEzMzRjODcyMDhlZjIxZTkzNWQwNGM1NGZjNGMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_2c830f66c06245029932dde75c465ca4",
+      "statement": "A regex custom manager updates `# renovate:` annotated dependencies in .env/.sh/.yaml (and .j2) files, defaulting to github-releases datasource; used for Talos/kubelet images in talos/talenv.yaml, system-upgrade manifests, CRD pins in kubernetes/flux/meta/repos/, and bootstrap scripts.",
+      "evidence": [
+        {
+          "resource": "repo://.renovaterc.json5#L206-L229",
+          "version": "repo-lines-v1:sha256:6c4556e550acc969205336f921d4e3f28e9f80d6c1de73e266aa18508fa9dc06:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUwZWFhMDNjMzdiNTMzMzRiMTA1MDUzZjlkNzc3MjgzMGJkYWIyYmVlNDlmNjE4ZjlkYzJmNGNjY2IzYTI5NzUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2NGQ4YzA3MzQyOTg5MzEwMTU3NmQ4OGQ5OTEyN2U4OWQ2ODkxZDNiMTdlODlkZjAyZWM5YWU3MDcwNWQ4YmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVlYWM4ZmViNmFjNjRiODI0YTg3YmNkYTc1YjMxMzRmMDRjN2M4ZjY1NDhlMmZmZGI2M2FmZGNkZTU0MjM4M2QiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEifQ"
+        },
+        {
+          "resource": "repo://kubernetes/flux/meta/repos/external-dns-crds.yaml#L12-L12",
+          "version": "repo-lines-v1:sha256:be684c0ec37439f3e181c9386c0028cf3bccf134d30935227ab485f798ce6b4e:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYmU2ODRjMGVjMzc0MzlmM2UxODFjOTM4NmMwMDI4Y2YzYmNjZjEzNGQzMDkzNTIyN2FiNDg1Zjc5OGNlNmI0ZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYmU2ODRjMGVjMzc0MzlmM2UxODFjOTM4NmMwMDI4Y2YzYmNjZjEzNGQzMDkzNTIyN2FiNDg1Zjc5OGNlNmI0ZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOGUwNjAyYzdiZjBiYzkxMDM3NDAwZmMyNjUxNzM0NGIwNGNkOTM1YTk3Y2FkOTk3YTliNzNhNzUwM2QwMDE2YyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjdjMzhlOTU3Zjg0M2MwYzkzMTgzMGMzNzVhZmRmMDFjOTg5MmZlMWE0ZDkxM2E4ZDk3YjBiYmE1MDI2YmVkOCJ9"
+        },
+        {
+          "resource": "repo://talos/talenv.yaml#L1-L3",
+          "version": "repo-lines-v1:sha256:8fc526992761de8f41bf0a983c8b7010b47b62a1a30a0166f0dc647cbe021c3d:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDBmMTUwYTFhMDAwNzUyODM5MzU2NzZjZDY3Y2RmN2E4NmI2ZjhiYTE5YzkxMDI4YzMwYWM3MTNmZjNjMDAzMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGE5N2MxNTI1NTAxNDA4YjQ1OWJkYjNmMzFkMjM1ODAxOTQ2ZTgxZmJjNDc3NTBhMmVmZDMzNzhhNWNkMWJkNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiY2VmNGJjZTcyOGNmYTdhYjVkYjhlYTlkMTYxODZjM2NmZGU1ZWEyYjUxZGE0YTM5NzY4MTQyZjFiM2I5MDQ0MSJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.7.0",
+    "at": "2026-10-06T00:54:23.845Z"
+  }
+}

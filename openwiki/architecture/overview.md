@@ -12,6 +12,8 @@ sources:
     resource: repo://kubernetes/apps/database/kustomization.yaml
   - id: openwiki-source-dbd8b5c09621dda4424792fd
     resource: repo://kubernetes/apps/default/gitea/app/helmrelease.yaml
+  - id: openwiki-source-649e5ed74d5376f95cff2b2a
+    resource: repo://kubernetes/apps/default/gitea/ks.yaml
   - id: openwiki-source-83fcf5098607a9b2edbdd01e
     resource: repo://kubernetes/apps/default/kustomization.yaml
   - id: openwiki-source-da20571b2248768af750fcba
@@ -40,6 +42,8 @@ sources:
     resource: repo://kubernetes/apps/storage/volsync/app/helmrelease.yaml
   - id: openwiki-source-63c7de935f96b1aa0a5dc1a4
     resource: repo://kubernetes/components/common/kustomization.yaml
+  - id: openwiki-source-0aa0479be229def909bbfa22
+    resource: repo://kubernetes/components/common/repos/app-template/ocirepository.yaml
   - id: openwiki-source-d8126483419916725f75040b
     resource: repo://kubernetes/components/common/repos/kustomization.yaml
   - id: openwiki-source-0696023deccf378a358f7526
@@ -50,10 +54,10 @@ sources:
     resource: repo://README.md
   - id: openwiki-source-1fd71dc29915917549048436
     resource: repo://talos/talconfig.yaml
-generated: { by: "openwiki/0.7.0", at: "2026-10-03T22:17:28.945Z" }
+generated: { by: "openwiki/0.7.0", at: "2026-10-06T00:54:23.845Z" }
 verified:
   - by: openwiki/0.7.0
-    at: 2026-10-03T22:17:28.945Z
+    at: 2026-10-06T00:54:23.845Z
 ---
 
 # Architecture Overview
@@ -260,6 +264,30 @@ flowchart TD
 
 *Figure: Flux reconciliation hierarchy from Git repository through Kustomizations to deployed resources.*
 
+### Reconcile Chain
+
+Everything is anchored to a single Flux `GitRepository` named `flux-system` that points at this repo's `main` branch. The reconcile chain is:
+
+<!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: a semicolon inside a label breaks rendering; rephrase the label. -->
+```text
+flowchart TD
+    GR["GitRepository flux-system"] --> CM["Kustomization cluster-meta"]
+    CM --> GAR["gateway-api-crds"]
+    CM --> EDC["external-dns-crds"]
+    GAR --> CA["Kustomization cluster-apps"]
+    EDC --> CA
+    CA --> NS["Namespace kustomizations<br/>kubernetes/apps/*/kustomization.yaml"]
+    NS --> APP["Per-app Kustomizations<br/>kubernetes/apps/&lt;ns&gt;/&lt;app&gt;/ks.yaml"]
+    APP --> HR["HelmRelease / resources"]
+```
+
+*Figure: Flux dependency graph. `cluster-meta` gates everything; `cluster-apps` waits on both CRD kustomizations.*
+
+1. **GitRepository `flux-system`** — Flux watches the repo; `cluster-meta` (path `./kubernetes/flux/meta`, SOPS-decrypted, `wait: true`) reconciles the source definitions under `kubernetes/flux/meta/repos/`, which materialize `OCIRepository` and `HelmRepository` objects (app-template, prometheus-community, grafana, backube, etc.).
+2. **`gateway-api-crds` and `external-dns-crds`** — both depend on `cluster-meta` and pull CRDs from their own external Git sources, so CRDs exist before any app references them.
+3. **`cluster-apps`** (path `./kubernetes/apps`) depends on all three above, is SOPS-decrypted, prunes removed resources, and `wait: true` blocks until everything is healthy.
+4. **Per-app `ks.yaml`** — each `kubernetes/apps/<namespace>/<app>/ks.yaml` defines a Flux Kustomization with `sourceRef` back to the same `flux-system` GitRepository, `targetNamespace` pinned to its namespace, SOPS decryption, `postBuild.substituteFrom` of the `cluster-secrets` Secret plus `substitute` values (e.g. `APP`, `VOLSYNC_CAPACITY`), and `dependsOn` entries on other apps such as `topolvm` (storage) or `external-secrets`.
+
 ### Bootstrap vs GitOps Management
 
 **Bootstrap phase** (one-time cluster initialization):
@@ -322,7 +350,11 @@ spec:
     # App-specific values
 ```
 
-All apps share the same app-template chart defined in kubernetes/components/common/repos/app-template/.
+All apps share the same app-template chart (version 5.2.1 from `oci://ghcr.io/bjw-s-labs/helm/app-template`) defined in kubernetes/components/common/repos/app-template/. Every namespace kustomization includes `../../components/common`, which supplies the namespace definition, the SOPS age secret, and this OCIRepository, so each app's `chartRef` resolves locally.
+
+**Example: gitea with a sub-app** (kubernetes/apps/default/gitea/ks.yaml) defines two Kustomizations:
+- `gitea` — path `./kubernetes/apps/default/gitea/app`, `dependsOn` on `topolvm` (storage), `external-secrets`, and `cloudnative-pg-cluster` (database), plus components `../../../../components/volsync-new` (backup claim) and `../../../../components/gatus/external` (health monitoring).
+- `gitea-runner` — path `./kubernetes/apps/default/gitea/runner`, an optional sub-app Kustomization that depends on the same storage/secrets prerequisites and reconciles CI runner resources independently of the main gitea release.
 
 **Install/upgrade remediation policy (platform-wide convention)**: HelmReleases across all namespaces share a uniform remediation policy: `install.remediation.retries: -1` (retry installs indefinitely until they succeed) and `upgrade.remediation.retries: 3` with `cleanupOnFail: true` (clean up failed upgrade state and retry up to three times before the release is marked failed). This convention is applied consistently in app helmreleases such as cloudflare-tunnel, cilium, cert-manager, kube-prometheus-stack, and default-namespace apps, so Flux self-heals bootstrap-time install failures and bounds upgrade retry loops.
 
@@ -579,10 +611,6 @@ Auto-updates tracked dependencies:
 5. **TopoLVM over hostPath/emptyDir**: Dynamic volume management with LVM flexibility
 6. **VolSync over Velero**: Application-level backup with remote sync support
 7. **Gateway API over Ingress**: Modern routing standard with better CRD support
-8. **OCIRepository over GitRepository for charts**: Immutable chart storage with better caching
-9. **Bootstrap then GitOps**: Helmfile establishes foundation, Flux maintains state
-10. **Bitwarden for external secrets**: Centralized secret management with self-hosting option
-routing standard with better CRD support
 8. **OCIRepository over GitRepository for charts**: Immutable chart storage with better caching
 9. **Bootstrap then GitOps**: Helmfile establishes foundation, Flux maintains state
 10. **Bitwarden for external secrets**: Centralized secret management with self-hosting option

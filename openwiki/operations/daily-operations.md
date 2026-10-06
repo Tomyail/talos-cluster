@@ -4,6 +4,10 @@ title: Daily Operations
 description: Consolidated operations runbook for the Talos cluster covering Flux reconciliation, Talos node operations, VolSync backup/restore, networking (Cilium, Cloudflare Tunnel, DNS, Tailscale), SOPS/age secrets, storage (TopoLVM, snapshots), and observability access.
 tags: [operations, runbook, flux, talos, volsync, networking, secrets, storage, monitoring, maintenance]
 sources:
+  - id: openwiki-source-6378149bc01898a8718f6f2d
+    resource: repo://.github/workflows/flux-local.yaml
+  - id: openwiki-source-aa55808be329b3f929ddf105
+    resource: repo://.renovaterc.json5
   - id: openwiki-source-240e6406ed4b6841961679cb
     resource: repo://.sops.yaml
   - id: openwiki-source-4f5be6b4c7dcc699aca46164
@@ -36,10 +40,10 @@ sources:
     resource: repo://README.md
   - id: openwiki-source-b9ff7ee0aa4953cc601052a4
     resource: repo://Taskfile.yaml
-generated: { by: "openwiki/0.5.2", at: "2026-09-19T21:35:52.044Z" }
+generated: { by: "openwiki/0.7.0", at: "2026-10-06T00:54:23.845Z" }
 verified:
-  - by: openwiki/0.5.2
-    at: 2026-09-19T21:35:52.044Z
+  - by: openwiki/0.7.0
+    at: 2026-10-06T00:54:23.845Z
 ---
 
 # Daily Operations
@@ -93,6 +97,31 @@ flux resume kustomization <name>
 flux suspend helmrelease <name> -n <namespace>
 flux resume helmrelease <name> -n <namespace>
 ```
+
+## Renovate Updates and PR Review
+
+Renovate automates dependency updates against `main`. Per `.renovaterc.json5`:
+
+- **Schedule**: `schedule: ["every weekend"]` — PRs are only opened on weekends.
+- **No SOPS files**: `ignorePaths: ["**/*.sops.*"]` keeps Renovate out of encrypted manifests.
+- **Custom regex manager**: a `# renovate: datasource=<ds> depName=<dep>` comment pins the version on the following line; Renovate bumps it in place. This drives Flux versions (`flux-instance`), Talos images (`ghcr.io/siderolabs/installer`, `ghcr.io/siderolabs/kubelet` via system-upgrade controllers), OCI repos (gateway-api, external-dns CRDs), Grafana dashboards, and Nextcloud image tags.
+- **Automerge**: GitHub Actions minor/patch/digest and Mise tool updates automerge as branches (3-day `minimumReleaseAge` for Actions, `ignoreTests: true`). Non-major app-layer updates (minor/patch/digest) also automerge **except** a long exclusion list of core infra: storage operators (topolvm, volsync, snapshot-controller, cloudnative-pg, etc.), networking (cilium, external-dns, tailscale-operator, cloudflared, coredns, spegel), security (cert-manager, external-secrets), GitOps (flux-operator/instance, controlplaneio-fluxcd), monitoring (kube-prometheus-stack, thanos, loki), Talos installer/kubelet, and the shared `app-template` chart. These never automerge — they land via manual review only.
+- **Grouping**: cert-manager, CoreDNS, Flux Operator, and Spegel updates are grouped into single PRs.
+- **Commits**: semantic commits (`feat(container)`, `fix(helm)`, `ci(github-action)`, ...); majors are `feat(...)!` with old → new version in the subject and get `type/major` labels plus `:dependencyDashboard` for overview.
+
+### Reviewing and Merging Renovate PRs
+
+CI runs `.github/workflows/flux-local.yaml` on PRs touching `kubernetes/**`:
+
+1. `flux-local test --enable-helm --all-namespaces --sources flux-system` validates the whole kustomization tree renders.
+2. `flux-local diff` for `helmrelease` and `kustomization` posts a unified diff comment on the PR (diffing PR branch vs `main`, stripping noisy chart attrs like `helm.sh/chart`), so you can see the exact cluster-side change a version bump will cause.
+
+Review flow for non-automerged PRs (infra from the exclusion list, and all majors):
+
+1. Read the flux-local diff comment; verify only intended resources change.
+2. Check release notes / breaking changes, especially for majors (`type/major` label).
+3. Merge once `flux-local test` is green. Then `task reconcile` to apply immediately, and watch with `flux get helmreleases -A`.
+4. If an update regresses the cluster, `flux suspend helmrelease <app> -n <ns>` and `git revert` the merge; automerged branches that fail CI simply stay unmerged (`automergeType: branch`).
 
 ## Talos Operations
 

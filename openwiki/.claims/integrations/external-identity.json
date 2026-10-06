@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:9af810fbd95d7e19d2b61fa58ed2765447f34575034c3c6ae3bbf19312ae92b1",
+  "claims": [
+    {
+      "id": "claim_641adc5b8191404080e2b544847ae074",
+      "statement": "The cloudflare-dns Kustomization deploys external-dns (chart v1.22.0) with the cloudflare provider, sourcing records from DNSEndpoint CRDs and gateway-httproute (gateway-name external), policy sync, proxied records, domain filter ${SECRET_DOMAIN}, and a CF_API_TOKEN from the SOPS Secret cloudflare-dns-secret with Stakater Reloader restarts.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-dns/app/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:a7d88302ab121488a3ae688554eb682077379a82ae4bbabb73e15b4c52597ed0"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-dns/app/secret.sops.yaml",
+          "version": "repo-file-v1:sha256:e45679e6b0c76a626cfab41cd171343f7cadaf864f739724776a571c293e8205"
+        }
+      ]
+    },
+    {
+      "id": "claim_9354c9f9cdde4e68a6238ea8446d1bff",
+      "statement": "cloudflare-tunnel runs cloudflared (image tag 2026.9.3) with `tunnel run`, credentials via TUNNEL_TOKEN from the SOPS Secret cloudflare-tunnel-secret, a config ConfigMap mounted at /etc/cloudflared/config.yaml routing ${SECRET_DOMAIN} and *.${SECRET_DOMAIN} to the Cilium Gateway service cilium-gateway-external.kube-system, http2 transport, /ready probes on port 8080, and reloader.stakater.com/auto restart on Secret change.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:03d82e5fc47227b0ba89697d0774a269e6f2b3ed596fe8cf9349edcb06cb2192"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/resources/config.yaml",
+          "version": "repo-file-v1:sha256:287eba7b9f28c6d2e689abaae48a392a04d709dfb54b40c1d845a835354cb1d5"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/secret.sops.yaml",
+          "version": "repo-file-v1:sha256:8d3d45cf5c94550fb24dc24dba1a64fa621966f35c1f993a277386177c1c2cf0"
+        }
+      ]
+    },
+    {
+      "id": "claim_8fd328b65fb048ffb7a06ee87e8a7315",
+      "statement": "The DNSEndpoint `cloudflare-tunnel` publishes CNAME external.${SECRET_DOMAIN} -> 5b7a9006-79aa-4f8d-a157-fde642c738fe.cfargotunnel.com, which external-dns syncs into Cloudflare to route public traffic into the tunnel.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/dnsendpoint.yaml",
+          "version": "repo-file-v1:sha256:429a185741c44e4e8deac791cb3b3dab3de808b51c08e8e70ef33937197e07cc"
+        }
+      ]
+    },
+    {
+      "id": "claim_bac9ddf5a6354380a4fe31b876c5daa0",
+      "statement": "The tailscale operator (chart tailscale-operator v1.102.4) gets OAuth credentials from Secret tailscale-secret (valuesFrom mapping client_id/client_secret to oauth.clientId/clientSecret); that Secret is produced by an ExternalSecret pulling username/password from Bitwarden item tailscale_k8s_oauth via ClusterSecretStore bitwarden-login, and Reloader restarts the operator on change.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/tailscale/app/externalsecret.yaml",
+          "version": "repo-file-v1:sha256:6dd6916b243e658d84fe3bcbb80ea0abf4adee8d6c1a71a1588381d06fd96c78"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/tailscale/app/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:1032551b193f2cc8a2d21e351391c11693aef7bd6ce35be350163e3d0a967f81"
+        }
+      ]
+    },
+    {
+      "id": "claim_1514c67149044895a0cb03ca34a20ba6",
+      "statement": "Tailscale provides tailnet egress and access: apiServerProxyConfig.mode 'true' enables the API server proxy, and ExternalName Services annotated with tailscale.com/tailnet-ip (e.g. prod-cluster-mosquitto -> 100.123.28.51) let in-cluster workloads reach remote tailnet hosts.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/tailscale/app/egress-proxy.yaml",
+          "version": "repo-file-v1:sha256:fb9d3606f30994bb8917d53ca115aa07f0ba6dffb128a6a9b00b58f39738975e"
+        },
+        {
+          "resource": "repo://kubernetes/apps/network/tailscale/app/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:1032551b193f2cc8a2d21e351391c11693aef7bd6ce35be350163e3d0a967f81"
+        }
+      ]
+    },
+    {
+      "id": "claim_f19dbd2ea03a462bb86bdda37ff60059",
+      "statement": "Bitwarden Connect (bitwarden-eso-provider chart v1.2.0 in namespace external-secrets) backs ESO v2.11.0 as the cluster's ExternalSecret provider: the provider authenticates to Bitwarden using Secret bitwarden-cli (keys BW_PASSWORD, BW_USERNAME, BW_HOST, SOPS-encrypted), and applications consume secrets through ClusterSecretStore bitwarden-login with remoteRef keys naming Bitwarden items.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/external-secrets/bitwarden-connect/app/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:6a7ea2f9693faaa6bf83b9b271eca21a5a6925322b94157825c7b5292984ed5e"
+        },
+        {
+          "resource": "repo://kubernetes/apps/external-secrets/bitwarden-connect/app/secret.sops.yaml",
+          "version": "repo-file-v1:sha256:cf956b99ad68ba07879a4b3aad9919db336a9c4ee250b4ee860e9115fcab569e"
+        },
+        {
+          "resource": "repo://kubernetes/apps/external-secrets/bitwarden-connect/ks.yaml",
+          "version": "repo-file-v1:sha256:c1873bc25a832fc4023cf72a0429c5aa710d7c4c7b51edab69c41cf8435f7872"
+        },
+        {
+          "resource": "repo://kubernetes/apps/external-secrets/external-secrets/app/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:3808bed54be348a2921821e0d6e07a78dbbf5b23c64f29d161706a57ae80be81"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.7.0",
+    "at": "2026-10-06T00:54:23.845Z"
+  }
+}

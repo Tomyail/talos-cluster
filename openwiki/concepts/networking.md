@@ -50,10 +50,10 @@ sources:
     resource: repo://kubernetes/flux/meta/repos/external-dns-crds.yaml
   - id: openwiki-source-6f1d2c8de9160e178167b990
     resource: repo://scripts/bootstrap-apps.sh
-generated: { by: "openwiki/0.7.0", at: "2026-10-03T22:17:28.945Z" }
+generated: { by: "openwiki/0.7.0", at: "2026-10-06T00:54:23.845Z" }
 verified:
   - by: openwiki/0.7.0
-    at: 2026-10-03T22:17:28.945Z
+    at: 2026-10-06T00:54:23.845Z
 ---
 
 # Networking Architecture
@@ -102,6 +102,21 @@ flowchart TD
 
 *Network layers and traffic flow through the cluster networking stack*
 
+## Split DNS Model
+
+Each DNS scope has a dedicated resolver, and the resolvers chain together:
+
+| Scope | Resolver | Mechanism |
+|---|---|---|
+| External (`*.SECRET_DOMAIN`) | Cloudflare DNS | external-dns (`cloudflare-dns`) syncs Gateway-API-derived records through Cloudflare Tunnel CNAME |
+| LAN clients | AdGuard Home (`192.168.50.1`) | external-dns webhook provider syncs internal gateway hostnames; AdGuard forwards unknown names upstream |
+| Cluster domains | k8s-gateway (`192.168.50.11`) | watches HTTPRoute/Service objects and serves them at 1s TTL; used as upstream for Kubernetes records |
+| In-cluster (`cluster.local`) | CoreDNS (`10.43.0.10`) | standard Kubernetes service discovery with static host overrides |
+| Remote clients | Tailscale | mesh access to pods/services and the API server proxy without any public exposure |
+| Outbound mail | smtp-relay | single authenticated SMTP entry point for all cluster workloads |
+
+The practical resolution path for LAN clients is AdGuard → k8s-gateway → internal gateway (`192.168.50.12`) → Cilium load balancing to the app pod; for external clients it is Cloudflare → Tunnel → external gateway (`192.168.50.13`). Mail is the one non-HTTP path: workloads submit to `smtp-relay` instead of contacting mail servers directly.
+
 ## Network Addressing
 
 The cluster uses distinct IP ranges across its networking layers:
@@ -123,7 +138,7 @@ Cilium serves as the cluster's Container Network Interface, providing eBPF-based
 Cilium operates with the following foundational settings:
 
 - **IPAM Mode**: Kubernetes-native IP address management
-- **Release**: Flux `HelmRelease` from `https://helm.cilium.io`, chart `cilium` version `1.20.0`, with install/upgrade remediation and rolling pod rollouts
+- **Release**: Flux `HelmRelease` from `https://helm.cilium.io`, chart `cilium` version `1.20.2`, with install/upgrade remediation and rolling pod rollouts; the agent talks to the local Talos API (`k8sServiceHost: 127.0.0.1`, port `7445`)
 - **Routing Mode**: Native routing with IPv4 native routing CIDR set to `10.42.0.0/16`
 - **Kube-proxy Replacement**: Fully enabled, replacing kube-proxy with eBPF-based service forwarding
 - **Socket LB**: Host namespace only for optimal performance

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:f70e3f10ab38d31bb6d652933a4de203adf9ea59661b9f5ba4a46f37ccec6107",
+  "pageVersion": "sha256:7fc3eca7a0ab966d552c5a093561375b36a43096ef651e4fa1121c9dde992dbe",
   "claims": [
     {
       "id": "claim_1a31fe92977747538ba1d8d106ab1493",
@@ -317,10 +317,58 @@
           "version": "repo-lines-v1:sha256:6965f9eba1a98bd07e46101be9c9841ecacd94019177751affb3230e1323c466:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA4ZTU3YmU2MTYwNGYyODIyODJjZTAxOWY2ZDYyNzE1NDMzOGQ2MzFmNTgwNTdiOGExOGIyNDhiYTVmODVlYWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ0OWE4MTQ4OTBhNmY2NzJhODBlMTA5ZTFmYzdhMzc4YmZhMDYxMzk5Njg4MzU0NmVmNjk1OWMwZTdkOWFjYjEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM2ZGVmY2M4N2IwMmMwNWFiYWI4YmNlNjI4Y2ZlZTgzMzFjMDVhY2U3ZGJhMThhYWRhMTdhZTA0MjM1ZWRmNTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAxODk2MjYwNmU4ZWE5NmNjYjYzODNmZTQ3M2U3MWNmZjI5NjY1ZDczMzZjOGZmNjI2NDI0MjM0MThlMDg4NTQifQ"
         }
       ]
+    },
+    {
+      "id": "claim_d17ac2c2f9f64f0dafc76d53d7022e5f",
+      "statement": "Renovate opens update PRs only on weekends (schedule: [\"every weekend\"]) and ignores SOPS-encrypted files; a custom regex manager bumps versions pinned by `# renovate: datasource=... depName=...` comments in YAML/env/sh files (including .j2), driving Flux, Talos installer/kubelet images, OCI CRD repos, Grafana dashboards, and app image tags.",
+      "evidence": [
+        {
+          "resource": "repo://.renovaterc.json5#L14-L15",
+          "version": "repo-lines-v1:sha256:e659e5f80b36fa5c0e09c10ec6bbfdc4e21fbe90f44b6c685003bbe7912503e2:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2MyNGQyOGNmOThlZmNlZGMzN2M2ZTlmNzRkZmE4ZTliYjcyZGU4ZGRmNDk4NTFjNjY2ZGUxMzkyZjc4NmY3ZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTU1MjI4YjMwNDgyNDVlZjhkYjI0YjRhN2Y2ZWNhMTQyMGJiZTRhNTAxZDNhMWRlNzgwMjQ4NzQ4Y2YzMzdjNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMGNiNGY5NGQ0MGY4NmViNGFjOTlkMzc2NjVlY2RkNmU2MDM0MWQ2YzcxMmFmMmQwZTExZjBlYWIzODU1ZTYxZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDE5MjA3YmYwZGE2ZDg1YjFiNDA4ZGY4NDA5NDdkZTBjZjQ1NjRkM2YwYjIwNzNiOWNmNTgwNDBkODY5ZDkyNCJ9"
+        },
+        {
+          "resource": "repo://.renovaterc.json5#L206-L228",
+          "version": "repo-lines-v1:sha256:494777b56809bb99c4af8669a2d901321aa95903c9b96f87e7a9064b0dddfdc3:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUwZWFhMDNjMzdiNTMzMzRiMTA1MDUzZjlkNzc3MjgzMGJkYWIyYmVlNDlmNjE4ZjlkYzJmNGNjY2IzYTI5NzUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVlYWM4ZmViNmFjNjRiODI0YTg3YmNkYTc1YjMxMzRmMDRjN2M4ZjY1NDhlMmZmZGI2M2FmZGNkZTU0MjM4M2QiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjcxNjRiNjFmZTVkNjdhM2RjNzI4YjM3YjRiMGVjNzgwZWQxMDBkYmU4ZDBkOWU5Njc1ZmYzNTYzOWQ1OGZlOWEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_8a2a1666c68641c68b46d5a261f441e3",
+      "statement": "Renovate automerges (as branches, tests ignored) GitHub Actions minor/patch/digest updates with a 3-day minimum release age, Mise tool minor/patch updates, and non-major app-layer updates — but excludes a large core-infra list (topolvm, volsync, cilium, cert-manager, flux-operator/instance, kube-prometheus-stack, siderolabs installer/kubelet, app-template, etc.) which therefore always require manual review and merge; cert-manager, CoreDNS, Flux Operator, and Spegel updates are grouped into single PRs.",
+      "evidence": [
+        {
+          "resource": "repo://.renovaterc.json5#L160-L204",
+          "version": "repo-lines-v1:sha256:50b2c6ee5294a5dbbcd975c7da53972e58853067372f318fd42b848358a989a4:eyJzZWxlY3RlZExpbmVDb3VudCI6NDUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5Y2E4OTFiZmY3YWMxZjdjZWFhZTQwZWYwNTEwNjZiZTllZmU0N2I0ZTQyODFlODZjMzE5YmUyYzU1ZWJjZTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4OTNmNDBlMzc4MWViODk2YzgyZDA0NmEwODA2N2ExMWUzNWNkZjJmMWRmYWYyNmZlYTkwYjhkYjY2NzY0MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhhNzAwM2FmMWE2ZTI2ZDA2NTgxYWIxMzY2NTM4YThiMzYwMzdiN2Q1YmZkNGMyNGIwODA5YmM5NjQ3YzUwNzUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ0YjNlYjc5Y2NlM2E0YTI2NDI2ZWQ4NTQ1NTdhNjljMDUxMzc0MmE4YjMxNWRhMmQ1MzUxZTk3YmY5NmQ5ODAifQ"
+        },
+        {
+          "resource": "repo://.renovaterc.json5#L69-L84",
+          "version": "repo-lines-v1:sha256:bd9f3374c693893d2b4ee0d4b2d3c20feb41d9cd4dd1c4b3e5f97ee877de9929:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVkMmJhYjBlNzYzZGEyODE4MDZiMWRjOTkyMzM4ZmIyNjI5OTM1MTdkZjY1NDZmYmJlZDUyNzNmNmYzNTVkNjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImMwNWVkZDAwZGM1NmViMmJmMGY0OGMxZWQ5OTk4OWNiMDQ0N2U0YzQ0YWQxNzcxNjI4ODk5M2I0NmQ5ZDA3ZDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjUyMWY1NGQwNDU2YzkyYWRmNDEzMzhjNDQzMTJkY2EyOTU2MWNmYWZkYTkyYWQ4ODE3NDY3MDlmN2FmNmI2ZmQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f85ccb94430e442d8babf55456b475c9",
+      "statement": "Renovate uses semantic commit conventions: majors are `feat(...)!` with current → new version and get `type/major` labels; minor/patch/digest map to feat/fix/chore types scoped by datasource (container, helm, github-action, github-release, mise), and the dependency dashboard is enabled.",
+      "evidence": [
+        {
+          "resource": "repo://.renovaterc.json5#L86-L159",
+          "version": "repo-lines-v1:sha256:822f1a67e8bf5df93f43966bc7b14eaf2ca83a1b5790357aa18f6f9be951365d:eyJzZWxlY3RlZExpbmVDb3VudCI6NzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE4Y2I5NmJhM2JkZWQ2YmU1MmUzODYyZTZiNDYwYTc1ZmRkMWViOTQ1ODJjNDAwNjMyOWYyODA3OGUzZjk2ODEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ4YTQyMDI2MDkzODhlNTA1YjUwMTI4OGU1NDU1Nzc1NmZkM2FiMDkzOTUwM2JiOWZjOTZkMjY3ZDM1NDQ4MmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY0YzA0YmMxZjJiYTdjZTM3MTllYzM5MjM3YjBjMGU1OTRkYmEzMzRjODcyMDhlZjIxZTkzNWQwNGM1NGZjNGMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_1e434a2926f744789a49046bc3860890",
+      "statement": "PRs touching kubernetes/** run a flux-local workflow: `flux-local test --enable-helm --all-namespaces --sources flux-system` validates rendering, and `flux-local diff` (helmrelease + kustomization, PR vs main, chart noise attributes stripped, 10k byte limit) posts a unified diff comment showing the exact cluster-side change a version bump will produce.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/flux-local.yaml#L29-L100",
+          "version": "repo-lines-v1:sha256:d5af9b418d1b928ed2264c9a2eb3c2b8afcda63e213bee67de7af59895c93fff:eyJzZWxlY3RlZExpbmVDb3VudCI6NzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMDA1Nzc3NzZjNjY4YjcwMWQ3MTY1YTk3MmNiYWJiNmVkZWQxMjhiYjg1ZmE3MGMzMjYwYjU4ZTBlOWIwNDQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRmNTUwYzliMzNjZjM4YWYyYzNiYzFhOTRkNGZhYTYxNjdlMTE2OTk2MTY4YmEyYjM3MGEwZjY0MTdkYmIzZjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBmYTJmMDk2YjRlZjg1Zjc1ODc0MjUzNTM4NzU2ZTJlNjQ5NTdiOTY5NzQ5MjViMGVmNmM2NjllNmVmOGE4ZWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjllNjI2ZjRmZDg2ZmQ3ODE5YTMxNWI2MTVhN2Y1OWJlMGZmNmQwODYxNjdmNTE0MWRhZjc1MTAzNDliM2U4NjUifQ"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.2",
-    "at": "2026-09-19T21:35:52.044Z"
+    "by": "openwiki/0.7.0",
+    "at": "2026-10-06T00:54:23.845Z"
   }
 }

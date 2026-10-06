@@ -1,8 +1,10 @@
 # Files
 
 - [Bitwarden Secrets Integration](bitwarden.md) - Runtime secret management using Bitwarden as the external secrets provider via External Secrets Operator, with cluster-wide secret stores and automated secret synchronization.
+- [CI (flux-local) & Renovate](ci-cd-renovate.md) - How pull requests are validated with flux-local (test + rendered diffs posted as PR comments), how labels are managed, and how Renovate automates dependency updates with grouped, scheduled, and auto-merged package rules.
 - [CI/CD Integration](ci-cd.md) - GitHub Actions workflows for validating Kubernetes manifests via flux-local testing and diff generation on pull requests, synchronizing repository labels, automating area-based PR labeling, and automating OpenWiki documentation updates.
 - [Cloudflare Integration](cloudflare.md) - Cloudflare services integration providing secure ingress through Cloudflare Tunnel and automated DNS management via external-dns with DNSEndpoint resources for Kubernetes service discovery.
+- [Integrations — Cloudflare, Tailscale, Bitwarden](external-identity.md) - External services the cluster depends on — Cloudflare (external-dns + Tunnel ingress), Tailscale (tailnet operator and egress), and Bitwarden via External Secrets as the cluster-wide credential provider.
 - [External Secrets Integration](external-secrets.md) - External Secrets Operator deployment and configuration for pulling external secrets from Bitwarden into Kubernetes, including operator setup, CRD installation, secret synchronization patterns, and troubleshooting.
 - [Hardware and GPU Support](hardware-support.md) - Intel GPU device plugin setup, node feature discovery for hardware labeling, kernel module and udev configuration, and troubleshooting GPU device scheduling on Talos nodes.
 - [Flux Image Automation](image-automation.md) - Automated container image tag updates for default namespace applications using Flux ImageRepository, ImagePolicy, and ImageUpdateAutomation with Setters strategy and flux-bot commits.

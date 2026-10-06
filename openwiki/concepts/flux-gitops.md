@@ -3,9 +3,6 @@ type: concept
 title: Flux GitOps Model
 description: How Flux is bootstrapped via flux-operator/flux-instance, the cluster-meta → CRDs → cluster-apps Kustomization hierarchy in kubernetes/flux/cluster/ks.yaml, SOPS decryption through the sops-age secret, postBuild substitution from cluster-secrets, and prune/retry/wait semantics.
 tags: [flux, gitops, bootstrap, kustomization, sops, postbuild]
-verified:
-  - by: openwiki/0.7.0
-    at: 2026-10-03T22:17:28.945Z
 sources:
   - id: openwiki-source-240e6406ed4b6841961679cb
     resource: repo://.sops.yaml
@@ -33,6 +30,8 @@ sources:
     resource: repo://kubernetes/apps/flux-system/image-automation/automation.yaml
   - id: openwiki-source-d6f15e9bcc98024fdcda7d87
     resource: repo://kubernetes/apps/kube-system/cilium/ks.yaml
+  - id: openwiki-source-3bb8db68d9e76fc96ebaa8a0
+    resource: repo://kubernetes/apps/observability/kustomization.yaml
   - id: openwiki-source-63c7de935f96b1aa0a5dc1a4
     resource: repo://kubernetes/components/common/kustomization.yaml
   - id: openwiki-source-0aa0479be229def909bbfa22
@@ -61,7 +60,10 @@ sources:
     resource: repo://kubernetes/flux/meta/repos/kustomization.yaml
   - id: openwiki-source-6f1d2c8de9160e178167b990
     resource: repo://scripts/bootstrap-apps.sh
-generated: { by: "openwiki/0.7.0", at: "2026-10-03T22:17:28.945Z" }
+generated: { by: "openwiki/0.7.0", at: "2026-10-06T00:54:23.845Z" }
+verified:
+  - by: openwiki/0.7.0
+    at: 2026-10-06T00:54:23.845Z
 ---
 
 # Flux GitOps Model
@@ -70,24 +72,24 @@ This cluster runs Flux as a managed "Flux instance": the `flux-operator` HelmRel
 
 ## Dependency Chain Overview
 
-<!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: a semicolon inside a label breaks rendering; rephrase the label. -->
+<!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
 ```text
 flowchart TD
-    BR["bootstrap-apps.sh<br/>(sops-age + cluster-secrets Secrets,<br/>bootstrap CRDs, namespaces)"] --> FI["flux-operator<br/>(Kustomization → HelmRelease)"]
-    FI --> INST["flux-instance<br/>(Kustomization → HelmRelease)<br/>installs all Flux controllers"]
-    INST --> GIT["GitRepository: flux-system<br/>(this repo, main)"]
-    INST --> GA["GitRepository: gateway-api<br/>(pinned v1.6.2)"]
-    INST --> ED["GitRepository: external-dns-crds<br/>(pinned v0.23.0)"]
-    GIT --> META["Kustomization: cluster-meta<br/>(kubernetes/flux/meta: source repos)"]
-    GA --> GAC["Kustomization: gateway-api-crds<br/>(config/crd/experimental)"]
-    ED --> EDC["Kustomization: external-dns-crds<br/>(config/crd/standard)"]
+    BR["bootstrap-apps.sh<br/>sops-age + cluster-secrets Secrets<br/>bootstrap CRDs and namespaces"] --> FI["flux-operator<br/>Kustomization to HelmRelease"]
+    FI --> INST["flux-instance<br/>installs all Flux controllers"]
+    INST --> GIT["GitRepository flux-system<br/>this repo main branch"]
+    INST --> GA["GitRepository gateway-api<br/>pinned v1.6.2"]
+    INST --> ED["GitRepository external-dns-crds<br/>pinned v0.23.0"]
+    GIT --> META["Kustomization cluster-meta<br/>kubernetes/flux/meta source repos"]
+    GA --> GAC["Kustomization gateway-api-crds<br/>config/crd/experimental"]
+    ED --> EDC["Kustomization external-dns-crds<br/>config/crd/standard"]
     META --> GAC
     META --> EDC
-    META --> APPS["Kustomization: cluster-apps<br/>(kubernetes/apps)"]
+    META --> APPS["Kustomization cluster-apps<br/>kubernetes/apps"]
     GAC --> APPS
     EDC --> APPS
-    APPS --> NS["Per-namespace Kustomizations<br/>(kubernetes/apps/&lt;ns&gt;)"]
-    NS --> APP["Per-app Kustomizations (ks.yaml)<br/>+ Kustomize components<br/>decryption: sops-age · postBuild: cluster-secrets"]
+    APPS --> NS["Per-namespace Kustomizations"]
+    NS --> APP["Per-app Kustomizations<br/>decryption sops-age<br/>postBuild cluster-secrets"]
 ```
 
 *Figure: from bootstrap secrets through the Flux instance to per-app Kustomizations*
@@ -134,7 +136,11 @@ The ignore scoping keeps the served manifest set stable across releases — bump
 
 ### cluster-apps
 
-`cluster-apps` reconciles `kubernetes/apps`, whose namespace-root Kustomizations fan out to per-app `ks.yaml` files. Each app Kustomization typically declares `dependsOn` on its infrastructure (e.g. Paperless on topolvm, external-secrets, and its database operators), `commonMetadata` labels, SOPS decryption, and postBuild substitution (see below).
+`cluster-apps` reconciles `kubernetes/apps`, whose namespace-root Kustomizations (e.g. `kubernetes/apps/observability/kustomization.yaml`, which also splice in the shared `common` component and list every per-app `ks.yaml`) fan out to per-app `ks.yaml` files. Each app Kustomization typically declares `dependsOn` on its infrastructure — e.g. gitea (`kubernetes/apps/default/gitea/ks.yaml`) depends on `topolvm` (storage), `external-secrets`, and `cloudnative-pg-cluster` (database) — plus `commonMetadata` labels, SOPS decryption, and postBuild substitution (see below).
+
+## Adding or Reordering a Kustomization
+
+To add an app: create `kubernetes/apps/<ns>/<app>/ks.yaml` following an existing app (gitea is a good template), list it in the namespace `kustomization.yaml` (e.g. `kubernetes/apps/observability/kustomization.yaml`), and — if the app needs an upstream Helm chart — add the chart's `OCIRepository`/`HelmRepository` under `kubernetes/flux/meta/repos/` and register it in that directory's `kustomization.yaml` so it is reconciled by `cluster-meta` first. Declare `dependsOn` for any infrastructure the app requires; because `cluster-apps` depends on `cluster-meta` and both CRD Kustomizations, CRDs and chart sources are guaranteed present before your app builds. `dependsOn` edges are the only ordering mechanism — file/directory order inside a `kustomization.yaml` does not create Flux dependencies, so to reorder or gate an app, change its `dependsOn` (or another app's), not the list order. Reordering entries in `resources:` only changes build output order, not reconciliation order.
 
 ## Secret Decryption via sops-age
 
@@ -160,7 +166,7 @@ postBuild:
       kind: Secret
 ```
 
-The `cluster-secrets` Secret is SOPS-encrypted at `kubernetes/components/common/sops/cluster-secrets.sops.yaml`, seeded by `bootstrap-apps.sh` alongside `sops-age`, and shipped in the `common` component. Its keys (`SECRET_DOMAIN`, `TIMEZONE`, etc.) replace `${VAR}` references in every manifest built by the Kustomization, so environment-specific values live in exactly one place. Apps add per-app variables with inline `postBuild.substitute` entries (e.g. `APP`, `VOLSYNC_CAPACITY`), and Kustomize components inherit the substitution because their resources are spliced into the referencing Kustomization.
+The `cluster-secrets` Secret is SOPS-encrypted at `kubernetes/components/common/sops/cluster-secrets.sops.yaml`, seeded by `bootstrap-apps.sh` alongside `sops-age`, and shipped in the `common` component. Its keys (`SECRET_DOMAIN`, `TIMEZONE`, etc.) replace `${VAR}` references in every manifest built by the Kustomization, so environment-specific values live in exactly one place. Apps add per-app variables with inline `postBuild.substitute` entries — gitea, for example, sets `APP: gitea` (YAML anchor shared with `metadata.name` and `commonMetadata` labels) and `VOLSYNC_CAPACITY: 10Gi` — and Kustomize components (such as `components/volsync-new` and `components/gatus/external`) inherit the substitution because their resources are spliced into the referencing Kustomization.
 
 ## prune / retry / wait Semantics
 

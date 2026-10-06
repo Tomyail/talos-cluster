@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:cd895d0b9350263bab1e78e07991d9067b08af4f0551668fed42408240d41915",
+  "pageVersion": "sha256:21852a8fcc9747a8f72918eae3539dcc3528fe64c7f9978a5842a9ca3f223323",
   "claims": [
     {
       "id": "claim_57404914c2d54006847f1d8a72747f9d",
@@ -485,10 +485,30 @@
           "version": "repo-lines-v1:sha256:a46b26e93ca785efc182e0750a68c88922d50a39d271dd08dd666c6a6f3f32e8:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY3YTkxYzk3NmEyZWZiNTc5NDFkMjUyNjIxOTc2Y2Q0YjY2ZmM0OGM4MTM2YWQ2MDlkZGUxNWQxYjYwZTgwODIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM5ODBkOWMzMDc1ZGM4YmI5ZDNkYzY0MDdkZmNiMDlhMzRiYjhkNjk2ZjgzNDAyZTJmOGZjM2JhNmRmZDU0YTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU1Y2JkY2VkNTY2MGZjZDlhY2I5YTQ1MzU4MTEyMjY4OTkwOGI3NjJmYjllOWYxOWQ5ZTk2YjliNzYyMDgwZjYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_a430d0229b6c4d2c9f423846bba3b530",
+      "statement": "Pull requests are validated with flux-local: `.github/workflows/flux-local.yaml` runs `flux-local test --enable-helm --all-namespaces` (container ghcr.io/allenporter/flux-local:v8.4.0) over kubernetes/flux/cluster and posts a `flux-local diff` of helmrelease/kustomization changes as a PR comment.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/flux-local.yaml#L38-L69",
+          "version": "repo-lines-v1:sha256:0c4c6f34b13eeeeaa4c8ecb4b325f8be59f5e469614588e1d92024d87cde9df0:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVlNWE0N2JiOWI2ZDI1MTFhYWQ3MmY3MDQ4YzI0MjEzOTRjZGNhZTBhNTUzYWQ4MTU0MmE5NGEwMDg4Yzk3MWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNjYTU0ZDM4MzA2OWU4MTdhZWY1YmIxYTIzZTA0YTM4YTQzMTdiODcwMjhmNjg0Mjc3N2U1ZGVhMTk3OGNkMGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQwMGRjNzMwMDUyZDQ3ZDJiOWJjMjdkNTQzMWQ0M2Y5ZjA0Zjk0OTUxMWNjNTlhNmJiZWI4ZGZhMjYyMGE3ZjQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjUyMTMyOTI1ZTVkYjMyZGE0MmJlOWM3ZWM3ZDhlYjNiYjBlODczYjI0YzgxYjc1MjRlYzI5NzU5Y2QzMWE4YmMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7815f31302ce4c61b3895380be7d4efb",
+      "statement": "The repo provides a `task reconcile` Taskfile task that forces Flux to pull changes immediately by running `flux --namespace flux-system reconcile kustomization flux-system --with-source`, with preconditions that ./kubeconfig exists and flux is installed; the Taskfile also sets SOPS_AGE_KEY_FILE to ./age.key.",
+      "evidence": [
+        {
+          "resource": "repo://Taskfile.yaml#L30-L35",
+          "version": "repo-lines-v1:sha256:2d7afb436ef2bf4a0fd148c2805957c35d446a460ca2d84fcbf88bb511ba7c0f:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzlmZmE1YWUzNzQ3OGVlOTE2MDczYjA2OGU2NjdiOWMwODg5OThkYzY4YTZlZDI4MjJhZmNhNzExNzU4YTMyYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjQ4ODYzNzQzM2VmMDE0ODM3YWFjYmRmZTNjMWMyYWVhMmIyNjZhNTRjZjRkZjMzZmQ0OTQyODQ5YWVhMzY2OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWZlZGUyOTQyYTEwYjhkMzc2NDg4MWYwYzdhMzQ0YmM3ZGYxY2YwYWEzODhhOGFmMWQ3ZjcwODY4MDg2Yzc5ZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.6.0",
-    "at": "2026-09-27T22:26:24.169Z"
+    "by": "openwiki/0.7.0",
+    "at": "2026-10-06T00:54:23.845Z"
   }
 }

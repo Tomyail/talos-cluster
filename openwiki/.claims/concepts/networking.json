@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:dc6a8a8eaa99f78895c9db4472755befa9e3f9637e6061322039502762af59ea",
+  "pageVersion": "sha256:33370348269e4cc34046b14cbc841110544ab5ce1ea6f2042c43c58d308d79ea",
   "claims": [
     {
       "id": "claim_0e4b64aa301a4c2dac2447bb89e242db",
@@ -323,10 +323,30 @@
           "version": "repo-file-v1:sha256:81732658aff94d72a4c861f0feb4d7e41dfb5e62f4d2611e190e4fc328d82ee5"
         }
       ]
+    },
+    {
+      "id": "claim_69c075daa2c74ad9ac530bc0a15cac4a",
+      "statement": "Cilium is installed as a Flux HelmRelease from https://helm.cilium.io using chart `cilium` version 1.20.2, with install/upgrade remediation retries and values supplied via the `cilium-values` ConfigMap.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/cilium/app/helmrelease.yaml#L19-L26",
+          "version": "repo-lines-v1:sha256:96f191c310478d8a69df0e0c31136b4f106122febf40981278813e42b404a052:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjBjY2VkNTZhNmQ2YTQyNDkyNjVkYzhhN2M3MGU0Y2MwZjczN2RkMmRiNWY4YjY0NzRhMWQwMTlkZjhjMmJkYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYzE4Y2NhYjU5NWFhYTdkYzViYzJmYjA4N2FhYzlmZWNmODc1M2Q1MjJmMGRmNDk4NWVmMDBjMjZlOGE4NWQ4NyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNGNkNTRlNzllYjlmNWFiZjIxYTI0MmY0NWI1ZWY1N2Q2NmJjN2U0ZmJhOTFjMmQ2YTMwYjljOTAxMjE3ZmEyMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOThiZWMxNTQxMDMyNTAzN2IzNGE2YWZkNzA3ZGQ4MDQxZDAzNzUxODdjZmM5MDFmNmE0ODVmZDk3NDhjNGRiYyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_28b678a254aa41c0a1dfb6d9bd262c2d",
+      "statement": "The `network` Flux Kustomization (namespace `network`) composes exactly six apps: cloudflare-dns, cloudflare-tunnel, k8s-gateway, adguard-dns, smtp-relay, and tailscale, all sharing the `common` components set.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/kustomization.yaml#L7-L13",
+          "version": "repo-lines-v1:sha256:1ce3d7b1126274c11474f749c1ffab3f6554dfe11463f5a8a8f9e6b646a9962e:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDE2NzZjZTFmMDNkZGEyYTcwNWVjMjM5ZTQzN2YyMDIwODEwMWYzMjNkYTAzOTI1N2JhNTc5ZTRlMjE2ZDA0YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODA5NGFiM2FmNDM4YzM0YTQ1MDkyYjQ1YzhkNjNjMDgxZTE0NDRlYzQxOTUxYzU2ODk4ZTMzNDFhZTdkM2JhOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNmRlY2UxMTMwOThlOTgxOWY0NDI1MTJkYWIwZDM0ZDQ1OTk2MDI1ZDA1NWNjMWIwOWM5Yjg2ZDgyOWQ2MDQ4YyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDhiMzdhOGQyNzlkZmQzZjIzMDRjNzMzMGI0OGZiM2IzNWFiOTZjNjMyMGE0OGQ5NDUxY2UxZjBkZmI4YjAzOCJ9"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.7.0",
-    "at": "2026-10-03T22:17:28.945Z"
+    "at": "2026-10-06T00:54:23.845Z"
   }
 }

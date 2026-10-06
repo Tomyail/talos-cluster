@@ -4,6 +4,8 @@ title: Application Deployment Workflow
 description: Explains how to deploy and manage applications through Flux, including the app-template pattern from bjw-s, namespace organization, Kustomization structure, HelmRelease configuration, ExternalSecret integration, and common components for monitoring and backup.
 tags: [flux, deployment, apps, kubernetes, gitops, components, dependencies]
 sources:
+  - id: openwiki-source-6378149bc01898a8718f6f2d
+    resource: repo://.github/workflows/flux-local.yaml
   - id: openwiki-source-951c2cc0849ba28408b9b784
     resource: repo://kubernetes/apps/database/cloudnative-pg/ks.yaml
   - id: openwiki-source-37b3f77c1ceb2e20b192e263
@@ -52,10 +54,12 @@ sources:
     resource: repo://kubernetes/components/volsync/kustomization.yaml
   - id: openwiki-source-0696023deccf378a358f7526
     resource: repo://kubernetes/flux/cluster/ks.yaml
-generated: { by: "openwiki/0.6.0", at: "2026-09-27T22:26:24.169Z" }
+  - id: openwiki-source-b9ff7ee0aa4953cc601052a4
+    resource: repo://Taskfile.yaml
+generated: { by: "openwiki/0.7.0", at: "2026-10-06T00:54:23.845Z" }
 verified:
-  - by: openwiki/0.6.0
-    at: 2026-09-27T22:26:24.169Z
+  - by: openwiki/0.7.0
+    at: 2026-10-06T00:54:23.845Z
 ---
 
 # Application Deployment Workflow
@@ -509,4 +513,33 @@ After Flux reconciles an app change, verify in order (each step fails at the lay
 - Add ServiceMonitor for Prometheus scraping
 - Include Gatus component for health checks
 - Configure probes for liveness/readiness
-adiness
+
+## Local Validation and Reconcile
+
+Before relying on the cluster to accept a change, validate locally, then force a reconcile.
+
+### Local Rendering and CI
+
+Pull requests are validated with [flux-local](https://github.com/allenporter/flux-local): `.github/workflows/flux-local.yaml` runs `flux-local test --enable-helm --all-namespaces --sources flux-system --path kubernetes/flux/cluster` in the `ghcr.io/allenporter/flux-local:v8.4.0` container, rendering the full Kustomization/HelmRelease tree exactly as Flux would, and posts a `flux-local diff` (helmrelease + kustomization) against the default branch as a PR comment. Run the same test locally before pushing:
+
+```sh
+docker run --rm -v "$PWD:/github/workspace" \
+  ghcr.io/allenporter/flux-local:v8.4.0 \
+  test --enable-helm --all-namespaces \
+  --sources flux-system \
+  --path /github/workspace/kubernetes/flux/cluster
+```
+
+A failed `flux-local test` means a broken manifest, invalid HelmRelease values, or an unresolvable chart — the same failure Flux would hit on reconcile.
+
+### Force Reconcile After Push
+
+Once changes are merged, force Flux to pull them immediately instead of waiting for the 1-hour GitRepository interval using the repo's Taskfile:
+
+```sh
+task reconcile
+```
+
+This runs `flux --namespace flux-system reconcile kustomization flux-system --with-source` (defined in `Taskfile.yaml`), with preconditions that `./kubeconfig` exists and `flux` is installed. The Taskfile also sets `SOPS_AGE_KEY_FILE: ./age.key` for environment-wide SOPS use. Then proceed with the cluster-side verification below.
+
+## Verification After Reconcile

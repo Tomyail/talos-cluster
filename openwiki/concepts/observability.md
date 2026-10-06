@@ -50,14 +50,20 @@ sources:
     resource: repo://kubernetes/apps/observability/thanos/ks.yaml
   - id: openwiki-source-51f0a212f7f39961fbc500fb
     resource: repo://kubernetes/apps/observability/uptime-kuma/ks.yaml
+  - id: openwiki-source-368438c04d5ff133eb1dfb71
+    resource: repo://kubernetes/components/gatus/external-tailscale/config.yaml
   - id: openwiki-source-19cc4d5883bfca3fab22bd67
     resource: repo://kubernetes/components/gatus/external/config.yaml
+  - id: openwiki-source-3ecfe771454a6bc6a446f83f
+    resource: repo://kubernetes/components/gatus/external/kustomization.yaml
   - id: openwiki-source-a2a10e12c05dc77e43573bc3
     resource: repo://kubernetes/components/gatus/guarded/config.yaml
-generated: { by: "openwiki/0.5.2", at: "2026-09-19T21:35:52.044Z" }
+  - id: openwiki-source-23775c3de52f3ab95a13cb8b
+    resource: repo://README.md
+generated: { by: "openwiki/0.7.0", at: "2026-10-06T00:54:23.845Z" }
 verified:
-  - by: openwiki/0.5.2
-    at: 2026-09-19T21:35:52.044Z
+  - by: openwiki/0.7.0
+    at: 2026-10-06T00:54:23.845Z
 ---
 
 The observability stack provides complete visibility into system health, performance, and availability through integrated metrics, logs, and uptime monitoring. It follows a layered architecture with clear dependency chains, long-term storage capabilities, and automated alert routing.
@@ -254,10 +260,11 @@ Gatus provides automated endpoint health checking with Prometheus metrics:
 
 Reusable endpoint groups live in `kubernetes/components/gatus/*` and are attached per-app through Kustomization components:
 
-- **external** group: HTTPS check of `https://${APP}.${SECRET_DOMAIN}/` at 1-minute intervals, resolved through an external DNS resolver (`tcp://223.5.5.5:53`) so it validates public DNS/ingress rather than in-cluster state
-- **guarded** group: DNS A-record query for `${APP}.${SECRET_DOMAIN}` against 223.5.5.5 must return an empty body — i.e. the endpoint must NOT be publicly resolvable; a non-empty answer fails the check
+- **external** (`components/gatus/external`): HTTPS check of `https://${APP}.${SECRET_DOMAIN}/` at 1-minute intervals, resolved through an external DNS resolver (`tcp://223.5.5.5:53`) so it validates public DNS/ingress rather than in-cluster state; expects HTTP status 200
+- **external-tailscale** (`components/gatus/external-tailscale`): identical HTTPS check but against `${GATUS_SUBDOMAIN_TAILSCALE:=${APP}}.${SECRET_DOMAIN}`, placed in group `tailscale` for apps reachable via their Tailscale hostname
+- **guarded** (`components/gatus/guarded`): DNS A-record query for `${APP}.${SECRET_DOMAIN}` against 223.5.5.5 must return an empty body — i.e. the endpoint must NOT be publicly resolvable; a non-empty answer fails the check
 
-Apps opt in by adding the component (e.g. `components/gatus/external`) to their Kustomization, as Uptime Kuma and Grafana do.
+Each component is a kustomize `Component` with a `configMapGenerator` that renders `config.yaml` into a ConfigMap named `${APP}-gatus-ep` labeled `gatus.io/enabled: "true"` (with `disableNameSuffixHash: true` so the sidecar sees a stable name). Apps opt in by adding the component to their Flux `Kustomization`'s `spec.components` (e.g. `components/gatus/external`), and ~30 apps across the cluster do so. The Gatus sidecar watches all namespaces for ConfigMaps/Secrets with that label and writes each ConfigMap's file into the shared `/config` directory, where Gatus picks it up as an endpoint — so adding a probe to an app requires only the component reference, no change to Gatus itself. The `${APP}` variable is substituted by the app's Flux `postBuild.substitute` variables.
 
 ### PrometheusRule Integration
 
@@ -404,13 +411,5 @@ The stack monitors itself via:
 - **Prometheus Operator ServiceMonitors**: Scrapes Prometheus, Alertmanager, and Thanos components
 - **Gatus self-monitoring**: Health checks for all observability endpoints
 - **Gatus PrometheusRule**: Alerts when monitoring components fail
-y performance
-- **TSDB backend**: Optimized for high-volume write workloads
 
-### Monitoring the Monitoring
-
-The stack monitors itself via:
-
-- **Prometheus Operator ServiceMonitors**: Scrapes Prometheus, Alertmanager, and Thanos components
-- **Gatus self-monitoring**: Health checks for all observability endpoints
-- **Gatus PrometheusRule**: Alerts when monitoring components fail
+Kromgo also feeds the repository's own README: its metrics are served as shields.io endpoint badges (e.g. `https://kromgo.{domain}/kubernetes_version`, `cluster_cpu_usage`, `cluster_uptime_days`) embedded at the top of the root `README.md`, so the public badge values are live Prometheus queries rendered by this deployment.

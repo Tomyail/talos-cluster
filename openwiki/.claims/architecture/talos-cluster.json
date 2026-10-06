@@ -1,0 +1,164 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:f491e3e4d79d819725f3ccf9ea3205718b1d8bd4d8bdcd6fcb8fa65d1c8554ba",
+  "claims": [
+    {
+      "id": "claim_6997a84478de4077b3b0fc1cb3f08f7e",
+      "statement": "talconfig.yaml plus talenv.yaml and patches/ are the source of truth; `task talos:generate-config` runs `talhelper genconfig` to generate machine configs and talosconfig into talos/clusterconfig/, which is gitignored and must not be edited directly.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml#L7-L15",
+          "version": "repo-lines-v1:sha256:5db79c470b1c68418177ca82986169ee2ae71e736ae8d5d8740dafbe2ab9dd75:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZmYzOTIzZmQ0MDVkMjQwM2UyZmJkYjMzODc4MmI0MTEwNDJmYWYyYzY0MDc4ZDZjNTQ2Yzg0YjFhZDdhNzgxMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNmFjZDNkMzBjOTYyNmFmYTViYWU4YWUzOWU5MTNmOGY4YmU3YzhhNDgwYmYwNjM2ZmZhNmE4ZTBhODNmMjc3NSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjFkMTJiNTZjMTBiN2ZiNjJjOGYwNDFiMzdlMThjZjhmMjdjNTc4YTBkMjdhYjdlOGRkODhkYmRjOWRmNGIxZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzUzNjllYjE0MGJkMzM3ODgwZTY0OWQyZDk4NzhlZjY1ZDM4OGRlYmQzZjkzOWQxODY1MzRhZWE3OTE3ZGI1YSJ9"
+        },
+        {
+          "resource": "repo://talos/clusterconfig/.gitignore",
+          "version": "repo-file-v1:sha256:32df7ae8de1d53c340bdf141bb54cce6ea5c63897d7f2e0df3e227511fcb1e8a"
+        },
+        {
+          "resource": "repo://talos/talconfig.yaml",
+          "version": "repo-file-v1:sha256:d136b9cff87d6ec237ac03a8d8e93f8f766c991330cacbf3cf6ffd68061bdcde"
+        }
+      ]
+    },
+    {
+      "id": "claim_4789e805f1614dd0aefc51917443e4dc",
+      "statement": "The cluster uses endpoint/VIP 192.168.50.10 (Layer-2 VIP on the node NIC), pod CIDR 10.42.0.0/16, service CIDR 10.43.0.0/16, and cniConfig name:none so that Cilium can be installed separately; kube-proxy and CoreDNS are disabled in the controller patch.",
+      "evidence": [
+        {
+          "resource": "repo://bootstrap/helmfile.yaml",
+          "version": "repo-file-v1:sha256:2befd1e606655677378f27d3501a06b4f7047ecf386e95f56ecfd9bef2108ca6"
+        },
+        {
+          "resource": "repo://talos/patches/controller/cluster.yaml",
+          "version": "repo-file-v1:sha256:b84f1bd6fa79f59238e74442f063dd9f363671d200064815ecfd618c261d47d3"
+        },
+        {
+          "resource": "repo://talos/talconfig.yaml#L41-L52",
+          "version": "repo-lines-v1:sha256:d61ed6f432e1967059549d63855244f1a34d36a6773b627a3fa85fb5b68254f9:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkwNDZmYWRkYzlhYmUzOTAzYzRmNzAyODE4MWI4ZDRhZDc0NzI3OGEwOGFlOWIyYjc1YTUwZjdhODAxZjI0NTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEyNTg3NzIwMWJlYzQ3MTUwODg1ZmIzMjUzYmI3NjE2NTMyNWFjNmI0NGI4ZjViMjA2ZTNkYzY2YmYzNTczYWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVkMDRjMTUzYTY5ZjFlYjU2N2NjOGY1N2E0NDIxMDdiN2FjNDA1NThmY2RiZjMyYThiMTk2YjdiOWYzYWEwMmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIyZWQ5OTQwZTg2ZDhhZDViZjZhZjRiNzJjMzU2OGU1MjUxNWU0N2UyYjJlMGE1NTI3MTIyMDFlNjZjOWQxN2IifQ"
+        },
+        {
+          "resource": "repo://talos/talconfig.yaml#L8-L19",
+          "version": "repo-lines-v1:sha256:74bdb542d890b56cc39721ff16d736c419a434c2f8cbc4aaefb5f1a566dde714:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3OGY4NDAxMTQyNjJmMWViMzdmY2NmYjg3YjAxZjgwZDJmYTZhYjgzYWNiNmJmYmRlMTk5NDRmYTU3N2VlMzAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIzMTIwMGJjMmQ1NTczM2RkZDZhNGIyOWUzZjFmODA5NmI5YzQ5ZmI0MTZmZjA4NmE2ZDdkNmY3N2U5M2YwOTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI1OGYzYzIwZTE0MTUyZjY5MjY0NGEzMGE4NjllM2RkN2E3NWY5Yjk4NTE0OGVjNjljYjk4YWFiMjEwMzUwNGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNkNzlkMTFiNTFhMmRjZDQ5YzlmOTFmZmYyYTkwNTBmNGExZDAzMDYwODg0YWNiY2Y3NmZmZTU5OGQ1YTZiNzcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9a2db4cedc804bd098f734a74f1fdaab",
+      "statement": "The single node master0-nuc12 (192.168.50.145) is a control-plane node with secure boot enabled, a <=256GB SSD install disk selector, and a factory.talos.dev installer-secureboot image URL that upgrade-node tasks resolve via yq.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml#L31-L46",
+          "version": "repo-lines-v1:sha256:c7745ffcaf01e49647d3d0c759433bd1c878042e171a2003f9f5ef415c355991:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcyMTc2ZGE5ZmU1N2MzMDM4YzQ5MGNmM2ZkODFlZWU1OTA1NDE0YzYzYzVhY2RhZmE0ZTdjMjExMjk0YjNmNWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlhNjI2MWZlNzI4NDUwMWRiYzY0ODNkOTEyZWFjZGQyMzNiZjkwMmIyNGY1OWU0ZmRjYTFlZTVmMWQ2MmFhMWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJjMjI3NzVjMmU1ZWViMDBmOWFiNzIyZjM5Njc0YTZkZDE1NTNhYTA4ODZmZWM5ZDFiNzZkYjU3OGJlNmJiODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgyMjNlZDA2NGU4NDJmYWNiOThmMGI2ZGViYmE1MWQzODg4MjQ0ZjM0NTVjMTIzZjRiMzRiMDU3OGU3ZDAyZWEifQ"
+        },
+        {
+          "resource": "repo://talos/talconfig.yaml#L21-L63",
+          "version": "repo-lines-v1:sha256:7917b231235a637921b40a139f750b7a860d02adb7d49a949f63136fadd63f09:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBjODdjYmY0NmNlYmQ4NTZjMGI5OTc2NzExYWJlYTdmYzI4MTU2MzA4YzcxZTMwYTlhMzgwYjNlOWQzODEzZmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjljYjFkNzc5Y2U5ZGU5NjFhNWYwOWRhYjU4M2Q2OTE4OTNmNmIyOTdlNDUyMDMzMjNhYTFjZDFlZmQyZjZjYjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE4ZTVhYjcwYzU0NWE4Mzc2ZWQ3Mzg2NzBiM2E5MzlkOTA5NmJmMjNlYzdkOWIzZDk4YjVlNzAxMmJlN2ZlNmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA5M2RkZjI1MzNiNmE1ZjNjYTQ4M2YyMTM5MDA3ZTNkNDFlN2QyMTFiM2M3Yzg0MTc4YzM3NTcyN2Q0M2JmNTYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_db61ed528621479896c0800e6372c360",
+      "statement": "GPU support is provided via the intel.feature.node.kubernetes.io/gpu=true node label, i915/drm/drm_kms_helper kernel modules plus dm_thin_pool/dm_mod, siderolabs/i915 and intel-ucode system extensions, and a udev rule granting GID 44 0660 access to renderD* devices.",
+      "evidence": [
+        {
+          "resource": "repo://talos/patches/global/machine-udev.yaml",
+          "version": "repo-file-v1:sha256:7e154d158f2c4d2f42dae8791664103b6c15e6a4fed0d72b3f05d848a69d341d"
+        },
+        {
+          "resource": "repo://talos/talconfig.yaml#L32-L40",
+          "version": "repo-lines-v1:sha256:95102753cea05974ad57c6d57cc99f4dde2e6e767af2186fecc26e333242e43b:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTA2MjVhNTdiZTJjYTBlNjA3OTIxNmEyNDg5NjJjZDJiOWMwOGQyOTg3YWUzNGJkMmEwMWUxNWYxNmEzMWMwYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYWEzMGJjZDVmNGZmNzhlMzI3ZDFkNGUwZThlNmNkZjkzNDMxNjJjYWQ5M2E2ZTg3NTM0Y2E4YmFiZGE0NjExMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiY2QwZjBmMWQxZjQ0N2U2M2U4MGI5YzczNjUwNmVhODZkNTA4NzRlNzlhMDkwNjNmMWVhYjQxNDQ0MmY3ZGM2OSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYWExYWVjYjAzMzRlYTZlZTQ1NjRkMGM0MGJmNjE5ODE4NjI2NjQyMzM4Mzc2YWU1YmU2ZmQyNGEwZTVjODc1NSJ9"
+        },
+        {
+          "resource": "repo://talos/talconfig.yaml#L78-L84",
+          "version": "repo-lines-v1:sha256:788be131890418556fdcb261fb3775aa50b0dfefb678238501d02c39959e528d:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjk5YTFkMmM2NDFkMjhhYjAzZWY2ZjYxMTdhZmE1NTg4NDcxYWJhNWM4YzA4NGNiNWJmYzcxY2ZlYWUzYTJhZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzcyZDIxYjRhNTYyYThkNjkxYmE1YTVjZGViMjI1OTVmZGJkOWRlZTE1OTIyYjcwNDA4YjAxMDE0NTYwODY0MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzM2ZWI0OTVlZjhmNGM0N2MyZTYwM2MwZmIzN2VkZTliYWQ5MDlhYzBlYzNkYThmNDFlZmVhNGE0MzI3MmU1YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_50cedf3809f9408f80a9706ac3ba25bf",
+      "statement": "Each node defines an inline UserVolumeConfig named local-path-provisioner on system_disk (minSize 2GB, grow:true) as a dedicated, auto-growing volume for the local-path provisioner.",
+      "evidence": [
+        {
+          "resource": "repo://talos/talconfig.yaml#L53-L63",
+          "version": "repo-lines-v1:sha256:08115f75ece7ad13199de1b2ebe7a0529765e85d3f13aabc0fe5b794ad3faf61:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUwNWY4MDczYWRkZmVmN2Y2NDUzY2I4MDMzYTVkNGRkNzRkYjFiNjhmMzI4ZGM0ZDEzYTNiZDUxOGZhZGUwMzUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjljYjFkNzc5Y2U5ZGU5NjFhNWYwOWRhYjU4M2Q2OTE4OTNmNmIyOTdlNDUyMDMzMjNhYTFjZDFlZmQyZjZjYjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUxNTg3ZDVjMzk2YmExOWU5OGYyMTM5N2FhOWVmYTJjZWVjNTNjMjcxZDk5Yjk2NGJjZjg1MWQ4NjVjNjZhODMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA5M2RkZjI1MzNiNmE1ZjNjYTQ4M2YyMTM5MDA3ZTNkNDFlN2QyMTFiM2M3Yzg0MTc4YzM3NTcyN2Q0M2JmNTYifQ"
+        },
+        {
+          "resource": "repo://talos/uservolume.yaml",
+          "version": "repo-file-v1:sha256:192ff310b7ba19ee90b910e3334e02e55747e1c6f1d29d6ee37aed2bce187d5e"
+        }
+      ]
+    },
+    {
+      "id": "claim_e5d6da49ecdc457da9fd5d64d1d9d21d",
+      "statement": "talenv.yaml carries Renovate-tracked version pins (talosVersion v1.12.7, kubernetesVersion v1.35.4 via # renovate: comments) that talhelper substitutes into talconfig.yaml as ${talosVersion}/${kubernetesVersion} and that the upgrade tasks read with yq.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/talos/Taskfile.yaml#L48-L58",
+          "version": "repo-lines-v1:sha256:1172dba8a5f5c572ea4428fc7814a5afe4ba06a270839de086f7fb4f0549a9ca:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQzYWZiZTlhYTEyMmU0N2ZiY2RkZmFlZWViYjQ3NjE0YzMyNTBlNzhmNzlhZDg5NzMyZDczMTY3ODg4MDYyODgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2MGRjZjk2Mjk1YzVkNThhNjk3NjU1MjRjMzc5YTgwOWUxNzRhNzVlZGM1YzdlYTUwMmI4MzFkOGI4MmFiNmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUwMGYyZTc4MmU2ZmRjZDY4ZTU2MDZmNWQ5MzJiYWQyNWRlY2JjNTRiODYzNTlkNjYxYmI4NDE0ZTc5Y2MxODkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdlOWVjZjQ3MzhmZTc2ZWE5N2MzYmYwZmIwNzNmZTkxODQwZThlNTBlYzVjOTdjOGQzZWZiNWU3YWI5YmRkNmQifQ"
+        },
+        {
+          "resource": "repo://talos/talenv.yaml",
+          "version": "repo-file-v1:sha256:4ae26d952e597f70c4bbe7665882b09fe952fe44746284b6ff794e03502b0c1d"
+        }
+      ]
+    },
+    {
+      "id": "claim_359031c8306b4171ad0a22fd11f12a12",
+      "statement": "talos/talsecret.sops.yaml holds the SOPS/age-encrypted Talos cluster secrets, governed by a dedicated .sops.yaml creation rule for talos/.*.sops.yaml (mac_only_encrypted, dedicated age key), with the private age key at age.key (SOPS_AGE_KEY_FILE).",
+      "evidence": [
+        {
+          "resource": "repo://.sops.yaml",
+          "version": "repo-file-v1:sha256:9b05505c0ce2a16b8eff84c79d5255fdc5f48d7eb6b14e26901d6bf40f348a89"
+        },
+        {
+          "resource": "repo://talos/talsecret.sops.yaml",
+          "version": "repo-file-v1:sha256:c84b80173c106ef3063fe3f20bcab3c95d8941ed28243b1ec51fc56e7e162ee4"
+        }
+      ]
+    },
+    {
+      "id": "claim_f48dea52454f4fea9afa8581b9a84823",
+      "statement": "Patches are applied in tiers per talhelper conventions: seven global patches (CRI config fragment, kubelet, network/DNS+hosts entries, sysctls for inotify/QUIC buffers/rootless Docker, Cloudflare NTP, udev GPU rules, API access) and one controller patch (scheduling on control planes, aggregator routing, disabled CoreDNS/kube-proxy, etcd metrics/advertised subnets).",
+      "evidence": [
+        {
+          "resource": "repo://talos/patches/README.md",
+          "version": "repo-file-v1:sha256:3d67190a6f3d6f90506fbe4926357a32e5665005ac6932da7e9c231715db08ed"
+        },
+        {
+          "resource": "repo://talos/patches/global/machine-files.yaml",
+          "version": "repo-file-v1:sha256:444211ddf824af0b7580605ecd349b884ddefbcebec2a8eb140bad3a0a4eb428"
+        },
+        {
+          "resource": "repo://talos/patches/global/machine-network.yaml",
+          "version": "repo-file-v1:sha256:36515cf1e7be59e238de379a167402c5ea2a00ac7d57ab913035f2f0830de5c1"
+        },
+        {
+          "resource": "repo://talos/patches/global/machine-sysctls.yaml",
+          "version": "repo-file-v1:sha256:284c1785b5b4579df114f05793c5ea36138f6ea2a3e9d4bfbba1488f1c72a6e1"
+        },
+        {
+          "resource": "repo://talos/patches/global/machine-time.yaml",
+          "version": "repo-file-v1:sha256:fa6a6d71fe9afc35b5b94152180f164f214ec0aac70a47d460bc878c7710a925"
+        },
+        {
+          "resource": "repo://talos/talconfig.yaml#L64-L73",
+          "version": "repo-lines-v1:sha256:ceda1438908de38269f4743b5a1511b63f7ad7aa5225cea1f169bc6fc334c1e6:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM3OTA5MzIxYTQwYmM0MDMyYTQxYTM2ZDVjNzM0YjhkMGU0MDM2Nzk5ZWU2ZTg0NzQ1MmRiMTliYWNkMzY4MzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk1ZjA0NWU1OGY2Yjg1ZjE0MDc2NjFlN2YxMWY5MGRkZWFiN2ZlZjZiNDY2M2NlOWRjNTU5ZGNkM2Q0NDM4ZDYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU5MjkyMGExNWI0ZDhmYjVkNGM4YjQ2MDM2ZGUzY2NkYjQ2OTViODAyOGNmMjQ3ODA2NDI5ZGY0MzM1ZGMxZjAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_49f5a975b69d44db95c305422bf294c5",
+      "statement": "lvm-format-manual.yaml at the repo root is a manual one-shot privileged pod for wiping an NVMe disk and creating an LVM thin pool (lvm_vg/lvm_thin) as an operational escape hatch.",
+      "evidence": [
+        {
+          "resource": "repo://lvm-format-manual.yaml",
+          "version": "repo-file-v1:sha256:1ef90b64c092bc471e86f997137b0cc8ef881a2326119952d276f99e2fdf30b2"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.7.0",
+    "at": "2026-10-06T00:54:23.845Z"
+  }
+}

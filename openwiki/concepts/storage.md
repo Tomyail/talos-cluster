@@ -54,8 +54,8 @@ sources:
     resource: repo://lvm-format-manual.yaml
 generated: { by: "openwiki/0.6.0", at: "2026-09-25T22:38:38.997Z" }
 verified:
-  - by: openwiki/0.6.0
-    at: 2026-09-25T22:38:38.997Z
+  - by: openwiki/0.7.0
+    at: 2026-10-06T00:54:23.845Z
 ---
 
 # Storage & Backup

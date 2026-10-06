@@ -22,10 +22,10 @@ sources:
     resource: repo://talos/talconfig.yaml
   - id: openwiki-source-b65e4f1ccd91316116ad973a
     resource: repo://talos/talenv.yaml
-generated: { by: "openwiki/0.6.1", at: "2026-09-28T23:52:40.438Z" }
+generated: { by: "openwiki/0.7.0", at: "2026-10-06T00:54:23.845Z" }
 verified:
-  - by: openwiki/0.6.0
-    at: 2026-09-25T22:38:38.997Z
+  - by: openwiki/0.7.0
+    at: 2026-10-06T00:54:23.845Z
 ---
 
 # Cluster Bootstrap Workflow
@@ -222,7 +222,7 @@ Each secret:
 apply_crds
 ```
 Installs essential CRDs before applications (`scripts/bootstrap-apps.sh#L91-L105`):
-- **External DNS CRDs** (v0.22.0) - `dnsendpoints.externaldns.k8s.io`
+- **External DNS CRDs** (v0.23.0) - `dnsendpoints.externaldns.k8s.io`
 - **Gateway API CRDs** (v1.6.2, experimental) - Gateway API resources
 - Notes indicate these are also managed by Flux but duplicated here for bootstrap safety
 - This CRD pre-apply is the step Cilium depends on: its Helm values set `gatewayAPI.enabled: true` (`kubernetes/apps/kube-system/cilium/app/helm/values.yaml#L27-L28`), so the Gateway API CRDs must exist before the first Helm release installs

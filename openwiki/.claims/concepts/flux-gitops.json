@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:e6fd546302b41ab5de6e05dd1681ed05f30c31c3ae18052e5342d8fd80703928",
+  "pageVersion": "sha256:a23c164361fc8acc17080296b6195c24252d8b6cb0d91c33a1fbf081c36efdb9",
   "claims": [
     {
       "id": "claim_80eba6a89bc94d76bb86d6fa3c395c3a",
@@ -309,10 +309,92 @@
           "version": "repo-file-v1:sha256:ec80b6a7e4f91c74d25e6af121c84df32c70c3b8060033d2848d2cb6d6a2ffcc"
         }
       ]
+    },
+    {
+      "id": "claim_bc906b35b9334f6aabf07cea00039f35",
+      "statement": "App Kustomizations declare dependsOn edges to infrastructure they need; gitea depends on topolvm (storage), external-secrets, and cloudnative-pg-cluster (database), and its companion gitea-runner Kustomization depends on topolvm and external-secrets.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/ks.yaml#L16-L23",
+          "version": "repo-lines-v1:sha256:b4fbeabed6183540858cfe99fefa287d2a05c1689be0b72454e634e15f8b73ad:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTYwYzNiZDdiYzU5ZmVjOWU0ZGVkMzVkN2NjZjcwMGEzODVhY2U1ODYzNGZhNjBkM2IyMmZmMjY4YzAxN2ViZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGFiNmUwZWUyMWNmZTcxYTkwNWE5OTkwNWM1ZGEzOTc2ZDA1YTk5MDBhMzVjMGFkMWIxMjc3Y2RjOWUxOWRlZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWY0MDVjM2RmN2ViYTlkYmY5MGU1Mjk5M2QyYzQ5ZGM5OTM0YWMzNzMyY2Y5ODliYzg1NjdlZmY2NTEyMzBhZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTAyYTZlODMwOGZiNjZmMmFmZDJmMTBlYzdkNDY3MDdkMDA1YjM3MGFkZmI1Y2Q3ODVkNTNlYThkNDYyM2NmMyJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/ks.yaml#L57-L61",
+          "version": "repo-lines-v1:sha256:3394cb345b10ee105bb2993ee329dc59006c63da28a2d678f5413f8989b151b0:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTYwYzNiZDdiYzU5ZmVjOWU0ZGVkMzVkN2NjZjcwMGEzODVhY2U1ODYzNGZhNjBkM2IyMmZmMjY4YzAxN2ViZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYmY5ODk5M2QyZTQ4YWE2MTY4NTMwNzlkNTgzOWU0NGVlYmNjYmJlMWVlYzhkZWI4MWM3ZDRiZmFiMDVhZTljNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZWFmODQxYmJlYjM3ODg2NTA5NGFkNGE4ZWU0YWVhYjRlNzJkNzA1MjQxZjMwOWY0MjcxZjdkMGQ5MDRiYzc4MyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTFmZDAzNzliZDhjYTI5ZDVlYTdhNjMwNmJiNThmZmM5YTIxNGFjM2UxNzQ4YzdjOTBlY2RmMjkzM2RjM2YyOSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_2a2e1623a67a4ceca68e7e4d090040c0",
+      "statement": "App Kustomizations inject environment config via postBuild.substituteFrom cluster-secrets and per-app inline postBuild.substitute variables; gitea sets APP (anchored to its name and commonMetadata labels) and VOLSYNC_CAPACITY: 10Gi, and Kustomize components such as components/volsync-new and components/gatus/external inherit the substitution.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/ks.yaml#L37-L43",
+          "version": "repo-lines-v1:sha256:965526fb65e5bf2981bc3744d194af136aa369796817e130d95ff554a62697f7:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDVmYjU2ZDNhNTI5OWEwMzRlNDAzYmQ0YzFhYWFkMmFkZWE4MmVlMWY2YjkwOTE4MzkxNWNlNWY1ZjA2MzRhZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTc4YTJlMTVlOGNlYmNmZTZiMzVlOTI4MzU1Y2RmNGIzZDRjZGQyMmZjYjBiNDcwMWYwNzk1MWFkMTMwNmVmYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYWVmZWJkNTliNzIxMWFhOGRiOGEyMWQ0ZjI1YzU3MzI0ZDM5NDBjZGI5MDRmM2FkYmMxOTRjOWQ5ZGIzNTI0OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzIwZDYxYWFlNDIwZmVmYjJlNDlkYThjNjVkNDkxZTI3Mzk3NmY5NDQ2ODcxMjE4NTcyYjJmYTZiMmM3N2IxNyJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/ks.yaml#L5-L14",
+          "version": "repo-lines-v1:sha256:78bc430d082e2891e9af22a853d03d3ea1fdc104d719143a94a4fe51af2469cf:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNhNmY0ZGRhM2VhZWMwMzBmNTUyODI4MWFlYjI1OGRmYzRiOTAyMDhlYjllNWRiZDkxZGJlY2EzMWRiZDFhNTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkzN2Y1MTcwZmNhYWU3YmJiZTAxYzJmZDIwNjY5Mjk1MDNmN2M3M2ExZGQ0NWRhMmJkODA4ZmQ2MzczZDlkMzYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJlNWI0NGQ0ZDliYmE0YmEyNjBkMWU1ZWIyODA1NTlhZGQ0MmE3ODkwYWZlZWZiOTE4MDk5MmY1MTYzZDRhOGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjEyMTg5ZjkxMDU4ZDRjODllNzkwMmUxZDVkNDlmMmVhYWYyYWQ0ZTEzMjA2YmYyMzE0NGU0ZDU4MjljOGY0YWYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9773804aa3e44076afb369fc5fae46dd",
+      "statement": "Reconciliation ordering between Flux Kustomizations is expressed only through dependsOn; listing order in a namespace kustomization.yaml changes only build output order, so gating or reordering an app requires editing dependsOn, and a new app needing an upstream chart must register that source under kubernetes/flux/meta/repos (reconciled by cluster-meta) before cluster-apps builds it.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/observability/kustomization.yaml",
+          "version": "repo-file-v1:sha256:7327e52b15578f1b15aa3bc933d03c91585b9fbe7f8e0d932df686baa01d827a"
+        },
+        {
+          "resource": "repo://kubernetes/flux/cluster/ks.yaml#L78-L84",
+          "version": "repo-lines-v1:sha256:e97d992ad1ab2a51f82befa0377e7a9554137bd8513c3187f6a0acf3be8441b2:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTYwYzNiZDdiYzU5ZmVjOWU0ZGVkMzVkN2NjZjcwMGEzODVhY2U1ODYzNGZhNjBkM2IyMmZmMjY4YzAxN2ViZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODM5MWJjNzEzMTg5ZWI3M2I4OWVmOGYyMjlhMTQyZjQwZGQ3YWIxODJiYjdhNWE2YzQ5MDA2YTI3N2E5ZWRjOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTAyYTZlODMwOGZiNjZmMmFmZDJmMTBlYzdkNDY3MDdkMDA1YjM3MGFkZmI1Y2Q3ODVkNTNlYThkNDYyM2NmMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYmFhYTY1NDlhMWY2ZjE4YjU2YTY3ZGY4OWE5NGMyMzBlYTg4YWMzMzA4YjhmYjhiZDYxNTZkNzZhODM5YmU0NCJ9"
+        },
+        {
+          "resource": "repo://kubernetes/flux/meta/repos/kustomization.yaml",
+          "version": "repo-file-v1:sha256:fa10b5630965480f453261c86956a0d97171b2b134e7d859a4caa3c6fa46a277"
+        }
+      ]
+    },
+    {
+      "id": "claim_562107e60ea94f7d849a7aeed8d55e2a",
+      "statement": "Root and app Kustomizations uniformly set prune: true (garbage-collect resources removed from Git), wait: true (health-wait created resources; dependents stay DependenciesNotReady, re-checked every 5s via --requeue-dependency), retryInterval: 2m, interval: 1h, and timeout: 5m on slow API-heavy Kustomizations.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/ks.yaml#L31-L36",
+          "version": "repo-lines-v1:sha256:0049e63743f4763037b7bd8f86b29900f1dd2f521cc400957c3364512955a016:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMmQyZjA4NzdlNjVlNjljMDZiOGU1YThlZDk4MWExNDQwYzQwMzUyNjgzN2NhNDg3MTdjZDNjOTc1OGQ1ZmUyYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZGMzNTE3ZTgxM2IzYTMyYjk2NTYxYjllNTRiNDIyMzI4NDYwYThiNDk1MWQxYjQ0MmEwYjU0MDllMGYyODJlMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTFmZDAzNzliZDhjYTI5ZDVlYTdhNjMwNmJiNThmZmM5YTIxNGFjM2UxNzQ4YzdjOTBlY2RmMjkzM2RjM2YyOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjU2YWJjZTYyNGU3ZDc3NzFiZjgyNTRkMWYwMTcxZWUxNjBjOTE3MTFiYmE3NWU0NjM5Njk3MDY3YTE5ZjIyOSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/flux/cluster/ks.yaml#L74-L94",
+          "version": "repo-lines-v1:sha256:6f76e09127eb6677be27eb1db84d9bcf85c346b2f692bd21f7d527b5a2a6ace8:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBhYjZlMGVlMjFjZmU3MWE5MDVhOTk5MDVjNWRhMzk3NmQwNWE5OTAwYTM1YzBhZDFiMTI3N2NkYzllMTlkZWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyY2ZmNWZmYmE1MGFjMzgxNmFmZjljODViNmI3YTQ4NWU3ZTJhNzM0NjI1ZjM5NGMwNDlkNGI5NmQ1N2E4YzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU3NjNkZTUzNzgzMmMyOWVkNzQ1MmM1MmRlZDE1MDJmYzM2ZTEwMGM3NTc5ZDg2ODAyZWY1YjNiMGFmNjcxNTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://kubernetes/flux/cluster/ks.yaml#L9-L23",
+          "version": "repo-lines-v1:sha256:3bd467821f4d02a0fbb271d318e8f9cb1a516b01a56604465759ee1390842acf:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBhYjZlMGVlMjFjZmU3MWE5MDVhOTk5MDVjNWRhMzk3NmQwNWE5OTAwYTM1YzBhZDFiMTI3N2NkYzllMTlkZWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyY2ZmNWZmYmE1MGFjMzgxNmFmZjljODViNmI3YTQ4NWU3ZTJhNzM0NjI1ZjM5NGMwNDlkNGI5NmQ1N2E4YzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIzZmMyZmJiODFlYzNkNjNlYTdlYzE0NWYxNDRhMzQ1Yjc1ZWQyOWIxZGYyMTMzMGQ3MjI0NjZkN2ZlNjUyZTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ4NjllNzFiYzE5ZjhkNjJjYWQ0NzNjY2RiMDQ2ZDA3Yzk1YTM1YTlhMGJjNTQ5MDk5NDczYmEzNThmYTU3MTMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_6d0db6440fdd4291a2224e29657a5057",
+      "statement": "The root hierarchy in kubernetes/flux/cluster/ks.yaml is cluster-meta (kubernetes/flux/meta, GitRepository flux-system), gateway-api-crds (config/crd/experimental from the pinned kubernetes-sigs/gateway-api GitRepository) and external-dns-crds (config/crd/standard from kubernetes-sigs/external-dns) both depending on cluster-meta, and cluster-apps (kubernetes/apps) depending on all three; the two CRD GitRepositories use ignore scoping so only the CRD directories are served.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/flux/cluster/ks.yaml#L26-L94",
+          "version": "repo-lines-v1:sha256:fcad8b7a31900535f274864b7c768e68b84536a62f0c37494c7dc34dc713170c:eyJzZWxlY3RlZExpbmVDb3VudCI6NjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUwZTdkMjIwMjg3MTMzMDlmNGJjOTk3MWU0OTA4MzM2ZGJkMDNjZmRiOWE3Y2ExMjdiZGQwY2Y0NjFiZmEwYTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyY2ZmNWZmYmE1MGFjMzgxNmFmZjljODViNmI3YTQ4NWU3ZTJhNzM0NjI1ZjM5NGMwNDlkNGI5NmQ1N2E4YzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImViZWY0Yzg5N2EyYTMyMDJkNmE4ZjdmYjAwODg2N2UwYTk3YzEyM2E4YzAzNDBjNTNhMzkyMDU5ZTE5ZjU2MjEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://kubernetes/flux/meta/repos/external-dns-crds.yaml#L10-L18",
+          "version": "repo-lines-v1:sha256:d858a6c4a3f0094c917d869a430d5095b5e26ded848a464f33a2d53ac126d0c9:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTZmOGRkNzQ1ZGVkNTUxMzIyOWIyNWVhNTc0OGYxYjlmMmY0YTI5ZjE4MjdlNDljYTZiYWNlZTkxOTM2NGJkMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMTBmYTNjOWVhZjQwYzRhY2Q1ZDEyYmVhYzUyOTg1ZjhiMjJiNzQ1MzQwZTgxOTEwNTQ4NTVkMTI5Njg1OTY3ZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZWI1MWIzNzEwNjgxZmEwMjFiZjJjNTdkMzVkNTFkNDU5YTJmOTM5Yjc2NTNmYzUzZTBmNmY4OTg4ZmM2YjlhOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/flux/meta/repos/gateway-api.yaml#L10-L18",
+          "version": "repo-lines-v1:sha256:64feeb059f9c4639e655b74a339ecc7f38e609bea1356d2cd35e379d74901648:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZGM2ZmI0YzViOTE1ZmVhMmU5YjY4ZDBiN2IzNGFmYzIxM2ZkOWE2NzI2MmJkZWMxYWM2ZTcyZDk1MGRhMmQwMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTNmMjdiMzA5ZDg1ZDNiZDM1YTE2OGFjY2NmZmI1Y2Y3NjU0OTE0Nzk3MTUxNWQzYzk1MTU4YmUxYjAwZWYxMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZWI1MWIzNzEwNjgxZmEwMjFiZjJjNTdkMzVkNTFkNDU5YTJmOTM5Yjc2NTNmYzUzZTBmNmY4OTg4ZmM2YjlhOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.7.0",
-    "at": "2026-10-03T22:17:28.945Z"
+    "at": "2026-10-06T00:54:23.845Z"
   }
 }

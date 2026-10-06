@@ -12,6 +12,8 @@ sources:
     resource: repo://kubernetes/apps/database/cloudnative-pg/app/externalsecret.yaml
   - id: openwiki-source-5a01ad0b742c7605909d5ff3
     resource: repo://kubernetes/apps/default/gitea/app/externalsecret.yaml
+  - id: openwiki-source-705bd8a40e3cbcfe12bb27c0
+    resource: repo://kubernetes/apps/default/gitea/app/kustomization.yaml
   - id: openwiki-source-41044dd9a7ebfa0249948610
     resource: repo://kubernetes/apps/default/growth-tracker/app/externalsecret.yaml
   - id: openwiki-source-258d7a5da81848c933304616
@@ -42,10 +44,10 @@ sources:
     resource: repo://kubernetes/flux/cluster/ks.yaml
   - id: openwiki-source-6f1d2c8de9160e178167b990
     resource: repo://scripts/bootstrap-apps.sh
-generated: { by: "openwiki/0.7.0", at: "2026-10-03T22:17:28.945Z" }
+generated: { by: "openwiki/0.7.0", at: "2026-10-06T00:54:23.845Z" }
 verified:
   - by: openwiki/0.7.0
-    at: 2026-10-03T22:17:28.945Z
+    at: 2026-10-06T00:54:23.845Z
 ---
 
 # Secrets Management
@@ -225,6 +227,8 @@ The `bitwarden-fields` ClusterSecretStore is required when accessing Bitwarden c
 ### ExternalSecret Usage Patterns
 
 ExternalSecret resources define how secrets are pulled from Bitwarden and injected into Kubernetes Secrets.
+
+In the standard app layout, each application lives under `kubernetes/apps/<group>/<app>/app/` and declares an `externalsecret.yaml` alongside its `helmrelease.yaml` and `kustomization.yaml`; the app's `kustomization.yaml` includes the ExternalSecret in the same resources list, so the target Kubernetes Secret is created before the HelmRelease (which references it via `secretRef`) reconciles.
 
 #### Standard Login Secret Pattern
 

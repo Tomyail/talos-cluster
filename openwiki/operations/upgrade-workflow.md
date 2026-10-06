@@ -3,9 +3,6 @@ type: operations
 title: Upgrade Workflow
 description: Complete upgrade process for Talos OS, Kubernetes, and cluster applications with proper ordering, rollback procedures, and verification steps.
 tags: [upgrade, talos, kubernetes, workflow, maintenance, tuppr, talhelper]
-verified:
-  - by: openwiki/0.5.2
-    at: 2026-09-19T21:35:52.044Z
 sources:
   - id: openwiki-source-aa55808be329b3f929ddf105
     resource: repo://.renovaterc.json5
@@ -15,13 +12,20 @@ sources:
     resource: repo://kubernetes/apps/kube-system/system-upgrade/ks.yaml
   - id: openwiki-source-93b81da2e188c756c1b475ce
     resource: repo://kubernetes/apps/kube-system/system-upgrade/tuppr/helmrelease.yaml
+  - id: openwiki-source-7ffd63e250383b159d8f25aa
+    resource: repo://kubernetes/apps/kube-system/system-upgrade/tuppr/ocirepository.yaml
+  - id: openwiki-source-395390943d6f45db63270de0
+    resource: repo://kubernetes/apps/kube-system/system-upgrade/tuppr/prometheusrule.yaml
   - id: openwiki-source-63d00fe06cf7a359ecb33f8f
     resource: repo://kubernetes/apps/kube-system/system-upgrade/upgrades/kubernetes.yaml
   - id: openwiki-source-ededdde4ddcb07a3ee796444
     resource: repo://kubernetes/apps/kube-system/system-upgrade/upgrades/talos.yaml
   - id: openwiki-source-b65e4f1ccd91316116ad973a
     resource: repo://talos/talenv.yaml
-generated: { by: "openwiki/0.5.2", at: "2026-09-19T21:35:52.044Z" }
+generated: { by: "openwiki/0.7.0", at: "2026-10-06T00:54:23.845Z" }
+verified:
+  - by: openwiki/0.7.0
+    at: 2026-10-06T00:54:23.845Z
 ---
 
 # Upgrade Workflow
@@ -144,6 +148,23 @@ spec:
   policy:
     rebootMode: powercycle
 ```
+
+The tuppr controller is deployed by Flux as a `HelmRelease` sourcing the `oci://ghcr.io/home-operations/charts/tuppr` chart (currently pinned to tag `0.5.7` via an `OCIRepository`), running a single replica with a `ServiceMonitor` enabled.
+
+**tuppr alerting** (`kubernetes/apps/kube-system/system-upgrade/tuppr/prometheusrule.yaml`):
+
+A `PrometheusRule` ships alongside the controller so stalled or failed upgrades page an operator:
+
+| Alert | Expression | For | Severity |
+|---|---|---|---|
+| `TalosUpgradeNodeFailed` | `tuppr_talos_upgrade_nodes_failed > 0` | 1m | critical |
+| `TalosUpgradeFailed` | `tuppr_talos_upgrade_phase{phase="Failed"} > 0` | 1m | critical |
+| `TalosUpgradeStuck` | phase in `Upgrading/Rebooting/Draining/HealthChecking` | 1h | warning |
+| `KubernetesUpgradeFailed` | `tuppr_kubernetes_upgrade_phase{phase="Failed"} > 0` | 1m | critical |
+| `KubernetesUpgradeStuck` | phase in `Upgrading/HealthChecking` | 45m | warning |
+| `UpgradeJobRunningTooLong` | `tuppr_upgrade_jobs_active > 0` | 1h | warning |
+
+A failed node upgrade **stops** the upgrade and requires manual intervention (fix the underlying issue, then reset via the reset annotation), consistent with the sequential, quorum-preserving upgrade model.
 
 **tuppr behavior:**
 - Monitors the `TalosUpgrade` CR for the target version

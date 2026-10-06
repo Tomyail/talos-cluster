@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:5d5d6434531a6369e32e49ad32ab6faffe5d7054592cc62319fc810c78bdb3d6",
+  "pageVersion": "sha256:cfe25297fa88b67e19753cf9e0188f4448b286c8dca04ab352c0daab9b26c502",
   "claims": [
     {
       "id": "claim_568d0013139d486d968deda03423763a",
@@ -375,10 +375,68 @@
           "version": "repo-file-v1:sha256:34d6970a4822f2b762ed2b48b96225a7d9a1bb7f3c4007fed459656c84134c45"
         }
       ]
+    },
+    {
+      "id": "claim_3a0c71e923ff49c3b2d79a559eca766b",
+      "statement": "The Flux reconcile chain is anchored to the flux-system GitRepository: cluster-meta (path ./kubernetes/flux/meta, SOPS-decrypted, wait: true) reconciles source definitions; gateway-api-crds and external-dns-crds depend on cluster-meta and pull CRDs from external Git sources; cluster-apps (path ./kubernetes/apps) depends on all three, is SOPS-decrypted, prunes removed resources, and waits for health.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/flux/cluster/ks.yaml#L1-L94",
+          "version": "repo-lines-v1:sha256:34d6970a4822f2b762ed2b48b96225a7d9a1bb7f3c4007fed459656c84134c45:eyJzZWxlY3RlZExpbmVDb3VudCI6OTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyY2ZmNWZmYmE1MGFjMzgxNmFmZjljODViNmI3YTQ4NWU3ZTJhNzM0NjI1ZjM5NGMwNDlkNGI5NmQ1N2E4YzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c3a802cb56bd44eeafc81be83dceb1cb",
+      "statement": "cluster-meta materializes OCIRepository and HelmRepository source objects (app-template, prometheus-community, grafana, backube, cloudnative-pg, topolvm, etc.) from kubernetes/flux/meta/repos/, which app HelmReleases then reference via chartRef.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/flux/meta/repos/kustomization.yaml#L1-L45",
+          "version": "repo-lines-v1:sha256:fa10b5630965480f453261c86956a0d97171b2b134e7d859a4caa3c6fa46a277:eyJzZWxlY3RlZExpbmVDb3VudCI6NDUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBiMjBmMGQ5ZjI0NGUyNjFmMDIwNzc3OTAyOTYzNzNiOWFkZjEwYzA4ZjA2ZGEzYTMzNzFmNjM5MTNmMDE1YmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_65853652aeb44644890565faae99512a",
+      "statement": "Each per-app Kustomization (e.g. gitea) pins targetNamespace to its namespace, uses sourceRef to the same flux-system GitRepository, enables SOPS decryption, and applies postBuild substitutes from the cluster-secrets Secret plus inline values such as APP and VOLSYNC_CAPACITY.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/ks.yaml#L1-L78",
+          "version": "repo-lines-v1:sha256:ff7408f8816c4ea8ec6166d7e1df5d61eb085dab2621b2ad42c89c1e48e7a1e5:eyJzZWxlY3RlZExpbmVDb3VudCI6NzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc4ZTJjOTAyNTk4NjY4NWIwMDc4NTA4NzZkZjZhYjU0YTcxYjQ4Y2RhMWRhNjk4NmVlODVlM2Y2NjBlODQ3MDUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_0e33f49ecfdb4fcdb39cddc513fbe54b",
+      "statement": "Apps declare cross-namespace dependsOn ordering (gitea depends on topolvm in storage, external-secrets, and cloudnative-pg-cluster in database) and may include reusable components; gitea/runner is an example optional sub-app Kustomization reconciling CI runner resources independently of the main release.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/ks.yaml#L13-L22",
+          "version": "repo-lines-v1:sha256:f1c187c798eebe79bd7208b1fe848dee40a62f060afc6b3802d926d29087260a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVkM2E1ZDYxNWQ4YzhjYWZlZDM4MmU2ZmMxODVmNDU5NzAyYWE4NjhjZTc1MjRmZDI2NmYzZmI2ZDYwYzA2NzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2NWQ0MDJkMjVkZDU2NTUxOWY4N2RmYmU5NjQ3ZTBhM2UzMzZhMGRjYzcyZTVhNTAzMGIwOWMxNzdjZTk0MTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYwYmVkZjViYmRjMDhmNDkyNzZiN2ViYzY4ZGVlZDA5ZmYwZDJjODc5MDA3MDA5NDM1ZjNiOTY0NzY0ZjU0ZGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIxMmM0YmYyOTUzOGNiMDM2OTU3YmQ1YWIwOWYxZThiYjU4MDkyYzgyN2I1YmE1YTBiMmQ4NTA0NDViMThlOWIifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/ks.yaml#L45-L60",
+          "version": "repo-lines-v1:sha256:71246c5f47316c1283ded5e93cdfc34187c8944669ee6c31e37437c95d8a4b15:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgxYTJiMTc0MjZlNTIxNzg0ZTFlYjY5ZTRlZjRiZWE2YzMxZmU2YzIwMzlhOTU3YmYxZjhhZDFjNjE1ODcwNzQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjlhMzUxN2ZjZDQwNTQ5M2I4NTg5MzZjM2M1YThmMjk5OTg4MGU0ZTQyMDdjZTgwZWI3MTk5NjVlMjI1MGEyZTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI2MzE5NzYxNjcwMzI5ZmJjNThlNzM1MTY1N2M2OWI2YmI1ZDg2ZDExYTkzYzIwNDlkY2U5NjhlNTMzMDIyOTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_bf1e9d40afa94aef9e41461b587d164d",
+      "statement": "The shared app-template OCIRepository (oci://ghcr.io/bjw-s-labs/helm/app-template, tag 5.2.1) is defined once in kubernetes/components/common/repos/app-template and included into every namespace via the ../../components/common component, alongside the namespace definition and SOPS age secret.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/common/kustomization.yaml#L1-L7",
+          "version": "repo-lines-v1:sha256:826dbed83b08a942ec3ec48f90645f4ad7f1200eb1825b729391202bf6d161c2:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjUyZDcxMTEwM2Q1MGE0Mzc4MzBjNmZiY2QwNGZiNGJhYjQ5YTBmODJmNmQyNmQxYzc5MWM2ZTg0ODhkZDA5MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjU4Y2IzM2UxZDNkMzcwNmQ1ZDNlNTUwMmRlZTE5MTRhYWEwMTFlNjdhY2Y0NmE0ZjkxNGNjMTkzNzQyYTA3NCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2I2MzZmOGU2OTY3ZTk2YmJjYzA3ZTZiNzQ1ZWI0MGMxNjNhZWNkZTllNGFiOTVjM2Q4NmVhMWIzNzJiNzU3MCJ9"
+        },
+        {
+          "resource": "repo://kubernetes/components/common/repos/app-template/ocirepository.yaml#L1-L14",
+          "version": "repo-lines-v1:sha256:f0d9f158f13d4316067330be34e56a84216e6bf821b9a152c9cc1163cead9328:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE3MTk4ZmNjODZjMGJjYmYzMzI4ZDcxNWM5MTRiOTYxNmRhODVhZGNmNjFiYTc2ZTA0OTM4ZGM4NWNmNDVkNTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.7.0",
-    "at": "2026-10-03T22:17:28.945Z"
+    "at": "2026-10-06T00:54:23.845Z"
   }
 }

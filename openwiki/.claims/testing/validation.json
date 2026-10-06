@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:12d0f86c73e3cf10124658e59e96ee9049bd08337603461287341f057437170e",
+  "pageVersion": "sha256:4df5dbba33c6237e775835e170fe53e9db0efe3265910185c1a595af33236799",
   "claims": [
     {
       "id": "claim_8ac105d25dbd4612b11232201fa7237c",
@@ -151,10 +151,34 @@
           "version": "repo-file-v1:sha256:9b7f737953cde50bbf2e4f24584464c00b3e6e6cf26cb16b7f07e599032be423"
         }
       ]
+    },
+    {
+      "id": "claim_385a75d1e2944892a76160abb44b20f5",
+      "statement": "Repo shell scripts are shellcheck-cleaned with only two repo-wide suppressions in .shellcheckrc: SC1091 (non-constant source) and SC2155 (declare-and-assign masks return value); other shellcheck warnings are expected to be fixed, not disabled.",
+      "evidence": [
+        {
+          "resource": "repo://.shellcheckrc",
+          "version": "repo-file-v1:sha256:e47b05d98c49029d2a552c099758847d7144b67199645c6dd6d5bb61c9774bbc"
+        }
+      ]
+    },
+    {
+      "id": "claim_8bcf9f753e554860a38b85333a7c1470",
+      "statement": "An agent can locally reproduce the CI merge gate before opening a PR: run `flux-local test --enable-helm --all-namespaces --sources flux-system --path ./kubernetes/flux/cluster -v` (same invocation as the CI test job), `kustomize build` a single app directory piped into `kubeconform -strict -summary`, and `shellcheck scripts/*.sh` — with all binaries version-matched to CI via the mise-pinned toolchain.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/flux-local.yaml#L38-L41",
+          "version": "repo-lines-v1:sha256:d0b57f30d3c060a4ed169576b3850b32dce47103330887bd64b2f0f337864fe8:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWU1YTQ3YmI5YjZkMjUxMWFhZDcyZjcwNDhjMjQyMTM5NGNkY2FlMGE1NTNhZDgxNTQyYTk0YTAwODhjOTcxZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNmJlZDMwNWFmOTFiODg3ODk0YjkxYzAwY2E1Y2I4ZGY5MjY5NDdmZTZmM2FkM2IyN2Q3ZTliM2UyMWU2M2Y5ZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDAwZGM3MzAwNTJkNDdkMmI5YmMyN2Q1NDMxZDQzZjlmMDRmOTQ5NTExY2M1OWE2YmJlYjhkZmEyNjIwYTdmNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMmQzZjk3Mjk1ZWI0YmEwYjg4ZTRmNzM0MDNkNWE0NmMwNWZhNTcxNDBmODIzMTFmN2ViNDEyNjMwOGFhZmRmNyJ9"
+        },
+        {
+          "resource": "repo://.mise.toml#L7-L28",
+          "version": "repo-lines-v1:sha256:ade9f4c62cb1bf6e927778ab5084e3e4cdc135b3b966a1a18b0a6636458f68a2:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE4MjZiZWEwNWZlNTBhNzNhNjQ1ZDhmYjEyZGMyODJmMjUzNjM0NDMyNjZkOTAxNzM3MmVhZjg4NDU5NDYzNDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRlMmZjMWNmZmMyMTMwOTk5YTk4NDcyYzQ1MzkxZmIwMWZiNzkwNDk5ZDIwZjk3NzllMTYyOTk0MDI4M2ViYzgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc1MDg0MzNmMTUzOWVkODEwOTlhNDhlNjIwMDVhMGE4ZGMyNGUwNDFhMDVlZmMxYjFiNGRiMzQ5ZmZkMTgzMTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.7.0",
-    "at": "2026-10-04T22:26:02.682Z"
+    "at": "2026-10-06T00:54:23.845Z"
   }
 }
