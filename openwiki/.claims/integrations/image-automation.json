@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:923c0967c169b6aace93c22f7ba9efe3cea252815785dc40a6ae8713e7daf58e",
+  "pageVersion": "sha256:342da223dc2e61622b6bf907a166cae2bc5e9a35356c24a24925316df82f5ca3",
   "claims": [
     {
       "id": "claim_d05bde63be0e48cca828a500a8054af5",
@@ -12,7 +12,7 @@
         },
         {
           "resource": "repo://kubernetes/apps/default/fava/app/helmrelease.yaml#L28-L28",
-          "version": "repo-lines-v1:sha256:cac4d6f24dc1719881106ede3659b83364e8b3e987c0a5539525015e62f16375:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2FjNGQ2ZjI0ZGMxNzE5ODgxMTA2ZWRlMzY1OWI4MzM2NGU4YjNlOTg3YzBhNTUzOTUyNTAxNWU2MmYxNjM3NSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiY2FjNGQ2ZjI0ZGMxNzE5ODgxMTA2ZWRlMzY1OWI4MzM2NGU4YjNlOTg3YzBhNTUzOTUyNTAxNWU2MmYxNjM3NSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDIzYjRhMjllYjI5NTdkZWI5ODRmM2E5OTM5YjI4YTY0NThmNmMyNTk5MTRkYWYyNWY3YzlhOTEyZTRjMTkyNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzI3OGY1N2YzYzQ4MDU5ZDYxY2M2YzE0ZjQ3ZTM5MzVjM2M4MTRiNTQ4Njg5NDY0M2UxYWRkNDZhNWI2NTViNiJ9"
+          "version": "repo-lines-v1:sha256:92cbc63cac4053f2f3e85e1897a045c54a85799bfb9419009b3c9d734ac67fe5:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTJjYmM2M2NhYzQwNTNmMmYzZTg1ZTE4OTdhMDQ1YzU0YTg1Nzk5YmZiOTQxOTAwOWIzYzlkNzM0YWM2N2ZlNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTJjYmM2M2NhYzQwNTNmMmYzZTg1ZTE4OTdhMDQ1YzU0YTg1Nzk5YmZiOTQxOTAwOWIzYzlkNzM0YWM2N2ZlNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDIzYjRhMjllYjI5NTdkZWI5ODRmM2E5OTM5YjI4YTY0NThmNmMyNTk5MTRkYWYyNWY3YzlhOTEyZTRjMTkyNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzI3OGY1N2YzYzQ4MDU5ZDYxY2M2YzE0ZjQ3ZTM5MzVjM2M4MTRiNTQ4Njg5NDY0M2UxYWRkNDZhNWI2NTViNiJ9"
         },
         {
           "resource": "repo://kubernetes/apps/flux-system/image-automation/automation.yaml#L9-L11",
@@ -161,10 +161,24 @@
           "version": "repo-lines-v1:sha256:9cba192463d6d0c2242234473b57a805f6c12e90f7b6b722856f34a01152c000:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVkM2E1ZDYxNWQ4YzhjYWZlZDM4MmU2ZmMxODVmNDU5NzAyYWE4NjhjZTc1MjRmZDI2NmYzZmI2ZDYwYzA2NzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlhYWIxOWIzZWVkNzVmYjQ3NDA0N2VjMWUxYWQ4ZDRjZDNkNzlhOWFhZTFmYWQyZjNhOWFjZTczMjQxMTgwMDYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYwYmVkZjViYmRjMDhmNDkyNzZiN2ViYzY4ZGVlZDA5ZmYwZDJjODc5MDA3MDA5NDM1ZjNiOTY0NzY0ZjU0ZGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_3e23379b73a14b0c97f1ce58982762c5",
+      "statement": "The fava HelmRelease pins image `gitea.tomyail.com/tomyail/beancount` with tag `main-49e593937d85-1791349225`, which the `default:fava` ImagePolicy marker comment mutates in place; the image repository URL is substituted into the ImageRepository/ImagePolicy templates via the app Kustomization's postBuild variable `REGISTRY_URL`.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/fava/app/helmrelease.yaml#L26-L28",
+          "version": "repo-lines-v1:sha256:80adebefb177e006ec765a7d28623c4470325068165129516e3912b10ecf778e:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZGNmZGU4YzM0MGMxYmM5Yjc4MjE2ODE5MTIwN2YzYzZlMWU4YmNmNzA2MzgzNDhmNzkxMzJmMDYzMGM5ODI3MyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTJjYmM2M2NhYzQwNTNmMmYzZTg1ZTE4OTdhMDQ1YzU0YTg1Nzk5YmZiOTQxOTAwOWIzYzlkNzM0YWM2N2ZlNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNWYyZjhiZWJkNzE1YTAwMzRjNDg5YzViZDg0YmFiMzRiNTVkZWFhM2IxMTM4NThmZGRlYWZlMmRlZjYxN2EzMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzI3OGY1N2YzYzQ4MDU5ZDYxY2M2YzE0ZjQ3ZTM5MzVjM2M4MTRiNTQ4Njg5NDY0M2UxYWRkNDZhNWI2NTViNiJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/fava/ks.yaml#L30-L35",
+          "version": "repo-lines-v1:sha256:9fe59d52727ca303fdb06c821075d7427f8000d04e2e0e59956e2cb704ec3cf0:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzk2YjI2N2E3ZjQ2NmM4MzFiNzM5MzEwY2QzODQwMWMwODhmNzRmNjQ1OTAwN2M2N2Q5YzhmOWMxNDRmYjg4MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWFhYjE5YjNlZWQ3NWZiNDc0MDQ3ZWMxZTFhZDhkNGNkM2Q3OWE5YWFlMWZhZDJmM2E5YWNlNzMyNDExODAwNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiM2E0ZDRhN2E5YzgzY2I2N2NjZjQ4Y2I5ODE1ZDE2MGRlY2Y0NjEyYzVhNzVjZGU4ZDUxYzUwMDBiY2ZmMzYxMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjVjMjdjMmRkMjdlZjRlZDEyMGY5YmE3YTBmMGY2OTMwNTQ5MWZhYjc2MDgzZGRmZjg0M2Y3ZTE5MjZkMmQxZSJ9"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.2",
-    "at": "2026-09-19T21:35:52.044Z"
+    "by": "openwiki/0.7.1",
+    "at": "2026-10-07T23:40:28.801Z"
   }
 }

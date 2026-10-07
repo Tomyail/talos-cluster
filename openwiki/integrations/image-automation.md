@@ -4,8 +4,8 @@ title: Flux Image Automation
 description: Automated container image tag updates for default namespace applications using Flux ImageRepository, ImagePolicy, and ImageUpdateAutomation with Setters strategy and flux-bot commits.
 tags: [flux, image-automation, gitops, containers, automation]
 verified:
-  - by: openwiki/0.5.2
-    at: 2026-09-19T21:35:52.044Z
+  - by: openwiki/0.7.1
+    at: 2026-10-07T23:40:28.801Z
 sources:
   - id: openwiki-source-aa55808be329b3f929ddf105
     resource: repo://.renovaterc.json5
@@ -31,7 +31,7 @@ sources:
     resource: repo://kubernetes/components/image-automation/kustomization.yaml
   - id: openwiki-source-3f02d6aaa16b90ed2eba88ec
     resource: repo://kubernetes/components/image-automation/registry-externalsecret.yaml
-generated: { by: "openwiki/0.5.2", at: "2026-09-19T21:35:52.044Z" }
+generated: { by: "openwiki/0.7.1", at: "2026-10-07T23:40:28.801Z" }
 ---
 
 # Flux Image Automation
@@ -170,7 +170,7 @@ HelmRelease values reference the ImagePolicy using the Setters syntax:
 
 **Example** (`kubernetes/apps/default/fava/app/helmrelease.yaml`)
 ```yaml
-tag: "main-786bccf17263-1785740665" # {"$imagepolicy": "default:fava:tag"}
+tag: "main-49e593937d85-1791349225" # {"$imagepolicy": "default:fava:tag"}
 ```
 
 The marker format is `{"$imagepolicy": "NAMESPACE:APP:tag"}`. When ImageUpdateAutomation runs, it replaces the entire tag value (including the comment placeholder) with the latest selected tag from the policy.
@@ -241,7 +241,7 @@ If registry credentials are invalid or the registry is unreachable, the ImageRep
 
 Uses the default numerical policy with timestamp-based tag filtering:
 
-**Policy**: `^.+-[a-f0-9]+-(?P<ts>[0-9]+)$` (e.g., `main-786bccf17263-1785740665`)
+**Policy**: `^.+-[a-f0-9]+-(?P<ts>[0-9]+)$` (e.g., `main-49e593937d85-1791349225`)
 
 This pattern matches CI/CD generated tags that embed timestamps, ensuring the chronologically newest build is selected. All adopters (`epub-translator`, `fava`, `growth-tracker`) currently use this default policy.
 

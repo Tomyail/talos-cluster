@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:1deab2b268e6081d29854d202920295649c6370b7e1c6051552bd2977034b1ed",
+  "pageVersion": "sha256:088aa6fa2abac023fc6b4418bb7c1dd429d8f76197b4d06b686bd4321c1193d6",
   "claims": [
     {
       "id": "claim_28ba8b626032486cb6cfda160b55c8a5",
@@ -176,7 +176,7 @@
       "evidence": [
         {
           "resource": "repo://kubernetes/apps/default/fava/app/helmrelease.yaml#L28-L28",
-          "version": "repo-lines-v1:sha256:cac4d6f24dc1719881106ede3659b83364e8b3e987c0a5539525015e62f16375:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2FjNGQ2ZjI0ZGMxNzE5ODgxMTA2ZWRlMzY1OWI4MzM2NGU4YjNlOTg3YzBhNTUzOTUyNTAxNWU2MmYxNjM3NSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiY2FjNGQ2ZjI0ZGMxNzE5ODgxMTA2ZWRlMzY1OWI4MzM2NGU4YjNlOTg3YzBhNTUzOTUyNTAxNWU2MmYxNjM3NSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDIzYjRhMjllYjI5NTdkZWI5ODRmM2E5OTM5YjI4YTY0NThmNmMyNTk5MTRkYWYyNWY3YzlhOTEyZTRjMTkyNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzI3OGY1N2YzYzQ4MDU5ZDYxY2M2YzE0ZjQ3ZTM5MzVjM2M4MTRiNTQ4Njg5NDY0M2UxYWRkNDZhNWI2NTViNiJ9"
+          "version": "repo-lines-v1:sha256:92cbc63cac4053f2f3e85e1897a045c54a85799bfb9419009b3c9d734ac67fe5:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTJjYmM2M2NhYzQwNTNmMmYzZTg1ZTE4OTdhMDQ1YzU0YTg1Nzk5YmZiOTQxOTAwOWIzYzlkNzM0YWM2N2ZlNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTJjYmM2M2NhYzQwNTNmMmYzZTg1ZTE4OTdhMDQ1YzU0YTg1Nzk5YmZiOTQxOTAwOWIzYzlkNzM0YWM2N2ZlNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDIzYjRhMjllYjI5NTdkZWI5ODRmM2E5OTM5YjI4YTY0NThmNmMyNTk5MTRkYWYyNWY3YzlhOTEyZTRjMTkyNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzI3OGY1N2YzYzQ4MDU5ZDYxY2M2YzE0ZjQ3ZTM5MzVjM2M4MTRiNTQ4Njg5NDY0M2UxYWRkNDZhNWI2NTViNiJ9"
         }
       ]
     },
@@ -241,10 +241,28 @@
           "version": "repo-lines-v1:sha256:362eeda44f1015cb0b9c6e25d21b68c47630dc15d17022ba15d6c1aede69b9b0:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjljYTg5MWJmZjdhYzFmN2NlYWFlNDBlZjA1MTA2NmJlOWVmZTQ3YjRlNDI4MWU4NmMzMTliZTJjNTVlYmNlNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWYwY2RiOTcyYTdiZmI3ZWQyNDZmOWZmNjcyMzg1ZTU1ZjQ5NjhmYzExMDQzZGM1YjY4NGQ1MWRmYTMxZGJjYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjExMTk4MGJjMmZiMTI5MmEzMWRkZTI2MjUzNDdmY2RkY2Q4MGExMDBiNjc1MDU5ZWUxNjkzYTJiMzVlMzFmNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTUwZTJjZmFjOTgxZDdjZjc1NmExNjUxMWRjZTMxZjQyOWZlMTE2OTg0ODE4NGJiYzcxODc1NDU1NDkwOWRlZiJ9"
         }
       ]
+    },
+    {
+      "id": "claim_f2cc509a66314f90aea934336140c066",
+      "statement": "For fava, new image tags flow end-to-end without Renovate: CI pushes `main-<sha>-<ts>` tags to the private registry gitea.tomyail.com, ImageRepository scans them, ImagePolicy selects the latest via ascending numerical sort on the extracted timestamp, flux-bot commits the tag under the `$imagepolicy` setter, and the cluster pulls it using the fava-registry-secret imagePullSecret.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/fava/app/helmrelease.yaml#L26-L28",
+          "version": "repo-lines-v1:sha256:80adebefb177e006ec765a7d28623c4470325068165129516e3912b10ecf778e:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZGNmZGU4YzM0MGMxYmM5Yjc4MjE2ODE5MTIwN2YzYzZlMWU4YmNmNzA2MzgzNDhmNzkxMzJmMDYzMGM5ODI3MyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTJjYmM2M2NhYzQwNTNmMmYzZTg1ZTE4OTdhMDQ1YzU0YTg1Nzk5YmZiOTQxOTAwOWIzYzlkNzM0YWM2N2ZlNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNWYyZjhiZWJkNzE1YTAwMzRjNDg5YzViZDg0YmFiMzRiNTVkZWFhM2IxMTM4NThmZGRlYWZlMmRlZjYxN2EzMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzI3OGY1N2YzYzQ4MDU5ZDYxY2M2YzE0ZjQ3ZTM5MzVjM2M4MTRiNTQ4Njg5NDY0M2UxYWRkNDZhNWI2NTViNiJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/fava/app/helmrelease.yaml#L56-L58",
+          "version": "repo-lines-v1:sha256:40e46276c5253bb9a0b20b558d27c06d455aca8894261e10fa17f83503d0f1e8:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzNlZmNhNjMzZjU1MzBlZThlNzBlOTBmYzgwYmQ3NDUyYjlmMTRjYTEyZmZhZGExZTc0OTI2MmE1ZWFjYTIxYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjU1ZmQ1OTc3ZGViYjQ2OGJjY2ExYjY5NzE0ZDJjZDBiZmRiNzRmYzBiZmVlN2E1MjlmMjhhZDI0NDg5NzhjZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWNjZWQ1NjkwNmE3ZGUxNWFhZDM3MTY0N2JiOGQ2ZWRmMDkyNjRmNDBiMWI3MGY4MzIyMTljOGQ4YjA3ZDQ4MiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTdiMDhjYjY4M2U1OTBkMzI5OTc2MjUyNDJkZTNjMzlmYjRjYjRhZGNhODZmOGNmYzRjMTJmYmRiOWFhMjcyNSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/components/image-automation/imagepolicy.yaml#L10-L17",
+          "version": "repo-lines-v1:sha256:e4438410a451f65dbb87938478999620ae5e8e048731a67f9c2a78da50422210:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOGViMTJjODA4ZTZmYzNjZDBiODJmNGIwYjgxZDk1YjFlZjI5N2NjZGUxNDI0MmQxNGEwMTk5Y2NmNGU0ZGVlNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTI3ZGFjNTBhZmRmM2NiYjM0ZDI0YzU5MWM3MjQwNDZlMDE5ZTg1YjVjNGVkMmJlY2I1OTgyNjA4MzBhZWZkOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzMzOWJmY2QxNjFjNTI2YmQ3YzVhZjgyOTYwMDYwMDI4M2E2YzZiN2RjZWMzYjI5ODUyNzRlZTI3MDI3NjYyYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.7.0",
-    "at": "2026-10-04T22:26:02.682Z"
+    "by": "openwiki/0.7.1",
+    "at": "2026-10-07T23:40:28.801Z"
   }
 }

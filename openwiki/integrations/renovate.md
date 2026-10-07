@@ -36,10 +36,10 @@ sources:
     resource: repo://scripts/bootstrap-apps.sh
   - id: openwiki-source-b65e4f1ccd91316116ad973a
     resource: repo://talos/talenv.yaml
-generated: { by: "openwiki/0.7.0", at: "2026-10-04T22:26:02.682Z" }
+generated: { by: "openwiki/0.7.1", at: "2026-10-07T23:40:28.801Z" }
 verified:
-  - by: openwiki/0.7.0
-    at: 2026-10-04T22:26:02.682Z
+  - by: openwiki/0.7.1
+    at: 2026-10-07T23:40:28.801Z
 ---
 
 # Renovate Dependency Automation
@@ -373,14 +373,24 @@ The component provides:
 - **ImageRepository**: Scans the registry for new image tags every minute
 - **ImagePolicy**: Selects the latest image based on policy rules with numerical sorting (ascending)
 
-**HelmRelease integration** (`kubernetes/apps/default/fava/app/helmrelease.yaml#L28`):
+**HelmRelease integration** (`kubernetes/apps/default/fava/app/helmrelease.yaml#L26-L28`):
 ```yaml
 image:
   repository: gitea.tomyail.com/tomyail/beancount
-  tag: "main-786bccf17263-1785740665" # {"$imagepolicy": "default:fava:tag"}
+  tag: "main-49e593937d85-1791349225" # {"$imagepolicy": "default:fava:tag"}
 ```
 
 The `{"$imagepolicy": "NAMESPACE:APP:tag"}` marker syntax enables ImageUpdateAutomation to replace image tags with values from ImagePolicy resources.
+
+### Division of Labor: Renovate vs Flux Image Automation
+
+The two automation layers have a strict, mutually exclusive boundary:
+
+- **Flux image automation owns image tags**: ImageUpdateAutomation commits are performed by `flux-bot`, which mutates any value line carrying a `{"$imagepolicy": ...}` setter marker (for example the fava `tag:` line above). The tag value at that marker changes on every successful image build, independent of Git review.
+- **Renovate owns chart refs, versions, and everything else**: Renovate bumps Helm chart versions and OCIRepository refs (such as the `app-template` chart referenced by the fava HelmRelease's `chartRef`), `# renovate:`-annotated versions, GitHub Actions, and mise tools — via reviewable pull requests.
+- **Renovate must not manage `$imagepolicy` tag lines**: because the tag is continuously rewritten by flux-bot, a Renovate PR touching the same line would conflict with (and be silently overwritten by) the automation controller. No `# renovate:` annotation is placed on such lines, and Renovate managers should skip them; the fava tag carries only the `$imagepolicy` marker, never a `renovate:` annotation.
+
+In practice, an application built from a private registry like `gitea.tomyail.com/tomyail/beancount` gets new image tags end-to-end without any Renovate involvement: CI pushes `main-<sha>-<ts>` tags to the registry, the `ImageRepository` scans them, the `ImagePolicy` (numerical ascending sort on the extracted timestamp) selects the latest, and flux-bot commits the new tag back. Renovate still handles the chart/runtime versions in the same manifest.
 
 ### Policy Customization
 
