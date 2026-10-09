@@ -3,9 +3,6 @@ type: Quickstart Guide
 title: Quickstart & Repository Map
 description: Entry point for understanding the Talos + Flux GitOps cluster repository structure, mise-managed toolchain, common task commands, bootstrapping process, making and validating a change end-to-end, and routing into the rest of the wiki.
 tags: [talos, kubernetes, flux, quickstart, gitops, homelab, mise, task]
-verified:
-  - by: openwiki/0.7.0
-    at: 2026-10-06T00:54:23.845Z
 sources:
   - id: openwiki-source-6378149bc01898a8718f6f2d
     resource: repo://.github/workflows/flux-local.yaml
@@ -48,6 +45,9 @@ sources:
   - id: openwiki-source-b9ff7ee0aa4953cc601052a4
     resource: repo://Taskfile.yaml
 generated: { by: "openwiki/0.7.0", at: "2026-10-06T00:54:23.845Z" }
+verified:
+  - by: openwiki/0.7.1
+    at: 2026-10-08T23:50:46.668Z
 ---
 
 # Quickstart & Repository Map

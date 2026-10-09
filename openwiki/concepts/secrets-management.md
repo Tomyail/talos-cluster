@@ -44,10 +44,10 @@ sources:
     resource: repo://kubernetes/flux/cluster/ks.yaml
   - id: openwiki-source-6f1d2c8de9160e178167b990
     resource: repo://scripts/bootstrap-apps.sh
-generated: { by: "openwiki/0.7.0", at: "2026-10-06T00:54:23.845Z" }
+generated: { by: "openwiki/0.7.1", at: "2026-10-08T23:50:46.668Z" }
 verified:
-  - by: openwiki/0.7.0
-    at: 2026-10-06T00:54:23.845Z
+  - by: openwiki/0.7.1
+    at: 2026-10-08T23:50:46.668Z
 ---
 
 # Secrets Management
@@ -180,7 +180,7 @@ postBuild:
 
 External Secrets Operator pulls secrets from Bitwarden and injects them as Kubernetes Secrets for applications to consume. This layer handles dynamic secret synchronization and removes sensitive values from the Git repository entirely.
 
-The operator itself is deployed by the `external-secrets` HelmRelease (`kubernetes/apps/external-secrets/external-secrets/app/helmrelease.yaml`): chart `external-secrets` v2.10.0 from the `external-secrets` HelmRepository, `installCRDs: true`, ServiceMonitors for the operator, webhook, and cert controller (1m scrape interval), and install/upgrade remediation (3 retries, rollback on failed upgrade). The `bitwarden-sdk-server` value is deliberately left commented out, so the password-based `bitwarden-cli` provider is used instead of the Bitwarden SDK provider.
+The operator itself is deployed by the `external-secrets` HelmRelease (`kubernetes/apps/external-secrets/external-secrets/app/helmrelease.yaml`): chart `external-secrets` version 2.11.0 from the `external-secrets` HelmRepository, `installCRDs: true`, ServiceMonitors for the operator, webhook, and cert controller (1m scrape interval), and install/upgrade remediation (3 retries, rollback on failed upgrade). The `bitwarden-sdk-server` value is deliberately left commented out, so the password-based `bitwarden-cli` provider is used instead of the Bitwarden SDK provider.
 
 ### Bitwarden Connect Deployment
 

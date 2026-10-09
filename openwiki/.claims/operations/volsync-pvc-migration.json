@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:732d6dfb5ddcf862a09795a17af59f554386d653dabd3831a4e4119e28cc3bb7",
+  "pageVersion": "sha256:125f6233a3d383669f28b63e0898e263abe35575c81e2b966ab84b45600d8b19",
   "claims": [
     {
       "id": "claim_5315d490aedc40bda9663074f0149386",
@@ -147,10 +147,78 @@
           "version": "repo-lines-v1:sha256:c633c7088b7c69d9478843ac5b37bac55c8b91cb6ae1e8a385a45064eef29b9a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlhMzY2NmJkMzU5ZmZjMzYyZDhjMzVkYWY0YjA2Yzc3ZTc4MGM5NDMyMDZiOWZjOThhYmFiM2JiNWYyNzNjYjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY2YmJmYmI0NDQwYjhmZjJjOTU5NDFiMDBmNmE1NTU5MjY2NjRiYWIxYjNhNzgwYTc3NjlmY2QyODdjYTFkZmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjlmMDY0MTI4OWIwZTc5NzJlMWY4YTQ1OWNjNjQ0NTE5YjA1ODE0YjVhMzJkNWIzYTE2NDAzNzg0OGRhZjA4ZDgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI4Mjk2ZjMxMWQ4OTIwMjY1YzNlZDkwY2EyY2RlM2JhMWM0ZTVhZWUyM2I1Mjc0ZDFkNTg5NTgzMWVmNjIwZmUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_1ed2218870fe4f6aa2e62b60f88470a2",
+      "statement": "kubernetes/components/volsync-new is not identical to components/volsync: its claim.yaml omits the dataSourceRef to volsync-dst-${APP} (so a PVC created by volsync-new is not seeded from the restic restore), and its ReplicationSource lacks the source-side cacheCapacity/cacheStorageClassName settings present in components/volsync.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/volsync-new/claim.yaml",
+          "version": "repo-file-v1:sha256:cb49de4194c92c3936a20756252d36294fce3c5ef4d0899007dce030aea5570b"
+        },
+        {
+          "resource": "repo://kubernetes/components/volsync-new/minio.yaml#L40-L56",
+          "version": "repo-lines-v1:sha256:17038d44462687ff6ccfdca717fdf18248c28df8706b5e397f303634c53ea1de:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNjMzllMGFkMDFiZGU2YmQwNDdhYjkwMmJhMzIwMzU0OGJhMWZhZWQ4ZWQ2ZjcyMzFmMjUwODFhNGFjODg5NDkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1NjVhZmExNzZhODlhOWVhZjQ2MzI5NGNkMDg2YTVlZmUxZjM5MWQ4Njc4NDVhZTI4MDlhMmQxZmEzMmYwMTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZkNmZlOTE1NzBmMjgyN2ZhNzFlOTk4ZGY5NjYzYzIxNWQ0ODQwMGNhNThiOTZjN2FhM2M5ODhmNzNiYzE3ZWIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE4ODNmNGI5ODQxZmQ5YTYxNjlmNmE5Y2Q2MmZkOWUwZWZlNDE2YmRiNzRiMWM3NmJjMzZiZWM5ZTk0OGYzOTYifQ"
+        },
+        {
+          "resource": "repo://kubernetes/components/volsync/claim.yaml#L8-L11",
+          "version": "repo-lines-v1:sha256:3d2e0c193baee5dfa6a624b789abbb65d352c050caad88fd5f790b2864c21b0b:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTgwNGJmMWNkZDk5MGRjNTgyYmRhYTE4Mjg4ZDdmOTNkNmU1YWRlNDY4MTg5ZTBjYWNlMTliYmZlOTEwZDc2YSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMmJkYWMwMjUwYTllNjdhOGRjZmE1ZjJlYTVjYTAyYWVmYTBjZDBmZmM4NzU2YjRiOWE1MWE2ZmQxY2IxNjg5ZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjc3MzQ0NmFiYzFmYWM0NjQ1ZDUxNzgxNDg5ZjM1MTFmNTdiYzEwYjlmZDg2MWEwNDU5ODc3ZTRmMWI0YzY1ZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzMwMWE1ZTFhYjJjN2RlOTVkODM4YWYyMGViYTljMzM1ZmZkZTVlNDk0ZDhmMGI3ZDVjYTZjMzRjYzRmY2ZkYyJ9"
+        },
+        {
+          "resource": "repo://kubernetes/components/volsync/minio.yaml#L53-L54",
+          "version": "repo-lines-v1:sha256:80940781eb3306b25ba35a7445db3663ca0b5533054f55ea9af6ff64b5beb74c:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2UwNzBlYWE3MGY3MTIyZmYwOWRmMDA1YjQ4NWEwMGY0NTUzYmMzMzQ5MTk3MTU3MWNiNDY0ZDY2YzAxOGI4MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTBlYTgxMmI1MzkwNzM2YzRmMjMwODMwOGI1MzE1ZDA4Mzg2OTU5MmJjNzA0MjYxYzY1MWE2MzQ4YzRhMmI5ZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDQ0NTI5NGJiYzJkZmU2YTE0ZDVkODdlZGZlMzRiMGU5N2JmMGQwYzFiNjc2NTYwODBhNTY2NGQ3MjRiMzViMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMjExZmIzZGUyOGEwMmI1MGEyNjUyOTk4ZGI4NGQyMzIyNmQ3ZDI2YzRjOTY0ZmE4OWFhMWJiMjhkYTc3ZDM4NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_dc912221efff4ce1b292d7cc94129f52",
+      "statement": "The imperative Taskfile .taskfiles/volsync/Taskfile.yaml operates on the same VolSync CRs under the convention that the Fluxtomization, HelmRelease, PVC, ReplicationSource, and ReplicationDestination all share the app name and each app replicates exactly one PVC: snapshot triggers a manual backup, list shows restic snapshots, restore suspends Flux/workload, wipes the PVC, restores via a temporary volsync-dst-<app> destination (default 2nd-previous snapshot), then resumes; unlock/unlock-local clear restic locks.",
+      "evidence": [
+        {
+          "resource": "repo://.taskfiles/volsync/Taskfile.yaml#L189-L231",
+          "version": "repo-lines-v1:sha256:56a03396b59a679f5715182409190e518684740c075f2b254992edb8d7fc6ca4:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNhYzZkYTM2MTk3YjU2OWE1YzI3MjMwODNiMTc2MzBjMmUzOWNlYzdjMWY4MTFhNWQ0ZDg0N2FjMDM5M2NkZDkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU2YjNkMjcwOGJiYWM3NDAwMTgyYjY0OTdiNTUzZDczZWQ0MzM0YTRjOTNiMjBkNGNiZWFmMDNjYThiNmRlZDYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFlNDk4M2QxZGRhNjc1YWNlMTQzNjIwZDY1OTdmMzUzNWFhODU3NjJjMWY1M2Y2YjJiOTdhMmE5YjdhYjU2N2QiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://.taskfiles/volsync/Taskfile.yaml#L4-L8",
+          "version": "repo-lines-v1:sha256:f2b1ca88956bf9f7adc7f87c4c7bc94f893978202fe090f666195a1c38504d79:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTI2Y2NjMmE2YzVhN2Y2NzZjZDhkYTBhZjE2MzNhNGRjYWY2YzAxMmEyNmVmODY2YTg0M2VhZjJiMDU4ZTY1YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjc1OTZlYjZiNWE5ZDdmZDFhYTg5Y2QwMTdjMTc4OTI2MTBjMGJmZmJjZDU3YTg2M2NjYWFkMDM2ZjkwNmI0YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDFlNTBkYjAyYTcyMDBhOWQzY2NhYjNjZTUzNWQyNGM5ZTQxMzI3MTliYjYzOGFlZDNlODM4YTA0ZWM5NTEzZCJ9"
+        },
+        {
+          "resource": "repo://.taskfiles/volsync/Taskfile.yaml#L92-L122",
+          "version": "repo-lines-v1:sha256:85966caee5bd086f087136e51eeeebf62202b716d0c29c883ff2791218d2bddb:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEwMDQ4N2RmNGJiYWExMjNmNDIxYzAzYzMyZmViYWI0NjkxNDUyYTk1ZDAxYjFkYzllMmY1YThhMWE2YzRjOWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkwMWVkYjEyMDZhMTk5MjVkMDVkYWE2NjU1MjZmNjJmYTJjNjVjOGRmY2EzYTRlMDNmYjhjYzVhOWE0ZGNiYmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdhMWExMDQxYjNlZWQ0OGM2ZTJiMzRkNzQyMzU1MjM1MGM5YjFhYjlmNTdiYmQ1ZDE3NTI4NDY5NzAwMWYzZDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY1OWRiZDhmNmUwMzY2YzdjYjk3MjQyNTU4NjdkZDk0YTgxYzAyOGU1ZWI3ZDE5MjFiYjhjNTJmYjJjMjdjYWYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a1207f88f4884d999e2eb53cf4ff7324",
+      "statement": "kubernetes/apps/default/omnifocus-sync-server references components/volsync in its ks.yaml but is not yet listed in the migration tracker's Done table; conversely the tracker's Partial ollama and Pending opencode/yt-audio entries point at app directories that no longer exist.",
+      "evidence": [
+        {
+          "resource": "repo://docs/volsync-migration-tracker.md#L38-L60",
+          "version": "repo-lines-v1:sha256:54218bbb768c107f01c07424a89e0bad7c466ceb73f9f64493f44f5378eb594a:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ0YzQyZWZlOWYxYTkxYjExYmIxZWQ5NTI4Mzk0YWNlYzc5MjZhMDljMGZlY2Y1NDMzYTFhZGJiMDM1ZTAzY2EiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU4ZDZhODg3NGQyYTA5YTFiZGVhMzg5ODc3NmJjMTE5MzU1YzVkZGJkODNjM2FhNmEwZGFmYzI1ZDcyZjdjYmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM3YTBkMjUyZTY2MGM3NDgyYzIwNWQ2ZTc5ODVmY2UwOGUxMmJkZmEyODJhNjcxNmZjMjZhNWVkNDRjMzdjYTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBjZDUzZGVkYzIyOWE2ZjM4NjRmYWI5ODNjOWI0MjY0NmRhY2M5M2NkZTcwMzAzYjUzZjczZTQzOGFlNGY0NjUifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/omnifocus-sync-server/ks.yaml#L13-L15",
+          "version": "repo-lines-v1:sha256:297e677c8b0d4b1f26c62b8ec8b1a4297f6005b1307f2ce273b63acfb50a92a9:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWQzYTVkNjE1ZDhjOGNhZmVkMzgyZTZmYzE4NWY0NTk3MDJhYTg2OGNlNzUyNGZkMjY2ZjNmYjZkNjBjMDY3MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDllZDgyNmJlNWI3MjJjYzcxMmE1MjU3NTVmNzgzNDZjZGFiZjJhM2NiMzc1ZmMyZThmOWE0NTE0NzkzNjAyMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjBiZWRmNWJiZGMwOGY0OTI3NmI3ZWJjNjhkZWVkMDlmZjBkMmM4NzkwMDcwMDk0MzVmM2I5NjQ3NjRmNTRkYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjRjYzRlN2QwNDExOTRlZGZlOWQ3MzZlYjQzZTZhZjNkNDZkMzJkZDI1ZGI1NzZlZmUzN2I4MjVjOWE2MjIxNCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_89ead7e0b70143098e2cfd19cd85e261",
+      "statement": "The paper app's ks.yaml already sets VOLSYNC_CAPACITY: 10Gi without including any VolSync component, and its app/pvc.yaml defines two claims, paper (10Gi) and paper-cache (50Gi), so its migration requires splitting scope before cutting over.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/paper/app/pvc.yaml",
+          "version": "repo-file-v1:sha256:3f0d07fe25cf6e5db955e8d1adf6b0e7add7aeddfa5a1a00618b40fd357580fc"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/paper/ks.yaml",
+          "version": "repo-file-v1:sha256:897d5be8b03b22f974a30f5ab82ffa01a15f00fac2160f40f27bf37c14ebf511"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.6.0",
-    "at": "2026-09-23T22:25:15.108Z"
+    "by": "openwiki/0.7.1",
+    "at": "2026-10-08T23:50:46.668Z"
   }
 }

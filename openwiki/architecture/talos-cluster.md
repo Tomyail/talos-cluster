@@ -3,9 +3,6 @@ type: architecture
 title: Talos Node & Machine Config
 description: How talhelper generates the Talos machine configuration for the single-node kubernetes cluster from talconfig.yaml, talenv.yaml version pins, and Kustomize-style patches, including the VIP, Cilium-with-no-CNI networking, secure boot, GPU kernel modules, and the local-path uservolume.
 tags: [talos, talhelper, machine-config, secure-boot, cilium, gpu, storage]
-verified:
-  - by: openwiki/0.7.0
-    at: 2026-10-06T00:54:23.845Z
 sources:
   - id: openwiki-source-240e6406ed4b6841961679cb
     resource: repo://.sops.yaml
@@ -39,7 +36,10 @@ sources:
     resource: repo://talos/talsecret.sops.yaml
   - id: openwiki-source-4d7c266d0d7adae77539048e
     resource: repo://talos/uservolume.yaml
-generated: { by: "openwiki/0.7.0", at: "2026-10-06T00:54:23.845Z" }
+generated: { by: "openwiki/0.7.1", at: "2026-10-08T23:50:46.668Z" }
+verified:
+  - by: openwiki/0.7.1
+    at: 2026-10-08T23:50:46.668Z
 ---
 
 # Talos Node & Machine Config
@@ -55,16 +55,15 @@ The authoritative inputs live in `talos/`:
 
 `task talos:generate-config` runs `talhelper genconfig` in `talos/` and writes the per-node machine configs plus `talosconfig` into `talos/clusterconfig/`, which is gitignored. **Never edit `clusterconfig/` directly** — it is regenerated and any manual change is lost. Taskfile preconditions require `talconfig.yaml`, the root `.sops.yaml`, and the SOPS age key file (`age.key`) to exist before generating.
 
-<!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
-```text
+```mermaid
 flowchart LR
-    A[talenv.yaml<br/>version pins] --> B[talconfig.yaml]
+    A["talenv.yaml (version pins)"] --> B[talconfig.yaml]
     B --> C[talhelper genconfig]
-    D[patches/global/*.yaml] --> C
-    E[patches/controller/*.yaml] --> C
-    F[talsecret.sops.yaml<br/>+ age.key] --> C
-    C --> G[talos/clusterconfig/<br/>generated, gitignored]
-    G --> H[talos:apply-node /<br/>upgrade-node / upgrade-k8s]
+    D["patches/global/*.yaml"] --> C
+    E["patches/controller/*.yaml"] --> C
+    F["talsecret.sops.yaml + age.key"] --> C
+    C --> G["talos/clusterconfig/ (generated, gitignored)"]
+    G --> H["talos:apply-node / upgrade-node / upgrade-k8s"]
 ```
 
 ## Cluster & network layout
@@ -80,7 +79,7 @@ There is currently a single node, `master0-nuc12` (`192.168.50.145`), a control-
 
 - Install disk selected by `size: "<= 256GB"` and `type: ssd`.
 - **Secure boot** enabled (`machineSpec.secureboot: true`), using the secure-boot installer schematic from `factory.talos.dev/installer-secureboot/<schematic-id>`. This image URL is what `talos:upgrade-node` resolves via `yq` when picking the `--image` for upgrades, so it must always be the secureboot variant or the node will no longer boot.
-- **Intel GPU**: labeled `intel.feature.node.kubernetes.io/gpu: "true"` for node-feature-discovery style scheduling, with kernel modules `i915`, `drm`, and `drm_kms_helper` loaded (plus `dm_thin_pool`/`dm_mod` for LVM thin pooling), and the `siderolabs/i915` and `siderolabs/intel-ucode` system extensions baked into the image via the `controlPlane.schematic`. A global udev patch (`patches/global/machine-udev.yaml`) grants the video group (GID 44) `0660` access to `renderD*` devices so containers can use the GPU.
+- **Intel GPU**: labeled `intel.feature.node.kubernetes.io/gpu: "true"` for node-feature-discovery style scheduling, with kernel modules `i915`, `drm`, and `drm_kms_helper` loaded (plus `dm_thin_pool`/`dm_mod` for LVM thin pooling), and `siderolabs/i915`, `siderolabs/intel-ucode`, and `siderolabs/thunderbolt` system extensions baked into the image via the `controlPlane.schematic`. A global udev patch (`patches/global/machine-udev.yaml`) grants the video group (GID 44) `0660` access to `renderD*` devices so containers can use the GPU.
 - Networking is static (`dhcp: false`): `192.168.50.145/24`, default gateway `192.168.50.1`, MTU 1500.
 
 ## uservolume for local-path storage

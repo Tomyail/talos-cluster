@@ -4,14 +4,24 @@ title: Flux GitOps Model
 description: How Flux is bootstrapped via flux-operator/flux-instance, the cluster-meta → CRDs → cluster-apps Kustomization hierarchy in kubernetes/flux/cluster/ks.yaml, SOPS decryption through the sops-age secret, postBuild substitution from cluster-secrets, and prune/retry/wait semantics.
 tags: [flux, gitops, bootstrap, kustomization, sops, postbuild]
 sources:
+  - id: openwiki-source-aa55808be329b3f929ddf105
+    resource: repo://.renovaterc.json5
   - id: openwiki-source-240e6406ed4b6841961679cb
     resource: repo://.sops.yaml
   - id: openwiki-source-559185c7613d95e269ebce5b
     resource: repo://kubernetes/apps/cert-manager/cert-manager/ks.yaml
+  - id: openwiki-source-a7a8866fbf43eeaf3c7e2b63
+    resource: repo://kubernetes/apps/database/namespace.yaml
   - id: openwiki-source-37b3f77c1ceb2e20b192e263
     resource: repo://kubernetes/apps/default/atuin/app/helmrelease.yaml
+  - id: openwiki-source-0adfa6532be7a62d4a99fa42
+    resource: repo://kubernetes/apps/default/fava/app/helmrelease.yaml
+  - id: openwiki-source-e25edd804fc5172169ff7128
+    resource: repo://kubernetes/apps/default/fava/ks.yaml
   - id: openwiki-source-649e5ed74d5376f95cff2b2a
     resource: repo://kubernetes/apps/default/gitea/ks.yaml
+  - id: openwiki-source-f2c217b02961b7da9b816636
+    resource: repo://kubernetes/apps/flux-system/fava-image-automation/automation.yaml
   - id: openwiki-source-7a6dfabba58a5bbfbd748db5
     resource: repo://kubernetes/apps/flux-system/flux-instance/app/helm/values.yaml
   - id: openwiki-source-835c06c538b784cf88be79f6
@@ -28,10 +38,14 @@ sources:
     resource: repo://kubernetes/apps/flux-system/flux-operator/ks.yaml
   - id: openwiki-source-0c7ec057591fa8f2c504b0a2
     resource: repo://kubernetes/apps/flux-system/image-automation/automation.yaml
+  - id: openwiki-source-957f2ea38d9542dde1d1609d
+    resource: repo://kubernetes/apps/flux-system/image-automation/gitrepository.yaml
   - id: openwiki-source-d6f15e9bcc98024fdcda7d87
     resource: repo://kubernetes/apps/kube-system/cilium/ks.yaml
   - id: openwiki-source-3bb8db68d9e76fc96ebaa8a0
     resource: repo://kubernetes/apps/observability/kustomization.yaml
+  - id: openwiki-source-36b0dc45e5070034d8a08ed2
+    resource: repo://kubernetes/apps/storage/namespace.yaml
   - id: openwiki-source-63c7de935f96b1aa0a5dc1a4
     resource: repo://kubernetes/components/common/kustomization.yaml
   - id: openwiki-source-0aa0479be229def909bbfa22
@@ -60,10 +74,12 @@ sources:
     resource: repo://kubernetes/flux/meta/repos/kustomization.yaml
   - id: openwiki-source-6f1d2c8de9160e178167b990
     resource: repo://scripts/bootstrap-apps.sh
-generated: { by: "openwiki/0.7.0", at: "2026-10-06T00:54:23.845Z" }
+  - id: openwiki-source-b9ff7ee0aa4953cc601052a4
+    resource: repo://Taskfile.yaml
+generated: { by: "openwiki/0.7.1", at: "2026-10-08T23:50:46.668Z" }
 verified:
-  - by: openwiki/0.7.0
-    at: 2026-10-06T00:54:23.845Z
+  - by: openwiki/0.7.1
+    at: 2026-10-08T23:50:46.668Z
 ---
 
 # Flux GitOps Model
@@ -72,27 +88,38 @@ This cluster runs Flux as a managed "Flux instance": the `flux-operator` HelmRel
 
 ## Dependency Chain Overview
 
-<!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
-```text
+```mermaid
 flowchart TD
-    BR["bootstrap-apps.sh<br/>sops-age + cluster-secrets Secrets<br/>bootstrap CRDs and namespaces"] --> FI["flux-operator<br/>Kustomization to HelmRelease"]
-    FI --> INST["flux-instance<br/>installs all Flux controllers"]
-    INST --> GIT["GitRepository flux-system<br/>this repo main branch"]
-    INST --> GA["GitRepository gateway-api<br/>pinned v1.6.2"]
-    INST --> ED["GitRepository external-dns-crds<br/>pinned v0.23.0"]
-    GIT --> META["Kustomization cluster-meta<br/>kubernetes/flux/meta source repos"]
-    GA --> GAC["Kustomization gateway-api-crds<br/>config/crd/experimental"]
-    ED --> EDC["Kustomization external-dns-crds<br/>config/crd/standard"]
+    BR["bootstrap-apps.sh: sops-age and cluster-secrets Secrets, CRDs and namespaces"] --> FI["flux-operator: Kustomization to HelmRelease"]
+    FI --> INST["flux-instance: installs all Flux controllers"]
+    INST --> GIT["GitRepository flux-system: this repo main branch"]
+    INST --> GA["GitRepository gateway-api: pinned v1.6.2"]
+    INST --> ED["GitRepository external-dns-crds: pinned v0.23.0"]
+    GIT --> META["Kustomization cluster-meta: kubernetes/flux/meta source repos"]
+    GA --> GAC["Kustomization gateway-api-crds: config/crd/experimental"]
+    ED --> EDC["Kustomization external-dns-crds: config/crd/standard"]
     META --> GAC
     META --> EDC
-    META --> APPS["Kustomization cluster-apps<br/>kubernetes/apps"]
+    META --> APPS["Kustomization cluster-apps: kubernetes/apps"]
     GAC --> APPS
     EDC --> APPS
     APPS --> NS["Per-namespace Kustomizations"]
-    NS --> APP["Per-app Kustomizations<br/>decryption sops-age<br/>postBuild cluster-secrets"]
+    NS --> APP["Per-app Kustomizations: sops-age decryption, cluster-secrets postBuild"]
 ```
 
 *Figure: from bootstrap secrets through the Flux instance to per-app Kustomizations*
+
+## The Commit → Reconcile Loop
+
+The operating model is: every change to cluster state is a commit to `main`, and Flux — not a human — applies it. The loop works like this:
+
+1. source-controller polls the `flux-system` GitRepository for new commits and snapshots each one as an artifact.
+2. A new artifact triggers `cluster-meta`, the CRD Kustomizations, and `cluster-apps` to rebuild and apply in `dependsOn` order; each Kustomization also re-reconciles on its own `interval` even without new commits.
+3. A GitHub webhook (the `Receiver` in `kubernetes/apps/flux-system/flux-instance/app/receiver.yaml`) short-circuits step 1's polling delay on push, so a merged commit normally applies within seconds instead of at the next poll.
+
+To force the loop by hand — e.g. after a failed apply or to verify connectivity — `task reconcile` (defined in `Taskfile.yaml`) runs `flux --namespace flux-system reconcile kustomization flux-system --with-source`, which re-fetches the Git source and reconciles the `flux-system` root Kustomization immediately. It requires the repo-local `kubeconfig` to exist (its preconditions check for the file and the `flux` binary).
+
+Reconciliation can be paused per object with `spec.suspend: true` on a Kustomization/HelmRelease (or `flux suspend kustomization <name>`), which Flux honors by skipping the object entirely — changes in Git stop applying until resumed. In this repo the namespace-root Kustomizations explicitly pin `suspend: false` (e.g. `kubernetes/apps/database/namespace.yaml`, `kubernetes/apps/storage/namespace.yaml`), so a previously suspended namespace can be re-enabled by a Git commit alone.
 
 ## Bootstrap: flux-operator and flux-instance
 
@@ -180,7 +207,17 @@ Every root Kustomization — and virtually every app `ks.yaml` — uses the same
 
 ## Automated Dependency Updates
 
-Renovate keeps the pinned versions in this model current: the `flux-instance` chart tag, Flux `distribution.version`, and the gateway-api/external-dns tags all carry `# renovate: datasource=github-releases` markers, so upgrades arrive as PRs that only change a pinned tag. Self-built images are handled separately by Flux image automation (`kubernetes/apps/flux-system/image-automation/`), described in [Application Deployment Workflow](../workflows/app-deployment.md).
+Renovate keeps the pinned versions in this model current: the `flux-instance` chart tag, Flux `distribution.version`, and the gateway-api/external-dns tags all carry `# renovate: datasource=github-releases` markers, so upgrades arrive as PRs that only change a pinned tag. Renovate ignores `**/*.sops.*` files, so encrypted manifests are never rewritten, and runs on a weekend schedule with grouped PRs (e.g. a single "Flux Operator" group for flux-operator/flux-instance) — see `.renovaterc.json5`.
+
+## Image Automation Writing Back to Git
+
+Self-built application images skip Renovate: Flux's image controllers update the repo themselves, closing the loop commit → cluster → new image → commit.
+
+- **Per-app pieces** come from the `components/image-automation` Kustomize component (referenced in an app's `ks.yaml`, e.g. `kubernetes/apps/default/fava/ks.yaml`). It ships an `ExternalSecret` (registry credentials from Bitwarden), an `ImageRepository` scanning the image's tags every 1m, and an `ImagePolicy` that picks the latest tag matching `^.+-[a-f0-9]+-(?P<ts>[0-9]+)$` (build SHA + timestamp, newest timestamp wins). The app's `ks.yaml` supplies `APP`, `NAMESPACE`, and `REGISTRY_URL` via `postBuild.substitute`.
+- **The HelmRelease marker**: the image tag in each app's `helmrelease.yaml` carries a setter comment, e.g. `tag: "main-49e593937d85-1791349225" # {"$imagepolicy": "default:fava:tag"}` — this is the location image-automation-controller rewrites.
+- **The write-back**: two `ImageUpdateAutomation` objects (`kubernetes/apps/flux-system/image-automation/automation.yaml` for all of `./kubernetes/apps/default`, plus a dedicated `fava` one scoped to `./kubernetes/apps/default/fava`) run every 5m with the `Setters` strategy. They check out `main` via the `flux-system-https` GitRepository (an HTTPS clone of this repo with a `flux-github-token`), replace every `$imagepolicy` setter with its policy's latest tag, and push commits authored by `flux-bot` straight back to `main` — which then re-enters the reconcile loop above. Only policies labeled `image-automation: enabled` are picked up by the fleet-wide automation.
+
+The end-to-end effect: CI pushes a `sha-<commit>-<timestamp>` tag to the Gitea registry, the `ImageRepository`/`ImagePolicy` notice it, `ImageUpdateAutomation` commits the new tag into `kubernetes/apps/<ns>/<app>/app/helmrelease.yaml` as `flux-bot`, and the webhook-triggered reconcile rolls the app to the new image.
 
 ## Related Pages
 

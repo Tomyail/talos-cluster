@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:39b750428c54578b913049ebf57a70437e32af5667cdbfff4483e6d65b3b58b2",
+  "pageVersion": "sha256:6ba9389632b1b1e0f65b18c90f1ac7b04296aad1e685dc68e445cfeb6cc93eee",
   "claims": [
     {
       "id": "claim_b4aa9234d97a441c954cfb4829fa91d1",
@@ -135,7 +135,7 @@
       "statement": "OpenWiki Update installs openwiki npm package globally, runs 'openwiki code --update --print' with Anthropic provider configuration, and commits changes to openwiki/, AGENTS.md, and CLAUDE.md.",
       "evidence": [
         {
-          "resource": "repo://.github/workflows/openwiki-update.yml#L16-L47",
+          "resource": "repo://.github/workflows/openwiki-update.yml#L16-L48",
           "version": "repo-lines-v1:sha256:38f559c9ddb96253a0c0f24b77a185320b6c65a92776628f2571df80f968f699:eyJzZWxlY3RlZExpbmVDb3VudCI6MzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ1ZDZjZjdkNDI4Y2E4MTE1ZmM0YmFiYjY4MDczOTAyMzMyN2E3YTlkOTE2M2Y3MDZhMjc2ODdkZDUxNmYzOTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJmNTU5NzljZTczMDIwMzNlNmIyZmQ3ZDg4ZjUzN2EzYjhlMDkxZWEzMDVjODExZmZhMTI3NGJmNTc2NGVhNWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVjNWE4OTI3NzBhZTRmNTMzM2ZkN2M5ZTEyZTBhNmJjNDViMjZiNWJiNzc1M2UwMzlkZjhlZDQ5Yzk3Yjk2MDciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
@@ -361,10 +361,82 @@
           "version": "repo-lines-v1:sha256:36eac0690464066f70e3ad258927194ed18e7974c645d65e0615b340200504aa:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY4OWZlMTNhOTQ5MjEzOTdhYzc0ZDk3ODU3MmQ3NjUzYTM3N2Y1ZTQ4Mzk4NzIyN2ZkMDBlYjQ1OWM4MjFjMDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE5MjA3ODA3OGI4MmRjZGE4NjRiMDM1ZDJhMzIxNWRjMTU0OWY4ZmE2YmI1OTBlMzliMDcxMzBhZWQxMjcwMmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI3NjdjMWU5ZTYzMzdmNGQ2YjU0NjAyNzM0MDE1MzFmN2IwZjBlMGVhZDA3MWQ1NWYwMGQzZTg5MjM0OThiMzIifQ"
         }
       ]
+    },
+    {
+      "id": "claim_87d9c09f8ad343c1aab417d07ee2a8cc",
+      "statement": "The cluster self-hosts Gitea Act Runner instances via the gitea-runner HelmRelease in kubernetes/apps/default/gitea/runner/, running gitea/runner:nightly-dind-rootless through the shared app-template OCI chart with install/upgrade remediation (3 retries, rollback on upgrade).",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/runner/helmrelease.yaml#L1-L18",
+          "version": "repo-lines-v1:sha256:f650129109baae465bdf9154ac6e39cd847c49d8c9ed073fce8e3b0a441f2259:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE1YTBmY2NhZmRlNTdiMmY2YWI1NGQ2M2NhMzhiNTdmMzA0OTY0ZDI2NTAwMTQ1Zjg5Y2VmZmFlOTMwNGJhYzIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjczNmE3ZTQzZTc4YmVjNjljM2E5MTYwMWQwOTYwMjc2MmRjMzI3NWQ4ZDg2OTg2ZDFkNjBkYTBhOTIxNDJiNjkifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/runner/kustomization.yaml#L5-L8",
+          "version": "repo-lines-v1:sha256:c5fa96904f0ded18806349b1f5a59c62b534cebb759d30fb4c8938624983a081:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzY2NDg5ZGJjOGUxYWM0MTBlODAwZTVmMTc0ZTU5M2IwOWFlYTNjOWM1OTA3ZjAxMzdkZjdjODIwYWU0NmFhYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjJkODQ0ZjI0Mjc5ZWQwMTc0M2FkMWNhMTE1Nzk4MDE1MTFjNGU1ZjhmY2E0ZTE1MzRmMmY3MDg1MzJiM2E4MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZmYzYTc2ZjY2OGZjNTU0MzVmNTFkMWQ3MmU2ODQ4N2Y5ZDk0ODdhMjE4YjZjNjRiNTFiNGFhOTJmYzY5ZWI0NiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_38b400b5174f41e8b94ec0a0c7ae1f4d",
+      "statement": "The Gitea runner registers against https://gitea.${SECRET_DOMAIN} (GITEA_INSTANCE_URL), advertises a docker:docker://catthehacker/ubuntu:act-latest label so jobs run in Docker containers, injects GITEA_RUNNER_REGISTRATION_TOKEN from the gitea-runner-secret, and uses DOCKER_HOST unix:///run/user/1000/docker.sock for rootless Docker-in-Docker (pod runs as UID/GID 1000 with supplemental group 65536; container is privileged).",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/runner/helmrelease.yaml#L29-L58",
+          "version": "repo-lines-v1:sha256:bdfab21d6ce74cd1534da0f4c1a64c1fb5672a4832b66ef7968973ceaa2758e3:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFjZjM0NzA4ZjNmZjNmZGEzZDQ5NjM2ZTY4N2Y5NDg1OTY2ZmE4ZTE4ZDBlODQxNWQ5ZDlmZTA3NDVhZWZjNDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjMjlhOGZiNzE0NjBkYmZmOWU5MWNkOGMxY2ViZjE3YzkzZDI1ZDJlODMxM2M4ZDExYjI3N2FhMDEyM2IyMjYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYxMzQzY2NlMzZiYjk5OWUxMDcyOWFiY2FiODlmOTc1YzFiN2I3NGY4NmI4OTFlZjU5ZDUzNTMyNjRmZjgwYTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM2YTYyMjQzMDdjYmNhZGQ5OGMwOWU4MzcxZmRlYmY5ZDBhMWRkY2MyMmZkMjIwZjBiNzg4ODgxNTE0YmVjNDgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_1e4135f9aa1f45ef8307005b47716ef3",
+      "statement": "The Gitea runner persists its /data state on a 20Gi ReadWriteOnce PVC on the topolvm-thin-provisioner storage class, with /tmp as an emptyDir.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/runner/helmrelease.yaml#L61-L67",
+          "version": "repo-lines-v1:sha256:a9b9c3c03b603ab9df811b3ec2eb8aa1a34f0492100d6b94885da4dad25329e2:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMmJlN2M2YWY3MzBjY2YxYmNjMjgzZjFiZDAyMWZjNTNjMTdjZDM2NTM0NjYyZTRmODVjZTc5NDRiZDc1MTViOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOGE3NTU0NDQ2ZDgxM2YxZTBmYTUzYzFlOTA1MzUzODI1OTE5NWM3NmE3ZjQ4YmI4ODc1ZjZhNTNlZDU4YWE2ZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiN2ZlMDZjNGE2Nzk4YmVkMjViZmJmYWNhN2NmOGU4Y2MxNzZjNWJhMjYxY2FmMzIxMmMwMTkxN2YwMWFmYjcxNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/runner/pvc.yaml#L1-L10",
+          "version": "repo-lines-v1:sha256:0958dcd2c422e045f834ea713a0002cbda3f3f9b994cf9cf48fd048be2d130cb:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgyOTk3OWRhMWVjZjcwNWEzOWJjYjBkOWVjMjkzYjFjYWE5YzYyMTRmY2I3YmNjMDBhOWUwMDI2N2M1YjdkNTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk0MzUzMjJkNTZhNGNhNTg3NGNkNmMzZWVlYzE2ZGZlZjMzYmNjNGExNmZiMmUzZDE5M2QwODVkMjBmZmE4MWMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjEzMWU1Y2U5ZjNkMzFkNTFlNmU2OWZmMTYzNjUxMGVlYTE5MGFmYTljZjVmOGZlNjhjNzI5ZWM4MGQ0NzUyZDcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e9b0c9ebcfba4309bf795f5c10dbf8d8",
+      "statement": "The gitea-runner-secret (containing GITEA_RUNNER_REGISTRATION_TOKEN) is provisioned by an ExternalSecret syncing from the bitwarden-login ClusterSecretStore (Bitwarden item gitea-runner, password property), so the runner registration credential never lives in Git.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/runner/externalsecret.yaml#L1-L20",
+          "version": "repo-lines-v1:sha256:54308b76cc2c306306ee2d8a93fb7f7cf4c811e48e1bfd42df716698ef582d29:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3NmNhZDMzYmEwOTVmZDg0ZGVlYTNhOWM1NDEzNmE3NDBjNGE5ZWI4ZThlNWIxMWMwZWEwNGZlOTNkMzUxOGMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY4ZjQyM2YyMTA5Y2I5MjYwMTBhYjA0ZGZjNmQ3YzVmYWE3MWJjMjYwODFmMWU4Y2NmYWU2NGI5ZGI2Nzg5MmYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_1db3bcc240a14bceb08e3eefbb239b11",
+      "statement": "Flux authenticates its GitHub clone with a SOPS-encrypted deploy key at bootstrap/github-deploy-key.sops.yaml; apply_sops_secrets() in scripts/bootstrap-apps.sh decrypts it with sops exec-file and applies it server-side into the flux-system namespace during bootstrap (before the Cilium → CoreDNS → cert-manager → flux-operator → flux-instance helmfile chain), and tolerates the file's absence with a warning since it is not committed.",
+      "evidence": [
+        {
+          "resource": "repo://bootstrap/helmfile.yaml#L13-L52",
+          "version": "repo-lines-v1:sha256:6476a2b528b6c4c2342d4f5b48106162fde3ac46a5570178b36d8e899f4de7e5:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkZTI0Nzc3YTlhNjAzZjFlZmY3ZTNjMmMzMTcxZTE2MjU5YjhhN2M5OTZkYTMxNDdhMjc5N2Y2ZjA3NTQ0MmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4NDQxMDY3MGJjNTUxNjEyNDRkZTdlZTRjMDM5YTEzMDUzYzZiN2M5ZTRkZTZiMzY4YzE3MzYzZDcyMjVlY2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZmNWY5NGUxMDY0NDU3ZjAwNWMzYzFmNzJkMzMzYTgxM2YwNzYzNTJjZjFiNzNiNTUzNWQ5NDFiNDFhNmQ1OTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://scripts/bootstrap-apps.sh#L56-L80",
+          "version": "repo-lines-v1:sha256:c41742800916515424e0d375c6a8b40317a845690af951529ad295dd924b181c:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYyM2E2OTU3OTEzMTZiOTRlNjkxNWMwYjc0NzYyYjExZWZmYmFkZWZlN2IyNjgxNzNhMjBmNzc4YzA3MzA1OGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI2NmEyZDdkMWZhYjM3NDJkNDlkMWFkNGY0OWI1MTFjYjkyNDgzODVhMTVmZTdkNmQ0MjU2MjQzYTdiNDhkNWEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNiODliYzg3NjY4MWY5MzllMjQ1NTZmN2FjZGI0MmRiOTA0YmRiNWYyNjE3NzMzNWY0NDA5MjQ2ZWU1NjgxOTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU5MWFkZTM5YzhlMDY3NmU1N2Y5N2Q4YzZjYjhhNTNmNGI2ZWJhY2RjMTJmNzRkNTU5NTIxYTMyYTlmYzA5Y2IifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_2297957bfc8e47d2b26bb1c0c37884f2",
+      "statement": "The Flux instance deployed via helmfile syncs kubernetes/flux/cluster from https://github.com/tomyail/talos-cluster.git at refs/heads/main over HTTPS, which is the clone authenticated by the bootstrap deploy key.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/flux-system/flux-instance/app/helm/values.yaml#L15-L19",
+          "version": "repo-lines-v1:sha256:e2bf530dcdece63c5b52dace356d6d6bb032b2ca81f21f93201b0c5bddfef0a0:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTE4ZWViZDJiYjlhMTA5ZDVhNjgzNDU3OGY3MWY4Yzg1ZmUzOTZhYTg5NWZkM2JiOTU0NTVkMjIxYjE0ZWM0MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzJjMjdmYmI3ZDI2OWI5NGIzOWY4NDFjMjAwYmM3YWYzYzA0NWEyZmYzYWFjMjM1MmJhNmM3NWE2M2MzMmVmMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDBlMGMzZTNiOTAyNDY3ZTI5YmY3NDc5NTFjMmRhNDk3OTMwMDI4NGUxMmI1YzU3MDNkNmYzNjBlZTJhZjI4YyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzM4MzMyMzkwZmQwODU4Y2VlMTBjMmNhOTU2MjU5N2E1OTU5YTRmNTc5NTQwYjBlNGNkYjcxNzA5Y2RhMjBkZiJ9"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.2",
-    "at": "2026-09-19T21:35:52.044Z"
+    "by": "openwiki/0.7.1",
+    "at": "2026-10-08T23:50:46.668Z"
   }
 }

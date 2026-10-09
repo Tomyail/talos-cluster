@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:aaa786b641ae83003417c79fa14dbe35e458735a312b20fcfddc1f9a1fab3b56",
+  "pageVersion": "sha256:13fa572baf778569d222fbbc2c87fdc115a309e7d055808b5996fef4b6700312",
   "claims": [
     {
       "id": "claim_5f6684ab4b77427c8d6232feda00ab34",
@@ -239,10 +239,44 @@
           "version": "repo-lines-v1:sha256:d0645d99eac1f99046f0abd908bee977b2b83c71dd6d434bb16c461627b73a5c:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYWY3NmI0YTdjZWFmYmNiNzkxNDBmYTMxZWM1OGVlMTM0YjYyM2JkMTY5MGI5ZGU5ZWEzYjU2NDQyOTlmOGVjNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzVkZGIyYWJmMjFjYzMwOTYxOTE2ZDBkNGM0NWRmODk4ZGZjMmQ5NzBiZGZmN2RjM2Y0MjZjODljMWRlZDU4MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYWNiZGZjYzNmOGY1Y2FhYTE1ZDViMjM3NzIzZTA2ZmNhYmFjODJkYWIyNTBmZTM2ZmM0YTc0ODYzYjQ2MDJiNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzlhOTczZGU4MWFiZjM3MmI4ZmIyNWM1ZTcyZDM5MTJiYThkOWVjNzEyNmY5NjQxNzYzZGRlODU3MWY0YmQ1MyJ9"
         }
       ]
+    },
+    {
+      "id": "claim_4a73f75d35064778becd4930fc07cda7",
+      "statement": "The Tailscale operator is deployed as HelmRelease `tailscale` in the `network` namespace, installing the `tailscale-operator` chart version 1.102.4 from the official Tailscale Helm repository (https://pkgs.tailscale.com/helmcharts, refreshed every 2h).",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/tailscale/app/helmrelease.yaml#L9-L17",
+          "version": "repo-lines-v1:sha256:c806ab947c5d5282e510f783fdecce7f7090e01a2cb5e2aa727b02af79d11ac2:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjBjY2VkNTZhNmQ2YTQyNDkyNjVkYzhhN2M3MGU0Y2MwZjczN2RkMmRiNWY4YjY0NzRhMWQwMTlkZjhjMmJkYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGMzZjY5YzZhNzU1ZTViMmFjZDQwMTVkOGM0ZGFmYTIzZWU3YTE0ZjM5YWY2OTNlY2Y4OTNjNDA5MzI1MzM4YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjE3MTQ1ZDE2NGMzNWZlZjU4MDJiMzA0MjExMmJjZGMwZGM4ZDE1NTZkNWU2OWU1NTFiNjZhZmZjMGYxM2IzZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjVlNDhmZTM0OTRhMmY5MmM4MzhiZjJhYmM2MmYxMjMzNjRjNWRmNDI0YWM5NjI4MzIzYjUyYTE0ODg5M2IxYiJ9"
+        },
+        {
+          "resource": "repo://kubernetes/flux/meta/repos/tailscale.yaml",
+          "version": "repo-file-v1:sha256:9766eda3cb28b6744d5647bdb154d91c7e258c5ec52b68142b801e724361184c"
+        }
+      ]
+    },
+    {
+      "id": "claim_348a1c875e1847919305ec80c62604d1",
+      "statement": "The optional proxy-class selector on Tailscale egress proxy Services is expressed via the Service label `tailscale.com/proxy-class` (e.g. `tailnet-egress` for the API example, `accept-routes` for the Redis example); ports are optional, as shown by the active Mosquitto ExternalName service that defines none.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/tailscale/app/egress-proxy.yaml#L18-L44",
+          "version": "repo-lines-v1:sha256:b1f3c0d90b38eabe11e4af55caa5bebe95786b41ae47385e507e283e600be99b:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2ZmNlMDQ1MzZlNDU0MDQ0YWZjYzc5M2NkNTk5NDE2YmU4MjQ5MGQzYmQ4MTYxYTQzNmNkNzZkZTg0MGY0OWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhhYWJjYzc2YTliYWRlMDM4MjFkYzhkYWQ4NzYyNDJlMWQxOWZjODYwOTIwYTlkMmRlNjkzYTBlNWU2YWUxYmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYxODYzODk4NTNlMmEyNWRhMGFmZmYzMDA2NTAyYTAzNjM1YTc2NjIwMzZmOWE5ZTY3NzZlYmY5OWU5OWM4YzkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d9860e8da27c49b4be7299a145c374a6",
+      "statement": "The Gatus external-tailscale check hits `https://${GATUS_SUBDOMAIN_TAILSCALE:=${APP}}.${SECRET_DOMAIN}${GATUS_PATH:=/}` every 1m using external DNS resolver tcp://223.5.5.5:53 and expects `${GATUS_STATUS:=200}`; the subdomain, path, and status are all overridable per app (echo sets GATUS_SUBDOMAIN_TAILSCALE: echo-tailscale).",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/gatus/external-tailscale/config.yaml",
+          "version": "repo-file-v1:sha256:47a9be62800b1136cc70cb75ac9c119cceb4dc80ea000dfb9a63b98c05b552ad"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.5.2",
-    "at": "2026-09-19T21:35:52.044Z"
+    "by": "openwiki/0.7.1",
+    "at": "2026-10-08T23:50:46.668Z"
   }
 }

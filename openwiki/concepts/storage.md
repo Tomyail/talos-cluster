@@ -52,15 +52,15 @@ sources:
     resource: repo://kubernetes/flux/meta/repos/local-path-provisioner.yaml
   - id: openwiki-source-67d09412df5e9b5263585304
     resource: repo://lvm-format-manual.yaml
-generated: { by: "openwiki/0.6.0", at: "2026-09-25T22:38:38.997Z" }
+generated: { by: "openwiki/0.7.1", at: "2026-10-08T23:50:46.668Z" }
 verified:
-  - by: openwiki/0.7.0
-    at: 2026-10-06T00:54:23.845Z
+  - by: openwiki/0.7.1
+    at: 2026-10-08T23:50:46.668Z
 ---
 
 # Storage & Backup
 
-The cluster provides three storage classes optimized for different workload requirements: **TopoLVM thin provisioning** for high-performance local block storage, **local-path** for lightweight host-local volumes, and **NFS** for network-attached shared storage. PersistentVolumeClaims (PVCs) are dynamically provisioned through CSI drivers integrated with the underlying storage infrastructure. PVC backups are handled by **VolSync**, which runs restic-based backups to a MinIO S3 endpoint and provides a snapshot-restore pattern for disaster recovery.
+The cluster provides two in-repo storage classes optimized for different workload requirements: **TopoLVM thin provisioning** for high-performance local block storage and **local-path** for lightweight host-local volumes. (A third driver, **NFS CSI**, is deployed but defines no StorageClass in this repository — see below.) PersistentVolumeClaims (PVCs) are dynamically provisioned through CSI drivers integrated with the underlying storage infrastructure. PVC backups are handled by **VolSync**, which runs restic-based backups to a MinIO S3 endpoint and provides a snapshot-restore pattern for disaster recovery.
 
 ## Storage Classes Overview
 
@@ -70,19 +70,15 @@ flowchart TD
     
     SC -->|topolvm-thin-provisioner<br>Default Class| TopoLVM[TopoLVM CSI]
     SC -->|local-path| Local[Local Path Provisioner]
-    SC -->|nfs| NFS[NFS CSI Driver]
-    
+
     TopoLVM -->|CSI Provisioning| LVMD[Embedded lvmd Daemon]
     LVMD -->|LVM Operations| VG[LVM Volume Group lvm_vg]
     VG --> ThinPool[Thin Pool lvm_thin]
     ThinPool -->|On-demand allocation| LVs[Logical Volumes]
-    
+
     Local -->|Host Directories| HostPath[/var/mnt/local-path-provisioner]
-    
-    NFS -->|Network Mounts| NFSShare[NFS Shares]
-    
+
     TopoLVM -.->|VolumeSnapshot| SnapCtrl[Snapshot Controller]
-    NFS -.->|VolumeSnapshot| SnapCtrl
 ```
 
 *Figure: Storage class provisioning flow showing how PVCs are fulfilled through different CSI drivers and storage backends.*
@@ -93,7 +89,8 @@ flowchart TD
 |--------------|------|----------|-------------|----------|
 | `topolvm-thin-provisioner` | Local Block | Primary storage for databases, applications requiring high performance | ReadWriteOnce | Thin provisioning, snapshots, volume expansion, default class |
 | `local-path` | Host Local | Cache storage, temporary volumes, smaller workloads | ReadWriteOnce | Fast host-local access, no LVM overhead |
-| `nfs` | Network Attached | Shared storage, multi-pod concurrent access | ReadWriteMany | Network-attached, concurrent read/write access |
+
+The **CSI driver for NFS** (`csi-driver-nfs` chart 4.13.4) is also deployed as part of the storage stack, but **no `StorageClass` named `nfs` — or any other NFS StorageClass — is defined anywhere in this repository**, and no PVC references an NFS storage class. Nextcloud's Flux Kustomization declares a `dependsOn` on `csi-driver-nfs`, so the driver is a required part of the stack, but any NFS `StorageClass`/`PersistentVolume` it would serve must be created outside this repo (or via chart defaults at install time). Treat "NFS storage" as a deployed-but-unused capability until a class and PV are added.
 
 ## TopoLVM: Default Storage Class
 
@@ -261,25 +258,13 @@ spec:
 
 ## NFS CSI Driver
 
-**`nfs`** provides network-attached storage capabilities for workloads requiring shared access to the same volume from multiple pods.
+**csi-driver-nfs** (chart `csi-driver-nfs` 4.13.4 from the `csi-driver-nfs` Helm repository) is deployed in the `storage` namespace with:
 
-### Configuration
-
-- **Version**: 4.13.4
 - **Replicas**: 1 controller (single-node compatible)
-- **External Snapshotter**: Disabled (snapshot-controller handles snapshots)
-- **Access Mode**: ReadWriteMany (concurrent read/write from multiple pods)
+- **External Snapshotter**: Disabled (the snapshot-controller handles snapshots)
+- **Upgrade policy**: `cleanupOnFail: true` with rollback remediation and 3 retries; install remediates with 3 retries
 
-The NFS driver enables provisioning of PVs backed by NFS shares, supporting multi-writer scenarios that local storage cannot handle.
-
-### Use Cases
-
-The NFS storage class is appropriate for:
-
-- **Shared application data**: Multiple pods needing concurrent access to the same files
-- **Media storage**: Images, videos, or other assets shared across services
-- **Configuration sharing**: Common configuration files or templates
-- **Document management**: Collaborative editing or file management systems
+Notably, the HelmRelease supplies no `storageClass` values and no StorageClass manifest exists in the repo, so the driver currently provisions nothing on its own. Nextcloud depends on it (`csi-driver-nfs` in its Kustomization `dependsOn`), indicating it is kept as part of the required stack — e.g. for a future NFS-backed share — but it is not exercised by any workload PVC today.
 
 ## PVC Provisioning Flow
 
@@ -291,7 +276,6 @@ When a workload creates a PVC, the provisioning follows this sequence:
 4. **Volume Creation**: The CSI driver creates the underlying volume:
    - **TopoLVM**: lvmd creates thin logical volume in `lvm_vg/lvm_thin`
    - **local-path**: Provisioner creates directory in `/var/mnt/local-path-provisioner`
-   - **NFS**: CSI driver creates NFS share and mounts it
 5. **PV Binding**: PersistentVolume is automatically bound to the PVC
 6. **Pod Mount**: Pod receives volume mount and can access the storage
 
@@ -330,18 +314,16 @@ storageClassName: local-path  # Fast host-local, simpler than LVM
 ```
 
 **For shared storage accessed by multiple pods:**
-```yaml
-storageClassName: nfs  # ReadWriteMany access
-```
+No NFS StorageClass is defined in this repository; the NFS CSI driver is deployed but currently unused (see above).
 
 ## Storage Component Deployment Order
 
 Storage components deploy in strict dependency order to ensure proper initialization:
 
-1. **snapshot-controller** deploys first, providing the VolumeSnapshot API and CRDs
+1. **snapshot-controller** (chart 5.3.0 from the `piraeus` repository, webhook disabled, Prometheus ServiceMonitor enabled) deploys first, providing the VolumeSnapshot API and CRDs
 2. **TopoLVM** deploys second, depending on snapshot-controller for CSI snapshot support
 3. **VolSync** deploys third, depending on TopoLVM for storage classes and CSI driver
-4. **NFS CSI** and **local-path-provisioner** deploy independently
+4. **NFS CSI** and **local-path-provisioner** deploy independently (no `dependsOn`)
 5. **Nextcloud** deploys last, depending on `csi-driver-nfs`, `topolvm`, and `external-secrets`, and uses the reusable `components/volsync` component for backups
 
 All components deploy to the `storage` namespace with standardized labels and resource management through Flux Kustomizations.
@@ -418,7 +400,7 @@ Restore is PVC-claim-level, not in-place:
 2. Point the application at the restored volume by creating a PVC from the destination via `dataSourceRef: {kind: ReplicationDestination, name: volsync-dst-${APP}}` — this is exactly what the component's `claim.yaml` does, so an app can adopt restored data by using this claim instead of its original PVC.
 3. VolSync destination snapshots left behind by restores are cleaned by the weekly CronJob (below).
 
-**Nextcloud** is the reference example: its Flux Kustomization depends on `csi-driver-nfs`, `topolvm`, and `external-secrets`, sets `VOLSYNC_CAPACITY: 2Gi`, and uses the component to back up its `nextcloud-nfs` PVC (100Gi, `topolvm-thin-provisioner`, 2Gi local-path cache) to `s3:http://192.168.50.220:9010/volsync/dev/nextcloud-nfs`.
+**Nextcloud** is the reference example: its Flux Kustomization depends on `csi-driver-nfs`, `topolvm`, and `external-secrets`, sets `VOLSYNC_CAPACITY: 2Gi`, and includes the `components/volsync` component; the actual backup of its `nextcloud-nfs` PVC (100Gi, `topolvm-thin-provisioner`, 2Gi `local-path` cache) is defined by the app-local `volsync-nfs.yaml`, an expanded copy of the component's ExternalSecret + ReplicationSource targeting `s3:http://192.168.50.220:9010/volsync/dev/nextcloud-nfs`.
 
 #### `components/volsync-new` variant
 

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:342da223dc2e61622b6bf907a166cae2bc5e9a35356c24a24925316df82f5ca3",
+  "pageVersion": "sha256:1b44170ef97ee0ae0c8fd09603b847e34082a249fef423ae87a95e6f13df5c7c",
   "claims": [
     {
       "id": "claim_d05bde63be0e48cca828a500a8054af5",
@@ -175,10 +175,24 @@
           "version": "repo-lines-v1:sha256:9fe59d52727ca303fdb06c821075d7427f8000d04e2e0e59956e2cb704ec3cf0:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzk2YjI2N2E3ZjQ2NmM4MzFiNzM5MzEwY2QzODQwMWMwODhmNzRmNjQ1OTAwN2M2N2Q5YzhmOWMxNDRmYjg4MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWFhYjE5YjNlZWQ3NWZiNDc0MDQ3ZWMxZTFhZDhkNGNkM2Q3OWE5YWFlMWZhZDJmM2E5YWNlNzMyNDExODAwNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiM2E0ZDRhN2E5YzgzY2I2N2NjZjQ4Y2I5ODE1ZDE2MGRlY2Y0NjEyYzVhNzVjZGU4ZDUxYzUwMDBiY2ZmMzYxMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjVjMjdjMmRkMjdlZjRlZDEyMGY5YmE3YTBmMGY2OTMwNTQ5MWZhYjc2MDgzZGRmZjg0M2Y3ZTE5MjZkMmQxZSJ9"
         }
       ]
+    },
+    {
+      "id": "claim_afd62e25b2b64b648d2d1b9204ebd4ab",
+      "statement": "A second ImageUpdateAutomation named `fava` (kubernetes/apps/flux-system/fava-image-automation/automation.yaml) scopes updates to ./kubernetes/apps/default/fava with the same settings (5m interval, Setters, flux-system-https GitRepository, main branch, flux-bot author) but defines no policySelector; it is not currently deployed because no Kustomization references its directory — kubernetes/apps/flux-system/kustomization.yaml includes only ./image-automation/ks.yaml.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/flux-system/fava-image-automation/automation.yaml",
+          "version": "repo-file-v1:sha256:af8b1104c03351df8ce8ad4c5002124d1c5462b4037284229f3709c1b5c5b7a9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/flux-system/kustomization.yaml",
+          "version": "repo-file-v1:sha256:cb5fb34a418a29e2c2f978c40ce958e1978515c230933fa83ead80caa111f019"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.7.1",
-    "at": "2026-10-07T23:40:28.801Z"
+    "at": "2026-10-08T23:50:46.668Z"
   }
 }

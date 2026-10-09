@@ -3,9 +3,6 @@ type: concept
 title: Hardware and GPU Support
 description: Intel GPU device plugin setup, node feature discovery for hardware labeling, kernel module and udev configuration, and troubleshooting GPU device scheduling on Talos nodes.
 tags: [gpu, intel, node-feature-discovery, device-plugins, kernel-modules, hardware, i915, talos]
-verified:
-  - by: openwiki/0.5.2
-    at: 2026-09-19T21:35:52.044Z
 sources:
   - id: openwiki-source-b9d4da166d7fb6816b60fef7
     resource: repo://kubernetes/apps/default/jellyfin/app/helmrelease.yaml
@@ -35,7 +32,10 @@ sources:
     resource: repo://talos/patches/global/machine-udev.yaml
   - id: openwiki-source-1fd71dc29915917549048436
     resource: repo://talos/talconfig.yaml
-generated: { by: "openwiki/0.5.2", at: "2026-09-19T21:35:52.044Z" }
+generated: { by: "openwiki/0.7.1", at: "2026-10-08T23:50:46.668Z" }
+verified:
+  - by: openwiki/0.7.1
+    at: 2026-10-08T23:50:46.668Z
 ---
 
 # Hardware and GPU Support
@@ -168,7 +168,7 @@ spec:
 
 - **`name: i915`**: Identifies the Intel GPU device plugin instance and the resource name exposed to pods (`gpu.intel.com/i915`)
 - **`nodeFeatureRule: true`**: Creates a Node Feature Rule so nodes running the plugin are automatically labeled via NFD
-- **`sharedDevNum: 99`**: Maximum number of clients that can share each physical GPU device simultaneously (device sharing/intelgmented time-slicing)
+- **`sharedDevNum: 99`**: Maximum number of clients that can share each physical GPU device simultaneously (device sharing/time-slicing)
 
 **Deployment Dependency** (`kubernetes/apps/kube-system/intel-device-plugin-operator/ks.yaml#L38-L40`):
 

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:cfe25297fa88b67e19753cf9e0188f4448b286c8dca04ab352c0daab9b26c502",
+  "pageVersion": "sha256:699ffb069207b0c2c0c55f3594f7ef570ad1f7162867fc5d2b0834a749304534",
   "claims": [
     {
       "id": "claim_568d0013139d486d968deda03423763a",
@@ -433,10 +433,62 @@
           "version": "repo-lines-v1:sha256:f0d9f158f13d4316067330be34e56a84216e6bf821b9a152c9cc1163cead9328:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE3MTk4ZmNjODZjMGJjYmYzMzI4ZDcxNWM5MTRiOTYxNmRhODVhZGNmNjFiYTc2ZTA0OTM4ZGM4NWNmNDVkNTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_486760f060204480bc33a2ad42082dc7",
+      "statement": "All Flux reconciliation is anchored to a single GitRepository named flux-system watching the repo's main branch; the root Kustomizations in kubernetes/flux/cluster/ks.yaml form the chain cluster-meta (path ./kubernetes/flux/meta) -> gateway-api-crds + external-dns-crds (external Git sources) -> cluster-apps (path ./kubernetes/apps), with SOPS decryption via the sops-age secret, prune: true, and wait: true on the meta and apps Kustomizations so dependents only reconcile after dependencies are healthy.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/flux/cluster/ks.yaml#L1-L94",
+          "version": "repo-lines-v1:sha256:34d6970a4822f2b762ed2b48b96225a7d9a1bb7f3c4007fed459656c84134c45:eyJzZWxlY3RlZExpbmVDb3VudCI6OTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyY2ZmNWZmYmE1MGFjMzgxNmFmZjljODViNmI3YTQ4NWU3ZTJhNzM0NjI1ZjM5NGMwNDlkNGI5NmQ1N2E4YzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9ce3455664d2419494aa8da8b6ccec2a",
+      "statement": "Cluster bootstrap is a one-time helmfile-driven phase (bootstrap/helmfile.yaml) installing Cilium, CoreDNS, cert-manager, flux-operator, and flux-instance before Flux takes over; ongoing management is fully GitOps via Flux HelmRelease resources, with scripts/bootstrap-apps.sh handling namespaces, SOPS secrets, and CRDs.",
+      "evidence": [
+        {
+          "resource": "repo://CLAUDE.md#L82-L92",
+          "version": "repo-lines-v1:sha256:d565fa34b2b6595f3e77c31f5a0b72231141a1b1ec326c506111e1558e1debda:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRlMmRlZDU0YWEzM2NhMGQ5ZDA4YmRkZDhmMzVmODk5YTI1NTg5OTllOTY2OGRiM2MxMDE1NjAwMjRiZDMwM2EiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdmNWViNGJkMDNlNjFlNTRkMmI0Zjg0NGQ3ZmIxYTU2YTZkYWNmZDUwOGRlNmE0YzA2MDNhNDFmMjg4ZTNkNjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgxNjVhYmFjYTYwMTNiNmQ3ZWU1N2NjMWViZjA0MTdlNjAwMTRlY2EzNThlZGUwYjFiM2RhMWM5ZGRkNjY3NjgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc0ZDBhZDZhYjk1NDU0NDhlMzNiMTBmZDY1NWUyNDdkOWM3ZmYyNjQ4MGM1YjkxMTEzZWNlOGEwYjNmMDI1ZjAifQ"
+        },
+        {
+          "resource": "repo://bootstrap/helmfile.yaml",
+          "version": "repo-file-v1:sha256:2befd1e606655677378f27d3501a06b4f7047ecf386e95f56ecfd9bef2108ca6"
+        }
+      ]
+    },
+    {
+      "id": "claim_dbbaf5be86704aa0a29b08abae75c444",
+      "statement": "Every namespace kustomization at kubernetes/apps/<namespace>/kustomization.yaml includes the shared ../../components/common component, which supplies the namespace definition, the SOPS age secret, and the app-template OCIRepository; all apps deploy via HelmRelease chartRef to this shared app-template chart, so each app's chart reference resolves within its own namespace.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/common/kustomization.yaml",
+          "version": "repo-file-v1:sha256:6a499644d69e7563a12512291f01942ccdc1ceff4e741dd26aa28a228117f9d2"
+        },
+        {
+          "resource": "repo://kubernetes/components/common/repos/app-template/ocirepository.yaml",
+          "version": "repo-file-v1:sha256:f0d9f158f13d4316067330be34e56a84216e6bf821b9a152c9cc1163cead9328"
+        }
+      ]
+    },
+    {
+      "id": "claim_e836ebb6bce3453e9dedaeb8a9090927",
+      "statement": "Per-app Kustomizations at kubernetes/apps/<namespace>/<app>/ks.yaml pin targetNamespace to their namespace, decrypt with SOPS, use postBuild.substituteFrom of the cluster-secrets Secret plus substitute variables (e.g. APP, VOLSYNC_CAPACITY), and declare cross-namespace dependsOn entries (e.g. on topolvm in storage or external-secrets) to enforce ordering across namespace boundaries.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/database/cloudnative-pg/ks.yaml",
+          "version": "repo-file-v1:sha256:aa6f505e65ce130d253450a84932797a5ff6825e90db37b3ade45b9dd62b9efd"
+        },
+        {
+          "resource": "repo://kubernetes/flux/cluster/ks.yaml",
+          "version": "repo-file-v1:sha256:34d6970a4822f2b762ed2b48b96225a7d9a1bb7f3c4007fed459656c84134c45"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.7.0",
-    "at": "2026-10-06T00:54:23.845Z"
+    "by": "openwiki/0.7.1",
+    "at": "2026-10-08T23:50:46.668Z"
   }
 }

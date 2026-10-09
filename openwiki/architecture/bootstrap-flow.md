@@ -23,9 +23,9 @@ sources:
   - id: openwiki-source-b9ff7ee0aa4953cc601052a4
     resource: repo://Taskfile.yaml
 verified:
-  - by: openwiki/0.6.0
-    at: 2026-09-25T22:38:38.997Z
-generated: { by: "openwiki/0.6.1", at: "2026-09-28T23:52:40.438Z" }
+  - by: openwiki/0.7.1
+    at: 2026-10-08T23:50:46.668Z
+generated: { by: "openwiki/0.7.1", at: "2026-10-08T23:50:46.668Z" }
 ---
 
 # Bootstrap Flow
@@ -176,7 +176,7 @@ The `apply_sops_secrets` function (`scripts/bootstrap-apps.sh#L57-L85`) deploys 
 The `apply_crds` function (`scripts/bootstrap-apps.sh#L88-L118`) installs Custom Resource Definitions required by Helm charts:
 
 **CRD Sources** (`scripts/bootstrap-apps.sh#L91-L105`)
-- **External DNS CRDs** (v0.21.0) - Required for external-dns
+- **External DNS CRDs** (v0.23.0) - Required for external-dns
   - Also managed by Flux but duplicated for bootstrap safety
   - Source: `dnsendpoints.externaldns.k8s.io.yaml`
 - **Gateway API CRDs** (v1.6.2) - Required for Cilium Gateway API integration
@@ -394,9 +394,6 @@ Bootstrap failures concentrate at three known hazards:
 
 ## Related Documentation
 
-<!-- openwiki: broken internal link [/openwiki/concepts/flux-architecture.md] link "/openwiki/concepts/flux-architecture.md" is root-absolute, which no real consumer resolves against the repository root (not a coding agent reading the page, not GitHub's Markdown renderer, not a local viewer); use a path relative to this file instead. Fix the href or restore the target, then delete this comment. -->
-- [Flux GitOps Architecture](/openwiki/concepts/flux-architecture.md) - Detailed Flux reconciliation and Kustomization structure
-<!-- openwiki: broken internal link [/openwiki/workflows/bootstrap.md] link "/openwiki/workflows/bootstrap.md" is root-absolute, which no real consumer resolves against the repository root (not a coding agent reading the page, not GitHub's Markdown renderer, not a local viewer); use a path relative to this file instead. Fix the href or restore the target, then delete this comment. -->
-- [Cluster Bootstrap Workflow](/openwiki/workflows/bootstrap.md) - Step-by-step bootstrap execution guide
-<!-- openwiki: broken internal link [/openwiki/quickstart.md] link "/openwiki/quickstart.md" is root-absolute, which no real consumer resolves against the repository root (not a coding agent reading the page, not GitHub's Markdown renderer, not a local viewer); use a path relative to this file instead. Fix the href or restore the target, then delete this comment. -->
-- [Quick Start Guide](/openwiki/quickstart.md) - Repository overview and initial setup
+- [Flux GitOps Architecture](../concepts/flux-architecture.md) - Detailed Flux reconciliation and Kustomization structure
+- [Cluster Bootstrap Workflow](../workflows/bootstrap.md) - Step-by-step bootstrap execution guide
+- [Quick Start Guide](../quickstart.md) - Repository overview and initial setup

@@ -1,12 +1,13 @@
 ---
 type: concept
-title: Reusable Kustomize Components
-description: Catalog of the kubernetes/components/ building blocks — common, gatus checks, volsync-new, and image-automation — and how apps attach them via the components field of their Flux Kustomization.
-tags: [kubernetes, flux, kustomize, components, volsync, gatus, image-automation]
-verified:
-  - by: openwiki/0.7.0
-    at: 2026-10-06T00:54:23.845Z
+title: App Conventions & Reusable Kustomize Components
+description: Cross-cutting conventions for every app — the ks.yaml Kustomization pattern (commonMetadata, dependsOn, postBuild substitutes), the app-template HelmRelease layout — plus the catalog of kubernetes/components/ building blocks (common, gatus, volsync-new, image-automation) that apps attach via the components field.
+tags: [kubernetes, flux, kustomize, components, helmrelease, app-template, volsync, gatus, image-automation, conventions]
 sources:
+  - id: openwiki-source-a2371d6362e5db4bc834ad03
+    resource: repo://CLAUDE.md
+  - id: openwiki-source-dbd8b5c09621dda4424792fd
+    resource: repo://kubernetes/apps/default/gitea/app/helmrelease.yaml
   - id: openwiki-source-649e5ed74d5376f95cff2b2a
     resource: repo://kubernetes/apps/default/gitea/ks.yaml
   - id: openwiki-source-63c7de935f96b1aa0a5dc1a4
@@ -15,6 +16,8 @@ sources:
     resource: repo://kubernetes/components/common/namespace.yaml
   - id: openwiki-source-0aa0479be229def909bbfa22
     resource: repo://kubernetes/components/common/repos/app-template/ocirepository.yaml
+  - id: openwiki-source-d8126483419916725f75040b
+    resource: repo://kubernetes/components/common/repos/kustomization.yaml
   - id: openwiki-source-dff47ef9008ba7bce93e217b
     resource: repo://kubernetes/components/common/sops/kustomization.yaml
   - id: openwiki-source-368438c04d5ff133eb1dfb71
@@ -41,8 +44,85 @@ sources:
     resource: repo://kubernetes/components/volsync-new/minio.yaml
   - id: openwiki-source-cf127a322444d1f6306750c2
     resource: repo://kubernetes/components/volsync/kustomization.yaml
-generated: { by: "openwiki/0.7.0", at: "2026-10-06T00:54:23.845Z" }
+generated: { by: "openwiki/0.7.1", at: "2026-10-08T23:50:46.668Z" }
+verified:
+  - by: openwiki/0.7.1
+    at: 2026-10-08T23:50:46.668Z
 ---
+
+# App Conventions & Reusable Kustomize Components
+
+This page documents two interlocking layers of the repo's app conventions:
+
+1. **App conventions** — the uniform `ks.yaml` (Flux `Kustomization`) and `helmrelease.yaml` (`app-template` HelmRelease) pattern every app under `kubernetes/apps/<namespace>/<app>/` follows.
+2. **Reusable Kustomize Components** — the optional `kind: Component` bundles under `kubernetes/components/` that apps attach for storage backups, uptime checks, image automation, or cluster-wide prerequisites.
+
+## App conventions: the ks.yaml pattern
+
+Every app is defined by a Flux `Kustomization` in `ks.yaml`. See `kubernetes/apps/default/gitea/ks.yaml` for a canonical example:
+
+```yaml
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app gitea
+  namespace: &namespace default
+spec:
+  targetNamespace: *namespace
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  components:
+    - ../../../../components/volsync-new
+    - ../../../../components/gatus/external
+  dependsOn:
+    - name: topolvm
+      namespace: storage
+    - name: external-secrets
+      namespace: external-secrets
+    - name: cloudnative-pg-cluster
+      namespace: database
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+  path: ./kubernetes/apps/default/gitea/app
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  prune: true
+  wait: true
+  interval: 1h
+  retryInterval: 2m
+  timeout: 5m
+  postBuild:
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
+    substitute:
+      APP: *app
+      VOLSYNC_CAPACITY: 10Gi
+```
+
+Key conventions:
+
+- **YAML anchors** (`&app`, `&namespace`) keep the app name and namespace defined once and reused (Kustomization name, `targetNamespace`, `commonMetadata` label, postBuild `APP` substitute).
+- **`commonMetadata`** stamps `app.kubernetes.io/name: <app>` onto every resource the Kustomization builds, so label selectors and tooling work without repeating the label in each manifest.
+- **`dependsOn`** declares ordering contracts on the cluster infra apps the app requires: `topolvm` (storage) before attaching `volsync-new`, `external-secrets` before any ExternalSecret syncs, and the database operator (e.g. `cloudnative-pg-cluster`) when the app uses it. Sub-apps (e.g. `gitea-runner`, defined in the same `ks.yaml` as a second Kustomization) repeat `dependsOn` independently and omit substitutes they don't need.
+- **`decryption.provider: sops` with `secretRef: sops-age`** lets the Kustomization decrypt SOPS-encrypted manifests in the app directory.
+- **`postBuild.substituteFrom`** always pulls the `cluster-secrets` Secret (providing `${SECRET_DOMAIN}`, `${TIMEZONE}`, etc.); **`postBuild.substitute`** adds per-app vars such as `APP` and `VOLSYNC_CAPACITY` that both the HelmRelease values and the attached components' templates consume.
+- **Reconcile policy**: `prune: true`, `wait: true`, `interval: 1h`, `retryInterval: 2m`, `timeout: 5m` are used consistently.
+
+## App conventions: the app-template HelmRelease
+
+Inside the app directory (`app/helmrelease.yaml`) each workload is a Flux `HelmRelease` sourcing the shared [app-template](https://github.com/bjw-s-labs/helm-charts) chart via `chartRef.kind: OCIRepository, name: app-template` — the OCIRepository itself is declared once in `kubernetes/components/common/repos/app-template/` rather than per app. Typical install/upgrade policy: `install.remediation.retries: 3`, `upgrade.cleanupOnFail: true` with rollback strategy and 3 retries. Values follow app-template's controller/service/route/persistence schema; notable idioms seen in `gitea`:
+
+- `reloader.stakater.com/auto: "true"` annotation to restart pods on ConfigMap/Secret change.
+- Locked-down `securityContext` (non-root UID/GID 1000, dropped capabilities, read-only rootfs) and `fsGroupChangePolicy: OnRootMismatch`.
+- Gateway API `route` with `parentRefs` to the shared `internal`/`external` listeners in `kube-system`, hostnames templated as `"{{ .Release.Name }}.${SECRET_DOMAIN}"`.
+- `persistence` mounted with `existingClaim: <app>` — the claim created by the `volsync-new` component — split into subPaths.
+- Secrets referenced via `envFrom` (an anchor shared with init containers) and `${SECRET_DOMAIN}`-style placeholders resolved by postBuild substitution.
 
 # Reusable Kustomize Components
 

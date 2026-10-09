@@ -52,8 +52,8 @@ sources:
     resource: repo://scripts/bootstrap-apps.sh
 generated: { by: "openwiki/0.7.0", at: "2026-10-06T00:54:23.845Z" }
 verified:
-  - by: openwiki/0.7.0
-    at: 2026-10-06T00:54:23.845Z
+  - by: openwiki/0.7.1
+    at: 2026-10-08T23:50:46.668Z
 ---
 
 # Networking Architecture

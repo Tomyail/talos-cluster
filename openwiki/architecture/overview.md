@@ -6,6 +6,8 @@ tags: [architecture, talos, flux, networking, gitops]
 sources:
   - id: openwiki-source-360da09d9920a02e1e719d90
     resource: repo://bootstrap/helmfile.yaml
+  - id: openwiki-source-a2371d6362e5db4bc834ad03
+    resource: repo://CLAUDE.md
   - id: openwiki-source-951c2cc0849ba28408b9b784
     resource: repo://kubernetes/apps/database/cloudnative-pg/ks.yaml
   - id: openwiki-source-ee06019c49401bb5e952b0ff
@@ -54,10 +56,10 @@ sources:
     resource: repo://README.md
   - id: openwiki-source-1fd71dc29915917549048436
     resource: repo://talos/talconfig.yaml
-generated: { by: "openwiki/0.7.0", at: "2026-10-06T00:54:23.845Z" }
+generated: { by: "openwiki/0.7.1", at: "2026-10-08T23:50:46.668Z" }
 verified:
-  - by: openwiki/0.7.0
-    at: 2026-10-06T00:54:23.845Z
+  - by: openwiki/0.7.1
+    at: 2026-10-08T23:50:46.668Z
 ---
 
 # Architecture Overview
@@ -268,17 +270,16 @@ flowchart TD
 
 Everything is anchored to a single Flux `GitRepository` named `flux-system` that points at this repo's `main` branch. The reconcile chain is:
 
-<!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: a semicolon inside a label breaks rendering; rephrase the label. -->
-```text
+```mermaid
 flowchart TD
     GR["GitRepository flux-system"] --> CM["Kustomization cluster-meta"]
     CM --> GAR["gateway-api-crds"]
     CM --> EDC["external-dns-crds"]
     GAR --> CA["Kustomization cluster-apps"]
     EDC --> CA
-    CA --> NS["Namespace kustomizations<br/>kubernetes/apps/*/kustomization.yaml"]
-    NS --> APP["Per-app Kustomizations<br/>kubernetes/apps/&lt;ns&gt;/&lt;app&gt;/ks.yaml"]
-    APP --> HR["HelmRelease / resources"]
+    CA --> NS["Namespace kustomizations"]
+    NS --> APP["Per-app Kustomizations"]
+    APP --> HR["HelmRelease and resources"]
 ```
 
 *Figure: Flux dependency graph. `cluster-meta` gates everything; `cluster-apps` waits on both CRD kustomizations.*
@@ -601,6 +602,11 @@ Auto-updates tracked dependencies:
 **Schedule**: Runs every weekend
 **Auto-merge**: Patch updates for GHA and mise tools
 **Grouping**: Major components grouped (cert-manager, CoreDNS, Flux)
+
+## Related Pages
+
+- [Namespace and Application Organization](namespace-structure.md) — detailed per-namespace app layout and the kustomization pattern
+- [Flux GitOps](../concepts/flux-gitops.md) — deeper coverage of Flux sources, Kustomizations, and HelmReleases
 
 ## Key Architecture Decisions
 

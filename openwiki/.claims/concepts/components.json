@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:fef65efc4eddcf3f9733805aafad66b5084127e1d5108e6ae071130df69c0263",
+  "pageVersion": "sha256:1fef9f8af899d9024204ceb23dfe72f3f5e7337f1d2e0cf809a68545bd9f76e4",
   "claims": [
     {
       "id": "claim_780473c14fdc47fd8686c4d3113c9df2",
@@ -113,10 +113,66 @@
           "version": "repo-file-v1:sha256:4c2df018958ac36399edfa3f9447bad27dea5dd9b8506109b70f6b634eeaa88f"
         }
       ]
+    },
+    {
+      "id": "claim_563919815f704fa783a3e1579ad51423",
+      "statement": "Every app under kubernetes/apps/<namespace>/<app>/ is defined by a Flux Kustomization in ks.yaml that uses YAML anchors (&app, &namespace) to keep the app name/namespace single-sourced, stamps app.kubernetes.io/name on all built resources via spec.commonMetadata, enables SOPS decryption (provider: sops, secretRef: sops-age), pulls the cluster-secrets Secret via postBuild.substituteFrom, and applies per-app postBuild.substitute variables such as APP and VOLSYNC_CAPACITY with prune: true, wait: true, 1h interval, 2m retryInterval, and 5m timeout.",
+      "evidence": [
+        {
+          "resource": "repo://CLAUDE.md#L54-L66",
+          "version": "repo-lines-v1:sha256:28fccaf8fce3b687df63e8e4f9198a4495514fbe1dd7a578694e0006a32b57fc:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY0Y2Y1ZTUwZjdmMGIxYWY2YTE2N2M3NTYwNjAzMTBkN2Y3YmNjNTdkNTczZDBhYmYxMGU4YzA2ZTNmMjcyZjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE3MWNmMWIxNWU0ZWIwOGM0ODA1M2U4ZWU5ZmU1OTEwMjlhMTg2NTg3YWM0NTIxZjFjNDJjNWUyZmFjMDc3NTgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYzYWVlMGI0ZTBlZTFjYWY4OTQxOGYyNTRhMTJkOWVhNWJlNTM1MWMwMjcxOWQwM2Y1NjI1MDA0YTI0YWJjOWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIyNjczODk2MGM3ZWU5MzdmNDhkNGQ0ODk0MWYyN2E5YzlhYjc2MjFkM2I0ZjJhMmFkMmRiNjE4MWJjYTQyZjYifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/ks.yaml#L3-L43",
+          "version": "repo-lines-v1:sha256:ece045e915a2c7a07d009ba753748747fb5c8c06bce19a3834a0ce3c94ef7c4a:eyJzZWxlY3RlZExpbmVDb3VudCI6NDEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUwZTdkMjIwMjg3MTMzMDlmNGJjOTk3MWU0OTA4MzM2ZGJkMDNjZmRiOWE3Y2ExMjdiZGQwY2Y0NjFiZmEwYTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk3OGEyZTE1ZThjZWJjZmU2YjM1ZTkyODM1NWNkZjRiM2Q0Y2RkMjJmY2IwYjQ3MDFmMDc5NTFhZDEzMDZlZmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoyLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY0NmZiNWE5NDY4YTgxZTMzOTZkYjc3NWU1NGJkYzM3NjhmYTY4YmQ3ZWMyMjY2YWY2OTBjZmQ5MGE0MTQzMDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMyMGQ2MWFhZTQyMGZlZmIyZTQ5ZGE4YzY1ZDQ5MWUyNzM5NzZmOTQ0Njg3MTIxODU3MmIyZmE2YjJjNzdiMTcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7961b4090b294d3caa7b2ab89f767b22",
+      "statement": "App Kustomizations declare dependsOn ordering contracts on the cluster infrastructure they require — topolvm (storage) when attaching volsync-new, external-secrets for ExternalSecret syncs, and the database operator (e.g. cloudnative-pg-cluster in the database namespace) for database-backed apps; optional sub-apps defined in the same ks.yaml (e.g. gitea-runner) repeat dependsOn independently and may omit unneeded substitutes.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/ks.yaml#L16-L23",
+          "version": "repo-lines-v1:sha256:b4fbeabed6183540858cfe99fefa287d2a05c1689be0b72454e634e15f8b73ad:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTYwYzNiZDdiYzU5ZmVjOWU0ZGVkMzVkN2NjZjcwMGEzODVhY2U1ODYzNGZhNjBkM2IyMmZmMjY4YzAxN2ViZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGFiNmUwZWUyMWNmZTcxYTkwNWE5OTkwNWM1ZGEzOTc2ZDA1YTk5MDBhMzVjMGFkMWIxMjc3Y2RjOWUxOWRlZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWY0MDVjM2RmN2ViYTlkYmY5MGU1Mjk5M2QyYzQ5ZGM5OTM0YWMzNzMyY2Y5ODliYzg1NjdlZmY2NTEyMzBhZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTAyYTZlODMwOGZiNjZmMmFmZDJmMTBlYzdkNDY3MDdkMDA1YjM3MGFkZmI1Y2Q3ODVkNTNlYThkNDYyM2NmMyJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/ks.yaml#L45-L78",
+          "version": "repo-lines-v1:sha256:73fcd769917b398d8f521db83603adc2adecab3e9d984378190dbb639bb884ed:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc4ZTJjOTAyNTk4NjY4NWIwMDc4NTA4NzZkZjZhYjU0YTcxYjQ4Y2RhMWRhNjk4NmVlODVlM2Y2NjBlODQ3MDUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjlhMzUxN2ZjZDQwNTQ5M2I4NTg5MzZjM2M1YThmMjk5OTg4MGU0ZTQyMDdjZTgwZWI3MTk5NjVlMjI1MGEyZTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_87eb99218e5d4e8a8d357a92e3289a41",
+      "statement": "App workloads are Flux HelmReleases sourcing the shared app-template chart via chartRef.kind: OCIRepository / name: app-template — the OCIRepository is declared once in kubernetes/components/common/repos/app-template/ instead of per app — with a standard install/upgrade policy (install remediation retries: 3; upgrade cleanupOnFail with rollback strategy and 3 retries).",
+      "evidence": [
+        {
+          "resource": "repo://CLAUDE.md#L66-L66",
+          "version": "repo-lines-v1:sha256:171cf1b15e4eb08c48053e8ee9fe591029a186587ac4521f1c42c5e2fac07758:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTcxY2YxYjE1ZTRlYjA4YzQ4MDUzZThlZTlmZTU5MTAyOWExODY1ODdhYzQ1MjFmMWM0MmM1ZTJmYWMwNzc1OCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMTcxY2YxYjE1ZTRlYjA4YzQ4MDUzZThlZTlmZTU5MTAyOWExODY1ODdhYzQ1MjFmMWM0MmM1ZTJmYWMwNzc1OCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZmQ4YjE2ODIwYzI1ZjY4MzBmZGE3ZTdlM2U0NWEzYjVkYzhmYTk4ZDZhZmIwZjA1YjRhYmM5YWFhNmI2Njc2YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMjI2NzM4OTYwYzdlZTkzN2Y0OGQ0ZDQ4OTQxZjI3YTljOWFiNzYyMWQzYjRmMmEyYWQyZGI2MTgxYmNhNDJmNiJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/app/helmrelease.yaml#L4-L18",
+          "version": "repo-lines-v1:sha256:d47f256ac4867c1291a00675874cd1cb82c1cb8825836d41eb85251f90123562:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNhNmY0ZGRhM2VhZWMwMzBmNTUyODI4MWFlYjI1OGRmYzRiOTAyMDhlYjllNWRiZDkxZGJlY2EzMWRiZDFhNTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE1YTBmY2NhZmRlNTdiMmY2YWI1NGQ2M2NhMzhiNTdmMzA0OTY0ZDI2NTAwMTQ1Zjg5Y2VmZmFlOTMwNGJhYzIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRlNTEwZjRkZmQ4YTNlOWVlZTcxYjk3NWVlZjY3NTRlODk2N2YzOTQwZmI0YWU4MDU1NWI3MTg0YmYxOTE5YWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIxYWVjMjdjZWFkMTMxZWM3NWFiNjE0ZmMyMWFmNjgxNmY4OTM1MDBkM2FkNzQwM2NiOTI4YjJkMDEzNzEyYzAifQ"
+        },
+        {
+          "resource": "repo://kubernetes/components/common/repos/kustomization.yaml",
+          "version": "repo-file-v1:sha256:9d547b7855d2377defcba2b0d884a93e2a74c2dbd428a51df19261a7d8545eb1"
+        }
+      ]
+    },
+    {
+      "id": "claim_481265441df14c898fcdbd84b53c9eb4",
+      "statement": "app-template HelmRelease values follow repo idioms: reloader.stakater.com/auto restart annotation, locked-down securityContext (non-root UID/GID 1000, dropped capabilities, read-only root filesystem, fsGroupChangePolicy OnRootMismatch), Gateway API routes with parentRefs to the shared internal/external listeners in kube-system, persistence via existingClaim mounted with subPaths (the PVC created by the volsync-new component), and ${SECRET_DOMAIN}-style placeholders resolved by postBuild substitution.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/app/helmrelease.yaml#L19-L113",
+          "version": "repo-lines-v1:sha256:a2a88cc428ba3392e5fcccabf165aefed32c8b1fa2c4466b901e0242fdc4fe31:eyJzZWxlY3RlZExpbmVDb3VudCI6OTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2ZjFjNzJiNTlhZGU1MjRjMDEzNWM3Y2RiMGViMjRhYWZiZjE0ZGIxOWYxNzYwZjE5M2IyNzA3N2M5Nzg0NjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRiOWU1NTFjZWQzNmYxMDJkYWJkMDc0YjUyNmJkNzFjNDBkYjZiNzU3ZDI5YjUxZTdmZGI1YzU0MTFhYTE3NTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJmOWM5ZWVjZjMxZWUxMWI5NTJkYjUxZTM0NTZiMjhmMzE2ZGJlZGQ4YzJlYzBiMjMxNTdiMDgyZGE1MDRjODciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.7.0",
-    "at": "2026-10-06T00:54:23.845Z"
+    "by": "openwiki/0.7.1",
+    "at": "2026-10-08T23:50:46.668Z"
   }
 }

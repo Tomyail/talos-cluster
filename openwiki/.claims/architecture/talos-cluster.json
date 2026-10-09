@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:f491e3e4d79d819725f3ccf9ea3205718b1d8bd4d8bdcd6fcb8fa65d1c8554ba",
+  "pageVersion": "sha256:ac423483f77e336a7433a6a278caaa3717c0678c03e7e0cfada5e4c4833c86e7",
   "claims": [
     {
       "id": "claim_6997a84478de4077b3b0fc1cb3f08f7e",
@@ -155,10 +155,20 @@
           "version": "repo-file-v1:sha256:1ef90b64c092bc471e86f997137b0cc8ef881a2326119952d276f99e2fdf30b2"
         }
       ]
+    },
+    {
+      "id": "claim_18f52a061c684e839fb2c4ce81e0765a",
+      "statement": "The control-plane installer schematic customizes the Talos image with the official system extensions siderolabs/i915, siderolabs/intel-ucode, and siderolabs/thunderbolt.",
+      "evidence": [
+        {
+          "resource": "repo://talos/talconfig.yaml#L75-L84",
+          "version": "repo-lines-v1:sha256:574b4821772470624fe28a35923e41e44c61d9419f152d52a83ead199eb96f57:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgyY2E0MTE4YjYzYzZmZTQ4ZDZlNWIwODM5ZGY2NGQ2OWQxZGM1MGQzMzEwMjg1YTJlMTlkNTlmNDIzOTYxZTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM3MmQyMWI0YTU2MmE4ZDY5MWJhNWE1Y2RlYjIyNTk1ZmRiZDlkZWUxNTkyMmI3MDQwOGIwMTAxNDU2MDg2NDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFmMWU4NDIyZTkwNmQ1ODMwN2MxZDg3N2M5MDJjOTFkMzc5OThiNTYzOGVhMTg1MGE5ODYxNGNiMzY2ZThmODQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.7.0",
-    "at": "2026-10-06T00:54:23.845Z"
+    "by": "openwiki/0.7.1",
+    "at": "2026-10-08T23:50:46.668Z"
   }
 }

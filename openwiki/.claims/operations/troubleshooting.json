@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:0375dc82e3b323da07e198d36a396c7e17ed0f6b5a96885e796562181bfb3c18",
+  "pageVersion": "sha256:47ddc6fee8bd8cb05f1f04dd2405ccea267c0401f4b27522603bcd836b055184",
   "claims": [
     {
       "id": "claim_ff13b80cb8eb45d8b3df24bbc5cfa6f3",
@@ -307,10 +307,100 @@
           "version": "repo-lines-v1:sha256:ec8d61d662c6afc8d2af952acf5ce389867b22066fb0545c4867be2d2bc6ad4a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3OTRlOWYyYTQ0ZDA1ZGQyNTRhOGM4YjViZjEzZDJiZjk0NzNlN2Q4ZjBiYzk3NGNkMTJiZGU2NzViYTVlNjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNiODliYzg3NjY4MWY5MzllMjQ1NTZmN2FjZGI0MmRiOTA0YmRiNWYyNjE3NzMzNWY0NDA5MjQ2ZWU1NjgxOTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVlYzE2NTUxMWRmNGM2N2I4Njg5OGZkNTFlYmEwYzhiMmVmMmJiMGYzMjM0ZmZjM2NmNTc4MWNhNTAzNDEyZGIifQ"
         }
       ]
+    },
+    {
+      "id": "claim_095ed275a6494e3e8a7db239b27b0f05",
+      "statement": "After a Kubernetes version upgrade, kube-controller-manager, kube-scheduler, cert-manager-cainjector, flux-system components, and topolvm-controller transiently CrashLoopBackOff while waiting for kube-apiserver and recover automatically; the Kubernetes upgrade Job pod in kube-system may report Error from a config-version sync timeout and can be safely deleted.",
+      "evidence": [
+        {
+          "resource": "repo://docs/cluster-health-review-20260425.md#L66-L79",
+          "version": "repo-lines-v1:sha256:bdd14886c4f7948cc5c743951dd2a5eb82a51a3b2048954c381591b9684dea48:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZlYjc2NDdmZTIwNjQzM2E4ZjJhMmI2ZTA4Yjg2NDY5OTgyOTNlODc0OTU0NzM4ZGJiOTliMTlhYzFmZGVjMjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3YzA2YzU2MWQ1YzMyNzM0MzY4NTI2OGE0NmIzMzkxZjM5OThlZWU4OTBkMmJlNTFmMGQyMWNjNGE1M2FlNmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_06802be42ab04305a8465c1aa54ca63f",
+      "statement": "A documented recurring failure chain: Dragonfly's NetworkPolicy allows port 9999 only from pods labeled control-plane: controller-manager; the app-template-deployed operator pod lacked the label, so it could not verify dragonfly-0 readiness, the role=master label was never set, the Service selector matched no endpoints, and paperless CrashLoopBackOff on every node restart. The permanent fix (commit 40e108d) adds pod.labels.control-plane=controller-manager to the dragonfly operator HelmRelease; the manual `kubectl label pod dragonfly-0 role=master` workaround is lost on pod restart.",
+      "evidence": [
+        {
+          "resource": "repo://docs/cluster-health-review-20260425.md#L24-L62",
+          "version": "repo-lines-v1:sha256:cc979c3d509121cfd57db9a528710645dbc62e81ece70f7eed1dea6c530b4e7f:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdkOGU0YzQ2Mjc4NTNhMTg4OWVmYjAxNzNjZTE2ZjU0OGJkMTNkZTE4YWU5OTYwNTNkYTI3MTc5NDI2NTAwM2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA5NmJlMGFmZTljMTI3ZTcxZDJlMWYyZTkwZWQyNzFjMDBkNmZiZWFhNGRkODIwY2RlYjE2NTA0MmVkYTc2YjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/database/dragonfly/app/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:1087a5ca0213531cb9a3002181f54f921299dcead4bed4556eb72dd62ea29aab"
+        }
+      ]
+    },
+    {
+      "id": "claim_1c577eaadc15499ab6ffe633f03910bd",
+      "statement": "scripts/bootstrap-apps.sh sources scripts/lib/common.sh, whose log helper prints failures to stderr and exits 1 immediately on log level error (with LOG_LEVEL=debug exported by the script), so the first red ERROR line marks the failing bootstrap step; check_env and check_cli in the same library fail fast on missing KUBECONFIG/TALOSCONFIG or missing CLIs (helmfile kubectl kustomize sops talhelper yq) before any step runs.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/bootstrap-apps.sh#L137-L139",
+          "version": "repo-lines-v1:sha256:0a4bf9b59bcc2f76826348503e279f1b2ba6b064b4355e63ac600a6a17226123:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZGNkYTQzMjNkOWNmYjUyYjUyMDJiZWUyOTIxOWZiOTVkN2M1YzliMGNhZmU3MmFmMDVmY2RkNGFkMTNhZGE1NiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMmFmNzdjODJjZmNiN2NjNDIxMjk2NjIwOTY4YWRlZDAyMjk4YTIwNTk0Y2Y2MWE4ZTc2YjlkMzg0N2UxYjVhYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzdlMGM0MTViNTE2ZGQyODljYzEwMWViMDA2MmI0Mjc2ZWMyNTdjOGVhZjNjYjJlOGUyZWJjODZkNGEzNTYxMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZGYyOGYyMzM2M2M5MDUzNzgyOTVjOWU4MThlOGU4YTc0NmYwZDgzNmNkNzVmNzY1NjdhOTNiOGI0ZTRiNWY2OSJ9"
+        },
+        {
+          "resource": "repo://scripts/bootstrap-apps.sh#L4-L6",
+          "version": "repo-lines-v1:sha256:53e688dd819683ef14082773a0c5704a3984ab25ae915b930327439e49f387ed:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzhkNGQ2NDJhOWM4ZjAyOGM2NmVmZGQwMTE4MzgzMjhhMDUzNGY0OTRjYzNmMGVjMGYyZDFiNTNkMDUzNzU4ZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGI1NjY5NTAwMDI3ZWVhZjkwZjMxZDlhMDExNzczMTVhMzE4ZjcyYmEwYzUxYzZlOTg1YzUyY2UxZDBkNWEzZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTNkNjY2YmQxZmZlNWNkN2RmN2IxY2QzMTU1YWVkYTJlZDlhNzFmMWVkNTMxMjhlYmI4NzE2OTc5N2ZiMjlkYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDg5YjhiYjY5NmIxOGEwZTY1NDU3YTI4ZGY0OTJjYjFkZjBkMDZiNmY0ZmI1ZTMwNjdmYzlmM2NhMzNhNDFlMCJ9"
+        },
+        {
+          "resource": "repo://scripts/lib/common.sh#L64-L67",
+          "version": "repo-lines-v1:sha256:0907f726e0d17b4faf4fde882e832f01e5c3b44b32b27371abad70f7bda4f742:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTJkY2ViYzc1YWQ3OWUzNjZiMGQxMzg0MTE1MjUwNmY0OWJkZTBlZDc4YmVkNDhiYjc1MDRhNWEwMTZjYzY1OCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODRlNzYwNDI2YThlM2E4NjBkZDE1MGU2YzExNzhiYWE2YmYxODI0YzU3ZmU4MjczYjAyYjRhNWNlNDUzYWE3MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzI4NDRjZDNhMTI1MGVjOGZiOGNhM2ViNTljOTI5OTFmNzBlNmVjMjdiNzhmNTI4OWQwNWE3NzZlYWZlMzY1YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODhlYWRlZTdmNzFhMDZhYTA0MmEzN2Q2OTZjMzk2MTIyYmU2NzAzYTA3NGM0ZDJmMjIxMDQ1NDM3MWJjZTM0YyJ9"
+        },
+        {
+          "resource": "repo://scripts/lib/common.sh#L70-L107",
+          "version": "repo-lines-v1:sha256:a86476b9283e1c2e2c92cd476947faf7a9056b66062b67c2d44decd1063bb10f:eyJzZWxlY3RlZExpbmVDb3VudCI6MzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRkNTU5OWU0MGE0MWViMTU4NmFjODY0NGZmYjkyMjEwNDliNWQ2NDI4Yzk5ZmNhODI0ZWVmYzVlYmE5MGZjMGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjMyNDUwNzhhYWU3ODY3NzZlMDI0ZWNmMzZmZTFhYWQ5ZjZhZjM3NTkwZWVmMWM3MWExNWFmN2FlNDQyMWE5NmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_910d15f8b6184dbd9fade64a2b1a5eed",
+      "statement": "As of the 2026-04-25 health review, Kubernetes state stored in etcd (all resource definitions and Secrets) has no backup — VolSync protects only application PVCs — so full node loss requires rebuilding all K8s resources; the recommended interim mitigation is a periodic `talosctl -n <node-ip> etcd snapshot` CronJob archived off-node (e.g. to the NAS).",
+      "evidence": [
+        {
+          "resource": "repo://docs/cluster-health-review-20260425.md#L113-L126",
+          "version": "repo-lines-v1:sha256:407fd2e864bf1e5dc31074fe38888b83484938dff812dab78483ee849b1ca22a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI0MGFkODEzMjE2MTA4YmVhZjQ4ZjRhZTVjOWJhNjEyYjYyNDVjMWQ4YTUxZTNkMjE4ODcwMDg2ZmM4ZDRiMDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZkNDc2MDM5MzZlYzQyYTc0YmE0OWZkMmYwZTVjN2ZhMWQ3YzY0Y2Y3OWQ4MjZiNDM5ZmM2ZGI4YTUxODhlZjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAxY2U1Y2Q5MGZhNDcxMThiNzViMThkZmQxNGJmNzc3NDJiMzE5ODM1NTYzNGJiZTBiMTJjNTQ2Yzk0ODkyYTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAwMWYyZWMxNzU5M2MxMDU0ZWI0NjM2N2Q4NDUzZWYyNGExNzNjZTk2YjcxMTdkOTFmOWE2OGQ0NGZlZjhiMDEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_1d92ae05830f4fe2942d578610841a74",
+      "statement": "Stale LVM thin VolumeSnapshots can accumulate on the data disk when a ReplicationSource lacks a retain policy; the 2026-04-25 review found snapshots over 200 days old consuming real storage (pgadmin 306d, atuin/calibre 264d), and recommends retain tiers (as configured on nextcloud's ReplicationSource) or manual cleanup.",
+      "evidence": [
+        {
+          "resource": "repo://docs/cluster-health-review-20260425.md#L102-L111",
+          "version": "repo-lines-v1:sha256:4af68232749daaffb4dc820e404fd4715e4a3291779ad1f47dd7b2f01c61b70c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1YTQxNDAwNDk2ZDM1YWMxODczNDhkNmRhZDE1ZDE3MTM2YzA5MDNiMjFhNmMzNjE1ODdlMzRiMWU3MzQ5OTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI1NWJjYTgxMGQ4YTQ5YzJjZDJmZWU3MGI1NWI5MDUxZGFlZjQ5NzljYzAyMjg0MWVmNDMzOTYwZjQ1N2JkODUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjllZGY3M2FmNGI0MDk4NDRhMDUzNDkyODQ2NmNlYzgxM2RkN2FmZTIyNTFkOWEzZWMzNWMzYWQxODg3ZmI1ZTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQxZDRmNGRmZDk5ODY2Y2FhYjdlNDE1N2M0MmI5ODUxZjVkNzA4MDFhMzE0MDMxYTI4MjNhMmU1NmI1YzNiNTIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c99927af301542dfac651e9ed73cdd4d",
+      "statement": "The 2026-04-25 health review identified cert-manager, external-secrets, cilium-operator, and metrics-server pods as running without resources.limits, an OOM-cascade risk on the single-node cluster where workloads share resources with the control plane.",
+      "evidence": [
+        {
+          "resource": "repo://docs/cluster-health-review-20260425.md#L106-L111",
+          "version": "repo-lines-v1:sha256:8a91fc5dc32278c0f3910dbc004db59e9724f3ce999ce1f764d6eab43b797c1c:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmQ2MjJlNDIwMDkzYmQ4MGVmZWQxOTQ3Mjc3NGMxOWM2OGUxZjEwOWM3Nzc4NTYwZDdhMzIzMzkyNTFlYzYxNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjU1YmNhODEwZDhhNDljMmNkMmZlZTcwYjU1YjkwNTFkYWVmNDk3OWNjMDIyODQxZWY0MzM5NjBmNDU3YmQ4NSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjkyOGQ4OTJmZWNmNzVjYmFiMTE3OTc1N2NlMjAwOWM3Mjg2Y2E1NTlkMGJhYmYxMjhmOTdiN2Y5Yzk1NTE2OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDFkNGY0ZGZkOTk4NjZjYWFiN2U0MTU3YzQyYjk4NTFmNWQ3MDgwMWEzMTQwMzFhMjgyM2EyZTU2YjVjM2I1MiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_423a8deb9ce846f2a12387890112eca3",
+      "statement": "The cluster runs as a single node (master0-nuc12, NUC12, 16-core/32GB, 256GB NVMe system disk plus 2TB NVMe on LVM for TopoLVM) on Talos v1.12.7 / Kubernetes v1.35.4 (upgraded from v1.34.5 on 2026-04-25), and at that date all VolSync ReplicationSources were healthy with no missed syncs.",
+      "evidence": [
+        {
+          "resource": "repo://docs/cluster-health-review-20260425.md#L12-L20",
+          "version": "repo-lines-v1:sha256:05cda91cf2aadc50792b277ef4e96c90b6694b3d34f6636f27d6c28c4a50ef60:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOWM4ZGNjZTVhZmY3YzgzNmVmZjA1ZGVhNzNiY2I5YWNmNWFhNTEwNDA1N2NmMWJiNGZiZjg4MDE2NTBkZGQ0MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYWU0MDUzNzFkNWI4ZjIzOTZlOTk1NzMxNzA2YTA1ZTY0MzY4MTExZjkwZDc1YjY1NDAzZGI0MTNiODNjNDViZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzZlMjk0NjgzYTdhOGExODkyN2FjODkwZjI2M2U3M2NhY2E3NDdmOTY2ZDEwNWUwODVkN2NkMzA0NzY1YmYyMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDAxZjJlYzE3NTkzYzEwNTRlYjQ2MzY3ZDg0NTNlZjI0YTE3M2NlOTZiNzExN2Q5MWY5YTY4ZDQ0ZmVmOGIwMSJ9"
+        },
+        {
+          "resource": "repo://docs/cluster-health-review-20260425.md#L130-L134",
+          "version": "repo-lines-v1:sha256:53fc7c36d4a72f1d8224cd7645c9c17b443f454bb634fc87d5595402eb5ef333:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjI1ZjQ1YThlNDIwZDRlYzNmOGRkOThjMjMzMjVjYjIyYjE1NDRlZDIxNzllY2RjYTM1NWZmZTE0ZjQ1YTU3ZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZmViY2JhZDM2MDUxNmEwOTc1YWIyNWM0NjI5MWEwYTg1MWMxY2I5ODhlNjI0ZjY5OGVmOGNmOWExYTIzOGRkNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDAxZjJlYzE3NTkzYzEwNTRlYjQ2MzY3ZDg0NTNlZjI0YTE3M2NlOTZiNzExN2Q5MWY5YTY4ZDQ0ZmVmOGIwMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.7.0",
-    "at": "2026-10-06T00:54:23.845Z"
+    "by": "openwiki/0.7.1",
+    "at": "2026-10-08T23:50:46.668Z"
   }
 }

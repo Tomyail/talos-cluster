@@ -18,8 +18,18 @@ sources:
     resource: repo://kubernetes/apps/default/calibre-web-automated/app/volsync-nfs.yaml
   - id: openwiki-source-d9f5f9eb0be17b72994fcd3e
     resource: repo://kubernetes/apps/kube-system/cilium/app/helm/values.yaml
+  - id: openwiki-source-406c92f3368aa84a28fbd72b
+    resource: repo://kubernetes/apps/kube-system/cilium/gateway/external.yaml
+  - id: openwiki-source-367dcc8235c3b0a144a93539
+    resource: repo://kubernetes/apps/kube-system/cilium/gateway/internal.yaml
+  - id: openwiki-source-d6f15e9bcc98024fdcda7d87
+    resource: repo://kubernetes/apps/kube-system/cilium/ks.yaml
   - id: openwiki-source-473a10228ca4b1e96867e493
     resource: repo://kubernetes/apps/kube-system/kustomization.yaml
+  - id: openwiki-source-c11ca658ed53520e32ea3a00
+    resource: repo://kubernetes/apps/kube-system/system-upgrade/ks.yaml
+  - id: openwiki-source-63d00fe06cf7a359ecb33f8f
+    resource: repo://kubernetes/apps/kube-system/system-upgrade/upgrades/kubernetes.yaml
   - id: openwiki-source-ededdde4ddcb07a3ee796444
     resource: repo://kubernetes/apps/kube-system/system-upgrade/upgrades/talos.yaml
   - id: openwiki-source-6462236f173fe5751314fd3e
@@ -70,6 +80,8 @@ sources:
     resource: repo://talos/patches/global/machine-api-access.yaml
   - id: openwiki-source-3e196790f656e0269a8c26fb
     resource: repo://talos/patches/global/machine-kubelet.yaml
+  - id: openwiki-source-c665b51a497196ebe6988995
+    resource: repo://talos/patches/global/machine-network.yaml
   - id: openwiki-source-3d83fad84bedab7bcf047491
     resource: repo://talos/patches/global/machine-sysctls.yaml
   - id: openwiki-source-456ed6bb68f86e098d0036e2
@@ -82,10 +94,10 @@ sources:
     resource: repo://talos/talenv.yaml
   - id: openwiki-source-4d7c266d0d7adae77539048e
     resource: repo://talos/uservolume.yaml
-generated: { by: "openwiki/0.6.1", at: "2026-09-28T23:52:40.438Z" }
+generated: { by: "openwiki/0.7.1", at: "2026-10-08T23:50:46.668Z" }
 verified:
-  - by: openwiki/0.6.0
-    at: 2026-09-27T22:26:24.169Z
+  - by: openwiki/0.7.1
+    at: 2026-10-08T23:50:46.668Z
 ---
 
 # Cluster & Talos Architecture
@@ -142,7 +154,7 @@ The cluster is a **single control-plane node** with workload scheduling enabled 
 |---|---|
 | `machine-files.yaml` | Creates `/etc/cri/conf.d/20-customization.part` to keep containerd `discard_unpacked_layers = false` (image caching) |
 | `machine-kubelet.yaml` | Parallel image pulls; node IP restricted to 192.168.50.0/24; bind-mounts `/var/mnt/local-path-provisioner` (`rshared`, rw) |
-| `machine-network.yaml` | Disables search domain; nameservers 1.1.1.1 / 1.0.0.1 |
+| `machine-network.yaml` | Disables search domain; nameservers 1.1.1.1 / 1.0.0.1; extra host entries mapping `192.168.50.12` to `gitea.tomyail.com` and `cold-minio-api.tomyail.com` |
 | `machine-sysctls.yaml` | Inotify limits (Watchdog), `rmem_max`/`wmem_max` 7.5MB (cloudflared QUIC), user namespaces for rootless Docker (gitea runner) |
 | `machine-time.yaml` | NTP via Cloudflare time servers 162.159.200.1 / 162.159.200.123 |
 | `machine-udev.yaml` | DRM rule granting the video group (GID 44) `0660` access to `renderD*` for containerized GPU workloads |
@@ -175,8 +187,7 @@ cluster:
 
 Key consequences for the Kubernetes layer:
 
-<!-- openwiki: broken internal link [/openwiki/concepts/networking.md] link "/openwiki/concepts/networking.md" is root-absolute, which no real consumer resolves against the repository root (not a coding agent reading the page, not GitHub's Markdown renderer, not a local viewer); use a path relative to this file instead. Fix the href or restore the target, then delete this comment. -->
-- **kube-proxy disabled** — Cilium's eBPF kube-proxy replacement handles service forwarding (see [Networking](/openwiki/concepts/networking.md))
+- **kube-proxy disabled** — Cilium's eBPF kube-proxy replacement handles service forwarding (see [Networking](networking.md))
 - **Built-in CoreDNS disabled** — CoreDNS is installed as a Helm release during app bootstrap instead
 - **etcd metrics on :2381** — scraped by Prometheus; etcd advertises only on the 192.168.50.0/24 LAN subnet
 - **Aggregator routing enabled** — required by Cilium's Gateway API / service-mesh style integrations
@@ -583,6 +594,22 @@ The `kube-system` namespace hosts the cluster-foundation applications, all manag
 - **system-upgrade** — the tuppr controller driving automated Talos/Kubernetes upgrades
 
 These are the apps that must exist before application workloads are useful; they are ordered accordingly during bootstrap (Cilium → CoreDNS via helmfile `needs`) and reconciled continuously by Flux afterwards.
+
+### Gateway API Listeners
+
+Cilium's Helm values enable `gatewayAPI`, making the Cilium agent implement the `cilium` GatewayClass. Two `Gateway` resources live in `kubernetes/apps/kube-system/cilium/gateway/` and are reconciled by a dedicated Flux Kustomization (`cilium-gateway`) that depends on `cert-manager` (so the referenced TLS Secrets exist) and substitutes `${SECRET_DOMAIN}` from the `cluster-secrets` Secret:
+
+- **`external`** — LoadBalancer IP `192.168.50.13`, annotated with `external-dns` hostname `external.${SECRET_DOMAIN}`
+- **`internal`** — LoadBalancer IP `192.168.50.12`, annotated with `external-dns` hostname `internal.${SECRET_DOMAIN}`
+
+Both Gateways declare two listeners on hostname `*.${SECRET_DOMAIN}`:
+
+| Listener | Protocol/Port | allowedRoutes | TLS |
+|---|---|---|---|
+| `http` | HTTP :80 | `Same` namespace only | — |
+| `https` | HTTPS :443 | `All` namespaces | Secret `${SECRET_DOMAIN/./-}-production-tls` (cert-manager wildcard cert) |
+
+The asymmetric `allowedRoutes` policy is the key invariant: HTTPRoutes from any namespace can attach to HTTPS (the wildcard-terminated listener), while plain-HTTP routes are restricted to `kube-system` itself — other namespaces must use HTTPS routes. The LoadBalancer IPs are announced on the LAN via Cilium L2 announcements and picked up by DNS via the `external-dns` annotations.
 
 ## Shared Application Conventions (app-template)
 

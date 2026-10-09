@@ -26,10 +26,10 @@ sources:
     resource: repo://kubernetes/components/gatus/external-tailscale/kustomization.yaml
   - id: openwiki-source-d787b4e38b39b0dac177c42f
     resource: repo://kubernetes/flux/meta/repos/tailscale.yaml
-generated: { by: "openwiki/0.6.1", at: "2026-09-28T23:52:40.438Z" }
+generated: { by: "openwiki/0.7.1", at: "2026-10-08T23:50:46.668Z" }
 verified:
-  - by: openwiki/0.5.2
-    at: 2026-09-19T21:35:52.044Z
+  - by: openwiki/0.7.1
+    at: 2026-10-08T23:50:46.668Z
 ---
 
 # Tailscale Integration
@@ -99,7 +99,7 @@ The Tailscale integration is deployed via a HelmRelease in the `network` namespa
 
 ### HelmRelease Configuration
 
-The HelmRelease installs the `tailscale-operator` chart version 1.98.9 from the official Tailscale Helm repository.
+The HelmRelease installs the `tailscale-operator` chart version 1.102.4 (helmrelease.yaml#L11-L12) from the official Tailscale Helm repository (`https://pkgs.tailscale.com/helmcharts`, reconciled every 2h per flux/meta/repos/tailscale.yaml).
 
 **Core Settings** (helmrelease.yaml#L18-L26)
 - **Hostname**: `tailscale` - Operator hostname identifier
@@ -218,13 +218,15 @@ The file includes commented examples demonstrating additional proxy configuratio
 
 **API Service** (egress-proxy.yaml#L13-L27)
 - Target IP: `100.64.0.11`
-- Proxy class: `tailnet-egress`
+- Label `tailscale.com/proxy-class: tailnet-egress`
 - Port: 8080
 
 **Redis Service** (egress-proxy.yaml#L29-L44)
 - Target IP: `100.64.0.12`
-- Proxy class: `accept-routes`
+- Label `tailscale.com/proxy-class: accept-routes`
 - Port: 6379
+
+Note that the optional `tailscale.com/proxy-class` selector is expressed as a Service **label** (not an annotation), and the ports are optional — the active Mosquitto service defines none.
 
 These examples show how to configure egress proxy services for different use cases and proxy classes.
 
@@ -280,7 +282,7 @@ The Tailscale integration includes health monitoring via Gatus:
 - URL pattern: `https://${GATUS_SUBDOMAIN_TAILSCALE:=${APP}}.${SECRET_DOMAIN}/` — applications may override the subdomain, e.g. the echo app sets `GATUS_SUBDOMAIN_TAILSCALE: echo-tailscale` (echo/ks.yaml#L28)
 - DNS resolver: `tcp://223.5.5.5:53` (external DNS for independence)
 - Check interval: 1 minute
-- Expected status: 200 (configurable via `${GATUS_STATUS}`)
+- Expected status: 200 (configurable via `${GATUS_STATUS}`); the URL path is also overridable via `${GATUS_PATH}` (defaults to `/`)
 
 **Component Pattern** (external-tailscale/kustomization.yaml)
 The Gatus configuration is implemented as a reusable component that generates ConfigMaps with the `gatus.io/enabled: "true"` label, allowing any application to include Tailscale health checks by referencing the component.
@@ -370,7 +372,4 @@ The Tailscale integration is part of the cluster's broader network architecture:
 - Services with `tailscale.com/expose` provide alternative private ingress
 - The different ingress paths serve complementary purposes and do not interfere
 
-<!-- openwiki: broken internal link [/openwiki/concepts/networking.md] link "/openwiki/concepts/networking.md" is root-absolute, which no real consumer resolves against the repository root (not a coding agent reading the page, not GitHub's Markdown renderer, not a local viewer); use a path relative to this file instead. Fix the href or restore the target, then delete this comment. -->
-For more details on the overall network architecture, see the [Network Architecture](/openwiki/concepts/networking.md) concept page.
-<!-- openwiki: broken internal link [/openwiki/concepts/networking.md] link "/openwiki/concepts/networking.md" is root-absolute, which no real consumer resolves against the repository root (not a coding agent reading the page, not GitHub's Markdown renderer, not a local viewer); use a path relative to this file instead. Fix the href or restore the target, then delete this comment. -->
-verall network architecture, see the [Network Architecture](/openwiki/concepts/networking.md) concept page.
+For more details on the overall network architecture, see the [Network Architecture](../concepts/networking.md) concept page.

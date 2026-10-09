@@ -1,8 +1,8 @@
 ---
 type: integration
 title: CI/CD Integration
-description: GitHub Actions workflows for validating Kubernetes manifests via flux-local testing and diff generation on pull requests, synchronizing repository labels, automating area-based PR labeling, and automating OpenWiki documentation updates.
-tags: [ci-cd, github-actions, flux-local, validation, automation, labels]
+description: GitHub Actions workflows for flux-local manifest validation, label automation, and OpenWiki docs updates, plus in-cluster Gitea runners and the SOPS-encrypted GitHub deploy key that authenticates Flux clones.
+tags: [ci-cd, github-actions, flux-local, validation, automation, labels, gitea-runner, deploy-key]
 sources:
   - id: openwiki-source-6d9eaf54557a60120951afe0
     resource: repo://.github/labeler.yaml
@@ -18,10 +18,24 @@ sources:
     resource: repo://.github/workflows/openwiki-update.yml
   - id: openwiki-source-aa55808be329b3f929ddf105
     resource: repo://.renovaterc.json5
+  - id: openwiki-source-360da09d9920a02e1e719d90
+    resource: repo://bootstrap/helmfile.yaml
+  - id: openwiki-source-8bd7eb45faea477fe79c771c
+    resource: repo://kubernetes/apps/default/gitea/runner/externalsecret.yaml
+  - id: openwiki-source-faa22357e28d032d113386ae
+    resource: repo://kubernetes/apps/default/gitea/runner/helmrelease.yaml
+  - id: openwiki-source-f7d9c3852b54df59427cfe7d
+    resource: repo://kubernetes/apps/default/gitea/runner/kustomization.yaml
+  - id: openwiki-source-5d49d7485aa341e8a24545dc
+    resource: repo://kubernetes/apps/default/gitea/runner/pvc.yaml
+  - id: openwiki-source-7a6dfabba58a5bbfbd748db5
+    resource: repo://kubernetes/apps/flux-system/flux-instance/app/helm/values.yaml
+  - id: openwiki-source-6f1d2c8de9160e178167b990
+    resource: repo://scripts/bootstrap-apps.sh
+generated: { by: "openwiki/0.7.1", at: "2026-10-08T23:50:46.668Z" }
 verified:
-  - by: openwiki/0.5.2
-    at: 2026-09-19T21:35:52.044Z
-generated: { by: "openwiki/0.6.1", at: "2026-09-28T23:52:40.438Z" }
+  - by: openwiki/0.7.1
+    at: 2026-10-08T23:50:46.668Z
 ---
 
 # CI/CD Integration
@@ -314,10 +328,27 @@ Renovate runs its own automation outside GitHub Actions, configured by `.renovat
 - **Label coupling**: Renovate attaches the `renovate/*` and `type/*` labels defined in `.github/labels.yaml` (docker → `renovate/container`, helm → `renovate/helm`, github-actions manager → `renovate/github-action`, github-releases → `renovate/github-release`; update type maps to `type/major|minor|patch` and digest-only updates use `type/digest`), keeping the PR label schema consistent with the label-sync workflow.
 - **SOPS safety**: `ignorePaths: ["**/*.sops.*"]` prevents Renovate from rewriting encrypted files; Flux/Helm/Kustomize managers scan `kubernetes/**` YAML (including `.j2` templates), and a regex custom manager processes `# renovate:` annotated versions in `.env`, `.sh`, and `.yaml` files.
 
+## In-Cluster Gitea Runners
+
+Alongside GitHub Actions, the cluster self-hosts Gitea Act Runner instances under `kubernetes/apps/default/gitea/runner/`, so workflows in the self-hosted Gitea instance (`https://gitea.${SECRET_DOMAIN}`) execute on in-cluster runners rather than external infrastructure.
+
+- **HelmRelease** (`helmrelease.yaml`): deploys the `gitea/runner:nightly-dind-rootless` image via the shared `app-template` OCI chart, with install/upgrade remediation (3 retries, rollback on upgrade failure) and `reloader.stakater.com/auto: "true"` to restart pods when config changes.
+- **Runner configuration**: `GITEA_INSTANCE_URL` points at the Gitea instance and `GITEA_RUNNER_LABELS` advertises a `docker:docker://catthehacker/ubuntu:act-latest` label, so jobs run in Docker containers based on that image. The registration token (`GITEA_RUNNER_REGISTRATION_TOKEN`) is injected from the `gitea-runner-secret` Secret via `envFrom`.
+- **Docker-in-Docker**: `DOCKER_HOST` is set to `unix:///run/user/1000/docker.sock`; the pod runs as UID/GID 1000 (`runAsNonRoot`) with supplemental group 65536 to access the rootless Docker socket, and the container itself is `privileged: true` to support DinD workloads.
+- **Persistence**: `pvc.yaml` requests a 20Gi `ReadWriteOnce` volume on the `topolvm-thin-provisioner` storage class, mounted at `/data` for runner state; `/tmp` uses an `emptyDir`.
+- **Secret provisioning** (`externalsecret.yaml`): an External Secrets `ExternalSecret` syncs `GITEA_RUNNER_REGISTRATION_TOKEN` from the `bitwarden-login` ClusterSecretStore (Bitwarden item `gitea-runner`, `password` property) into the `gitea-runner-secret` Secret, so the runner's registration credential never lives in Git.
+
+## GitHub Deploy Key for Flux
+
+Flux clones the repository from GitHub over HTTPS using a GitHub deploy key:
+
+- The deploy key is stored SOPS-encrypted at `bootstrap/github-deploy-key.sops.yaml` (the file is intentionally not committed to the public tree; scripts tolerate its absence with a warning).
+- `apply_sops_secrets()` in `scripts/bootstrap-apps.sh` decrypts it with `sops exec-file` and applies it server-side into the `flux-system` namespace during bootstrap, before the helmfile charts (Cilium → CoreDNS → cert-manager → flux-operator → flux-instance) are installed. The same function also applies the SOPS age key and cluster secrets.
+- The Flux instance (deployed by `flux-instance` in `/bootstrap/helmfile.yaml`) then syncs `kubernetes/flux/cluster` from `https://github.com/tomyail/talos-cluster.git` (`refs/heads/main`), consuming the deploy key secret for Git authentication.
+
 ## Relationship to Flux Architecture
 
-<!-- openwiki: broken internal link [/openwiki/concepts/flux-architecture.md] link "/openwiki/concepts/flux-architecture.md" is root-absolute, which no real consumer resolves against the repository root (not a coding agent reading the page, not GitHub's Markdown renderer, not a local viewer); use a path relative to this file instead. Fix the href or restore the target, then delete this comment. -->
-These CI/CD workflows complement the Flux GitOps architecture described in [Flux GitOps Architecture](/openwiki/concepts/flux-architecture.md):
+These CI/CD workflows complement the Flux GitOps architecture described in [Flux GitOps Architecture](../concepts/flux-architecture.md):
 
 - **Validation Layer**: flux-local testing provides pre-deployment validation before Flux reconciles changes to the cluster
 - **Change Visibility**: diff generation shows the exact impact of PR changes on cluster state
@@ -359,8 +390,7 @@ The Flux Local workflow uses concurrency groups to prevent resource waste:
 
 ### Renovate Integration
 
-<!-- openwiki: broken internal link [/openwiki/integrations/renovate.md] link "/openwiki/integrations/renovate.md" is root-absolute, which no real consumer resolves against the repository root (not a coding agent reading the page, not GitHub's Markdown renderer, not a local viewer); use a path relative to this file instead. Fix the href or restore the target, then delete this comment. -->
-The label schema works with Renovate bot, which automatically applies `renovate/*` and `type/*` labels to dependency update PRs. See [Renovate Integration](/openwiki/integrations/renovate.md) for details on dependency automation.
+The label schema works with Renovate bot, which automatically applies `renovate/*` and `type/*` labels to dependency update PRs. See [Renovate on CI/CD](ci-cd-renovate.md) and [Image Automation](image-automation.md) for details on dependency automation.
 
 ### Application Deployment
 

@@ -3,9 +3,6 @@ type: integration
 title: Flux Image Automation
 description: Automated container image tag updates for default namespace applications using Flux ImageRepository, ImagePolicy, and ImageUpdateAutomation with Setters strategy and flux-bot commits.
 tags: [flux, image-automation, gitops, containers, automation]
-verified:
-  - by: openwiki/0.7.1
-    at: 2026-10-07T23:40:28.801Z
 sources:
   - id: openwiki-source-aa55808be329b3f929ddf105
     resource: repo://.renovaterc.json5
@@ -19,10 +16,14 @@ sources:
     resource: repo://kubernetes/apps/default/fava/ks.yaml
   - id: openwiki-source-98116d7d2af016f632c79396
     resource: repo://kubernetes/apps/default/growth-tracker/ks.yaml
+  - id: openwiki-source-f2c217b02961b7da9b816636
+    resource: repo://kubernetes/apps/flux-system/fava-image-automation/automation.yaml
   - id: openwiki-source-7a6dfabba58a5bbfbd748db5
     resource: repo://kubernetes/apps/flux-system/flux-instance/app/helm/values.yaml
   - id: openwiki-source-0c7ec057591fa8f2c504b0a2
     resource: repo://kubernetes/apps/flux-system/image-automation/automation.yaml
+  - id: openwiki-source-353d6337774b02ec530a43f6
+    resource: repo://kubernetes/apps/flux-system/kustomization.yaml
   - id: openwiki-source-98651905762c8e5a9b4da8ba
     resource: repo://kubernetes/components/image-automation/imagepolicy.yaml
   - id: openwiki-source-7d50b3fa30e8bcbde0dc183c
@@ -31,7 +32,10 @@ sources:
     resource: repo://kubernetes/components/image-automation/kustomization.yaml
   - id: openwiki-source-3f02d6aaa16b90ed2eba88ec
     resource: repo://kubernetes/components/image-automation/registry-externalsecret.yaml
-generated: { by: "openwiki/0.7.1", at: "2026-10-07T23:40:28.801Z" }
+generated: { by: "openwiki/0.7.1", at: "2026-10-08T23:50:46.668Z" }
+verified:
+  - by: openwiki/0.7.1
+    at: 2026-10-08T23:50:46.668Z
 ---
 
 # Flux Image Automation
@@ -133,6 +137,12 @@ The flux-bot identity handles all automated image updates:
 - Email: `flux-bot@users.noreply.github.com`
 
 This workflow enables continuous deployment where new image builds trigger automatic updates without manual intervention.
+
+### App-Scoped Automation Example (`fava-image-automation`)
+
+A second ImageUpdateAutomation exists at `kubernetes/apps/flux-system/fava-image-automation/automation.yaml`, scoped to a single application (`path: ./kubernetes/apps/default/fava`). It is otherwise identical to the cluster-wide automation (5m interval, Setters strategy, `flux-system-https` GitRepository, main branch, flux-bot author). Unlike the deployed `apps` automation it defines **no `policySelector`**, so if applied it would consider ImagePolicies without the label filter.
+
+This resource is currently **not reconciled**: `kubernetes/apps/flux-system/kustomization.yaml` includes only `./image-automation/ks.yaml`, and no Kustomization references the `fava-image-automation` path. It serves as a working example of an app-scoped automation; activating it would require adding a Kustomization (or adding its directory to an existing one) and would risk duplicate commits with the cluster-wide automation since fava falls inside `./kubernetes/apps/default`.
 
 ## Integration with Applications
 

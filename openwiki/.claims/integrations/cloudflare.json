@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:749f9a2e0825a4b32441d54f772f0b8c7342dbc6f7b804bc85d75e8957455b30",
+  "pageVersion": "sha256:a79a11b728e00d64ca9a87432ea97e96e98e2ad6b87263c1301888217402dbf4",
   "claims": [
     {
       "id": "claim_cced16d6ffcc403f88c2e2b84e04310f",
@@ -389,10 +389,20 @@
           "version": "repo-lines-v1:sha256:287eba7b9f28c6d2e689abaae48a392a04d709dfb54b40c1d845a835354cb1d5:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMxN2M3OGZhNzUzOTA5ZTJkMDI0NmRlMjRiMTAwYWI5NzlkMjE5YzkyMDliODU5MTNhMmMyMGMzYzE4YzViM2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_e91ee2a0e05846e0839ae458299e95f9",
+      "statement": "A DNSEndpoint resource pins external.${SECRET_DOMAIN} to a CNAME targeting the tunnel ID hostname (5b7a9006-79aa-4f8d-a157-fde642c738fe.cfargotunnel.com); external-dns reconciles this record into Cloudflare DNS so public traffic is steered into the tunnel.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/dnsendpoint.yaml",
+          "version": "repo-file-v1:sha256:429a185741c44e4e8deac791cb3b3dab3de808b51c08e8e70ef33937197e07cc"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.6.0",
-    "at": "2026-09-26T22:04:11.432Z"
+    "by": "openwiki/0.7.1",
+    "at": "2026-10-08T23:50:46.668Z"
   }
 }

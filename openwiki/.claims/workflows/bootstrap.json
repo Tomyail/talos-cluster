@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:472d14efe453b57ca8e27948e896c6a74c01e59e57fd46c1265ae398668ec040",
+  "pageVersion": "sha256:d0ac8a99b6217a7ea04a6f9a9eb219865a9b160aaa6ac5c4ea795def5a2072f1",
   "claims": [
     {
       "id": "claim_d11cc08ba8894ce49744eed253401d09",
@@ -172,7 +172,7 @@
     },
     {
       "id": "claim_05cb327c62914e45867bc0a2c39ee202",
-      "statement": "Bootstrap Helm releases (cilium 1.20.1, coredns 1.47.1, cert-manager v1.21.2, flux-operator 0.60.0, flux-instance 0.60.0) form a dependency chain via `needs`: Cilium (requires pre-applied Gateway API CRDs) → CoreDNS → cert-manager → flux-operator → flux-instance; all releases are atomic, waited on, and rollback on failure via helmDefaults.",
+      "statement": "Bootstrap Helm releases (cilium 1.20.2, coredns 1.47.1, cert-manager v1.21.2, flux-operator 0.60.0, flux-instance 0.60.0) form a dependency chain via `needs`: Cilium (requires pre-applied Gateway API CRDs) → CoreDNS → cert-manager → flux-operator → flux-instance; all releases are atomic, waited on, and rollback on failure via helmDefaults.",
       "evidence": [
         {
           "resource": "repo://bootstrap/helmfile.yaml#L13-L52",
@@ -282,7 +282,7 @@
     }
   ],
   "verification": {
-    "by": "openwiki/0.7.0",
-    "at": "2026-10-06T00:54:23.845Z"
+    "by": "openwiki/0.7.1",
+    "at": "2026-10-08T23:50:46.668Z"
   }
 }

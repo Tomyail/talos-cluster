@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:720d158dabdc909ded25d83d0620017ff618000d10cb01b7d4b60ea1f11036ad",
+  "pageVersion": "sha256:d44a8928e3fb3b3899a5ddd61af1eece109fb2185e57c48a999ecbf2bb388dcb",
   "claims": [
     {
       "id": "claim_2f8b2d0f8ee7497eb3ab28202bcff633",
@@ -659,10 +659,104 @@
           "version": "repo-lines-v1:sha256:a5a32f5e425e19fa08f150b2bc9d7228aa6262633d4362420cd4ce0000d4374c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY3YTkxYzk3NmEyZWZiNTc5NDFkMjUyNjIxOTc2Y2Q0YjY2ZmM0OGM4MTM2YWQ2MDlkZGUxNWQxYjYwZTgwODIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIwYmFkYjU3ODkzOTI4N2YwZTkyMGY4ZGE1YWM1Y2ExOWZhOGUwNjlmZWQyNjEzZTRmMGFhYjM3ZDg3MmFjMTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU1Y2JkY2VkNTY2MGZjZDlhY2I5YTQ1MzU4MTEyMjY4OTkwOGI3NjJmYjllOWYxOWQ5ZTk2YjliNzYyMDgwZjYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNjZTZlZjk0NzBlMDdmZjdiYTA4YWY3NGU1M2I4ODYxYmU1ZGUzODk3MGE1MTZiYmFmZjMyMjA2NzU4OTYyZTYifQ"
         }
       ]
+    },
+    {
+      "id": "claim_c30a324b1d5549bf958d518da0bdcb86",
+      "statement": "The global machine-network patch disables the search domain, sets nameservers 1.1.1.1/1.0.0.1, and adds extra host entries mapping 192.168.50.12 to gitea.tomyail.com and cold-minio-api.tomyail.com.",
+      "evidence": [
+        {
+          "resource": "repo://talos/patches/global/machine-network.yaml",
+          "version": "repo-file-v1:sha256:36515cf1e7be59e238de379a167402c5ea2a00ac7d57ab913035f2f0830de5c1"
+        }
+      ]
+    },
+    {
+      "id": "claim_2bc5ac7d7ef44d43b9638d138e5512e9",
+      "statement": "Cilium implements the `cilium` GatewayClass via gatewayAPI.enabled, and two Gateway resources — external (IP 192.168.50.13) and internal (IP 192.168.50.12) — are reconciled in kube-system with external-dns hostname annotations driven by cluster-secrets substitution.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/cilium/gateway/external.yaml",
+          "version": "repo-file-v1:sha256:426b7b64b1da0b8b74c808898ac65e0bd8012c6c6112cb542a5ede5991937bbb"
+        },
+        {
+          "resource": "repo://kubernetes/apps/kube-system/cilium/gateway/internal.yaml",
+          "version": "repo-file-v1:sha256:81732658aff94d72a4c861f0feb4d7e41dfb5e62f4d2611e190e4fc328d82ee5"
+        }
+      ]
+    },
+    {
+      "id": "claim_685ac39989eb48e687966ba077304715",
+      "statement": "Each Gateway declares an HTTP :80 listener allowing routes only from the Same namespace and an HTTPS :443 listener allowing routes from All namespaces, terminating TLS with the ${SECRET_DOMAIN/./-}-production-tls Secret on hostname *.${SECRET_DOMAIN}.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/cilium/gateway/external.yaml#L17-L35",
+          "version": "repo-lines-v1:sha256:20817657f1b362a96c37f0f42b6de86190dd1769e105cc0054f88629c962eb51:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk5MmJmMWNjN2I4MzY3ZDA4ZDZiMTdkY2M4NjFkMzQ4YjIxYmZiOTgzMDU5MzQ3NzRlOGQ5MmNmMmQyNmJmYTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjExZTk3YWVkMGU1Yjc1Zjc4ODQyODQ5YzlkNzViMjkyODBlMzA3ZWEzNWQ1MTUzNzk1ZGVjZTQ2MGMyMDkxZmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ5MTQ3MmZjMDI5OGYwZWRlMTZiM2U4M2Q3MjAyZmQyZjA0MGMzNTk0NmFlZDA2YjEzZWJlYTcxOTcwZWY4MTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/kube-system/cilium/gateway/internal.yaml#L14-L32",
+          "version": "repo-lines-v1:sha256:20817657f1b362a96c37f0f42b6de86190dd1769e105cc0054f88629c962eb51:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk5MmJmMWNjN2I4MzY3ZDA4ZDZiMTdkY2M4NjFkMzQ4YjIxYmZiOTgzMDU5MzQ3NzRlOGQ5MmNmMmQyNmJmYTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjExZTk3YWVkMGU1Yjc1Zjc4ODQyODQ5YzlkNzViMjkyODBlMzA3ZWEzNWQ1MTUzNzk1ZGVjZTQ2MGMyMDkxZmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRkOTlkNjAwNjQ5YjRlMTAyNDQ3YzNiZWY0YWRhM2E5M2JlMTIxZGI5OTE4NjU2ZGJjYWRiNmU0ZDE5ZmY5OTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c2734b2f0fcf413fa6defb1633714649",
+      "statement": "The cilium-gateway Flux Kustomization depends on cert-manager (so TLS Secrets referenced by Gateway listeners exist) and substitutes ${SECRET_DOMAIN} from the cluster-secrets Secret.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/cilium/ks.yaml#L31-L62",
+          "version": "repo-lines-v1:sha256:92b7db84e56d27b4b68d40f5f2df8efacf1f4d5e3c5d43935cf30900dcdf9208:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyY2ZmNWZmYmE1MGFjMzgxNmFmZjljODViNmI3YTQ4NWU3ZTJhNzM0NjI1ZjM5NGMwNDlkNGI5NmQ1N2E4YzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk1MjI1YzMzMjAzM2QwY2Q4YzBlNTRiMzE5ZTU0Yjc1ZjliNjk0YmIzYmY3ZWY4ZWFjZTBiMTczNzc0Y2I0NjkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_75f650c70d9c4092971c8a84f9b96b1b",
+      "statement": "The tuppr controller in kube-system/system-upgrade drives automated in-cluster upgrades via TalosUpgrade (v1.12.7, rebootMode: powercycle) and KubernetesUpgrade (v1.35.4) CRs, with the upgrades Kustomization depending on the tuppr controller Kustomization.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/system-upgrade/ks.yaml",
+          "version": "repo-file-v1:sha256:210affeb141759c85a0be91f6a06746ed7a302f9ffb1f142832dab69bd1f0f79"
+        },
+        {
+          "resource": "repo://kubernetes/apps/kube-system/system-upgrade/upgrades/kubernetes.yaml",
+          "version": "repo-file-v1:sha256:be50b9911d94a2b8e4c3b8b47c3f730630ef79612220c90423ef7566be7fcd14"
+        },
+        {
+          "resource": "repo://kubernetes/apps/kube-system/system-upgrade/upgrades/talos.yaml",
+          "version": "repo-file-v1:sha256:f041519d65e43b5cfa242a7a506f5d21aaf537a2514cc8f8e6a966267f533e60"
+        }
+      ]
+    },
+    {
+      "id": "claim_0974fa4a29e44eeaa4d2382d285e1e23",
+      "statement": "kube-system hosts the cluster-foundation Flux Kustomizations (cilium, coredns, metrics-server, reloader, node-feature-discovery, intel-device-plugin-operator, system-upgrade), all namespaced kube-system via the shared common component.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/cilium/ks.yaml",
+          "version": "repo-file-v1:sha256:52a807209a5f991c5a737a4a5910c01b40adb6fcdeb15665952e8e81fb3ac59b"
+        },
+        {
+          "resource": "repo://kubernetes/apps/kube-system/kustomization.yaml",
+          "version": "repo-file-v1:sha256:1bfec7c10e99e1c6fc15d8eb3ed30b97520c517d27e8a3d83beea18885ab36fc"
+        }
+      ]
+    },
+    {
+      "id": "claim_2664e741a2af40839ae199fc69234b35",
+      "statement": "Cilium is configured with kubeProxyReplacement: true (hostLegacyRouting due to Talos issue 10002), kubernetes IPAM, native routing over 10.42.0.0/16, maglev+DSR load balancing, L2 announcements, egress gateway, host-namespace-only socket-LB, and Hubble disabled; this pairs with kube-proxy being disabled in the Talos controller patch.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/kube-system/cilium/app/helm/values.yaml",
+          "version": "repo-file-v1:sha256:a5d44cfd8523a63bed8cf76f09c859c2a9a91a46e254c263386774dccf811abf"
+        },
+        {
+          "resource": "repo://talos/patches/controller/cluster.yaml",
+          "version": "repo-file-v1:sha256:b84f1bd6fa79f59238e74442f063dd9f363671d200064815ecfd618c261d47d3"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.6.0",
-    "at": "2026-09-27T22:26:24.169Z"
+    "by": "openwiki/0.7.1",
+    "at": "2026-10-08T23:50:46.668Z"
   }
 }

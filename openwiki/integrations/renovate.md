@@ -36,10 +36,10 @@ sources:
     resource: repo://scripts/bootstrap-apps.sh
   - id: openwiki-source-b65e4f1ccd91316116ad973a
     resource: repo://talos/talenv.yaml
-generated: { by: "openwiki/0.7.1", at: "2026-10-07T23:40:28.801Z" }
+generated: { by: "openwiki/0.7.1", at: "2026-10-08T23:50:46.668Z" }
 verified:
   - by: openwiki/0.7.1
-    at: 2026-10-07T23:40:28.801Z
+    at: 2026-10-08T23:50:46.668Z
 ---
 
 # Renovate Dependency Automation
@@ -219,17 +219,17 @@ Mise tool changes are automatically labeled `area/mise` by the GitHub labeler, w
 Example from the `.mise.toml` `[tools]` block:
 ```toml
 [tools]
-"python" = "3.14.7"
+"python" = "3.14.8"
 "pipx:makejinja" = "2.9.1"
 "aqua:budimanjojo/talhelper" = "3.1.17"
 "aqua:cilium/cilium-cli" = "0.20.1"
-"aqua:cli/cli" = "2.101.0"
+"aqua:cli/cli" = "2.102.0"
 "aqua:cloudflare/cloudflared" = "2026.9.3"
 "aqua:cue-lang/cue" = "0.17.1"
 "aqua:FiloSottile/age" = "1.3.2"
-"aqua:fluxcd/flux2" = "2.9.5"
+"aqua:fluxcd/flux2" = "2.9.6"
 "aqua:getsops/sops" = "3.13.3"
-"aqua:go-task/task" = "3.53.1"
+"aqua:go-task/task" = "3.54.0"
 "aqua:helm/helm" = "4.3.0"
 "aqua:helmfile/helmfile" = "1.8.1"
 "aqua:jqlang/jq" = "1.7.1"
@@ -242,7 +242,7 @@ node = "latest"
 pipx = "latest"
 ```
 
-All pinned tool versions that the `mise` manager updates live in this `[tools]` block: Python (`3.14.7`), pipx-installed tools (makejinja `2.9.1`), and aqua-proxied CLIs (talhelper `3.1.17`, cilium-cli `0.20.1`, gh CLI `2.101.0`, cloudflared `2026.9.3`, cue `0.17.1`, age `1.3.2`, flux2 `2.9.5`, sops `3.13.3`, go-task `3.53.1`, helm `4.3.0`, helmfile `1.8.0`, jq `1.7.1`, kustomize `5.6.0`, kubectl `1.33.1`, yq `4.53.6`, talos `1.14.1`, kubeconform `0.8.0`), plus unpinned `node` and `pipx` (`latest`). Minor and patch bumps to these entries are auto-merged as branch commits with tests ignored.
+All pinned tool versions that the `mise` manager updates live in this `[tools]` block: Python (`3.14.8`), pipx-installed tools (makejinja `2.9.1`), and aqua-proxied CLIs (talhelper `3.1.17`, cilium-cli `0.20.1`, gh CLI `2.102.0`, cloudflared `2026.9.3`, cue `0.17.1`, age `1.3.2`, flux2 `2.9.6`, sops `3.13.3`, go-task `3.54.0`, helm `4.3.0`, helmfile `1.8.1`, jq `1.7.1`, kustomize `5.6.0`, kubectl `1.33.1`, yq `4.54.1`, talos `1.14.2`, kubeconform `0.8.0`), plus unpinned `node` and `pipx` (`latest`). Minor and patch bumps to these entries are auto-merged as branch commits with tests ignored.
 
 ## Package Grouping
 

@@ -1,102 +1,62 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:9af810fbd95d7e19d2b61fa58ed2765447f34575034c3c6ae3bbf19312ae92b1",
+  "pageVersion": "sha256:cdbe152c9d9c5a164a9bd23f99b441ddbd7726e5c1bcec3a68d524894b702af9",
   "claims": [
     {
-      "id": "claim_641adc5b8191404080e2b544847ae074",
-      "statement": "The cloudflare-dns Kustomization deploys external-dns (chart v1.22.0) with the cloudflare provider, sourcing records from DNSEndpoint CRDs and gateway-httproute (gateway-name external), policy sync, proxied records, domain filter ${SECRET_DOMAIN}, and a CF_API_TOKEN from the SOPS Secret cloudflare-dns-secret with Stakater Reloader restarts.",
+      "id": "claim_03b8126ad862460ea99f1741ba28def8",
+      "statement": "The external-server namespace is Flux Kustomization `external-server` targeting namespace `external-server`, applying components/common plus a single app Kustomization at kubernetes/apps/external-server/external-server/app, with prune, SOPS decryption, cluster-secrets substitution, 1h interval, and wait: true; it deploys no pods, HelmReleases, or SOPS secrets.",
       "evidence": [
         {
-          "resource": "repo://kubernetes/apps/network/cloudflare-dns/app/helmrelease.yaml",
-          "version": "repo-file-v1:sha256:a7d88302ab121488a3ae688554eb682077379a82ae4bbabb73e15b4c52597ed0"
+          "resource": "repo://kubernetes/apps/external-server/external-server/ks.yaml",
+          "version": "repo-file-v1:sha256:0726e27598f0eb610c8d42e3059eb030f4ea34b820e06fe1f4c5b82eac88e8d8"
         },
         {
-          "resource": "repo://kubernetes/apps/network/cloudflare-dns/app/secret.sops.yaml",
-          "version": "repo-file-v1:sha256:e45679e6b0c76a626cfab41cd171343f7cadaf864f739724776a571c293e8205"
+          "resource": "repo://kubernetes/apps/external-server/kustomization.yaml",
+          "version": "repo-file-v1:sha256:767f91f3b1ac104fbbe6f60af30c0bca5eb0da50a5aa56e73b07b54b3ff37e8e"
         }
       ]
     },
     {
-      "id": "claim_9354c9f9cdde4e68a6238ea8446d1bff",
-      "statement": "cloudflare-tunnel runs cloudflared (image tag 2026.9.3) with `tunnel run`, credentials via TUNNEL_TOKEN from the SOPS Secret cloudflare-tunnel-secret, a config ConfigMap mounted at /etc/cloudflared/config.yaml routing ${SECRET_DOMAIN} and *.${SECRET_DOMAIN} to the Cilium Gateway service cilium-gateway-external.kube-system, http2 transport, /ready probes on port 8080, and reloader.stakater.com/auto restart on Secret change.",
+      "id": "claim_3204936a23594f3d8791cb2750b7a947",
+      "statement": "Each proxied backend in external-server is a selectorless Service paired with a same-named manual Endpoints object pointing at a fixed LAN IP and port (e.g. adguard 192.168.50.1:3000; iyuu, moviepilot, ugreen, cold-minio-api/console, hot-minio-api/console at 192.168.50.220), giving cluster-native identity to out-of-cluster services.",
       "evidence": [
         {
-          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/helmrelease.yaml",
-          "version": "repo-file-v1:sha256:03d82e5fc47227b0ba89697d0774a269e6f2b3ed596fe8cf9349edcb06cb2192"
+          "resource": "repo://kubernetes/apps/external-server/external-server/app/endpoints.yaml",
+          "version": "repo-file-v1:sha256:d1c4395b75d640be9fa36d21b02195880225137e1c268879c56675b8e1a4e8ef"
         },
         {
-          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/resources/config.yaml",
-          "version": "repo-file-v1:sha256:287eba7b9f28c6d2e689abaae48a392a04d709dfb54b40c1d845a835354cb1d5"
-        },
-        {
-          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/secret.sops.yaml",
-          "version": "repo-file-v1:sha256:8d3d45cf5c94550fb24dc24dba1a64fa621966f35c1f993a277386177c1c2cf0"
+          "resource": "repo://kubernetes/apps/external-server/external-server/app/services.yaml",
+          "version": "repo-file-v1:sha256:458502d402576cca96433ca8d49072315de7603d932efa7966488a35fc808acf"
         }
       ]
     },
     {
-      "id": "claim_8fd328b65fb048ffb7a06ee87e8a7315",
-      "statement": "The DNSEndpoint `cloudflare-tunnel` publishes CNAME external.${SECRET_DOMAIN} -> 5b7a9006-79aa-4f8d-a157-fde642c738fe.cfargotunnel.com, which external-dns syncs into Cloudflare to route public traffic into the tunnel.",
+      "id": "claim_1c9e4fdd871a4605ae462c7410a63814",
+      "statement": "All eight external-server HTTPRoutes attach to the internal Gateway (kube-system, https section) providing HTTPS hostnames on ${SECRET_DOMAIN}; only the four MinIO routes (cold-minio-api, cold-minio, hot-minio-api, hot-minio) additionally attach to the external Gateway, making MinIO the only publicly reachable proxied services, and no auth middleware is applied in this namespace.",
       "evidence": [
         {
-          "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/dnsendpoint.yaml",
-          "version": "repo-file-v1:sha256:429a185741c44e4e8deac791cb3b3dab3de808b51c08e8e70ef33937197e07cc"
+          "resource": "repo://kubernetes/apps/external-server/external-server/app/httproute.yaml",
+          "version": "repo-file-v1:sha256:e964a0c8afd69eb3afee2ad38b52a66bebe14e869ee32ced53d7c14c899ae68a"
         }
       ]
     },
     {
-      "id": "claim_bac9ddf5a6354380a4fe31b876c5daa0",
-      "statement": "The tailscale operator (chart tailscale-operator v1.102.4) gets OAuth credentials from Secret tailscale-secret (valuesFrom mapping client_id/client_secret to oauth.clientId/clientSecret); that Secret is produced by an ExternalSecret pulling username/password from Bitwarden item tailscale_k8s_oauth via ClusterSecretStore bitwarden-login, and Reloader restarts the operator on change.",
+      "id": "claim_27515732017843a39bac77a327a1e7b7",
+      "statement": "external-server is included in the Flux GitHub notification alert's watched namespaces alongside the other app namespaces.",
       "evidence": [
         {
-          "resource": "repo://kubernetes/apps/network/tailscale/app/externalsecret.yaml",
-          "version": "repo-file-v1:sha256:6dd6916b243e658d84fe3bcbb80ea0abf4adee8d6c1a71a1588381d06fd96c78"
+          "resource": "repo://kubernetes/apps/external-server/external-server/ks.yaml",
+          "version": "repo-file-v1:sha256:0726e27598f0eb610c8d42e3059eb030f4ea34b820e06fe1f4c5b82eac88e8d8"
         },
         {
-          "resource": "repo://kubernetes/apps/network/tailscale/app/helmrelease.yaml",
-          "version": "repo-file-v1:sha256:1032551b193f2cc8a2d21e351391c11693aef7bd6ce35be350163e3d0a967f81"
-        }
-      ]
-    },
-    {
-      "id": "claim_1514c67149044895a0cb03ca34a20ba6",
-      "statement": "Tailscale provides tailnet egress and access: apiServerProxyConfig.mode 'true' enables the API server proxy, and ExternalName Services annotated with tailscale.com/tailnet-ip (e.g. prod-cluster-mosquitto -> 100.123.28.51) let in-cluster workloads reach remote tailnet hosts.",
-      "evidence": [
-        {
-          "resource": "repo://kubernetes/apps/network/tailscale/app/egress-proxy.yaml",
-          "version": "repo-file-v1:sha256:fb9d3606f30994bb8917d53ca115aa07f0ba6dffb128a6a9b00b58f39738975e"
-        },
-        {
-          "resource": "repo://kubernetes/apps/network/tailscale/app/helmrelease.yaml",
-          "version": "repo-file-v1:sha256:1032551b193f2cc8a2d21e351391c11693aef7bd6ce35be350163e3d0a967f81"
-        }
-      ]
-    },
-    {
-      "id": "claim_f19dbd2ea03a462bb86bdda37ff60059",
-      "statement": "Bitwarden Connect (bitwarden-eso-provider chart v1.2.0 in namespace external-secrets) backs ESO v2.11.0 as the cluster's ExternalSecret provider: the provider authenticates to Bitwarden using Secret bitwarden-cli (keys BW_PASSWORD, BW_USERNAME, BW_HOST, SOPS-encrypted), and applications consume secrets through ClusterSecretStore bitwarden-login with remoteRef keys naming Bitwarden items.",
-      "evidence": [
-        {
-          "resource": "repo://kubernetes/apps/external-secrets/bitwarden-connect/app/helmrelease.yaml",
-          "version": "repo-file-v1:sha256:6a7ea2f9693faaa6bf83b9b271eca21a5a6925322b94157825c7b5292984ed5e"
-        },
-        {
-          "resource": "repo://kubernetes/apps/external-secrets/bitwarden-connect/app/secret.sops.yaml",
-          "version": "repo-file-v1:sha256:cf956b99ad68ba07879a4b3aad9919db336a9c4ee250b4ee860e9115fcab569e"
-        },
-        {
-          "resource": "repo://kubernetes/apps/external-secrets/bitwarden-connect/ks.yaml",
-          "version": "repo-file-v1:sha256:c1873bc25a832fc4023cf72a0429c5aa710d7c4c7b51edab69c41cf8435f7872"
-        },
-        {
-          "resource": "repo://kubernetes/apps/external-secrets/external-secrets/app/helmrelease.yaml",
-          "version": "repo-file-v1:sha256:3808bed54be348a2921821e0d6e07a78dbbf5b23c64f29d161706a57ae80be81"
+          "resource": "repo://kubernetes/apps/flux-system/notification/alert.yaml",
+          "version": "repo-file-v1:sha256:b73efb5117efee1bf4f3c017e0afa6b3d522a0ce0bace1bea581408d77b39b45"
         }
       ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.7.0",
-    "at": "2026-10-06T00:54:23.845Z"
+    "by": "openwiki/0.7.1",
+    "at": "2026-10-08T23:50:46.668Z"
   }
 }

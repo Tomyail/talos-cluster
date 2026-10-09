@@ -32,8 +32,8 @@ sources:
     resource: repo://talos/talenv.yaml
 generated: { by: "openwiki/0.5.2", at: "2026-09-20T21:44:06.917Z" }
 verified:
-  - by: openwiki/0.5.2
-    at: 2026-09-20T21:44:06.917Z
+  - by: openwiki/0.7.1
+    at: 2026-10-08T23:50:46.668Z
 ---
 
 # Cluster Upgrade Workflow

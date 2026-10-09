@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:a23c164361fc8acc17080296b6195c24252d8b6cb0d91c33a1fbf081c36efdb9",
+  "pageVersion": "sha256:347e4a8e24603b3933e380671ead1e6711969dd867a29cbda1575a58c7d360fb",
   "claims": [
     {
       "id": "claim_80eba6a89bc94d76bb86d6fa3c395c3a",
@@ -391,10 +391,92 @@
           "version": "repo-lines-v1:sha256:64feeb059f9c4639e655b74a339ecc7f38e609bea1356d2cd35e379d74901648:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZGM2ZmI0YzViOTE1ZmVhMmU5YjY4ZDBiN2IzNGFmYzIxM2ZkOWE2NzI2MmJkZWMxYWM2ZTcyZDk1MGRhMmQwMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTNmMjdiMzA5ZDg1ZDNiZDM1YTE2OGFjY2NmZmI1Y2Y3NjU0OTE0Nzk3MTUxNWQzYzk1MTU4YmUxYjAwZWYxMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZWI1MWIzNzEwNjgxZmEwMjFiZjJjNTdkMzVkNTFkNDU5YTJmOTM5Yjc2NTNmYzUzZTBmNmY4OTg4ZmM2YjlhOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
         }
       ]
+    },
+    {
+      "id": "claim_f1779d5ea19941bf84e193c18f6d0c35",
+      "statement": "Cluster changes flow through a commit→reconcile loop: source-controller polls the flux-system GitRepository and snapshots commits as artifacts; the GitHub Receiver (with its SOPS-encrypted webhook token) triggers immediate reconciliation on push instead of waiting for the poll; and `task reconcile` in Taskfile.yaml manually forces this via `flux reconcile kustomization flux-system --with-source`, with preconditions on the repo-local kubeconfig and the flux binary.",
+      "evidence": [
+        {
+          "resource": "repo://Taskfile.yaml#L30-L35",
+          "version": "repo-lines-v1:sha256:2d7afb436ef2bf4a0fd148c2805957c35d446a460ca2d84fcbf88bb511ba7c0f:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzlmZmE1YWUzNzQ3OGVlOTE2MDczYjA2OGU2NjdiOWMwODg5OThkYzY4YTZlZDI4MjJhZmNhNzExNzU4YTMyYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjQ4ODYzNzQzM2VmMDE0ODM3YWFjYmRmZTNjMWMyYWVhMmIyNjZhNTRjZjRkZjMzZmQ0OTQyODQ5YWVhMzY2OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWZlZGUyOTQyYTEwYjhkMzc2NDg4MWYwYzdhMzQ0YmM3ZGYxY2YwYWEzODhhOGFmMWQ3ZjcwODY4MDg2Yzc5ZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/flux-system/flux-instance/app/receiver.yaml",
+          "version": "repo-file-v1:sha256:c6a97e4b370a9a3af37d304e10a9521a15a39042a06d364ec90b97897eab1e9f"
+        },
+        {
+          "resource": "repo://kubernetes/apps/flux-system/flux-instance/app/secret.sops.yaml",
+          "version": "repo-file-v1:sha256:ec80b6a7e4f91c74d25e6af121c84df32c70c3b8060033d2848d2cb6d6a2ffcc"
+        }
+      ]
+    },
+    {
+      "id": "claim_76a09923aae14ed5af0aae6258ce9ff9",
+      "statement": "Reconciliation is pausable per object via `spec.suspend: true` on Kustomization/HelmRelease objects; the namespace-root Kustomizations explicitly pin `suspend: false` (e.g. kubernetes/apps/database/namespace.yaml and kubernetes/apps/storage/namespace.yaml), so namespaces are re-enabled by Git commit alone.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/database/namespace.yaml#L39-L39",
+          "version": "repo-lines-v1:sha256:fa98d69644974df58e8143151ec51bd8c1a462f9503d00abad361e9617be973c:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZmE5OGQ2OTY0NDk3NGRmNThlODE0MzE1MWVjNTFiZDhjMWE0NjJmOTUwM2QwMGFiYWQzNjFlOTYxN2JlOTczYyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZmE5OGQ2OTY0NDk3NGRmNThlODE0MzE1MWVjNTFiZDhjMWE0NjJmOTUwM2QwMGFiYWQzNjFlOTYxN2JlOTczYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiN2I0ZDM4NzAxM2Y3ZTM4ZWI4N2ExZGI2MWNkYWYxOWEwMjBmM2IzMmRiNzdjYjI3MzE2ZWM5MTI0YmMxNmIzNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/storage/namespace.yaml#L39-L39",
+          "version": "repo-lines-v1:sha256:fa98d69644974df58e8143151ec51bd8c1a462f9503d00abad361e9617be973c:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZmE5OGQ2OTY0NDk3NGRmNThlODE0MzE1MWVjNTFiZDhjMWE0NjJmOTUwM2QwMGFiYWQzNjFlOTYxN2JlOTczYyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZmE5OGQ2OTY0NDk3NGRmNThlODE0MzE1MWVjNTFiZDhjMWE0NjJmOTUwM2QwMGFiYWQzNjFlOTYxN2JlOTczYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiN2I0ZDM4NzAxM2Y3ZTM4ZWI4N2ExZGI2MWNkYWYxOWEwMjBmM2IzMmRiNzdjYjI3MzE2ZWM5MTI0YmMxNmIzNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_33f3a810f8ac4710acdbd809c0a49180",
+      "statement": "Self-built images are updated by Flux image automation, not Renovate: the components/image-automation component (spliced into app ks.yaml files such as fava) provides an ExternalSecret for registry credentials, an ImageRepository scanning tags every 1m, and an ImagePolicy selecting the newest `-.+-[a-f0-9]+-<ts>` tag; the app HelmRelease image tag carries a `$imagepolicy` setter comment that image-automation-controller rewrites.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/fava/app/helmrelease.yaml#L28-L28",
+          "version": "repo-lines-v1:sha256:92cbc63cac4053f2f3e85e1897a045c54a85799bfb9419009b3c9d734ac67fe5:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTJjYmM2M2NhYzQwNTNmMmYzZTg1ZTE4OTdhMDQ1YzU0YTg1Nzk5YmZiOTQxOTAwOWIzYzlkNzM0YWM2N2ZlNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTJjYmM2M2NhYzQwNTNmMmYzZTg1ZTE4OTdhMDQ1YzU0YTg1Nzk5YmZiOTQxOTAwOWIzYzlkNzM0YWM2N2ZlNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDIzYjRhMjllYjI5NTdkZWI5ODRmM2E5OTM5YjI4YTY0NThmNmMyNTk5MTRkYWYyNWY3YzlhOTEyZTRjMTkyNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzI3OGY1N2YzYzQ4MDU5ZDYxY2M2YzE0ZjQ3ZTM5MzVjM2M4MTRiNTQ4Njg5NDY0M2UxYWRkNDZhNWI2NTViNiJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/fava/ks.yaml#L12-L35",
+          "version": "repo-lines-v1:sha256:15096af50858e71b83e0f4f995fb281adea435299ea1f8019974ef2ef2646906:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVkM2E1ZDYxNWQ4YzhjYWZlZDM4MmU2ZmMxODVmNDU5NzAyYWE4NjhjZTc1MjRmZDI2NmYzZmI2ZDYwYzA2NzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlhYWIxOWIzZWVkNzVmYjQ3NDA0N2VjMWUxYWQ4ZDRjZDNkNzlhOWFhZTFmYWQyZjNhOWFjZTczMjQxMTgwMDYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYwYmVkZjViYmRjMDhmNDkyNzZiN2ViYzY4ZGVlZDA5ZmYwZDJjODc5MDA3MDA5NDM1ZjNiOTY0NzY0ZjU0ZGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY1YzI3YzJkZDI3ZWY0ZWQxMjBmOWJhN2EwZjBmNjkzMDU0OTFmYWI3NjA4M2RkZmY4NDNmN2UxOTI2ZDJkMWUifQ"
+        },
+        {
+          "resource": "repo://kubernetes/components/image-automation/imagepolicy.yaml",
+          "version": "repo-file-v1:sha256:113bf2b5cbce8ceba3497aa6a2f996b221bd3c3d9fe684848649bc44cbe1284c"
+        },
+        {
+          "resource": "repo://kubernetes/components/image-automation/imagerepository.yaml",
+          "version": "repo-file-v1:sha256:4f386fe3fde87d6f45d6d54d4112b2699a3077e4dcebb664ead932b350e2dd36"
+        }
+      ]
+    },
+    {
+      "id": "claim_447e198292494d4fbe83c2f6632d1664",
+      "statement": "Two ImageUpdateAutomation objects (kubernetes/apps/flux-system/image-automation/automation.yaml covering ./kubernetes/apps/default and a fava-scoped one) run every 5m with the Setters strategy, check out main via the flux-system-https GitRepository (HTTPS clone authenticated by flux-github-token), and push tag updates as flux-bot commits directly to main — closing the loop back into reconciliation; only policies labeled image-automation: enabled are selected.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/flux-system/fava-image-automation/automation.yaml",
+          "version": "repo-file-v1:sha256:af8b1104c03351df8ce8ad4c5002124d1c5462b4037284229f3709c1b5c5b7a9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/flux-system/image-automation/automation.yaml",
+          "version": "repo-file-v1:sha256:b1e529f756d6b689a1f00b338e10d05fed1a72d380c73536198aaff928eee41e"
+        },
+        {
+          "resource": "repo://kubernetes/apps/flux-system/image-automation/gitrepository.yaml",
+          "version": "repo-file-v1:sha256:2572131ad02cafb6e0ea8420e2840cfa8a9139f89e279b293b30147cb60cf542"
+        }
+      ]
+    },
+    {
+      "id": "claim_62f243e904b449a5bff508aca8539742",
+      "statement": "Renovate runs on a weekend schedule, ignores **/*.sops.* files, and groups updates (including a 'Flux Operator' group matching flux-operator/flux-instance), delivering upgrades of pinned tags and chart/distribution versions as PRs.",
+      "evidence": [
+        {
+          "resource": "repo://.renovaterc.json5",
+          "version": "repo-file-v1:sha256:9eddb27bf06f06f08e00cb1d9b7f3d51c147967d94e24b7b25cac8b0c9b6c5ef"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.7.0",
-    "at": "2026-10-06T00:54:23.845Z"
+    "by": "openwiki/0.7.1",
+    "at": "2026-10-08T23:50:46.668Z"
   }
 }

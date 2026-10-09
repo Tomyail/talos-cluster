@@ -66,8 +66,6 @@ sources:
     resource: repo://kubernetes/components/common/repos/app-template/ocirepository.yaml
   - id: openwiki-source-d8126483419916725f75040b
     resource: repo://kubernetes/components/common/repos/kustomization.yaml
-  - id: openwiki-source-dff47ef9008ba7bce93e217b
-    resource: repo://kubernetes/components/common/sops/kustomization.yaml
   - id: openwiki-source-19cc4d5883bfca3fab22bd67
     resource: repo://kubernetes/components/gatus/external/config.yaml
   - id: openwiki-source-3ecfe771454a6bc6a446f83f
@@ -90,10 +88,10 @@ sources:
     resource: repo://kubernetes/flux/meta/repos/kustomization.yaml
   - id: openwiki-source-6f1d2c8de9160e178167b990
     resource: repo://scripts/bootstrap-apps.sh
-generated: { by: "openwiki/0.7.0", at: "2026-10-03T22:17:28.945Z" }
+generated: { by: "openwiki/0.7.1", at: "2026-10-08T23:50:46.668Z" }
 verified:
-  - by: openwiki/0.7.0
-    at: 2026-10-03T22:17:28.945Z
+  - by: openwiki/0.7.1
+    at: 2026-10-08T23:50:46.668Z
 ---
 
 # Namespace and Application Organization
@@ -135,9 +133,9 @@ flowchart LR
 
 Each namespace groups related functionality and enforces appropriate pod security standards:
 
-- **kube-system** (`kubernetes/apps/kube-system/`) - Core cluster infrastructure including Cilium CNI, CoreDNS, node utilities, and system upgrade controllers
+- **kube-system** (`kubernetes/apps/kube-system/`) - Core cluster infrastructure including Cilium CNI, CoreDNS, metrics-server, reloader, node-feature-discovery, intel-device-plugin-operator, and system-upgrade controllers
 - **network** (`kubernetes/apps/network/`) - Networking services including Cloudflare DNS/tunnel, k8s-gateway, AdGuard DNS, SMTP relay, and Tailscale
-- **storage** (`kubernetes/apps/storage/`) - Storage infrastructure including TopoLVM, snapshot-controller, local-path-provisioner, VolSync, and CSI drivers
+- **storage** (`kubernetes/apps/storage/`) - Storage infrastructure including TopoLVM, snapshot-controller, local-path-provisioner, VolSync, CSI NFS driver, and Nextcloud
 - **database** (`kubernetes/apps/database/`) - Database operators and instances including CloudNative-PG and Dragonfly
 - **external-secrets** (`kubernetes/apps/external-secrets/`) - External Secrets Operator and secret synchronization (Bitwarden Connect)
 - **cert-manager** (`kubernetes/apps/cert-manager/`) - TLS certificate provisioning via cert-manager
@@ -203,7 +201,7 @@ resources:
 
 The `../../components/common` reference injects shared resources into every namespace:
 
-- **namespace.yaml** - Namespace definition with pod security labels and prune-disabled annotation
+- **namespace.yaml** - A placeholder Namespace resource (`name: not-used`) carrying `kustomize.toolkit.fluxcd.io/prune: disabled` and `pod-security.kubernetes.io/enforce: privileged`; it exists only so the component always contributes at least one resource, and the `not-used` namespace is intentionally inert. Per-namespace labels live in each namespace's own `namespace.yaml` (see below), not here
 - **repos/** - HelmRepository and OCIRepository sources for charts
 - **sops/** - SOPS decryption secrets (sops-age, cluster-secrets)
 
@@ -216,10 +214,7 @@ resources:
   - ./sops
 ```
 
-The `namespace.yaml` component applies pod security policies:
-- `pod-security.kubernetes.io/enforce: privileged` for storage, kube-system
-- `pod-security.kubernetes.io/enforce: baseline` for database
-- `kustomize.toolkit.fluxcd.io/prune: disabled` annotation prevents namespace deletion
+Because the common `namespace.yaml` is a shared placeholder, meaningful namespace metadata (pod security, VolSync mover privileges, prune-disabled, Flux notification resources) is authored per namespace in `kubernetes/apps/<ns>/namespace.yaml` and referenced — or not — from that namespace's `kustomization.yaml`.
 
 ### Resources
 
@@ -456,20 +451,15 @@ dependsOn:
 
 Flux waits for dependencies to be ready before reconciling the dependent application, ensuring proper startup sequence.
 
-## Namespace Resource Isolation
+## Namespace Metadata Files
 
-Each namespace may include additional resources beyond applications in its `namespace.yaml`:
+Three namespaces keep a hand-authored `namespace.yaml` next to their `kustomization.yaml`:
 
-**Storage namespace** (`kubernetes/apps/storage/namespace.yaml`):
-- Namespace with `volsync.backube/privileged-movers: "true"` label, `pod-security.kubernetes.io/enforce: privileged`, and the `kustomize.toolkit.fluxcd.io/prune: disabled` label (so Flux never prunes the namespace itself)
-- AlertManager Provider for HelmRelease failure notifications
-- Alert resource for error events
+- **storage** (`kubernetes/apps/storage/namespace.yaml`) - Namespace labeled `kustomize.toolkit.fluxcd.io/prune: disabled`, `volsync.backube/privileged-movers: "true"`, and `pod-security.kubernetes.io/enforce: privileged`, plus an AlertManager Provider pointing at `alertmanager-operated.observability` and an Alert on all HelmRelease error events
+- **database** (`kubernetes/apps/database/namespace.yaml`) - Same Provider/Alert pair with `pod-security.kubernetes.io/enforce: baseline` (annotation) and VolSync privileged movers
+- **external-secrets** (`kubernetes/apps/external-secrets/namespace.yaml`) - Minimal: only the namespace with the prune-disabled label
 
-**Database namespace** (`kubernetes/apps/database/namespace.yaml`):
-- Namespace with `pod-security.kubernetes.io/enforce: baseline`, `volsync.backube/privileged-movers: "true"`, and prune-disabled
-- AlertManager Provider and Alert configuration
-
-These namespace-level resources provide per-domain configuration for monitoring, security policies, and integration points. Every namespace-level `namespace.yaml` is listed as a resource in that namespace's `kustomization.yaml`, so the namespace, its Flux notification resources, and the component-injected common resources all ship in the same reconciliation.
+Important caveat: these files are **not currently reconciled by Flux**. `storage/kustomization.yaml` lists `./namespace.yaml` only as a commented-out line, and `database` and `external-secrets` do not reference theirs at all. In the live cluster the namespaces are created as bare resources by `scripts/bootstrap-apps.sh`, so the labels above take effect only if a namespace `kustomization.yaml` re-includes its `namespace.yaml`. They remain the canonical definition of each namespace's intended security posture and notification wiring.
 
 ## Bootstrap Namespace Pre-Creation
 
@@ -480,4 +470,4 @@ Flux cannot reconcile applications into namespaces that do not yet exist, and th
 3. If `kubectl get namespace <name>` succeeds, the namespace is considered up-to-date and is skipped (idempotent re-runs).
 4. Otherwise it runs `kubectl create namespace <name> --dry-run=client --output=yaml | kubectl apply --server-side --filename -`, applying server-side so field ownership is handed off cleanly to Flux later.
 
-`main()` orders the bootstrap as `wait_for_nodes` → `apply_namespaces` → `apply_sops_secrets` → `apply_crds` → `sync_helm_releases`, so bare namespaces exist before SOPS secrets (including `kubernetes/components/common/sops/*.sops.yaml`) are decrypted and applied to `flux-system`, and before the helmfile-managed releases that Flux subsequently adopts. The resulting namespaces intentionally contain only their name at this stage; labels, prune-disabled annotations, and notification resources are added by Flux when the namespace-level Kustomizations reconcile.
+`main()` orders the bootstrap as `wait_for_nodes` → `apply_namespaces` → `apply_sops_secrets` → `apply_crds` → `sync_helm_releases`, so bare namespaces exist before SOPS secrets (including `kubernetes/components/common/sops/*.sops.yaml`) are decrypted and applied to `flux-system`, and before the helmfile-managed releases that Flux subsequently adopts. The resulting namespaces intentionally contain only their name; since namespace-level `namespace.yaml` files are not currently referenced by the namespace Kustomizations, Flux does not add labels or annotations to them later — the bootstrap-created bare namespaces are what runs.

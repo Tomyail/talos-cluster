@@ -24,8 +24,12 @@ sources:
     resource: repo://kubernetes/apps/default/gitea/app/helmrelease.yaml
   - id: openwiki-source-713804fe0a8649683e2d52d6
     resource: repo://kubernetes/apps/observability/gatus/app/helmrelease.yaml
+  - id: openwiki-source-368438c04d5ff133eb1dfb71
+    resource: repo://kubernetes/components/gatus/external-tailscale/config.yaml
   - id: openwiki-source-19cc4d5883bfca3fab22bd67
     resource: repo://kubernetes/components/gatus/external/config.yaml
+  - id: openwiki-source-3ecfe771454a6bc6a446f83f
+    resource: repo://kubernetes/components/gatus/external/kustomization.yaml
   - id: openwiki-source-a2a10e12c05dc77e43573bc3
     resource: repo://kubernetes/components/gatus/guarded/config.yaml
   - id: openwiki-source-4aadf660c5ebb52ca592d9de
@@ -36,10 +40,10 @@ sources:
     resource: repo://scripts/bootstrap-apps.sh
   - id: openwiki-source-b9ff7ee0aa4953cc601052a4
     resource: repo://Taskfile.yaml
-generated: { by: "openwiki/0.7.0", at: "2026-10-06T00:54:23.845Z" }
+generated: { by: "openwiki/0.7.1", at: "2026-10-08T23:50:46.668Z" }
 verified:
-  - by: openwiki/0.7.0
-    at: 2026-10-06T00:54:23.845Z
+  - by: openwiki/0.7.1
+    at: 2026-10-08T23:50:46.668Z
 ---
 
 # Validation & Local Checks
@@ -164,7 +168,7 @@ In combination with the `dependsOn` ordering in `ks.yaml` (e.g. `cluster-apps` d
 
 Reconciliation health is complemented by external health checks:
 
-- **Gatus** (`kubernetes/apps/observability/gatus/app/`) runs as an app-template HelmRelease with a `k8s-sidecar` init container that watches all resources labeled `gatus.io/enabled: "true"` (`LABEL: gatus.io/enabled`, `NAMESPACE: ALL`, `METHOD: WATCH`) and feeds their ConfigMaps into `/config`. Apps opt in via the reusable components in `kubernetes/components/gatus/` — `external` (HTTPS check against `https://${APP}.${SECRET_DOMAIN}` resolving via an external DNS resolver, expecting HTTP 200) and `guarded` (a DNS A-record check ensuring public exposure is intentional), each a kustomize Component generating a `${APP}-gatus-ep` ConfigMap labeled `gatus.io/enabled: "true"` with a stable name (hash suffix disabled).
+- **Gatus** (`kubernetes/apps/observability/gatus/app/`) runs as an app-template HelmRelease with a `k8s-sidecar` init container that watches all resources labeled `gatus.io/enabled: "true"` (`LABEL: gatus.io/enabled`, `NAMESPACE: ALL`, `METHOD: WATCH`) and feeds their ConfigMaps into `/config`. Apps opt in via the reusable components in `kubernetes/components/gatus/` — `external` (HTTPS check against `https://${APP}.${SECRET_DOMAIN}` resolving via an external DNS resolver, expecting HTTP 200) and `guarded` (a DNS A-record check ensuring public exposure is intentional), each a kustomize Component generating a `${APP}-gatus-ep` ConfigMap labeled `gatus.io/enabled: "true"` with a stable name (hash suffix disabled). A third component, `external-tailscale`, performs the same HTTPS/200 check against the Tailscale-published hostname (group `tailscale`), letting apps distinguish internal-Tailscale reachability from public exposure.
 - Gatus also ships PrometheusRules (`prometheusrule.yaml`) alerting when a monitored endpoint is down or publicly exposed, and its own `/health` liveness/readiness probes keep the Flux `wait` healthy.
 - **Uptime Kuma** (`kubernetes/apps/observability/uptime-kuma/`) provides a second, UI-driven uptime monitor alongside Gatus.
 

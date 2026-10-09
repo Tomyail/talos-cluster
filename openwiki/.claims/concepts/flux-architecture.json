@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:f4e48dc9524b7070f6f81a2bab774be7e5e4e46ff8a804952eb70daf72eeb600",
+  "pageVersion": "sha256:1c5b89e5eb5e632b00c7c4cfcb84a63b5b207d24a9ec019c0d20f649aa357d64",
   "claims": [
     {
       "id": "claim_ad4aee5586e148f183b37e571c767319",
@@ -311,10 +311,20 @@
           "version": "repo-lines-v1:sha256:456d75bdaea371161ea492e9096d7037370472d182da7ba3076d463bde1bd3c8:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTYwYzNiZDdiYzU5ZmVjOWU0ZGVkMzVkN2NjZjcwMGEzODVhY2U1ODYzNGZhNjBkM2IyMmZmMjY4YzAxN2ViZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTYzNjUwYWUzODk5ODg4ZDQ2NzQ5NjBiOGRjYTc2ZDNhOWI5N2M1YmFjM2IwZDBlMWQ3ZDAxYTg4ZGRhMzM0MyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTAyYTZlODMwOGZiNjZmMmFmZDJmMTBlYzdkNDY3MDdkMDA1YjM3MGFkZmI1Y2Q3ODVkNTNlYThkNDYyM2NmMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDYyODk2NmZmM2EzNmM3Y2Q3NWFjMzFiOTNhY2QyMGFjNWNiNDA3ZGFlOTMwMDUzYjM0NWEyZWQ5ODU2YzI5NSJ9"
         }
       ]
+    },
+    {
+      "id": "claim_e80217dfbbdb42d68b6714e1d418fb67",
+      "statement": "The HelmRepository/GitRepository sources in kubernetes/flux/meta/repos/ are aggregated by repos/kustomization.yaml, which disables several sources by commenting them out (e.g. cilium, metrics-server, spegel, kubernetes-dashboard), so only the uncommented entries are deployed by cluster-meta.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/flux/meta/repos/kustomization.yaml#L6-L45",
+          "version": "repo-lines-v1:sha256:c92bc9392e4a4959d7660d73d7ab14750ab221a09091b6dfea055c2908748f61:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliY2FiZjljMDI0NWFhNmQzNjBiZjE3Y2I4YTExZThlMzMyMTdkNzQyYWUwZmRhNGYyOTEyN2RiOWI1OWU1ZDciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBiMjBmMGQ5ZjI0NGUyNjFmMDIwNzc3OTAyOTYzNzNiOWFkZjEwYzA4ZjA2ZGEzYTMzNzFmNjM5MTNmMDE1YmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc1ZDQ0OTRmMjcxYWVkMTlhZWIyODdiNzBjM2Y3NmYwMTdlNTc4ZTUwMDM1YjE1YTg2OGU0NTNkMmI4ZGU4MzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.6.0",
-    "at": "2026-09-25T22:38:38.997Z"
+    "by": "openwiki/0.7.1",
+    "at": "2026-10-08T23:50:46.668Z"
   }
 }

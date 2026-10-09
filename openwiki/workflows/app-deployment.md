@@ -56,10 +56,10 @@ sources:
     resource: repo://kubernetes/flux/cluster/ks.yaml
   - id: openwiki-source-b9ff7ee0aa4953cc601052a4
     resource: repo://Taskfile.yaml
-generated: { by: "openwiki/0.7.0", at: "2026-10-06T00:54:23.845Z" }
+generated: { by: "openwiki/0.7.1", at: "2026-10-08T23:50:46.668Z" }
 verified:
-  - by: openwiki/0.7.0
-    at: 2026-10-06T00:54:23.845Z
+  - by: openwiki/0.7.1
+    at: 2026-10-08T23:50:46.668Z
 ---
 
 # Application Deployment Workflow
@@ -540,6 +540,4 @@ Once changes are merged, force Flux to pull them immediately instead of waiting 
 task reconcile
 ```
 
-This runs `flux --namespace flux-system reconcile kustomization flux-system --with-source` (defined in `Taskfile.yaml`), with preconditions that `./kubeconfig` exists and `flux` is installed. The Taskfile also sets `SOPS_AGE_KEY_FILE: ./age.key` for environment-wide SOPS use. Then proceed with the cluster-side verification below.
-
-## Verification After Reconcile
+This runs `flux --namespace flux-system reconcile kustomization flux-system --with-source` (defined in `Taskfile.yaml`), with preconditions that `./kubeconfig` exists and `flux` is installed. The Taskfile also sets `SOPS_AGE_KEY_FILE: ./age.key` for environment-wide SOPS use. Then proceed with the cluster-side verification above.

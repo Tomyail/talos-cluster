@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:5ae71d66fe6d2467ae14f67a5458730dc9a6c63ef2f20292e7651f7565209012",
+  "pageVersion": "sha256:72b7a87fe6e2d99f0e4619b4f3290e1beda2d125a485dd0cc2036c91cee7a1fe",
   "claims": [
     {
       "id": "claim_c0ebaf31acb54ed7ae9d9c9f602965b2",
@@ -159,10 +159,32 @@
           "version": "repo-file-v1:sha256:f0d9f158f13d4316067330be34e56a84216e6bf821b9a152c9cc1163cead9328"
         }
       ]
+    },
+    {
+      "id": "claim_c053a06431d04053bb3374c908e59507",
+      "statement": "Both volsync component variants ship an ExternalSecret (${APP}-volsync from the bitwarden-login ClusterSecretStore), a ReplicationSource doing restic backups of ${APP} every 6 hours to s3:http://192.168.50.220:9010/volsync/dev/${APP} (24 hourly/7 daily/5 weekly retention, 7-day prune), and a ReplicationDestination volsync-dst-${APP} with a manual restore-once trigger; they differ in that volsync's PVC has dataSourceRef pointing at the destination (restore-seeded) while volsync-new's PVC is empty, and only volsync-new's ReplicationSource pins cacheStorageClassName to ${VOLSYNC_CACHE_SNAPSHOTCLASS:-local-path}.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/volsync-new/claim.yaml",
+          "version": "repo-file-v1:sha256:cb49de4194c92c3936a20756252d36294fce3c5ef4d0899007dce030aea5570b"
+        },
+        {
+          "resource": "repo://kubernetes/components/volsync-new/minio.yaml#L36-L56",
+          "version": "repo-lines-v1:sha256:74907305afe7965b5c4b76e8ce2bfb12c2173a803839dfa9cdd1ed90b900d4ce:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM2MTQwMGVmZjdiMDdjNmU0OTQ5NWFlNTU0MjhjZGExODZmYmU5MDVmZGEyMzMyYjVkYzdlNDUxZDRiNDEyZTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1NjVhZmExNzZhODlhOWVhZjQ2MzI5NGNkMDg2YTVlZmUxZjM5MWQ4Njc4NDVhZTI4MDlhMmQxZmEzMmYwMTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQzZjc2OWYzNTgxZTRlYTMwYzhkNzlmYjI0YmE1NGZjZTY5MzM1ODM0MjFlNTAwNmY0N2NjMDFjNjBmNTJkOWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE4ODNmNGI5ODQxZmQ5YTYxNjlmNmE5Y2Q2MmZkOWUwZWZlNDE2YmRiNzRiMWM3NmJjMzZiZWM5ZTk0OGYzOTYifQ"
+        },
+        {
+          "resource": "repo://kubernetes/components/volsync/claim.yaml",
+          "version": "repo-file-v1:sha256:884ce121cda571f91734132bb4d973643f3dbd93b8b1ee9797c5a0715061161b"
+        },
+        {
+          "resource": "repo://kubernetes/components/volsync/minio.yaml#L36-L58",
+          "version": "repo-lines-v1:sha256:d686e277c590e9b94df08995ba122698eea1d27ee8171211a7b7a4f77fb41792:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM2MTQwMGVmZjdiMDdjNmU0OTQ5NWFlNTU0MjhjZGExODZmYmU5MDVmZGEyMzMyYjVkYzdlNDUxZDRiNDEyZTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1NjVhZmExNzZhODlhOWVhZjQ2MzI5NGNkMDg2YTVlZmUxZjM5MWQ4Njc4NDVhZTI4MDlhMmQxZmEzMmYwMTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQzZjc2OWYzNTgxZTRlYTMwYzhkNzlmYjI0YmE1NGZjZTY5MzM1ODM0MjFlNTAwNmY0N2NjMDFjNjBmNTJkOWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE4ODNmNGI5ODQxZmQ5YTYxNjlmNmE5Y2Q2MmZkOWUwZWZlNDE2YmRiNzRiMWM3NmJjMzZiZWM5ZTk0OGYzOTYifQ"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.6.0",
-    "at": "2026-09-25T22:38:38.997Z"
+    "by": "openwiki/0.7.1",
+    "at": "2026-10-08T23:50:46.668Z"
   }
 }

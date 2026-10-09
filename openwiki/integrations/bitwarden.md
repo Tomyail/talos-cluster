@@ -26,10 +26,10 @@ sources:
     resource: repo://kubernetes/apps/network/tailscale/ks.yaml
   - id: openwiki-source-d7ce147b373b74b80f0794fd
     resource: repo://kubernetes/flux/meta/repos/bitwarden-eso.yaml
-generated: { by: "openwiki/0.7.0", at: "2026-10-03T22:17:28.945Z" }
+generated: { by: "openwiki/0.7.1", at: "2026-10-08T23:50:46.668Z" }
 verified:
-  - by: openwiki/0.7.0
-    at: 2026-10-03T22:17:28.945Z
+  - by: openwiki/0.7.1
+    at: 2026-10-08T23:50:46.668Z
 ---
 
 # Bitwarden Secrets Integration
@@ -424,9 +424,5 @@ kubectl logs -n external-secrets deployment/external-secrets --tail=100 -f
 - [External Secrets Operator](external-secrets.md) - ESO deployment and provider configuration
 - [Flux Architecture](../concepts/flux-architecture.md) - How Flux reconciles and decrypts secrets
 tive to this file instead. Fix the href or restore the target, then delete this comment. -->
-<!-- openwiki: broken internal link [/openwiki/concepts/secrets-management.md] link "/openwiki/concepts/secrets-management.md" is root-absolute, which no real consumer resolves against the repository root (not a coding agent reading the page, not GitHub's Markdown renderer, not a local viewer); use a path relative to this file instead. Fix the href or restore the target, then delete this comment. -->
-- [Secrets Management](/openwiki/concepts/secrets-management.md) - Complete overview of the dual-layer secrets architecture
-<!-- openwiki: broken internal link [/openwiki/concepts/flux-architecture.md] link "/openwiki/concepts/flux-architecture.md" is root-absolute, which no real consumer resolves against the repository root (not a coding agent reading the page, not GitHub's Markdown renderer, not a local viewer); use a path relative to this file instead. Fix the href or restore the target, then delete this comment. -->
-- [Flux Architecture](/openwiki/concepts/flux-architecture.md) - How Flux reconciles and decrypts secrets
-<!-- openwiki: broken internal link [/openwiki/integrations/ci-cd.md] link "/openwiki/integrations/ci-cd.md" is root-absolute, which no real consumer resolves against the repository root (not a coding agent reading the page, not GitHub's Markdown renderer, not a local viewer); use a path relative to this file instead. Fix the href or restore the target, then delete this comment. -->
-- [CI/CD Integration](/openwiki/integrations/ci-cd.md) - How external secrets integrate with deployment pipelines
+- [Flux Architecture](../concepts/flux-architecture.md) - How Flux reconciles and decrypts secrets
+- [CI/CD Integration](ci-cd.md) - How external secrets integrate with deployment pipelines

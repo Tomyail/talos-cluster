@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:4df5dbba33c6237e775835e170fe53e9db0efe3265910185c1a595af33236799",
+  "pageVersion": "sha256:5961ef554b63347e52a5a5b9361d7fbd8747e3a94bcff8dc141c60774f22bb9d",
   "claims": [
     {
       "id": "claim_8ac105d25dbd4612b11232201fa7237c",
@@ -175,10 +175,24 @@
           "version": "repo-lines-v1:sha256:ade9f4c62cb1bf6e927778ab5084e3e4cdc135b3b966a1a18b0a6636458f68a2:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE4MjZiZWEwNWZlNTBhNzNhNjQ1ZDhmYjEyZGMyODJmMjUzNjM0NDMyNjZkOTAxNzM3MmVhZjg4NDU5NDYzNDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRlMmZjMWNmZmMyMTMwOTk5YTk4NDcyYzQ1MzkxZmIwMWZiNzkwNDk5ZDIwZjk3NzllMTYyOTk0MDI4M2ViYzgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc1MDg0MzNmMTUzOWVkODEwOTlhNDhlNjIwMDVhMGE4ZGMyNGUwNDFhMDVlZmMxYjFiNGRiMzQ5ZmZkMTgzMTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_8f3707fe93fa4ae4a5f8b9734a4184c6",
+      "statement": "The Gatus components directory provides a third reusable Component, external-tailscale, which performs the same HTTPS/HTTP-200 endpoint check as external but against the Tailscale-published hostname (group `tailscale`), so apps can separately verify internal Tailscale reachability from public exposure.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/gatus/external-tailscale/config.yaml",
+          "version": "repo-file-v1:sha256:47a9be62800b1136cc70cb75ac9c119cceb4dc80ea000dfb9a63b98c05b552ad"
+        },
+        {
+          "resource": "repo://kubernetes/components/gatus/external/kustomization.yaml",
+          "version": "repo-file-v1:sha256:9b7f737953cde50bbf2e4f24584464c00b3e6e6cf26cb16b7f07e599032be423"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.7.0",
-    "at": "2026-10-06T00:54:23.845Z"
+    "by": "openwiki/0.7.1",
+    "at": "2026-10-08T23:50:46.668Z"
   }
 }

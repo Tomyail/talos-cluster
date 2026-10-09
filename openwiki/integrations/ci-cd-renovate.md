@@ -3,9 +3,6 @@ type: integration
 title: CI (flux-local) & Renovate
 description: How pull requests are validated with flux-local (test + rendered diffs posted as PR comments), how labels are managed, and how Renovate automates dependency updates with grouped, scheduled, and auto-merged package rules.
 tags: [ci, flux-local, renovate, github-actions, gitops, labels]
-verified:
-  - by: openwiki/0.7.0
-    at: 2026-10-06T00:54:23.845Z
 sources:
   - id: openwiki-source-6d9eaf54557a60120951afe0
     resource: repo://.github/labeler.yaml
@@ -15,13 +12,22 @@ sources:
     resource: repo://.github/workflows/flux-local.yaml
   - id: openwiki-source-31f5d25b2ebfab3b3af2f051
     resource: repo://.github/workflows/label-sync.yaml
+  - id: openwiki-source-7a6aa65190c9f2f4cf9c3e60
+    resource: repo://.github/workflows/labeler.yaml
   - id: openwiki-source-aa55808be329b3f929ddf105
     resource: repo://.renovaterc.json5
+  - id: openwiki-source-63d00fe06cf7a359ecb33f8f
+    resource: repo://kubernetes/apps/kube-system/system-upgrade/upgrades/kubernetes.yaml
   - id: openwiki-source-97e4f584aefe24b958a6081d
     resource: repo://kubernetes/flux/meta/repos/external-dns-crds.yaml
+  - id: openwiki-source-6f1d2c8de9160e178167b990
+    resource: repo://scripts/bootstrap-apps.sh
   - id: openwiki-source-b65e4f1ccd91316116ad973a
     resource: repo://talos/talenv.yaml
-generated: { by: "openwiki/0.7.0", at: "2026-10-06T00:54:23.845Z" }
+generated: { by: "openwiki/0.7.1", at: "2026-10-08T23:50:46.668Z" }
+verified:
+  - by: openwiki/0.7.1
+    at: 2026-10-08T23:50:46.668Z
 ---
 
 # Integrations: CI (flux-local) & Renovate
@@ -54,7 +60,7 @@ flowchart LR
 
 - `.github/labels.yaml` declares the canonical label set (colors included): `area/*` labels (bootstrap, docs, github, kubernetes, mise, renovate, scripts, talos, templates, taskfile), Renovate type labels (`renovate/container`, `renovate/github-action`, `renovate/helm`, `renovate/github-release`, `renovate/grafana-dashboard`), semantic update labels (`type/digest|patch|minor|major`), and `community` / `hold`.
 - `.github/workflows/label-sync.yaml` applies this file via `EndBug/label-sync` (`delete-other-labels: true`) on pushes to `main` touching `.github/labels.yaml`, or manually. Because it deletes other labels, `labels.yaml` is the source of truth for the whole label set.
-- `.github/labeler.yaml` maps paths to `area/*` labels (e.g., `kubernetes/**/*` → `area/kubernetes`, `.renovate/**/*` and `.renovaterc.json5` → `area/renovate`) for automatic PR labeling.
+- `.github/labeler.yaml` maps paths to `area/*` labels (e.g., `kubernetes/**/*` → `area/kubernetes`, `.renovate/**/*` and `.renovaterc.json5` → `area/renovate`) for automatic PR labeling. `.github/workflows/labeler.yaml` applies it via `actions/labeler` on every `pull_request_target` to `main` (or manually), with only `contents: read` + `pull-requests: write`.
 
 Renovate's package rules (below) apply the `renovate/*` and `type/*` labels to its PRs, so the labels defined here align with Renovate's output.
 

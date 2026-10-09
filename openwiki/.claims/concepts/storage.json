@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:14924b8b0220aff811f96b83e81e7a2304d4a50df3b082ef8cbda4b32f4a6fab",
+  "pageVersion": "sha256:508e2b67b9ec3173a7047921bce3f2018048573e7ddd2b238d13ba2817ae17c6",
   "claims": [
     {
       "id": "claim_5ab8c29c6d0d4c42addcf2ca1aa09c04",
@@ -301,10 +301,182 @@
           "version": "repo-file-v1:sha256:85299c07f676268686fe613a24b4d337c1243fe9c3291bc7589d06eb3fe56105"
         }
       ]
+    },
+    {
+      "id": "claim_9d35f7618d4b4965b2354d6e1f37669d",
+      "statement": "TopoLVM (chart 16.1.1) provisions the cluster's default StorageClass `topolvm-thin-provisioner` (XFS, Immediate binding, allowVolumeExpansion) backed by thin device class `thin` over volume group `lvm_vg` / thin pool `lvm_thin` with 10 GB spare and overprovision ratio 10.0; the controller runs 1 replica with disabled affinity and Recreate strategy to survive single-node upgrades.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/topolvm/app/helmrelease.yaml#L29-L46",
+          "version": "repo-lines-v1:sha256:f2188bcbafe0242399cfbdd26957bc6b41f2b1cc8be79f2ad5f7ab8842a5de12:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2NzM1YmE5MGMwNDhjYWYzY2ZiYTY4MjU1Njg3MDk2ODM5YTA1MjcxOGQxMWFmMjUyMDJlYWMxMDlkN2Y5Y2EiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFmY2U2Zjk2ZTExODFiMjBlOTlkYTM5NTNjYTExOWJiOTVhZDdjNzAxN2Y3OWU3NWM5OGQ0NTViODgwNWU1MDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc0MmNhMDA5YzY1MWViMmZiOTRhZGUzMGMxMGJlMDgxN2U5MmRjYTBiYjhkY2UxOWViMThhMWI2NjhlZjJmM2MiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjViZjczMGQ2YTcxYWRmNmNjYWVhZTU5YjEzNmY1M2I5YmZiOWRhMDNkODUzMzlkMzYzY2FlN2VhY2M3NTI0NTcifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/storage/topolvm/app/helmrelease.yaml#L51-L55",
+          "version": "repo-lines-v1:sha256:9ffed377a456aa023f103ee11dfad8b1483cd91ca8bdef91a0f9975689ecbec2:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGNiZjg2OTlkYWRhZjE3NGQ3ODlkOTU2OGNlNmNhNDIxMWQ1OTc3NDM5ZDNmMjViOGU4NmFhZGNjM2Q1M2JjMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNWViOTM2MWMzNjM0ZWY3ZWI0ZjljNzAxNGMxOGNmYzllMDQ0MDc5ZTkzOGVmNDhhY2YwOTgxMmEwMTYzZjc4YyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDJhODg3ZTM4YTk2MzEzZGM2OGUxNjdiZjNmYzE4OTIxM2M2MGJjM2FjNTUxYTI2MzVhMTQ4MmRkMjc2YjcwNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_ffdbeb747509498a820f70c1c8b9ee79",
+      "statement": "TopoLVM nodes run an embedded lvmd daemon (`lvmdEmbedded: true` with `lvmd.managed: false`) with Prometheus metrics enabled, so LVM operations happen locally per node without a separate lvmd DaemonSet.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/topolvm/app/helmrelease.yaml#L47-L50",
+          "version": "repo-lines-v1:sha256:b899728faa309f3ee54ef25c4dee05f7b74290d2933c9057782bbdfc02f6d256:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjE3MDM0ZWEwYjJmMzhjYjAxMGRlYzEyMWVlZTMxMzc3ODhkOWM1N2I3MTI1MzU4NGFiNDllZmU4MzBlMzE4OSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNWU5YzI5MmQ1NjM2NmRiMjM3NWU4ODFiOTA5NjI1ODJiYjgxMGI2M2ZkZWYwY2I5NDNlNThlMjc1NzM4YzE3NyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTdkMzRiNjI4YTgxMDliYTU0NDdiMDY2YjQ4MTdmZDNmYjY5MWIwYTMyNmQ1ZWQ4MjdhOGNlMzM1NWJiYzJjZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZGZjMjhkY2MxNjEzNDBiNTQ5MjgzYzM3MDEzYjY1MjVmYjVlOGM1YTg2NTA2Y2FkMTljNGRlNGRhYjQ3NmNkMiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_5e95ab4fadba4b1390138b733b78ea3f",
+      "statement": "The `lvm_vg` volume group and `lvm_thin` thin pool must be created manually before TopoLVM works; the `lvm-format-manual.yaml` privileged Alpine pod (hostPath mounts of /var and /dev, sleep 3600) is the documented vehicle for running nvme format, pvcreate/vgcreate, and `lvcreate --thinpool -l 100%FREE -n lvm_thin lvm_vg`.",
+      "evidence": [
+        {
+          "resource": "repo://lvm-format-manual.yaml",
+          "version": "repo-file-v1:sha256:1ef90b64c092bc471e86f997137b0cc8ef881a2326119952d276f99e2fdf30b2"
+        }
+      ]
+    },
+    {
+      "id": "claim_60fe88e9ef084bc3929c2ab5d504cd9d",
+      "statement": "A default VolumeSnapshotClass named `topolvm-thin-provisioner` (driver `topolvm.io`, deletionPolicy Delete) enables VolumeSnapshot support for TopoLVM volumes.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/topolvm/app/snapshot.yaml",
+          "version": "repo-file-v1:sha256:c3f5242e4d5f428154a86ce8db9e8385c0a6ec12d4d75675b6f7750c1de5361a"
+        }
+      ]
+    },
+    {
+      "id": "claim_d9f6eebbbb784dc5804ed94e879f3811",
+      "statement": "local-path-provisioner (chart 0.0.38 from https://charts.containeroo.ch) provides host-local storage by creating directories under `/var/mnt/local-path-provisioner` for the default node path; it is used for VolSync cache PVCs and ephemeral workloads.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/local-path-provisioner/app/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:7cabdf897b07c9ad453ed0cf206fa5e3cacfe06131b86ac83d6f34d4e45fc718"
+        },
+        {
+          "resource": "repo://kubernetes/flux/meta/repos/local-path-provisioner.yaml",
+          "version": "repo-file-v1:sha256:d66ae8663a8d5d1a274cb8e475d8b71d9337c8166b2ec1b19e740f8790e88495"
+        }
+      ]
+    },
+    {
+      "id": "claim_4d509f9fd0cb480c91343b6966bbea76",
+      "statement": "csi-driver-nfs (chart 4.13.4) is deployed with 1 controller replica and externalSnapshotter disabled, but the HelmRelease defines no storageClass values and no NFS StorageClass manifest exists in the repository, so the driver currently provisions no volumes; upgrade uses cleanupOnFail with rollback remediation (3 retries).",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/csi-driver-nfs/app/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:5736079736ef7d6ac701fb2b0d94076c6fcf9a745eef5c00f8a89a9e1c013b80"
+        }
+      ]
+    },
+    {
+      "id": "claim_43492965d0174b9dad23af1b15ff27bf",
+      "statement": "Nextcloud's Flux Kustomization declares `dependsOn` on `csi-driver-nfs`, `topolvm`, and `external-secrets`, and its PVC `nextcloud-nfs` is actually a 100Gi `topolvm-thin-provisioner` ReadWriteOnce volume, not NFS-backed.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/nextcloud/app/pvc.yaml",
+          "version": "repo-file-v1:sha256:14e63e6cd6d89b42e067ebfb7a86f0203b7c61fd291fac14c72b26493b616566"
+        },
+        {
+          "resource": "repo://kubernetes/apps/storage/nextcloud/ks.yaml#L13-L22",
+          "version": "repo-lines-v1:sha256:cd736040500e4f1d09cd0e35b60b45cb4fd5d209f69288172c6953be891adc12:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVkM2E1ZDYxNWQ4YzhjYWZlZDM4MmU2ZmMxODVmNDU5NzAyYWE4NjhjZTc1MjRmZDI2NmYzZmI2ZDYwYzA2NzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJmOTg5OTNkMmU0OGFhNjE2ODUzMDc5ZDU4MzllNDRlZWJjY2JiZTFlZWM4ZGViODFjN2Q0YmZhYjA1YWU5YzYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYwYmVkZjViYmRjMDhmNDkyNzZiN2ViYzY4ZGVlZDA5ZmYwZDJjODc5MDA3MDA5NDM1ZjNiOTY0NzY0ZjU0ZGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIxMmM0YmYyOTUzOGNiMDM2OTU3YmQ1YWIwOWYxZThiYjU4MDkyYzgyN2I1YmE1YTBiMmQ4NTA0NDViMThlOWIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_8ac86f07905f474ba1a94249931d728e",
+      "statement": "snapshot-controller (chart 5.3.0 from the `piraeus` Helm repository) provides the VolumeSnapshot CRDs/API, is installed with `crds: CreateReplace` and rollback remediation, runs with its validating webhook disabled and a Prometheus ServiceMonitor enabled, and deploys first in the storage stack.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/kustomization.yaml#L8-L17",
+          "version": "repo-lines-v1:sha256:a00119f1b6f7c64f288724d0c771dae94285972bbce1c0bfc5735815928c05b3:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc2NjQ4OWRiYzhlMWFjNDEwZTgwMGU1ZjE3NGU1OTNiMDlhZWEzYzljNTkwN2YwMTM3ZGY3YzgyMGFlNDZhYWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM5MTRmMmRiZWI3ZGE2ZDE3YmU2NDFiYzE4MWMwOTIwZTVhNDY3ZjE0OTA1NzJmODkxZjI1Y2VhMTk0ZmRmNjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUxYzc0ZDllMDQxNTg4NzgxMDhkNTAyNjA5MTdiNjhkMTY2NDZmZDE4N2EyZTY0MDAwNDFlMDhiN2RjNGZiODciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/storage/snapshot-controller/app/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:79e3782707d4895a9fb2d7edfb8e089ccac4792baa343bf9a2d808dd4abc3cd2"
+        }
+      ]
+    },
+    {
+      "id": "claim_8dd4618203a24a89bfd3c7e97da9d793",
+      "statement": "Storage components deploy via Flux Kustomizations into the `storage` namespace with an enforced dependency chain: snapshot-controller → topolvm → volsync; csi-driver-nfs and local-path-provisioner have no dependsOn; nextcloud deploys last depending on csi-driver-nfs, topolvm, and external-secrets.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/topolvm/ks.yaml#L13-L16",
+          "version": "repo-lines-v1:sha256:8ac6f0dc9bb155b45a12427f919643cbc1f5af8dea794bf2b8629a03ddcf12e1:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDEzMDkxN2E4Nzc0YzY1ZTZiMGE5NTBmZjQ4YzY2Nzg0ZDk2ZjYxNjZkNTJmNjBiZDZjZGZlMTE2Njg1NjdlMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzQ1OTdmODNhNWQ5OWFhYzllNTJjYTE3YTk4MjZhNDkyYWRlMmJlOWQ1M2FmMDMxNTAwYmNmY2UyY2UzYjlmNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjBiZWRmNWJiZGMwOGY0OTI3NmI3ZWJjNjhkZWVkMDlmZjBkMmM4NzkwMDcwMDk0MzVmM2I5NjQ3NjRmNTRkYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzU2ZGJiMjFiMjExOTIzYmNhY2I2MWYxOTM4YzE3NGJlMjhiMDBmMzAyZDM1MGY4ZjEyYjA4NzcwNWIyNzk4NiJ9"
+        },
+        {
+          "resource": "repo://kubernetes/apps/storage/volsync/ks.yaml#L13-L16",
+          "version": "repo-lines-v1:sha256:3eea1ad617e62cf0e087549f6eb27bd826d145aff134da94b2a61c0d64581dc0:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzYzNTQ1YzM2NjA1ZDQ4NGFiNTJiNTAyN2Y1MDU3OTgzNGZjM2JlNDU0NGM2ZDQyMjIxYzIzOWNiNDE1ZWVmNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzQ1OTdmODNhNWQ5OWFhYzllNTJjYTE3YTk4MjZhNDkyYWRlMmJlOWQ1M2FmMDMxNTAwYmNmY2UyY2UzYjlmNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjBiZWRmNWJiZGMwOGY0OTI3NmI3ZWJjNjhkZWVkMDlmZjBkMmM4NzkwMDcwMDk0MzVmM2I5NjQ3NjRmNTRkYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzU2ZGJiMjFiMjExOTIzYmNhY2I2MWYxOTM4YzE3NGJlMjhiMDBmMzAyZDM1MGY4ZjEyYjA4NzcwNWIyNzk4NiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_d655bdc21110477e93949233f72a30a9",
+      "statement": "VolSync (chart 0.16.0 from `backube`, `manageCRDs: true`, metrics with auth disabled) is monitored by a PrometheusRule with two critical alerts: `VolSyncComponentAbsent` (absent metrics target for 15m) and `VolSyncVolumeOutOfSync` (`volsync_volume_out_of_sync == 1` for 15m).",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/volsync/app/helmrelease.yaml",
+          "version": "repo-file-v1:sha256:5a2c230b999209d0d610f2ebb374d085fcb7f154533e72f3f27f6206993cab20"
+        },
+        {
+          "resource": "repo://kubernetes/apps/storage/volsync/app/prometheusrule.yaml",
+          "version": "repo-file-v1:sha256:dbe43ba41bb51452d53caed6c9aa8bac8115069a9f3e672b91649e397f3e2abf"
+        }
+      ]
+    },
+    {
+      "id": "claim_006e4076c8c545e28129b88ba1769d20",
+      "statement": "The reusable `kubernetes/components/volsync` component (enabled by an app Kustomization via `components:` + `APP`/`VOLSYNC_CAPACITY` substitutes) renders an ExternalSecret pulling restic and MinIO credentials from Bitwarden (ClusterSecretStore `bitwarden-login`, keys `volsync-minio-template` and `cold-minio`) templating `RESTIC_REPOSITORY: s3:http://192.168.50.220:9010/volsync/dev/${APP}`; a ReplicationSource running restic every 6 hours with copyMethod Direct, UID/GID 1000, prune every 7 days, and retention 24h/7d/5w with a `local-path` cache PVC and topolvm backup volume; and a ReplicationDestination `volsync-dst-${APP}` with a manual `restore-once` trigger, cleanup of cache/temp PVCs, and file deletion enabled.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/volsync/claim.yaml",
+          "version": "repo-file-v1:sha256:884ce121cda571f91734132bb4d973643f3dbd93b8b1ee9797c5a0715061161b"
+        },
+        {
+          "resource": "repo://kubernetes/components/volsync/minio.yaml",
+          "version": "repo-file-v1:sha256:a0f72876bb4239e10be63ca02e64583d92f34955995f181de8e94814c54ad4db"
+        }
+      ]
+    },
+    {
+      "id": "claim_8fd2246211504225a9baa8ebd55bbded",
+      "statement": "The original component's `claim.yaml` creates the `${APP}` PVC with `dataSourceRef: {kind: ReplicationDestination, name: volsync-dst-${APP}}`, so restored data is adopted at claim creation; `components/volsync-new` uses an identical ExternalSecret/ReplicationSource/ReplicationDestination set but a plain PVC without dataSourceRef, for apps that provision their own volume and only want backups.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/components/volsync-new/claim.yaml",
+          "version": "repo-file-v1:sha256:cb49de4194c92c3936a20756252d36294fce3c5ef4d0899007dce030aea5570b"
+        },
+        {
+          "resource": "repo://kubernetes/components/volsync/claim.yaml",
+          "version": "repo-file-v1:sha256:884ce121cda571f91734132bb4d973643f3dbd93b8b1ee9797c5a0715061161b"
+        }
+      ]
+    },
+    {
+      "id": "claim_3b7e98f415314a5cbffe7a050a47e61d",
+      "statement": "Nextcloud's backup is defined app-locally in `volsync-nfs.yaml` (an expanded copy of the component's ExternalSecret + ReplicationSource) targeting `s3:http://192.168.50.220:9010/volsync/dev/nextcloud-nfs` with a 2Gi `local-path` cache, rather than by the shared component's templates alone.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/nextcloud/app/volsync-nfs.yaml",
+          "version": "repo-file-v1:sha256:bdcfe917f81144bb95c0a5a91b2742dbe89ea58be4040e8a0ed7d6de37250752"
+        }
+      ]
+    },
+    {
+      "id": "claim_d884579cd6e14a12aeb19a47a49d2fd5",
+      "statement": "A hardened CronJob `volsync-snapshot-cleanup` (storage namespace, Sundays 02:00, concurrencyPolicy Forbid, non-root UID 65534, dropped capabilities, read-only rootfs) deletes cluster-wide VolumeSnapshots named with the VolSync destination prefix `volsync-volsync-dst-` older than 7 days (THRESHOLD_DAYS) to keep restore-time destination snapshots from consuming thin-pool capacity.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/storage/volsync/app/snapshot-cleanup-cronjob.yaml",
+          "version": "repo-file-v1:sha256:d1197bdf2f747ebc5f44c586c6bf4528fb7539c706be3660750793cedafba647"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.7.0",
-    "at": "2026-10-06T00:54:23.845Z"
+    "by": "openwiki/0.7.1",
+    "at": "2026-10-08T23:50:46.668Z"
   }
 }

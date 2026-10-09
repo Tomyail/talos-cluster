@@ -4,8 +4,12 @@ title: Local Tooling — mise, Taskfiles, and Bootstrap Scripts
 description: How local operators run the cluster toolchain via mise-managed tools and environment variables, the root Taskfile and its bootstrap/talos/volsync task groups, and the scripts/bootstrap-apps.sh ordered cluster bootstrap flow.
 tags: [tooling, mise, task, talos, volsync, bootstrap, sops, helmfile]
 sources:
+  - id: openwiki-source-22d03a54ca65a8e3305dad24
+    resource: repo://.editorconfig
   - id: openwiki-source-9c06bd9d7d25770709e07c7c
     resource: repo://.mise.toml
+  - id: openwiki-source-80b720b54d3a546354f53eed
+    resource: repo://.shellcheckrc
   - id: openwiki-source-f04021c19122a44288e9cea0
     resource: repo://.taskfiles/bootstrap/Taskfile.yaml
   - id: openwiki-source-4f5be6b4c7dcc699aca46164
@@ -20,10 +24,10 @@ sources:
     resource: repo://scripts/lib/common.sh
   - id: openwiki-source-b9ff7ee0aa4953cc601052a4
     resource: repo://Taskfile.yaml
-generated: { by: "openwiki/0.7.0", at: "2026-10-04T22:26:02.682Z" }
+generated: { by: "openwiki/0.7.1", at: "2026-10-08T23:50:46.668Z" }
 verified:
-  - by: openwiki/0.7.0
-    at: 2026-10-04T22:26:02.682Z
+  - by: openwiki/0.7.1
+    at: 2026-10-08T23:50:46.668Z
 ---
 
 ## Overview
@@ -42,12 +46,12 @@ Local operations are driven by three layers:
 
 | Variable | Value | Purpose |
 | --- | --- | --- |
-| `KUBECONFIG` | `{{config_root}}/kubeconfig` | kubectl/helm/flux cluster access |
-| `TALOSCONFIG` | `{{config_root}}/talos/clusterconfig/talosconfig` | talosctl node access |
 | `SOPS_AGE_KEY_FILE` | `{{config_root}}/age.key` | age private key used by SOPS decryption |
 | `_.python.venv` | `{{config_root}}/.venv` | auto-created Python virtualenv |
 
-**Pinned tools** (per `.mise.toml`): python 3.14.8, pipx:makejinja 2.9.1, talhelper 3.1.17, cilium-cli 0.20.1, `gh` (cli) 2.102.0, cloudflared 2026.9.3, cue 0.17.1, age 1.3.2, flux2 2.9.6, sops 3.13.3, go-task 3.54.0, helm 4.3.0, helmfile 1.8.1, jq 1.7.1, kustomize 5.6.0, kubectl 1.33.1, yq 4.54.1, talos 1.14.2, kubeconform 0.8.0, plus node and pipx at `latest`. Because `Taskfile.yaml` sets the same `KUBECONFIG`, `TALOSCONFIG`, and `SOPS_AGE_KEY_FILE` values in its own `env:` block, tasks behave identically whether or not the shell was entered through mise.
+Note that mise itself only exports `SOPS_AGE_KEY_FILE`; `KUBECONFIG` and `TALOSCONFIG` are **not** set by mise — they come from the root `Taskfile.yaml` `env:` block, so they are only exported inside task runs (see below).
+
+**Pinned tools** (per `.mise.toml`): python 3.14.8, pipx:makejinja 2.9.1, talhelper 3.1.17, cilium-cli 0.20.1, `gh` (cli) 2.102.0, cloudflared 2026.9.3, cue 0.17.1, age 1.3.2, flux2 2.9.6, sops 3.13.3, go-task 3.54.0, helm 4.3.0, helmfile 1.8.1, jq 1.7.1, kustomize 5.6.0, kubectl 1.33.1, yq 4.54.1, talos 1.14.2, kubeconform 0.8.0, plus node and pipx at `latest`. Because `Taskfile.yaml` sets `KUBECONFIG` (`{{.ROOT_DIR}}/kubeconfig`), `TALOSCONFIG` (`talos/clusterconfig/talosconfig`), and `SOPS_AGE_KEY_FILE` (`age.key`) in its own `env:` block, task runs always see the same cluster credentials regardless of how the shell was set up.
 
 ## Root Taskfile
 
@@ -95,7 +99,7 @@ flowchart TD
 1. **`wait_for_nodes`** — Talos requires nodes to be `Ready=False` before applying resources. If all nodes are already `Ready=True` the wait is skipped; otherwise the script polls `kubectl wait nodes --for=condition=Ready=False --all` every 10 seconds until it succeeds. This makes the script safe to re-run both before first boot and against a running cluster.
 2. **`apply_namespaces`** — creates one namespace per directory under `kubernetes/apps/`, using `kubectl create --dry-run=client | kubectl apply --server-side` and skipping namespaces that already exist. These namespaces must exist before the SOPS secrets land.
 3. **`apply_sops_secrets`** — decrypts and applies (server-side, into `flux-system`) three SOPS-encrypted files: `bootstrap/github-deploy-key.sops.yaml`, `kubernetes/components/common/sops/cluster-secrets.sops.yaml`, and `kubernetes/components/common/sops/sops-age.sops.yaml`. The SOPS age secret is what lets Flux decrypt everything else. Missing files are warned about and skipped; `sops exec-file … kubectl diff` short-circuits already-up-to-date secrets.
-4. **`apply_crds`** — applies External DNS (`dnsendpoints.externaldns.k8s.io` v0.22.0) and Gateway API (experimental v1.6.2) CRDs server-side. Although Flux also manages these CRDs from GitRepositories, they are applied here for bootstrap safety: Cilium (installed next by helmfile) enables `gatewayAPI` and needs the CRDs to exist before it starts.
+4. **`apply_crds`** — applies External DNS (`dnsendpoints.externaldns.k8s.io` v0.23.0) and Gateway API (experimental v1.6.2) CRDs server-side. Although Flux also manages these CRDs from GitRepositories, they are applied here for bootstrap safety: Cilium (installed next by helmfile) enables `gatewayAPI` and needs the CRDs to exist before it starts.
 5. **`sync_helm_releases`** — `helmfile --file bootstrap/helmfile.yaml sync --hide-notes` installs the minimal set of releases (networking, cert-manager, SOPS, Flux prerequisites) that let Flux take over and sync the full `kubernetes/` tree from Git. Any failure aborts the script (the `log error` helper exits 1).
 
 Because each step checks current state (`kubectl get`, `kubectl diff`) before applying, the whole script is idempotent and can be re-run to repair a partial bootstrap.
@@ -115,6 +119,11 @@ Operational helpers for backup, restore, and wiping of application PVCs via VolS
 The restore template `.taskfiles/volsync/templates/replicationdestination.tmpl.yaml` creates a one-shot (`trigger.manual: restore-once`) Restic ReplicationDestination writing into `${claim}` on the `topolvm-thin-provisioner` storage class, restoring `${previous}` snapshots back (default 2), with `${restoreAsOf}` available (commented) to pin restoration to just before the old cluster was destroyed — important during full-cluster bootstrap so VolSync does not restore fresh default data over the backup.
 
 Helper scripts live in `.taskfiles/volsync/scripts/`: `wait-for-job.sh`, `wait-for-rd.sh`, and `which-controller.sh`.
+
+## Editor and lint conventions
+
+- **`.editorconfig`** — `root = true`; the `[*]` default is 2-space indent, LF line endings, UTF-8, trailing-whitespace trimming, and a final newline. Exceptions: `*.cue` uses tabs with indent 4, `*.md` uses indent 4 with trailing-whitespace trimming disabled (so Markdown hard line breaks survive), and `*.sh` uses indent 4.
+- **`.shellcheckrc`** — disables SC1091 (not following `source`d scripts — used by `scripts/lib/common.sh` and the task helper scripts) and SC2155 (declare-and-assign masking return values), matching the `local x="$(…)"` style used throughout `scripts/`.
 
 ## Related pages
 

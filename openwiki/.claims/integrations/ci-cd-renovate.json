@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:0e173e33e3f0664770861a70fca915c7aace02c6a167992f896c0c4f88c3eff1",
+  "pageVersion": "sha256:457344a6184ccdc3de2fcdae5e129748b8609039657205f9fa93a65c720d95fa",
   "claims": [
     {
       "id": "claim_3a5efba291a24d41be157c2c9f656cef",
@@ -117,10 +117,112 @@
           "version": "repo-lines-v1:sha256:8fc526992761de8f41bf0a983c8b7010b47b62a1a30a0166f0dc647cbe021c3d:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDBmMTUwYTFhMDAwNzUyODM5MzU2NzZjZDY3Y2RmN2E4NmI2ZjhiYTE5YzkxMDI4YzMwYWM3MTNmZjNjMDAzMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGE5N2MxNTI1NTAxNDA4YjQ1OWJkYjNmMzFkMjM1ODAxOTQ2ZTgxZmJjNDc3NTBhMmVmZDMzNzhhNWNkMWJkNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiY2VmNGJjZTcyOGNmYTdhYjVkYjhlYTlkMTYxODZjM2NmZGU1ZWEyYjUxZGE0YTM5NzY4MTQyZjFiM2I5MDQ0MSJ9"
         }
       ]
+    },
+    {
+      "id": "claim_3afad01c736645b3a9c2735b88396857",
+      "statement": "The Labeler workflow applies `.github/labeler.yaml` on every pull_request_target to `main` (plus manual dispatch) using actions/labeler with `contents: read` and `pull-requests: write`, automatically tagging PRs with the mapped `area/*` labels.",
+      "evidence": [
+        {
+          "resource": "repo://.github/labeler.yaml",
+          "version": "repo-file-v1:sha256:9c8d8f732d6bfd677c40a340b607eac9c15b5072268f67479110d60dbf031f06"
+        },
+        {
+          "resource": "repo://.github/workflows/labeler.yaml",
+          "version": "repo-file-v1:sha256:dffffd8b0845a5d0b09443d0c60c0c91334008c94fa0874af07251f48c8d29c0"
+        }
+      ]
+    },
+    {
+      "id": "claim_5d2aa61c46e94622ba6744595b39bbae",
+      "statement": "Renovate's regex custom manager updates dependencies annotated with `# renovate: datasource=<ds> depName=<dep>` comments in `.env`, `.sh`, and `.yaml` files (including `.j2` variants); the datasource defaults to `github-releases` when omitted, and a second match-string pattern captures versions embedded in URLs. Real usages include `talos/talenv.yaml`, the system-upgrade controller manifests, CRD version pins in `kubernetes/flux/meta/repos/`, and chart versions in `scripts/bootstrap-apps.sh`.",
+      "evidence": [
+        {
+          "resource": "repo://.renovaterc.json5#L206-L229",
+          "version": "repo-lines-v1:sha256:6c4556e550acc969205336f921d4e3f28e9f80d6c1de73e266aa18508fa9dc06:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUwZWFhMDNjMzdiNTMzMzRiMTA1MDUzZjlkNzc3MjgzMGJkYWIyYmVlNDlmNjE4ZjlkYzJmNGNjY2IzYTI5NzUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2NGQ4YzA3MzQyOTg5MzEwMTU3NmQ4OGQ5OTEyN2U4OWQ2ODkxZDNiMTdlODlkZjAyZWM5YWU3MDcwNWQ4YmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVlYWM4ZmViNmFjNjRiODI0YTg3YmNkYTc1YjMxMzRmMDRjN2M4ZjY1NDhlMmZmZGI2M2FmZGNkZTU0MjM4M2QiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/kube-system/system-upgrade/upgrades/kubernetes.yaml",
+          "version": "repo-file-v1:sha256:be50b9911d94a2b8e4c3b8b47c3f730630ef79612220c90423ef7566be7fcd14"
+        },
+        {
+          "resource": "repo://kubernetes/flux/meta/repos/external-dns-crds.yaml",
+          "version": "repo-file-v1:sha256:ab13a6466c09c97818407bfdeb66433be04fd189a4f36727390d03fcfc6a6a24"
+        },
+        {
+          "resource": "repo://scripts/bootstrap-apps.sh",
+          "version": "repo-file-v1:sha256:786548ba1742f36d54d8d1443601d58a42591e6372a5b17d105c439739078026"
+        },
+        {
+          "resource": "repo://talos/talenv.yaml",
+          "version": "repo-file-v1:sha256:4ae26d952e597f70c4bbe7665882b09fe952fe44746284b6ff794e03502b0c1d"
+        }
+      ]
+    },
+    {
+      "id": "claim_a9a8541077624e5d967d116a5b0887d0",
+      "statement": "Renovate runs on schedule `every weekend`, reports pending work on a dependency dashboard issue titled \"Renovate Dashboard 🤖\", ignores `**/*.sops.*` so SOPS-encrypted files are never parsed or rewritten, and scans `kubernetes/**/*.ya?ml` (including `.j2` templated files) with its flux, helm-values, kubernetes, and kustomize managers.",
+      "evidence": [
+        {
+          "resource": "repo://.renovaterc.json5#L14-L30",
+          "version": "repo-lines-v1:sha256:24ae5aad0b8d5cae0167e764866d7f665e57b24b25cf40f011ccd45300ed18e5:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNjMjRkMjhjZjk4ZWZjZWRjMzdjNmU5Zjc0ZGZhOGU5YmI3MmRlOGRkZjQ5ODUxYzY2NmRlMTM5MmY3ODZmN2UiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkNWNkMmZiNGYzZGY4ODQ1MTUyNTViMzk1MjNmMmY4YjU0NzJiZWVhOWY1NjZmZmNhMjA0ZGI4MDI1NjEwNDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBjYjRmOTRkNDBmODZlYjRhYzk5ZDM3NjY1ZWNkZDZlNjAzNDFkNmM3MTJhZjJkMGUxMWYwZWFiMzg1NWU2MWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZjY2YxMTg1NDljNzE0NmQyMjViZjI1NTM1NDk0YjAyMmEwZTM1ZGJkMDJmMTdhYzAwNmVhNWM0ZDUwODZjZjAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ceeabe64ab8e46b4bb2cf74a9f36f368",
+      "statement": "Renovate groups docker updates for Cert-Manager, CoreDNS, Flux Operator (flux-operator + flux-instance), and Spegel into single PRs; auto-merges GitHub Actions (minor/patch/digest, 3-day minimumReleaseAge) and Mise tool updates to branches; and auto-merges non-major app updates while `excludeDepPatterns` keeps core infrastructure (storage, networking, certs/secrets, GitOps, observability, node components, and the shared `app-template` chart) on human-reviewed PRs.",
+      "evidence": [
+        {
+          "resource": "repo://.renovaterc.json5#L161-L204",
+          "version": "repo-lines-v1:sha256:f600f1c5cc34960570a98e753bb89a89a3cf476b3cbd64bbb738ffebd7a31737:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3OWJhNDA5NzU4ODI2M2ZiMTViNWUzNzU4NTJkZWU3OWY4MTc0OWIyZDViOTBlZTUxZDY0N2I4ZmY3ZjliOTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4OTNmNDBlMzc4MWViODk2YzgyZDA0NmEwODA2N2ExMWUzNWNkZjJmMWRmYWYyNmZlYTkwYjhkYjY2NzY0MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg4NjVlZDNiNWJmODIzZGQ0Y2VlNzM5ZDE0OTJkYmU2NTI4ZTU1MzAxOTg3ODE0ZDU2MmU2NTg2MWM2ZDRjOTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ0YjNlYjc5Y2NlM2E0YTI2NDI2ZWQ4NTQ1NTdhNjljMDUxMzc0MmE4YjMxNWRhMmQ1MzUxZTk3YmY5NmQ5ODAifQ"
+        },
+        {
+          "resource": "repo://.renovaterc.json5#L31-L76",
+          "version": "repo-lines-v1:sha256:bdea00da189f0c93f3b09d6b3c9cf6cc233ac9513378561163a83df04970a7ed:eyJzZWxlY3RlZExpbmVDb3VudCI6NDYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY4OWZlMTNhOTQ5MjEzOTdhYzc0ZDk3ODU3MmQ3NjUzYTM3N2Y1ZTQ4Mzk4NzIyN2ZkMDBlYjQ1OWM4MjFjMDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE5MjA3ODA3OGI4MmRjZGE4NjRiMDM1ZDJhMzIxNWRjMTU0OWY4ZmE2YmI1OTBlMzliMDcxMzBhZWQxMjcwMmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhjNTMwZDhmYjBkZjE4MDdiMjQ5NzM2ODI2YmNjNjE2NTUyZDNlMzg4MmRiMmIyZTAzMTM4MGVmNzFlYTUxYjkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9692be4c1e3040ff9115fa28caa61b8e",
+      "statement": "Renovate applies semantic-commit conventions per update type (`feat!` majors, `feat` minors, `fix` patches, `chore` digests, with `currentVersion → newVersion` extras) and per-datasource scopes/topics (container, helm, github-action, github-release, mise), and labels its PRs with `type/major|minor|patch` and `renovate/container|helm|github-action|github-release`, matching the canonical labels declared in `.github/labels.yaml`.",
+      "evidence": [
+        {
+          "resource": "repo://.github/labels.yaml",
+          "version": "repo-file-v1:sha256:bc18eef8798dec3a30a0ae930e54638412d09688fb4afb862de3850758c1e199"
+        },
+        {
+          "resource": "repo://.renovaterc.json5#L86-L159",
+          "version": "repo-lines-v1:sha256:822f1a67e8bf5df93f43966bc7b14eaf2ca83a1b5790357aa18f6f9be951365d:eyJzZWxlY3RlZExpbmVDb3VudCI6NzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE4Y2I5NmJhM2JkZWQ2YmU1MmUzODYyZTZiNDYwYTc1ZmRkMWViOTQ1ODJjNDAwNjMyOWYyODA3OGUzZjk2ODEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ4YTQyMDI2MDkzODhlNTA1YjUwMTI4OGU1NDU1Nzc1NmZkM2FiMDkzOTUwM2JiOWZjOTZkMjY3ZDM1NDQ4MmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY0YzA0YmMxZjJiYTdjZTM3MTllYzM5MjM3YjBjMGU1OTRkYmEzMzRjODcyMDhlZjIxZTkzNWQwNGM1NGZjNGMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_8a5d1216203144bb8e1d616cd708b6a9",
+      "statement": "`flux-local.yaml` runs on pull_request to `main` with per-PR concurrency (cancel-in-progress): a pre-job gates on `tj-actions/changed-files` over `kubernetes/**`; a test job runs `flux-local test --enable-helm --all-namespaces --sources flux-system` in the flux-local v8.4.0 container; a helmrelease/kustomization matrix job runs `flux-local diff` against the default branch (strip-attrs, 10000-byte limit, `--unified 6`) writing `diff.patch`, posts non-empty diffs as keyed PR comments via mshick/add-pr-comment (continue-on-error) and job summaries; and a `flux-local-status` aggregator with `if: always()` fails if test or diff failed, so branch protection can require just that check.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/flux-local.yaml",
+          "version": "repo-file-v1:sha256:1571b34bb283853b64ecdb85b86ce355121bdf2d80517ad8da5fc906c1846401"
+        }
+      ]
+    },
+    {
+      "id": "claim_9ddcc95a27a24efba4f77d29c064c37a",
+      "statement": "The Label Sync workflow syncs `.github/labels.yaml` (which declares the canonical label set including `area/*`, `renovate/*`, `type/*`, `community`, and `hold` labels) via EndBug/label-sync with `delete-other-labels: true` on pushes to `main` touching that file or on manual dispatch, making it the authoritative source of the label set.",
+      "evidence": [
+        {
+          "resource": "repo://.github/labels.yaml",
+          "version": "repo-file-v1:sha256:bc18eef8798dec3a30a0ae930e54638412d09688fb4afb862de3850758c1e199"
+        },
+        {
+          "resource": "repo://.github/workflows/label-sync.yaml",
+          "version": "repo-file-v1:sha256:3b8f5ea6890a99fb0c21727b0cb9409b87d8c7950b070ceaa501633ac230f6ff"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.7.0",
-    "at": "2026-10-06T00:54:23.845Z"
+    "by": "openwiki/0.7.1",
+    "at": "2026-10-08T23:50:46.668Z"
   }
 }

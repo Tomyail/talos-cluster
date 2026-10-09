@@ -40,10 +40,10 @@ sources:
     resource: repo://kubernetes/components/volsync/claim.yaml
   - id: openwiki-source-e77f449e947f9b25cfc86044
     resource: repo://kubernetes/components/volsync/minio.yaml
-generated: { by: "openwiki/0.6.0", at: "2026-09-25T22:38:38.997Z" }
+generated: { by: "openwiki/0.7.1", at: "2026-10-08T23:50:46.668Z" }
 verified:
-  - by: openwiki/0.6.0
-    at: 2026-09-25T22:38:38.997Z
+  - by: openwiki/0.7.1
+    at: 2026-10-08T23:50:46.668Z
 ---
 
 # Shared Component Library (kubernetes/components)
@@ -152,7 +152,10 @@ destination):
 3. A **ReplicationSource** named `${APP}` running restic backups of
    `sourcePVC: ${APP}` on schedule `0 */6 * * *` (every 6 h), retaining 24
    hourly / 7 daily / 5 weekly snapshots, pruning every 7 days, with cache
-   capacity `${VOLSYNC_CACHE_CAPACITY:-1Gi}` on `local-path` storage.
+   capacity `${VOLSYNC_CACHE_CAPACITY:-1Gi}`. Only `volsync-new`'s
+   ReplicationSource additionally pins the cache storage class
+   (`${VOLSYNC_CACHE_SNAPSHOTCLASS:-local-path}`); the `volsync` variant leaves
+   it to the VolSync default.
 
 The **difference** is the PVC's relationship to restore:
 

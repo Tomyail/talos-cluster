@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:493cb665f85c4ded5d6fd4d02d413c0a4a4532db421b7830e491cfa8edfed021",
+  "pageVersion": "sha256:f5ae128832159ca907fdf68be5d3338adce2b2039315e26a3ed24d26e4c5d022",
   "claims": [
     {
       "id": "claim_01f7d801aaf14c35acc5001119c780a4",
-      "statement": "The kube-system namespace groups core cluster infrastructure including Cilium CNI, CoreDNS, node utilities, and system upgrade controllers under kubernetes/apps/kube-system/.",
+      "statement": "The kube-system namespace groups core cluster infrastructure including Cilium CNI, CoreDNS, metrics-server, reloader, node-feature-discovery, intel-device-plugin-operator, and system-upgrade controllers under kubernetes/apps/kube-system/.",
       "evidence": [
         {
           "resource": "repo://kubernetes/apps/kube-system/kustomization.yaml",
@@ -24,7 +24,7 @@
     },
     {
       "id": "claim_3d505c53a6a144938443374203efd000",
-      "statement": "The storage namespace hosts storage infrastructure including TopoLVM, snapshot-controller, local-path-provisioner, VolSync, and CSI drivers under kubernetes/apps/storage/.",
+      "statement": "The storage namespace hosts storage infrastructure including TopoLVM, snapshot-controller, local-path-provisioner, VolSync, csi-driver-nfs, and Nextcloud under kubernetes/apps/storage/.",
       "evidence": [
         {
           "resource": "repo://kubernetes/apps/storage/kustomization.yaml",
@@ -132,7 +132,7 @@
     },
     {
       "id": "claim_bc36754630b443cb99724ed84a54c829",
-      "statement": "The ../../components/common component injects shared resources into every namespace including namespace.yaml for namespace definitions with pod security labels, repos/ for HelmRepository and OCIRepository sources, and sops/ for SOPS decryption secrets.",
+      "statement": "The ../../components/common component injects shared resources into every namespace: a placeholder namespace.yaml defining an inert 'not-used' Namespace (prune-disabled, privileged pod-security enforce) rather than a real per-namespace Namespace, repos/ for HelmRepository and OCIRepository sources, and sops/ for SOPS decryption secrets.",
       "evidence": [
         {
           "resource": "repo://kubernetes/components/common/kustomization.yaml",
@@ -141,14 +141,6 @@
         {
           "resource": "repo://kubernetes/components/common/namespace.yaml",
           "version": "repo-file-v1:sha256:cc90502c30a32ce402d07577c6d533123f6aa07629c5b37962e8f83c98b4ab5f"
-        },
-        {
-          "resource": "repo://kubernetes/components/common/repos/kustomization.yaml",
-          "version": "repo-file-v1:sha256:9d547b7855d2377defcba2b0d884a93e2a74c2dbd428a51df19261a7d8545eb1"
-        },
-        {
-          "resource": "repo://kubernetes/components/common/sops/kustomization.yaml",
-          "version": "repo-file-v1:sha256:d8ed27e133a7c7b3a4e77fc5e274182244e747a7c15a7f8a3d6532ccb14f629a"
         }
       ]
     },
@@ -310,11 +302,23 @@
     },
     {
       "id": "claim_3e09bff5fe7e46e5a3bc19ea0daf9de8",
-      "statement": "Namespaces may include additional resources beyond applications in namespace.yaml such as AlertManager Provider and Alert configuration for HelmRelease failure notifications, with pod security labels and volsync annotations.",
+      "statement": "Hand-authored namespace.yaml files next to kubernetes/apps/storage, database, and external-secrets define each namespace's intended posture (pod security, volsync.backube/privileged-movers, prune-disabled, plus AlertManager Provider/Alert on HelmRelease error events in storage and database), but they are NOT currently reconciled by Flux: storage's kustomization lists ./namespace.yaml only as a commented-out resource and database/external-secrets do not reference theirs, so live namespaces are the bare resources created by scripts/bootstrap-apps.sh.",
       "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/database/kustomization.yaml",
+          "version": "repo-file-v1:sha256:788941ecc8774f2e6d473403f08bacdd588cd521afddc711a875b9bc782c37f1"
+        },
         {
           "resource": "repo://kubernetes/apps/database/namespace.yaml",
           "version": "repo-file-v1:sha256:c304a3cee168645f08358193fc0ce9a34b17df275dc4f52f359bfc54751fa2ab"
+        },
+        {
+          "resource": "repo://kubernetes/apps/external-secrets/kustomization.yaml",
+          "version": "repo-file-v1:sha256:d2b3592aeb8a5588d0fa9df93335bf3923e090db145b6cadf29b34b985987356"
+        },
+        {
+          "resource": "repo://kubernetes/apps/storage/kustomization.yaml",
+          "version": "repo-file-v1:sha256:e46a24b0ed45feb970a628ca5917362415dff3ecd1e15beac3a4c4029d501549"
         },
         {
           "resource": "repo://kubernetes/apps/storage/namespace.yaml",
@@ -488,7 +492,7 @@
     }
   ],
   "verification": {
-    "by": "openwiki/0.7.0",
-    "at": "2026-10-03T22:17:28.945Z"
+    "by": "openwiki/0.7.1",
+    "at": "2026-10-08T23:50:46.668Z"
   }
 }

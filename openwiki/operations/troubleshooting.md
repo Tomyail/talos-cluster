@@ -12,6 +12,10 @@ sources:
     resource: repo://.taskfiles/talos/Taskfile.yaml
   - id: openwiki-source-360da09d9920a02e1e719d90
     resource: repo://bootstrap/helmfile.yaml
+  - id: openwiki-source-6a45568e52de66cfe77b8bdf
+    resource: repo://docs/cluster-health-review-20260425.md
+  - id: openwiki-source-6a7bc35744e35cf9c477e58f
+    resource: repo://kubernetes/apps/database/dragonfly/app/helmrelease.yaml
   - id: openwiki-source-d3d80f124bb7f98ce2094ebc
     resource: repo://kubernetes/apps/default/calibre-web-automated/app/volsync-nfs.yaml
   - id: openwiki-source-514428fb63f74f5cc6fe8c1d
@@ -32,10 +36,12 @@ sources:
     resource: repo://kubernetes/flux/cluster/ks.yaml
   - id: openwiki-source-6f1d2c8de9160e178167b990
     resource: repo://scripts/bootstrap-apps.sh
-generated: { by: "openwiki/0.7.0", at: "2026-10-06T00:54:23.845Z" }
+  - id: openwiki-source-f732321d388a413da3d9f609
+    resource: repo://scripts/lib/common.sh
+generated: { by: "openwiki/0.7.1", at: "2026-10-08T23:50:46.668Z" }
 verified:
-  - by: openwiki/0.7.0
-    at: 2026-10-06T00:54:23.845Z
+  - by: openwiki/0.7.1
+    at: 2026-10-08T23:50:46.668Z
 ---
 
 # Troubleshooting Guide
@@ -162,6 +168,38 @@ The `diff` job (matrix over `helmrelease` and `kustomization`) checks out both t
 - Concurrency is configured with `cancel-in-progress: true`, so a new push to the same PR cancels the previous run — a "cancelled" status is normal, not a failure
 - Prevention: run `flux-local test` locally before pushing to catch rendering errors early
 
+## Post-Upgrade Transient CrashLoopBackOffs
+
+After a Kubernetes version upgrade (e.g. the 2026-04-25 upgrade from v1.34.5 to v1.35.4), several components briefly `CrashLoopBackOff` **as normal transitional behavior** and recover on their own once `kube-apiserver` is up (`docs/cluster-health-review-20260425.md`): `kube-controller-manager`, `kube-scheduler`, `cert-manager-cainjector`, all flux-system components, and `topolvm-controller` (CSI socket not ready). Do not "fix" these — wait and re-check.
+
+The Kubernetes upgrade Job (named like `kubernetes-<node>-<hash>-<suffix>` in `kube-system`) may report `Error` from timing out while waiting for the apiserver's config version to sync. This is expected and the Job pod can be safely deleted:
+
+```bash
+kubectl delete pod -n kube-system kubernetes-<node>-<hash>-<suffix>
+```
+
+## Known Incident: paperless CrashLoopBackOff After Node Restarts
+
+A documented recurring incident: after every node restart, `paperless` entered `CrashLoopBackOff` because its Redis (Dragonfly) became unreachable (`docs/cluster-health-review-20260425.md`). Failure chain:
+
+1. Dragonfly's NetworkPolicy only allows port 9999 from pods labeled `control-plane: controller-manager`
+2. The Dragonfly operator pod (deployed via app-template, not the official chart) lacked that label, so the operator got i/o timeouts
+3. The operator could not mark `dragonfly-0` ready, so the `role=master` label was never applied
+4. The Dragonfly Service selector requires `role=master`, so endpoints stayed empty
+5. `paperless` could not connect to Redis → `CrashLoopBackOff`
+
+**Diagnosis pattern:** when an app's dependency (Redis/DB) is unreachable, check the dependency's Service endpoints (`kubectl get endpoints -n database dragonfly`) — empty endpoints usually mean the pod is missing a selector label, which may itself be caused by an operator that cannot reach its own readiness port through a NetworkPolicy.
+
+**Fix:** the permanent fix (commit `40e108d`) added the label to the operator pod in `kubernetes/apps/database/dragonfly/app/helmrelease.yaml`:
+
+```yaml
+pod:
+  labels:
+    control-plane: controller-manager
+```
+
+The emergency workaround (`kubectl label pod dragonfly-0 -n database role=master`) is lost on pod restart — confirm the HelmRelease fix has reconciled before treating the incident as resolved.
+
 ## Bootstrap Failures
 
 The `task bootstrap:apps` flow runs `scripts/bootstrap-apps.sh`, which applies resources in a strict order and fails loudly on each step: `wait_for_nodes` → `apply_namespaces` → `apply_sops_secrets` → `apply_crds` → `sync_helm_releases` (`scripts/bootstrap-apps.sh#L137-L149`). Because the script uses `set -Eeuo pipefail` and `log error` aborts the run, a failure at any step blocks everything after it — diagnose in that order.
@@ -170,6 +208,8 @@ The `task bootstrap:apps` flow runs `scripts/bootstrap-apps.sh`, which applies r
 2. **Secret apply fails**: the three bootstrap secrets (`bootstrap/github-deploy-key.sops.yaml`, `kubernetes/components/common/sops/cluster-secrets.sops.yaml`, `kubernetes/components/common/sops/sops-age.sops.yaml`) are applied with `sops exec-file ... kubectl apply --server-side` into `flux-system` (`scripts/bootstrap-apps.sh#L57-L85`). A failure here is almost always SOPS decryption (missing/mismatched `age.key` via `SOPS_AGE_KEY_FILE`) — see the SOPS section above.
 3. **CRD apply fails**: the script pre-applies External DNS and Gateway API experimental CRDs (Renovate-pinned versions) so Cilium — installed by helmfile with `gatewayAPI.enabled=true` — has CRDs before it starts; they are also managed by Flux afterwards via the `external-dns-crds` and `gateway-api-crds` Kustomizations (`scripts/bootstrap-apps.sh#L88-L105`). Use `--server-side` conflicts in the output to spot ownership clashes between the bootstrap apply and Flux.
 4. **Helmfile sync fails**: `helmfile sync` on `bootstrap/helmfile.yaml` installs five releases in dependency order via the `needs` chain — Cilium (1.20.2) → CoreDNS → cert-manager → flux-operator → flux-instance (0.60.0) — each with `atomic: true` and `wait`/`waitForJobs` defaults, so a failing release rolls back and blocks all downstream releases. Failure here usually means the CRD step above didn't complete, or the cluster secrets applied in step 2 are missing values the helmfile interpolates.
+
+**Reading the output:** the script sources `scripts/lib/common.sh`, which provides leveled, colored logging (`debug`/`info`/`warn`/`error`) controlled by `LOG_LEVEL` (the script exports `LOG_LEVEL=debug`). Crucially, `log error` **prints the failure detail to stderr and exits 1 immediately** (`scripts/lib/common.sh#L64-L67`) — the first red `ERROR` line in the output is the exact step that failed; everything after it never ran. Functions like `check_env` and `check_cli` in the same library validate `KUBECONFIG`/`TALOSCONFIG` and required CLIs (`helmfile kubectl kustomize sops talhelper yq`) before any step runs, so missing tooling fails fast at the start.
 
 Once the script completes, Flux takes over reconciliation from the `flux-system` GitRepository — subsequent drift is fixed with `task reconcile`, not re-bootstrap.
 
@@ -327,12 +367,17 @@ The cluster runs a **single-node control plane** with specific operational const
 3. **No High Availability for etcd**
    - **Constraint**: Single etcd instance with no quorum backup
    - **Impact**: Cluster data loss if node fails completely
-   - **Mitigation**: Regular VolSync backups of application data; etcd backups via Talos
+   - **Mitigation**: Regular VolSync backups of application data; etcd backups via Talos. Note (2026-04-25 health review): Kubernetes state in etcd (all resource definitions and Secrets) is **not** yet backed up — VolSync only protects application PVCs — so a full node loss currently requires rebuilding all K8s resources. Recommended interim measure: a periodic `talosctl -n <node-ip> etcd snapshot ./etcd-backup-$(date +%Y%m%d).db` CronJob archived to the NAS.
 
-4. **Resource Competition**
+4. **Stale VolumeSnapshot accumulation**
+   - **Constraint**: Old LVM thin snapshots can sit on the data disk indefinitely if `retain` is not configured on the `ReplicationSource`
+   - **Impact**: Snapshots over 200 days old were found consuming real thin-pool storage (pgadmin 306d, atuin/calibre 264d)
+   - **Mitigation**: Configure `retain` tiers (as nextcloud does) or manually delete stale `VolumeSnapshot` objects
+
+5. **Resource Competition**
    - **Constraint**: Control plane and workloads share the same node resources
    - **Impact**: High resource usage by workloads can affect control plane stability
-   - **Mitigation**: Monitor resource usage; set appropriate resource requests/limits
+   - **Mitigation**: Monitor resource usage; set appropriate resource requests/limits. The 2026-04-25 review flagged `cert-manager`, `external-secrets`, `cilium-operator`, and `metrics-server` pods as having no `resources.limits`, an OOM-cascade risk on a single node
 
 5. **Upgrade Coordination Required**
    - **Constraint**: Cannot perform rolling upgrades across control plane nodes

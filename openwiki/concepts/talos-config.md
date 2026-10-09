@@ -3,9 +3,6 @@ type: concept
 title: Talos Configuration Management
 description: Talos Linux configuration structure using talhelper for node definitions, patch system, and machine config generation with version tracking via Renovate.
 tags: [talos, talhelper, configuration, patches, machine-config, kernel-modules, networking]
-verified:
-  - by: openwiki/0.6.1
-    at: 2026-09-29T23:05:38.384Z
 sources:
   - id: openwiki-source-aa55808be329b3f929ddf105
     resource: repo://.renovaterc.json5
@@ -37,7 +34,10 @@ sources:
     resource: repo://talos/talsecret.sops.yaml
   - id: openwiki-source-4d7c266d0d7adae77539048e
     resource: repo://talos/uservolume.yaml
-generated: { by: "openwiki/0.6.1", at: "2026-09-29T23:05:38.384Z" }
+generated: { by: "openwiki/0.7.1", at: "2026-10-08T23:50:46.668Z" }
+verified:
+  - by: openwiki/0.7.1
+    at: 2026-10-08T23:50:46.668Z
 ---
 
 # Talos Configuration Management
@@ -526,7 +526,7 @@ task talos:upgrade-node IP=192.168.50.145
 
 The upgrade command extracts the node's `talosImageURL` (selected by `ipAddress` via `yq`) and the `talosVersion` from `talenv.yaml`, then runs `talhelper gencommand upgrade` with a `--timeout=10m`. Because the node uses SecureBoot, the image URL is a `factory.talos.dev/installer-secureboot/<schematic-id>` image, and the `reset` task can wipe `STATE` and `EPHEMERAL` partitions back to maintenance mode (guarded by a confirmation prompt).
 
-See `/openwiki/workflows/upgrade.md` for the full upgrade procedure.
+See [Upgrade](../workflows/upgrade.md) for the full upgrade procedure.
 
 **Upgrade Kubernetes** (`.taskfiles/talos/Taskfile.yaml#L48-L58`):
 
@@ -538,5 +538,5 @@ Coordinates Kubernetes version upgrades across the cluster using the version fro
 
 ## Related Pages
 
-- **Cluster Architecture** (`/openwiki/concepts/cluster-architecture.md`) - Overall cluster design and component relationships
-- **Talos Tasks** (`/openwiki/operations/talos-tasks.md`) - Operational procedures for Talos cluster management
+- **[Talos Cluster Architecture](../architecture/talos-cluster.md)** - Cluster-level design and component relationships
+- **[Secrets Management](../concepts/secrets-management.md)** - SOPS/age encryption and secret handling

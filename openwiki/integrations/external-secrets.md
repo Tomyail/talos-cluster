@@ -22,6 +22,8 @@ sources:
     resource: repo://kubernetes/apps/external-secrets/external-secrets/ks.yaml
   - id: openwiki-source-9ca10a21b6a666906b6c355c
     resource: repo://kubernetes/apps/external-secrets/kustomization.yaml
+  - id: openwiki-source-ebaf3d0687dcb699a5fa6e71
+    resource: repo://kubernetes/apps/external-secrets/namespace.yaml
   - id: openwiki-source-e4bcfe57ab9e469c34ab93eb
     resource: repo://kubernetes/apps/network/adguard-dns/app/externalsecret.yaml
   - id: openwiki-source-14da33bfab166c5902ff2a16
@@ -42,10 +44,10 @@ sources:
     resource: repo://kubernetes/components/volsync/minio.yaml
   - id: openwiki-source-d7ce147b373b74b80f0794fd
     resource: repo://kubernetes/flux/meta/repos/bitwarden-eso.yaml
-generated: { by: "openwiki/0.7.0", at: "2026-10-03T22:17:28.945Z" }
+generated: { by: "openwiki/0.7.1", at: "2026-10-08T23:50:46.668Z" }
 verified:
-  - by: openwiki/0.7.0
-    at: 2026-10-03T22:17:28.945Z
+  - by: openwiki/0.7.1
+    at: 2026-10-08T23:50:46.668Z
 ---
 
 # External Secrets Integration
@@ -92,11 +94,11 @@ flowchart LR
 The ESO core is deployed via Helm in the `external-secrets` namespace:
 
 **HelmRelease** (`kubernetes/apps/external-secrets/external-secrets/app/helmrelease.yaml#L1-L36`)
-- Chart: `external-secrets` version 2.10.0
+- Chart: `external-secrets` version 2.11.0
 - Source: `external-secrets` HelmRepository (charts.external-secrets.io)
 - CRD installation: Enabled (`installCRDs: true`)
 - Service monitors: Enabled for the controller, webhook, and cert controller, each with a 1m scrape interval
-- Remediation: Configured with rollback on failure and 3 retries
+- Remediation: 3 retries on install; upgrade uses `cleanupOnFail` with rollback strategy and 3 retries
 
 **Deployment Configuration**
 ```yaml
@@ -105,11 +107,19 @@ spec:
   chart:
     spec:
       chart: external-secrets
-      version: 2.8.0
+      version: 2.11.0
       sourceRef:
         kind: HelmRepository
         name: external-secrets
         namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
   values:
     installCRDs: true
     serviceMonitor:
@@ -118,9 +128,11 @@ spec:
     webhook:
       serviceMonitor:
         enabled: true
+        interval: 1m
     certController:
       serviceMonitor:
         enabled: true
+        interval: 1m
 ```
 
 **Flux Integration** (`kubernetes/apps/external-secrets/external-secrets/ks.yaml#L1-L22`)
@@ -563,14 +575,7 @@ kubectl get secret test-sync-secret -n default -o yaml
 
 ## Related Documentation
 
-- [Bitwarden Secrets Integration](../integrations/bitwarden.md) - Detailed Bitwarden provider configuration and patterns
+- [Bitwarden Secrets Integration](bitwarden.md) - Detailed Bitwarden provider configuration and patterns
 - [Secrets Management](../concepts/secrets-management.md) - Overall secrets architecture including SOPS and age encryption
 - [Networking Architecture](../concepts/networking.md) - Tailscale integration and network security
 - [Application Deployment Workflow](../workflows/app-deployment.md) - ExternalSecret integration in app deployments
-ation](../integrations/bitwarden.md) - Detailed Bitwarden provider configuration and patterns
-- [Secrets Management](../concepts/secrets-management.md) - Overall secrets architecture including SOPS and age encryption
-- [Networking Architecture](../concepts/networking.md) - Tailscale integration and network security
-- [Application Deployment Workflow](../workflows/app-deployment.md) - ExternalSecret integration in app deployments
-rking Architecture](../concepts/networking.md) - Tailscale integration and network security
-- [Application Deployment Workflow](../workflows/app-deployment.md) - ExternalSecret integration in app deployments
-ployment Workflow](../workflows/app-deployment.md) - ExternalSecret integration in app deployments

@@ -52,10 +52,10 @@ sources:
     resource: repo://kubernetes/flux/meta/repos/jetstack.yaml
   - id: openwiki-source-12a44dba301e86ea2cf62628
     resource: repo://kubernetes/flux/meta/repos/kustomization.yaml
-generated: { by: "openwiki/0.6.0", at: "2026-09-25T22:38:38.997Z" }
+generated: { by: "openwiki/0.7.1", at: "2026-10-08T23:50:46.668Z" }
 verified:
-  - by: openwiki/0.6.0
-    at: 2026-09-25T22:38:38.997Z
+  - by: openwiki/0.7.1
+    at: 2026-10-08T23:50:46.668Z
 ---
 
 # Flux GitOps Architecture
@@ -150,7 +150,7 @@ OCI repositories are used for Helm charts from OCI registries:
 
 ### HelmRepository Sources
 
-Approximately 30 HelmRepository sources are defined in `kubernetes/flux/meta/repos/`, including:
+Roughly 30 HelmRepository sources are defined in `kubernetes/flux/meta/repos/` (the directory also holds a handful of disabled entries commented out in the aggregate `repos/kustomization.yaml`, e.g. cilium, metrics-server, spegel). Actively enabled sources include:
 
 **OCI Protocol Repositories:**
 - `bitnami` - `oci://registry-1.docker.io/bitnamicharts` (1-hour interval)

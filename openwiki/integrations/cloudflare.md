@@ -28,10 +28,10 @@ sources:
     resource: repo://kubernetes/apps/network/cloudflare-tunnel/app/secret.sops.yaml
   - id: openwiki-source-a50b7595ce7b0d9f3df80bc7
     resource: repo://kubernetes/apps/network/cloudflare-tunnel/ks.yaml
-generated: { by: "openwiki/0.6.0", at: "2026-09-26T22:04:11.432Z" }
+generated: { by: "openwiki/0.7.1", at: "2026-10-08T23:50:46.668Z" }
 verified:
-  - by: openwiki/0.6.0
-    at: 2026-09-26T22:04:11.432Z
+  - by: openwiki/0.7.1
+    at: 2026-10-08T23:50:46.668Z
 ---
 
 # Cloudflare Integration
@@ -181,4 +181,4 @@ Both components are Flux-managed Kustomizations in the `network` namespace (`clo
 
 ## Relationships
 
-- **Related:** `/openwiki/concepts/networking.md` — overall network topology and gateway design; `/openwiki/integrations/tailscale.md` — complementary private-network ingress path.
+- **Related:** [Networking Concepts](../concepts/networking.md) — overall network topology and gateway design; [Tailscale Integration](tailscale.md) — complementary private-network ingress path.
