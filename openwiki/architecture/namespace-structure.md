@@ -88,10 +88,10 @@ sources:
     resource: repo://kubernetes/flux/meta/repos/kustomization.yaml
   - id: openwiki-source-6f1d2c8de9160e178167b990
     resource: repo://scripts/bootstrap-apps.sh
-generated: { by: "openwiki/0.7.1", at: "2026-10-08T23:50:46.668Z" }
+generated: { by: "openwiki/0.7.2", at: "2026-10-10T22:48:28.004Z" }
 verified:
-  - by: openwiki/0.7.1
-    at: 2026-10-08T23:50:46.668Z
+  - by: openwiki/0.7.2
+    at: 2026-10-10T22:48:28.004Z
 ---
 
 # Namespace and Application Organization
@@ -323,7 +323,7 @@ spec:
     tag: 5.2.1
 ```
 
-The `layerSelector` copies only the OCI image layer containing the Helm chart tarball (`application/vnd.cncf.helm.chart.content.v1.tar+gzip`), so the reconciled artifact is the chart itself rather than a multi-layer image. Pinning the chart version via `ref.tag` means every app-template-consuming HelmRelease upgrades in lockstep when this single file changes. Not every app uses this shared OCIRepository, however: any application can define its own namespace-scoped OCIRepository in the same file as its HelmRelease and point `chartRef` at it. For example, `kubernetes/apps/network/adguard-dns/app/helmrelease.yaml` declares an `adguard-dns` OCIRepository pulling external-dns from `oci://ghcr.io/home-operations/charts-mirror/external-dns` at tag 1.22.0, and the co-located HelmRelease references it via `chartRef: {kind: OCIRepository, name: adguard-dns}`.
+The `layerSelector` copies only the OCI image layer containing the Helm chart tarball (`application/vnd.cncf.helm.chart.content.v1.tar+gzip`), so the reconciled artifact is the chart itself rather than a multi-layer image. Pinning the chart version via `ref.tag` means every app-template-consuming HelmRelease upgrades in lockstep when this single file changes. Not every app uses this shared OCIRepository, however: any application can define its own namespace-scoped OCIRepository in the same file as its HelmRelease and point `chartRef` at it. For example, `kubernetes/apps/network/adguard-dns/app/helmrelease.yaml` declares an `adguard-dns` OCIRepository pulling external-dns from `oci://ghcr.io/home-operations/charts-mirror/external-dns` at tag 1.23.0, and the co-located HelmRelease references it via `chartRef: {kind: OCIRepository, name: adguard-dns}`.
 
 ### HelmRelease Pattern
 

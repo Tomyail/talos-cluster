@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:d44a8928e3fb3b3899a5ddd61af1eece109fb2185e57c48a999ecbf2bb388dcb",
+  "pageVersion": "sha256:61067671e03a196cc15cf8acd9529a847358f969f5204e8f2342da2912de2121",
   "claims": [
     {
       "id": "claim_2f8b2d0f8ee7497eb3ab28202bcff633",
@@ -96,15 +96,15 @@
     },
     {
       "id": "claim_65a512d42f544d84a1f2a2fd2385c74a",
-      "statement": "AdGuard DNS deploys external-dns (OCIRepository chart tag 1.22.0) with the muhlba91/external-dns-provider-adguard webhook provider (v11.2.0, digest-pinned) connecting to AdGuard Home at http://192.168.50.1:3000 for external DNS management; ADGUARD_USER/ADGUARD_PASSWORD come from adguard-dns-secret, sources are gateway-httproute/gateway-tlsroute with gateway-name=internal, policy sync, triggerLoopOnEvent, txtPrefix k8s., and a ServiceMonitor for metrics.",
+      "statement": "AdGuard DNS deploys external-dns (OCIRepository chart tag 1.23.0 from oci://ghcr.io/home-operations/charts-mirror/external-dns) with the muhlba91/external-dns-provider-adguard webhook provider (v11.2.0, digest-pinned) connecting to AdGuard Home at http://192.168.50.1:3000 for external DNS management; ADGUARD_USER/ADGUARD_PASSWORD come from adguard-dns-secret, sources are gateway-httproute/gateway-tlsroute with gateway-name=internal, policy sync, triggerLoopOnEvent, txtPrefix k8s., and a ServiceMonitor for metrics.",
       "evidence": [
         {
           "resource": "repo://kubernetes/apps/network/adguard-dns/app/helmrelease.yaml#L1-L15",
-          "version": "repo-lines-v1:sha256:c84c8dd8354a241e3ab555f970e484760471beb94fe63279a30833a52bebc17d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU4MGUwODE1NmRhMWFhYWRjOTM1YjljYTIzNjQyZWU0YTI0ZmMwYjk4MDliYzcyYjhhNjFkNjk4YTkwNTE5NDMifQ"
+          "version": "repo-lines-v1:sha256:fc987561966dd72164885be8999cc538a6522cda8caad09cd942101bd6ec1d05:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU4MGUwODE1NmRhMWFhYWRjOTM1YjljYTIzNjQyZWU0YTI0ZmMwYjk4MDliYzcyYjhhNjFkNjk4YTkwNTE5NDMifQ"
         },
         {
-          "resource": "repo://kubernetes/apps/network/adguard-dns/app/helmrelease.yaml#L33-L79",
-          "version": "repo-lines-v1:sha256:ae8ab35f7c7c3d9a6cfe65b79a7b7eb29e097371929d049369e9dab8afd8abc1:eyJzZWxlY3RlZExpbmVDb3VudCI6NDcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2ZjFjNzJiNTlhZGU1MjRjMDEzNWM3Y2RiMGViMjRhYWZiZjE0ZGIxOWYxNzYwZjE5M2IyNzA3N2M5Nzg0NjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZjMDFlMWU2MzRkYzRiOTU0ZDFjMzc4ZDk2Zjc1NjBjMjFjMGNmZjdkOTI1OGQ4ODEyNDc2MDVhM2Q5YjdjMWIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYxNWE0YjNlMTM3YTVhOWRiMGRkMDVhZGY4ODcyMTcyMGJmODMyNjA2Yzg2MDI0MDc4ZDk5YmZiYWEyMjE5ODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRiNGNlNDNiYWY0NTQwMWY4NjQzYjIyNzk2Njc0ZjM2YTVkMjEwNTc0NWJlYmE3MzFkNTUxNTU1ODUwMTVkYWQifQ"
+          "resource": "repo://kubernetes/apps/network/adguard-dns/app/helmrelease.yaml#L33-L80",
+          "version": "repo-lines-v1:sha256:4ddf4a771638d18181497fa22f67eb85370c8d652926d8f00c9db01784c09777:eyJzZWxlY3RlZExpbmVDb3VudCI6NDgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2ZjFjNzJiNTlhZGU1MjRjMDEzNWM3Y2RiMGViMjRhYWZiZjE0ZGIxOWYxNzYwZjE5M2IyNzA3N2M5Nzg0NjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRiNGNlNDNiYWY0NTQwMWY4NjQzYjIyNzk2Njc0ZjM2YTVkMjEwNTc0NWJlYmE3MzFkNTUxNTU1ODUwMTVkYWQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYxNWE0YjNlMTM3YTVhOWRiMGRkMDVhZGY4ODcyMTcyMGJmODMyNjA2Yzg2MDI0MDc4ZDk5YmZiYWEyMjE5ODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -256,11 +256,11 @@
     },
     {
       "id": "claim_84a32b9ccabe4729a4602ad2a8cb9b43",
-      "statement": "Flux is bootstrapped via helmfile as flux-operator and flux-instance charts (both v0.60.0, chained with needs) and then manages the cluster via namespaced Kustomizations: cluster-apps reconciles ./kubernetes/apps and, like cluster-meta, decrypts SOPS resources using the sops-age secret.",
+      "statement": "Flux is bootstrapped via helmfile as flux-operator and flux-instance charts (both v0.61.0, chained with needs) and then manages the cluster via namespaced Kustomizations: cluster-apps reconciles ./kubernetes/apps and, like cluster-meta, decrypts SOPS resources using the sops-age secret; cluster-apps additionally depends on cluster-meta, gateway-api-crds, and external-dns-crds.",
       "evidence": [
         {
           "resource": "repo://bootstrap/helmfile.yaml#L38-L52",
-          "version": "repo-lines-v1:sha256:b9d75fac832bba9a116eac500b0988e569b32ea71ef26ba4a473b74033841e77:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQwZjY0ZjhiYTFjMDRlOGRlMGFmYjJlMWJkZDc3MjY1OWIzYTFkODY1NDQzYmI5N2RiMDVhMmI0ZDJhMjEyNDgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4NDQxMDY3MGJjNTUxNjEyNDRkZTdlZTRjMDM5YTEzMDUzYzZiN2M5ZTRkZTZiMzY4YzE3MzYzZDcyMjVlY2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQzMzA2MTcyOGExNWE5MWNkODdhYTQ1ZTFmOTkyYTcwOTNjNDM0ODNhMDA3MzAzMjBlZmIzZWM3YzI3ZDBkOTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "version": "repo-lines-v1:sha256:941736ccde9c500e5dde5ca49e4d9ced2e0b59fcc0caa0bbe57505e0437540b9:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQwZjY0ZjhiYTFjMDRlOGRlMGFmYjJlMWJkZDc3MjY1OWIzYTFkODY1NDQzYmI5N2RiMDVhMmI0ZDJhMjEyNDgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4NDQxMDY3MGJjNTUxNjEyNDRkZTdlZTRjMDM5YTEzMDUzYzZiN2M5ZTRkZTZiMzY4YzE3MzYzZDcyMjVlY2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQzMzA2MTcyOGExNWE5MWNkODdhYTQ1ZTFmOTkyYTcwOTNjNDM0ODNhMDA3MzAzMjBlZmIzZWM3YzI3ZDBkOTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
           "resource": "repo://kubernetes/flux/cluster/ks.yaml#L67-L94",
@@ -282,7 +282,7 @@
         },
         {
           "resource": "repo://bootstrap/helmfile.yaml#L13-L52",
-          "version": "repo-lines-v1:sha256:6476a2b528b6c4c2342d4f5b48106162fde3ac46a5570178b36d8e899f4de7e5:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkZTI0Nzc3YTlhNjAzZjFlZmY3ZTNjMmMzMTcxZTE2MjU5YjhhN2M5OTZkYTMxNDdhMjc5N2Y2ZjA3NTQ0MmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4NDQxMDY3MGJjNTUxNjEyNDRkZTdlZTRjMDM5YTEzMDUzYzZiN2M5ZTRkZTZiMzY4YzE3MzYzZDcyMjVlY2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZmNWY5NGUxMDY0NDU3ZjAwNWMzYzFmNzJkMzMzYTgxM2YwNzYzNTJjZjFiNzNiNTUzNWQ5NDFiNDFhNmQ1OTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "version": "repo-lines-v1:sha256:731042eedd57da99c4c857f93f1fc19c2a58770f5258b781d4beff0d5485a2ac:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkZTI0Nzc3YTlhNjAzZjFlZmY3ZTNjMmMzMTcxZTE2MjU5YjhhN2M5OTZkYTMxNDdhMjc5N2Y2ZjA3NTQ0MmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4NDQxMDY3MGJjNTUxNjEyNDRkZTdlZTRjMDM5YTEzMDUzYzZiN2M5ZTRkZTZiMzY4YzE3MzYzZDcyMjVlY2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZmNWY5NGUxMDY0NDU3ZjAwNWMzYzFmNzJkMzMzYTgxM2YwNzYzNTJjZjFiNzNiNTUzNWQ5NDFiNDFhNmQ1OTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
           "resource": "repo://scripts/bootstrap-apps.sh#L9-L151",
@@ -558,7 +558,7 @@
       "evidence": [
         {
           "resource": "repo://bootstrap/helmfile.yaml#L13-L27",
-          "version": "repo-lines-v1:sha256:59f3e2614688613fa5a8a81d15748f882c5022eaa1cfdca2612793ec3c8099eb:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkZTI0Nzc3YTlhNjAzZjFlZmY3ZTNjMmMzMTcxZTE2MjU5YjhhN2M5OTZkYTMxNDdhMjc5N2Y2ZjA3NTQ0MmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRkODlhNDJjNzQxMWY5ZmQ1N2RiMTY3ZjkzOGMzMjdmNGMxN2QxMThhZDIxMjIwNWY3OTExZTU1OWIwYjdkMDkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZmNWY5NGUxMDY0NDU3ZjAwNWMzYzFmNzJkMzMzYTgxM2YwNzYzNTJjZjFiNzNiNTUzNWQ5NDFiNDFhNmQ1OTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgwMjI0YzE5OTlhMmUxNmRmOGUxMDllZmU1N2RkMWY1ZThlNGVhMmZmNDliMjI5ZTYzNzI3ZDI5NmQzNDhkOTgifQ"
+          "version": "repo-lines-v1:sha256:db99efa7fbba07a9fb61a7dd965cbd494b7ea61d3b80332b16bdfa7d9272e8db:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkZTI0Nzc3YTlhNjAzZjFlZmY3ZTNjMmMzMTcxZTE2MjU5YjhhN2M5OTZkYTMxNDdhMjc5N2Y2ZjA3NTQ0MmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRkODlhNDJjNzQxMWY5ZmQ1N2RiMTY3ZjkzOGMzMjdmNGMxN2QxMThhZDIxMjIwNWY3OTExZTU1OWIwYjdkMDkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZmNWY5NGUxMDY0NDU3ZjAwNWMzYzFmNzJkMzMzYTgxM2YwNzYzNTJjZjFiNzNiNTUzNWQ5NDFiNDFhNmQ1OTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgwMjI0YzE5OTlhMmUxNmRmOGUxMDllZmU1N2RkMWY1ZThlNGVhMmZmNDliMjI5ZTYzNzI3ZDI5NmQzNDhkOTgifQ"
         },
         {
           "resource": "repo://kubernetes/apps/kube-system/kustomization.yaml#L8-L15",
@@ -582,11 +582,11 @@
     },
     {
       "id": "claim_4c1f9130dfc54968927744f2af1ef23e",
-      "statement": "The bootstrap helmfile installs, in needs order, cilium 1.20.2 (kube-system) → coredns 1.47.1 (kube-system) → cert-manager v1.21.2 → flux-operator 0.60.0 → flux-instance 0.60.0 (flux-system), all with atomic installs, wait, and cleanupOnFail defaults; cilium and coredns values come from the corresponding kubernetes/apps helm values files.",
+      "statement": "The bootstrap helmfile installs, in needs order, cilium 1.20.2 (kube-system) → coredns 1.48.2 (kube-system) → cert-manager v1.21.2 → flux-operator 0.61.0 → flux-instance 0.61.0 (flux-system), all with atomic installs and cleanupOnFail/wait/waitForJobs defaults; cilium and coredns values come from the corresponding kubernetes/apps helm values files.",
       "evidence": [
         {
-          "resource": "repo://bootstrap/helmfile.yaml#L13-L52",
-          "version": "repo-lines-v1:sha256:6476a2b528b6c4c2342d4f5b48106162fde3ac46a5570178b36d8e899f4de7e5:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkZTI0Nzc3YTlhNjAzZjFlZmY3ZTNjMmMzMTcxZTE2MjU5YjhhN2M5OTZkYTMxNDdhMjc5N2Y2ZjA3NTQ0MmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4NDQxMDY3MGJjNTUxNjEyNDRkZTdlZTRjMDM5YTEzMDUzYzZiN2M5ZTRkZTZiMzY4YzE3MzYzZDcyMjVlY2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZmNWY5NGUxMDY0NDU3ZjAwNWMzYzFmNzJkMzMzYTgxM2YwNzYzNTJjZjFiNzNiNTUzNWQ5NDFiNDFhNmQ1OTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://bootstrap/helmfile.yaml#L4-L52",
+          "version": "repo-lines-v1:sha256:f60162a606ef23c1fc4c4e8e3a41351a247b814d57cf34c64215396c381df3d2:eyJzZWxlY3RlZExpbmVDb3VudCI6NDksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJjMDE5ZTBmYTg2MmRiNDQ3ZDE4NmJjMDM2M2E2MmIzMmQ1YzkzZjcyZmQ0NTU2NGM5YjFmMjY3ODhmZTdiZjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4NDQxMDY3MGJjNTUxNjEyNDRkZTdlZTRjMDM5YTEzMDUzYzZiN2M5ZTRkZTZiMzY4YzE3MzYzZDcyMjVlY2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNjZDZkNmRhNDM5OTg1MWMwNjQ2NTE3MTk1YWM4NmIxZTczOWE2NDA3YmEyMDkwZjc1ZmI2NGQxOWQ3NjM0NGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -756,7 +756,7 @@
     }
   ],
   "verification": {
-    "by": "openwiki/0.7.1",
-    "at": "2026-10-08T23:50:46.668Z"
+    "by": "openwiki/0.7.2",
+    "at": "2026-10-10T22:48:28.004Z"
   }
 }

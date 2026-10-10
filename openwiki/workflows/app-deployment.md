@@ -58,8 +58,8 @@ sources:
     resource: repo://Taskfile.yaml
 generated: { by: "openwiki/0.7.1", at: "2026-10-08T23:50:46.668Z" }
 verified:
-  - by: openwiki/0.7.1
-    at: 2026-10-08T23:50:46.668Z
+  - by: openwiki/0.7.2
+    at: 2026-10-10T22:48:28.004Z
 ---
 
 # Application Deployment Workflow

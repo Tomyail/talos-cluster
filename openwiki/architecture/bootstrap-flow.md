@@ -23,9 +23,9 @@ sources:
   - id: openwiki-source-b9ff7ee0aa4953cc601052a4
     resource: repo://Taskfile.yaml
 verified:
-  - by: openwiki/0.7.1
-    at: 2026-10-08T23:50:46.668Z
-generated: { by: "openwiki/0.7.1", at: "2026-10-08T23:50:46.668Z" }
+  - by: openwiki/0.7.2
+    at: 2026-10-10T22:48:28.004Z
+generated: { by: "openwiki/0.7.2", at: "2026-10-10T22:48:28.004Z" }
 ---
 
 # Bootstrap Flow
@@ -215,7 +215,7 @@ flowchart TD
    - Atomic: true (rollback on failure)
 
 2. **CoreDNS** (`bootstrap/helmfile.yaml#L21-L27`)
-   - Chart: `oci://ghcr.io/coredns/charts/coredns` v1.47.1
+   - Chart: `oci://ghcr.io/coredns/charts/coredns` v1.48.2
    - Namespace: `kube-system`
    - Depends on: `kube-system/cilium`
    - Values: `../kubernetes/apps/kube-system/coredns/app/helm/values.yaml`
@@ -227,13 +227,13 @@ flowchart TD
    - Values: `../kubernetes/apps/cert-manager/cert-manager/app/helm/values.yaml`
 
 4. **flux-operator** (`bootstrap/helmfile.yaml#L38-L44`)
-   - Chart: `oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator` v0.60.0
+   - Chart: `oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator` v0.61.0
    - Namespace: `flux-system`
    - Depends on: `cert-manager/cert-manager`
    - Values: `../kubernetes/apps/flux-system/flux-operator/app/helm/values.yaml`
 
 5. **flux-instance** (`bootstrap/helmfile.yaml#L46-L52`)
-   - Chart: `oci://ghcr.io/controlplaneio-fluxcd/charts/flux-instance` v0.60.0
+   - Chart: `oci://ghcr.io/controlplaneio-fluxcd/charts/flux-instance` v0.61.0
    - Namespace: `flux-system`
    - Depends on: `flux-system/flux-operator`
    - Values: `../kubernetes/apps/flux-system/flux-instance/app/helm/values.yaml`

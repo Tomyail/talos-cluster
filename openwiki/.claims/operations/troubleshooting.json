@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:47ddc6fee8bd8cb05f1f04dd2405ccea267c0401f4b27522603bcd836b055184",
+  "pageVersion": "sha256:00fbcca0da7b679ad320b114a9b5f98c38e2699da38635f46a22b42704785e69",
   "claims": [
     {
       "id": "claim_ff13b80cb8eb45d8b3df24bbc5cfa6f3",
@@ -296,11 +296,11 @@
     },
     {
       "id": "claim_1692324548f444bfaa4ccd181c30a145",
-      "statement": "The bootstrap helmfile sync installs five releases chained by `needs` — Cilium 1.20.2 → CoreDNS 1.47.1 → cert-manager v1.21.2 → flux-operator 0.60.0 → flux-instance 0.60.0 — each marked `atomic: true` with global `wait`, `waitForJobs`, and `cleanupOnFail` defaults, so a failing release rolls back and blocks all downstream releases in the chain.",
+      "statement": "The bootstrap helmfile sync installs five releases chained by `needs` — Cilium 1.20.2 → CoreDNS 1.48.2 → cert-manager v1.21.2 → flux-operator 0.61.0 → flux-instance 0.61.0 — each marked `atomic: true` with global `wait`, `waitForJobs`, and `cleanupOnFail` defaults, so a failing release rolls back and blocks all downstream releases in the chain.",
       "evidence": [
         {
           "resource": "repo://bootstrap/helmfile.yaml#L4-L52",
-          "version": "repo-lines-v1:sha256:72f16bbbc904a86271ae898340ab72e4f43e47bde3020ef9aeb3a7a280047ebd:eyJzZWxlY3RlZExpbmVDb3VudCI6NDksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJjMDE5ZTBmYTg2MmRiNDQ3ZDE4NmJjMDM2M2E2MmIzMmQ1YzkzZjcyZmQ0NTU2NGM5YjFmMjY3ODhmZTdiZjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4NDQxMDY3MGJjNTUxNjEyNDRkZTdlZTRjMDM5YTEzMDUzYzZiN2M5ZTRkZTZiMzY4YzE3MzYzZDcyMjVlY2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNjZDZkNmRhNDM5OTg1MWMwNjQ2NTE3MTk1YWM4NmIxZTczOWE2NDA3YmEyMDkwZjc1ZmI2NGQxOWQ3NjM0NGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "version": "repo-lines-v1:sha256:f60162a606ef23c1fc4c4e8e3a41351a247b814d57cf34c64215396c381df3d2:eyJzZWxlY3RlZExpbmVDb3VudCI6NDksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJjMDE5ZTBmYTg2MmRiNDQ3ZDE4NmJjMDM2M2E2MmIzMmQ1YzkzZjcyZmQ0NTU2NGM5YjFmMjY3ODhmZTdiZjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4NDQxMDY3MGJjNTUxNjEyNDRkZTdlZTRjMDM5YTEzMDUzYzZiN2M5ZTRkZTZiMzY4YzE3MzYzZDcyMjVlY2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNjZDZkNmRhNDM5OTg1MWMwNjQ2NTE3MTk1YWM4NmIxZTczOWE2NDA3YmEyMDkwZjc1ZmI2NGQxOWQ3NjM0NGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
           "resource": "repo://scripts/bootstrap-apps.sh#L120-L135",
@@ -328,7 +328,7 @@
         },
         {
           "resource": "repo://kubernetes/apps/database/dragonfly/app/helmrelease.yaml",
-          "version": "repo-file-v1:sha256:1087a5ca0213531cb9a3002181f54f921299dcead4bed4556eb72dd62ea29aab"
+          "version": "repo-file-v1:sha256:9fdd15d5a28c0a1324031720b07f7dbdef97ab0ebc61a7194f4a8395edfe22cc"
         }
       ]
     },
@@ -400,7 +400,7 @@
     }
   ],
   "verification": {
-    "by": "openwiki/0.7.1",
-    "at": "2026-10-08T23:50:46.668Z"
+    "by": "openwiki/0.7.2",
+    "at": "2026-10-10T22:48:28.004Z"
   }
 }

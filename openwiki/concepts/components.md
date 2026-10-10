@@ -44,10 +44,10 @@ sources:
     resource: repo://kubernetes/components/volsync-new/minio.yaml
   - id: openwiki-source-cf127a322444d1f6306750c2
     resource: repo://kubernetes/components/volsync/kustomization.yaml
-generated: { by: "openwiki/0.7.1", at: "2026-10-08T23:50:46.668Z" }
+generated: { by: "openwiki/0.7.2", at: "2026-10-10T22:48:28.004Z" }
 verified:
-  - by: openwiki/0.7.1
-    at: 2026-10-08T23:50:46.668Z
+  - by: openwiki/0.7.2
+    at: 2026-10-10T22:48:28.004Z
 ---
 
 # App Conventions & Reusable Kustomize Components
@@ -119,10 +119,11 @@ Key conventions:
 Inside the app directory (`app/helmrelease.yaml`) each workload is a Flux `HelmRelease` sourcing the shared [app-template](https://github.com/bjw-s-labs/helm-charts) chart via `chartRef.kind: OCIRepository, name: app-template` — the OCIRepository itself is declared once in `kubernetes/components/common/repos/app-template/` rather than per app. Typical install/upgrade policy: `install.remediation.retries: 3`, `upgrade.cleanupOnFail: true` with rollback strategy and 3 retries. Values follow app-template's controller/service/route/persistence schema; notable idioms seen in `gitea`:
 
 - `reloader.stakater.com/auto: "true"` annotation to restart pods on ConfigMap/Secret change.
-- Locked-down `securityContext` (non-root UID/GID 1000, dropped capabilities, read-only rootfs) and `fsGroupChangePolicy: OnRootMismatch`.
+- Locked-down `securityContext` (non-root UID/GID 1000, dropped capabilities, read-only rootfs), `fsGroupChangePolicy: OnRootMismatch`, and a `supplementalGroups: [65536]` entry so the pod can read group-owned files (e.g. media).
 - Gateway API `route` with `parentRefs` to the shared `internal`/`external` listeners in `kube-system`, hostnames templated as `"{{ .Release.Name }}.${SECRET_DOMAIN}"`.
 - `persistence` mounted with `existingClaim: <app>` — the claim created by the `volsync-new` component — split into subPaths.
 - Secrets referenced via `envFrom` (an anchor shared with init containers) and `${SECRET_DOMAIN}`-style placeholders resolved by postBuild substitution.
+- Non-HTTP ingress is exposed with plain Services rather than routes: gitea defines an `ssh` LoadBalancer Service annotated `external-dns.alpha.kubernetes.io/hostname: "ssh.${SECRET_DOMAIN}"`, mapping port 22 to the container's SSH listen port 2222.
 
 # Reusable Kustomize Components
 

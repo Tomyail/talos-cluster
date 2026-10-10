@@ -94,10 +94,10 @@ sources:
     resource: repo://talos/talenv.yaml
   - id: openwiki-source-4d7c266d0d7adae77539048e
     resource: repo://talos/uservolume.yaml
-generated: { by: "openwiki/0.7.1", at: "2026-10-08T23:50:46.668Z" }
+generated: { by: "openwiki/0.7.2", at: "2026-10-10T22:48:28.004Z" }
 verified:
-  - by: openwiki/0.7.1
-    at: 2026-10-08T23:50:46.668Z
+  - by: openwiki/0.7.2
+    at: 2026-10-10T22:48:28.004Z
 ---
 
 # Cluster & Talos Architecture
@@ -112,15 +112,15 @@ The cluster runs on Talos Linux, an immutable, API-driven OS with no shell or pa
 
 Talos configs are not hand-written. The flow is:
 
-<!-- openwiki: mermaid parse failed and this diagram was converted to a text fence so it does not break rendering. Fix the diagram source and restore the mermaid fence. Parser error: Heuristic: an unescaped angle bracket inside a label breaks rendering; rephrase the label. -->
-```text
+```mermaid
 flowchart LR
-    Env[talenv.yaml<br/>talos/k8s versions] --> TC[talconfig.yaml<br/>nodes + patches]
-    TC -->|talhelper genconfig| CC[clusterconfig/<br/>machine configs, gitignored]
-    TC -->|talhelper gensecret| TS[talsecret.sops.yaml<br/>SOPS-encrypted cluster secrets]
-    CC -->|talhelper gencommand apply| Nodes[Talos Nodes]
+    Env["talenv.yaml — talos/k8s versions"] --> TC["talconfig.yaml — nodes + patches"]
+    TC -->|"talhelper genconfig"| CC["clusterconfig — machine configs, gitignored"]
+    TC -->|"talhelper gensecret"| TS["talsecret.sops.yaml — SOPS-encrypted cluster secrets"]
+    CC -->|"talhelper gencommand apply"| Nodes["Talos Nodes"]
     TS --> Nodes
 ```
+
 
 - **`talos/talenv.yaml`**: pins `talosVersion: v1.12.7` and `kubernetesVersion: v1.35.4`, both with Renovate annotations for automated dependency tracking. These values are substituted into the `${talosVersion}` / `${kubernetesVersion}` placeholders in `talconfig.yaml`.
 - **`talos/talconfig.yaml`**: the talhelper master config — cluster name, API endpoint, cert SANs, pod/service CIDRs, node inventory, and patch references.
@@ -297,7 +297,7 @@ The cluster runs a multi-tier DNS system:
    - TTL: 1 second for rapid updates
 
 2. **AdGuard DNS**: External DNS integration with AdGuard Home
-   - Webhook provider for AdGuard Home API
+   - external-dns chart 1.23.0 (OCIRepository, home-operations charts mirror) with the muhlba91/external-dns-provider-adguard webhook provider (v11.2.0, digest-pinned)
    - Connects to AdGuard at 192.168.50.1:3000
    - Credentials stored in `adguard-dns-secret`
 
@@ -535,7 +535,7 @@ Most applications run with restricted security contexts:
 
 Flux provides continuous deployment and cluster management:
 
-- **Flux Operator & Flux Instance**: charts v0.60.0, installed by helmfile during app bootstrap
+- **Flux Operator & Flux Instance**: charts v0.61.0 (OCI charts from controlplaneio-fluxcd, chained with `needs`), installed by helmfile during app bootstrap
 - **Source**: GitRepository pointing to this repository
 - **SOPS Integration**: Age-based decryption via the `sops-age` secret on the `cluster-meta` and `cluster-apps` Kustomizations
 
@@ -565,7 +565,7 @@ The cluster follows a three-phase bootstrap:
    - Create one namespace per directory under `kubernetes/apps/`
    - Apply SOPS secrets into `flux-system` via `sops exec-file` (GitHub deploy key, cluster secrets, age key)
    - Apply CRDs (Gateway API v1.6.2 experimental — required by Cilium's `gatewayAPI.enabled` — and External DNS v0.23.0 standard CRDs)
-   - Deploy base charts via helmfile (Cilium → CoreDNS → cert-manager → flux-operator → flux-instance)
+   - Deploy base charts via helmfile (cilium 1.20.2 → coredns 1.48.2 → cert-manager v1.21.2 → flux-operator 0.61.0 → flux-instance 0.61.0, in `needs` order)
 
 3. **Flux Sync**:
    - Flux operator reconciles `kubernetes/apps/`
@@ -633,5 +633,4 @@ Typical shared conventions visible across app releases (e.g. cloudflare-tunnel, 
 - **Metrics**: a `serviceMonitor` block per app exposes Prometheus scrapes (cloudflared scrapes the shared `http` metrics port; atuin serves `/metrics` on a dedicated port 8080 with 1m interval).
 - **Database init**: stateful apps pair the app container with a `postgres-init` initContainer (`ghcr.io/home-operations/postgres-init`), sharing the same `envFrom` secret anchor as the app so DB credentials come from one Secret (e.g. `atuin-secret`).
 
-<!-- openwiki: broken internal link [/openwiki/workflows/app-deployment.md] link "/openwiki/workflows/app-deployment.md" is root-absolute, which no real consumer resolves against the repository root (not a coding agent reading the page, not GitHub's Markdown renderer, not a local viewer); use a path relative to this file instead. Fix the href or restore the target, then delete this comment. -->
-The atuin release is the canonical example of the full pattern: HelmRelease → `chartRef` to the shared app-template OCIRepository → values with an initContainer, reloader annotation, anchored probes, hardened security contexts, dual-port Service (http + metrics), ServiceMonitor, and a Gateway-API-style `route`. See [Workflows: App Deployment](/openwiki/workflows/app-deployment.md) for how a new app directory is wired into the Flux tree.
+The atuin release is the canonical example of the full pattern: HelmRelease → `chartRef` to the shared app-template OCIRepository → values with an initContainer, reloader annotation, anchored probes, hardened security contexts, dual-port Service (http + metrics), ServiceMonitor, and a Gateway-API-style `route`. See [Workflows: App Deployment](../workflows/app-deployment.md) for how a new app directory is wired into the Flux tree.

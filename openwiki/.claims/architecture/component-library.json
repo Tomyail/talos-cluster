@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:72b7a87fe6e2d99f0e4619b4f3290e1beda2d125a485dd0cc2036c91cee7a1fe",
+  "pageVersion": "sha256:f08590a779c2e4d50eb8c20c6b582ccbe2b358fac8b7f7c9b4b23dcce9ea295f",
   "claims": [
     {
       "id": "claim_c0ebaf31acb54ed7ae9d9c9f602965b2",
@@ -148,11 +148,15 @@
     },
     {
       "id": "claim_eb132e7aac7746e5be884c8256c61e35",
-      "statement": "App HelmReleases across kubernetes/apps/**/app/helmrelease.yaml use spec.chartRef {kind: OCIRepository, name: app-template} to consume the single shared app-template OCIRepository from the common component instead of declaring per-app chart sources.",
+      "statement": "HelmReleases across kubernetes/apps/**/app/helmrelease.yaml use spec.chartRef {kind: OCIRepository} to consume named shared OCIRepositories instead of inline chart specs. The default-namespace workload apps (gitea, atuin, jellyfin, etc.) all reference the single shared app-template OCIRepository from the common component, while platform/infra apps (cert-manager, coredns, flux-operator, etc.) reference their own per-app OCIRepositories declared alongside their HelmRelease.",
       "evidence": [
         {
-          "resource": "repo://kubernetes/apps/default/gitea/app/helmrelease.yaml",
-          "version": "repo-file-v1:sha256:49858e9082e7cb72c2f4888e40509c4f8b20c888859823405cb5aa78931a6ab5"
+          "resource": "repo://kubernetes/apps/cert-manager/cert-manager/app/helmrelease.yaml#L3-L25",
+          "version": "repo-lines-v1:sha256:3737d31161baa7208ebcae37a78a1bac5db9b715c25f91cf966cae1179346db6:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhNzA0YWEyOGRjNGVhOThlOWNhZWJkODg5MmViZWY1NmY2Y2Q1MmJkYmExZjc4Y2M2NzU1OTliMTQ1YTZmY2UiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRjNTVlYjcxY2RhYTcyNTM1OGE5NTBkZjI2YzY3OWFkZmExODE0ZDA5ZTJiMzMwMjM0MjY4MWQ0ZDIzNjFhMjkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoyLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNmNDBjYTY3YTFhMzdiNjVjMTVmZjQ0OTJkNjM4ZDBlY2IwZTNhM2UxNmNhOTUxMzMwMmQ1MTE1NDNkY2RjYmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk4YmVjMTU0MTAzMjUwMzdiMzRhNmFmZDcwN2RkODA0MWQwMzc1MTg3Y2ZjOTAxZjZhNDg1ZmQ5NzQ4YzRkYmMifQ"
+        },
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/app/helmrelease.yaml#L8-L10",
+          "version": "repo-lines-v1:sha256:37bff5066b168e4c9cc8cbed6be4171e3dfcd050bdb49324e2347e2fc79de822:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjZjMTY4YjIwNmY4ZTRmOWUzOWQ1OWEyN2ZiYzMzNDJiODExNWExZGFiOGFlNzIwYTlkYjkyYTBhZDYzZWQ0OSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjMwZmMxNGI1NmYyNzI3MTEwYWI1YjFjMmUxZjE4OTg3MTE4MWZiZGU5NjU3MTI0MjE1MGZlNTQ2OTAxYjZmZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZWY4ZmM1YTIzMWIxZDc2YWVjOGNmMjJjMGQ4YzMyMjA2NWU4MjcxMjBmYTdhN2ZkOGI5MDRkMjJmYjliMzk5YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOWNmNDQ1NjkzNzkwMTJhNzM4ZjIyZmY4YmViMDJhMzVjNjgxY2M4M2YzNjY4ZGExNWExNGZmOTgyYWNhNTIxMiJ9"
         },
         {
           "resource": "repo://kubernetes/components/common/repos/app-template/ocirepository.yaml",
@@ -184,7 +188,7 @@
     }
   ],
   "verification": {
-    "by": "openwiki/0.7.1",
-    "at": "2026-10-08T23:50:46.668Z"
+    "by": "openwiki/0.7.2",
+    "at": "2026-10-10T22:48:28.004Z"
   }
 }

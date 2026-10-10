@@ -56,10 +56,10 @@ sources:
     resource: repo://README.md
   - id: openwiki-source-1fd71dc29915917549048436
     resource: repo://talos/talconfig.yaml
-generated: { by: "openwiki/0.7.1", at: "2026-10-08T23:50:46.668Z" }
+generated: { by: "openwiki/0.7.2", at: "2026-10-10T22:48:28.004Z" }
 verified:
-  - by: openwiki/0.7.1
-    at: 2026-10-08T23:50:46.668Z
+  - by: openwiki/0.7.2
+    at: 2026-10-10T22:48:28.004Z
 ---
 
 # Architecture Overview
@@ -131,7 +131,7 @@ The cluster runs on Talos Linux, an immutable OS designed for Kubernetes:
 - Replaces kube-proxy with eBPF-based data plane
 - Provides BGP for load balancing, network policies, and L7 awareness
 - Deployed via Helm in bootstrap phase before Flux
-- Version 1.20.0 from official Helm repository
+- Version 1.20.2 from official Helm repository
 
 **TopoLVM**:
 - CSI provisioner for dynamic LVM volume management

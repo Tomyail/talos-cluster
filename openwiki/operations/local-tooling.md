@@ -24,10 +24,10 @@ sources:
     resource: repo://scripts/lib/common.sh
   - id: openwiki-source-b9ff7ee0aa4953cc601052a4
     resource: repo://Taskfile.yaml
-generated: { by: "openwiki/0.7.1", at: "2026-10-08T23:50:46.668Z" }
+generated: { by: "openwiki/0.7.2", at: "2026-10-10T22:48:28.004Z" }
 verified:
-  - by: openwiki/0.7.1
-    at: 2026-10-08T23:50:46.668Z
+  - by: openwiki/0.7.2
+    at: 2026-10-10T22:48:28.004Z
 ---
 
 ## Overview
@@ -40,18 +40,16 @@ Local operations are driven by three layers:
 
 ## mise: pinned tools and environment
 
-`.mise.toml` defines two things:
-
-**Environment variables** (via the `[env]` table, relative to the config root):
+`.mise.toml` defines three environment variables (relative to the config root):
 
 | Variable | Value | Purpose |
 | --- | --- | --- |
+| `KUBECONFIG` | `{{config_root}}/kubeconfig` | cluster kubeconfig used by kubectl/flux/helm |
 | `SOPS_AGE_KEY_FILE` | `{{config_root}}/age.key` | age private key used by SOPS decryption |
+| `TALOSCONFIG` | `{{config_root}}/talos/clusterconfig/talosconfig` | talosctl client config |
 | `_.python.venv` | `{{config_root}}/.venv` | auto-created Python virtualenv |
 
-Note that mise itself only exports `SOPS_AGE_KEY_FILE`; `KUBECONFIG` and `TALOSCONFIG` are **not** set by mise — they come from the root `Taskfile.yaml` `env:` block, so they are only exported inside task runs (see below).
-
-**Pinned tools** (per `.mise.toml`): python 3.14.8, pipx:makejinja 2.9.1, talhelper 3.1.17, cilium-cli 0.20.1, `gh` (cli) 2.102.0, cloudflared 2026.9.3, cue 0.17.1, age 1.3.2, flux2 2.9.6, sops 3.13.3, go-task 3.54.0, helm 4.3.0, helmfile 1.8.1, jq 1.7.1, kustomize 5.6.0, kubectl 1.33.1, yq 4.54.1, talos 1.14.2, kubeconform 0.8.0, plus node and pipx at `latest`. Because `Taskfile.yaml` sets `KUBECONFIG` (`{{.ROOT_DIR}}/kubeconfig`), `TALOSCONFIG` (`talos/clusterconfig/talosconfig`), and `SOPS_AGE_KEY_FILE` (`age.key`) in its own `env:` block, task runs always see the same cluster credentials regardless of how the shell was set up.
+**Pinned tools** (per `.mise.toml`): python 3.15.0, pipx:makejinja 2.9.1, talhelper 3.1.17, cilium-cli 0.20.1, `gh` (cli) 2.102.0, cloudflared 2026.10.0, cue 0.17.1, age 1.3.2, flux2 2.9.6, sops 3.13.3, go-task 3.54.0, helm 4.3.0, helmfile 1.8.1, jq 1.7.1, kustomize 5.6.0, kubectl 1.33.1, yq 4.54.1, talos 1.14.2, kubeconform 0.8.0, plus node and pipx at `latest`. Because `.mise.toml` sets `KUBECONFIG`, `TALOSCONFIG`, and `SOPS_AGE_KEY_FILE`, any shell entered through mise points at the cluster credentials; `Taskfile.yaml` repeats the same three values in its own `env:` block, so task runs get the same credentials even when invoked outside a mise shell.
 
 ## Root Taskfile
 

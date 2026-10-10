@@ -22,10 +22,10 @@ sources:
     resource: repo://talos/talconfig.yaml
   - id: openwiki-source-b65e4f1ccd91316116ad973a
     resource: repo://talos/talenv.yaml
-generated: { by: "openwiki/0.7.1", at: "2026-10-08T23:50:46.668Z" }
+generated: { by: "openwiki/0.7.2", at: "2026-10-10T22:48:28.004Z" }
 verified:
-  - by: openwiki/0.7.1
-    at: 2026-10-08T23:50:46.668Z
+  - by: openwiki/0.7.2
+    at: 2026-10-10T22:48:28.004Z
 ---
 
 # Cluster Bootstrap Workflow
@@ -244,10 +244,10 @@ Executes `bootstrap/helmfile.yaml` with `helmfile sync`:
 
 **Bootstrap Helm Releases** (`bootstrap/helmfile.yaml#L13-L52`)
 - **Cilium 1.20.2** (kube-system) - CNI plugin, depends on pre-applied Gateway API CRDs
-- **CoreDNS 1.47.1** (kube-system) - Cluster DNS, depends on Cilium
+- **CoreDNS 1.48.2** (kube-system) - Cluster DNS, depends on Cilium
 - **cert-manager v1.21.2** (cert-manager) - Certificate management, depends on CoreDNS
-- **flux-operator 0.60.0** (flux-system) - Flux operator, depends on cert-manager
-- **flux-instance 0.60.0** (flux-system) - Flux instance, depends on flux-operator
+- **flux-operator 0.61.0** (flux-system) - Flux operator, depends on cert-manager
+- **flux-instance 0.61.0** (flux-system) - Flux instance, depends on flux-operator
 
 All five releases set `atomic: true` (helmfile rolls back a failed release), and `helmDefaults` enables `wait`, `waitForJobs`, and `cleanupOnFail` (`bootstrap/helmfile.yaml#L4-L7`), so `helmfile sync` blocks until each release is healthy before dependents install.
 

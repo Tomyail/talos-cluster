@@ -36,10 +36,10 @@ sources:
     resource: repo://talos/talsecret.sops.yaml
   - id: openwiki-source-4d7c266d0d7adae77539048e
     resource: repo://talos/uservolume.yaml
-generated: { by: "openwiki/0.7.1", at: "2026-10-08T23:50:46.668Z" }
+generated: { by: "openwiki/0.7.2", at: "2026-10-10T22:48:28.004Z" }
 verified:
-  - by: openwiki/0.7.1
-    at: 2026-10-08T23:50:46.668Z
+  - by: openwiki/0.7.2
+    at: 2026-10-10T22:48:28.004Z
 ---
 
 # Talos Node & Machine Config
@@ -70,7 +70,8 @@ flowchart LR
 
 - Cluster name `kubernetes`; API endpoint `https://192.168.50.10:6443`, with `127.0.0.1` and `192.168.50.10` as both API and machine cert SANs.
 - Pod CIDR `10.42.0.0/16`, service CIDR `10.43.0.0/16` (Flannel-style defaults consumed by Cilium).
-- `cniConfig.name: none` disables Talos's built-in CNI because Cilium is deployed separately via the bootstrap Helmfile; the kubelet is also patched (`machine-kubelet.yaml`) with `192.168.50.0/24` in node-related allowlists, and the kube-proxy is disabled (`proxy.disabled: true` in the controller patch).
+- `cniConfig.name: none` disables Talos's built-in CNI because Cilium is deployed separately via the bootstrap Helmfile; the kubelet is also patched (`machine-kubelet.yaml`) with `192.168.50.0/24` in node-related allowlists, and the kube-proxy is disabled (`proxy.disabled: true` in the controller patch). CoreDNS is likewise disabled in the controller patch and instead installed by the bootstrap Helmfile.
+- The bootstrap Helmfile (`bootstrap/helmfile.yaml`) brings up the cluster's foundational releases in a strict dependency chain: **cilium** (1.20.2, using `kubernetes/apps/kube-system/cilium/app/helm/values.yaml`) → **coredns** (1.48.2) → **cert-manager** (v1.21.2) → **flux-operator** and **flux-instance** (0.61.0). Every release is `atomic` with `wait`/`waitForJobs` enabled, and each pulls its Helm values from the corresponding app's `helm/values.yaml`, so Flux takes over management of these workloads after bootstrap.
 - The VIP `192.168.50.10` is configured as a Layer-2 `vip` on each node's NIC (selected by MAC `48:21:0b:58:14:f9`), giving the API server a stable address independent of which control-plane node holds it.
 
 ## Node inventory

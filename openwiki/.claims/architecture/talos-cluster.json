@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:ac423483f77e336a7433a6a278caaa3717c0678c03e7e0cfada5e4c4833c86e7",
+  "pageVersion": "sha256:496aba4e37c5f5e921e4133758b26b05db4c2e82680249ccba98fac62c589d78",
   "claims": [
     {
       "id": "claim_6997a84478de4077b3b0fc1cb3f08f7e",
@@ -22,11 +22,11 @@
     },
     {
       "id": "claim_4789e805f1614dd0aefc51917443e4dc",
-      "statement": "The cluster uses endpoint/VIP 192.168.50.10 (Layer-2 VIP on the node NIC), pod CIDR 10.42.0.0/16, service CIDR 10.43.0.0/16, and cniConfig name:none so that Cilium can be installed separately; kube-proxy and CoreDNS are disabled in the controller patch.",
+      "statement": "The cluster uses endpoint/VIP 192.168.50.10 (Layer-2 VIP on the node NIC), pod CIDR 10.42.0.0/16, service CIDR 10.43.0.0/16, and cniConfig name:none so that Cilium can be installed separately; kube-proxy and CoreDNS are disabled in the controller patch, with CoreDNS (and Cilium, cert-manager, flux-operator, flux-instance) instead installed by the bootstrap Helmfile.",
       "evidence": [
         {
           "resource": "repo://bootstrap/helmfile.yaml",
-          "version": "repo-file-v1:sha256:2befd1e606655677378f27d3501a06b4f7047ecf386e95f56ecfd9bef2108ca6"
+          "version": "repo-file-v1:sha256:321bdb781740a5509a93f9d73a0c2cfaf0a9ccf330b071ae55cb6a241ef49c2a"
         },
         {
           "resource": "repo://talos/patches/controller/cluster.yaml",
@@ -165,10 +165,20 @@
           "version": "repo-lines-v1:sha256:574b4821772470624fe28a35923e41e44c61d9419f152d52a83ead199eb96f57:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgyY2E0MTE4YjYzYzZmZTQ4ZDZlNWIwODM5ZGY2NGQ2OWQxZGM1MGQzMzEwMjg1YTJlMTlkNTlmNDIzOTYxZTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM3MmQyMWI0YTU2MmE4ZDY5MWJhNWE1Y2RlYjIyNTk1ZmRiZDlkZWUxNTkyMmI3MDQwOGIwMTAxNDU2MDg2NDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFmMWU4NDIyZTkwNmQ1ODMwN2MxZDg3N2M5MDJjOTFkMzc5OThiNTYzOGVhMTg1MGE5ODYxNGNiMzY2ZThmODQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_cec0a05928b346c9b41cc8adfaddb952",
+      "statement": "The bootstrap Helmfile installs five releases in a strict dependency chain — cilium → coredns → cert-manager → flux-operator → flux-instance — each atomic with helmDefaults wait/waitForJobs enabled, and each sourcing its Helm values from the corresponding app directory under kubernetes/apps/.",
+      "evidence": [
+        {
+          "resource": "repo://bootstrap/helmfile.yaml",
+          "version": "repo-file-v1:sha256:321bdb781740a5509a93f9d73a0c2cfaf0a9ccf330b071ae55cb6a241ef49c2a"
+        }
+      ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.7.1",
-    "at": "2026-10-08T23:50:46.668Z"
+    "by": "openwiki/0.7.2",
+    "at": "2026-10-10T22:48:28.004Z"
   }
 }

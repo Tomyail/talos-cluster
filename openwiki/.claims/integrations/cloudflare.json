@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:a79a11b728e00d64ca9a87432ea97e96e98e2ad6b87263c1301888217402dbf4",
+  "pageVersion": "sha256:2575f4fb11599a78797e4a104d346ca078122132da4414615c285ad9d59bded1",
   "claims": [
     {
       "id": "claim_cced16d6ffcc403f88c2e2b84e04310f",
@@ -288,11 +288,11 @@
     },
     {
       "id": "claim_a227a770d945493ca63bc543f0958a88",
-      "statement": "external-dns (cloudflare-dns HelmRelease, chart 1.22.0 from the external-dns HelmRepository) uses the Cloudflare provider with CF_API_TOKEN from cloudflare-dns-secret, sync policy, domain filter ${SECRET_DOMAIN}, sources crd + gateway-httproute with --gateway-name=external, --cloudflare-proxied, --cloudflare-dns-records-per-page=1000, txtOwnerId default / txtPrefix k8s., triggerLoopOnEvent, and a Prometheus serviceMonitor.",
+      "statement": "external-dns (cloudflare-dns HelmRelease, chart 1.23.0 from the external-dns HelmRepository) uses the Cloudflare provider with CF_API_TOKEN from cloudflare-dns-secret, sync policy, domain filter ${SECRET_DOMAIN}, sources crd + gateway-httproute with --gateway-name=external, --crd-source-apiversion=externaldns.k8s.io/v1alpha1, --crd-source-kind=DNSEndpoint, --cloudflare-proxied, --cloudflare-dns-records-per-page=1000, txtOwnerId default / txtPrefix k8s., triggerLoopOnEvent, and a Prometheus serviceMonitor.",
       "evidence": [
         {
           "resource": "repo://kubernetes/apps/network/cloudflare-dns/app/helmrelease.yaml",
-          "version": "repo-file-v1:sha256:a7d88302ab121488a3ae688554eb682077379a82ae4bbabb73e15b4c52597ed0"
+          "version": "repo-file-v1:sha256:583b61b82b8b8192032835b2ff5058ee3358f9bb673ba92d3d19130868be8dd6"
         }
       ]
     },
@@ -340,7 +340,7 @@
       "evidence": [
         {
           "resource": "repo://kubernetes/apps/network/cloudflare-dns/app/helmrelease.yaml",
-          "version": "repo-file-v1:sha256:a7d88302ab121488a3ae688554eb682077379a82ae4bbabb73e15b4c52597ed0"
+          "version": "repo-file-v1:sha256:583b61b82b8b8192032835b2ff5058ee3358f9bb673ba92d3d19130868be8dd6"
         },
         {
           "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/helmrelease.yaml#L23-L24",
@@ -402,7 +402,7 @@
     }
   ],
   "verification": {
-    "by": "openwiki/0.7.1",
-    "at": "2026-10-08T23:50:46.668Z"
+    "by": "openwiki/0.7.2",
+    "at": "2026-10-10T22:48:28.004Z"
   }
 }

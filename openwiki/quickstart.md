@@ -44,10 +44,10 @@ sources:
     resource: repo://talos/talenv.yaml
   - id: openwiki-source-b9ff7ee0aa4953cc601052a4
     resource: repo://Taskfile.yaml
-generated: { by: "openwiki/0.7.0", at: "2026-10-06T00:54:23.845Z" }
+generated: { by: "openwiki/0.7.2", at: "2026-10-10T22:48:28.004Z" }
 verified:
-  - by: openwiki/0.7.1
-    at: 2026-10-08T23:50:46.668Z
+  - by: openwiki/0.7.2
+    at: 2026-10-10T22:48:28.004Z
 ---
 
 # Quickstart & Repository Map
@@ -117,7 +117,7 @@ mise trust
 mise install
 ```
 
-This installs and configures the required tools: `task`, `talhelper`, `talosctl`, `kubectl`, `flux`, `helmfile`, `sops`, `age`, `yq`, `kubeconform`, `cilium-cli`, `cloudflared`, `cue`, `helm`, `jq`, `kustomize`, `gh`, `python`, `makejinja`, `node`, and `pipx`. Versions are pinned in `.mise.toml` (e.g. talhelper 3.1.17, talos 1.14.2, kubectl 1.33.1, flux2 2.9.6, helm 4.3.0, sops 3.13.3, python 3.14.8); Renovate keeps them updated.
+This installs and configures the required tools: `task`, `talhelper`, `talosctl`, `kubectl`, `flux`, `helmfile`, `sops`, `age`, `yq`, `kubeconform`, `cilium-cli`, `cloudflared`, `cue`, `helm`, `jq`, `kustomize`, `gh`, `python`, `makejinja` (via pipx), `node`, and `pipx`. Versions are pinned in `.mise.toml` (e.g. talhelper 3.1.17, talos 1.14.2, kubectl 1.33.1, flux2 2.9.6, helm 4.3.0, sops 3.13.3, python 3.15.0); Renovate keeps them updated.
 
 ### Environment Variables
 
@@ -215,7 +215,7 @@ For new cluster installations, the bootstrap process is split into two phases:
 
 1. **Prepare Talos configuration**: Edit `talos/talconfig.yaml` and `talos/talenv.yaml`
 2. **Bootstrap Talos**: `task bootstrap:talos` (generates secrets + machine configs, applies them insecurely, bootstraps the cluster, forces a kubeconfig export)
-3. **Bootstrap base apps**: `task bootstrap:apps` (`scripts/bootstrap-apps.sh`) — checks prerequisites (`KUBECONFIG`/`TALOSCONFIG` env and the `helmfile kubectl kustomize sops talhelper yq` CLIs), waits for node readiness, server-side creates one namespace per `kubernetes/apps/` top-level directory, applies the SOPS secrets (`github-deploy-key`, `cluster-secrets`, `sops-age` into `flux-system`), applies CRDs, then helmfile-syncs `bootstrap/helmfile.yaml` in dependency order: cilium → coredns → cert-manager → flux-operator → flux-instance
+3. **Bootstrap base apps**: `task bootstrap:apps` (`scripts/bootstrap-apps.sh`) — checks prerequisites (`KUBECONFIG`/`TALOSCONFIG` env and the `helmfile kubectl kustomize sops talhelper yq` CLIs), waits for node readiness, server-side creates one namespace per `kubernetes/apps/` top-level directory, applies the SOPS secrets (`github-deploy-key`, `cluster-secrets`, `sops-age` into `flux-system`), applies CRDs, then helmfile-syncs `bootstrap/helmfile.yaml` in dependency order: cilium 1.20.2 → coredns 1.48.2 → cert-manager v1.21.2 → flux-operator/flux-instance 0.61.0. The external-dns v0.23.0 and gateway-api v1.6.2 CRDs are also applied here for bootstrap safety (Cilium runs with `gatewayAPI.enabled=true`), even though Flux manages them later from `kubernetes/flux/cluster/ks.yaml`.
 
 After bootstrap, Flux takes over and manages all applications under `kubernetes/apps/`.
 

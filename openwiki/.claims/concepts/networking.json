@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:4cfdd05a71d62792979fc36d54fbad65746909dacb7709e367318d4349b0f30c",
+  "pageVersion": "sha256:87b83480ed5ea0420d331504ac8cc3b64dcef056bbd2f48113f8c716af9405f6",
   "claims": [
     {
       "id": "claim_0e4b64aa301a4c2dac2447bb89e242db",
@@ -78,21 +78,21 @@
     },
     {
       "id": "claim_a1f4b291b2864f1b89f1d34e89fd44ee",
-      "statement": "External DNS management uses Cloudflare provider with sync policy, watching CRD (DNSEndpoint) and gateway-httproute sources. It creates proxied DNS records for SECRET_DOMAIN with k8s. TXT prefix for ownership verification, targeting the external gateway. Cloudflare API token is stored in cloudflare-dns-secret.",
+      "statement": "External DNS management runs external-dns chart version 1.23.0 from the `external-dns` HelmRepository in flux-system, using the Cloudflare provider with sync policy, watching CRD (DNSEndpoint) and gateway-httproute sources. It creates proxied DNS records for SECRET_DOMAIN with k8s. TXT prefix for ownership verification, targeting the external gateway (--gateway-name=external). The Cloudflare API token is stored in cloudflare-dns-secret and pods reload on secret change via the reloader annotation.",
       "evidence": [
         {
           "resource": "repo://kubernetes/apps/network/cloudflare-dns/app/helmrelease.yaml",
-          "version": "repo-file-v1:sha256:a7d88302ab121488a3ae688554eb682077379a82ae4bbabb73e15b4c52597ed0"
+          "version": "repo-file-v1:sha256:583b61b82b8b8192032835b2ff5058ee3358f9bb673ba92d3d19130868be8dd6"
         }
       ]
     },
     {
       "id": "claim_67eaf7b327b3435395a32c262fa38d1e",
-      "statement": "AdGuard DNS integration is an external-dns instance deployed from the OCI chart oci://ghcr.io/home-operations/charts-mirror/external-dns (tag 1.22.0) that syncs internal service DNS records to an AdGuard Home instance at http://192.168.50.1:3000 using a webhook provider (ghcr.io/muhlba91/external-dns-provider-adguard:v11.2.0, digest-pinned). It watches gateway-httproute and gateway-tlsroute sources, runs with policy sync, txtPrefix k8s., and targets the internal gateway via --gateway-name=internal, with credentials in adguard-dns-secret (reloaded on change via reloader annotation).",
+      "statement": "AdGuard DNS integration is an external-dns instance deployed from the OCI chart oci://ghcr.io/home-operations/charts-mirror/external-dns (OCIRepository tag 1.23.0) that syncs internal service DNS records to an AdGuard Home instance at http://192.168.50.1:3000 using a webhook provider (ghcr.io/muhlba91/external-dns-provider-adguard:v11.2.0, digest-pinned). It watches gateway-httproute and gateway-tlsroute sources, runs with policy sync, txtPrefix k8s., and targets the internal gateway via --gateway-name=internal, with credentials in adguard-dns-secret (reloaded on change via reloader annotation).",
       "evidence": [
         {
           "resource": "repo://kubernetes/apps/network/adguard-dns/app/helmrelease.yaml",
-          "version": "repo-file-v1:sha256:85ec726c8a6b37328ae19ad50a92c9c7f578347f08118c2ad2839fe91f143e40"
+          "version": "repo-file-v1:sha256:9f29b503e523f75026efb0601d778fbfd7cdc7fca7800b4d0321bfd65a04ac8a"
         }
       ]
     },
@@ -132,7 +132,7 @@
     },
     {
       "id": "claim_af9546e7cb744df696ac7a489a3f147b",
-      "statement": "External ingress traffic flows from users through DNS resolution to Cloudflare Tunnel endpoint, then via Cloudflare Edge to the tunnel, which forwards HTTP/2 traffic to the external Cilium Gateway (192.168.50.13). The gateway routes HTTPRoutes to backend services via Cilium's BPF load balancing. Cloudflare External DNS manages DNS records for exposed services.",
+      "statement": "External ingress traffic flows from users through DNS resolution to Cloudflare Tunnel endpoint, then via Cloudflare Edge to the tunnel, which forwards HTTP/2 traffic to the external Cilium Gateway (192.168.50.13). The gateway routes HTTPRoutes to backend services via Cilium's BPF load balancing. Cloudflare External DNS (chart 1.23.0) manages DNS records for exposed services.",
       "evidence": [
         {
           "resource": "repo://kubernetes/apps/kube-system/cilium/gateway/external.yaml",
@@ -140,7 +140,7 @@
         },
         {
           "resource": "repo://kubernetes/apps/network/cloudflare-dns/app/helmrelease.yaml",
-          "version": "repo-file-v1:sha256:a7d88302ab121488a3ae688554eb682077379a82ae4bbabb73e15b4c52597ed0"
+          "version": "repo-file-v1:sha256:583b61b82b8b8192032835b2ff5058ee3358f9bb673ba92d3d19130868be8dd6"
         },
         {
           "resource": "repo://kubernetes/apps/network/cloudflare-tunnel/app/resources/config.yaml",
@@ -150,7 +150,7 @@
     },
     {
       "id": "claim_4b4e631b910343e5b2486097699381c0",
-      "statement": "Internal service traffic resolves via k8s-gateway (192.168.50.11) or CoreDNS (10.43.0.10) to the internal Cilium Gateway (192.168.50.12) or service ClusterIPs. The gateway routes HTTPRoutes to backend services through Cilium's BPF load balancing. AdGuard DNS syncs records to AdGuard Home for local resolution.",
+      "statement": "Internal service traffic resolves via k8s-gateway (192.168.50.11) or CoreDNS (10.43.0.10) to the internal Cilium Gateway (192.168.50.12) or service ClusterIPs. The gateway routes HTTPRoutes to backend services through Cilium's BPF load balancing. AdGuard DNS (external-dns chart 1.23.0) syncs records to AdGuard Home for local resolution.",
       "evidence": [
         {
           "resource": "repo://kubernetes/apps/kube-system/cilium/gateway/internal.yaml",
@@ -158,7 +158,7 @@
         },
         {
           "resource": "repo://kubernetes/apps/network/adguard-dns/app/helmrelease.yaml",
-          "version": "repo-file-v1:sha256:85ec726c8a6b37328ae19ad50a92c9c7f578347f08118c2ad2839fe91f143e40"
+          "version": "repo-file-v1:sha256:9f29b503e523f75026efb0601d778fbfd7cdc7fca7800b4d0321bfd65a04ac8a"
         },
         {
           "resource": "repo://kubernetes/apps/network/k8s-gateway/app/helmrelease.yaml",
@@ -346,7 +346,7 @@
     }
   ],
   "verification": {
-    "by": "openwiki/0.7.1",
-    "at": "2026-10-08T23:50:46.668Z"
+    "by": "openwiki/0.7.2",
+    "at": "2026-10-10T22:48:28.004Z"
   }
 }

@@ -50,10 +50,10 @@ sources:
     resource: repo://kubernetes/flux/meta/repos/external-dns-crds.yaml
   - id: openwiki-source-6f1d2c8de9160e178167b990
     resource: repo://scripts/bootstrap-apps.sh
-generated: { by: "openwiki/0.7.0", at: "2026-10-06T00:54:23.845Z" }
+generated: { by: "openwiki/0.7.2", at: "2026-10-10T22:48:28.004Z" }
 verified:
-  - by: openwiki/0.7.1
-    at: 2026-10-08T23:50:46.668Z
+  - by: openwiki/0.7.2
+    at: 2026-10-10T22:48:28.004Z
 ---
 
 # Networking Architecture
@@ -241,7 +241,8 @@ Cloudflare Tunnel (cloudflared) provides secure inbound access without opening e
 External DNS management with Cloudflare provider automates DNS record creation for exposed services.
 
 **Configuration**:
-- **Provider**: Cloudflare with API token from `cloudflare-dns-secret`
+- **Chart**: `external-dns` version `1.23.0` from the `external-dns` HelmRepository in `flux-system`, with install/upgrade remediation
+- **Provider**: Cloudflare with API token from `cloudflare-dns-secret` (`CF_API_TOKEN`)
 - **Sources**: CRD (DNSEndpoint) and Gateway API (gateway-httproute)
 - **Policy**: Sync mode (ensures DNS records match Kubernetes resources)
 - **Proxied Records**: Enabled via Cloudflare proxy
@@ -271,7 +272,7 @@ k8s-gateway automatically generates DNS records for Kubernetes services and HTTP
 AdGuard DNS integration synchronizes internal service DNS records to an AdGuard Home instance for local network resolution.
 
 **Configuration**:
-- **Provider**: Webhook provider using `ghcr.io/muhlba91/external-dns-provider-adguard:v11.2.0` (digest-pinned); the chart itself is the OCI mirror `oci://ghcr.io/home-operations/charts-mirror/external-dns` tag `1.22.0`
+- **Provider**: Webhook provider using `ghcr.io/muhlba91/external-dns-provider-adguard:v11.2.0` (digest-pinned); the chart is the OCI mirror `oci://ghcr.io/home-operations/charts-mirror/external-dns`, pulled via an `OCIRepository` pinned to tag `1.23.0`
 - **AdGuard Home URL**: `http://192.168.50.1:3000`
 - **Sources**: Gateway API (gateway-httproute, gateway-tlsroute)
 - **Policy**: Sync mode

@@ -1,18 +1,18 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:ccf212fa85349ac7bb7dc58bb5c17ef3d1355ac3b9bc9ec2158db15882371edf",
+  "pageVersion": "sha256:8ac87c15dbbfffb582815b0e7ff8b5c2d60d29ba28befbc4f8b0ef8d37ebe921",
   "claims": [
     {
       "id": "claim_afbcac7a39e541838f26d10c9f19a278",
-      "statement": "mise (.mise.toml) pins the local toolchain (talhelper 3.1.17, talos 1.14.2, kubectl 1.33.1, flux2 2.9.6, sops 3.13.3, helm 4.3.0, helmfile 1.8.1, go-task 3.54.0, kubeconform 0.8.0, python 3.14.8, node and pipx at latest, etc.) and exports SOPS_AGE_KEY_FILE plus an auto-created Python venv; KUBECONFIG, TALOSCONFIG, and SOPS_AGE_KEY_FILE are set by the root Taskfile env block, so task runs always get the cluster credentials regardless of mise.",
+      "statement": "mise (.mise.toml) pins the local toolchain (talhelper 3.1.17, talos 1.14.2, kubectl 1.33.1, flux2 2.9.6, sops 3.13.3, helm 4.3.0, helmfile 1.8.1, go-task 3.54.0, kubeconform 0.8.0, python 3.15.0, node and pipx at latest, etc.), auto-creates a Python venv, and exports KUBECONFIG, TALOSCONFIG, and SOPS_AGE_KEY_FILE; Taskfile.yaml repeats those same three credential variables in its own env block, so task runs get the cluster credentials even outside a mise shell.",
       "evidence": [
         {
           "resource": "repo://.mise.toml",
-          "version": "repo-file-v1:sha256:9ea40bb53ea8a36d815b47d71b9775d7a90d32a0d8016d9f76be8dfd213d758d"
+          "version": "repo-file-v1:sha256:786ad97b13a9b9c2fb5332784025b9fc73a118526a6dfb6e3a2b7821b26b5f72"
         },
         {
-          "resource": "repo://Taskfile.yaml#L14-L19",
-          "version": "repo-lines-v1:sha256:002d14db0b17e0a79d90fd533658d43fb5a26257dd7fbc918a8e222224e8a405:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMmU3MzAyZjZiOTAzYjUwNTU4Y2Y2MWMzODRlOTg5ODk3ZmIzYTI1ZjVkZTY0NjQ0YTZmMTUyOWIzZmE5MjM0ZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGEwYTlmMjVkY2UxZjUzYTVlOWNjODVkMWVlMDdlOTI4ZjkxOWFkZGM4ZmQ2NDVkN2E3NjI5YTQ5NGFkYjY0NCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjUxZDExYmU3MjQ0ZDUzYzdlZTE4NGEzMTljN2I1YWJlYmY3ZjkyMWNlMTE5NWNhNjhhYmQ3NWYxMTkwYWI3NyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzQ3ZDA1YWU3Zjc4OTI4OTBjYTI1NGI2YTliMTMwZTA0NjVlNDllYzVlMDIxYzY3MzZjODA2MTlkYzg2MjUyOSJ9"
+          "resource": "repo://Taskfile.yaml#L16-L19",
+          "version": "repo-lines-v1:sha256:1b77a471a1efac641fdd4077f315e1af5afb41665d718d3ab315da86e4100d89:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTBhNTk0ZjM0YjdmMGVhNTczZGE3ODcwM2UyNzQ5MzBkYjcxOGM5NDJjYWYzYzA0MjUxNzU1ZjYyM2M2MGQ1YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGEwYTlmMjVkY2UxZjUzYTVlOWNjODVkMWVlMDdlOTI4ZjkxOWFkZGM4ZmQ2NDVkN2E3NjI5YTQ5NGFkYjY0NCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMGI5N2MzYTFlY2IyNmM5MzAxZWFiMjZhOTdiNmZlZTQxNTg0ZmYyYWJjOTA1MWVkYmFjZjM5MTA5NmY0MGVhYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzQ3ZDA1YWU3Zjc4OTI4OTBjYTI1NGI2YTliMTMwZTA0NjVlNDllYzVlMDIxYzY3MzZjODA2MTlkYzg2MjUyOSJ9"
         }
       ]
     },
@@ -144,7 +144,7 @@
     }
   ],
   "verification": {
-    "by": "openwiki/0.7.1",
-    "at": "2026-10-08T23:50:46.668Z"
+    "by": "openwiki/0.7.2",
+    "at": "2026-10-10T22:48:28.004Z"
   }
 }

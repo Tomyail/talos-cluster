@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:997197c9e66b6b70cb34bab0f80a67c702ebc7a9c89b50f4679a0f940f275fff",
+  "pageVersion": "sha256:0784851d42054430332e4ccf71ddf965c5b36318c9bc7a0b3aed570d8e2a306e",
   "claims": [
     {
       "id": "claim_30f820b5ccba4c9a9c4aad7234c3dfc2",
@@ -12,7 +12,7 @@
         },
         {
           "resource": "repo://bootstrap/helmfile.yaml",
-          "version": "repo-file-v1:sha256:2befd1e606655677378f27d3501a06b4f7047ecf386e95f56ecfd9bef2108ca6"
+          "version": "repo-file-v1:sha256:321bdb781740a5509a93f9d73a0c2cfaf0a9ccf330b071ae55cb6a241ef49c2a"
         },
         {
           "resource": "repo://scripts/bootstrap-apps.sh#L137-L149",
@@ -134,11 +134,11 @@
     },
     {
       "id": "claim_b372cde832a34abba56c97f0a7cc80d3",
-      "statement": "Helmfile deploys releases in an atomic needs-chain: Cilium 1.20.2 (CNI, from https://helm.cilium.io) first, then CoreDNS 1.47.1 (needs cilium), then cert-manager v1.21.2 (needs coredns), then flux-operator 0.60.0 (needs cert-manager), and finally flux-instance 0.60.0 (needs flux-operator).",
+      "statement": "Helmfile deploys releases in an atomic needs-chain: Cilium 1.20.2 (CNI, from https://helm.cilium.io) first, then CoreDNS 1.48.2 (needs cilium), then cert-manager v1.21.2 (needs coredns), then flux-operator 0.61.0 (needs cert-manager), and finally flux-instance 0.61.0 (needs flux-operator).",
       "evidence": [
         {
           "resource": "repo://bootstrap/helmfile.yaml#L13-L52",
-          "version": "repo-lines-v1:sha256:6476a2b528b6c4c2342d4f5b48106162fde3ac46a5570178b36d8e899f4de7e5:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkZTI0Nzc3YTlhNjAzZjFlZmY3ZTNjMmMzMTcxZTE2MjU5YjhhN2M5OTZkYTMxNDdhMjc5N2Y2ZjA3NTQ0MmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4NDQxMDY3MGJjNTUxNjEyNDRkZTdlZTRjMDM5YTEzMDUzYzZiN2M5ZTRkZTZiMzY4YzE3MzYzZDcyMjVlY2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZmNWY5NGUxMDY0NDU3ZjAwNWMzYzFmNzJkMzMzYTgxM2YwNzYzNTJjZjFiNzNiNTUzNWQ5NDFiNDFhNmQ1OTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "version": "repo-lines-v1:sha256:731042eedd57da99c4c857f93f1fc19c2a58770f5258b781d4beff0d5485a2ac:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkZTI0Nzc3YTlhNjAzZjFlZmY3ZTNjMmMzMTcxZTE2MjU5YjhhN2M5OTZkYTMxNDdhMjc5N2Y2ZjA3NTQ0MmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4NDQxMDY3MGJjNTUxNjEyNDRkZTdlZTRjMDM5YTEzMDUzYzZiN2M5ZTRkZTZiMzY4YzE3MzYzZDcyMjVlY2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZmNWY5NGUxMDY0NDU3ZjAwNWMzYzFmNzJkMzMzYTgxM2YwNzYzNTJjZjFiNzNiNTUzNWQ5NDFiNDFhNmQ1OTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -238,7 +238,7 @@
       "evidence": [
         {
           "resource": "repo://bootstrap/helmfile.yaml",
-          "version": "repo-file-v1:sha256:2befd1e606655677378f27d3501a06b4f7047ecf386e95f56ecfd9bef2108ca6"
+          "version": "repo-file-v1:sha256:321bdb781740a5509a93f9d73a0c2cfaf0a9ccf330b071ae55cb6a241ef49c2a"
         },
         {
           "resource": "repo://kubernetes/flux/cluster/ks.yaml#L70-L94",
@@ -284,7 +284,7 @@
     }
   ],
   "verification": {
-    "by": "openwiki/0.7.1",
-    "at": "2026-10-08T23:50:46.668Z"
+    "by": "openwiki/0.7.2",
+    "at": "2026-10-10T22:48:28.004Z"
   }
 }

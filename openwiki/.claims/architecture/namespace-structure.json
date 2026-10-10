@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:f5ae128832159ca907fdf68be5d3338adce2b2039315e26a3ed24d26e4c5d022",
+  "pageVersion": "sha256:4b59ebb7ddc9cd2f38129edb1231b5e9f0ecafeb9533ee0f21031047af344268",
   "claims": [
     {
       "id": "claim_01f7d801aaf14c35acc5001119c780a4",
@@ -362,11 +362,11 @@
     },
     {
       "id": "claim_109b6db855ab4065b8942e27218d76ef",
-      "statement": "Some applications bypass the shared app-template OCIRepository by defining their own OCIRepository in the same helmrelease.yaml file and referencing it via chartRef; adguard-dns pulls external-dns from oci://ghcr.io/home-operations/charts-mirror/external-dns at tag 1.22.0.",
+      "statement": "Some applications bypass the shared app-template OCIRepository by defining their own OCIRepository in the same helmrelease.yaml file and referencing it via chartRef; adguard-dns pulls external-dns from oci://ghcr.io/home-operations/charts-mirror/external-dns at tag 1.23.0.",
       "evidence": [
         {
-          "resource": "repo://kubernetes/apps/network/adguard-dns/app/helmrelease.yaml",
-          "version": "repo-file-v1:sha256:85ec726c8a6b37328ae19ad50a92c9c7f578347f08118c2ad2839fe91f143e40"
+          "resource": "repo://kubernetes/apps/network/adguard-dns/app/helmrelease.yaml#L1-L25",
+          "version": "repo-lines-v1:sha256:80c305e1762e56f59f98aa1b0a92a625cf3f62647e455bd0e0dcdafa56db440a:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEwNzBlMDc1MDMwMDM3ZDZjMWNiODg5MDNhYzA5N2ZmMzYzMDE0YzVjOTY3OTY1NDBiZTYxYmVlOGEzNDViYTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk4YmVjMTU0MTAzMjUwMzdiMzRhNmFmZDcwN2RkODA0MWQwMzc1MTg3Y2ZjOTAxZjZhNDg1ZmQ5NzQ4YzRkYmMifQ"
         }
       ]
     },
@@ -492,7 +492,7 @@
     }
   ],
   "verification": {
-    "by": "openwiki/0.7.1",
-    "at": "2026-10-08T23:50:46.668Z"
+    "by": "openwiki/0.7.2",
+    "at": "2026-10-10T22:48:28.004Z"
   }
 }

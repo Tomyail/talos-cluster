@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:1fef9f8af899d9024204ceb23dfe72f3f5e7337f1d2e0cf809a68545bd9f76e4",
+  "pageVersion": "sha256:a0710633128e4cb8fffa9a37702070db5c300bba6cb2bb4f10ba56ee61919269",
   "claims": [
     {
       "id": "claim_780473c14fdc47fd8686c4d3113c9df2",
@@ -162,17 +162,27 @@
     },
     {
       "id": "claim_481265441df14c898fcdbd84b53c9eb4",
-      "statement": "app-template HelmRelease values follow repo idioms: reloader.stakater.com/auto restart annotation, locked-down securityContext (non-root UID/GID 1000, dropped capabilities, read-only root filesystem, fsGroupChangePolicy OnRootMismatch), Gateway API routes with parentRefs to the shared internal/external listeners in kube-system, persistence via existingClaim mounted with subPaths (the PVC created by the volsync-new component), and ${SECRET_DOMAIN}-style placeholders resolved by postBuild substitution.",
+      "statement": "app-template HelmRelease values follow repo idioms: reloader.stakater.com/auto restart annotation, locked-down securityContext (non-root UID/GID 1000, dropped capabilities, read-only root filesystem, fsGroupChangePolicy OnRootMismatch, supplementalGroups 65536), Gateway API routes with parentRefs to the shared internal/external listeners in kube-system, persistence via existingClaim mounted with subPaths (the PVC created by the volsync-new component), and ${SECRET_DOMAIN}-style placeholders resolved by postBuild substitution.",
       "evidence": [
         {
-          "resource": "repo://kubernetes/apps/default/gitea/app/helmrelease.yaml#L19-L113",
-          "version": "repo-lines-v1:sha256:a2a88cc428ba3392e5fcccabf165aefed32c8b1fa2c4466b901e0242fdc4fe31:eyJzZWxlY3RlZExpbmVDb3VudCI6OTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2ZjFjNzJiNTlhZGU1MjRjMDEzNWM3Y2RiMGViMjRhYWZiZjE0ZGIxOWYxNzYwZjE5M2IyNzA3N2M5Nzg0NjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRiOWU1NTFjZWQzNmYxMDJkYWJkMDc0YjUyNmJkNzFjNDBkYjZiNzU3ZDI5YjUxZTdmZGI1YzU0MTFhYTE3NTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJmOWM5ZWVjZjMxZWUxMWI5NTJkYjUxZTM0NTZiMjhmMzE2ZGJlZGQ4YzJlYzBiMjMxNTdiMDgyZGE1MDRjODciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://kubernetes/apps/default/gitea/app/helmrelease.yaml#L19-L99",
+          "version": "repo-lines-v1:sha256:92d95ad27575706abf294f64cca543e45da2ff44a40cb75c88290d35af0d72ef:eyJzZWxlY3RlZExpbmVDb3VudCI6ODEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2ZjFjNzJiNTlhZGU1MjRjMDEzNWM3Y2RiMGViMjRhYWZiZjE0ZGIxOWYxNzYwZjE5M2IyNzA3N2M5Nzg0NjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFkMTJhMDVlZDIyODY4ODE1NTNhYjUxODg1MWY2ODU3YTUyY2UwMGM3ZGI1OTY5ZWEyZDE5NjhiNjY5OWZlZGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJmOWM5ZWVjZjMxZWUxMWI5NTJkYjUxZTM0NTZiMjhmMzE2ZGJlZGQ4YzJlYzBiMjMxNTdiMDgyZGE1MDRjODciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNiNTY2YzU5M2EyYzM3YjQzMGUwZDNlZDNlODMyOTkxODAxYzg0Y2M5N2FiZjkwNWIwOWU3NzY5YTViZDFkN2QifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7ac0998ef2b644839f4be3a0851b2b51",
+      "statement": "Non-HTTP ingress in app-template HelmReleases is exposed via plain Services rather than Gateway routes: gitea defines an ssh LoadBalancer Service annotated with external-dns.alpha.kubernetes.io/hostname: \"ssh.${SECRET_DOMAIN}\" that maps port 22 to the container's SSH listen port 2222.",
+      "evidence": [
+        {
+          "resource": "repo://kubernetes/apps/default/gitea/app/helmrelease.yaml#L105-L113",
+          "version": "repo-lines-v1:sha256:5bfe775bfcfc2f74ba8a98f1db6c791d1595a20561ed9414474f0093b477ca96:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTIyNGM5NTljMzFkM2UyYjQ4ZjUyN2EwYjkwNzUwOGQ5YTkxMGVlMThiODY0M2Y1YzA2YWQ4NDljZTgyZWQyYyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZGI5ZTU1MWNlZDM2ZjEwMmRhYmQwNzRiNTI2YmQ3MWM0MGRiNmI3NTdkMjliNTFlN2ZkYjVjNTQxMWFhMTc1MiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjNiN2EwOWEyNjliZGUxNDU4ZWFkZGMxMjY5YTczY2VhMTIwNTYxZGYyYmEzZmQwZDY0YTNjMWVlYTk2OGRmNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
         }
       ]
     }
   ],
   "verification": {
-    "by": "openwiki/0.7.1",
-    "at": "2026-10-08T23:50:46.668Z"
+    "by": "openwiki/0.7.2",
+    "at": "2026-10-10T22:48:28.004Z"
   }
 }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:d0ac8a99b6217a7ea04a6f9a9eb219865a9b160aaa6ac5c4ea795def5a2072f1",
+  "pageVersion": "sha256:f7997dc984ff1a18a790e56c4dc72cd5d9ae095a67708b9df922e7fe9fcea679",
   "claims": [
     {
       "id": "claim_d11cc08ba8894ce49744eed253401d09",
@@ -172,11 +172,11 @@
     },
     {
       "id": "claim_05cb327c62914e45867bc0a2c39ee202",
-      "statement": "Bootstrap Helm releases (cilium 1.20.2, coredns 1.47.1, cert-manager v1.21.2, flux-operator 0.60.0, flux-instance 0.60.0) form a dependency chain via `needs`: Cilium (requires pre-applied Gateway API CRDs) → CoreDNS → cert-manager → flux-operator → flux-instance; all releases are atomic, waited on, and rollback on failure via helmDefaults.",
+      "statement": "Bootstrap Helm releases (cilium 1.20.2, coredns 1.48.2, cert-manager v1.21.2, flux-operator 0.61.0, flux-instance 0.61.0) form a dependency chain via `needs`: Cilium (requires pre-applied Gateway API CRDs) → CoreDNS → cert-manager → flux-operator → flux-instance; all releases are atomic, waited on, and rollback on failure via helmDefaults.",
       "evidence": [
         {
-          "resource": "repo://bootstrap/helmfile.yaml#L13-L52",
-          "version": "repo-lines-v1:sha256:6476a2b528b6c4c2342d4f5b48106162fde3ac46a5570178b36d8e899f4de7e5:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkZTI0Nzc3YTlhNjAzZjFlZmY3ZTNjMmMzMTcxZTE2MjU5YjhhN2M5OTZkYTMxNDdhMjc5N2Y2ZjA3NTQ0MmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4NDQxMDY3MGJjNTUxNjEyNDRkZTdlZTRjMDM5YTEzMDUzYzZiN2M5ZTRkZTZiMzY4YzE3MzYzZDcyMjVlY2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZmNWY5NGUxMDY0NDU3ZjAwNWMzYzFmNzJkMzMzYTgxM2YwNzYzNTJjZjFiNzNiNTUzNWQ5NDFiNDFhNmQ1OTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://bootstrap/helmfile.yaml#L4-L52",
+          "version": "repo-lines-v1:sha256:f60162a606ef23c1fc4c4e8e3a41351a247b814d57cf34c64215396c381df3d2:eyJzZWxlY3RlZExpbmVDb3VudCI6NDksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJjMDE5ZTBmYTg2MmRiNDQ3ZDE4NmJjMDM2M2E2MmIzMmQ1YzkzZjcyZmQ0NTU2NGM5YjFmMjY3ODhmZTdiZjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4NDQxMDY3MGJjNTUxNjEyNDRkZTdlZTRjMDM5YTEzMDUzYzZiN2M5ZTRkZTZiMzY4YzE3MzYzZDcyMjVlY2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNjZDZkNmRhNDM5OTg1MWMwNjQ2NTE3MTk1YWM4NmIxZTczOWE2NDA3YmEyMDkwZjc1ZmI2NGQxOWQ3NjM0NGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -268,11 +268,11 @@
     },
     {
       "id": "claim_46f6f499e0434af3bf9b9c2201e7fc1f",
-      "statement": "The bootstrap chart set is superseded at the end of Phase 2: helmfile sync installs flux-instance (0.60.0) last, after flux-operator, and the resulting Flux instance begins reconciling kubernetes/apps/ from Git, taking over ongoing management of all resources that bootstrap applied manually.",
+      "statement": "The bootstrap chart set is superseded at the end of Phase 2: helmfile sync installs flux-instance (0.61.0) last, after flux-operator, and the resulting Flux instance begins reconciling kubernetes/apps/ from Git, taking over ongoing management of all resources that bootstrap applied manually.",
       "evidence": [
         {
           "resource": "repo://bootstrap/helmfile.yaml#L46-L52",
-          "version": "repo-lines-v1:sha256:028ffea069d05bee699ba1495869ac831405327e8f7efe139573abc37004cd22:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNGMyMzhjZjNlNzM4MzFjYmMyZmQ3ZTNjMmU1YTM0NjM5YWM2NjhiZGExN2E2YTNlMjFlZWVlMTQ2ZWZjZWJkNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTg0NDEwNjcwYmM1NTE2MTI0NGRlN2VlNGMwMzlhMTMwNTNjNmI3YzllNGRlNmIzNjhjMTczNjNkNzIyNWVjYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYWJhNGQ4NDZhYWQyODE0M2NiYjBlMWU1ZmI1YTZmNWVkZTg1NDk4NWJjODdmYTg1MjM1ZTc0OTA3ZjQ4M2M2MiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+          "version": "repo-lines-v1:sha256:21b85ba7bfb2712b81b1e8b6ac5cc73c809ba735b3c13bd87b3835b801a49174:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNGMyMzhjZjNlNzM4MzFjYmMyZmQ3ZTNjMmU1YTM0NjM5YWM2NjhiZGExN2E2YTNlMjFlZWVlMTQ2ZWZjZWJkNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTg0NDEwNjcwYmM1NTE2MTI0NGRlN2VlNGMwMzlhMTMwNTNjNmI3YzllNGRlNmIzNjhjMTczNjNkNzIyNWVjYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYWJhNGQ4NDZhYWQyODE0M2NiYjBlMWU1ZmI1YTZmNWVkZTg1NDk4NWJjODdmYTg1MjM1ZTc0OTA3ZjQ4M2M2MiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
         },
         {
           "resource": "repo://scripts/bootstrap-apps.sh#L120-L149",
@@ -282,7 +282,7 @@
     }
   ],
   "verification": {
-    "by": "openwiki/0.7.1",
-    "at": "2026-10-08T23:50:46.668Z"
+    "by": "openwiki/0.7.2",
+    "at": "2026-10-10T22:48:28.004Z"
   }
 }

@@ -38,10 +38,10 @@ sources:
     resource: repo://scripts/bootstrap-apps.sh
   - id: openwiki-source-f732321d388a413da3d9f609
     resource: repo://scripts/lib/common.sh
-generated: { by: "openwiki/0.7.1", at: "2026-10-08T23:50:46.668Z" }
+generated: { by: "openwiki/0.7.2", at: "2026-10-10T22:48:28.004Z" }
 verified:
-  - by: openwiki/0.7.1
-    at: 2026-10-08T23:50:46.668Z
+  - by: openwiki/0.7.2
+    at: 2026-10-10T22:48:28.004Z
 ---
 
 # Troubleshooting Guide
@@ -207,7 +207,7 @@ The `task bootstrap:apps` flow runs `scripts/bootstrap-apps.sh`, which applies r
 1. **Stuck waiting for nodes**: the script waits for nodes to be `Ready=False` (Talos requires nodes `Ready=False` before applying resources during bootstrap) in a 10-second retry loop, and skips the wait if all nodes report `Ready=True` (`scripts/bootstrap-apps.sh#L10-L24`). If it loops forever, check the node's Talos state with `talosctl -n <node-ip> dmesg` and confirm `KUBECONFIG`/`TALOSCONFIG` point at `./kubeconfig` and `./talos/clusterconfig/talosconfig`.
 2. **Secret apply fails**: the three bootstrap secrets (`bootstrap/github-deploy-key.sops.yaml`, `kubernetes/components/common/sops/cluster-secrets.sops.yaml`, `kubernetes/components/common/sops/sops-age.sops.yaml`) are applied with `sops exec-file ... kubectl apply --server-side` into `flux-system` (`scripts/bootstrap-apps.sh#L57-L85`). A failure here is almost always SOPS decryption (missing/mismatched `age.key` via `SOPS_AGE_KEY_FILE`) — see the SOPS section above.
 3. **CRD apply fails**: the script pre-applies External DNS and Gateway API experimental CRDs (Renovate-pinned versions) so Cilium — installed by helmfile with `gatewayAPI.enabled=true` — has CRDs before it starts; they are also managed by Flux afterwards via the `external-dns-crds` and `gateway-api-crds` Kustomizations (`scripts/bootstrap-apps.sh#L88-L105`). Use `--server-side` conflicts in the output to spot ownership clashes between the bootstrap apply and Flux.
-4. **Helmfile sync fails**: `helmfile sync` on `bootstrap/helmfile.yaml` installs five releases in dependency order via the `needs` chain — Cilium (1.20.2) → CoreDNS → cert-manager → flux-operator → flux-instance (0.60.0) — each with `atomic: true` and `wait`/`waitForJobs` defaults, so a failing release rolls back and blocks all downstream releases. Failure here usually means the CRD step above didn't complete, or the cluster secrets applied in step 2 are missing values the helmfile interpolates.
+4. **Helmfile sync fails**: `helmfile sync` on `bootstrap/helmfile.yaml` installs five releases in dependency order via the `needs` chain — Cilium (1.20.2) → CoreDNS (1.48.2) → cert-manager (v1.21.2) → flux-operator (0.61.0) → flux-instance (0.61.0) — each with `atomic: true` and `wait`/`waitForJobs` defaults, so a failing release rolls back and blocks all downstream releases. Failure here usually means the CRD step above didn't complete, or the cluster secrets applied in step 2 are missing values the helmfile interpolates.
 
 **Reading the output:** the script sources `scripts/lib/common.sh`, which provides leveled, colored logging (`debug`/`info`/`warn`/`error`) controlled by `LOG_LEVEL` (the script exports `LOG_LEVEL=debug`). Crucially, `log error` **prints the failure detail to stderr and exits 1 immediately** (`scripts/lib/common.sh#L64-L67`) — the first red `ERROR` line in the output is the exact step that failed; everything after it never ran. Functions like `check_env` and `check_cli` in the same library validate `KUBECONFIG`/`TALOSCONFIG` and required CLIs (`helmfile kubectl kustomize sops talhelper yq`) before any step runs, so missing tooling fails fast at the start.
 

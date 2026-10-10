@@ -4,6 +4,8 @@ title: Shared Component Library (kubernetes/components)
 description: Reusable Flux kustomize components under kubernetes/components/ — common bootstrap resources, Gatus uptime-check variants, Flux image automation, and VolSync backup/restore — and how apps compose them via ks.yaml component references and postBuild substitutes.
 tags: [flux, kustomize, components, volsync, gatus, image-automation]
 sources:
+  - id: openwiki-source-3575fddf30ac39cfa744fb2f
+    resource: repo://kubernetes/apps/cert-manager/cert-manager/app/helmrelease.yaml
   - id: openwiki-source-b7c690d23a47fc702a6fdc6d
     resource: repo://kubernetes/apps/database/pgadmin/ks.yaml
   - id: openwiki-source-9e043d4334dabe714c9fb532
@@ -40,10 +42,10 @@ sources:
     resource: repo://kubernetes/components/volsync/claim.yaml
   - id: openwiki-source-e77f449e947f9b25cfc86044
     resource: repo://kubernetes/components/volsync/minio.yaml
-generated: { by: "openwiki/0.7.1", at: "2026-10-08T23:50:46.668Z" }
+generated: { by: "openwiki/0.7.2", at: "2026-10-10T22:48:28.004Z" }
 verified:
-  - by: openwiki/0.7.1
-    at: 2026-10-08T23:50:46.668Z
+  - by: openwiki/0.7.2
+    at: 2026-10-10T22:48:28.004Z
 ---
 
 # Shared Component Library (kubernetes/components)
@@ -82,9 +84,12 @@ automation objects, and VolSync backup/restore resources.
   real namespace while the component is in the build.
 - `repos/app-template` pins the community app chart as a Flux `OCIRepository`
   named `app-template` from `oci://ghcr.io/bjw-s-labs/helm/app-template`, tag
-  `5.2.1`, reconciled hourly and selecting the Helm-chart tarball layer. App HelmReleases then point
+  `5.2.1`, reconciled hourly and selecting the Helm-chart tarball layer. The
+  default-namespace workload apps (gitea, atuin, jellyfin, …) all point
   `spec.chartRef` at this shared OCIRepository instead of each declaring their
-  own chart source.
+  own chart source; platform/infra HelmReleases (cert-manager, coredns,
+  flux-operator, …) follow the same `chartRef` pattern but reference their own
+  per-app OCIRepository declared alongside the HelmRelease.
 - `sops` ships the SOPS-encrypted `cluster-secrets` (e.g. `SECRET_DOMAIN`,
   `TIMEZONE`) and `sops-age` (the age key used as Flux decryption secret)
   resources, keeping the values the other components' templates depend on

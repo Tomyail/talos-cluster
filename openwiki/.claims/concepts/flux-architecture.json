@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:1c5b89e5eb5e632b00c7c4cfcb84a63b5b207d24a9ec019c0d20f649aa357d64",
+  "pageVersion": "sha256:09793263c9bcd8e9d0b572c61d5a66be05c18dfba8f4e8ac2ea476bbb25762d0",
   "claims": [
     {
       "id": "claim_ad4aee5586e148f183b37e571c767319",
@@ -74,15 +74,15 @@
     },
     {
       "id": "claim_785d0f365a9f430daf789a58ae77a11d",
-      "statement": "flux-operator and flux-instance OCIRepository sources from ghcr.io/controlplaneio-fluxcd/charts/flux-operator and flux-instance with tag-based versioning (ref tag 0.60.0) and layerSelector selecting the Helm chart content layer with copy operation",
+      "statement": "flux-operator and flux-instance OCIRepository sources point at oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator and oci://ghcr.io/controlplaneio-fluxcd/charts/flux-instance with tag-based versioning (both pinned at ref tag 0.61.0, 1h interval) and a layerSelector selecting the Helm chart content media type (application/vnd.cncf.helm.chart.content.v1.tar+gzip) with copy operation",
       "evidence": [
         {
           "resource": "repo://kubernetes/apps/flux-system/flux-instance/app/helmrelease.yaml#L2-L14",
-          "version": "repo-lines-v1:sha256:a8a2762324ea7b6af80f63979dc83b68b63379ca923c803c799a821d3e4858a5:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI0NTcyNDhjOGMzOGE4YTZjOGUxOGQ4MDMyODUwZTA3MGY1OWIxNWM4OWRlZmI2MWJjNDc3YWVjYWIxNGVmZWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFlODdmMmE2NWRjZjE3NTRkMTEzZTA3ZGU3MzgzOGYyZGIyZTQzNDcxZGE3OWIxMjk5M2VlZjhmNWQxZDhmZmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoxLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY0NjY3MzQ4YmRkMGExMDAyYjhiYzAzMWU3ZTBjZTE5ZDllMTQ1YjdiMjJhMGNlODViNzllMzBiZDJmMjhmOTgifQ"
+          "version": "repo-lines-v1:sha256:6294eb6801e06c167c6c793e8a9cd2833ffd1565f9e7f540d3e528060d633b43:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI0NTcyNDhjOGMzOGE4YTZjOGUxOGQ4MDMyODUwZTA3MGY1OWIxNWM4OWRlZmI2MWJjNDc3YWVjYWIxNGVmZWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFlODdmMmE2NWRjZjE3NTRkMTEzZTA3ZGU3MzgzOGYyZGIyZTQzNDcxZGE3OWIxMjk5M2VlZjhmNWQxZDhmZmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoxLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY0NjY3MzQ4YmRkMGExMDAyYjhiYzAzMWU3ZTBjZTE5ZDllMTQ1YjdiMjJhMGNlODViNzllMzBiZDJmMjhmOTgifQ"
         },
         {
           "resource": "repo://kubernetes/apps/flux-system/flux-operator/app/helmrelease.yaml#L2-L14",
-          "version": "repo-lines-v1:sha256:b57550d3fc6f969918db1c99a6b2c33f477d6cf593a1bfba163d02a38ee58b82:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI0NTcyNDhjOGMzOGE4YTZjOGUxOGQ4MDMyODUwZTA3MGY1OWIxNWM4OWRlZmI2MWJjNDc3YWVjYWIxNGVmZWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVmY2FlMjI4OWQxOTlhYmQyZWNhYzc5ZGExZmE4YTVkZTMwOTBmNTdmYjU5ZGIyMGViMzIwOGE3NWIxMjA1YWEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoxLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY0NjY3MzQ4YmRkMGExMDAyYjhiYzAzMWU3ZTBjZTE5ZDllMTQ1YjdiMjJhMGNlODViNzllMzBiZDJmMjhmOTgifQ"
+          "version": "repo-lines-v1:sha256:7a28707c38ebc2ca1e13c614fbf0de60eae933c8cd0b177d39e59a1dc4ef23fc:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI0NTcyNDhjOGMzOGE4YTZjOGUxOGQ4MDMyODUwZTA3MGY1OWIxNWM4OWRlZmI2MWJjNDc3YWVjYWIxNGVmZWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVmY2FlMjI4OWQxOTlhYmQyZWNhYzc5ZGExZmE4YTVkZTMwOTBmNTdmYjU5ZGIyMGViMzIwOGE3NWIxMjA1YWEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoxLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY1MmQ3MTExMDNkNTBhNDM3ODMwYzZmYmNkMDRmYjRiYWI0OWEwZjgyZjZkMjZkMWM3OTFjNmU4NDg4ZGQwOTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY0NjY3MzQ4YmRkMGExMDAyYjhiYzAzMWU3ZTBjZTE5ZDllMTQ1YjdiMjJhMGNlODViNzllMzBiZDJmMjhmOTgifQ"
         }
       ]
     },
@@ -324,7 +324,7 @@
     }
   ],
   "verification": {
-    "by": "openwiki/0.7.1",
-    "at": "2026-10-08T23:50:46.668Z"
+    "by": "openwiki/0.7.2",
+    "at": "2026-10-10T22:48:28.004Z"
   }
 }
