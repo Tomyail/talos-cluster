@@ -45,7 +45,7 @@ spec:
               GITEA__repository__FORCE_PRIVATE: "false"
               GITEA__repository__DEFAULT_PRIVATE: "private"
               GITEA__repository__DEFAULT_PUSH_CREATE_PRIVATE: "true"
-              GITEA__MIGRATIONS__ALLOW_LOCALNETWORKS: "true"
+              GITEA__MIGRATIONS__ALLOWED_HOST_LIST: "private,loopback"
               TZ: ${TIMEZONE}
             envFrom: *envFrom
             resources:
