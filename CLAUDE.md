@@ -105,10 +105,3 @@ Renovate (`.renovaterc.json5`) handles container images, Helm charts, GitHub rel
 - Route resources use Gateway API (`parentRefs`) with `internal`/`external` listeners in `kube-system`.
 - The `ExternalSecret` resources reference Bitwarden Connect (external-secrets operator).
 
-<!-- OPENWIKI:START -->
-
-## OpenWiki
-
-@AGENTS.md
-
-<!-- OPENWIKI:END -->
