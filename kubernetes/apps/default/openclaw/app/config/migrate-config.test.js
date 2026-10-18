@@ -219,7 +219,7 @@ test("managed fragments are Git-owned and contain no credential literals or Gemi
   assert.doesNotMatch(combined, /(?:apiKey|token)\s*:\s*["']/);
   assert.doesNotMatch(combined, /\b(?:sk-|AIza)[A-Za-z0-9_-]+/);
   assert.match(combined, /id:\s*"OPENCLAW_GATEWAY_TOKEN"/);
-  assert.match(combined, /id:\s*"LITELLM_AUTH_TOKEN"/);
+  assert.match(combined, /id:\s*"MAGPIE_API_KEY"/);
 
   const agents = contents["agents.json5"];
   const bindings = contents["bindings.json5"];
@@ -227,14 +227,17 @@ test("managed fragments are Git-owned and contain no credential literals or Gemi
   assert.doesNotMatch(agents, /openai(?:-codex)?\//i);
   assert.equal((agents.match(/agent-feishu-tools\.json5/g) || []).length, 0);
   assert.equal((bindings.match(/type:\s*"route"/g) || []).length, 4);
-  assert.match(models, /baseUrl:\s*"http:\/\/litellm\.default\.svc\.cluster\.local:4000\/v1"/);
   assert.match(
     models,
-    /id:\s*"glm-5-turbo"[\s\S]*?reasoning:\s*true[\s\S]*?input:\s*\["text"\][\s\S]*?contextWindow:\s*128000[\s\S]*?maxTokens:\s*16384/,
+    /baseUrl:\s*"http:\/\/magpie\.default\.svc\.cluster\.local:3425\/v1"/,
   );
   assert.match(
     models,
-    /id:\s*"coding"[\s\S]*?reasoning:\s*true[\s\S]*?input:\s*\["text"\][\s\S]*?contextWindow:\s*204800[\s\S]*?maxTokens:\s*131072/,
+    /id:\s*"group\/default"[\s\S]*?reasoning:\s*true[\s\S]*?input:\s*\["text"\][\s\S]*?contextWindow:\s*128000[\s\S]*?maxTokens:\s*16384/,
+  );
+  assert.match(
+    models,
+    /id:\s*"glm-5\.1"[\s\S]*?reasoning:\s*true[\s\S]*?input:\s*\["text"\][\s\S]*?contextWindow:\s*204800[\s\S]*?maxTokens:\s*131072/,
   );
   assert.match(
     models,
@@ -242,7 +245,7 @@ test("managed fragments are Git-owned and contain no credential literals or Gemi
   );
   assert.match(
     models,
-    /litellm:\s*\{[\s\S]*?apiKey:\s*\{[\s\S]*?source:\s*"env"[\s\S]*?provider:\s*"default"[\s\S]*?id:\s*"LITELLM_AUTH_TOKEN"/,
+    /magpie:\s*\{[\s\S]*?apiKey:\s*\{[\s\S]*?source:\s*"env"[\s\S]*?provider:\s*"default"[\s\S]*?id:\s*"MAGPIE_API_KEY"/,
   );
   for (const id of ["glm-5.1", "glm-5", "glm-5-turbo", "glm-4.7"]) {
     assert.match(models, new RegExp(`id:\\s*"${id.replace(".", "\\.")}"`));
