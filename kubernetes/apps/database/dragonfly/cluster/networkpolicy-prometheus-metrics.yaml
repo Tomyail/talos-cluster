@@ -39,7 +39,6 @@ spec:
               - key: app.kubernetes.io/name
                 operator: In
                 values:
-                  - litellm
                   - paperless
                   - rsshub
         - namespaceSelector:

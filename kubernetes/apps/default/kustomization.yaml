@@ -35,7 +35,6 @@ resources:
   - ./omnifocus-sync-server/ks.yaml
   - ./webtop/ks.yaml
   - ./epub-translator/ks.yaml
-  - ./litellm/ks.yaml
   - ./magpie/ks.yaml
   - ./growth-tracker/ks.yaml
   - ./nowledge-mem/ks.yaml
