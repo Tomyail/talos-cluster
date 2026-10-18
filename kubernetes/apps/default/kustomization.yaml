@@ -38,3 +38,4 @@ resources:
   - ./litellm/ks.yaml
   - ./magpie/ks.yaml
   - ./growth-tracker/ks.yaml
+  - ./nowledge-mem/ks.yaml
