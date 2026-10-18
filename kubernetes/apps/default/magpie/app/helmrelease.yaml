@@ -26,10 +26,19 @@ spec:
             image:
               repository: ghcr.io/yetone/magpie
               tag: 0.1.1285@sha256:9ff8aeafbb8029b85976713b477f5505b2f88a59df349805e16edeeb85ee43ba
+            args:
+              - web
+              - --addr
+              - 0.0.0.0:3430
+              - --no-open
             env:
               TZ: ${TIMEZONE}
               MAGPIE_ADDR: 0.0.0.0:3425
               MAGPIE_PUBLIC_URL: https://magpie-api.${SECRET_DOMAIN}
+              MAGPIE_WEB_KEY:
+                secretKeyRef:
+                  name: magpie-secret
+                  key: MAGPIE_WEB_KEY
             probes:
               liveness: &probes
                 enabled: true
@@ -68,6 +77,8 @@ spec:
         ports:
           gateway:
             port: 3425
+          web:
+            port: 3430
     route:
       gateway:
         hostnames:
@@ -80,6 +91,17 @@ spec:
           - backendRefs:
               - identifier: app
                 port: 3425
+      web:
+        hostnames:
+          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: 3430
     persistence:
       config:
         existingClaim: *app
