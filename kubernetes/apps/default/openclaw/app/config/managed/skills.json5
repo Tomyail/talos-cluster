@@ -1,10 +1,105 @@
 // Git-owned and read-only. Skill enablement changes require review.
 {
+  // Disabled because the container lacks the required binary or environment
+  // variable, or the skill only runs on macOS.
   entries: {
-    "x-likes-fetcher": {
+    "1password": {
+      enabled: false,
+    },
+    "apple-notes": {
+      enabled: false,
+    },
+    "apple-reminders": {
+      enabled: false,
+    },
+    "bear-notes": {
+      enabled: false,
+    },
+    "blogwatcher": {
+      enabled: false,
+    },
+    "blucli": {
+      enabled: false,
+    },
+    "camsnap": {
       enabled: false,
     },
     "cdp-browser": {
+      enabled: false,
+    },
+    "coding-agent": {
+      enabled: false,
+    },
+    "eightctl": {
+      enabled: false,
+    },
+    "gifgrep": {
+      enabled: false,
+    },
+    "gog": {
+      enabled: false,
+    },
+    "goplaces": {
+      enabled: false,
+    },
+    "himalaya": {
+      enabled: false,
+    },
+    "mcporter": {
+      enabled: false,
+    },
+    "model-usage": {
+      enabled: false,
+    },
+    "obsidian": {
+      enabled: false,
+    },
+    "openai-whisper": {
+      enabled: false,
+    },
+    "openai-whisper-api": {
+      enabled: false,
+    },
+    "openhue": {
+      enabled: false,
+    },
+    "oracle": {
+      enabled: false,
+    },
+    "ordercli": {
+      enabled: false,
+    },
+    "peekaboo": {
+      enabled: false,
+    },
+    "sag": {
+      enabled: false,
+    },
+    "sherpa-onnx-tts": {
+      enabled: false,
+    },
+    "songsee": {
+      enabled: false,
+    },
+    "sonoscli": {
+      enabled: false,
+    },
+    "spotify-player": {
+      enabled: false,
+    },
+    "things-mac": {
+      enabled: false,
+    },
+    "tmux": {
+      enabled: false,
+    },
+    "trello": {
+      enabled: false,
+    },
+    "x-likes-fetcher": {
+      enabled: false,
+    },
+    "xurl": {
       enabled: false,
     },
   },
