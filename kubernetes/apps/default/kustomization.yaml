@@ -36,4 +36,5 @@ resources:
   - ./webtop/ks.yaml
   - ./epub-translator/ks.yaml
   - ./litellm/ks.yaml
+  - ./magpie/ks.yaml
   - ./growth-tracker/ks.yaml
