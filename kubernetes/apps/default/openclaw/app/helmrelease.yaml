@@ -155,6 +155,8 @@ spec:
               npm_config_prefix: /home/node/.npm-global
               PIP_BREAK_SYSTEM_PACKAGES: "1"
               OPENCLAW_INCLUDE_ROOTS: /etc/openclaw/managed
+              # Cluster-internal Mem service; NMEM_API_KEY comes from openclaw-secret.
+              NMEM_API_URL: http://nowledge-mem.default.svc.cluster.local:14242
               PATH: /home/node/.local/bin:/home/node/.local/go/bin:/home/node/.local/homebrew/bin:/home/node/.npm-global/bin:/root/.bun/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
             envFrom:
               - secretRef:
