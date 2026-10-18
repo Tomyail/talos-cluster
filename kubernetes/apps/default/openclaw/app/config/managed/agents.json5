@@ -3,13 +3,11 @@
   ownership: "explicit",
   defaults: {
     model: {
-      primary: "litellm/glm-5-turbo",
-      fallbacks: ["litellm/coding"],
+      primary: "magpie/group/default",
     },
     modelPolicy: {
       allow: [
-        "litellm/coding",
-        "litellm/glm-5-turbo",
+        "magpie/group/default",
       ],
     },
     workspace: "/home/node/.openclaw/workspace",
@@ -34,8 +32,7 @@
       name: "Master",
       workspace: "/home/node/.openclaw/workspace-BK",
       model: {
-        primary: "litellm/glm-5-turbo",
-        fallbacks: ["litellm/coding"],
+        primary: "magpie/group/default",
       },
       tools: {
         $include: "/etc/openclaw/managed/agent-feishu-tools.json5",
@@ -45,8 +42,7 @@
       name: "Code Expert",
       workspace: "/home/node/.openclaw/workspace-tom_legal",
       model: {
-        primary: "litellm/coding",
-        fallbacks: ["litellm/glm-5-turbo"],
+        primary: "magpie/group/default",
       },
       tools: {
         $include: "/etc/openclaw/managed/agent-feishu-tools.json5",
@@ -56,8 +52,7 @@
       name: "Research",
       workspace: "/home/node/.openclaw/workspace-bk_radar",
       model: {
-        primary: "litellm/coding",
-        fallbacks: ["litellm/glm-5-turbo"],
+        primary: "magpie/group/default",
       },
       thinkingDefault: "off",
       tools: {
@@ -68,8 +63,7 @@
       name: "Creative",
       workspace: "/home/node/.openclaw/workspace-bk_brand",
       model: {
-        primary: "litellm/coding",
-        fallbacks: ["litellm/glm-5-turbo"],
+        primary: "magpie/group/default",
       },
       tools: {
         $include: "/etc/openclaw/managed/agent-feishu-tools.json5",
@@ -79,8 +73,7 @@
       name: "Writer",
       workspace: "/home/node/.openclaw/workspace-bk-content",
       model: {
-        primary: "litellm/coding",
-        fallbacks: ["litellm/glm-5-turbo"],
+        primary: "magpie/group/default",
       },
       tools: {
         $include: "/etc/openclaw/managed/agent-feishu-tools.json5",

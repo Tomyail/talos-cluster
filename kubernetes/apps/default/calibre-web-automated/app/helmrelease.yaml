@@ -126,7 +126,7 @@ spec:
             env:
               NEXTCLOUD_BASE_URL: http://nextcloud.storage.svc.cluster.local:8080
               NEXTCLOUD_EXPORT_DIR: Books-Exports
-              OPENROUTER_MODEL: openrouter/free
+              OPENROUTER_MODEL: group/default
               CLASSIFY_RECLASSIFY_ALL: "false"
               BOOKS_MAINTENANCE_INTERVAL_SECONDS: "3600"
               NEXTCLOUD_USERNAME:
