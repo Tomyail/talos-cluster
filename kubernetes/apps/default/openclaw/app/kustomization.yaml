@@ -13,7 +13,6 @@ configMapGenerator:
   # files change; OpenClaw's watcher does not observe include-file changes.
   - name: openclaw-managed-config
     files:
-      - agent-feishu-tools.json5=./config/managed/agent-feishu-tools.json5
       - agents.json5=./config/managed/agents.json5
       - bindings.json5=./config/managed/bindings.json5
       - browser.json5=./config/managed/browser.json5

@@ -194,7 +194,6 @@ test("normalizes existing includes without retaining sibling keys", () => {
 test("managed fragments are Git-owned and contain no credential literals or Gemini", () => {
   const managedDirectory = path.join(__dirname, "managed");
   const names = [
-    "agent-feishu-tools.json5",
     "agents.json5",
     "bindings.json5",
     "browser.json5",
@@ -226,8 +225,8 @@ test("managed fragments are Git-owned and contain no credential literals or Gemi
   const bindings = contents["bindings.json5"];
   const models = contents["models.json5"];
   assert.doesNotMatch(agents, /openai(?:-codex)?\//i);
-  assert.equal((agents.match(/agent-feishu-tools\.json5/g) || []).length, 6);
-  assert.equal((bindings.match(/type:\s*"route"/g) || []).length, 7);
+  assert.equal((agents.match(/agent-feishu-tools\.json5/g) || []).length, 0);
+  assert.equal((bindings.match(/type:\s*"route"/g) || []).length, 4);
   assert.match(models, /baseUrl:\s*"http:\/\/litellm\.default\.svc\.cluster\.local:4000\/v1"/);
   assert.match(
     models,

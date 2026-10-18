@@ -37,7 +37,6 @@ test("Kustomize publishes exactly the managed fragments", () => {
       output,
     );
     assert.deepEqual(Object.keys(data).sort(), [
-      "agent-feishu-tools.json5",
       "agents.json5",
       "bindings.json5",
       "browser.json5",

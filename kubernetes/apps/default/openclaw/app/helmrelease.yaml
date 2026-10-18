@@ -81,9 +81,6 @@ spec:
                     mv "/home/node/.openclaw/agents/$d" /home/node/.openclaw/legacy-agents-backup/ 2>/dev/null || true
                   fi
                 done
-                if [ -f /home/node/.openclaw/credentials/feishu-main-allowFrom.json ]; then
-                  mv /home/node/.openclaw/credentials/feishu-main-allowFrom.json /home/node/.openclaw/credentials/feishu-main-allowFrom.json.bak 2>/dev/null || true
-                fi
 
                 # Run official OpenClaw doctor to migrate database schema and legacy workspace setup files to SQLite
                 openclaw doctor --fix --yes --non-interactive || true
