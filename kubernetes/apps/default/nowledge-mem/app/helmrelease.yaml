@@ -68,9 +68,11 @@ spec:
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
-        runAsUser: 10001
-        runAsGroup: 10001
-        fsGroup: 10001
+        # 1000 与 volsync mover 的 ${APP_UID:-1000} 默认值一致，
+        # 否则 restore 出来的文件属主与进程 uid 不符，锁文件写不了。
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
         seccompProfile:
           type: RuntimeDefault
