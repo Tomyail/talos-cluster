@@ -32,7 +32,6 @@ resources:
   - ./lidarr/ks.yaml
   - ./nas-media/ks.yaml
   - ./openclaw/ks.yaml
-  - ./webtop/ks.yaml
   - ./epub-translator/ks.yaml
   - ./magpie/ks.yaml
   - ./growth-tracker/ks.yaml
