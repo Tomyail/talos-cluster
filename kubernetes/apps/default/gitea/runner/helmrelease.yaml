@@ -49,6 +49,18 @@ spec:
                 memory: 4Gi
             securityContext:
               privileged: true
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  # act_runner 由 s6 拉起；若 s6 的 docker 就绪监视进程死掉，容器主进程仍在，
+                  # 探 docker 会误判健康，必须探真正的 runner 进程。
+                  exec:
+                    command: ["pidof", "gitea-runner"]
+                  periodSeconds: 10
+                  timeoutSeconds: 3
+                  failureThreshold: 6
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
