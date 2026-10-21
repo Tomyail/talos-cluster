@@ -5,6 +5,9 @@ kind: HelmRelease
 metadata:
   name: nextcloud
 spec:
+  # PHP2Shell (CVE-2026-109618/109619) 临时下线：镜像内 PHP 8.5.11（需 8.5.12）
+  # 恢复条件：nextcloud 镜像重建带上 PHP >= 8.5.12，然后删掉 suspend 并 reconcile
+  suspend: true
   timeout: 15m
   interval: 1h
   chart:
