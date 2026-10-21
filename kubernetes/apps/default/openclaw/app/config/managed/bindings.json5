@@ -10,13 +10,6 @@
   },
   {
     type: "route",
-    agentId: "master",
-    match: {
-      channel: "openclaw-weixin",
-    },
-  },
-  {
-    type: "route",
     agentId: "main",
     match: {
       channel: "telegram",
@@ -25,7 +18,7 @@
   },
   {
     type: "route",
-    agentId: "coder",
+    agentId: "main",
     match: {
       channel: "telegram",
       accountId: "legal",
