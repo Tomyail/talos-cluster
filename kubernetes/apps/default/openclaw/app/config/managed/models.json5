@@ -15,7 +15,7 @@
           id: "group/default",
           name: "Magpie Default",
           reasoning: true,
-          input: ["text"],
+          input: ["text", "image"],
           contextWindow: 128000,
           maxTokens: 16384,
         },
