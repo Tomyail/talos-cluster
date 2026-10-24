@@ -25,7 +25,7 @@ spec:
           app:
             image:
               repository: ghcr.io/yetone/magpie
-              tag: 0.1.1362@sha256:7f211f76805f09e66f8fd945d5629b78095d7e2bc5c0fd26cab615eedd19865a
+              tag: 0.1.1364@sha256:586298a2885885b1174e8bee2761d8f9135a8d9a9be7ef4f12cbfd03da7f789a
             args:
               - web
               - --addr
