@@ -30,10 +30,10 @@
   },
   packageRules: [
     {
-      description: "Disable magpie auto-update",
+      description: "Magpie updates require manual merge",
       matchDatasources: ["docker"],
       matchPackageNames: ["ghcr.io/yetone/magpie"],
-      enabled: false,
+      automerge: false,
     },
     {
       description: "Cert-Manager Group",
@@ -167,6 +167,8 @@
       description: "Auto-merge non-major app-layer updates (core infra excluded)",
       matchUpdateTypes: ["minor", "patch", "digest"],
       excludeDepPatterns: [
+        // 手动合并
+        "magpie",
         // 存储 / 数据库 operator
         "topolvm",
         "local-path-provisioner",
