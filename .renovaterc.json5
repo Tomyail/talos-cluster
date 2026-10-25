@@ -30,6 +30,12 @@
   },
   packageRules: [
     {
+      description: "Disable magpie auto-update",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["ghcr.io/yetone/magpie"],
+      enabled: false,
+    },
+    {
       description: "Cert-Manager Group",
       groupName: "Cert-Manager",
       matchDatasources: ["docker"],
