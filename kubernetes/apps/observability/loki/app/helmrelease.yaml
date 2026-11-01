@@ -62,8 +62,28 @@ spec:
         compaction_interval: 10m
         apply_retention_interval: 10m
         retention_delete_delay: 2h
+      ruler:
+        storage:
+          type: local
+          local:
+            directory: /var/loki/rules
+        rule_path: /var/loki/rules-temp
+        alertmanager_url: http://alertmanager-operated.observability.svc.cluster.local:9093
+        enable_api: true
+        enable_alertmanager_v2: true
+        ring:
+          kvstore:
+            store: inmemory
     singleBinary:
       replicas: 1
+      extraVolumes:
+        - name: loki-rules
+          configMap:
+            name: loki-rules
+      extraVolumeMounts:
+        # auth_enabled=false 时租户固定为 fake，ruler 只读 /var/loki/rules/<tenant>/
+        - name: loki-rules
+          mountPath: /var/loki/rules/fake
       persistence:
         enabled: true
         storageClass: topolvm-thin-provisioner

@@ -35,5 +35,16 @@ spec:
     config:
       clients:
         - url: http://loki-headless.observability.svc.cluster.local:3100/loki/api/v1/push
+      snippets:
+        # 采集端过滤噪音：健康检查与 gatus 每次探测的流水账，
+        # 24h 内占总量约 18%，且不含排障信息。
+        pipelineStages:
+          - cri: {}
+          - drop:
+              expression: ".*(?:/healthz|NodeGetVolumeStats|All records are already up to date).*"
+              drop_counter_reason: healthcheck_noise
+          - drop:
+              expression: ".*\\[watchdog\\.executeEndpoint\\].*"
+              drop_counter_reason: gatus_watchdog_noise
     serviceMonitor:
       enabled: true

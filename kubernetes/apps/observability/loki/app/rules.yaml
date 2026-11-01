@@ -1,0 +1,25 @@
+---
+# Loki ruler 规则。挂载到 /var/loki/rules/fake/（auth_enabled=false 时租户固定为 fake）。
+# 告警经 Alertmanager 转发到 Pushover。
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: loki-rules
+data:
+  alerts.yaml: |
+    groups:
+      - name: app-log-errors
+        interval: 1m
+        rules:
+          # 进程级致命错误。刻意不匹配裸 "error"：gatus 的 errors=1 字段会淹没一切。
+          - alert: LogPanicOrFatal
+            expr: |
+              sum by (namespace, pod) (
+                count_over_time({namespace=~".+"} |~ `(?i)(panic|fatal|OOMKilled)` [5m])
+              ) > 0
+            for: 1m
+            labels:
+              severity: critical
+            annotations:
+              summary: "{{ $labels.namespace }}/{{ $labels.pod }} 出现 panic/fatal/OOMKilled"
+              description: "近 5 分钟命中 {{ $value }} 条日志"
