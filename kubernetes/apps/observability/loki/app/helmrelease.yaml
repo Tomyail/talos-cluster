@@ -32,7 +32,7 @@ spec:
       analytics:
         reporting_enabled: false
       server:
-        log_level: info
+        log_level: warn
       commonConfig:
         replication_factor: 1
       resources:

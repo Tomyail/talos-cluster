@@ -40,7 +40,7 @@ spec:
           tag: v11.2.0@sha256:a119f729b16d435769aefcd9d4be149d4be7142848439bafd45e4045aa0b2e4e
         env:
           - name: LOG_LEVEL
-            value: debug
+            value: info
           - name: ADGUARD_URL
             value: http://192.168.50.1:3000
           - name: ADGUARD_USER
@@ -63,6 +63,7 @@ spec:
           httpGet:
             path: /healthz
             port: http-webhook
+    interval: 10m
     triggerLoopOnEvent: true
     policy: sync
     sources: ['gateway-httproute', 'gateway-tlsroute']
