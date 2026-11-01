@@ -56,11 +56,19 @@ spec:
               period: 24h
       limits_config:
         retention_period: 7d
+      compactor:
+        retention_enabled: true
+        delete_request_store: filesystem
+        compaction_interval: 10m
+        apply_retention_interval: 10m
+        retention_delete_delay: 2h
     singleBinary:
       replicas: 1
       persistence:
         enabled: true
         storageClass: topolvm-thin-provisioner
+        # 实际 PVC 已手动扩到 16Gi；StatefulSet volumeClaimTemplates 不可变，
+        # 改这里会让 Helm upgrade 失败，重建 STS 时才需要同步。
         size: 8Gi
     gateway:
       replicas: 0
