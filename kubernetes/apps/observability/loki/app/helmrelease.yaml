@@ -62,18 +62,21 @@ spec:
         compaction_interval: 10m
         apply_retention_interval: 10m
         retention_delete_delay: 2h
-      ruler:
+      # chart 只读 loki.rulerConfig（不是 loki.ruler），写错位置会被静默忽略
+      rulerConfig:
+        alertmanager_url: http://alertmanager-operated.observability.svc.cluster.local:9093
+        enable_api: true
+        enable_alertmanager_v2: true
+        rule_path: /var/loki/rules-temp
         storage:
           type: local
           local:
             directory: /var/loki/rules
-        rule_path: /var/loki/rules-temp
-        alertmanager_url: http://alertmanager-operated.observability.svc.cluster.local:9093
-        enable_api: true
-        enable_alertmanager_v2: true
         ring:
           kvstore:
             store: inmemory
+        wal:
+          dir: /var/loki/ruler-wal
     singleBinary:
       replicas: 1
       extraVolumes:
