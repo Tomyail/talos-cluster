@@ -11,14 +11,14 @@ data:
       - name: app-log-errors
         interval: 1m
         rules:
-          # 进程级致命错误。刻意不匹配裸 "error"：gatus 的 errors=1 字段会淹没一切。
-          # 排除 git 之类把 "fatal:" 当普通错误前缀的工具输出（不是进程崩溃）。
+          # 只匹配进程级崩溃签名，不匹配字面 "fatal"/"error"。
+          # 踩过的坑：git 的 `fatal: detected dubious ownership`、以及 commit message 里
+          # 带 "fatal" 字样（如本条规则的提交标题）都会误触发。
           - alert: LogPanicOrFatal
             expr: |
               sum by (namespace, pod) (
                 count_over_time({namespace=~".+"}
-                  |~ `(?i)(panic|fatal|OOMKilled)`
-                  !~ `dubious ownership|fatal: (detected|unable to access|could not read|bad object)`
+                  |~ `(?i)(panic:|fatal error|OOMKilled|SIGSEGV|OutOfMemoryError|goroutine \d+ \[running\])`
                   [5m])
               ) > 0
             for: 1m
