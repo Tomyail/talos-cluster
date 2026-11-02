@@ -7,7 +7,7 @@ metadata:
 spec:
   interval: 1h
   timeout: 60s
-  url: oci://ghcr.io/home-operations/charts-mirror/node-feature-discovery
+  url: oci://registry.k8s.io/nfd/charts/node-feature-discovery
   ref:
     tag: 0.18.0
   layerSelector:
