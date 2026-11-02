@@ -12,10 +12,14 @@ data:
         interval: 1m
         rules:
           # 进程级致命错误。刻意不匹配裸 "error"：gatus 的 errors=1 字段会淹没一切。
+          # 排除 git 之类把 "fatal:" 当普通错误前缀的工具输出（不是进程崩溃）。
           - alert: LogPanicOrFatal
             expr: |
               sum by (namespace, pod) (
-                count_over_time({namespace=~".+"} |~ `(?i)(panic|fatal|OOMKilled)` [5m])
+                count_over_time({namespace=~".+"}
+                  |~ `(?i)(panic|fatal|OOMKilled)`
+                  !~ `dubious ownership|fatal: (detected|unable to access|could not read|bad object)`
+                  [5m])
               ) > 0
             for: 1m
             labels:
