@@ -69,3 +69,14 @@ spec:
   ports:
     - port: 9001
       targetPort: 9001
+---
+# OpenClaw gateway migrated off the cluster onto the Ubuntu laptop.
+# Same pattern as ugreen: selector-less Service + hand-written Endpoints.
+apiVersion: v1
+kind: Service
+metadata:
+  name: openclaw
+spec:
+  ports:
+    - port: 18789
+      targetPort: 18789

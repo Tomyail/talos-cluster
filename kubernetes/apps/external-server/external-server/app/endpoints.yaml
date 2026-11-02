@@ -77,3 +77,13 @@ subsets:
       - ip: "192.168.50.220"
     ports:
       - port: 9001
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: openclaw
+subsets:
+  - addresses:
+      - ip: "192.168.50.236"
+    ports:
+      - port: 18789
