@@ -20,6 +20,9 @@ spec:
   values:
     controllers:
       openclaw:
+        # Migrated to the Ubuntu laptop (192.168.50.236) on 2026-11-02.
+        # Kept at 0 replicas + PVC intact as a rollback target.
+        replicas: 0
         annotations:
           reloader.stakater.com/auto: "true"
         pod:
