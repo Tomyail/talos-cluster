@@ -258,14 +258,7 @@ spec:
         ports:
           http:
             port: 18789
-    route:
-      app:
-        hostnames: ["{{ .Release.Name }}.${SECRET_DOMAIN}"]
-        parentRefs:
-          - name: internal
-            namespace: kube-system
-            sectionName: https
-        rules:
-          - backendRefs:
-              - identifier: app
-                port: 18789
+    # No route: openclaw.${SECRET_DOMAIN} is served from
+    # kubernetes/apps/external-server/external-server/app/httproute.yaml, which
+    # points at the Ubuntu laptop that now runs the gateway. Cilium gives a
+    # hostname to the oldest matching HTTPRoute, so this app must not claim it.

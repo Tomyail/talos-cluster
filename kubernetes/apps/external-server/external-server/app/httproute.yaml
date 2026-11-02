@@ -187,6 +187,7 @@ spec:
       namespace: kube-system
       sectionName: https
   hostnames:
+    - "openclaw.${SECRET_DOMAIN}"
     - "openclaw-ubuntu.${SECRET_DOMAIN}"
   rules:
     - backendRefs:
