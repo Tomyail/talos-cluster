@@ -12,13 +12,14 @@ data:
         interval: 1m
         rules:
           # 只匹配进程级崩溃签名，不匹配字面 "fatal"/"error"。
-          # 踩过的坑：git 的 `fatal: detected dubious ownership`、以及 commit message 里
-          # 带 "fatal" 字样（如本条规则的提交标题）都会误触发。
+          # 踩过的坑：git 的 `fatal: detected dubious ownership`、commit message 里带关键字、
+          # 以及 Grafana 把自己发出的查询语句写进日志（会把模式文本回显一遍）。
           - alert: LogPanicOrFatal
             expr: |
               sum by (namespace, pod) (
                 count_over_time({namespace=~".+"}
                   |~ `(?i)(panic:|fatal error|OOMKilled|SIGSEGV|OutOfMemoryError|goroutine \d+ \[running\])`
+                  !~ `pluginId=loki|logger=tsdb`
                   [5m])
               ) > 0
             for: 1m
