@@ -1,17 +1,12 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/source.toolkit.fluxcd.io/ocirepository_v1.json
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/source.toolkit.fluxcd.io/helmrepository_v1.json
 apiVersion: source.toolkit.fluxcd.io/v1
-kind: OCIRepository
+kind: HelmRepository
 metadata:
   name: intel-device-plugins-operator
 spec:
   interval: 1h
-  layerSelector:
-    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
-    operation: copy
-  ref:
-    tag: 0.34.1
-  url: oci://ghcr.io/home-operations/charts-mirror/intel-device-plugins-operator
+  url: https://intel.github.io/helm-charts
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
@@ -20,9 +15,13 @@ metadata:
   name: intel-device-plugin-operator
 spec:
   interval: 1h
-  chartRef:
-    kind: OCIRepository
-    name: intel-device-plugins-operator
+  chart:
+    spec:
+      chart: intel-device-plugins-operator
+      version: 0.34.1
+      sourceRef:
+        kind: HelmRepository
+        name: intel-device-plugins-operator
   install:
     crds: CreateReplace
     remediation:
