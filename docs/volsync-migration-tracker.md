@@ -45,7 +45,9 @@ Use this for homelab apps where downtime is acceptable.
 | `home-assistant` | `default` | Already on shared VolSync. |
 | `jellyseerr` | `default` | Already on shared VolSync. |
 | `lidarr` | `default` | Already on shared VolSync. |
-| `linkwarden` | `default` | Already on shared VolSync. |
+| `linkwarden` | `default` | Migrated from `components/volsync-new` to shared `components/volsync` on 2026-11-03. |
+| `epub-translator` | `default` | Migrated from `components/volsync-new` to shared `components/volsync` on 2026-11-03. |
+| `prowlarr` | `default` | Migrated from `components/volsync-new` to shared `components/volsync` on 2026-11-03. |
 | `n8n` | `default` | Already on shared VolSync. |
 | `navidrome` | `default` | Already on shared VolSync. |
 | `openwebui` | `default` | Already on shared VolSync. |
@@ -88,7 +90,6 @@ These apps need a manual decision before standardizing.
 
 | App | Namespace | Why Review Is Needed |
 | --- | --- | --- |
-| `prowlarr` | `default` | Uses `components/volsync-new` rather than the standard shared `components/volsync`. Decide whether to leave as-is or normalize. |
 | `rsshub` | `default` | `existingClaim` appears only in commented config. Likely not using a PVC currently. |
 | `atuin` | `default` | References shared VolSync in `ks.yaml`, but the main persistence in `helmrelease.yaml` is `emptyDir`. Verify whether VolSync is actually needed. |
 
@@ -144,7 +145,6 @@ These scanned apps do not currently look like VolSync migration targets.
 6. `gatus`
 7. `yt-audio`
 8. `paper`
-9. `prowlarr`
 
 ## Per-App Checklist Template
 
