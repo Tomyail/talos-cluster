@@ -32,6 +32,11 @@ spec:
               TZ: ${TIMEZONE}
               DATA_DIR: /data
               CLOUDKIT_CREDENTIALS_DIR: /cloudkit
+              # 镜像不带 media/，台账必须显式挂载，否则发布校验报 VERSION_FLOOR_UNAVAILABLE。
+              PUBLISH_RECORD_PATH: /config/publish-record.json
+              # Production 发布需要本开关与 key-id-production 同时具备。
+              # 平时保持 false；发布窗口内改成 "true" 合入，发完再改回来。
+              PRODUCTION_PUBLISH_ENABLED: "false"
             probes:
               liveness:
                 enabled: true
@@ -139,9 +144,22 @@ spec:
         globalMounts:
           - path: /data
       cloudkit:
-        # 整个目录挂载，不 subPath：应用按文件名读取 eckey.pem 与 key-id-development。
+        # 整个目录挂载，不 subPath：应用按文件名读取 eckey.pem、key-id-development、key-id-production。
         type: secret
         name: content-admin-secret
         globalMounts:
           - path: /cloudkit
+            readOnly: true
+      ledger:
+        # 只读输入：台账给新版本一个下限，应用不回写它。
+        #
+        # TODO: 容器形态下 REPO_ROOT 为 None，publish_record 来源永远不可用，
+        # 发布前校验必定报 VERSION_FLOOR_UNAVAILABLE，要人手工造这个文件才能发布。
+        # 这是 content-admin 的结构性缺陷，不是本部署的配置遗漏。
+        # 正解是让 floor_verified 在「DB 已有发布历史」时也为真（或删掉台账这个来源），
+        # 届时本 ConfigMap 与 PUBLISH_RECORD_PATH 一起删除。
+        type: configMap
+        name: content-admin-ledger
+        globalMounts:
+          - path: /config
             readOnly: true
