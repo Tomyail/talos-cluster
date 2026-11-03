@@ -36,3 +36,4 @@ resources:
   - ./magpie/ks.yaml
   - ./growth-tracker/ks.yaml
   - ./nowledge-mem/ks.yaml
+  - ./content-admin/ks.yaml
