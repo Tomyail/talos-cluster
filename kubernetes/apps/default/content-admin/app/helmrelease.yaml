@@ -1,0 +1,147 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app content-admin
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    controllers:
+      content-admin:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            # migrate 与 backup 容器共用这个镜像锚点：Flux 只改写带
+            # imagepolicy 标记的那一行，锚点让三个容器不会跑不同版本。
+            image: &image
+              repository: gitea.tomyail.com/tomyail/workout-narrator-content-admin
+              tag: "0.0.0" # {"$imagepolicy": "default:content-admin:tag"}
+            env: &env
+              TZ: ${TIMEZONE}
+              DATA_DIR: /data
+              CLOUDKIT_CREDENTIALS_DIR: /cloudkit
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: &port 8000
+                  initialDelaySeconds: 10
+                  periodSeconds: 30
+                  timeoutSeconds: 3
+                  failureThreshold: 3
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /ready
+                    port: *port
+                  initialDelaySeconds: 5
+                  periodSeconds: 10
+                  timeoutSeconds: 3
+                  failureThreshold: 3
+            resources:
+              requests:
+                cpu: 100m
+                memory: 256Mi
+              limits:
+                memory: 1Gi
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+          backup:
+            # 备份放在同一个 Pod 而不是独立 CronJob：数据 PVC 是 topolvm
+            # 单节点 RWO local PV，独立 Pod 可能被调度到别的节点而挂载失败。
+            image: *image
+            command:
+              - /bin/sh
+              - -c
+            args:
+              - |
+                mkdir -p /data/backups
+                # 首轮等 60 秒，避开启动与迁移写入。
+                sleep 60
+                while true; do
+                  python -m app.cli backup-db --to /data/backups/content-admin.db
+                  sleep 900
+                done
+            env: *env
+            resources:
+              requests:
+                cpu: 10m
+                memory: 64Mi
+              limits:
+                memory: 256Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+        initContainers:
+          migrate:
+            image: *image
+            command:
+              - alembic
+              - upgrade
+              - head
+            env: *env
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+    defaultPodOptions:
+      imagePullSecrets:
+        - name: content-admin-registry-secret
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: *port
+    route:
+      app:
+        hostnames:
+          - content-admin.${SECRET_DOMAIN}
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *port
+    persistence:
+      data:
+        existingClaim: content-admin
+        globalMounts:
+          - path: /data
+      cloudkit:
+        # 整个目录挂载，不 subPath：应用按文件名读取 eckey.pem 与 key-id-development。
+        type: secret
+        name: content-admin-secret
+        globalMounts:
+          - path: /cloudkit
+            readOnly: true
