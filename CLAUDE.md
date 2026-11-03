@@ -69,7 +69,7 @@ Apps use the `app-template` OCI chart (`ghcr.io/bjw-s-labs/helm/app-template`) s
 
 - `common/` — namespace, SOPS age secret, OCI repos (app-template). Auto-included via `components:` in namespace kustomizations.
 - `gatus/external`, `gatus/external-tailscale`, `gatus/guarded` — monitoring checks.
-- `volsync-new/` — VolSync backup claim + MinIO config.
+- `volsync/` — VolSync backup claim + MinIO config.
 - `image-automation/` — Flux image automation (ImageRepository + ImagePolicy).
 
 ### Talos config (`talos/`)

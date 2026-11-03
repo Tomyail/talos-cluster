@@ -41,7 +41,7 @@ Use this for homelab apps where downtime is acceptable.
 | --- | --- | --- |
 | `openclaw` | `default` | Migrated on 2026-03-17. Shared VolSync enabled, old `pvc.yaml` and `volsync.yaml` removed, restore verified. |
 | `cookiecloud` | `default` | Already on shared VolSync. |
-| `gitea` | `default` | Already on shared VolSync. |
+| `gitea` | `default` | Migrated from `components/volsync-new` to shared `components/volsync` on 2026-11-03. |
 | `home-assistant` | `default` | Already on shared VolSync. |
 | `jellyseerr` | `default` | Already on shared VolSync. |
 | `lidarr` | `default` | Already on shared VolSync. |
