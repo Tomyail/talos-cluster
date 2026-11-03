@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   components:
-    - ../../../../components/volsync-new
+    - ../../../../components/volsync
     - ../../../../components/image-automation
   dependsOn:
     - name: topolvm
