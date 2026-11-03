@@ -1,0 +1,20 @@
+---
+# 发布台账：只读下限，给新快照一个「不得低于已发布版本」的地板。
+# 应用不回写它（`content-admin/backend/app/services/catalog_versioning.py` 只读）。
+#
+# 值取自 Development 环境的实际状态（2026-11-03 读回）：
+#   revision 6 / catalogVersion 14 / sha256 4bf475b4…（starter-catalog-manifest）
+# 不写 publishedAt：那次发布不是本仓库发起的，编一个时间戳比空着更糟。
+#
+# 台账只是五类高水位来源之一。远端观测更高时以远端为准，所以这个文件落后于线上是安全的。
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: content-admin-ledger
+data:
+  publish-record.json: |
+    {
+      "catalogVersion": 14,
+      "revision": 6,
+      "sha256": "4bf475b4f392e5c19f9a29e312eb64a5f1e5c438f279039ac1d7672a2c9e2748"
+    }
