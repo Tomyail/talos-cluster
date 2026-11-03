@@ -50,8 +50,8 @@ Use this for homelab apps where downtime is acceptable.
 | `navidrome` | `default` | Already on shared VolSync. |
 | `openwebui` | `default` | Already on shared VolSync. |
 | `paperless` | `default` | Already on shared VolSync. |
-| `pgadmin` | `database` | Already on shared VolSync. |
-| `playwright` | `default` | Already on shared VolSync. |
+| `pgadmin` | `database` | Migrated from `components/volsync-new` to shared `components/volsync` on 2026-11-03. |
+| `playwright` | `default` | Migrated from `components/volsync-new` to shared `components/volsync` on 2026-11-03. |
 | `qbittorrent` | `default` | Already on shared VolSync. |
 | `radarr` | `default` | Already on shared VolSync. |
 | `recyclarr` | `default` | Already on shared VolSync. |
