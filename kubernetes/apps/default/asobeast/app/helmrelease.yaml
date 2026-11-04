@@ -49,7 +49,9 @@ spec:
               NODE_ENV: production
               REDIS_HOST: dragonfly.database.svc.cluster.local
               REDIS_PORT: 6379
-              DEFAULT_COUNTRY: us
+              DEFAULT_COUNTRY: cn
+              OPENAI_BASE_URL: http://magpie.default.svc.cluster.local:3425/v1
+              AI_MODEL: group/scout
               AUTH_COOKIE_SECURE: "true"
               WEB_PUBLIC_URL: https://aso.${SECRET_DOMAIN}
               TRUST_PROXY: 1
