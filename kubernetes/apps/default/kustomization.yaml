@@ -37,3 +37,4 @@ resources:
   - ./growth-tracker/ks.yaml
   - ./nowledge-mem/ks.yaml
   - ./content-admin/ks.yaml
+  - ./asobeast/ks.yaml
