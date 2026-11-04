@@ -76,18 +76,16 @@ spec:
             subPath: format.json
             readOnly: true
       books-input:
-        type: nfs
-        server: 192.168.50.220
-        path: /volume4/media/book/input
+        existingClaim: nas-media
         globalMounts:
           - path: /books/input
+            subPath: book/input
       books-output:
         type: emptyDir
         globalMounts:
           - path: /books/output
       books-failed:
-        type: nfs
-        server: 192.168.50.220
-        path: /volume4/media/book/failed
+        existingClaim: nas-media
         globalMounts:
           - path: /books/failed
+            subPath: book/failed

@@ -98,11 +98,11 @@ spec:
           - path: /media
             readOnly: true
       fonts:
-        type: nfs
-        server: 192.168.50.220
-        path: /volume4/media/font
+        existingClaim: nas-media
         globalMounts:
           - path: /usr/share/fonts
+            subPath: font
+            readOnly: true
       tmpfs:
         type: emptyDir
         advancedMounts:

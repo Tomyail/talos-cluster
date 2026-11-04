@@ -9,6 +9,12 @@ spec:
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
+  mountOptions:
+    - nfsvers=3
+    - tcp
+    - hard
+    - noatime
+    - actimeo=3
   nfs:
     server: 192.168.50.220
     path: /volume4/media
