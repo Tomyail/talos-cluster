@@ -64,7 +64,7 @@ spec:
               REDIS_PORT: 6379
               DEFAULT_COUNTRY: us
               AUTH_COOKIE_SECURE: "true"
-              WEB_PUBLIC_URL: https://asobeast.${SECRET_DOMAIN}
+              WEB_PUBLIC_URL: https://aso.${SECRET_DOMAIN}
               TRUST_PROXY: 1
               LOG_LEVEL: log
             envFrom: *envFrom
@@ -170,12 +170,9 @@ spec:
             port: *port
     route:
       app:
-        hostnames: ["{{ .Release.Name }}.${SECRET_DOMAIN}"]
+        hostnames: ["aso.${SECRET_DOMAIN}"]
         parentRefs:
           - name: internal
-            namespace: kube-system
-            sectionName: https
-          - name: external
             namespace: kube-system
             sectionName: https
         rules:
