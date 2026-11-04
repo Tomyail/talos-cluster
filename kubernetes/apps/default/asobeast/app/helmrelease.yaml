@@ -22,6 +22,9 @@ spec:
       asobeast:
         annotations:
           reloader.stakater.com/auto: "true"
+        pod:
+          labels:
+            networking.tomyail.com/dragonfly-client: "true"
         initContainers:
           init-db:
             image:
@@ -36,22 +39,6 @@ spec:
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }
         containers:
-          redis:
-            image:
-              repository: docker.io/library/redis
-              tag: 7-alpine
-            command:
-              - redis-server
-              - --maxmemory
-              - 192mb
-              - --maxmemory-policy
-              - noeviction
-            resources:
-              requests:
-                cpu: 10m
-                memory: 32Mi
-              limits:
-                memory: 256Mi
           api:
             image:
               repository: ghcr.io/asobeast/asobeast-api
@@ -60,7 +47,7 @@ spec:
               TZ: ${TIMEZONE}
               PORT: &apiPort 4000
               NODE_ENV: production
-              REDIS_HOST: 127.0.0.1
+              REDIS_HOST: dragonfly.database.svc.cluster.local
               REDIS_PORT: 6379
               DEFAULT_COUNTRY: us
               AUTH_COOKIE_SECURE: "true"
@@ -184,9 +171,3 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /tmp
-      redis-data:
-        type: emptyDir
-        advancedMounts:
-          asobeast:
-            redis:
-              - path: /data

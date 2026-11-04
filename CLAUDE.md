@@ -102,6 +102,6 @@ Renovate (`.renovaterc.json5`) handles container images, Helm charts, GitHub rel
 - Flux Kustomizations set `decryption.provider: sops` with `secretRef: sops-age`.
 - `postBuild.substitute` provides per-app vars (`APP`, `VOLSYNC_CAPACITY`); `substituteFrom` pulls cluster-secrets.
 - Namespace kustomizations include `../../components/common` to get namespace, repos, and SOPS.
-- Route resources use Gateway API (`parentRefs`) with `internal`/`external` listeners in `kube-system`.
-- The `ExternalSecret` resources reference Bitwarden Connect (external-secrets operator).
+- Route resources use Gateway API (`parentRefs`) with listeners in `kube-system`. **服务默认 internal**: HTTPRoute 默认仅配置 `internal` gateway (`kube-system/internal`)，除非明确要求才暴露 `external` gateway。
+- **优先使用 Bitwarden**: 应用密钥优先通过 `ExternalSecret`（`bitwarden-login` / `bitwarden-fields`）管理，避免使用 `secret.sops.yaml`。SOPS 仅用于集群基础设施和全局 `cluster-secrets`。
 

@@ -13,7 +13,11 @@ spec:
   components:
     - ../../../../components/gatus/guarded
   dependsOn:
+    - name: external-secrets
+      namespace: external-secrets
     - name: cloudnative-pg-cluster
+      namespace: database
+    - name: dragonfly-cluster
       namespace: database
   decryption:
     provider: sops

@@ -18,6 +18,8 @@ spec:
     - --proactor_threads=2
     - --cluster_mode=emulated
     - --lock_on_hashtags
+    - --default_lua_flags=allow-undeclared-keys
+    - --lua_allow_undeclared_auto_correct=true
   topologySpreadConstraints:
     - maxSkew: 1
       topologyKey: kubernetes.io/hostname
