@@ -83,13 +83,23 @@ Apps use the `app-template` OCI chart (`ghcr.io/bjw-s-labs/helm/app-template`) s
 
 `bootstrap/helmfile.yaml` installs the initial foundation before Flux takes over: Cilium → CoreDNS → cert-manager → flux-operator → flux-instance. The `scripts/bootstrap-apps.sh` script handles namespaces, SOPS secrets, CRDs, then helmfile sync.
 
-### Secrets
+### Secrets & Bitwarden Workflow
 
-SOPS + age. Two encryption rules in `.sops.yaml`:
-- `talos/*.sops.yaml` — whole-file encryption.
-- `(bootstrap|kubernetes)/*.sops.yaml` — only `data`/`stringData` fields encrypted.
-
-The `age.key` file is local-only and never committed.
+- **SOPS + age**: Used strictly for cluster infrastructure, node configurations (`talos/*.sops.yaml`), and cluster-wide secrets (`cluster-secrets`). The `age.key` file is local-only and never committed.
+- **Bitwarden ExternalSecrets (Default for Apps)**: Application secrets must use `ExternalSecret` referencing the cluster's Bitwarden ClusterSecretStores instead of creating `secret.sops.yaml`:
+  - `ClusterSecretStore/bitwarden-login`: Extracts `username` and `password` via `login.<property>` from the item matching `remoteRef.key`.
+  - `ClusterSecretStore/bitwarden-fields`: Extracts custom fields via `fields[?(@.name=="<property>")].value` from the item matching `remoteRef.key`.
+- **Secret Management Safety Rules**:
+  - **NEVER commit plain-text secrets or session tokens to Git**: No scripts or YAMLs containing unencrypted secrets should ever be committed.
+  - **Template reference**: Refer to `scripts/templates/bitwarden-item-template.sh` when creating or updating Bitwarden items.
+  - **Workflow for new app secrets**:
+    1. Define the `externalsecret.yaml` in the app directory.
+    2. Guide the user to create the Bitwarden vault items via `bw` CLI using the template format (either interactive one-off script `scripts/tmp-*.sh` or `bw unlock --raw > ~/.bw_session`), then immediately delete any temporary script/session file.
+    3. Trigger immediate in-cluster sync:
+       ```bash
+       kubectl rollout restart deployment bitwarden-cli-bitwarden-eso-provider -n external-secrets
+       kubectl annotate externalsecret <app> -n <namespace> force-sync=$(date +%s) --overwrite
+       ```
 
 ### Dependency updates
 
