@@ -37,7 +37,7 @@ spec:
               - /bin/bash
               - -c
               - |
-                /entrypoint.sh && PGPASSWORD="${INIT_POSTGRES_SUPER_PASS}" psql -h "${INIT_POSTGRES_HOST}" -U "${INIT_POSTGRES_SUPER_USER:-postgres}" -d postgres -c "ALTER USER \"${INIT_POSTGRES_USER}\" WITH CREATEROLE;"
+                /entrypoint.sh && PGPASSWORD="${INIT_POSTGRES_SUPER_PASS}" psql -h "${INIT_POSTGRES_HOST}" -U "${INIT_POSTGRES_SUPER_USER:-postgres}" -d postgres -c "ALTER USER \"${INIT_POSTGRES_USER}\" WITH CREATEROLE BYPASSRLS;"
             securityContext:
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }
