@@ -27,7 +27,7 @@ spec:
             # imagepolicy 标记的那一行，锚点让三个容器不会跑不同版本。
             image: &image
               repository: gitea.tomyail.com/tomyail/workout-narrator-content-admin
-              tag: "main-b42980198f11-1793773430" # {"$imagepolicy": "default:content-admin:tag"}
+              tag: "fix-919-optional-official-muscles-0f73356c01cb-1793869348" # {"$imagepolicy": "default:content-admin:tag"}
             env: &env
               TZ: ${TIMEZONE}
               DATA_DIR: /data
