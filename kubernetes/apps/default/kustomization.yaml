@@ -38,3 +38,4 @@ resources:
   - ./nowledge-mem/ks.yaml
   - ./content-admin/ks.yaml
   - ./asobeast/ks.yaml
+  - ./dufs/ks.yaml
