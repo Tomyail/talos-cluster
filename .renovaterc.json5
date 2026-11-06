@@ -30,9 +30,10 @@
   },
   packageRules: [
     {
-      description: "Magpie updates require manual merge",
+      description: "Magpie tracks the stable tag; pin digest updates for manual merge",
       matchDatasources: ["docker"],
       matchPackageNames: ["ghcr.io/yetone/magpie"],
+      pinDigests: true,
       automerge: false,
     },
     {
