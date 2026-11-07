@@ -98,7 +98,7 @@ spec:
           app:
             image:
               repository: ghcr.io/asobeast/asobeast-web
-              tag: 1.15.0@sha256:02aaddea4b8e7b7747b2fecbdca42fdb0339f5eef4fdc00424001c2a9758f492
+              tag: 1.16.0@sha256:6771ddeafe6dbd88930b11d4075b229b79423744e1e91ff7fd5b87b07b58ea98
             env:
               TZ: ${TIMEZONE}
               PORT: &port 3000
