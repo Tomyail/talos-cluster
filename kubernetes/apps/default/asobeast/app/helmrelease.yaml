@@ -42,7 +42,7 @@ spec:
           api:
             image:
               repository: ghcr.io/asobeast/asobeast-api
-              tag: 1.15.0@sha256:6763ce85b82904ed994ae173d7473fe6627e574a43a215993f948f45156395ce
+              tag: 1.16.0@sha256:b5297dca48c91fc30a3c77901ba20aa0d626a36cd038ed55ffcd945931afe38d
             env:
               TZ: ${TIMEZONE}
               PORT: &apiPort 4000
