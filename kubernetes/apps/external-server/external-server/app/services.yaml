@@ -80,3 +80,14 @@ spec:
   ports:
     - port: 18789
       targetPort: 18789
+---
+# OmniFocus MCP runs on the MacBook (it drives the OmniFocus app through
+# Apple Events), not in the cluster. Same selector-less Service pattern as ugreen.
+apiVersion: v1
+kind: Service
+metadata:
+  name: omnifocus-mcp
+spec:
+  ports:
+    - port: 3939
+      targetPort: 3939
