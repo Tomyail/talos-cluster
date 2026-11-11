@@ -39,7 +39,7 @@ spec:
               repository: penpotapp/frontend
               tag: "2.19"
             env:
-              PENPOT_FLAGS: disable-email-verification enable-smtp enable-prepl-server disable-secure-session-cookies
+              PENPOT_FLAGS: disable-email-verification enable-smtp enable-prepl-server disable-secure-session-cookies enable-mcp
               PENPOT_PUBLIC_URI: https://penpot.${SECRET_DOMAIN}
               PENPOT_BACKEND_URI: http://localhost:6060
               PENPOT_EXPORTER_URI: http://localhost:6061
@@ -84,7 +84,7 @@ spec:
               repository: penpotapp/backend
               tag: "2.19"
             env:
-              PENPOT_FLAGS: disable-email-verification enable-smtp enable-prepl-server disable-secure-session-cookies
+              PENPOT_FLAGS: disable-email-verification enable-smtp enable-prepl-server disable-secure-session-cookies enable-mcp
               PENPOT_PUBLIC_URI: https://penpot.${SECRET_DOMAIN}
               PENPOT_ADMIN_CONSOLE_URI: http://localhost:3000
               PENPOT_EXPORTER_URI: http://localhost:6061
@@ -230,6 +230,48 @@ spec:
               capabilities:
                 drop:
                   - ALL
+          mcp:
+            image:
+              repository: penpotapp/mcp
+              tag: "2.19"
+            env:
+              PENPOT_MCP_SERVER_HOST: "0.0.0.0"
+              PENPOT_MCP_BACKEND_URI: "http://localhost:6060/"
+              PENPOT_PUBLIC_URI: https://penpot.${SECRET_DOMAIN}
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: 4401
+                  initialDelaySeconds: 15
+                  periodSeconds: 20
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: 4401
+                  initialDelaySeconds: 10
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+            resources:
+              requests:
+                cpu: 20m
+                memory: 128Mi
+              limits:
+                memory: 512Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              runAsUser: 1000
+              runAsGroup: 1000
+              capabilities:
+                drop:
+                  - ALL
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -245,6 +287,8 @@ spec:
         ports:
           http:
             port: &port 8080
+          mcp:
+            port: &mcpPort 4401
     route:
       app:
         hostnames:
@@ -254,7 +298,18 @@ spec:
             namespace: kube-system
             sectionName: https
         rules:
-          - backendRefs:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /mcp
+            backendRefs:
+              - identifier: app
+                port: *mcpPort
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
               - identifier: app
                 port: *port
     persistence:
