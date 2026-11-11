@@ -44,6 +44,8 @@ spec:
               PENPOT_BACKEND_URI: http://localhost:6060
               PENPOT_EXPORTER_URI: http://localhost:6061
               PENPOT_ADMIN_CONSOLE_URI: http://localhost:3000
+              PENPOT_MCP_URI: http://localhost:4401
+              PENPOT_MCP_URI_WS: http://localhost:4402
               PENPOT_HTTP_SERVER_MAX_BODY_SIZE: "367001600"
             probes:
               liveness:
@@ -287,8 +289,6 @@ spec:
         ports:
           http:
             port: &port 8080
-          mcp:
-            port: &mcpPort 4401
     route:
       app:
         hostnames:
@@ -298,18 +298,7 @@ spec:
             namespace: kube-system
             sectionName: https
         rules:
-          - matches:
-              - path:
-                  type: PathPrefix
-                  value: /mcp
-            backendRefs:
-              - identifier: app
-                port: *mcpPort
-          - matches:
-              - path:
-                  type: PathPrefix
-                  value: /
-            backendRefs:
+          - backendRefs:
               - identifier: app
                 port: *port
     persistence:
