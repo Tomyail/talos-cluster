@@ -39,3 +39,4 @@ resources:
   - ./content-admin/ks.yaml
   - ./asobeast/ks.yaml
   - ./dufs/ks.yaml
+  - ./penpot/ks.yaml

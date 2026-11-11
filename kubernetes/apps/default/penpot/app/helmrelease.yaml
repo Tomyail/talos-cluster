@@ -1,0 +1,264 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app penpot
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    controllers:
+      penpot:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        pod:
+          labels:
+            networking.tomyail.com/dragonfly-client: "true"
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/home-operations/postgres-init
+              tag: 18.6
+            envFrom: &envFrom
+              - secretRef:
+                  name: penpot-secret
+        containers:
+          frontend:
+            image:
+              repository: penpotapp/frontend
+              tag: "2.19"
+            env:
+              PENPOT_FLAGS: disable-email-verification enable-smtp enable-prepl-server disable-secure-session-cookies
+              PENPOT_PUBLIC_URI: https://penpot.${SECRET_DOMAIN}
+              PENPOT_BACKEND_URI: http://localhost:6060
+              PENPOT_EXPORTER_URI: http://localhost:6061
+              PENPOT_ADMIN_CONSOLE_URI: http://localhost:3000
+              PENPOT_HTTP_SERVER_MAX_BODY_SIZE: "367001600"
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: 8080
+                  initialDelaySeconds: 15
+                  periodSeconds: 20
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: 8080
+                  initialDelaySeconds: 5
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+            resources:
+              requests:
+                cpu: 50m
+                memory: 128Mi
+              limits:
+                memory: 512Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+          backend:
+            image:
+              repository: penpotapp/backend
+              tag: "2.19"
+            env:
+              PENPOT_FLAGS: disable-email-verification enable-smtp enable-prepl-server disable-secure-session-cookies
+              PENPOT_PUBLIC_URI: https://penpot.${SECRET_DOMAIN}
+              PENPOT_ADMIN_CONSOLE_URI: http://localhost:3000
+              PENPOT_EXPORTER_URI: http://localhost:6061
+              PENPOT_REDIS_URI: redis://dragonfly.database.svc.cluster.local:6379/0
+              PENPOT_OBJECTS_STORAGE_BACKEND: fs
+              PENPOT_OBJECTS_STORAGE_FS_DIRECTORY: /opt/data/assets
+              PENPOT_HTTP_SERVER_MAX_BODY_SIZE: "367001600"
+              PENPOT_TELEMETRY_ENABLED: "false"
+              PENPOT_SMTP_DEFAULT_FROM: no-reply@${SECRET_DOMAIN}
+              PENPOT_SMTP_DEFAULT_REPLY_TO: no-reply@${SECRET_DOMAIN}
+              PENPOT_SMTP_HOST: smtp-relay.network.svc.cluster.local
+              PENPOT_SMTP_PORT: 25
+              PENPOT_SMTP_TLS: "false"
+              PENPOT_SMTP_SSL: "false"
+            envFrom: *envFrom
+            probes:
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /readyz
+                    port: 6060
+                  initialDelaySeconds: 10
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 30
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /readyz
+                    port: 6060
+                  initialDelaySeconds: 15
+                  periodSeconds: 15
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /readyz
+                    port: 6060
+                  initialDelaySeconds: 10
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+            resources:
+              requests:
+                cpu: 100m
+                memory: 512Mi
+              limits:
+                memory: 2048Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+          exporter:
+            image:
+              repository: penpotapp/exporter
+              tag: "2.19"
+            env:
+              PENPOT_PUBLIC_URI: https://penpot.${SECRET_DOMAIN}
+              PENPOT_REDIS_URI: redis://dragonfly.database.svc.cluster.local:6379/0
+              PENPOT_INTERNAL_URI: http://localhost:8080
+            envFrom: *envFrom
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /readyz
+                    port: 6061
+                  initialDelaySeconds: 15
+                  periodSeconds: 20
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /readyz
+                    port: 6061
+                  initialDelaySeconds: 10
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+            resources:
+              requests:
+                cpu: 50m
+                memory: 256Mi
+              limits:
+                memory: 1024Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+          admin-console:
+            image:
+              repository: penpotapp/admin-console
+              tag: "2.19"
+            env:
+              PENPOT_PUBLIC_URI: https://penpot.${SECRET_DOMAIN}
+              PENPOT_INTERNAL_URI: http://localhost:8080
+            envFrom: *envFrom
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: 3000
+                  initialDelaySeconds: 15
+                  periodSeconds: 20
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: 3000
+                  initialDelaySeconds: 10
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+            resources:
+              requests:
+                cpu: 20m
+                memory: 128Mi
+              limits:
+                memory: 512Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1001
+        runAsGroup: 1001
+        fsGroup: 1001
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: &port 8080
+    route:
+      app:
+        hostnames:
+          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *port
+    persistence:
+      assets:
+        existingClaim: *app
+        globalMounts:
+          - path: /opt/data/assets
