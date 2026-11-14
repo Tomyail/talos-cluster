@@ -28,8 +28,8 @@ spec:
         containers:
           app:
             image:
-              repository: zzde/clash-exporter
-              tag: latest
+              repository: ghcr.io/tomyail/clash-exporter
+              tag: latest@sha256:d330e895a274f4043b89e731a2df704f48c46a16fc2a02cf5947addef0ac362d
             args:
               # destination label = connection metadata host (domain), falls
               # back to destinationIP when the connection carries no host.

@@ -6,23 +6,41 @@ metadata:
   name: clash-exporter
 spec:
   groups:
-    # The raw metric carries a `destination` (domain) label, which is high
+    # The raw metrics carry a `destination` (domain) label, which is high
     # cardinality and only useful for short-term investigation. These recorded
     # series keep the long-term view cheap.
+    #
+    # Label meanings on the raw metrics:
+    #   policy = final outbound proxy (chains[0]), e.g. 🇸🇬 新加坡01
+    #   group  = rule group that selected it (chains[-1]), e.g. 🐟 漏网之鱼
     - name: clash-exporter.record
       interval: 1m
       rules:
-        # Long-term per-policy totals. Answers "how much did 漏网之鱼 use this
+        # Long-term per-group totals. Answers "how much did 漏网之鱼 use this
         # month" without keeping 1000s of domain series around.
-        - record: clash:traffic_bytes:sum_by_policy
+        - record: clash:traffic_bytes:sum_by_group
           expr: |
-            sum without (source, destination, job, instance) (
+            sum without (source, destination, policy, job, instance) (
               increase(clash_network_traffic_bytes_total[5m])
             )
-        # Per-domain totals with the policy dimension kept, so you can see which
+        # Per-domain totals keeping the group dimension, so you can see which
         # group a domain actually landed in.
         - record: clash:traffic_bytes:sum_by_destination
           expr: |
-            sum without (source, job, instance) (
+            sum without (source, policy, job, instance) (
               increase(clash_network_traffic_bytes_total[5m])
+            )
+        # Per-group connection rate. Many connections with few bytes means the
+        # group is latency sensitive and belongs on a low-latency node; few
+        # connections with many bytes belongs on a high-quota node.
+        - record: clash:connections:sum_by_group
+          expr: |
+            sum without (source, destination, policy, job, instance) (
+              increase(clash_connections_total[5m])
+            )
+        # Per-domain connection counts, same reasoning as above but per host.
+        - record: clash:connections:sum_by_destination
+          expr: |
+            sum without (source, policy, job, instance) (
+              increase(clash_connections_total[5m])
             )
