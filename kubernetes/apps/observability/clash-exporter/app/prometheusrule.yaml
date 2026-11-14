@@ -20,27 +20,27 @@ spec:
     - name: clash-exporter.record
       interval: 1m
       rules:
-        - record: clash:traffic_bytes:total_by_group
+        - record: clash:network_traffic_bytes_by_group_total
           expr: |
             sum without (source, destination, policy, job, instance) (
               clash_network_traffic_bytes_total
             )
-        - record: clash:traffic_bytes:total_by_policy
+        - record: clash:network_traffic_bytes_by_policy_total
           expr: |
             sum without (source, destination, job, instance) (
               clash_network_traffic_bytes_total
             )
-        - record: clash:traffic_bytes:total_by_destination
+        - record: clash:network_traffic_bytes_by_destination_total
           expr: |
             sum without (source, policy, job, instance) (
               clash_network_traffic_bytes_total
             )
-        - record: clash:connections:total_by_group
+        - record: clash:connections_by_group_total
           expr: |
             sum without (source, destination, policy, job, instance) (
               clash_connections_total
             )
-        - record: clash:connections:total_by_destination
+        - record: clash:connections_by_destination_total
           expr: |
             sum without (source, policy, job, instance) (
               clash_connections_total
