@@ -13,6 +13,7 @@ resources:
   - ./loki/ks.yaml
   - ./promtail/ks.yaml
   - ./smartctl-exporter/ks.yaml
+  - ./clash-exporter/ks.yaml
   - ./gatus/ks.yaml
   - ./uptime-kuma/ks.yaml
 

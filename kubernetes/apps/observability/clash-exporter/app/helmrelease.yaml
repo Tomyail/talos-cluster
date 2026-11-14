@@ -1,0 +1,91 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app clash-exporter
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    controllers:
+      clash-exporter:
+        replicas: 1
+        # NOTE: no reloader.stakater.com/auto on purpose.
+        # The exporter keeps its per-connection byte cache in memory, so a
+        # restart makes it re-count the cumulative bytes of every still-open
+        # connection, producing a one-off spike in clash_network_traffic_bytes_total.
+        containers:
+          app:
+            image:
+              repository: zzde/clash-exporter
+              tag: latest
+            args:
+              # destination label = connection metadata host (domain), falls
+              # back to destinationIP when the connection carries no host.
+              - -collectDest=true
+              # tracing needs Clash Premium profile.tracing; mihomo has no such
+              # feature, leaving this on only produces errors.
+              - -collectTracing=false
+              - -port=2112
+            env:
+              # mihomo external-controller on the router. The exporter builds
+              # ws://<host>/connections and http://<host>/version from this.
+              CLASH_HOST: 192.168.50.1:9090
+            envFrom:
+              - secretRef:
+                  name: clash-exporter-secret
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: &port 2112
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 10m
+                memory: 64Mi
+              limits:
+                memory: 256Mi
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+        runAsGroup: 65534
+    service:
+      app:
+        controller: clash-exporter
+        ports:
+          http:
+            port: *port
+    serviceMonitor:
+      app:
+        serviceName: clash-exporter
+        endpoints:
+          - port: http
+            scheme: http
+            path: /metrics
+            # The exporter's counter is cumulative and is fed by a 1s websocket
+            # push, so scrape interval does not affect accuracy. 30s is plenty.
+            interval: 30s
+            scrapeTimeout: 10s
