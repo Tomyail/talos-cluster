@@ -7,8 +7,12 @@ metadata:
 spec:
   groups:
     # The raw metrics carry a `destination` (domain) label, which is high
-    # cardinality and only useful for short-term investigation. These recorded
-    # series keep the long-term view cheap.
+    # cardinality. These recorded series pre-aggregate the counters so that a
+    # 30d `increase()` scans ~10 series instead of thousands.
+    #
+    # They record the *counter*, not a pre-computed increase: increase() over a
+    # recorded increase is meaningless, increase() over a recorded counter is
+    # exactly what you want.
     #
     # Label meanings on the raw metrics:
     #   policy = final outbound proxy (chains[0]), e.g. 🇸🇬 新加坡01
@@ -16,31 +20,28 @@ spec:
     - name: clash-exporter.record
       interval: 1m
       rules:
-        # Long-term per-group totals. Answers "how much did 漏网之鱼 use this
-        # month" without keeping 1000s of domain series around.
-        - record: clash:traffic_bytes:sum_by_group
+        - record: clash:traffic_bytes:total_by_group
           expr: |
             sum without (source, destination, policy, job, instance) (
-              increase(clash_network_traffic_bytes_total[5m])
+              clash_network_traffic_bytes_total
             )
-        # Per-domain totals keeping the group dimension, so you can see which
-        # group a domain actually landed in.
-        - record: clash:traffic_bytes:sum_by_destination
+        - record: clash:traffic_bytes:total_by_policy
+          expr: |
+            sum without (source, destination, job, instance) (
+              clash_network_traffic_bytes_total
+            )
+        - record: clash:traffic_bytes:total_by_destination
           expr: |
             sum without (source, policy, job, instance) (
-              increase(clash_network_traffic_bytes_total[5m])
+              clash_network_traffic_bytes_total
             )
-        # Per-group connection rate. Many connections with few bytes means the
-        # group is latency sensitive and belongs on a low-latency node; few
-        # connections with many bytes belongs on a high-quota node.
-        - record: clash:connections:sum_by_group
+        - record: clash:connections:total_by_group
           expr: |
             sum without (source, destination, policy, job, instance) (
-              increase(clash_connections_total[5m])
+              clash_connections_total
             )
-        # Per-domain connection counts, same reasoning as above but per host.
-        - record: clash:connections:sum_by_destination
+        - record: clash:connections:total_by_destination
           expr: |
             sum without (source, policy, job, instance) (
-              increase(clash_connections_total[5m])
+              clash_connections_total
             )
