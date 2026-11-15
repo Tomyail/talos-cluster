@@ -411,17 +411,33 @@ data:
             "cellHeight": "sm",
             "sortBy": [
               {
-                "displayName": "Value",
+                "displayName": "流量",
                 "desc": true
               }
             ]
           },
           "transformations": [
             {
-              "id": "reduce",
+              "id": "merge",
+              "options": {}
+            },
+            {
+              "id": "labelsToFields",
               "options": {
-                "reducers": [
-                  "lastNotNull"
+                "mode": "columns",
+                "keepLabels": [
+                  "destination"
+                ]
+              }
+            },
+            {
+              "id": "sortBy",
+              "options": {
+                "sort": [
+                  {
+                    "field": "Value",
+                    "desc": true
+                  }
                 ]
               }
             },
@@ -429,10 +445,10 @@ data:
               "id": "organize",
               "options": {
                 "excludeByName": {
-                  "Time": true,
-                  "Field": true
+                  "Time": true
                 },
                 "renameByName": {
+                  "destination": "目标域名",
                   "Value": "流量"
                 }
               }
@@ -461,6 +477,18 @@ data:
               }
             },
             "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "destination"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 700
+                  }
+                ]
+              },
               {
                 "matcher": {
                   "id": "byName",
@@ -582,17 +610,33 @@ data:
             "cellHeight": "sm",
             "sortBy": [
               {
-                "displayName": "Value",
+                "displayName": "连接次数",
                 "desc": true
               }
             ]
           },
           "transformations": [
             {
-              "id": "reduce",
+              "id": "merge",
+              "options": {}
+            },
+            {
+              "id": "labelsToFields",
               "options": {
-                "reducers": [
-                  "lastNotNull"
+                "mode": "columns",
+                "keepLabels": [
+                  "destination"
+                ]
+              }
+            },
+            {
+              "id": "sortBy",
+              "options": {
+                "sort": [
+                  {
+                    "field": "Value",
+                    "desc": true
+                  }
                 ]
               }
             },
@@ -600,10 +644,10 @@ data:
               "id": "organize",
               "options": {
                 "excludeByName": {
-                  "Time": true,
-                  "Field": true
+                  "Time": true
                 },
                 "renameByName": {
+                  "destination": "目标域名",
                   "Value": "连接次数"
                 }
               }
@@ -632,6 +676,18 @@ data:
               }
             },
             "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "destination"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 700
+                  }
+                ]
+              },
               {
                 "matcher": {
                   "id": "byName",
@@ -814,17 +870,34 @@ data:
             "cellHeight": "sm",
             "sortBy": [
               {
-                "displayName": "Value",
+                "displayName": "流量",
                 "desc": true
               }
             ]
           },
           "transformations": [
             {
-              "id": "reduce",
+              "id": "merge",
+              "options": {}
+            },
+            {
+              "id": "labelsToFields",
               "options": {
-                "reducers": [
-                  "lastNotNull"
+                "mode": "columns",
+                "keepLabels": [
+                  "policy",
+                  "type"
+                ]
+              }
+            },
+            {
+              "id": "sortBy",
+              "options": {
+                "sort": [
+                  {
+                    "field": "Value",
+                    "desc": true
+                  }
                 ]
               }
             },
@@ -832,11 +905,12 @@ data:
               "id": "organize",
               "options": {
                 "excludeByName": {
-                  "Time": true,
-                  "Field": true
+                  "Time": true
                 },
                 "renameByName": {
-                  "Value": "值"
+                  "policy": "策略",
+                  "type": "方向",
+                  "Value": "流量"
                 }
               }
             }
@@ -864,6 +938,30 @@ data:
               }
             },
             "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "policy"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 380
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "type"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 160
+                  }
+                ]
+              },
               {
                 "matcher": {
                   "id": "byName",
@@ -921,17 +1019,33 @@ data:
             "cellHeight": "sm",
             "sortBy": [
               {
-                "displayName": "Value",
+                "displayName": "连接次数",
                 "desc": true
               }
             ]
           },
           "transformations": [
             {
-              "id": "reduce",
+              "id": "merge",
+              "options": {}
+            },
+            {
+              "id": "labelsToFields",
               "options": {
-                "reducers": [
-                  "lastNotNull"
+                "mode": "columns",
+                "keepLabels": [
+                  "source"
+                ]
+              }
+            },
+            {
+              "id": "sortBy",
+              "options": {
+                "sort": [
+                  {
+                    "field": "Value",
+                    "desc": true
+                  }
                 ]
               }
             },
@@ -939,11 +1053,11 @@ data:
               "id": "organize",
               "options": {
                 "excludeByName": {
-                  "Time": true,
-                  "Field": true
+                  "Time": true
                 },
                 "renameByName": {
-                  "Value": "窗口内连接次数"
+                  "source": "源主机",
+                  "Value": "连接次数"
                 }
               }
             }
@@ -971,6 +1085,18 @@ data:
               }
             },
             "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "source"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 700
+                  }
+                ]
+              },
               {
                 "matcher": {
                   "id": "byName",
