@@ -1,0 +1,6 @@
+apiVersion: v1alpha1
+kind: VolumeConfig
+name: EPHEMERAL
+trim:
+  enabled: true
+  interval: 168h0m0s

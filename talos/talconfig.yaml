@@ -21,6 +21,8 @@ cniConfig:
 nodes:
   - hostname: "master0-nuc12"
     ipAddress: "192.168.50.145"
+    patches:
+      - "@./patches/master0-nuc12/ephemeral-trim.yaml"
     installDiskSelector:
       size: "<= 256GB"
       type: ssd
