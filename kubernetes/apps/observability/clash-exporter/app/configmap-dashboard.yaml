@@ -389,7 +389,7 @@ data:
                 "type": "prometheus",
                 "uid": "prometheus"
               },
-              "expr": "topk(15, sum by (destination) (increase(clash:network_traffic_bytes_by_destination_total[$__range])))",
+              "expr": "topk(15, sum by (destination, group) (increase(clash:network_traffic_bytes_by_destination_total[$__range])))",
               "refId": "A",
               "legendFormat": "{{destination}}",
               "editorMode": "code",
@@ -426,7 +426,8 @@ data:
               "options": {
                 "mode": "columns",
                 "keepLabels": [
-                  "destination"
+                  "destination",
+                  "group"
                 ]
               }
             },
@@ -449,6 +450,7 @@ data:
                 },
                 "renameByName": {
                   "destination": "目标域名",
+                  "group": "分组",
                   "Value": "流量"
                 }
               }
@@ -485,7 +487,19 @@ data:
                 "properties": [
                   {
                     "id": "custom.width",
-                    "value": 700
+                    "value": 470
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "group"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 230
                   }
                 ]
               },
@@ -588,7 +602,7 @@ data:
                 "type": "prometheus",
                 "uid": "prometheus"
               },
-              "expr": "topk(15, sum by (destination) (increase(clash:connections_by_destination_total[$__range])))",
+              "expr": "topk(15, sum by (destination, group) (increase(clash:connections_by_destination_total[$__range])))",
               "refId": "A",
               "legendFormat": "{{destination}}",
               "editorMode": "code",
@@ -625,7 +639,8 @@ data:
               "options": {
                 "mode": "columns",
                 "keepLabels": [
-                  "destination"
+                  "destination",
+                  "group"
                 ]
               }
             },
@@ -648,6 +663,7 @@ data:
                 },
                 "renameByName": {
                   "destination": "目标域名",
+                  "group": "分组",
                   "Value": "连接次数"
                 }
               }
@@ -684,7 +700,19 @@ data:
                 "properties": [
                   {
                     "id": "custom.width",
-                    "value": 700
+                    "value": 470
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "group"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 230
                   }
                 ]
               },
