@@ -6,5 +6,5 @@ metadata:
   name: kubernetes
 spec:
   kubernetes:
-    # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
-    version: v1.37.2
+    # Hold Kubernetes at 1.36 until the Talos 1.14 upgrade is verified.
+    version: v1.36.6

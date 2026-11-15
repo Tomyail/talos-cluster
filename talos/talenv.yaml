@@ -1,4 +1,6 @@
-# renovate: datasource=docker depName=ghcr.io/siderolabs/installer
-talosVersion: v1.13.12
-# renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
-kubernetesVersion: v1.37.2
+# renovate: datasource=github-releases depName=siderolabs/talos
+talosVersion: v1.14.6
+# Keep rendering the v1.13 machine config until the existing patches are migrated.
+talosConfigVersion: v1.13.12
+# Hold Kubernetes at 1.36 until the Talos 1.14 upgrade is verified.
+kubernetesVersion: v1.36.6

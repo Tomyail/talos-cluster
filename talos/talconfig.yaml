@@ -2,7 +2,7 @@
 ---
 clusterName: kubernetes
 
-talosVersion: "${talosVersion}"
+talosVersion: "${talosConfigVersion}"
 kubernetesVersion: "${kubernetesVersion}"
 
 endpoint: https://192.168.50.10:6443
