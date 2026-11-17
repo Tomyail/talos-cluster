@@ -30,6 +30,10 @@ spec:
               - name: DOCKER_HOST
                 # value: tcp://localhost:2376
                 value: unix:///run/user/1000/docker.sock
+              # rootless dockerd 读 $HOME/.config/docker/daemon.json；
+              # 显式钉住 HOME，避免镜像未设 ENV HOME 时读不到 insecure-registries 配置。
+              - name: HOME
+                value: /home/user
               # - name: DOCKER_TLS_VERIFY
               #   value: "1"
               # - name: DOCKER_CERT_PATH
@@ -75,5 +79,13 @@ spec:
         existingClaim: gitea-runner-vol
         globalMounts:
           - path: /data
+      # rootless dind 的 daemon 配置（insecure-registries 指向 prod-registry egress Service）。
+      # 必须挂在 ~/.config/docker 而不是 /etc/docker：rootless docker 只读前者。
+      docker-config:
+        type: configMap
+        name: gitea-runner-docker-config
+        globalMounts:
+          - path: /home/user/.config/docker
+            readOnly: true
       tmp:
         type: emptyDir
