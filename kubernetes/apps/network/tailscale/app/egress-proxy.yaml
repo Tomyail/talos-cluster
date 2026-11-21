@@ -42,3 +42,16 @@ spec:
 #   ports:
 #   - port: 6379
 #     targetPort: 6379
+---
+# 自建 registry（oracle-korea-amd-1，只绑 Tailscale IP 100.81.251.16:5000）
+# 构建 pod 通过本 Service 直连韩国，替代 registry.tomyail.com 那条「上海→美国→韩国」的绕行路径。
+# 集群内地址：prod-registry.<namespace>.svc.cluster.local:5000
+apiVersion: v1
+kind: Service
+metadata:
+  name: prod-registry
+  annotations:
+    tailscale.com/tailnet-ip: '100.81.251.16'
+spec:
+  type: ExternalName
+  externalName: unused

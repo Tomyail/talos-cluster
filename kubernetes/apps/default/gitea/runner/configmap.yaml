@@ -1,0 +1,17 @@
+---
+# rootless dind 的 daemon 配置：允许向自建 registry 走明文 HTTP。
+#
+# 背景：自建 registry 在 oracle-korea-amd-1 上，只绑 Tailscale IP 100.81.251.16:5000，
+# 本身没有 TLS（TLS 原本由 racknerd 上的 Traefik 终止）。集群内通过 Tailscale operator
+# 的 egress Service `prod-registry` 直连，链路已由 Tailscale 加密，不需要再套一层 TLS。
+#
+# 注意路径：rootless docker 读 ~/.config/docker/daemon.json，不是 /etc/docker/daemon.json。
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gitea-runner-docker-config
+data:
+  daemon.json: |
+    {
+      "insecure-registries": ["prod-registry.network.svc.cluster.local:5000"]
+    }
