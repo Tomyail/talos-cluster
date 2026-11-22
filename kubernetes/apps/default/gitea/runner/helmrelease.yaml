@@ -79,6 +79,12 @@ spec:
         existingClaim: gitea-runner-vol
         globalMounts:
           - path: /data
+      # 为 HOME=/home/user 提供可写的 emptyDir，避免仅挂载子路径 .config/docker 时
+      # kubelet 以 root:root 创建 /home/user 导致 rootless dockerd 无法创建 .local/。
+      home:
+        type: emptyDir
+        globalMounts:
+          - path: /home/user
       # rootless dind 的 daemon 配置（insecure-registries 指向 prod-registry egress Service）。
       # 必须挂在 ~/.config/docker 而不是 /etc/docker：rootless docker 只读前者。
       docker-config:
