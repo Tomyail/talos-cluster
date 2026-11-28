@@ -26,7 +26,7 @@ spec:
           app:
             image:
               repository: docker.io/nowledgelabs/mem
-              tag: 0.10.122@sha256:b83eed48ff25a66a24cceaa81c26f03dd435cd82ad1811ebc5e0998adf052023
+              tag: 0.10.125@sha256:bd4cc0196fc6768b4ae29085c6184f3713267b71b0d4b4333fd3a1604901d23c
             env:
               TZ: ${TIMEZONE}
               # Large conversation exports; must stay well below the memory limit.
